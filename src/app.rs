@@ -16,15 +16,17 @@ const APP_ID: &str = "io.github.arios4k.Voltkit";
 pub fn run(config: Config) {
     let app = adw::Application::builder().application_id(APP_ID).build();
     let config = Rc::new(config);
-    app.connect_activate(move |app| build_window(app, &config));
+    app.connect_activate(move |app| {
+        build_window(app, &config);
+    });
     // Arguments are handled by clap; don't let GTK parse them again.
     app.run_with_args::<&str>(&[]);
 }
 
-fn build_window(app: &adw::Application, config: &Rc<Config>) {
+pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::Window {
     if let Some(window) = app.active_window() {
         window.present();
-        return;
+        return window;
     }
 
     let toasts = adw::ToastOverlay::new();
@@ -85,6 +87,16 @@ fn build_window(app: &adw::Application, config: &Rc<Config>) {
     window.add_breakpoint(breakpoint);
 
     window.present();
+    window.upcast()
+}
+
+/// "<Super><Shift>t" → "Shift+Super+T". The raw accelerator would also be read
+/// as markup tags by labels that support markup, which blanks them.
+fn shortcut_label(accel: &str) -> String {
+    match gtk::accelerator_parse(accel) {
+        Some((key, mods)) => gtk::accelerator_get_label(key, mods).to_string(),
+        None => glib::markup_escape_text(accel).to_string(),
+    }
 }
 
 fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
@@ -238,7 +250,7 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .title("Text Extractor")
         .description(format!(
             "Drag a box around any text on screen; it is copied to the clipboard.\nShortcut: {}",
-            config.hotkeys.ocr
+            shortcut_label(&config.hotkeys.ocr)
         ))
         .child(&adw::Clamp::builder().child(&body).build())
         .build();
@@ -470,13 +482,34 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .halign(gtk::Align::Center)
         .css_classes(["pill"])
         .build();
-    let drop_zone = adw::StatusPage::builder()
-        .icon_name("folder-download-symbolic")
-        .title("Drop Files Here")
-        .description("PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept.")
-        .child(&choose)
-        .css_classes(["card", "compact"])
+    // A plain box rather than AdwStatusPage, which scrolls internally and
+    // clipped the button when placed in a card.
+    let drop_zone = gtk::Box::builder()
+        .orientation(gtk::Orientation::Vertical)
+        .spacing(12)
+        .css_classes(["card"])
         .build();
+    let drop_icon = gtk::Image::builder()
+        .icon_name("folder-download-symbolic")
+        .pixel_size(64)
+        .margin_top(24)
+        .css_classes(["dim-label"])
+        .build();
+    let drop_title = gtk::Label::builder().label("Drop Files Here").css_classes(["title-2"]).build();
+    let drop_text = gtk::Label::builder()
+        .label("PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept.")
+        .wrap(true)
+        .justify(gtk::Justification::Center)
+        .margin_start(12)
+        .margin_end(12)
+        .css_classes(["dim-label"])
+        .build();
+    choose.set_margin_top(6);
+    choose.set_margin_bottom(24);
+    drop_zone.append(&drop_icon);
+    drop_zone.append(&drop_title);
+    drop_zone.append(&drop_text);
+    drop_zone.append(&choose);
 
     let settings = adw::PreferencesGroup::new();
     settings.add(&quality);
@@ -620,7 +653,7 @@ fn snippets_page(config: &Config) -> gtk::Widget {
     });
     let picker_row = adw::ActionRow::builder()
         .title("Snippet picker")
-        .subtitle(format!("Search and paste into any app. Shortcut: {}", config.hotkeys.snippets))
+        .subtitle(format!("Search and paste into any app. Shortcut: {}", shortcut_label(&config.hotkeys.snippets)))
         .build();
     picker_row.add_suffix(&open_picker);
     usage.add(&picker_row);

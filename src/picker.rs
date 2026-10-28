@@ -25,7 +25,9 @@ pub fn run(config: Config, preselect: Option<String>) {
         .flags(gio::ApplicationFlags::NON_UNIQUE)
         .build();
     let config = Rc::new(config);
-    app.connect_activate(move |app| build(app, config.clone(), preselect.clone()));
+    app.connect_activate(move |app| {
+        build(app, config.clone(), preselect.clone());
+    });
     app.run_with_args::<&str>(&[]);
 }
 
@@ -44,7 +46,7 @@ struct Picker {
     chosen: RefCell<Option<Snippet>>,
 }
 
-fn build(app: &adw::Application, config: Rc<Config>, preselect: Option<String>) {
+pub(crate) fn build(app: &adw::Application, config: Rc<Config>, preselect: Option<String>) -> gtk::Window {
     let search = gtk::SearchEntry::builder()
         .placeholder_text("Search snippets")
         .hexpand(true)
@@ -151,6 +153,7 @@ fn build(app: &adw::Application, config: Rc<Config>, preselect: Option<String>) 
             search.grab_focus();
         }
     }
+    window.upcast()
 }
 
 impl Picker {

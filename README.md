@@ -1,19 +1,114 @@
+<div align="center">
+
 <img src="docs/icon.png" width="128" alt="Voltkit icon: a lightning bolt crossing a wrench">
 
 # Voltkit
 
-**A unified suite of micro-utilities for Linux, in one small binary.**
+**Power tools for your Linux desktop.**
+Screen OCR, a color picker, an image &amp; video compressor and a text expander, in one app.
 
-Linux users usually install five to ten separate applets to get basics like screen OCR, a color
-picker, an image compressor and text expansion. Voltkit puts them in one GTK4/libadwaita control
-center. It needs no terminal tweaking and no desktop-specific extensions.
+[![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
+[![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Install with apt](https://img.shields.io/badge/install-apt-orange)](#install-ubuntu-debian-and-derivatives)
 
-| Module | Shortcut | Status |
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png">
+  <img src="docs/screenshots/color-light.png" alt="Voltkit's color picker showing #7C3AED with its HEX, RGB and HSL values and WCAG contrast ratings">
+</picture>
+
+</div>
+
+## One app instead of five
+
+Getting PowerToys-style basics on Linux usually means hunting down a separate applet for each job,
+each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
+hotkeys:
+
+| Instead of… | Voltkit gives you | Shortcut |
 |---|---|---|
-| **Text Extractor (OCR)**: drag a box around any on-screen text and it's copied to the clipboard | `Super+Shift+T` | ✅ GUI, CLI, hotkey |
-| **Color Picker**: screen eyedropper, HEX/RGB/HSL conversion, WCAG contrast check, saved history | `Super+Shift+C` | ✅ GUI, CLI, hotkey |
-| **Asset Compressor**: drop PNG/JPEG/WebP/MP4 files to strip metadata and shrink them | drag & drop | ✅ GUI + CLI |
-| **Text Expansion**: snippets with `{date}`, `{clipboard}`, `{arg:name}` variables, from a searchable picker or typed triggers like `;date` | `Super+Shift+E` | ✅ picker · ✅ typed triggers (opt-in) |
+| a separate OCR app like NormCap | **Text Extractor**: drag a box around any text on screen, even in videos and images, and it lands on your clipboard | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> |
+| a color picker like Eyedropper or Gcolor3 | **Color Picker**: an eyedropper for any pixel, HEX/RGB/HSL, WCAG contrast check and history | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| an image compressor like Curtail, plus ffmpeg incantations | **Asset Compressor**: drop PNG, JPEG, WebP or MP4 files to strip metadata and shrink them | drag &amp; drop |
+| a text expander like Espanso or AutoKey | **Text Expansion**: a searchable snippet picker, plus optional typed triggers like `;date` | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> |
+
+## Features
+
+### 🔍 Copy text from anything on screen
+
+Error messages in a screenshot, code in a video tutorial, text in an image: press
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd>, drag a box, and paste. Powered by Tesseract, with support for
+[100+ languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png">
+  <img src="docs/screenshots/ocr-light.png" alt="Text Extractor with recognized compiler error text">
+</picture>
+
+### 🎨 Pick, convert and check colors
+
+Grab any pixel with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> and the HEX code is already on your
+clipboard. The color page converts between HEX, RGB and HSL, rates contrast against white and black by
+WCAG standards (AA / AAA), and remembers your recent colors.
+
+### 📦 Shrink images and videos in one drop
+
+Drop files on the window or run `voltkit compress`. Voltkit strips location data and other metadata,
+compresses with the best tool for each format, and writes `name.min.ext` next to the original, which
+it never touches. In our tests: JPEG −43%, PNG −23% (lossless), WebP −60%, MP4 −77%.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png">
+  <img src="docs/screenshots/compress-light.png" alt="Asset Compressor with four compressed files and their size savings">
+</picture>
+
+### ⌨️ Type less with snippets
+
+Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>, search, press Enter, and the snippet is pasted into
+whatever app you were using. Snippets can include the date in any format, your clipboard, and
+fill-in-the-blank fields. Prefer typing? Turn on typed triggers and `;sig` becomes your signature in any
+app.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png">
+  <img src="docs/screenshots/picker-light.png" alt="Snippet picker listing snippets with live previews">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png">
+  <img src="docs/screenshots/snippets-light.png" alt="Text Expansion page with the template playground and configured snippets">
+</picture>
+
+## Why Voltkit
+
+- **Built for Wayland.** It uses the desktop's own portals for screenshots, the eyedropper and pasting, so
+  there are no X11 hacks and no shell extensions.
+- **Private by design.** Everything runs locally, with no network access and no telemetry. Typed
+  triggers keep only the last few characters in memory and never log or store what you type.
+- **Small and native.** One 4 MB binary (a 1.4 MB package), GTK4 + libadwaita, light and dark mode.
+- **Scriptable.** Every feature is also a command (`voltkit ocr`, `voltkit color '#3584e4'`,
+  `voltkit compress *.jpg`), with man pages for all of them.
+- **Self-checking.** `voltkit doctor` tells you exactly what's missing and the command to install it.
+- **Signed packages.** Install and update through apt from a GPG-signed repository.
+
+## FAQ
+
+**Does it work on KDE, Sway or Hyprland?**
+Voltkit is developed and tested on GNOME (Zorin OS 18). It uses standard XDG portals, so KDE Plasma
+and other desktops should work, but they haven't been tested yet. Reports are welcome! On desktops
+without the GlobalShortcuts portal, bind `voltkit trigger ocr|color|snippets` to keys yourself.
+
+**Is it safe to turn on typed triggers?**
+They're off by default. Wayland hides keystrokes between apps, so typed triggers need access to the
+keyboard device, which you grant once with `voltkit expander setup`. The snippet picker works without
+any of that.
+
+**Why isn't there a Flatpak?**
+It's on the roadmap. For now there's the apt repository for Ubuntu/Debian-based systems, and building
+from source works anywhere with GTK 4.14+.
+
+<sub>Screenshots taken on Zorin OS 18 with its ZorinBlue theme. Regenerate them with
+`docs/screenshots/capture.sh`.</sub>
 
 ## Install (Ubuntu, Debian and derivatives)
 
@@ -185,8 +280,10 @@ src/
     compress.rs      format detection + per-format compression pipelines
     snippets.rs      snippet template engine
   manpages.rs        man page generator (clap_mangen + hand-written sections)
+  screenshots.rs     renders the README screenshots (hidden `screenshots` command)
 man/                 generated man pages
 packaging/apt/        APT repository builder and its landing page
+docs/screenshots/    README screenshots and capture.sh to regenerate them
 docs/ARCHITECTURE.md design notes and roadmap
 ```
 
@@ -198,7 +295,8 @@ cargo clippy
 ```
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. The
-next big pieces are packaging (Flatpak, .deb) and a settings screen.
+next big pieces are a Flatpak and a settings screen. Bug reports and testing on other desktops are
+especially welcome.
 
 ## Releasing
 

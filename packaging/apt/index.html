@@ -19,12 +19,19 @@
   code { font-family: ui-monospace, monospace; }
   a { color: var(--accent); }
   .muted { color: var(--muted); font-size: 0.9rem; }
+  img.shot { width: 100%; height: auto; margin: 8px 0 0; }
 </style>
 </head>
 <body>
 <main>
   <h1>⚡ Voltkit</h1>
-  <p class="lead">OCR, a color picker, an asset compressor and a text expander for Linux, in one app.</p>
+  <p class="lead">Power tools for your Linux desktop: screen OCR, a color picker, an image &amp; video
+  compressor and a text expander, in one native GTK4 app.</p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/color-dark.png">
+    <img class="shot" src="https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/color-light.png"
+         alt="Voltkit's color picker with HEX, RGB and HSL values and WCAG contrast ratings">
+  </picture>
 
   <h2>Install</h2>
   <p>For Ubuntu 24.04+, Debian 13+ and derivatives (Linux Mint 22, Zorin OS 18, Pop!_OS 24.04) on 64-bit Intel/AMD:</p>

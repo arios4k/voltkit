@@ -9,6 +9,7 @@ mod modules;
 mod paste;
 mod picker;
 mod portal;
+mod screenshots;
 mod shortcuts;
 mod system;
 
@@ -128,6 +129,9 @@ enum Command {
     /// Write man pages for voltkit and its subcommands into DIR
     #[command(hide = true)]
     Manpages { dir: PathBuf },
+    /// Render README screenshots of the GUI with demo content into DIR
+    #[command(hide = true)]
+    Screenshots { dir: PathBuf },
 }
 
 #[derive(Subcommand)]
@@ -308,6 +312,7 @@ fn main() -> Result<()> {
         }
         Some(Command::Picker { snippet }) => picker::run(config, snippet),
         Some(Command::Expander { command }) => expander_command(command, config)?,
+        Some(Command::Screenshots { dir }) => screenshots::run(config, dir)?,
         Some(Command::Manpages { dir }) => {
             for path in manpages::generate(&dir)? {
                 println!("{}", path.display());
