@@ -19,7 +19,8 @@
 | Region screenshot | `org.freedesktop.portal.Screenshot` (interactive), falling back to grim/slurp, gnome-screenshot, spectacle or maim |
 | Eyedropper | `org.freedesktop.portal.Screenshot.PickColor` |
 | Notifications | `org.freedesktop.Notifications` directly. The notification portal needs an app ID that unsandboxed apps on older portals can't provide. |
-| Text expansion | Wayland has no global key snooping by design. Options: (a) an IBus/Fcitx input-method engine, which is the cleanest route and works in every toolkit; (b) evdev read + uinput write, which needs the user in the `input` group. Plan: ship (a), and offer (b) as an opt-in. |
+| Text expansion | Wayland has no global key snooping by design, so there are two modes. The **picker** needs no setup: it pastes through the RemoteDesktop portal (permission asked once, kept with a restore token). **Typed triggers** are opt-in: evdev reads keyboards and a uinput virtual keyboard sends Backspace and the paste key, which needs the `input` group and a udev rule (`powerlinux expander setup`). An IBus engine was ruled out: components install only system-wide, and users would have to switch input sources. |
+| Inserting text | Always through the clipboard: copy, press the paste shortcut, restore the previous clipboard. That handles any Unicode text regardless of keyboard layout. |
 
 ## Daemon
 
@@ -29,8 +30,8 @@ second instance exits instead of waiting. Object `/io/github/powerlinux/Daemon`,
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `Trigger` | `s → ()` | start `"ocr"` or `"color"`; returns immediately; ignored while another capture is open |
-| `Status` | `() → (ss)` | version and shortcut backend: `portal`, `gnome-keybindings` or `none` |
+| `Trigger` | `s → ()` | start `"ocr"`, `"color"` or `"snippets"`; returns immediately; ignored while another one is open |
+| `Status` | `() → (sss)` | version; shortcut backend: `portal`, `gnome-keybindings` or `none`; typed triggers: `on`, `off` or `unavailable` |
 | `Quit` | `() → ()` | stop the daemon |
 
 ```bash
@@ -46,12 +47,13 @@ Picked colors go to `~/.local/share/powerlinux/colors.txt`, which the GUI's hist
 - [x] Portal-based capture and PickColor via [`ashpd`](https://crates.io/crates/ashpd)
 - [x] Color picker: persistent history
 - [ ] Color picker: palette generation (complementary, triadic, shades), export to CSS/GIMP palette
-- [ ] Daemon owns the snippet engine (see Text expansion above)
+- [x] Snippet picker and typed triggers
+- [ ] Typed triggers: decode keys with the user's xkb layout instead of US
 - [ ] KDE fallback via KGlobalAccel for Plasma versions without the portal
 - [ ] OCR: language picker, QR/barcode detection, optional in-process `leptess` backend
 - [ ] Compressor: Nautilus/Dolphin/Nemo "Compress with PowerLinux" context-menu entries, AVIF,
       resize presets
-- [ ] Snippet editor in the GUI (currently edited in TOML), plus a picker popup with fuzzy search
+- [ ] Snippet editor in the GUI (currently edited in TOML)
 - [ ] Flatpak manifest and Flathub submission
 - [x] App icon (full-color and symbolic, `data/icons/`)
 - [ ] Screenshots, AppStream metainfo

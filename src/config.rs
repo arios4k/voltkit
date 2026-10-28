@@ -10,6 +10,7 @@ pub struct Config {
     pub hotkeys: Hotkeys,
     pub ocr: OcrConfig,
     pub compress: CompressConfig,
+    pub expander: ExpanderConfig,
     pub snippets: Vec<Snippet>,
 }
 
@@ -18,6 +19,7 @@ pub struct Config {
 pub struct Hotkeys {
     pub ocr: String,
     pub color_picker: String,
+    pub snippets: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -33,6 +35,15 @@ pub struct CompressConfig {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(default)]
+pub struct ExpanderConfig {
+    /// Expand triggers typed in any app. Needs `powerlinux expander setup`.
+    pub typed_triggers: bool,
+    /// Keys sent to paste an expansion: "ctrl+v", "ctrl+shift+v" or "shift+insert".
+    pub paste_shortcut: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Snippet {
     /// Typed abbreviation that triggers expansion, e.g. ";date".
     pub trigger: String,
@@ -45,6 +56,7 @@ impl Default for Config {
             hotkeys: Hotkeys::default(),
             ocr: OcrConfig::default(),
             compress: CompressConfig::default(),
+            expander: ExpanderConfig::default(),
             snippets: vec![
                 Snippet { trigger: ";date".into(), template: "{date:%Y-%m-%d}".into() },
                 Snippet { trigger: ";now".into(), template: "{date:%Y-%m-%d} {time}".into() },
@@ -59,13 +71,23 @@ impl Default for Config {
 
 impl Default for Hotkeys {
     fn default() -> Self {
-        Self { ocr: "<Super><Shift>t".into(), color_picker: "<Super><Shift>c".into() }
+        Self {
+            ocr: "<Super><Shift>t".into(),
+            color_picker: "<Super><Shift>c".into(),
+            snippets: "<Super><Shift>e".into(),
+        }
     }
 }
 
 impl Default for OcrConfig {
     fn default() -> Self {
         Self { lang: "eng".into() }
+    }
+}
+
+impl Default for ExpanderConfig {
+    fn default() -> Self {
+        Self { typed_triggers: false, paste_shortcut: "ctrl+v".into() }
     }
 }
 
@@ -89,7 +111,6 @@ impl Config {
         toml::from_str(&text).with_context(|| format!("invalid config at {}", path.display()))
     }
 
-    #[allow(dead_code)] // used once the GUI gains a settings editor
     pub fn save(&self) -> Result<()> {
         let path = Self::path().context("no config directory")?;
         std::fs::create_dir_all(path.parent().unwrap())?;

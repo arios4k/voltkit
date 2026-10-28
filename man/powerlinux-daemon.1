@@ -53,10 +53,10 @@ Bind powerlinux trigger ACTION in the desktop or compositor settings.
 Bus name io.github.powerlinux.Daemon, object /io/github/powerlinux/Daemon, interface io.github.powerlinux.Daemon1:
 .TP
 \fBTrigger(s action)\fR
-Start "ocr" or "color" and return immediately. Ignored while another capture is open.
+Start "ocr", "color" or "snippets" and return immediately. Ignored while another one is open.
 .TP
-\fBStatus() → (ss)\fR
-The version and the shortcut backend.
+\fBStatus() → (sss)\fR
+The version, the shortcut backend, and whether typed triggers are on, off or unavailable.
 .TP
 \fBQuit()\fR
 Stop the daemon.

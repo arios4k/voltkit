@@ -15,6 +15,7 @@ use tokio::sync::Notify;
 use zbus::fdo::{RequestNameFlags, RequestNameReply};
 
 use crate::actions::{self, Action};
+use crate::expander;
 use crate::config::Config;
 use crate::portal::{self, APP_ID};
 use crate::shortcuts;
@@ -30,6 +31,7 @@ struct State {
     busy: Arc<AtomicBool>,
     quit: Arc<Notify>,
     backend: Arc<std::sync::Mutex<String>>,
+    expander: Arc<std::sync::Mutex<String>>,
 }
 
 impl State {
@@ -57,9 +59,13 @@ impl Service {
         Ok(())
     }
 
-    /// Returns (version, shortcut backend).
-    fn status(&self) -> (String, String) {
-        (env!("CARGO_PKG_VERSION").to_owned(), self.0.backend.lock().unwrap().clone())
+    /// Returns (version, shortcut backend, typed-trigger state).
+    fn status(&self) -> (String, String, String) {
+        (
+            env!("CARGO_PKG_VERSION").to_owned(),
+            self.0.backend.lock().unwrap().clone(),
+            self.0.expander.lock().unwrap().clone(),
+        )
     }
 
     fn quit(&self) {
@@ -77,6 +83,7 @@ async fn serve(config: Config) -> Result<()> {
         busy: Arc::default(),
         quit: Arc::default(),
         backend: Arc::new(std::sync::Mutex::new("none".into())),
+        expander: Arc::new(std::sync::Mutex::new("off".into())),
     };
 
     let conn = zbus::connection::Builder::session()?
@@ -115,11 +122,26 @@ async fn serve(config: Config) -> Result<()> {
         })
     };
 
+    let expander_task = state.config.expander.typed_triggers.then(|| {
+        let state = state.clone();
+        tokio::spawn(async move {
+            *state.expander.lock().unwrap() = "on".into();
+            if let Err(e) = expander::run(state.config.clone()).await {
+                *state.expander.lock().unwrap() = "unavailable".into();
+                eprintln!("Typed triggers unavailable: {e:#}");
+                let _ = portal::notify("Typed triggers unavailable", &format!("{e:#}")).await;
+            }
+        })
+    });
+
     tokio::select! {
         _ = tokio::signal::ctrl_c() => {}
         _ = state.quit.notified() => {}
     }
     portal_task.abort();
+    if let Some(task) = expander_task {
+        task.abort();
+    }
     println!("PowerLinux daemon stopped");
     Ok(())
 }
@@ -175,9 +197,33 @@ pub fn trigger(action: Action, config: &Config) -> Result<()> {
     })
 }
 
-/// Returns (version, shortcut backend) of the running daemon, if any.
-pub fn status() -> Option<(String, String)> {
-    portal::block_on(call::<(String, String)>("Status", &())).ok()
+/// Returns (version, shortcut backend, typed-trigger state) of the running daemon, if any.
+pub fn status() -> Option<(String, String, String)> {
+    portal::block_on(call::<(String, String, String)>("Status", &())).ok()
+}
+
+/// Restarts the daemon so it picks up a new config. Does nothing if it isn't running.
+pub fn restart_if_running() -> Result<bool> {
+    if status().is_none() {
+        return Ok(false);
+    }
+    stop()?;
+    // Wait for the old instance to release the bus name.
+    for _ in 0..50 {
+        std::thread::sleep(std::time::Duration::from_millis(100));
+        if status().is_none() {
+            break;
+        }
+    }
+    use std::os::unix::process::CommandExt;
+    std::process::Command::new(std::env::current_exe()?)
+        .arg("daemon")
+        .stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .process_group(0)
+        .spawn()?;
+    Ok(true)
 }
 
 pub fn stop() -> Result<()> {

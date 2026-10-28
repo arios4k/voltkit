@@ -168,7 +168,9 @@ mod tests {
         let list = &plan.last().unwrap()[3];
         assert_eq!(
             *list,
-            format!("['{BASE}custom0/', '{BASE}powerlinux-ocr/', '{BASE}powerlinux-color/']")
+            format!(
+                "['{BASE}custom0/', '{BASE}powerlinux-ocr/', '{BASE}powerlinux-color/', '{BASE}powerlinux-snippets/']"
+            )
         );
         let command = plan.iter().find(|a| a[2] == "command").unwrap();
         assert_eq!(command[3], "'/opt/power linux/powerlinux' trigger ocr");

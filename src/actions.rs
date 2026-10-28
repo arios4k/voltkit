@@ -16,15 +16,18 @@ pub enum Action {
     Ocr,
     /// Pick a color from the screen
     Color,
+    /// Open the snippet picker
+    Snippets,
 }
 
 impl Action {
-    pub const ALL: [Action; 2] = [Action::Ocr, Action::Color];
+    pub const ALL: [Action; 3] = [Action::Ocr, Action::Color, Action::Snippets];
 
     pub fn id(self) -> &'static str {
         match self {
             Action::Ocr => "ocr",
             Action::Color => "color",
+            Action::Snippets => "snippets",
         }
     }
 
@@ -36,6 +39,7 @@ impl Action {
         match self {
             Action::Ocr => "Extract text from screen",
             Action::Color => "Pick a color from screen",
+            Action::Snippets => "Insert a snippet",
         }
     }
 
@@ -43,6 +47,7 @@ impl Action {
         match self {
             Action::Ocr => &config.hotkeys.ocr,
             Action::Color => &config.hotkeys.color_picker,
+            Action::Snippets => &config.hotkeys.snippets,
         }
     }
 }
@@ -75,11 +80,31 @@ async fn pick_color() -> Result<()> {
     portal::notify(&title, &body).await
 }
 
+/// Opens the picker (a GTK window, so it runs as its own process) and waits for it to close.
+/// With `snippet`, it opens straight on that snippet's parameter form.
+pub async fn open_picker(snippet: Option<String>) -> Result<()> {
+    let exe = std::env::current_exe()?;
+    let status = tokio::task::spawn_blocking(move || {
+        let mut cmd = std::process::Command::new(exe);
+        cmd.arg("picker");
+        if let Some(trigger) = snippet {
+            cmd.args(["--snippet", &trigger]);
+        }
+        cmd.status()
+    })
+    .await??;
+    if !status.success() {
+        anyhow::bail!("snippet picker exited with {status}");
+    }
+    Ok(())
+}
+
 /// Runs an action and reports any failure as a notification.
 pub async fn run(action: Action, config: &Config) {
     let result = match action {
         Action::Ocr => extract_text(config).await,
         Action::Color => pick_color().await,
+        Action::Snippets => open_picker(None).await,
     };
     match result {
         Ok(()) => {}

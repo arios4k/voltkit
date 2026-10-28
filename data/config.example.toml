@@ -3,12 +3,17 @@
 [hotkeys]
 ocr = "<Super><Shift>t"
 color_picker = "<Super><Shift>c"
+snippets = "<Super><Shift>e"   # opens the snippet picker
 
 [ocr]
 lang = "eng"            # e.g. "eng+deu"; needs matching tesseract language packs
 
 [compress]
 quality = 80            # 1–100
+
+[expander]
+typed_triggers = false        # expand ;date etc. as you type; run `powerlinux expander setup` first
+paste_shortcut = "ctrl+v"     # or "ctrl+shift+v" / "shift+insert"
 
 [[snippets]]
 trigger = ";date"

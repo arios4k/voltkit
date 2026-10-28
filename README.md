@@ -13,7 +13,7 @@ center. It needs no terminal tweaking and no desktop-specific extensions.
 | **Text Extractor (OCR)**: drag a box around any on-screen text and it's copied to the clipboard | `Super+Shift+T` | ✅ GUI, CLI, hotkey |
 | **Color Picker**: screen eyedropper, HEX/RGB/HSL conversion, WCAG contrast check, saved history | `Super+Shift+C` | ✅ GUI, CLI, hotkey |
 | **Asset Compressor**: drop PNG/JPEG/WebP/MP4 files to strip metadata and shrink them | drag & drop | ✅ GUI + CLI |
-| **Text Expansion**: snippets with `{date}`, `{clipboard}`, `{arg:name}` variables | typed triggers | ✅ template engine · 🚧 background expander |
+| **Text Expansion**: snippets with `{date}`, `{clipboard}`, `{arg:name}` variables, from a searchable picker or typed triggers like `;date` | `Super+Shift+E` | ✅ picker · ✅ typed triggers (opt-in) |
 
 ## Install (from source)
 
@@ -61,8 +61,30 @@ It binds the hotkeys from your config in one of these ways:
 | Older GNOME (e.g. 46) and GNOME-based distros | `powerlinux shortcuts install` adds them to *Settings → Keyboard → Custom Shortcuts* (`--dry-run` previews; `shortcuts remove` undoes) |
 | Sway, river, others | Bind `powerlinux trigger ocr` / `powerlinux trigger color` in your compositor config |
 
-`powerlinux trigger <action>` sends the action to the running daemon, or runs it directly if
+`powerlinux trigger <action>` (`ocr`, `color` or `snippets`) sends the action to the running daemon, or runs it directly if
 no daemon is running. Results and errors appear as desktop notifications.
+
+## Text expansion
+
+**Snippet picker** (no setup): press `Super+Shift+E`, type to search, press Enter. Snippets with
+`{arg:NAME}` parameters show a small form. The result is pasted into the app you were using, and
+your clipboard is put back afterwards. The first paste asks for remote-desktop permission (that's
+how Wayland lets an app press Ctrl+V for you), and the permission is remembered.
+
+**Typed triggers** (opt-in): type `;date` in any app and it turns into `2026-10-27`. Wayland hides
+keystrokes from other apps, so this needs a one-time root setup:
+
+```bash
+powerlinux expander setup          # shows the commands and what they change
+powerlinux expander setup --apply  # runs them with sudo; then log out and back in
+powerlinux expander enable
+```
+
+Setup adds you to the `input` group, which lets *any* program you run read keyboard input. PowerLinux
+keeps only the last few characters in memory and never logs or stores what you type. See
+`man powerlinux-expander` for details and how to undo it.
+
+For terminals, which paste with Ctrl+Shift+V, set `paste_shortcut` in the `[expander]` config section.
 
 ### Runtime helpers
 
@@ -119,6 +141,9 @@ src/
   daemon.rs          background service: D-Bus API, portal shortcuts, autostart
   actions.rs         hotkey actions (OCR, eyedropper) with notifications
   shortcuts.rs       accelerator conversion + GNOME keybinding fallback
+  picker.rs          snippet picker popup
+  expander.rs        typed triggers (evdev keyboard reading, uinput virtual keyboard)
+  paste.rs           paste into the focused app, restoring the clipboard
   portal.rs          XDG portal calls (screenshot, PickColor) and notifications
   config.rs          TOML config with defaults
   system.rs          Wayland/X11 helpers: clipboard, tool discovery, process runner
@@ -139,8 +164,8 @@ cargo test
 cargo clippy
 ```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. The background
-snippet expander is the next big piece.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. The
+next big pieces are packaging (Flatpak, .deb) and a settings screen.
 
 ## License
 

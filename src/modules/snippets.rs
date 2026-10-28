@@ -98,6 +98,45 @@ pub fn required_args(template: &str) -> Vec<String> {
     names
 }
 
+/// Scores how well `query` matches `text` as a case-insensitive subsequence.
+/// Higher is better; `None` means no match. Consecutive and word-start matches score more.
+pub fn fuzzy_score(query: &str, text: &str) -> Option<i32> {
+    let text: Vec<char> = text.to_lowercase().chars().collect();
+    let mut score = 0;
+    let mut pos = 0;
+    let mut prev_match: Option<usize> = None;
+    for q in query.to_lowercase().chars().filter(|c| !c.is_whitespace()) {
+        let i = pos + text[pos..].iter().position(|&c| c == q)?;
+        score += 1;
+        if prev_match.is_some_and(|p| p + 1 == i) {
+            score += 5;
+        }
+        if i == 0 || !text[i - 1].is_alphanumeric() {
+            score += 3;
+        }
+        score -= (i - pos).min(5) as i32;
+        prev_match = Some(i);
+        pos = i + 1;
+    }
+    Some(score)
+}
+
+/// Snippets matching `query`, best first. Trigger matches outrank template matches.
+pub fn search<'a>(snippets: &'a [crate::config::Snippet], query: &str) -> Vec<&'a crate::config::Snippet> {
+    let mut hits: Vec<(i32, usize)> = snippets
+        .iter()
+        .enumerate()
+        .filter_map(|(i, s)| {
+            let by_trigger = fuzzy_score(query, &s.trigger).map(|v| v * 2 + 10);
+            let by_template = fuzzy_score(query, &s.template);
+            by_trigger.max(by_template).map(|score| (score, i))
+        })
+        .collect();
+    // Stable sort keeps config order for ties (and for an empty query).
+    hits.sort_by_key(|&(score, _)| std::cmp::Reverse(score));
+    hits.into_iter().map(|(_, i)| &snippets[i]).collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -150,6 +189,25 @@ mod tests {
     fn empty_clipboard_expands_to_nothing() {
         let c = Context { clipboard: None, ..ctx() };
         assert_eq!(expand("[{clipboard}]", &c).unwrap(), "[]");
+    }
+
+    #[test]
+    fn fuzzy_matching() {
+        assert!(fuzzy_score("dt", ";date").is_some());
+        assert!(fuzzy_score("xyz", ";date").is_none());
+        assert!(fuzzy_score("dat", ";date") > fuzzy_score("dat", "a d b a c t"));
+        assert_eq!(fuzzy_score("", "anything"), Some(0));
+    }
+
+    #[test]
+    fn search_ranks_triggers_first() {
+        use crate::config::Snippet;
+        let s = |t: &str, b: &str| Snippet { trigger: t.into(), template: b.into() };
+        let list = vec![s(";sig", "Best regards"), s(";date", "{date}"), s(";now", "{date} {time}")];
+        let found: Vec<_> = search(&list, "date").iter().map(|s| s.trigger.as_str()).collect();
+        assert_eq!(found, vec![";date", ";now"]);
+        assert_eq!(search(&list, "").len(), 3);
+        assert_eq!(search(&list, "regards")[0].trigger, ";sig");
     }
 
     #[test]

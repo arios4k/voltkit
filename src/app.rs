@@ -545,7 +545,33 @@ fn snippets_page(config: &Config) -> gtk::Widget {
     update(&template);
     template.connect_changed(update);
 
+    let usage = adw::PreferencesGroup::builder().title("Insert Snippets").build();
+    let open_picker = gtk::Button::builder()
+        .label("Open")
+        .valign(gtk::Align::Center)
+        .build();
+    open_picker.connect_clicked(|_| {
+        if let Ok(exe) = std::env::current_exe() {
+            let _ = std::process::Command::new(exe).arg("picker").spawn().map(|mut c| {
+                std::thread::spawn(move || c.wait());
+            });
+        }
+    });
+    let picker_row = adw::ActionRow::builder()
+        .title("Snippet picker")
+        .subtitle(format!("Search and paste into any app. Shortcut: {}", config.hotkeys.snippets))
+        .build();
+    picker_row.add_suffix(&open_picker);
+    usage.add(&picker_row);
+    let typed = if config.expander.typed_triggers {
+        "On: type a trigger in any app to expand it"
+    } else {
+        "Off: run `powerlinux expander setup`, then `powerlinux expander enable`"
+    };
+    usage.add(&adw::ActionRow::builder().title("Typed triggers").subtitle(typed).build());
+
     let page = adw::PreferencesPage::new();
+    page.add(&usage);
     page.add(&playground);
     page.add(&list);
     page.upcast()

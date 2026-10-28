@@ -2,8 +2,11 @@ mod actions;
 mod app;
 mod config;
 mod daemon;
+mod expander;
 mod manpages;
 mod modules;
+mod paste;
+mod picker;
 mod portal;
 mod shortcuts;
 mod system;
@@ -74,6 +77,25 @@ enum Command {
         #[arg(long = "arg", value_name = "NAME=VALUE", value_parser = parse_kv)]
         args: Vec<(String, String)>,
     },
+    /// Open the snippet picker and paste the chosen snippet into the focused app
+    ///
+    /// Search with the keyboard, press Enter, and fill in any {arg:NAME} parameters. The
+    /// expansion is pasted into the app that had focus, through the RemoteDesktop portal (the
+    /// desktop asks for permission once), and the previous clipboard is restored.
+    Picker {
+        /// Open directly on the snippet with this trigger
+        #[arg(long, value_name = "TRIGGER")]
+        snippet: Option<String>,
+    },
+    /// Set up and toggle typed triggers (type ;date anywhere to expand it)
+    ///
+    /// Typed triggers read keyboard input through evdev and paste through a uinput virtual
+    /// keyboard, which needs a one-time setup with root rights. Only the last few typed
+    /// characters are kept in memory; nothing is logged or stored.
+    Expander {
+        #[command(subcommand)]
+        command: ExpanderCommand,
+    },
     /// Run the background service that listens for global shortcuts
     ///
     /// Without a subcommand, runs the service in the foreground until interrupted. It owns
@@ -114,8 +136,24 @@ enum DaemonCommand {
 }
 
 #[derive(Subcommand)]
+enum ExpanderCommand {
+    /// Show whether typed triggers are enabled and can run
+    Status,
+    /// Grant keyboard access: add you to the input group and allow /dev/uinput
+    Setup {
+        /// Run the commands with sudo instead of only printing them
+        #[arg(long)]
+        apply: bool,
+    },
+    /// Turn typed triggers on (restarts the daemon if it is running)
+    Enable,
+    /// Turn typed triggers off (restarts the daemon if it is running)
+    Disable,
+}
+
+#[derive(Subcommand)]
 enum ShortcutsCommand {
-    /// Add Super+Shift+T / Super+Shift+C (or your configured keys) to GNOME Settings
+    /// Add Super+Shift+T, C and E (or your configured keys) to GNOME Settings
     Install {
         /// Print the gsettings commands instead of running them
         #[arg(long)]
@@ -133,6 +171,60 @@ fn parse_kv(s: &str) -> Result<(String, String), String> {
     s.split_once('=')
         .map(|(k, v)| (k.to_owned(), v.to_owned()))
         .ok_or_else(|| format!("expected name=value, got {s:?}"))
+}
+
+fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Result<()> {
+    match command {
+        ExpanderCommand::Status => {
+            println!("typed triggers: {}", if config.expander.typed_triggers { "enabled" } else { "disabled" });
+            let missing = expander::missing_permissions();
+            if missing.is_empty() {
+                println!("permissions: ok");
+            } else {
+                for m in missing {
+                    println!("permissions: {m}");
+                }
+                if expander::udev_rule_installed() {
+                    println!("The setup has run; log out and back in to join the input group.");
+                } else {
+                    println!("Run `powerlinux expander setup`.");
+                }
+            }
+        }
+        ExpanderCommand::Setup { apply } => {
+            let user = std::env::var("USER")?;
+            let script = expander::setup_script(&user);
+            if apply {
+                let status = std::process::Command::new("sudo").args(["sh", "-c", &script]).status()?;
+                anyhow::ensure!(status.success(), "setup failed");
+                println!("Done. Log out and back in, then run `powerlinux expander enable`.");
+            } else {
+                println!("# Typed triggers need these commands to run as root. They add you to the");
+                println!("# `input` group, which lets programs you run read keyboard input, and allow");
+                println!("# /dev/uinput for the virtual keyboard. Run `powerlinux expander setup --apply`");
+                println!("# to run them with sudo, then log out and back in.\n");
+                print!("{script}");
+            }
+        }
+        ExpanderCommand::Enable | ExpanderCommand::Disable => {
+            let enable = matches!(command, ExpanderCommand::Enable);
+            config.expander.typed_triggers = enable;
+            config.save()?;
+            println!("Typed triggers {}", if enable { "enabled" } else { "disabled" });
+            if enable {
+                let missing = expander::missing_permissions();
+                if !missing.is_empty() {
+                    println!("They won't work until setup is done: {}", missing.join("; "));
+                }
+            }
+            if daemon::restart_if_running()? {
+                println!("Restarted the daemon");
+            } else {
+                println!("Takes effect the next time the daemon starts");
+            }
+        }
+    }
+    Ok(())
 }
 
 fn main() -> Result<()> {
@@ -186,7 +278,9 @@ fn main() -> Result<()> {
         Some(Command::Daemon { command: None }) => daemon::run(config)?,
         Some(Command::Daemon { command: Some(cmd) }) => match cmd {
             DaemonCommand::Status => match daemon::status() {
-                Some((version, backend)) => println!("running (v{version}), shortcuts: {backend}"),
+                Some((version, backend, typed)) => {
+                    println!("running (v{version}), shortcuts: {backend}, typed triggers: {typed}")
+                }
                 None => println!("not running"),
             },
             DaemonCommand::Stop => {
@@ -202,6 +296,8 @@ fn main() -> Result<()> {
             }
         },
         Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
+        Some(Command::Picker { snippet }) => picker::run(config, snippet),
+        Some(Command::Expander { command }) => expander_command(command, config)?,
         Some(Command::Manpages { dir }) => {
             for path in manpages::generate(&dir)? {
                 println!("{}", path.display());
@@ -211,10 +307,10 @@ fn main() -> Result<()> {
             ShortcutsCommand::Install { dry_run } => {
                 shortcuts::gnome_install(&config, dry_run)?;
                 if !dry_run {
-                    println!(
-                        "Added {} and {} to GNOME keyboard shortcuts",
-                        config.hotkeys.ocr, config.hotkeys.color_picker
-                    );
+                    for action in Action::ALL {
+                        println!("{:<18} {}", action.accelerator(&config), action.description());
+                    }
+                    println!("Added to GNOME keyboard shortcuts");
                 }
             }
             ShortcutsCommand::Remove { dry_run } => shortcuts::gnome_remove(dry_run)?,

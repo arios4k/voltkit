@@ -157,8 +157,8 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 heading: "D-BUS INTERFACE",
                 blocks: &[
                     Para("Bus name io.github.powerlinux.Daemon, object /io/github/powerlinux/Daemon, interface io.github.powerlinux.Daemon1:"),
-                    Item("Trigger(s action)", "Start \"ocr\" or \"color\" and return immediately. Ignored while another capture is open."),
-                    Item("Status() → (ss)", "The version and the shortcut backend."),
+                    Item("Trigger(s action)", "Start \"ocr\", \"color\" or \"snippets\" and return immediately. Ignored while another one is open."),
+                    Item("Status() → (sss)", "The version, the shortcut backend, and whether typed triggers are on, off or unavailable."),
                     Item("Quit()", "Stop the daemon."),
                 ],
             },
@@ -170,6 +170,64 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 ],
             },
             FILES,
+        ],
+        "powerlinux-picker" => vec![
+            Section {
+                heading: "KEYS",
+                blocks: &[
+                    Item("Up, Down", "Choose a snippet while typing in the search box."),
+                    Item("Enter", "Insert the snippet, or move to the next parameter field."),
+                    Item("Escape", "Go back from the parameter form, or close the picker."),
+                ],
+            },
+            Section {
+                heading: "NOTES",
+                blocks: &[Para(
+                    "The first paste asks for remote-desktop permission; the grant is remembered in \
+                     ~/.local/state/powerlinux/remote-desktop-token. If pasting is refused or unavailable, the \
+                     expansion stays on the clipboard and a notification says to press Ctrl+V. Apps that paste \
+                     with another shortcut, such as terminals, need paste_shortcut set in the [expander] section \
+                     of the configuration.",
+                )],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[Example("Open the picker on one snippet's form:", "powerlinux picker --snippet ';quote'")],
+            },
+        ],
+        "powerlinux-expander" => vec![
+            Section {
+                heading: "HOW IT WORKS",
+                blocks: &[
+                    Para(
+                        "The daemon reads key presses from /dev/input and keeps the last 64 typed characters in \
+                         memory. When they end with a snippet's trigger, it erases the trigger with Backspace \
+                         through a uinput virtual keyboard and pastes the expansion, restoring the clipboard \
+                         afterwards. Snippets with {arg:NAME} parameters open the picker's form instead.",
+                    ),
+                    Para(
+                        "Keys are decoded with a US layout, so triggers made of letters, digits and ; work on \
+                         most layouts while punctuation may differ. A trigger that is a prefix of another (;d \
+                         and ;date) fires first, so the longer one is unreachable.",
+                    ),
+                ],
+            },
+            Section {
+                heading: "SECURITY",
+                blocks: &[Para(
+                    "Setup adds you to the input group, which lets every program you run read keyboard input, \
+                     not only PowerLinux. Typed text is never logged, written to disk or sent anywhere. Undo \
+                     the setup by removing you from the group (gpasswd -d $USER input) and deleting \
+                     /etc/udev/rules.d/99-powerlinux-uinput.rules and /etc/modules-load.d/powerlinux-uinput.conf.",
+                )],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Review the setup commands, then run them:", "powerlinux expander setup\npowerlinux expander setup --apply"),
+                    Example("After logging out and back in:", "powerlinux expander enable"),
+                ],
+            },
         ],
         "powerlinux-trigger" => vec![Section {
             heading: "EXAMPLES",
@@ -223,6 +281,7 @@ fn see_also(page: &str, siblings: &[String]) -> Roff {
         "powerlinux-compress" => &["oxipng(1)", "jpegoptim(1)", "cwebp(1)", "ffmpeg(1)"],
         "powerlinux-expand" => &["strftime(3)"],
         "powerlinux-shortcuts" => &["gsettings(1)"],
+        "powerlinux-expander" => &["udev(7)", "usermod(8)"],
         "powerlinux-daemon" => &["busctl(1)"],
         _ => &[],
     };
