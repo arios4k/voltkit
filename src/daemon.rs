@@ -37,13 +37,25 @@ struct State {
 impl State {
     fn spawn(&self, action: Action) {
         if self.busy.swap(true, Ordering::SeqCst) {
+            println!("{}: skipped, another action is still open", action.id());
             return;
         }
         let state = self.clone();
         tokio::spawn(async move {
+            // Released on drop, so a failing or panicking action can't block later hotkeys.
+            let _busy = BusyGuard(state.busy.clone());
+            println!("{}: started", action.id());
             actions::run(action, &state.config).await;
-            state.busy.store(false, Ordering::SeqCst);
+            println!("{}: finished", action.id());
         });
+    }
+}
+
+struct BusyGuard(Arc<AtomicBool>);
+
+impl Drop for BusyGuard {
+    fn drop(&mut self) {
+        self.0.store(false, Ordering::SeqCst);
     }
 }
 
