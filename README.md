@@ -19,7 +19,7 @@ Screen OCR, a color picker, an image &amp; video compressor and a text expander,
 
 </div>
 
-## One app instead of five
+## One app instead of four
 
 Getting PowerToys-style basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
