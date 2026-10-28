@@ -77,6 +77,7 @@ keystrokes from other apps, so this needs a one-time root setup:
 ```bash
 powerlinux expander setup          # shows the commands and what they change
 powerlinux expander setup --apply  # runs them with sudo; then log out and back in
+                                   # (restart instead if `loginctl` lingering is on)
 powerlinux expander enable
 ```
 

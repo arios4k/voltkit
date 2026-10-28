@@ -206,6 +206,11 @@ fn extra_sections(page: &str) -> Vec<Section> {
                          afterwards. Snippets with {arg:NAME} parameters open the picker's form instead.",
                     ),
                     Para(
+                        "After setup, start a new session so it includes the input group: log out and back \
+                         in, or restart the computer if lingering is enabled (loginctl show-user $USER \
+                         --property=Linger), since then your user services outlive a log out.",
+                    ),
+                    Para(
                         "Keys are decoded with a US layout, so triggers made of letters, digits and ; work on \
                          most layouts while punctuation may differ. A trigger that is a prefix of another (;d \
                          and ;date) fires first, so the longer one is unreachable.",

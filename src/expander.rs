@@ -320,13 +320,26 @@ fn udev_rule_installed() -> bool {
     Path::new(UDEV_RULE_PATH).exists()
 }
 
+/// True when systemd keeps this user's service manager running between logins.
+/// That manager starts the desktop session, so a re-login keeps its old groups.
+fn lingering() -> bool {
+    let user = std::env::var("USER").unwrap_or_default();
+    std::process::Command::new("loginctl")
+        .args(["show-user", &user, "--property=Linger", "--value"])
+        .output()
+        .is_ok_and(|o| String::from_utf8_lossy(&o.stdout).trim() == "yes")
+}
+
 /// What the user should do about missing permissions. After setup, the only
-/// thing left is a new login, which picks up the input group.
+/// thing left is a fresh session, which picks up the input group.
 pub fn next_step() -> &'static str {
-    if udev_rule_installed() {
-        "setup is done; log out and back in so your session joins the input group"
-    } else {
+    if !udev_rule_installed() {
         "run `powerlinux expander setup`"
+    } else if lingering() {
+        "setup is done; restart your computer so your session joins the input group \
+         (logging out isn't enough because lingering keeps your user services running)"
+    } else {
+        "setup is done; log out and back in so your session joins the input group"
     }
 }
 
