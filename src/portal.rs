@@ -15,11 +15,21 @@ pub const APP_ID: &str = "io.github.arios4k.Voltkit";
 
 /// Runs a future to completion from synchronous code (CLI, GUI worker threads).
 /// Must not be called from inside the daemon's runtime.
+///
+/// All calls share one runtime that lives as long as the process. ashpd caches
+/// its D-Bus connection, and the connection's tasks run on the runtime that
+/// created it; with a runtime per call, the GUI's second portal request (a
+/// second color pick or OCR capture) hung forever on the dead connection.
 pub fn block_on<F: Future>(future: F) -> F::Output {
-    tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-        .expect("failed to start async runtime")
+    static RUNTIME: std::sync::OnceLock<tokio::runtime::Runtime> = std::sync::OnceLock::new();
+    RUNTIME
+        .get_or_init(|| {
+            tokio::runtime::Builder::new_multi_thread()
+                .worker_threads(2)
+                .enable_all()
+                .build()
+                .expect("failed to start async runtime")
+        })
         .block_on(future)
 }
 
@@ -128,5 +138,26 @@ mod tests {
     #[test]
     fn escapes_notification_markup() {
         assert_eq!(escape_markup("a<b> & c"), "a&lt;b&gt; &amp; c");
+    }
+}
+
+#[cfg(test)]
+mod session_bus_tests {
+    #[test]
+    #[ignore = "needs a desktop session bus"]
+    fn portal_calls_survive_repeated_block_on() {
+        for i in 0..3 {
+            let r = std::thread::spawn(|| {
+                super::block_on(async {
+                    tokio::time::timeout(std::time::Duration::from_secs(3), async {
+                        ashpd::desktop::remote_desktop::RemoteDesktop::new().await?.available_device_types().await
+                    })
+                    .await
+                })
+            })
+            .join()
+            .unwrap();
+            assert!(r.is_ok(), "portal call {} hung", i + 1);
+        }
     }
 }
