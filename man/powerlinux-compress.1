@@ -1,0 +1,65 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-compress 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-compress \- Strip metadata and compress PNG, JPEG, WebP or MP4 files
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux compress\fR [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Strip metadata and compress PNG, JPEG, WebP or MP4 files
+.PP
+Each FILE is written to NAME.min.EXT beside it; originals are never modified.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-\-quality\fR \fI<QUALITY>\fR [default: 80]
+Quality from 1 (smallest) to 100 (best); ignored for PNG, which is always lossless
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+<\fIFILE\fR>
+Files to compress (.png, .jpg/.jpeg, .webp, .mp4/.m4v/.mov)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH TOOLS
+.PP
+Compression runs these programs, which must be installed:
+.TP
+\fBPNG\fR
+oxipng, lossless, all metadata stripped.
+.TP
+\fBJPEG\fR
+jpegoptim, recompressed down to \-\-quality, all metadata stripped.
+.TP
+\fBWebP\fR
+cwebp, at \-\-quality, metadata dropped.
+.TP
+\fBMP4\fR
+ffmpeg, H.264 with a CRF derived from \-\-quality, AAC audio, metadata removed, fast\-start enabled.
+.SH EXAMPLES
+.PP
+Compress every PNG in a folder:
+.RS 4
+.nf
+\fBpowerlinux compress ~/Pictures/*.png\fR
+.fi
+.RE
+.PP
+Shrink a video harder:
+.RS 4
+.nf
+\fBpowerlinux compress clip.mp4 \-\-quality 50\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1), \fBoxipng\fR(1), \fBjpegoptim\fR(1), \fBcwebp\fR(1), \fBffmpeg\fR(1)

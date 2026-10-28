@@ -13,9 +13,11 @@ anyhow = "1.0.104"
 ashpd = { version = "0.13.13", features = ["global_shortcuts", "screenshot"] }
 chrono = "0.4.45"
 clap = { version = "4.6.7", features = ["derive"] }
+clap_mangen = "0.3.3"
 dirs = "7.0.0"
 futures-util = "0.3.34"
 gtk = { version = "0.11.5", package = "gtk4", features = ["v4_14"] }
+roff = "1.1.1"
 serde = { version = "1.0.229", features = ["derive"] }
 tokio = { version = "1.54.1", features = ["rt", "macros", "signal", "time", "sync"] }
 toml = "1.1.8"

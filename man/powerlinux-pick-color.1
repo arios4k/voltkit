@@ -1,0 +1,37 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-pick-color 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-pick\-color \- Pick a color from the screen and copy its HEX value
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux pick\-color\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Pick a color from the screen and copy its HEX value
+.PP
+Uses the XDG Screenshot portal\*(Aqs color picker. The value is printed, copied to the clipboard and added to the color history shown in the control center.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXAMPLES
+.PP
+Pick a color and show all its formats:
+.RS 4
+.nf
+\fBpowerlinux color "$(powerlinux pick\-color)"\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1)

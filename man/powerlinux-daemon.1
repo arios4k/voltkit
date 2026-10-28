@@ -1,0 +1,91 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-daemon 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-daemon \- Run the background service that listens for global shortcuts
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux daemon\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIsubcommands\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Run the background service that listens for global shortcuts
+.PP
+Without a subcommand, runs the service in the foreground until interrupted. It owns io.github.powerlinux.Daemon on the session bus, so only one instance runs, and binds the configured hotkeys through the XDG GlobalShortcuts portal when the desktop provides it.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMMANDS
+.TP
+\fBpowerlinux daemon status\fR
+Show whether the daemon is running and how shortcuts are bound
+.TP
+\fBpowerlinux daemon stop\fR
+Stop the running daemon
+.TP
+\fBpowerlinux daemon enable\-autostart\fR
+Start the daemon automatically at login
+.TP
+\fBpowerlinux daemon disable\-autostart\fR
+Stop starting the daemon at login
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SHORTCUT BACKENDS"
+.TP
+\fBportal\fR
+The GlobalShortcuts portal (GNOME 48+, KDE Plasma 5.27+, Hyprland). The desktop asks once for approval.
+.TP
+\fBgnome\-keybindings\fR
+Custom shortcuts added by powerlinux shortcuts install.
+.TP
+\fBnone\fR
+Bind powerlinux trigger ACTION in the desktop or compositor settings.
+.SH "D-BUS INTERFACE"
+.PP
+Bus name io.github.powerlinux.Daemon, object /io/github/powerlinux/Daemon, interface io.github.powerlinux.Daemon1:
+.TP
+\fBTrigger(s action)\fR
+Start "ocr" or "color" and return immediately. Ignored while another capture is open.
+.TP
+\fBStatus() → (ss)\fR
+The version and the shortcut backend.
+.TP
+\fBQuit()\fR
+Stop the daemon.
+.SH EXAMPLES
+.PP
+Check whether it is running:
+.RS 4
+.nf
+\fBpowerlinux daemon status\fR
+.fi
+.RE
+.PP
+Trigger OCR from another program:
+.RS 4
+.nf
+\fBbusctl \-\-user call io.github.powerlinux.Daemon /io/github/powerlinux/Daemon io.github.powerlinux.Daemon1 Trigger s ocr\fR
+.fi
+.RE
+.SH FILES
+.TP
+\fB~/.config/powerlinux/config.toml\fR
+Configuration: hotkeys, OCR language, compression quality and snippets. Every key is optional.
+.TP
+\fB~/.local/share/powerlinux/colors.txt\fR
+Color history, newest first, shared by pick\-color, the daemon and the control center.
+.TP
+\fB~/.config/autostart/io.github.powerlinux.Daemon.desktop\fR
+Created by powerlinux daemon enable\-autostart.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1), \fBbusctl\fR(1)

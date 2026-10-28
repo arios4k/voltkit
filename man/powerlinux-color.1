@@ -1,0 +1,62 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-color 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-color \- Convert a color (#hex or rgb(...)) and report WCAG contrast
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux color\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIVALUE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Convert a color (#hex or rgb(...)) and report WCAG contrast
+.PP
+Prints the color as HEX, RGB and HSL, and its WCAG 2.x contrast ratio as text on white and on black.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+<\fIVALUE\fR>
+#rgb, #rrggbb (the # is optional) or rgb(r, g, b)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "CONTRAST LEVELS"
+.PP
+Ratings are for normal\-size text under WCAG 2.x:
+.TP
+\fBAAA\fR
+7:1 or higher.
+.TP
+\fBAA\fR
+4.5:1 or higher.
+.TP
+\fBAA Large\fR
+3:1 or higher; passes only for large text (18pt, or 14pt bold).
+.TP
+\fBFail\fR
+Below 3:1.
+.SH EXAMPLES
+.PP
+Hex with or without #, short or long form:
+.RS 4
+.nf
+\fBpowerlinux color f80\fR
+.fi
+.RE
+.PP
+Functional notation:
+.RS 4
+.nf
+\fBpowerlinux color \*(Aqrgb(51, 130, 202)\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1)

@@ -78,6 +78,23 @@ powerlinux compress *.png --quality 75
 powerlinux expand 'Hi {arg:who}, {date:%A}' --arg who=Sam
 ```
 
+Full documentation is in the man pages: `man powerlinux`, `man powerlinux-expand`, and so on.
+
+### Man pages
+
+The pages in [`man/`](man/) are generated from the CLI definitions, so they always match
+`--help`. Install them next to the binary, where `man` finds them automatically:
+
+```bash
+mkdir -p ~/.cargo/share/man/man1 && cp man/*.1 ~/.cargo/share/man/man1/
+```
+
+After changing a command or its help text, regenerate them; `cargo test` fails until you do:
+
+```bash
+cargo run -- manpages man
+```
+
 ## Configuration
 
 `~/.config/powerlinux/config.toml`. Every key is optional; see
@@ -100,6 +117,8 @@ src/
     color.rs         parsing, HSL, WCAG luminance & contrast
     compress.rs      format detection + per-format compression pipelines
     snippets.rs      snippet template engine
+  manpages.rs        man page generator (clap_mangen + hand-written sections)
+man/                 generated man pages
 docs/ARCHITECTURE.md design notes and roadmap
 ```
 

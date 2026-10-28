@@ -1,0 +1,57 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-ocr 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-ocr \- Select a screen region and copy the recognized text to the clipboard
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux ocr\fR [\fB\-\-lang\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Select a screen region and copy the recognized text to the clipboard
+.PP
+Opens the desktop\*(Aqs interactive screenshot tool through the XDG Screenshot portal, then runs Tesseract on the selected region. Without the portal it falls back to grim+slurp, gnome\-screenshot, spectacle or maim. The text is printed and copied to the clipboard.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-\-lang\fR \fI<LANG>\fR [default: eng]
+Tesseract language code(s), e.g. "eng" or "eng+deu"
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXAMPLES
+.PP
+Recognize English text:
+.RS 4
+.nf
+\fBpowerlinux ocr\fR
+.fi
+.RE
+.PP
+Recognize English and German:
+.RS 4
+.nf
+\fBpowerlinux ocr \-\-lang eng+deu\fR
+.fi
+.RE
+.PP
+Save the text instead of only copying it:
+.RS 4
+.nf
+\fBpowerlinux ocr > notes.txt\fR
+.fi
+.RE
+.SH NOTES
+.PP
+Each language needs its Tesseract data package, for example tesseract\-ocr\-deu on Debian and Ubuntu. List the installed ones with tesseract \-\-list\-langs. Leave a small margin around the text when selecting: letters cut by the selection edge are misread.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1), \fBtesseract\fR(1)

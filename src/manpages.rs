@@ -1,0 +1,358 @@
+//! Man pages, generated from the clap definitions plus hand-written sections.
+//!
+//! Regenerate the committed copies with `cargo run -- manpages man`.
+
+use std::path::{Path, PathBuf};
+
+use anyhow::Result;
+use clap::CommandFactory;
+use clap_mangen::Man;
+use roff::{Roff, bold, roman};
+
+use crate::Cli;
+
+enum Block {
+    Para(&'static str),
+    /// A term (rendered bold) and its description.
+    Item(&'static str, &'static str),
+    /// A description followed by an indented command line.
+    Example(&'static str, &'static str),
+}
+
+use Block::{Example, Item, Para};
+
+struct Section {
+    heading: &'static str,
+    blocks: &'static [Block],
+}
+
+const FILES: Section = Section {
+    heading: "FILES",
+    blocks: &[
+        Item("~/.config/powerlinux/config.toml", "Configuration: hotkeys, OCR language, compression quality and snippets. Every key is optional."),
+        Item("~/.local/share/powerlinux/colors.txt", "Color history, newest first, shared by pick-color, the daemon and the control center."),
+        Item("~/.config/autostart/io.github.powerlinux.Daemon.desktop", "Created by powerlinux daemon enable-autostart."),
+    ],
+};
+
+/// Extra sections for each page, keyed by page name.
+fn extra_sections(page: &str) -> Vec<Section> {
+    match page {
+        "powerlinux" => vec![
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Open the control center:", "powerlinux"),
+                    Example("Copy text from part of the screen:", "powerlinux ocr"),
+                    Example("Check a color's contrast:", "powerlinux color '#3584e4'"),
+                    Example("Start the background service at every login:", "powerlinux daemon enable-autostart"),
+                ],
+            },
+            FILES,
+            Section {
+                heading: "ENVIRONMENT",
+                blocks: &[
+                    Item("WAYLAND_DISPLAY", "When set, the clipboard is accessed with wl-copy and wl-paste; otherwise with xclip."),
+                    Item("XDG_CONFIG_HOME, XDG_DATA_HOME", "Override the base directories of the files listed above."),
+                ],
+            },
+            Section {
+                heading: "EXIT STATUS",
+                blocks: &[Para("0 on success, 1 on any error. Errors are printed to standard error.")],
+            },
+        ],
+        "powerlinux-ocr" => vec![
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Recognize English text:", "powerlinux ocr"),
+                    Example("Recognize English and German:", "powerlinux ocr --lang eng+deu"),
+                    Example("Save the text instead of only copying it:", "powerlinux ocr > notes.txt"),
+                ],
+            },
+            Section {
+                heading: "NOTES",
+                blocks: &[Para(
+                    "Each language needs its Tesseract data package, for example tesseract-ocr-deu on Debian and Ubuntu. \
+                     List the installed ones with tesseract --list-langs. Leave a small margin around the text when \
+                     selecting: letters cut by the selection edge are misread.",
+                )],
+            },
+        ],
+        "powerlinux-pick-color" => vec![Section {
+            heading: "EXAMPLES",
+            blocks: &[
+                Example("Pick a color and show all its formats:", "powerlinux color \"$(powerlinux pick-color)\""),
+            ],
+        }],
+        "powerlinux-color" => vec![
+            Section {
+                heading: "CONTRAST LEVELS",
+                blocks: &[
+                    Para("Ratings are for normal-size text under WCAG 2.x:"),
+                    Item("AAA", "7:1 or higher."),
+                    Item("AA", "4.5:1 or higher."),
+                    Item("AA Large", "3:1 or higher; passes only for large text (18pt, or 14pt bold)."),
+                    Item("Fail", "Below 3:1."),
+                ],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Hex with or without #, short or long form:", "powerlinux color f80"),
+                    Example("Functional notation:", "powerlinux color 'rgb(51, 130, 202)'"),
+                ],
+            },
+        ],
+        "powerlinux-compress" => vec![
+            Section {
+                heading: "TOOLS",
+                blocks: &[
+                    Para("Compression runs these programs, which must be installed:"),
+                    Item("PNG", "oxipng, lossless, all metadata stripped."),
+                    Item("JPEG", "jpegoptim, recompressed down to --quality, all metadata stripped."),
+                    Item("WebP", "cwebp, at --quality, metadata dropped."),
+                    Item("MP4", "ffmpeg, H.264 with a CRF derived from --quality, AAC audio, metadata removed, fast-start enabled."),
+                ],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Compress every PNG in a folder:", "powerlinux compress ~/Pictures/*.png"),
+                    Example("Shrink a video harder:", "powerlinux compress clip.mp4 --quality 50"),
+                ],
+            },
+        ],
+        "powerlinux-expand" => vec![
+            Section {
+                heading: "VARIABLES",
+                blocks: &[
+                    Item("{date}", "Today's date as YYYY-MM-DD."),
+                    Item("{date:FORMAT}", "The current time in any strftime(3) FORMAT, for example {date:%A %d %B}."),
+                    Item("{time}", "The current time as HH:MM."),
+                    Item("{clipboard}", "The clipboard's text, or nothing if it is empty."),
+                    Item("{arg:NAME}", "The value given with --arg NAME=VALUE."),
+                    Item("{{ and }}", "A literal { or }."),
+                ],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Fill in parameters:", "powerlinux expand 'Hi {arg:name}, re: {arg:topic}' --arg name=Sam --arg topic=Invoices"),
+                    Example("Values with spaces need quotes:", "powerlinux expand 'Hi {arg:name}' --arg 'name=Sam Lee'"),
+                    Example("Quote the clipboard with a timestamp:", "powerlinux expand '> {clipboard} ({date} {time})'"),
+                ],
+            },
+        ],
+        "powerlinux-daemon" => vec![
+            Section {
+                heading: "SHORTCUT BACKENDS",
+                blocks: &[
+                    Item("portal", "The GlobalShortcuts portal (GNOME 48+, KDE Plasma 5.27+, Hyprland). The desktop asks once for approval."),
+                    Item("gnome-keybindings", "Custom shortcuts added by powerlinux shortcuts install."),
+                    Item("none", "Bind powerlinux trigger ACTION in the desktop or compositor settings."),
+                ],
+            },
+            Section {
+                heading: "D-BUS INTERFACE",
+                blocks: &[
+                    Para("Bus name io.github.powerlinux.Daemon, object /io/github/powerlinux/Daemon, interface io.github.powerlinux.Daemon1:"),
+                    Item("Trigger(s action)", "Start \"ocr\" or \"color\" and return immediately. Ignored while another capture is open."),
+                    Item("Status() → (ss)", "The version and the shortcut backend."),
+                    Item("Quit()", "Stop the daemon."),
+                ],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Check whether it is running:", "powerlinux daemon status"),
+                    Example("Trigger OCR from another program:", "busctl --user call io.github.powerlinux.Daemon /io/github/powerlinux/Daemon io.github.powerlinux.Daemon1 Trigger s ocr"),
+                ],
+            },
+            FILES,
+        ],
+        "powerlinux-trigger" => vec![Section {
+            heading: "EXAMPLES",
+            blocks: &[Example("A Sway or i3 binding:", "bindsym $mod+Shift+t exec powerlinux trigger ocr")],
+        }],
+        "powerlinux-shortcuts" => vec![Section {
+            heading: "EXAMPLES",
+            blocks: &[
+                Example("Preview the gsettings commands:", "powerlinux shortcuts install --dry-run"),
+                Example("Remove the shortcuts again:", "powerlinux shortcuts remove"),
+            ],
+        }],
+        _ => Vec::new(),
+    }
+}
+
+fn render_section(roff: &mut Roff, section: &Section) {
+    roff.control("SH", [section.heading]);
+    for block in section.blocks {
+        match block {
+            Para(text) => {
+                roff.control("PP", []);
+                roff.text([roman(*text)]);
+            }
+            Item(term, text) => {
+                roff.control("TP", []);
+                roff.text([bold(*term)]);
+                roff.text([roman(*text)]);
+            }
+            Example(text, command) => {
+                roff.control("PP", []);
+                roff.text([roman(*text)]);
+                roff.control("RS", ["4"]);
+                roff.control("nf", []);
+                roff.text([bold(*command)]);
+                roff.control("fi", []);
+                roff.control("RE", []);
+            }
+        }
+    }
+}
+
+fn see_also(page: &str, siblings: &[String]) -> Roff {
+    let mut refs: Vec<String> = std::iter::once("powerlinux".to_owned())
+        .chain(siblings.iter().cloned())
+        .filter(|p| p != page)
+        .map(|p| format!("{p}(1)"))
+        .collect();
+    let external = match page {
+        "powerlinux-ocr" => &["tesseract(1)"][..],
+        "powerlinux-compress" => &["oxipng(1)", "jpegoptim(1)", "cwebp(1)", "ffmpeg(1)"],
+        "powerlinux-expand" => &["strftime(3)"],
+        "powerlinux-shortcuts" => &["gsettings(1)"],
+        "powerlinux-daemon" => &["busctl(1)"],
+        _ => &[],
+    };
+    refs.extend(external.iter().map(|s| s.to_string()));
+
+    let mut roff = Roff::new();
+    roff.control("SH", ["SEE ALSO"]);
+    let mut inlines = Vec::new();
+    for (i, r) in refs.iter().enumerate() {
+        if i > 0 {
+            inlines.push(roman(", "));
+        }
+        let (name, sect) = r.split_once('(').unwrap();
+        inlines.push(bold(name));
+        inlines.push(roman(format!("({sect}")));
+    }
+    roff.text(inlines);
+    roff
+}
+
+/// Lists nested subcommands (`daemon status`, ...) inline, since they don't get pages of their own.
+fn nested_commands(cmd: &clap::Command) -> Roff {
+    let mut roff = Roff::new();
+    roff.control("SH", ["COMMANDS"]);
+    let parent = cmd.get_display_name().unwrap_or(cmd.get_name()).replace('-', " ");
+    for sub in cmd.get_subcommands().filter(|s| !s.is_hide_set()) {
+        let mut usage = format!("{parent} {}", sub.get_name());
+        for arg in sub.get_arguments().filter(|a| !a.is_hide_set() && a.get_long() != Some("help")) {
+            if let Some(long) = arg.get_long() {
+                usage.push_str(&format!(" [--{long}]"));
+            }
+        }
+        roff.control("TP", []);
+        roff.text([bold(usage)]);
+        let about = sub.get_long_about().or(sub.get_about()).map(|a| a.to_string()).unwrap_or_default();
+        roff.text([roman(about)]);
+        for arg in sub.get_arguments().filter(|a| !a.is_hide_set() && a.get_long() != Some("help")) {
+            if let (Some(long), Some(help)) = (arg.get_long(), arg.get_help()) {
+                roff.control("RS", []);
+                roff.text([bold(format!("--{long}")), roman(format!(": {help}"))]);
+                roff.control("RE", []);
+            }
+        }
+    }
+    roff
+}
+
+fn render_page(cmd: clap::Command, siblings: &[String]) -> Result<(String, Vec<u8>)> {
+    let page = cmd.get_display_name().unwrap_or(cmd.get_name()).to_owned();
+    let is_root = page == "powerlinux";
+    let has_args = cmd.get_arguments().any(|a| !a.is_hide_set());
+    let has_subcommands = cmd.get_subcommands().any(|s| !s.is_hide_set());
+    let nested = (!is_root && has_subcommands).then(|| nested_commands(&cmd));
+    let man = Man::new(cmd)
+        .manual("PowerLinux Manual")
+        .source(format!("PowerLinux {}", env!("CARGO_PKG_VERSION")));
+
+    let mut out = Vec::new();
+    man.render_title(&mut out)?;
+    man.render_name_section(&mut out)?;
+    man.render_synopsis_section(&mut out)?;
+    man.render_description_section(&mut out)?;
+    if has_args {
+        man.render_options_section(&mut out)?;
+    }
+    match nested {
+        Some(roff) => roff.to_writer(&mut out)?,
+        None if has_subcommands => man.render_subcommands_section(&mut out)?,
+        None => {}
+    }
+    let mut roff = Roff::new();
+    for section in extra_sections(&page) {
+        render_section(&mut roff, &section);
+    }
+    roff.to_writer(&mut out)?;
+    see_also(&page, siblings).to_writer(&mut out)?;
+    Ok((format!("{page}.1"), out))
+}
+
+/// Every page as (file name, contents): `powerlinux.1` plus one per visible subcommand.
+/// Nested subcommands such as `daemon status` are documented on their parent's page.
+pub fn pages() -> Result<Vec<(String, Vec<u8>)>> {
+    let mut root = Cli::command().disable_help_subcommand(true);
+    root.build();
+    let subcommands: Vec<clap::Command> = root.get_subcommands().filter(|s| !s.is_hide_set()).cloned().collect();
+    let names: Vec<String> = subcommands
+        .iter()
+        .map(|c| c.get_display_name().unwrap_or(c.get_name()).to_owned())
+        .collect();
+
+    let mut pages = vec![render_page(root.clone(), &names)?];
+    for cmd in subcommands {
+        pages.push(render_page(cmd, &[])?);
+    }
+    Ok(pages)
+}
+
+pub fn generate(dir: &Path) -> Result<Vec<PathBuf>> {
+    std::fs::create_dir_all(dir)?;
+    pages()?
+        .into_iter()
+        .map(|(name, bytes)| {
+            let path = dir.join(name);
+            std::fs::write(&path, bytes)?;
+            Ok(path)
+        })
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn one_page_per_visible_command() {
+        let names: Vec<String> = pages().unwrap().into_iter().map(|(n, _)| n).collect();
+        assert!(names.contains(&"powerlinux.1".to_owned()));
+        assert!(names.contains(&"powerlinux-expand.1".to_owned()));
+        assert!(!names.iter().any(|n| n.contains("manpages") || n.contains("help")));
+    }
+
+    #[test]
+    fn committed_pages_are_current() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("man");
+        let expected = pages().unwrap();
+        for (name, bytes) in &expected {
+            let committed = std::fs::read(dir.join(name)).unwrap_or_default();
+            assert!(committed == *bytes, "man/{name} is stale; run `cargo run -- manpages man`");
+        }
+        let on_disk = std::fs::read_dir(&dir).unwrap().count();
+        assert_eq!(on_disk, expected.len(), "man/ has pages for commands that no longer exist");
+    }
+}

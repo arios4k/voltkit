@@ -1,0 +1,48 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-trigger 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-trigger \- Run a hotkey action via the daemon, or directly if it isn\*(Aqt running
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux trigger\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIACTION\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Run a hotkey action via the daemon, or directly if it isn\*(Aqt running
+.PP
+Meant to be bound to a key in the desktop\*(Aqs keyboard settings or a compositor config. Results and errors are shown as desktop notifications.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+<\fIACTION\fR>
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+ocr: Extract text from a screen region
+.IP \(bu 2
+color: Pick a color from the screen
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXAMPLES
+.PP
+A Sway or i3 binding:
+.RS 4
+.nf
+\fBbindsym $mod+Shift+t exec powerlinux trigger ocr\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1)

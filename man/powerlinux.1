@@ -1,0 +1,108 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux \- A unified suite of PowerToys\-style micro\-utilities for Linux
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux\fR [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fIsubcommands\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+PowerToys\-style micro\-utilities for Linux, in one binary.
+.PP
+Run without a subcommand to open the GTK control center. Each subcommand runs one utility from the terminal, a script or a keyboard shortcut.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Print version
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SUBCOMMANDS
+.TP
+powerlinux\-ocr(1)
+Select a screen region and copy the recognized text to the clipboard
+.TP
+powerlinux\-pick\-color(1)
+Pick a color from the screen and copy its HEX value
+.TP
+powerlinux\-color(1)
+Convert a color (#hex or rgb(...)) and report WCAG contrast
+.TP
+powerlinux\-compress(1)
+Strip metadata and compress PNG, JPEG, WebP or MP4 files
+.TP
+powerlinux\-expand(1)
+Expand a snippet template, e.g. "Sent {date:%A}: {clipboard}"
+.TP
+powerlinux\-daemon(1)
+Run the background service that listens for global shortcuts
+.TP
+powerlinux\-trigger(1)
+Run a hotkey action via the daemon, or directly if it isn\*(Aqt running
+.TP
+powerlinux\-shortcuts(1)
+Manage GNOME keybindings for desktops without the GlobalShortcuts portal
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXAMPLES
+.PP
+Open the control center:
+.RS 4
+.nf
+\fBpowerlinux\fR
+.fi
+.RE
+.PP
+Copy text from part of the screen:
+.RS 4
+.nf
+\fBpowerlinux ocr\fR
+.fi
+.RE
+.PP
+Check a color\*(Aqs contrast:
+.RS 4
+.nf
+\fBpowerlinux color \*(Aq#3584e4\*(Aq\fR
+.fi
+.RE
+.PP
+Start the background service at every login:
+.RS 4
+.nf
+\fBpowerlinux daemon enable\-autostart\fR
+.fi
+.RE
+.SH FILES
+.TP
+\fB~/.config/powerlinux/config.toml\fR
+Configuration: hotkeys, OCR language, compression quality and snippets. Every key is optional.
+.TP
+\fB~/.local/share/powerlinux/colors.txt\fR
+Color history, newest first, shared by pick\-color, the daemon and the control center.
+.TP
+\fB~/.config/autostart/io.github.powerlinux.Daemon.desktop\fR
+Created by powerlinux daemon enable\-autostart.
+.SH ENVIRONMENT
+.TP
+\fBWAYLAND_DISPLAY\fR
+When set, the clipboard is accessed with wl\-copy and wl\-paste; otherwise with xclip.
+.TP
+\fBXDG_CONFIG_HOME, XDG_DATA_HOME\fR
+Override the base directories of the files listed above.
+.SH "EXIT STATUS"
+.PP
+0 on success, 1 on any error. Errors are printed to standard error.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\-ocr\fR(1), \fBpowerlinux\-pick\-color\fR(1), \fBpowerlinux\-color\fR(1), \fBpowerlinux\-compress\fR(1), \fBpowerlinux\-expand\fR(1), \fBpowerlinux\-daemon\fR(1), \fBpowerlinux\-trigger\fR(1), \fBpowerlinux\-shortcuts\fR(1)

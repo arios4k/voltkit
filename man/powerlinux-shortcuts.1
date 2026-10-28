@@ -1,0 +1,59 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-shortcuts 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-shortcuts \- Manage GNOME keybindings for desktops without the GlobalShortcuts portal
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux shortcuts\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIsubcommands\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Manage GNOME keybindings for desktops without the GlobalShortcuts portal
+.PP
+Adds or removes custom shortcuts in GNOME Settings (via gsettings) that run `powerlinux trigger`. Other custom shortcuts are left untouched.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMMANDS
+.TP
+\fBpowerlinux shortcuts install [\-\-dry\-run]\fR
+Add Super+Shift+T / Super+Shift+C (or your configured keys) to GNOME Settings
+.RS
+\fB\-\-dry\-run\fR: Print the gsettings commands instead of running them
+.RE
+.TP
+\fBpowerlinux shortcuts remove [\-\-dry\-run]\fR
+Remove the keybindings added by `install`
+.RS
+\fB\-\-dry\-run\fR: Print the gsettings commands instead of running them
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXAMPLES
+.PP
+Preview the gsettings commands:
+.RS 4
+.nf
+\fBpowerlinux shortcuts install \-\-dry\-run\fR
+.fi
+.RE
+.PP
+Remove the shortcuts again:
+.RS 4
+.nf
+\fBpowerlinux shortcuts remove\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1), \fBgsettings\fR(1)
