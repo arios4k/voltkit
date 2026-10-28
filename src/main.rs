@@ -25,7 +25,7 @@ use modules::{color, compress, ocr, snippets};
 /// Run without a subcommand to open the GTK control center. Each subcommand runs one
 /// utility from the terminal, a script or a keyboard shortcut.
 #[derive(Parser)]
-#[command(name = "powerlinux", version, about)]
+#[command(name = "powerlinux", version, author, about)]
 struct Cli {
     #[command(subcommand)]
     command: Option<Command>,

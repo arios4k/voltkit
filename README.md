@@ -174,6 +174,10 @@ cargo clippy
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. The
 next big pieces are packaging (Flatpak, .deb) and a settings screen.
 
+## Author
+
+Created by **Alexis Rios-Negron**.
+
 ## License
 
-MIT
+MIT © Alexis Rios-Negron

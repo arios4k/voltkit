@@ -373,6 +373,10 @@ fn render_page(cmd: clap::Command, siblings: &[String]) -> Result<(String, Vec<u
     }
     roff.to_writer(&mut out)?;
     see_also(&page, siblings).to_writer(&mut out)?;
+    let mut author = Roff::new();
+    author.control("SH", ["AUTHOR"]);
+    author.text([roman(env!("CARGO_PKG_AUTHORS").replace(':', ", "))]);
+    author.to_writer(&mut out)?;
     Ok((format!("{page}.1"), out))
 }
 

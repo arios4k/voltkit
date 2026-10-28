@@ -1,6 +1,7 @@
 [package]
 name = "powerlinux"
 version = "0.1.0"
+authors = ["Alexis Rios-Negron"]
 edition = "2024"
 description = "A unified suite of PowerToys-style micro-utilities for Linux"
 license = "MIT"
