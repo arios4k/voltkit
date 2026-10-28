@@ -1,0 +1,23 @@
+# ~/.config/powerlinux/config.toml — every key is optional.
+
+[hotkeys]
+ocr = "<Super><Shift>t"
+color_picker = "<Super><Shift>c"
+
+[ocr]
+lang = "eng"            # e.g. "eng+deu"; needs matching tesseract language packs
+
+[compress]
+quality = 80            # 1–100
+
+[[snippets]]
+trigger = ";date"
+template = "{date:%Y-%m-%d}"
+
+[[snippets]]
+trigger = ";sig"
+template = "Best regards,\n{arg:name}"
+
+[[snippets]]
+trigger = ";quote"
+template = "> {clipboard}\n\n— {arg:author}"
