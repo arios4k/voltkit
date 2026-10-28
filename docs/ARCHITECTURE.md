@@ -54,6 +54,8 @@ Picked colors go to `~/.local/share/voltkit/colors.txt`, which the GUI's history
 - [ ] Compressor: Nautilus/Dolphin/Nemo "Compress with Voltkit" context-menu entries, AVIF,
       resize presets
 - [ ] Snippet editor in the GUI (currently edited in TOML)
+- [x] Signed APT repository on GitHub Pages (`.deb` built by cargo-deb on each tag)
 - [ ] Flatpak manifest and Flathub submission
+- [ ] arm64 packages
 - [x] App icon (full-color and symbolic, `data/icons/`)
 - [ ] Screenshots, AppStream metainfo

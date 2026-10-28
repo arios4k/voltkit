@@ -15,6 +15,30 @@ center. It needs no terminal tweaking and no desktop-specific extensions.
 | **Asset Compressor**: drop PNG/JPEG/WebP/MP4 files to strip metadata and shrink them | drag & drop | ✅ GUI + CLI |
 | **Text Expansion**: snippets with `{date}`, `{clipboard}`, `{arg:name}` variables, from a searchable picker or typed triggers like `;date` | `Super+Shift+E` | ✅ picker · ✅ typed triggers (opt-in) |
 
+## Install (Ubuntu, Debian and derivatives)
+
+For Ubuntu 24.04+, Debian 13+, Linux Mint 22, Zorin OS 18, Pop!_OS 24.04 and other derivatives
+on 64-bit Intel/AMD:
+
+```bash
+sudo curl -fsSLo /usr/share/keyrings/voltkit-archive-keyring.gpg \
+  https://arios4k.github.io/voltkit/voltkit-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://arios4k.github.io/voltkit stable main" \
+  | sudo tee /etc/apt/sources.list.d/voltkit.list
+sudo apt update && sudo apt install voltkit
+```
+
+apt installs the required tools (Tesseract, wl-clipboard, the desktop portal) along with Voltkit, and
+updates arrive with `sudo apt upgrade`. Then:
+
+```bash
+voltkit doctor                    # check everything is in place
+voltkit shortcuts install         # GNOME: Super+Shift+T, C and E
+voltkit daemon enable-autostart   # start the background service at login
+```
+
+PNG compression needs `oxipng`, which Ubuntu doesn't package: `cargo install oxipng`.
+
 ## Install (from source)
 
 Requirements: Rust 1.85+, GTK ≥ 4.14, libadwaita ≥ 1.5.
@@ -162,6 +186,7 @@ src/
     snippets.rs      snippet template engine
   manpages.rs        man page generator (clap_mangen + hand-written sections)
 man/                 generated man pages
+packaging/apt/        APT repository builder and its landing page
 docs/ARCHITECTURE.md design notes and roadmap
 ```
 
@@ -174,6 +199,16 @@ cargo clippy
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. The
 next big pieces are packaging (Flatpak, .deb) and a settings screen.
+
+## Releasing
+
+1. Bump `version` in `Cargo.toml`, run `cargo run -- manpages man`, and commit.
+2. Tag and push: `git tag v0.2.0 && git push origin v0.2.0`.
+
+The [Release workflow](.github/workflows/release.yml) builds the `.deb`, publishes a GitHub Release
+with it, and rebuilds the signed APT repository on GitHub Pages. It signs with the key in the
+`APT_SIGNING_KEY` secret (fingerprint `65E8 4B8D 114C 6147 9CCA 4DDC EC0F 6B66 E480 2360`). To build
+the repository locally: `APT_KEY_ID=<fingerprint> packaging/apt/build-repo.sh target/debian site`.
 
 ## Author
 
