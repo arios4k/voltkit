@@ -312,6 +312,11 @@ the repository locally: `APT_KEY_ID=<fingerprint> packaging/apt/build-repo.sh ta
 
 Created by **Alexis Rios-Negron**.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png">
+  <img src="docs/screenshots/about-light.png" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
+</picture>
+
 ## License
 
 MIT © Alexis Rios-Negron
