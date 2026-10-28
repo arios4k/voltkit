@@ -184,11 +184,7 @@ fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Res
                 for m in missing {
                     println!("permissions: {m}");
                 }
-                if expander::udev_rule_installed() {
-                    println!("The setup has run; log out and back in to join the input group.");
-                } else {
-                    println!("Run `powerlinux expander setup`.");
-                }
+                println!("next step: {}", expander::next_step());
             }
         }
         ExpanderCommand::Setup { apply } => {
@@ -214,7 +210,7 @@ fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Res
             if enable {
                 let missing = expander::missing_permissions();
                 if !missing.is_empty() {
-                    println!("They won't work until setup is done: {}", missing.join("; "));
+                    println!("They won't work yet: {}", expander::next_step());
                 }
             }
             if daemon::restart_if_running()? {

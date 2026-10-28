@@ -286,7 +286,7 @@ async fn expand(snippet: &Snippet, device: &mut VirtualDevice, shortcut: PasteSh
 pub async fn run(config: Arc<Config>) -> Result<()> {
     let missing = missing_permissions();
     if !missing.is_empty() {
-        bail!("{}; run `powerlinux expander setup`", missing.join("; "));
+        bail!("{}; {}", missing.join("; "), next_step());
     }
     let shortcut: PasteShortcut = config.expander.paste_shortcut.parse()?;
     let mut device = virtual_keyboard()?;
@@ -316,8 +316,18 @@ pub async fn run(config: Arc<Config>) -> Result<()> {
     }
 }
 
-pub fn udev_rule_installed() -> bool {
+fn udev_rule_installed() -> bool {
     Path::new(UDEV_RULE_PATH).exists()
+}
+
+/// What the user should do about missing permissions. After setup, the only
+/// thing left is a new login, which picks up the input group.
+pub fn next_step() -> &'static str {
+    if udev_rule_installed() {
+        "setup is done; log out and back in so your session joins the input group"
+    } else {
+        "run `powerlinux expander setup`"
+    }
 }
 
 #[cfg(test)]

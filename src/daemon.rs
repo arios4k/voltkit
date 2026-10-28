@@ -74,7 +74,13 @@ impl Service {
 }
 
 pub fn run(config: Config) -> Result<()> {
-    portal::block_on(serve(config))
+    // Several threads, so one slow action (a stuck helper program, a portal
+    // dialog) can never stop the daemon from answering D-Bus.
+    tokio::runtime::Builder::new_multi_thread()
+        .worker_threads(2)
+        .enable_all()
+        .build()?
+        .block_on(serve(config))
 }
 
 async fn serve(config: Config) -> Result<()> {
