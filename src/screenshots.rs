@@ -87,6 +87,13 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path) -> Res
             save(&window, &dir.join(format!("{}-{theme}.png", module.id)), theme == "dark")?;
         }
 
+        let about = app::about_dialog();
+        about.present(Some(&window));
+        hide_banners(&window);
+        glib::timeout_future(SETTLE).await;
+        save(&window, &dir.join(format!("about-{theme}.png")), theme == "dark")?;
+        about.force_close();
+
         let popup = picker::build(app, config.clone(), None);
         resize(&popup, 560, 480);
         glib::timeout_future(SETTLE).await;

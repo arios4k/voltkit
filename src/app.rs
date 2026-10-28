@@ -15,6 +15,12 @@ const APP_ID: &str = "io.github.arios4k.Voltkit";
 
 pub fn run(config: Config) {
     let app = adw::Application::builder().application_id(APP_ID).build();
+    let about = gio::ActionEntry::builder("about")
+        .activate(|app: &adw::Application, _, _| {
+            about_dialog().present(app.active_window().as_ref());
+        })
+        .build();
+    app.add_action_entries([about]);
     let config = Rc::new(config);
     app.connect_activate(move |app| {
         build_window(app, &config);
@@ -23,7 +29,20 @@ pub fn run(config: Config) {
     app.run_with_args::<&str>(&[]);
 }
 
+/// Lets builds run from the source tree find the app icon without installing
+/// it; installed copies get it from the icon theme.
+pub(crate) fn add_source_icon_path() {
+    static ONCE: std::sync::Once = std::sync::Once::new();
+    let icons = concat!(env!("CARGO_MANIFEST_DIR"), "/data/icons");
+    ONCE.call_once(|| {
+        if let Some(display) = gdk::Display::default().filter(|_| std::path::Path::new(icons).is_dir()) {
+            gtk::IconTheme::for_display(&display).add_search_path(icons);
+        }
+    });
+}
+
 pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::Window {
+    add_source_icon_path();
     if let Some(window) = app.active_window() {
         window.present();
         return window;
@@ -52,7 +71,17 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
         list.append(&row);
     }
     let sidebar_view = adw::ToolbarView::new();
-    sidebar_view.add_top_bar(&adw::HeaderBar::new());
+    let menu = gio::Menu::new();
+    menu.append(Some("About Voltkit"), Some("app.about"));
+    let menu_button = gtk::MenuButton::builder()
+        .icon_name("open-menu-symbolic")
+        .tooltip_text("Main Menu")
+        .menu_model(&menu)
+        .primary(true)
+        .build();
+    let sidebar_header = adw::HeaderBar::new();
+    sidebar_header.pack_end(&menu_button);
+    sidebar_view.add_top_bar(&sidebar_header);
     sidebar_view.set_content(Some(&gtk::ScrolledWindow::builder().child(&list).build()));
     let sidebar = adw::NavigationPage::new(&sidebar_view, "Voltkit");
 
@@ -88,6 +117,22 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
 
     window.present();
     window.upcast()
+}
+
+pub(crate) fn about_dialog() -> adw::AboutDialog {
+    let author = env!("CARGO_PKG_AUTHORS");
+    adw::AboutDialog::builder()
+        .application_name("Voltkit")
+        .application_icon(APP_ID)
+        .version(env!("CARGO_PKG_VERSION"))
+        .developer_name(author)
+        .developers([author])
+        .copyright(format!("© 2026 {author}"))
+        .license_type(gtk::License::MitX11)
+        .comments("Power tools for your Linux desktop: screen OCR, a color picker, an image and video compressor and a text expander, in one app.")
+        .website(env!("CARGO_PKG_HOMEPAGE"))
+        .issue_url(concat!(env!("CARGO_PKG_REPOSITORY"), "/issues"))
+        .build()
 }
 
 /// "<Super><Shift>t" → "Shift+Super+T". The raw accelerator would also be read
@@ -328,17 +373,19 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     }
 
     let entry = adw::EntryRow::builder().title("HEX or rgb()").text(initial.to_hex()).build();
-    let pick = gtk::Button::builder()
-        .icon_name("color-select-symbolic")
-        .tooltip_text("Pick from Screen")
-        .valign(gtk::Align::Center)
-        .css_classes(["flat"])
-        .build();
-    entry.add_suffix(&pick);
     entry.add_suffix(&swatch);
+    // A labeled button in the group header, away from the entry: as a small icon
+    // inside the entry row it was easy to miss once the text field had focus.
+    let pick = gtk::Button::builder()
+        .child(&adw::ButtonContent::builder().icon_name("color-select-symbolic").label("Pick from Screen").build())
+        .tooltip_text("Pick a color anywhere on screen")
+        .valign(gtk::Align::Center)
+        .css_classes(["suggested-action"])
+        .build();
     let input = adw::PreferencesGroup::builder()
         .title("Color")
-        .description("Type a color, or press Enter to save it to history")
+        .description("Type a color or pick one from your screen. Press Enter to save it to history.")
+        .header_suffix(&pick)
         .build();
     input.add(&entry);
 
