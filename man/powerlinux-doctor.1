@@ -1,0 +1,44 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH powerlinux-doctor 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+powerlinux\-doctor \- Check that everything PowerLinux needs is installed and set up
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBpowerlinux doctor\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Check that everything PowerLinux needs is installed and set up
+.PP
+Checks the helper programs, OCR language data, desktop portals, clipboard tools, the background service and hotkeys, then prints the install command for anything missing on this distro.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OUTPUT
+.TP
+\fB✓\fR
+In place.
+.TP
+\fB✗\fR
+Missing, and the feature does not work without it.
+.TP
+\fB–\fR
+Missing or off, but the feature still works in a limited way.
+.PP
+Install commands use the package manager of the running distribution (apt, dnf, pacman or zypper), detected from /etc/os\-release.
+.SH "EXIT STATUS"
+.PP
+0 when nothing required is missing, 1 otherwise, so it can be used in scripts.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBpowerlinux\fR(1)

@@ -229,6 +229,21 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 ],
             },
         ],
+        "powerlinux-doctor" => vec![
+            Section {
+                heading: "OUTPUT",
+                blocks: &[
+                    Item("✓", "In place."),
+                    Item("✗", "Missing, and the feature does not work without it."),
+                    Item("–", "Missing or off, but the feature still works in a limited way."),
+                    Para("Install commands use the package manager of the running distribution (apt, dnf, pacman or zypper), detected from /etc/os-release."),
+                ],
+            },
+            Section {
+                heading: "EXIT STATUS",
+                blocks: &[Para("0 when nothing required is missing, 1 otherwise, so it can be used in scripts.")],
+            },
+        ],
         "powerlinux-trigger" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[Example("A Sway or i3 binding:", "bindsym $mod+Shift+t exec powerlinux trigger ocr")],

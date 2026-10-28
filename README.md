@@ -88,7 +88,14 @@ For terminals, which paste with Ctrl+Shift+V, set `paste_shortcut` in the `[expa
 
 ### Runtime helpers
 
-PowerLinux calls standard tools when they are installed, so it adds no heavy dependencies of its own:
+PowerLinux calls standard tools when they are installed, so it adds no heavy dependencies of its own.
+Check what's missing, with the install command for your distro, at any time:
+
+```bash
+powerlinux doctor
+```
+
+The control center shows a banner when a feature needs attention.
 
 | Feature | Tools |
 |---|---|

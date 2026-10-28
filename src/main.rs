@@ -2,6 +2,7 @@ mod actions;
 mod app;
 mod config;
 mod daemon;
+mod doctor;
 mod expander;
 mod manpages;
 mod modules;
@@ -105,6 +106,12 @@ enum Command {
         #[command(subcommand)]
         command: Option<DaemonCommand>,
     },
+    /// Check that everything PowerLinux needs is installed and set up
+    ///
+    /// Checks the helper programs, OCR language data, desktop portals, clipboard tools, the
+    /// background service and hotkeys, then prints the install command for anything missing on
+    /// this distro.
+    Doctor,
     /// Run a hotkey action via the daemon, or directly if it isn't running
     ///
     /// Meant to be bound to a key in the desktop's keyboard settings or a compositor config.
@@ -292,6 +299,13 @@ fn main() -> Result<()> {
             }
         },
         Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
+        Some(Command::Doctor) => {
+            let report = doctor::run(&config);
+            print!("{}", report.render());
+            if report.missing(doctor::Need::Required).next().is_some() {
+                std::process::exit(1);
+            }
+        }
         Some(Command::Picker { snippet }) => picker::run(config, snippet),
         Some(Command::Expander { command }) => expander_command(command, config)?,
         Some(Command::Manpages { dir }) => {

@@ -23,7 +23,7 @@ pub fn run(cmd: &mut Command) -> Result<Vec<u8>> {
     let program = cmd.get_program().to_string_lossy().into_owned();
     let out = cmd
         .output()
-        .with_context(|| format!("failed to start `{program}` (is it installed?)"))?;
+        .with_context(|| format!("`{program}` is not installed; `powerlinux doctor` shows how to install it"))?;
     if !out.status.success() {
         bail!("`{program}` failed: {}", String::from_utf8_lossy(&out.stderr).trim());
     }
@@ -65,7 +65,7 @@ pub fn copy_to_clipboard(text: &str) -> Result<()> {
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .spawn()
-        .context("no clipboard tool found (install wl-clipboard or xclip)")?;
+        .context("no clipboard tool found; `powerlinux doctor` shows how to install one")?;
     child.stdin.take().unwrap().write_all(text.as_bytes())?;
     let status = wait_with_timeout(&mut child, CLIPBOARD_TIMEOUT).context("could not set the clipboard")?;
     if !status.success() {
@@ -88,7 +88,7 @@ pub fn read_clipboard() -> Result<String> {
         .stdout(Stdio::piped())
         .stderr(Stdio::null())
         .spawn()
-        .context("no clipboard tool found (install wl-clipboard or xclip)")?;
+        .context("no clipboard tool found; `powerlinux doctor` shows how to install one")?;
     // Read on another thread so a large clipboard can't fill the pipe and stall the child.
     let mut stdout = child.stdout.take().unwrap();
     let reader = std::thread::spawn(move || {

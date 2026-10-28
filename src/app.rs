@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr, snippets};
-use crate::{daemon, portal};
+use crate::{daemon, doctor, portal};
 
 const APP_ID: &str = "io.github.powerlinux.PowerLinux";
 
@@ -38,6 +38,7 @@ fn build_window(app: &adw::Application, config: &Rc<Config>) {
     let content_view = adw::ToolbarView::new();
     content_view.add_top_bar(&adw::HeaderBar::new());
     content_view.add_top_bar(&daemon_banner(&toasts));
+    content_view.add_top_bar(&doctor_banner(config));
     content_view.set_content(Some(&toasts));
     let content = adw::NavigationPage::new(&content_view, modules::ALL[0].title);
 
@@ -108,6 +109,66 @@ fn daemon_running() -> bool {
     .ok()
     .and_then(|v| v.get::<(bool,)>())
     .is_some_and(|(owned,)| owned)
+}
+
+/// Shown when `powerlinux doctor` finds something a feature needs. The checks
+/// run on a worker thread so the window opens immediately.
+fn doctor_banner(config: &Config) -> adw::Banner {
+    let banner = adw::Banner::builder().button_label("Details").revealed(false).build();
+    let config = config.clone();
+    let b = banner.clone();
+    glib::spawn_future_local(async move {
+        let Ok(report) = gio::spawn_blocking(move || doctor::run(&config)).await else { return };
+        // The service banner already covers a stopped daemon.
+        let missing: Vec<doctor::Check> = report
+            .missing(doctor::Need::Required)
+            .filter(|c| c.feature != "Background Service")
+            .cloned()
+            .collect();
+        if missing.is_empty() {
+            return;
+        }
+        let features: std::collections::BTreeSet<&str> = missing.iter().map(|c| c.feature).collect();
+        b.set_title(&format!(
+            "{} feature{} need{} attention",
+            features.len(),
+            if features.len() == 1 { "" } else { "s" },
+            if features.len() == 1 { "s" } else { "" },
+        ));
+        b.set_revealed(true);
+
+        let commands = report.install_commands();
+        b.connect_button_clicked(move |b| {
+            let body: String = missing
+                .iter()
+                .map(|c| match &c.fix {
+                    Some(doctor::Fix::Advice(advice)) => format!("• {}: {} ({advice})\n", c.feature, c.what),
+                    _ => format!("• {}: {}\n", c.feature, c.what),
+                })
+                .collect();
+            let body = format!("{}\n\nRun `powerlinux doctor` for the full report.", body.trim_end());
+            let dialog = adw::AlertDialog::new(Some("Needs Attention"), Some(&body));
+            if !commands.is_empty() {
+                let label = gtk::Label::builder()
+                    .label(commands.join("\n"))
+                    .selectable(true)
+                    .wrap(true)
+                    .xalign(0.0)
+                    .css_classes(["monospace", "card"])
+                    .build();
+                label.set_margin_top(6);
+                dialog.set_extra_child(Some(&label));
+                dialog.add_response("copy", "Copy Command");
+                dialog.set_response_appearance("copy", adw::ResponseAppearance::Suggested);
+            }
+            dialog.add_response("close", "Close");
+            dialog.set_default_response(Some("close"));
+            let text = commands.join("\n");
+            dialog.connect_response(Some("copy"), move |d, _| d.clipboard().set_text(&text));
+            dialog.present(Some(b));
+        });
+    });
+    banner
 }
 
 /// Shown while the background service is off, since global shortcuts need it.
