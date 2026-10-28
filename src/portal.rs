@@ -11,7 +11,7 @@ use zbus::zvariant::Value;
 
 use crate::modules::color::Rgb;
 
-pub const APP_ID: &str = "io.github.powerlinux.PowerLinux";
+pub const APP_ID: &str = "io.github.arios4k.Voltkit";
 
 /// Runs a future to completion from synchronous code (CLI, GUI worker threads).
 /// Must not be called from inside the daemon's runtime.
@@ -77,7 +77,7 @@ pub async fn notify(summary: &str, body: &str) -> Result<()> {
         "/org/freedesktop/Notifications",
         Some("org.freedesktop.Notifications"),
         "Notify",
-        &("PowerLinux", 0u32, APP_ID, summary, escape_markup(body), Vec::<&str>::new(), hints, 4000i32),
+        &("Voltkit", 0u32, APP_ID, summary, escape_markup(body), Vec::<&str>::new(), hints, 4000i32),
     )
     .await
     .context("failed to show notification")?;

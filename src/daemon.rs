@@ -1,8 +1,8 @@
-//! `powerlinux daemon`: the background service.
+//! `voltkit daemon`: the background service.
 //!
-//! It owns `io.github.powerlinux.Daemon` on the session bus, so only one
+//! It owns `io.github.arios4k.Voltkit.Daemon` on the session bus, so only one
 //! instance runs. It binds global shortcuts through the portal when the desktop
-//! offers one, and runs hotkey actions for `powerlinux trigger`, keybindings and the GUI.
+//! offers one, and runs hotkey actions for `voltkit trigger`, keybindings and the GUI.
 
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -20,9 +20,9 @@ use crate::config::Config;
 use crate::portal::{self, APP_ID};
 use crate::shortcuts;
 
-pub const BUS_NAME: &str = "io.github.powerlinux.Daemon";
-const OBJECT_PATH: &str = "/io/github/powerlinux/Daemon";
-const INTERFACE: &str = "io.github.powerlinux.Daemon1";
+pub const BUS_NAME: &str = "io.github.arios4k.Voltkit.Daemon";
+const OBJECT_PATH: &str = "/io/github/arios4k/Voltkit/Daemon";
+const INTERFACE: &str = "io.github.arios4k.Voltkit.Daemon1";
 
 #[derive(Clone)]
 struct State {
@@ -61,7 +61,7 @@ impl Drop for BusyGuard {
 
 struct Service(State);
 
-#[zbus::interface(name = "io.github.powerlinux.Daemon1")]
+#[zbus::interface(name = "io.github.arios4k.Voltkit.Daemon1")]
 impl Service {
     /// Starts an action ("ocr" or "color") and returns immediately.
     fn trigger(&self, action: &str) -> zbus::fdo::Result<()> {
@@ -112,9 +112,9 @@ async fn serve(config: Config) -> Result<()> {
     // Without DoNotQueue a second instance would silently wait in line for the name.
     let reply = conn.request_name_with_flags(BUS_NAME, RequestNameFlags::DoNotQueue.into()).await;
     if !matches!(reply, Ok(RequestNameReply::PrimaryOwner)) {
-        bail!("the PowerLinux daemon is already running");
+        bail!("the Voltkit daemon is already running");
     }
-    println!("PowerLinux daemon {} started", env!("CARGO_PKG_VERSION"));
+    println!("Voltkit daemon {} started", env!("CARGO_PKG_VERSION"));
 
     // Best effort: lets xdg-desktop-portal ≥ 1.19 attribute us to our .desktop file.
     if let Ok(id) = APP_ID.parse() {
@@ -130,8 +130,8 @@ async fn serve(config: Config) -> Result<()> {
                 eprintln!("Global shortcuts portal unavailable: {e:#}");
                 if fallback == "none" {
                     eprintln!(
-                        "Bind `powerlinux trigger ocr` / `powerlinux trigger color` in your desktop's \
-                         keyboard settings, or on GNOME run `powerlinux shortcuts install`."
+                        "Bind `voltkit trigger ocr` / `voltkit trigger color` in your desktop's \
+                         keyboard settings, or on GNOME run `voltkit shortcuts install`."
                     );
                 } else {
                     println!("Using GNOME custom keybindings");
@@ -160,7 +160,7 @@ async fn serve(config: Config) -> Result<()> {
     if let Some(task) = expander_task {
         task.abort();
     }
-    println!("PowerLinux daemon stopped");
+    println!("Voltkit daemon stopped");
     Ok(())
 }
 
@@ -257,8 +257,8 @@ fn autostart_path() -> Result<PathBuf> {
 fn autostart_entry(exe: &str) -> String {
     let exe = if exe.contains(' ') { format!("\"{exe}\"") } else { exe.to_owned() };
     format!(
-        "[Desktop Entry]\nType=Application\nName=PowerLinux Background Service\n\
-         Comment=Global shortcuts for PowerLinux\nExec={exe} daemon\nIcon={APP_ID}\n\
+        "[Desktop Entry]\nType=Application\nName=Voltkit Background Service\n\
+         Comment=Global shortcuts for Voltkit\nExec={exe} daemon\nIcon={APP_ID}\n\
          NoDisplay=true\nX-GNOME-Autostart-enabled=true\n"
     )
 }
@@ -281,9 +281,9 @@ mod tests {
 
     #[test]
     fn autostart_entry_runs_daemon() {
-        let entry = autostart_entry("/usr/bin/powerlinux");
+        let entry = autostart_entry("/usr/bin/voltkit");
         assert!(entry.starts_with("[Desktop Entry]\n"));
-        assert!(entry.contains("\nExec=/usr/bin/powerlinux daemon\n"));
-        assert!(autostart_entry("/opt/a b/powerlinux").contains("Exec=\"/opt/a b/powerlinux\" daemon"));
+        assert!(entry.contains("\nExec=/usr/bin/voltkit daemon\n"));
+        assert!(autostart_entry("/opt/a b/voltkit").contains("Exec=\"/opt/a b/voltkit\" daemon"));
     }
 }

@@ -25,7 +25,7 @@ use modules::{color, compress, ocr, snippets};
 /// Run without a subcommand to open the GTK control center. Each subcommand runs one
 /// utility from the terminal, a script or a keyboard shortcut.
 #[derive(Parser)]
-#[command(name = "powerlinux", version, author, about)]
+#[command(name = "voltkit", version, author, about)]
 struct Cli {
     #[command(subcommand)]
     command: Option<Command>,
@@ -100,13 +100,13 @@ enum Command {
     /// Run the background service that listens for global shortcuts
     ///
     /// Without a subcommand, runs the service in the foreground until interrupted. It owns
-    /// io.github.powerlinux.Daemon on the session bus, so only one instance runs, and binds the
+    /// io.github.arios4k.Voltkit.Daemon on the session bus, so only one instance runs, and binds the
     /// configured hotkeys through the XDG GlobalShortcuts portal when the desktop provides it.
     Daemon {
         #[command(subcommand)]
         command: Option<DaemonCommand>,
     },
-    /// Check that everything PowerLinux needs is installed and set up
+    /// Check that everything Voltkit needs is installed and set up
     ///
     /// Checks the helper programs, OCR language data, desktop portals, clipboard tools, the
     /// background service and hotkeys, then prints the install command for anything missing on
@@ -120,12 +120,12 @@ enum Command {
     /// Manage GNOME keybindings for desktops without the GlobalShortcuts portal
     ///
     /// Adds or removes custom shortcuts in GNOME Settings (via gsettings) that run
-    /// `powerlinux trigger`. Other custom shortcuts are left untouched.
+    /// `voltkit trigger`. Other custom shortcuts are left untouched.
     Shortcuts {
         #[command(subcommand)]
         command: ShortcutsCommand,
     },
-    /// Write man pages for powerlinux and its subcommands into DIR
+    /// Write man pages for voltkit and its subcommands into DIR
     #[command(hide = true)]
     Manpages { dir: PathBuf },
 }
@@ -200,11 +200,11 @@ fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Res
             if apply {
                 let status = std::process::Command::new("sudo").args(["sh", "-c", &script]).status()?;
                 anyhow::ensure!(status.success(), "setup failed");
-                println!("Done. Log out and back in, then run `powerlinux expander enable`.");
+                println!("Done. Log out and back in, then run `voltkit expander enable`.");
             } else {
                 println!("# Typed triggers need these commands to run as root. They add you to the");
                 println!("# `input` group, which lets programs you run read keyboard input, and allow");
-                println!("# /dev/uinput for the virtual keyboard. Run `powerlinux expander setup --apply`");
+                println!("# /dev/uinput for the virtual keyboard. Run `voltkit expander setup --apply`");
                 println!("# to run them with sudo, then log out and back in.\n");
                 print!("{script}");
             }

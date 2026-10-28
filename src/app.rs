@@ -11,7 +11,7 @@ use crate::config::Config;
 use crate::modules::{self, color, compress, ocr, snippets};
 use crate::{daemon, doctor, portal};
 
-const APP_ID: &str = "io.github.powerlinux.PowerLinux";
+const APP_ID: &str = "io.github.arios4k.Voltkit";
 
 pub fn run(config: Config) {
     let app = adw::Application::builder().application_id(APP_ID).build();
@@ -52,7 +52,7 @@ fn build_window(app: &adw::Application, config: &Rc<Config>) {
     let sidebar_view = adw::ToolbarView::new();
     sidebar_view.add_top_bar(&adw::HeaderBar::new());
     sidebar_view.set_content(Some(&gtk::ScrolledWindow::builder().child(&list).build()));
-    let sidebar = adw::NavigationPage::new(&sidebar_view, "PowerLinux");
+    let sidebar = adw::NavigationPage::new(&sidebar_view, "Voltkit");
 
     let split = adw::NavigationSplitView::builder().sidebar(&sidebar).content(&content).build();
 
@@ -72,7 +72,7 @@ fn build_window(app: &adw::Application, config: &Rc<Config>) {
 
     let window = adw::ApplicationWindow::builder()
         .application(app)
-        .title("PowerLinux")
+        .title("Voltkit")
         .default_width(920)
         .default_height(660)
         .width_request(360)
@@ -111,7 +111,7 @@ fn daemon_running() -> bool {
     .is_some_and(|(owned,)| owned)
 }
 
-/// Shown when `powerlinux doctor` finds something a feature needs. The checks
+/// Shown when `voltkit doctor` finds something a feature needs. The checks
 /// run on a worker thread so the window opens immediately.
 fn doctor_banner(config: &Config) -> adw::Banner {
     let banner = adw::Banner::builder().button_label("Details").revealed(false).build();
@@ -146,7 +146,7 @@ fn doctor_banner(config: &Config) -> adw::Banner {
                     _ => format!("• {}: {}\n", c.feature, c.what),
                 })
                 .collect();
-            let body = format!("{}\n\nRun `powerlinux doctor` for the full report.", body.trim_end());
+            let body = format!("{}\n\nRun `voltkit doctor` for the full report.", body.trim_end());
             let dialog = adw::AlertDialog::new(Some("Needs Attention"), Some(&body));
             if !commands.is_empty() {
                 let label = gtk::Label::builder()
@@ -562,7 +562,7 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 fn snippets_page(config: &Config) -> gtk::Widget {
     let list = adw::PreferencesGroup::builder()
         .title("Snippets")
-        .description("Edit ~/.config/powerlinux/config.toml to add your own")
+        .description("Edit ~/.config/voltkit/config.toml to add your own")
         .build();
     for s in &config.snippets {
         let row = adw::ActionRow::builder()
@@ -627,7 +627,7 @@ fn snippets_page(config: &Config) -> gtk::Widget {
     let typed = if config.expander.typed_triggers {
         "On: type a trigger in any app to expand it"
     } else {
-        "Off: run `powerlinux expander setup`, then `powerlinux expander enable`"
+        "Off: run `voltkit expander setup`, then `voltkit expander enable`"
     };
     usage.add(&adw::ActionRow::builder().title("Typed triggers").subtitle(typed).build());
 

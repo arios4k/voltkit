@@ -67,7 +67,7 @@ impl PasteShortcut {
 }
 
 fn token_path() -> Option<PathBuf> {
-    dirs::state_dir().map(|d| d.join("powerlinux").join("remote-desktop-token"))
+    dirs::state_dir().map(|d| d.join("voltkit").join("remote-desktop-token"))
 }
 
 fn map_portal_err(e: ashpd::Error) -> anyhow::Error {

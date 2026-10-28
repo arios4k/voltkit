@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=PowerLinux
+Name=Voltkit
 Comment=OCR, color picker, asset compressor and text expansion in one app
-Exec=powerlinux
-Icon=io.github.powerlinux.PowerLinux
+Exec=voltkit
+Icon=io.github.arios4k.Voltkit
 Terminal=false
 Type=Application
 Categories=Utility;GTK;
@@ -12,8 +12,8 @@ Actions=ocr;color;
 
 [Desktop Action ocr]
 Name=Extract Text from Screen
-Exec=powerlinux trigger ocr
+Exec=voltkit trigger ocr
 
 [Desktop Action color]
 Name=Pick a Color from Screen
-Exec=powerlinux trigger color
+Exec=voltkit trigger color

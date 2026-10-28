@@ -2,7 +2,7 @@
 //!
 //! The preferred backend is the `org.freedesktop.portal.GlobalShortcuts` portal
 //! (see `daemon.rs`). Desktops without it (GNOME < 48, xdg-desktop-portal < 1.19)
-//! can opt into custom keybindings in GNOME Settings that call `powerlinux trigger`.
+//! can opt into custom keybindings in GNOME Settings that call `voltkit trigger`.
 
 use std::path::Path;
 use std::process::Command;
@@ -42,11 +42,11 @@ const KEY: &str = "custom-keybindings";
 const BASE: &str = "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/";
 
 fn binding_path(action: Action) -> String {
-    format!("{BASE}powerlinux-{}/", action.id())
+    format!("{BASE}voltkit-{}/", action.id())
 }
 
 fn is_ours(path: &str) -> bool {
-    path.starts_with(&format!("{BASE}powerlinux-"))
+    path.starts_with(&format!("{BASE}voltkit-"))
 }
 
 /// Parses a GVariant string array as printed by `gsettings get`.
@@ -74,7 +74,7 @@ fn shell_quote(s: &str) -> String {
     }
 }
 
-/// The `gsettings` invocations that install PowerLinux keybindings, given the
+/// The `gsettings` invocations that install Voltkit keybindings, given the
 /// current value of the custom-keybindings list.
 fn install_plan(current: &str, exe: &Path, config: &Config) -> Vec<Vec<String>> {
     let mut paths: Vec<String> = parse_strv(current).into_iter().filter(|p| !is_ours(p)).collect();
@@ -84,7 +84,7 @@ fn install_plan(current: &str, exe: &Path, config: &Config) -> Vec<Vec<String>> 
         let schema = format!("{SCHEMA}.custom-keybinding:{path}");
         let command = format!("{} trigger {}", shell_quote(&exe.to_string_lossy()), action.id());
         for (key, value) in [
-            ("name", format!("PowerLinux: {}", action.description())),
+            ("name", format!("Voltkit: {}", action.description())),
             ("command", command),
             ("binding", action.accelerator(config).to_owned()),
         ] {
@@ -163,24 +163,24 @@ mod tests {
 
     #[test]
     fn install_keeps_other_bindings_and_is_idempotent() {
-        let current = format!("['{BASE}custom0/', '{BASE}powerlinux-ocr/']");
-        let plan = install_plan(&current, Path::new("/opt/power linux/powerlinux"), &Config::default());
+        let current = format!("['{BASE}custom0/', '{BASE}voltkit-ocr/']");
+        let plan = install_plan(&current, Path::new("/opt/volt kit/voltkit"), &Config::default());
         let list = &plan.last().unwrap()[3];
         assert_eq!(
             *list,
             format!(
-                "['{BASE}custom0/', '{BASE}powerlinux-ocr/', '{BASE}powerlinux-color/', '{BASE}powerlinux-snippets/']"
+                "['{BASE}custom0/', '{BASE}voltkit-ocr/', '{BASE}voltkit-color/', '{BASE}voltkit-snippets/']"
             )
         );
         let command = plan.iter().find(|a| a[2] == "command").unwrap();
-        assert_eq!(command[3], "'/opt/power linux/powerlinux' trigger ocr");
+        assert_eq!(command[3], "'/opt/volt kit/voltkit' trigger ocr");
         let binding = plan.iter().find(|a| a[2] == "binding").unwrap();
         assert_eq!(binding[3], "<Super><Shift>t");
     }
 
     #[test]
     fn remove_only_touches_ours() {
-        let current = format!("['{BASE}custom0/', '{BASE}powerlinux-color/']");
+        let current = format!("['{BASE}custom0/', '{BASE}voltkit-color/']");
         let plan = remove_plan(&current);
         assert_eq!(plan.len(), 2);
         assert_eq!(plan[0][0], "reset-recursively");

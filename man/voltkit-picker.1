@@ -1,14 +1,14 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH powerlinux-picker 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.TH voltkit-picker 1  "Voltkit 0.1.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
-powerlinux\-picker \- Open the snippet picker and paste the chosen snippet into the focused app
+voltkit\-picker \- Open the snippet picker and paste the chosen snippet into the focused app
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH SYNOPSIS
-\fBpowerlinux picker\fR [\fB\-\-snippet\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+\fBvoltkit picker\fR [\fB\-\-snippet\fR] [\fB\-h\fR|\fB\-\-help\fR] 
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH DESCRIPTION
@@ -38,19 +38,19 @@ Insert the snippet, or move to the next parameter field.
 Go back from the parameter form, or close the picker.
 .SH NOTES
 .PP
-The first paste asks for remote\-desktop permission; the grant is remembered in ~/.local/state/powerlinux/remote\-desktop\-token. If pasting is refused or unavailable, the expansion stays on the clipboard and a notification says to press Ctrl+V. Apps that paste with another shortcut, such as terminals, need paste_shortcut set in the [expander] section of the configuration.
+The first paste asks for remote\-desktop permission; the grant is remembered in ~/.local/state/voltkit/remote\-desktop\-token. If pasting is refused or unavailable, the expansion stays on the clipboard and a notification says to press Ctrl+V. Apps that paste with another shortcut, such as terminals, need paste_shortcut set in the [expander] section of the configuration.
 .SH EXAMPLES
 .PP
 Open the picker on one snippet\*(Aqs form:
 .RS 4
 .nf
-\fBpowerlinux picker \-\-snippet \*(Aq;quote\*(Aq\fR
+\fBvoltkit picker \-\-snippet \*(Aq;quote\*(Aq\fR
 .fi
 .RE
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH "SEE ALSO"
-\fBpowerlinux\fR(1)
+\fBvoltkit\fR(1)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH AUTHOR

@@ -1,11 +1,11 @@
-<img src="docs/icon.png" width="128" alt="PowerLinux icon: a lightning bolt crossing a wrench">
+<img src="docs/icon.png" width="128" alt="Voltkit icon: a lightning bolt crossing a wrench">
 
-# PowerLinux
+# Voltkit
 
 **A unified suite of micro-utilities for Linux, in one small binary.**
 
 Linux users usually install five to ten separate applets to get basics like screen OCR, a color
-picker, an image compressor and text expansion. PowerLinux puts them in one GTK4/libadwaita control
+picker, an image compressor and text expansion. Voltkit puts them in one GTK4/libadwaita control
 center. It needs no terminal tweaking and no desktop-specific extensions.
 
 | Module | Shortcut | Status |
@@ -29,39 +29,39 @@ sudo pacman -S gtk4 libadwaita
 ```
 
 ```bash
-cargo install --path .     # installs to ~/.cargo/bin/powerlinux
-powerlinux
+cargo install --path .     # installs to ~/.cargo/bin/voltkit
+voltkit
 ```
 
 Install the binary before you set up shortcuts or autostart: both record the binary's path.
 
-To add PowerLinux to your app grid with its icon:
+To add Voltkit to your app grid with its icon:
 
 ```bash
-install -Dm644 data/icons/io.github.powerlinux.PowerLinux.svg ~/.local/share/icons/hicolor/scalable/apps/io.github.powerlinux.PowerLinux.svg
-install -Dm644 data/icons/io.github.powerlinux.PowerLinux-symbolic.svg ~/.local/share/icons/hicolor/symbolic/apps/io.github.powerlinux.PowerLinux-symbolic.svg
-sed "s|^Exec=powerlinux|Exec=$HOME/.cargo/bin/powerlinux|" data/io.github.powerlinux.PowerLinux.desktop > ~/.local/share/applications/io.github.powerlinux.PowerLinux.desktop
+install -Dm644 data/icons/io.github.arios4k.Voltkit.svg ~/.local/share/icons/hicolor/scalable/apps/io.github.arios4k.Voltkit.svg
+install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg ~/.local/share/icons/hicolor/symbolic/apps/io.github.arios4k.Voltkit-symbolic.svg
+sed "s|^Exec=voltkit|Exec=$HOME/.cargo/bin/voltkit|" data/io.github.arios4k.Voltkit.desktop > ~/.local/share/applications/io.github.arios4k.Voltkit.desktop
 ```
 
 ## Background service & global shortcuts
 
 ```bash
-powerlinux daemon                    # run in the foreground
-powerlinux daemon enable-autostart   # start at every login
-powerlinux daemon status             # running? which shortcut backend?
-powerlinux daemon stop
+voltkit daemon                    # run in the foreground
+voltkit daemon enable-autostart   # start at every login
+voltkit daemon status             # running? which shortcut backend?
+voltkit daemon stop
 ```
 
-The daemon owns `io.github.powerlinux.Daemon` on the session bus, so only one runs at a time.
+The daemon owns `io.github.arios4k.Voltkit.Daemon` on the session bus, so only one runs at a time.
 It binds the hotkeys from your config in one of these ways:
 
 | Desktop | How the hotkeys are bound |
 |---|---|
 | GNOME 48+, KDE Plasma 5.27+, Hyprland (xdg-desktop-portal ≥ 1.19) | **GlobalShortcuts portal**: the desktop asks you to approve them once |
-| Older GNOME (e.g. 46) and GNOME-based distros | `powerlinux shortcuts install` adds them to *Settings → Keyboard → Custom Shortcuts* (`--dry-run` previews; `shortcuts remove` undoes) |
-| Sway, river, others | Bind `powerlinux trigger ocr` / `powerlinux trigger color` in your compositor config |
+| Older GNOME (e.g. 46) and GNOME-based distros | `voltkit shortcuts install` adds them to *Settings → Keyboard → Custom Shortcuts* (`--dry-run` previews; `shortcuts remove` undoes) |
+| Sway, river, others | Bind `voltkit trigger ocr` / `voltkit trigger color` in your compositor config |
 
-`powerlinux trigger <action>` (`ocr`, `color` or `snippets`) sends the action to the running daemon, or runs it directly if
+`voltkit trigger <action>` (`ocr`, `color` or `snippets`) sends the action to the running daemon, or runs it directly if
 no daemon is running. Results and errors appear as desktop notifications.
 
 ## Text expansion
@@ -75,25 +75,25 @@ how Wayland lets an app press Ctrl+V for you), and the permission is remembered.
 keystrokes from other apps, so this needs a one-time root setup:
 
 ```bash
-powerlinux expander setup          # shows the commands and what they change
-powerlinux expander setup --apply  # runs them with sudo; then log out and back in
+voltkit expander setup          # shows the commands and what they change
+voltkit expander setup --apply  # runs them with sudo; then log out and back in
                                    # (restart instead if `loginctl` lingering is on)
-powerlinux expander enable
+voltkit expander enable
 ```
 
-Setup adds you to the `input` group, which lets *any* program you run read keyboard input. PowerLinux
+Setup adds you to the `input` group, which lets *any* program you run read keyboard input. Voltkit
 keeps only the last few characters in memory and never logs or stores what you type. See
-`man powerlinux-expander` for details and how to undo it.
+`man voltkit-expander` for details and how to undo it.
 
 For terminals, which paste with Ctrl+Shift+V, set `paste_shortcut` in the `[expander]` config section.
 
 ### Runtime helpers
 
-PowerLinux calls standard tools when they are installed, so it adds no heavy dependencies of its own.
+Voltkit calls standard tools when they are installed, so it adds no heavy dependencies of its own.
 Check what's missing, with the install command for your distro, at any time:
 
 ```bash
-powerlinux doctor
+voltkit doctor
 ```
 
 The control center shows a banner when a feature needs attention.
@@ -110,15 +110,15 @@ The control center shows a banner when a feature needs attention.
 Every module also works headless, so you can bind it to a shortcut in any desktop:
 
 ```bash
-powerlinux                       # open the control center
-powerlinux ocr --lang eng        # select a region → text on clipboard
-powerlinux pick-color            # eyedropper → HEX on clipboard
-powerlinux color '#3584e4'       # HEX / RGB / HSL + contrast vs white/black
-powerlinux compress *.png --quality 75
-powerlinux expand 'Hi {arg:who}, {date:%A}' --arg who=Sam
+voltkit                       # open the control center
+voltkit ocr --lang eng        # select a region → text on clipboard
+voltkit pick-color            # eyedropper → HEX on clipboard
+voltkit color '#3584e4'       # HEX / RGB / HSL + contrast vs white/black
+voltkit compress *.png --quality 75
+voltkit expand 'Hi {arg:who}, {date:%A}' --arg who=Sam
 ```
 
-Full documentation is in the man pages: `man powerlinux`, `man powerlinux-expand`, and so on.
+Full documentation is in the man pages: `man voltkit`, `man voltkit-expand`, and so on.
 
 ### Man pages
 
@@ -137,7 +137,7 @@ cargo run -- manpages man
 
 ## Configuration
 
-`~/.config/powerlinux/config.toml`. Every key is optional; see
+`~/.config/voltkit/config.toml`. Every key is optional; see
 [`data/config.example.toml`](data/config.example.toml).
 
 ## Project layout

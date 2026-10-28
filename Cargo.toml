@@ -1,5 +1,5 @@
 [package]
-name = "powerlinux"
+name = "voltkit"
 version = "0.1.0"
 authors = ["Alexis Rios-Negron"]
 edition = "2024"

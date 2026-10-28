@@ -981,27 +981,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f6b464fbc74e149a392436b17d523f769e057cb6877f6a5c4618bc6f11800548"
 
 [[package]]
-name = "powerlinux"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "ashpd",
- "chrono",
- "clap",
- "clap_mangen",
- "dirs",
- "evdev",
- "futures-util",
- "gtk4",
- "libadwaita",
- "roff",
- "serde",
- "tokio",
- "toml",
- "zbus",
-]
-
-[[package]]
 name = "proc-macro-crate"
 version = "3.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1426,6 +1405,27 @@ name = "version-compare"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "03c2856837ef78f57382f06b2b8563a2f512f7185d732608fd9176cb3b8edf0e"
+
+[[package]]
+name = "voltkit"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "ashpd",
+ "chrono",
+ "clap",
+ "clap_mangen",
+ "dirs",
+ "evdev",
+ "futures-util",
+ "gtk4",
+ "libadwaita",
+ "roff",
+ "serde",
+ "tokio",
+ "toml",
+ "zbus",
+]
 
 [[package]]
 name = "wasi"

@@ -1,14 +1,14 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH powerlinux-expander 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.TH voltkit-expander 1  "Voltkit 0.1.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
-powerlinux\-expander \- Set up and toggle typed triggers (type ;date anywhere to expand it)
+voltkit\-expander \- Set up and toggle typed triggers (type ;date anywhere to expand it)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH SYNOPSIS
-\fBpowerlinux expander\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIsubcommands\fR>
+\fBvoltkit expander\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIsubcommands\fR>
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH DESCRIPTION
@@ -25,19 +25,19 @@ Print help (see a summary with \*(Aq\-h\*(Aq)
 .el .ds Aq '
 .SH COMMANDS
 .TP
-\fBpowerlinux expander status\fR
+\fBvoltkit expander status\fR
 Show whether typed triggers are enabled and can run
 .TP
-\fBpowerlinux expander setup [\-\-apply]\fR
+\fBvoltkit expander setup [\-\-apply]\fR
 Grant keyboard access: add you to the input group and allow /dev/uinput
 .RS
 \fB\-\-apply\fR: Run the commands with sudo instead of only printing them
 .RE
 .TP
-\fBpowerlinux expander enable\fR
+\fBvoltkit expander enable\fR
 Turn typed triggers on (restarts the daemon if it is running)
 .TP
-\fBpowerlinux expander disable\fR
+\fBvoltkit expander disable\fR
 Turn typed triggers off (restarts the daemon if it is running)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
@@ -50,27 +50,27 @@ After setup, start a new session so it includes the input group: log out and bac
 Keys are decoded with a US layout, so triggers made of letters, digits and ; work on most layouts while punctuation may differ. A trigger that is a prefix of another (;d and ;date) fires first, so the longer one is unreachable.
 .SH SECURITY
 .PP
-Setup adds you to the input group, which lets every program you run read keyboard input, not only PowerLinux. Typed text is never logged, written to disk or sent anywhere. Undo the setup by removing you from the group (gpasswd \-d $USER input) and deleting /etc/udev/rules.d/99\-powerlinux\-uinput.rules and /etc/modules\-load.d/powerlinux\-uinput.conf.
+Setup adds you to the input group, which lets every program you run read keyboard input, not only Voltkit. Typed text is never logged, written to disk or sent anywhere. Undo the setup by removing you from the group (gpasswd \-d $USER input) and deleting /etc/udev/rules.d/99\-voltkit\-uinput.rules and /etc/modules\-load.d/voltkit\-uinput.conf.
 .SH EXAMPLES
 .PP
 Review the setup commands, then run them:
 .RS 4
 .nf
-\fBpowerlinux expander setup
-powerlinux expander setup \-\-apply\fR
+\fBvoltkit expander setup
+voltkit expander setup \-\-apply\fR
 .fi
 .RE
 .PP
 After logging out and back in:
 .RS 4
 .nf
-\fBpowerlinux expander enable\fR
+\fBvoltkit expander enable\fR
 .fi
 .RE
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH "SEE ALSO"
-\fBpowerlinux\fR(1), \fBudev\fR(7), \fBusermod\fR(8)
+\fBvoltkit\fR(1), \fBudev\fR(7), \fBusermod\fR(8)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH AUTHOR

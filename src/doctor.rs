@@ -1,4 +1,4 @@
-//! `powerlinux doctor`: checks everything PowerLinux relies on outside its own
+//! `voltkit doctor`: checks everything Voltkit relies on outside its own
 //! binary and says how to install what's missing on this distro.
 
 use std::collections::HashMap;
@@ -191,7 +191,7 @@ impl Report {
     }
 }
 
-/// Versions of the portal interfaces PowerLinux uses; absent ones are missing.
+/// Versions of the portal interfaces Voltkit uses; absent ones are missing.
 async fn portal_interfaces() -> HashMap<&'static str, u32> {
     let mut found = HashMap::new();
     let Ok(conn) = zbus::Connection::session().await else { return found };
@@ -313,7 +313,7 @@ pub fn run(config: &Config) -> Report {
             "typed triggers (off)",
             false,
             Need::Optional,
-            Some(Fix::Advice("turn on with `powerlinux expander setup`, then `powerlinux expander enable`".into())),
+            Some(Fix::Advice("turn on with `voltkit expander setup`, then `voltkit expander enable`".into())),
         ));
     }
 
@@ -325,7 +325,7 @@ pub fn run(config: &Config) -> Report {
         "daemon running",
         status.is_some(),
         Need::Required,
-        Some(Fix::Advice("start it with `powerlinux daemon enable-autostart`, then log in again or run `powerlinux daemon`".into())),
+        Some(Fix::Advice("start it with `voltkit daemon enable-autostart`, then log in again or run `voltkit daemon`".into())),
     ));
     let (shortcuts_ok, shortcuts_what) = if portals.contains_key("GlobalShortcuts") {
         (true, "hotkeys: GlobalShortcuts portal".to_owned())
@@ -340,7 +340,7 @@ pub fn run(config: &Config) -> Report {
         shortcuts_ok,
         Need::Required,
         Some(Fix::Advice(
-            "on GNOME run `powerlinux shortcuts install`; elsewhere bind `powerlinux trigger ocr|color|snippets`".into(),
+            "on GNOME run `voltkit shortcuts install`; elsewhere bind `voltkit trigger ocr|color|snippets`".into(),
         )),
     ));
 

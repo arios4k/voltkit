@@ -1,14 +1,14 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH powerlinux-ocr 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.TH voltkit-ocr 1  "Voltkit 0.1.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
-powerlinux\-ocr \- Select a screen region and copy the recognized text to the clipboard
+voltkit\-ocr \- Select a screen region and copy the recognized text to the clipboard
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH SYNOPSIS
-\fBpowerlinux ocr\fR [\fB\-\-lang\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+\fBvoltkit ocr\fR [\fB\-\-lang\fR] [\fB\-h\fR|\fB\-\-help\fR] 
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH DESCRIPTION
@@ -31,21 +31,21 @@ Print help (see a summary with \*(Aq\-h\*(Aq)
 Recognize English text:
 .RS 4
 .nf
-\fBpowerlinux ocr\fR
+\fBvoltkit ocr\fR
 .fi
 .RE
 .PP
 Recognize English and German:
 .RS 4
 .nf
-\fBpowerlinux ocr \-\-lang eng+deu\fR
+\fBvoltkit ocr \-\-lang eng+deu\fR
 .fi
 .RE
 .PP
 Save the text instead of only copying it:
 .RS 4
 .nf
-\fBpowerlinux ocr > notes.txt\fR
+\fBvoltkit ocr > notes.txt\fR
 .fi
 .RE
 .SH NOTES
@@ -54,7 +54,7 @@ Each language needs its Tesseract data package, for example tesseract\-ocr\-deu 
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH "SEE ALSO"
-\fBpowerlinux\fR(1), \fBtesseract\fR(1)
+\fBvoltkit\fR(1), \fBtesseract\fR(1)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH AUTHOR

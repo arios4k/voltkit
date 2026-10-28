@@ -105,7 +105,7 @@ pub mod history {
     const MAX: usize = 32;
 
     fn path() -> Option<PathBuf> {
-        dirs::data_dir().map(|d| d.join("powerlinux").join("colors.txt"))
+        dirs::data_dir().map(|d| d.join("voltkit").join("colors.txt"))
     }
 
     pub fn load() -> Vec<Rgb> {

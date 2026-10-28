@@ -1,4 +1,4 @@
-//! `powerlinux picker`: the snippet picker popup (Super+Shift+E by default).
+//! `voltkit picker`: the snippet picker popup (Super+Shift+E by default).
 //!
 //! Search snippets, press Enter, fill in any {arg:NAME} parameters, and the
 //! expansion is pasted into the app that had focus before the picker opened.

@@ -1,20 +1,20 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH powerlinux-shortcuts 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.TH voltkit-shortcuts 1  "Voltkit 0.1.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
-powerlinux\-shortcuts \- Manage GNOME keybindings for desktops without the GlobalShortcuts portal
+voltkit\-shortcuts \- Manage GNOME keybindings for desktops without the GlobalShortcuts portal
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH SYNOPSIS
-\fBpowerlinux shortcuts\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIsubcommands\fR>
+\fBvoltkit shortcuts\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIsubcommands\fR>
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH DESCRIPTION
 Manage GNOME keybindings for desktops without the GlobalShortcuts portal
 .PP
-Adds or removes custom shortcuts in GNOME Settings (via gsettings) that run `powerlinux trigger`. Other custom shortcuts are left untouched.
+Adds or removes custom shortcuts in GNOME Settings (via gsettings) that run `voltkit trigger`. Other custom shortcuts are left untouched.
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH OPTIONS
@@ -25,13 +25,13 @@ Print help (see a summary with \*(Aq\-h\*(Aq)
 .el .ds Aq '
 .SH COMMANDS
 .TP
-\fBpowerlinux shortcuts install [\-\-dry\-run]\fR
+\fBvoltkit shortcuts install [\-\-dry\-run]\fR
 Add Super+Shift+T, C and E (or your configured keys) to GNOME Settings
 .RS
 \fB\-\-dry\-run\fR: Print the gsettings commands instead of running them
 .RE
 .TP
-\fBpowerlinux shortcuts remove [\-\-dry\-run]\fR
+\fBvoltkit shortcuts remove [\-\-dry\-run]\fR
 Remove the keybindings added by `install`
 .RS
 \fB\-\-dry\-run\fR: Print the gsettings commands instead of running them
@@ -43,20 +43,20 @@ Remove the keybindings added by `install`
 Preview the gsettings commands:
 .RS 4
 .nf
-\fBpowerlinux shortcuts install \-\-dry\-run\fR
+\fBvoltkit shortcuts install \-\-dry\-run\fR
 .fi
 .RE
 .PP
 Remove the shortcuts again:
 .RS 4
 .nf
-\fBpowerlinux shortcuts remove\fR
+\fBvoltkit shortcuts remove\fR
 .fi
 .RE
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH "SEE ALSO"
-\fBpowerlinux\fR(1), \fBgsettings\fR(1)
+\fBvoltkit\fR(1), \fBgsettings\fR(1)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH AUTHOR

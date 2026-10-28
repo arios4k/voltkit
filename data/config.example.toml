@@ -1,4 +1,4 @@
-# ~/.config/powerlinux/config.toml — every key is optional.
+# ~/.config/voltkit/config.toml — every key is optional.
 
 [hotkeys]
 ocr = "<Super><Shift>t"
@@ -12,7 +12,7 @@ lang = "eng"            # e.g. "eng+deu"; needs matching tesseract language pack
 quality = 80            # 1–100
 
 [expander]
-typed_triggers = false        # expand ;date etc. as you type; run `powerlinux expander setup` first
+typed_triggers = false        # expand ;date etc. as you type; run `voltkit expander setup` first
 paste_shortcut = "ctrl+v"     # or "ctrl+shift+v" / "shift+insert"
 
 [[snippets]]

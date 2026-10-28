@@ -1,4 +1,4 @@
-//! Hotkey actions, shared by the daemon and `powerlinux trigger`.
+//! Hotkey actions, shared by the daemon and `voltkit trigger`.
 //!
 //! These run without a terminal, so results and errors are reported as notifications.
 

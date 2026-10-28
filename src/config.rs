@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 
-/// User configuration, stored at `~/.config/powerlinux/config.toml`.
+/// User configuration, stored at `~/.config/voltkit/config.toml`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Config {
@@ -37,7 +37,7 @@ pub struct CompressConfig {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct ExpanderConfig {
-    /// Expand triggers typed in any app. Needs `powerlinux expander setup`.
+    /// Expand triggers typed in any app. Needs `voltkit expander setup`.
     pub typed_triggers: bool,
     /// Keys sent to paste an expansion: "ctrl+v", "ctrl+shift+v" or "shift+insert".
     pub paste_shortcut: String,
@@ -99,7 +99,7 @@ impl Default for CompressConfig {
 
 impl Config {
     pub fn path() -> Option<PathBuf> {
-        dirs::config_dir().map(|d| d.join("powerlinux").join("config.toml"))
+        dirs::config_dir().map(|d| d.join("voltkit").join("config.toml"))
     }
 
     /// Loads the config file, falling back to defaults when it does not exist.

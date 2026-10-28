@@ -49,7 +49,7 @@ pub async fn capture_region() -> Result<PathBuf> {
 }
 
 fn capture_region_with_tool() -> Result<PathBuf> {
-    let path = std::env::temp_dir().join(format!("powerlinux-ocr-{}.png", std::process::id()));
+    let path = std::env::temp_dir().join(format!("voltkit-ocr-{}.png", std::process::id()));
     let Some(mut cmd) = region_capture_command(&path) else {
         bail!("no region screenshot tool found (install grim+slurp, gnome-screenshot, spectacle or maim)");
     };

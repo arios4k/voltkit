@@ -3,7 +3,7 @@
 //! Wayland lets no app see another app's keystrokes, so this reads keyboards
 //! directly through evdev and replies through a uinput virtual keyboard: it
 //! erases the trigger with Backspace and pastes the expansion (see `paste.rs`).
-//! Both need the one-time setup from `powerlinux expander setup`.
+//! Both need the one-time setup from `voltkit expander setup`.
 //!
 //! Privacy: only the last few characters are kept in memory, to match triggers.
 //! Nothing typed is logged, stored or sent anywhere.
@@ -24,16 +24,16 @@ use crate::modules::snippets;
 use crate::paste::{self, PasteShortcut};
 use crate::system;
 
-const VIRTUAL_KEYBOARD: &str = "PowerLinux virtual keyboard";
+const VIRTUAL_KEYBOARD: &str = "Voltkit virtual keyboard";
 const BUFFER_LEN: usize = 64;
 const RESCAN_EVERY: Duration = Duration::from_secs(5);
 const KEY_DELAY: Duration = Duration::from_millis(4);
 
 // ------------------------------------------------------------ setup
 
-const UDEV_RULE_PATH: &str = "/etc/udev/rules.d/99-powerlinux-uinput.rules";
+const UDEV_RULE_PATH: &str = "/etc/udev/rules.d/99-voltkit-uinput.rules";
 const UDEV_RULE: &str = r#"KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput""#;
-const MODULES_PATH: &str = "/etc/modules-load.d/powerlinux-uinput.conf";
+const MODULES_PATH: &str = "/etc/modules-load.d/voltkit-uinput.conf";
 
 /// Shell commands (run as root) that let `user` read keyboards and create a virtual one.
 pub fn setup_script(user: &str) -> String {
@@ -221,7 +221,7 @@ fn virtual_keyboard() -> Result<VirtualDevice> {
         keys.insert(k);
     }
     VirtualDevice::builder()
-        .context("cannot open /dev/uinput; run `powerlinux expander setup`")?
+        .context("cannot open /dev/uinput; run `voltkit expander setup`")?
         .name(VIRTUAL_KEYBOARD)
         .with_keys(&keys)?
         .build()
@@ -334,7 +334,7 @@ fn lingering() -> bool {
 /// thing left is a fresh session, which picks up the input group.
 pub fn next_step() -> &'static str {
     if !udev_rule_installed() {
-        "run `powerlinux expander setup`"
+        "run `voltkit expander setup`"
     } else if lingering() {
         "setup is done; restart your computer so your session joins the input group \
          (logging out isn't enough because lingering keeps your user services running)"

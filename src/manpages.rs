@@ -29,23 +29,23 @@ struct Section {
 const FILES: Section = Section {
     heading: "FILES",
     blocks: &[
-        Item("~/.config/powerlinux/config.toml", "Configuration: hotkeys, OCR language, compression quality and snippets. Every key is optional."),
-        Item("~/.local/share/powerlinux/colors.txt", "Color history, newest first, shared by pick-color, the daemon and the control center."),
-        Item("~/.config/autostart/io.github.powerlinux.Daemon.desktop", "Created by powerlinux daemon enable-autostart."),
+        Item("~/.config/voltkit/config.toml", "Configuration: hotkeys, OCR language, compression quality and snippets. Every key is optional."),
+        Item("~/.local/share/voltkit/colors.txt", "Color history, newest first, shared by pick-color, the daemon and the control center."),
+        Item("~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop", "Created by voltkit daemon enable-autostart."),
     ],
 };
 
 /// Extra sections for each page, keyed by page name.
 fn extra_sections(page: &str) -> Vec<Section> {
     match page {
-        "powerlinux" => vec![
+        "voltkit" => vec![
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
-                    Example("Open the control center:", "powerlinux"),
-                    Example("Copy text from part of the screen:", "powerlinux ocr"),
-                    Example("Check a color's contrast:", "powerlinux color '#3584e4'"),
-                    Example("Start the background service at every login:", "powerlinux daemon enable-autostart"),
+                    Example("Open the control center:", "voltkit"),
+                    Example("Copy text from part of the screen:", "voltkit ocr"),
+                    Example("Check a color's contrast:", "voltkit color '#3584e4'"),
+                    Example("Start the background service at every login:", "voltkit daemon enable-autostart"),
                 ],
             },
             FILES,
@@ -61,13 +61,13 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 blocks: &[Para("0 on success, 1 on any error. Errors are printed to standard error.")],
             },
         ],
-        "powerlinux-ocr" => vec![
+        "voltkit-ocr" => vec![
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
-                    Example("Recognize English text:", "powerlinux ocr"),
-                    Example("Recognize English and German:", "powerlinux ocr --lang eng+deu"),
-                    Example("Save the text instead of only copying it:", "powerlinux ocr > notes.txt"),
+                    Example("Recognize English text:", "voltkit ocr"),
+                    Example("Recognize English and German:", "voltkit ocr --lang eng+deu"),
+                    Example("Save the text instead of only copying it:", "voltkit ocr > notes.txt"),
                 ],
             },
             Section {
@@ -79,13 +79,13 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 )],
             },
         ],
-        "powerlinux-pick-color" => vec![Section {
+        "voltkit-pick-color" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[
-                Example("Pick a color and show all its formats:", "powerlinux color \"$(powerlinux pick-color)\""),
+                Example("Pick a color and show all its formats:", "voltkit color \"$(voltkit pick-color)\""),
             ],
         }],
-        "powerlinux-color" => vec![
+        "voltkit-color" => vec![
             Section {
                 heading: "CONTRAST LEVELS",
                 blocks: &[
@@ -99,12 +99,12 @@ fn extra_sections(page: &str) -> Vec<Section> {
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
-                    Example("Hex with or without #, short or long form:", "powerlinux color f80"),
-                    Example("Functional notation:", "powerlinux color 'rgb(51, 130, 202)'"),
+                    Example("Hex with or without #, short or long form:", "voltkit color f80"),
+                    Example("Functional notation:", "voltkit color 'rgb(51, 130, 202)'"),
                 ],
             },
         ],
-        "powerlinux-compress" => vec![
+        "voltkit-compress" => vec![
             Section {
                 heading: "TOOLS",
                 blocks: &[
@@ -118,12 +118,12 @@ fn extra_sections(page: &str) -> Vec<Section> {
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
-                    Example("Compress every PNG in a folder:", "powerlinux compress ~/Pictures/*.png"),
-                    Example("Shrink a video harder:", "powerlinux compress clip.mp4 --quality 50"),
+                    Example("Compress every PNG in a folder:", "voltkit compress ~/Pictures/*.png"),
+                    Example("Shrink a video harder:", "voltkit compress clip.mp4 --quality 50"),
                 ],
             },
         ],
-        "powerlinux-expand" => vec![
+        "voltkit-expand" => vec![
             Section {
                 heading: "VARIABLES",
                 blocks: &[
@@ -138,25 +138,25 @@ fn extra_sections(page: &str) -> Vec<Section> {
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
-                    Example("Fill in parameters:", "powerlinux expand 'Hi {arg:name}, re: {arg:topic}' --arg name=Sam --arg topic=Invoices"),
-                    Example("Values with spaces need quotes:", "powerlinux expand 'Hi {arg:name}' --arg 'name=Sam Lee'"),
-                    Example("Quote the clipboard with a timestamp:", "powerlinux expand '> {clipboard} ({date} {time})'"),
+                    Example("Fill in parameters:", "voltkit expand 'Hi {arg:name}, re: {arg:topic}' --arg name=Sam --arg topic=Invoices"),
+                    Example("Values with spaces need quotes:", "voltkit expand 'Hi {arg:name}' --arg 'name=Sam Lee'"),
+                    Example("Quote the clipboard with a timestamp:", "voltkit expand '> {clipboard} ({date} {time})'"),
                 ],
             },
         ],
-        "powerlinux-daemon" => vec![
+        "voltkit-daemon" => vec![
             Section {
                 heading: "SHORTCUT BACKENDS",
                 blocks: &[
                     Item("portal", "The GlobalShortcuts portal (GNOME 48+, KDE Plasma 5.27+, Hyprland). The desktop asks once for approval."),
-                    Item("gnome-keybindings", "Custom shortcuts added by powerlinux shortcuts install."),
-                    Item("none", "Bind powerlinux trigger ACTION in the desktop or compositor settings."),
+                    Item("gnome-keybindings", "Custom shortcuts added by voltkit shortcuts install."),
+                    Item("none", "Bind voltkit trigger ACTION in the desktop or compositor settings."),
                 ],
             },
             Section {
                 heading: "D-BUS INTERFACE",
                 blocks: &[
-                    Para("Bus name io.github.powerlinux.Daemon, object /io/github/powerlinux/Daemon, interface io.github.powerlinux.Daemon1:"),
+                    Para("Bus name io.github.arios4k.Voltkit.Daemon, object /io/github/arios4k/Voltkit/Daemon, interface io.github.arios4k.Voltkit.Daemon1:"),
                     Item("Trigger(s action)", "Start \"ocr\", \"color\" or \"snippets\" and return immediately. Ignored while another one is open."),
                     Item("Status() → (sss)", "The version, the shortcut backend, and whether typed triggers are on, off or unavailable."),
                     Item("Quit()", "Stop the daemon."),
@@ -165,13 +165,13 @@ fn extra_sections(page: &str) -> Vec<Section> {
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
-                    Example("Check whether it is running:", "powerlinux daemon status"),
-                    Example("Trigger OCR from another program:", "busctl --user call io.github.powerlinux.Daemon /io/github/powerlinux/Daemon io.github.powerlinux.Daemon1 Trigger s ocr"),
+                    Example("Check whether it is running:", "voltkit daemon status"),
+                    Example("Trigger OCR from another program:", "busctl --user call io.github.arios4k.Voltkit.Daemon /io/github/arios4k/Voltkit/Daemon io.github.arios4k.Voltkit.Daemon1 Trigger s ocr"),
                 ],
             },
             FILES,
         ],
-        "powerlinux-picker" => vec![
+        "voltkit-picker" => vec![
             Section {
                 heading: "KEYS",
                 blocks: &[
@@ -184,7 +184,7 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 heading: "NOTES",
                 blocks: &[Para(
                     "The first paste asks for remote-desktop permission; the grant is remembered in \
-                     ~/.local/state/powerlinux/remote-desktop-token. If pasting is refused or unavailable, the \
+                     ~/.local/state/voltkit/remote-desktop-token. If pasting is refused or unavailable, the \
                      expansion stays on the clipboard and a notification says to press Ctrl+V. Apps that paste \
                      with another shortcut, such as terminals, need paste_shortcut set in the [expander] section \
                      of the configuration.",
@@ -192,10 +192,10 @@ fn extra_sections(page: &str) -> Vec<Section> {
             },
             Section {
                 heading: "EXAMPLES",
-                blocks: &[Example("Open the picker on one snippet's form:", "powerlinux picker --snippet ';quote'")],
+                blocks: &[Example("Open the picker on one snippet's form:", "voltkit picker --snippet ';quote'")],
             },
         ],
-        "powerlinux-expander" => vec![
+        "voltkit-expander" => vec![
             Section {
                 heading: "HOW IT WORKS",
                 blocks: &[
@@ -221,20 +221,20 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 heading: "SECURITY",
                 blocks: &[Para(
                     "Setup adds you to the input group, which lets every program you run read keyboard input, \
-                     not only PowerLinux. Typed text is never logged, written to disk or sent anywhere. Undo \
+                     not only Voltkit. Typed text is never logged, written to disk or sent anywhere. Undo \
                      the setup by removing you from the group (gpasswd -d $USER input) and deleting \
-                     /etc/udev/rules.d/99-powerlinux-uinput.rules and /etc/modules-load.d/powerlinux-uinput.conf.",
+                     /etc/udev/rules.d/99-voltkit-uinput.rules and /etc/modules-load.d/voltkit-uinput.conf.",
                 )],
             },
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
-                    Example("Review the setup commands, then run them:", "powerlinux expander setup\npowerlinux expander setup --apply"),
-                    Example("After logging out and back in:", "powerlinux expander enable"),
+                    Example("Review the setup commands, then run them:", "voltkit expander setup\nvoltkit expander setup --apply"),
+                    Example("After logging out and back in:", "voltkit expander enable"),
                 ],
             },
         ],
-        "powerlinux-doctor" => vec![
+        "voltkit-doctor" => vec![
             Section {
                 heading: "OUTPUT",
                 blocks: &[
@@ -249,15 +249,15 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 blocks: &[Para("0 when nothing required is missing, 1 otherwise, so it can be used in scripts.")],
             },
         ],
-        "powerlinux-trigger" => vec![Section {
+        "voltkit-trigger" => vec![Section {
             heading: "EXAMPLES",
-            blocks: &[Example("A Sway or i3 binding:", "bindsym $mod+Shift+t exec powerlinux trigger ocr")],
+            blocks: &[Example("A Sway or i3 binding:", "bindsym $mod+Shift+t exec voltkit trigger ocr")],
         }],
-        "powerlinux-shortcuts" => vec![Section {
+        "voltkit-shortcuts" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[
-                Example("Preview the gsettings commands:", "powerlinux shortcuts install --dry-run"),
-                Example("Remove the shortcuts again:", "powerlinux shortcuts remove"),
+                Example("Preview the gsettings commands:", "voltkit shortcuts install --dry-run"),
+                Example("Remove the shortcuts again:", "voltkit shortcuts remove"),
             ],
         }],
         _ => Vec::new(),
@@ -291,18 +291,18 @@ fn render_section(roff: &mut Roff, section: &Section) {
 }
 
 fn see_also(page: &str, siblings: &[String]) -> Roff {
-    let mut refs: Vec<String> = std::iter::once("powerlinux".to_owned())
+    let mut refs: Vec<String> = std::iter::once("voltkit".to_owned())
         .chain(siblings.iter().cloned())
         .filter(|p| p != page)
         .map(|p| format!("{p}(1)"))
         .collect();
     let external = match page {
-        "powerlinux-ocr" => &["tesseract(1)"][..],
-        "powerlinux-compress" => &["oxipng(1)", "jpegoptim(1)", "cwebp(1)", "ffmpeg(1)"],
-        "powerlinux-expand" => &["strftime(3)"],
-        "powerlinux-shortcuts" => &["gsettings(1)"],
-        "powerlinux-expander" => &["udev(7)", "usermod(8)"],
-        "powerlinux-daemon" => &["busctl(1)"],
+        "voltkit-ocr" => &["tesseract(1)"][..],
+        "voltkit-compress" => &["oxipng(1)", "jpegoptim(1)", "cwebp(1)", "ffmpeg(1)"],
+        "voltkit-expand" => &["strftime(3)"],
+        "voltkit-shortcuts" => &["gsettings(1)"],
+        "voltkit-expander" => &["udev(7)", "usermod(8)"],
+        "voltkit-daemon" => &["busctl(1)"],
         _ => &[],
     };
     refs.extend(external.iter().map(|s| s.to_string()));
@@ -351,13 +351,13 @@ fn nested_commands(cmd: &clap::Command) -> Roff {
 
 fn render_page(cmd: clap::Command, siblings: &[String]) -> Result<(String, Vec<u8>)> {
     let page = cmd.get_display_name().unwrap_or(cmd.get_name()).to_owned();
-    let is_root = page == "powerlinux";
+    let is_root = page == "voltkit";
     let has_args = cmd.get_arguments().any(|a| !a.is_hide_set());
     let has_subcommands = cmd.get_subcommands().any(|s| !s.is_hide_set());
     let nested = (!is_root && has_subcommands).then(|| nested_commands(&cmd));
     let man = Man::new(cmd)
-        .manual("PowerLinux Manual")
-        .source(format!("PowerLinux {}", env!("CARGO_PKG_VERSION")));
+        .manual("Voltkit Manual")
+        .source(format!("Voltkit {}", env!("CARGO_PKG_VERSION")));
 
     let mut out = Vec::new();
     man.render_title(&mut out)?;
@@ -385,7 +385,7 @@ fn render_page(cmd: clap::Command, siblings: &[String]) -> Result<(String, Vec<u
     Ok((format!("{page}.1"), out))
 }
 
-/// Every page as (file name, contents): `powerlinux.1` plus one per visible subcommand.
+/// Every page as (file name, contents): `voltkit.1` plus one per visible subcommand.
 /// Nested subcommands such as `daemon status` are documented on their parent's page.
 pub fn pages() -> Result<Vec<(String, Vec<u8>)>> {
     let mut root = Cli::command().disable_help_subcommand(true);
@@ -422,8 +422,8 @@ mod tests {
     #[test]
     fn one_page_per_visible_command() {
         let names: Vec<String> = pages().unwrap().into_iter().map(|(n, _)| n).collect();
-        assert!(names.contains(&"powerlinux.1".to_owned()));
-        assert!(names.contains(&"powerlinux-expand.1".to_owned()));
+        assert!(names.contains(&"voltkit.1".to_owned()));
+        assert!(names.contains(&"voltkit-expand.1".to_owned()));
         assert!(!names.iter().any(|n| n.contains("manpages") || n.contains("help")));
     }
 

@@ -1,14 +1,14 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH powerlinux-expand 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.TH voltkit-expand 1  "Voltkit 0.1.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
-powerlinux\-expand \- Expand a snippet template, e.g. "Sent {date:%A}: {clipboard}"
+voltkit\-expand \- Expand a snippet template, e.g. "Sent {date:%A}: {clipboard}"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH SYNOPSIS
-\fBpowerlinux expand\fR [\fB\-\-arg\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fITEMPLATE\fR> 
+\fBvoltkit expand\fR [\fB\-\-arg\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fITEMPLATE\fR> 
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH DESCRIPTION
@@ -53,27 +53,27 @@ A literal { or }.
 Fill in parameters:
 .RS 4
 .nf
-\fBpowerlinux expand \*(AqHi {arg:name}, re: {arg:topic}\*(Aq \-\-arg name=Sam \-\-arg topic=Invoices\fR
+\fBvoltkit expand \*(AqHi {arg:name}, re: {arg:topic}\*(Aq \-\-arg name=Sam \-\-arg topic=Invoices\fR
 .fi
 .RE
 .PP
 Values with spaces need quotes:
 .RS 4
 .nf
-\fBpowerlinux expand \*(AqHi {arg:name}\*(Aq \-\-arg \*(Aqname=Sam Lee\*(Aq\fR
+\fBvoltkit expand \*(AqHi {arg:name}\*(Aq \-\-arg \*(Aqname=Sam Lee\*(Aq\fR
 .fi
 .RE
 .PP
 Quote the clipboard with a timestamp:
 .RS 4
 .nf
-\fBpowerlinux expand \*(Aq> {clipboard} ({date} {time})\*(Aq\fR
+\fBvoltkit expand \*(Aq> {clipboard} ({date} {time})\*(Aq\fR
 .fi
 .RE
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH "SEE ALSO"
-\fBpowerlinux\fR(1), \fBstrftime\fR(3)
+\fBvoltkit\fR(1), \fBstrftime\fR(3)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH AUTHOR

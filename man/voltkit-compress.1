@@ -1,14 +1,14 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH powerlinux-compress 1  "PowerLinux 0.1.0" "PowerLinux Manual"
+.TH voltkit-compress 1  "Voltkit 0.1.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
-powerlinux\-compress \- Strip metadata and compress PNG, JPEG, WebP or MP4 files
+voltkit\-compress \- Strip metadata and compress PNG, JPEG, WebP or MP4 files
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH SYNOPSIS
-\fBpowerlinux compress\fR [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
+\fBvoltkit compress\fR [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH DESCRIPTION
@@ -49,20 +49,20 @@ ffmpeg, H.264 with a CRF derived from \-\-quality, AAC audio, metadata removed, 
 Compress every PNG in a folder:
 .RS 4
 .nf
-\fBpowerlinux compress ~/Pictures/*.png\fR
+\fBvoltkit compress ~/Pictures/*.png\fR
 .fi
 .RE
 .PP
 Shrink a video harder:
 .RS 4
 .nf
-\fBpowerlinux compress clip.mp4 \-\-quality 50\fR
+\fBvoltkit compress clip.mp4 \-\-quality 50\fR
 .fi
 .RE
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH "SEE ALSO"
-\fBpowerlinux\fR(1), \fBoxipng\fR(1), \fBjpegoptim\fR(1), \fBcwebp\fR(1), \fBffmpeg\fR(1)
+\fBvoltkit\fR(1), \fBoxipng\fR(1), \fBjpegoptim\fR(1), \fBcwebp\fR(1), \fBffmpeg\fR(1)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH AUTHOR
