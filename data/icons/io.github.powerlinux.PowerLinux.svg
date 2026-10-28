@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="0.55" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c7d2fe"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fef08a"/>
+      <stop offset="0.5" stop-color="#facc15"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fde047" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#fde047" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="tileClip">
+      <rect x="8" y="8" width="112" height="112" rx="28"/>
+    </clipPath>
+    <mask id="jaw">
+      <rect x="-64" y="-64" width="128" height="128" fill="#fff"/>
+      <rect x="-7.5" y="-56" width="15" height="28" fill="#000"/>
+      <circle cx="0" cy="-30" r="7.5" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- base shadow and tile -->
+  <rect x="8" y="12" width="112" height="112" rx="28" fill="#0f172a" opacity="0.35"/>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#tile)"/>
+  <rect x="8" y="8" width="112" height="60" fill="url(#shine)" clip-path="url(#tileClip)"/>
+
+  <!-- energy glow behind the symbol -->
+  <circle cx="56" cy="64" r="40" fill="url(#glow)"/>
+
+  <!-- wrench, drawn upright around the origin and turned 45° -->
+  <g transform="translate(70 58) rotate(45)">
+    <g mask="url(#jaw)" fill="url(#steel)">
+      <circle cx="0" cy="-30" r="20"/>
+      <rect x="-8.5" y="-22" width="17" height="74" rx="8.5"/>
+    </g>
+    <circle cx="0" cy="42" r="3.2" fill="#4f46e5" opacity="0.6"/>
+  </g>
+
+  <!-- lightning bolt, outlined in the tile color so it reads in front of the wrench -->
+  <path d="M57 24 L32 69 L49 69 L41 106 L77 55 L59 55 L72 24 Z"
+        fill="url(#bolt)" stroke="#312e81" stroke-width="4" stroke-linejoin="round"/>
+</svg>

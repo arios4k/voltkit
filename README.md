@@ -1,3 +1,5 @@
+<img src="docs/icon.png" width="128" alt="PowerLinux icon: a lightning bolt crossing a wrench">
+
 # PowerLinux
 
 **A unified suite of micro-utilities for Linux, in one small binary.**
@@ -32,6 +34,14 @@ powerlinux
 ```
 
 Install the binary before you set up shortcuts or autostart: both record the binary's path.
+
+To add PowerLinux to your app grid with its icon:
+
+```bash
+install -Dm644 data/icons/io.github.powerlinux.PowerLinux.svg ~/.local/share/icons/hicolor/scalable/apps/io.github.powerlinux.PowerLinux.svg
+install -Dm644 data/icons/io.github.powerlinux.PowerLinux-symbolic.svg ~/.local/share/icons/hicolor/symbolic/apps/io.github.powerlinux.PowerLinux-symbolic.svg
+sed "s|^Exec=powerlinux|Exec=$HOME/.cargo/bin/powerlinux|" data/io.github.powerlinux.PowerLinux.desktop > ~/.local/share/applications/io.github.powerlinux.PowerLinux.desktop
+```
 
 ## Background service & global shortcuts
 

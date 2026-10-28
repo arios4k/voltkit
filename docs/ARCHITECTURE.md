@@ -53,4 +53,5 @@ Picked colors go to `~/.local/share/powerlinux/colors.txt`, which the GUI's hist
       resize presets
 - [ ] Snippet editor in the GUI (currently edited in TOML), plus a picker popup with fuzzy search
 - [ ] Flatpak manifest and Flathub submission
-- [ ] App icon, screenshots, AppStream metainfo
+- [x] App icon (full-color and symbolic, `data/icons/`)
+- [ ] Screenshots, AppStream metainfo

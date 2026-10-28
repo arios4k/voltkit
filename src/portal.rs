@@ -77,7 +77,7 @@ pub async fn notify(summary: &str, body: &str) -> Result<()> {
         "/org/freedesktop/Notifications",
         Some("org.freedesktop.Notifications"),
         "Notify",
-        &("PowerLinux", 0u32, "edit-select-all-symbolic", summary, escape_markup(body), Vec::<&str>::new(), hints, 4000i32),
+        &("PowerLinux", 0u32, APP_ID, summary, escape_markup(body), Vec::<&str>::new(), hints, 4000i32),
     )
     .await
     .context("failed to show notification")?;
