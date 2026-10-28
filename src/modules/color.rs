@@ -94,9 +94,60 @@ pub fn wcag_rating(ratio: f64) -> &'static str {
     }
 }
 
+/// Recently used colors, newest first, shared by the GUI and the daemon.
+pub mod history {
+    use std::path::PathBuf;
+
+    use anyhow::Result;
+
+    use super::Rgb;
+
+    const MAX: usize = 32;
+
+    fn path() -> Option<PathBuf> {
+        dirs::data_dir().map(|d| d.join("powerlinux").join("colors.txt"))
+    }
+
+    pub fn load() -> Vec<Rgb> {
+        let Some(text) = path().and_then(|p| std::fs::read_to_string(p).ok()) else {
+            return Vec::new();
+        };
+        text.lines().filter_map(|l| Rgb::parse(l).ok()).take(MAX).collect()
+    }
+
+    pub fn push(color: Rgb) -> Result<()> {
+        let Some(path) = path() else { return Ok(()) };
+        let mut colors = load();
+        insert(&mut colors, color);
+        std::fs::create_dir_all(path.parent().unwrap())?;
+        let text: String = colors.iter().map(|c| c.to_hex() + "\n").collect();
+        std::fs::write(path, text)?;
+        Ok(())
+    }
+
+    /// Moves `color` to the front, dropping duplicates and old entries.
+    pub(super) fn insert(colors: &mut Vec<Rgb>, color: Rgb) {
+        colors.retain(|c| *c != color);
+        colors.insert(0, color);
+        colors.truncate(MAX);
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn history_dedupes_and_caps() {
+        let mut list = vec![Rgb::WHITE, Rgb::BLACK];
+        history::insert(&mut list, Rgb::BLACK);
+        assert_eq!(list, vec![Rgb::BLACK, Rgb::WHITE]);
+        for i in 0..40 {
+            history::insert(&mut list, Rgb { r: i, g: 0, b: 0 });
+        }
+        assert_eq!(list.len(), 32);
+        assert_eq!(list[0], Rgb { r: 39, g: 0, b: 0 });
+    }
 
     #[test]
     fn parses_hex_forms() {

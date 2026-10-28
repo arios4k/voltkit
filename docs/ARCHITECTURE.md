@@ -15,18 +15,39 @@
 
 | Need | Approach |
 |---|---|
-| Global hotkeys | `org.freedesktop.portal.GlobalShortcuts` (GNOME 48+, KDE 5.27+, Hyprland). Until that lands here, users bind `powerlinux ocr` etc. in their DE's shortcut settings. |
-| Region screenshot | `org.freedesktop.portal.Screenshot` (interactive), currently via grim/slurp, gnome-screenshot, spectacle or maim |
+| Global hotkeys | `org.freedesktop.portal.GlobalShortcuts` (GNOME 48+, KDE 5.27+, Hyprland). Fallbacks: GNOME custom keybindings via `gsettings` (`powerlinux shortcuts install`), or compositor bindings to `powerlinux trigger`. |
+| Region screenshot | `org.freedesktop.portal.Screenshot` (interactive), falling back to grim/slurp, gnome-screenshot, spectacle or maim |
 | Eyedropper | `org.freedesktop.portal.Screenshot.PickColor` |
+| Notifications | `org.freedesktop.Notifications` directly. The notification portal needs an app ID that unsandboxed apps on older portals can't provide. |
 | Text expansion | Wayland has no global key snooping by design. Options: (a) an IBus/Fcitx input-method engine, which is the cleanest route and works in every toolkit; (b) evdev read + uinput write, which needs the user in the `input` group. Plan: ship (a), and offer (b) as an opt-in. |
+
+## Daemon
+
+`powerlinux daemon` owns `io.github.powerlinux.Daemon` and requests it with `DoNotQueue`, so a
+second instance exits instead of waiting. Object `/io/github/powerlinux/Daemon`, interface
+`io.github.powerlinux.Daemon1`:
+
+| Method | Signature | Purpose |
+|---|---|---|
+| `Trigger` | `s → ()` | start `"ocr"` or `"color"`; returns immediately; ignored while another capture is open |
+| `Status` | `() → (ss)` | version and shortcut backend: `portal`, `gnome-keybindings` or `none` |
+| `Quit` | `() → ()` | stop the daemon |
+
+```bash
+busctl --user call io.github.powerlinux.Daemon /io/github/powerlinux/Daemon \
+  io.github.powerlinux.Daemon1 Trigger s ocr
+```
+
+Picked colors go to `~/.local/share/powerlinux/colors.txt`, which the GUI's history shows.
 
 ## Roadmap
 
-- [ ] `powerlinux daemon`: tray-less background service. It registers portal global shortcuts
-      and owns the snippet engine. The GUI talks to it over D-Bus (`io.github.powerlinux.PowerLinux`).
-- [ ] Portal-based capture and PickColor via the [`ashpd`](https://crates.io/crates/ashpd) crate
-- [ ] Color picker: persistent history, palette generation (complementary, triadic, shades),
-      export to CSS/GIMP palette
+- [x] `powerlinux daemon` with portal global shortcuts, GNOME fallback, autostart and a D-Bus API
+- [x] Portal-based capture and PickColor via [`ashpd`](https://crates.io/crates/ashpd)
+- [x] Color picker: persistent history
+- [ ] Color picker: palette generation (complementary, triadic, shades), export to CSS/GIMP palette
+- [ ] Daemon owns the snippet engine (see Text expansion above)
+- [ ] KDE fallback via KGlobalAccel for Plasma versions without the portal
 - [ ] OCR: language picker, QR/barcode detection, optional in-process `leptess` backend
 - [ ] Compressor: Nautilus/Dolphin/Nemo "Compress with PowerLinux" context-menu entries, AVIF,
       resize presets

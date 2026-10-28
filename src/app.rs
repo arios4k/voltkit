@@ -9,6 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr, snippets};
+use crate::{daemon, portal};
 
 const APP_ID: &str = "io.github.powerlinux.PowerLinux";
 
@@ -36,6 +37,7 @@ fn build_window(app: &adw::Application, config: &Rc<Config>) {
 
     let content_view = adw::ToolbarView::new();
     content_view.add_top_bar(&adw::HeaderBar::new());
+    content_view.add_top_bar(&daemon_banner(&toasts));
     content_view.set_content(Some(&toasts));
     let content = adw::NavigationPage::new(&content_view, modules::ALL[0].title);
 
@@ -88,6 +90,61 @@ fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
     toasts.add_toast(adw::Toast::new(msg.as_ref()));
 }
 
+fn daemon_running() -> bool {
+    let Ok(bus) = gio::bus_get_sync(gio::BusType::Session, gio::Cancellable::NONE) else {
+        return false;
+    };
+    bus.call_sync(
+        Some("org.freedesktop.DBus"),
+        "/org/freedesktop/DBus",
+        "org.freedesktop.DBus",
+        "NameHasOwner",
+        Some(&(daemon::BUS_NAME,).to_variant()),
+        Some(glib::VariantTy::new("(b)").unwrap()),
+        gio::DBusCallFlags::NONE,
+        500,
+        gio::Cancellable::NONE,
+    )
+    .ok()
+    .and_then(|v| v.get::<(bool,)>())
+    .is_some_and(|(owned,)| owned)
+}
+
+/// Shown while the background service is off, since global shortcuts need it.
+fn daemon_banner(toasts: &adw::ToastOverlay) -> adw::Banner {
+    let banner = adw::Banner::builder()
+        .title("The background service is off, so keyboard shortcuts won't work")
+        .button_label("Start")
+        .revealed(!daemon_running())
+        .build();
+    let toasts = toasts.clone();
+    banner.connect_button_clicked(move |banner| {
+        let spawned = std::env::current_exe().and_then(|exe| {
+            std::process::Command::new(exe)
+                .arg("daemon")
+                .stdin(std::process::Stdio::null())
+                .stdout(std::process::Stdio::null())
+                .spawn()
+        });
+        match spawned {
+            Ok(mut child) => {
+                // Reap it when it exits so it doesn't linger as a zombie.
+                std::thread::spawn(move || child.wait());
+                let (banner, toasts) = (banner.clone(), toasts.clone());
+                glib::timeout_add_local_once(std::time::Duration::from_millis(800), move || {
+                    let running = daemon_running();
+                    banner.set_revealed(!running);
+                    if !running {
+                        toast(&toasts, "The background service failed to start");
+                    }
+                });
+            }
+            Err(e) => toast(&toasts, format!("Could not start the service: {e}")),
+        }
+    });
+    banner
+}
+
 // ---------------------------------------------------------------- OCR
 
 fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
@@ -136,7 +193,7 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         }
         button.set_sensitive(false);
         glib::spawn_future_local(async move {
-            let result = gio::spawn_blocking(move || ocr::capture_and_recognize(&lang)).await;
+            let result = gio::spawn_blocking(move || portal::block_on(ocr::extract_text(&lang))).await;
             button.set_sensitive(true);
             if let Some(w) = &window {
                 w.present();
@@ -198,6 +255,13 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     }
 
     let entry = adw::EntryRow::builder().title("HEX or rgb()").text(initial.to_hex()).build();
+    let pick = gtk::Button::builder()
+        .icon_name("color-select-symbolic")
+        .tooltip_text("Pick from Screen")
+        .valign(gtk::Align::Center)
+        .css_classes(["flat"])
+        .build();
+    entry.add_suffix(&pick);
     entry.add_suffix(&swatch);
     let input = adw::PreferencesGroup::builder()
         .title("Color")
@@ -246,13 +310,70 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
         });
     }
 
-    let history_group = history.clone();
-    entry.connect_entry_activated(move |e| {
-        let c = current.get();
-        let mut rows = history_rows.borrow_mut();
-        if rows.iter().any(|r| r.title() == c.to_hex()) {
-            return;
-        }
+    // Adds `c` to the top of the history group, moving it if already present.
+    let remember: Rc<dyn Fn(color::Rgb)> = {
+        let (entry, history) = (entry.clone(), history.clone());
+        Rc::new(move |c: color::Rgb| add_history_row(&history, &history_rows, &entry, c))
+    };
+    for c in color::history::load().into_iter().rev() {
+        remember(c);
+    }
+
+    {
+        let (remember, toasts) = (remember.clone(), toasts.clone());
+        entry.connect_entry_activated(move |_| {
+            let c = current.get();
+            remember(c);
+            if let Err(e) = color::history::push(c) {
+                toast(&toasts, format!("Could not save history: {e}"));
+            }
+        });
+    }
+
+    {
+        let (entry, toasts) = (entry.clone(), toasts.clone());
+        pick.connect_clicked(move |button| {
+            let (button, entry, toasts, remember) = (button.clone(), entry.clone(), toasts.clone(), remember.clone());
+            button.set_sensitive(false);
+            glib::spawn_future_local(async move {
+                let result = gio::spawn_blocking(|| portal::block_on(portal::pick_color())).await;
+                button.set_sensitive(true);
+                match result {
+                    Ok(Ok(c)) => {
+                        entry.set_text(&c.to_hex());
+                        remember(c);
+                        let _ = color::history::push(c);
+                        button.clipboard().set_text(&c.to_hex());
+                        toast(&toasts, format!("Copied {}", c.to_hex()));
+                    }
+                    Ok(Err(e)) if e.is::<portal::Cancelled>() => {}
+                    Ok(Err(e)) => toast(&toasts, format!("Color picker unavailable: {e}")),
+                    Err(_) => toast(&toasts, "Color picker crashed"),
+                }
+            });
+        });
+    }
+
+    let page = adw::PreferencesPage::new();
+    for g in [&input, &values, &contrast, &history] {
+        page.add(g);
+    }
+    page.upcast()
+}
+
+const HISTORY_ROWS: usize = 8;
+
+fn add_history_row(
+    group: &adw::PreferencesGroup,
+    rows: &RefCell<Vec<adw::ActionRow>>,
+    entry: &adw::EntryRow,
+    c: color::Rgb,
+) {
+    let mut rows = rows.borrow_mut();
+    if let Some(i) = rows.iter().position(|r| r.title() == c.to_hex()) {
+        group.remove(&rows.remove(i));
+    }
+    {
         let row = adw::ActionRow::builder().title(c.to_hex()).activatable(true).build();
         let dot = gtk::DrawingArea::builder().content_width(16).content_height(16).build();
         dot.set_draw_func(move |_, cr, w, h| {
@@ -261,20 +382,18 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
             let _ = cr.fill();
         });
         row.add_prefix(&dot);
-        let e = e.clone();
+        let e = entry.clone();
         row.connect_activated(move |r| e.set_text(&r.title()));
-        history_group.add(&row);
-        rows.push(row);
-        if rows.len() > 8 {
-            history_group.remove(&rows.remove(0));
+        // PreferencesGroup only appends, so rebuild to keep newest first.
+        for r in rows.iter() {
+            group.remove(r);
         }
-    });
-
-    let page = adw::PreferencesPage::new();
-    for g in [&input, &values, &contrast, &history] {
-        page.add(g);
+        rows.insert(0, row);
+        rows.truncate(HISTORY_ROWS);
+        for r in rows.iter() {
+            group.add(r);
+        }
     }
-    page.upcast()
 }
 
 // ---------------------------------------------------------------- Compressor

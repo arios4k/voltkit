@@ -3,8 +3,9 @@
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-use anyhow::{Result, bail};
+use anyhow::{Context, Result, bail};
 
+use crate::portal;
 use crate::system::{self, has};
 
 /// Interactive region capture backends, tried in order.
@@ -35,7 +36,19 @@ fn region_capture_command(out: &Path) -> Option<Command> {
     None
 }
 
-pub fn capture_region() -> Result<PathBuf> {
+/// Captures a region through the Screenshot portal, falling back to a CLI tool
+/// when no portal is available.
+pub async fn capture_region() -> Result<PathBuf> {
+    match portal::screenshot_interactive().await {
+        Ok(path) => Ok(path),
+        Err(e) if e.is::<portal::Cancelled>() => Err(e),
+        Err(portal_err) => tokio::task::spawn_blocking(capture_region_with_tool)
+            .await?
+            .with_context(|| format!("screenshot portal failed ({portal_err}) and so did the fallback")),
+    }
+}
+
+fn capture_region_with_tool() -> Result<PathBuf> {
     let path = std::env::temp_dir().join(format!("powerlinux-ocr-{}.png", std::process::id()));
     let Some(mut cmd) = region_capture_command(&path) else {
         bail!("no region screenshot tool found (install grim+slurp, gnome-screenshot, spectacle or maim)");
@@ -52,11 +65,17 @@ pub fn recognize(image: &Path, lang: &str) -> Result<String> {
     Ok(clean(&String::from_utf8_lossy(&out)))
 }
 
-pub fn capture_and_recognize(lang: &str) -> Result<String> {
-    let image = capture_region()?;
-    let text = recognize(&image, lang);
+pub async fn extract_text(lang: &str) -> Result<String> {
+    let image = capture_region().await?;
+    let (path, lang) = (image.clone(), lang.to_owned());
+    let text = tokio::task::spawn_blocking(move || recognize(&path, &lang)).await?;
+    // The capture is ours; don't leave it in the user's Pictures folder.
     let _ = std::fs::remove_file(&image);
-    text
+    let text = text?;
+    if text.is_empty() {
+        bail!("no text found in the selected region");
+    }
+    Ok(text)
 }
 
 /// Trims trailing whitespace and form feeds Tesseract appends to each page.

@@ -1,6 +1,10 @@
+mod actions;
 mod app;
 mod config;
+mod daemon;
 mod modules;
+mod portal;
+mod shortcuts;
 mod system;
 
 use std::path::PathBuf;
@@ -8,6 +12,7 @@ use std::path::PathBuf;
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 
+use actions::Action;
 use modules::{color, compress, ocr, snippets};
 
 /// PowerToys-style micro-utilities for Linux, in one binary.
@@ -26,6 +31,8 @@ enum Command {
         #[arg(long, default_value = "eng")]
         lang: String,
     },
+    /// Pick a color from the screen and copy its HEX value
+    PickColor,
     /// Convert a color (#hex or rgb(...)) and report WCAG contrast
     Color { value: String },
     /// Strip metadata and compress PNG, JPEG, WebP or MP4 files
@@ -42,6 +49,46 @@ enum Command {
         #[arg(long = "arg", value_parser = parse_kv)]
         args: Vec<(String, String)>,
     },
+    /// Run the background service that listens for global shortcuts
+    Daemon {
+        #[command(subcommand)]
+        command: Option<DaemonCommand>,
+    },
+    /// Run a hotkey action via the daemon (or directly if it isn't running);
+    /// bind this in your desktop's keyboard settings
+    Trigger { action: Action },
+    /// Manage GNOME keybindings for desktops without the GlobalShortcuts portal
+    Shortcuts {
+        #[command(subcommand)]
+        command: ShortcutsCommand,
+    },
+}
+
+#[derive(Subcommand)]
+enum DaemonCommand {
+    /// Show whether the daemon is running and how shortcuts are bound
+    Status,
+    /// Stop the running daemon
+    Stop,
+    /// Start the daemon automatically at login
+    EnableAutostart,
+    /// Stop starting the daemon at login
+    DisableAutostart,
+}
+
+#[derive(Subcommand)]
+enum ShortcutsCommand {
+    /// Add Super+Shift+T / Super+Shift+C (or your configured keys) to GNOME Settings
+    Install {
+        /// Print the gsettings commands instead of running them
+        #[arg(long)]
+        dry_run: bool,
+    },
+    /// Remove the keybindings added by `install`
+    Remove {
+        #[arg(long)]
+        dry_run: bool,
+    },
 }
 
 fn parse_kv(s: &str) -> Result<(String, String), String> {
@@ -57,9 +104,15 @@ fn main() -> Result<()> {
     match cli.command {
         None => app::run(config),
         Some(Command::Ocr { lang }) => {
-            let text = ocr::capture_and_recognize(&lang)?;
-            system::copy_to_clipboard(&text)?;
+            let text = portal::block_on(ocr::extract_text(&lang))?;
             println!("{text}");
+            system::copy_to_clipboard(&text)?;
+        }
+        Some(Command::PickColor) => {
+            let c = portal::block_on(portal::pick_color())?;
+            color::history::push(c)?;
+            println!("{}", c.to_hex());
+            system::copy_to_clipboard(&c.to_hex())?;
         }
         Some(Command::Color { value }) => {
             let c = color::Rgb::parse(&value)?;
@@ -92,6 +145,37 @@ fn main() -> Result<()> {
             };
             println!("{}", snippets::expand(&template, &ctx)?);
         }
+        Some(Command::Daemon { command: None }) => daemon::run(config)?,
+        Some(Command::Daemon { command: Some(cmd) }) => match cmd {
+            DaemonCommand::Status => match daemon::status() {
+                Some((version, backend)) => println!("running (v{version}), shortcuts: {backend}"),
+                None => println!("not running"),
+            },
+            DaemonCommand::Stop => {
+                if daemon::stop().is_err() {
+                    println!("not running");
+                }
+            }
+            DaemonCommand::EnableAutostart => {
+                println!("Created {}", daemon::set_autostart(true)?.display())
+            }
+            DaemonCommand::DisableAutostart => {
+                println!("Removed {}", daemon::set_autostart(false)?.display())
+            }
+        },
+        Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
+        Some(Command::Shortcuts { command }) => match command {
+            ShortcutsCommand::Install { dry_run } => {
+                shortcuts::gnome_install(&config, dry_run)?;
+                if !dry_run {
+                    println!(
+                        "Added {} and {} to GNOME keyboard shortcuts",
+                        config.hotkeys.ocr, config.hotkeys.color_picker
+                    );
+                }
+            }
+            ShortcutsCommand::Remove { dry_run } => shortcuts::gnome_remove(dry_run)?,
+        },
     }
     Ok(())
 }

@@ -8,8 +8,12 @@ Type=Application
 Categories=Utility;GTK;
 Keywords=ocr;color;picker;compress;snippet;expander;powertoys;
 StartupNotify=true
-Actions=ocr;
+Actions=ocr;color;
 
 [Desktop Action ocr]
 Name=Extract Text from Screen
-Exec=powerlinux ocr
+Exec=powerlinux trigger ocr
+
+[Desktop Action color]
+Name=Pick a Color from Screen
+Exec=powerlinux trigger color

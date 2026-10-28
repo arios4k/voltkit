@@ -10,12 +10,16 @@ categories = ["gui"]
 [dependencies]
 adw = { version = "0.9.2", package = "libadwaita", features = ["v1_5"] }
 anyhow = "1.0.104"
+ashpd = { version = "0.13.13", features = ["global_shortcuts", "screenshot"] }
 chrono = "0.4.45"
 clap = { version = "4.6.7", features = ["derive"] }
 dirs = "7.0.0"
+futures-util = "0.3.34"
 gtk = { version = "0.11.5", package = "gtk4", features = ["v4_14"] }
 serde = { version = "1.0.229", features = ["derive"] }
+tokio = { version = "1.54.1", features = ["rt", "macros", "signal", "time", "sync"] }
 toml = "1.1.8"
+zbus = { version = "5.19.0", default-features = false, features = ["tokio"] }
 
 [profile.release]
 lto = true
