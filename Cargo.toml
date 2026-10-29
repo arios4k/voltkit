@@ -1,6 +1,6 @@
 [package]
 name = "voltkit"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Alexis Rios-Negron"]
 edition = "2024"
 description = "A unified suite of desktop micro-utilities for Linux"
