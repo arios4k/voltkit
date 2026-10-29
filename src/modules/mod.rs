@@ -1,6 +1,7 @@
 pub mod color;
 pub mod compress;
 pub mod ocr;
+pub mod qr;
 pub mod snippets;
 
 /// Static description of a module, used to build the control center sidebar.
@@ -17,6 +18,12 @@ pub const ALL: &[ModuleInfo] = &[
         title: "Text Extractor",
         icon: "edit-select-all-symbolic",
         summary: "Drag a box around any text on screen and copy it to the clipboard.",
+    },
+    ModuleInfo {
+        id: "qr",
+        title: "QR Code",
+        icon: "view-grid-symbolic",
+        summary: "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one.",
     },
     ModuleInfo {
         id: "color",

@@ -6,7 +6,7 @@ use anyhow::Result;
 use clap::ValueEnum;
 
 use crate::config::Config;
-use crate::modules::{color, ocr};
+use crate::modules::{color, ocr, qr};
 use crate::portal::{self, Cancelled};
 use crate::system;
 
@@ -18,16 +18,19 @@ pub enum Action {
     Color,
     /// Open the snippet picker
     Snippets,
+    /// Read a QR code on screen
+    Qr,
 }
 
 impl Action {
-    pub const ALL: [Action; 3] = [Action::Ocr, Action::Color, Action::Snippets];
+    pub const ALL: [Action; 4] = [Action::Ocr, Action::Color, Action::Snippets, Action::Qr];
 
     pub fn id(self) -> &'static str {
         match self {
             Action::Ocr => "ocr",
             Action::Color => "color",
             Action::Snippets => "snippets",
+            Action::Qr => "qr",
         }
     }
 
@@ -40,6 +43,7 @@ impl Action {
             Action::Ocr => "Extract text from screen",
             Action::Color => "Pick a color from screen",
             Action::Snippets => "Insert a snippet",
+            Action::Qr => "Scan a QR code on screen",
         }
     }
 
@@ -48,6 +52,7 @@ impl Action {
             Action::Ocr => &config.hotkeys.ocr,
             Action::Color => &config.hotkeys.color_picker,
             Action::Snippets => &config.hotkeys.snippets,
+            Action::Qr => &config.hotkeys.qr,
         }
     }
 }
@@ -80,6 +85,13 @@ async fn pick_color() -> Result<()> {
     portal::notify(&title, &body).await
 }
 
+async fn scan_qr() -> Result<()> {
+    let text = qr::scan().await?.join("\n");
+    let note = copy(&text);
+    let title = if note.is_none() { "QR code copied" } else { "QR code read" };
+    portal::notify(title, &(text + note.as_deref().unwrap_or(""))).await
+}
+
 /// Opens the picker (a GTK window, so it runs as its own process) and waits for it to close.
 /// With `snippet`, it opens straight on that snippet's parameter form.
 pub async fn open_picker(snippet: Option<String>) -> Result<()> {
@@ -105,6 +117,7 @@ pub async fn run(action: Action, config: &Config) {
         Action::Ocr => extract_text(config).await,
         Action::Color => pick_color().await,
         Action::Snippets => open_picker(None).await,
+        Action::Qr => scan_qr().await,
     };
     match result {
         Ok(()) => {}

@@ -250,6 +250,15 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 blocks: &[Para("0 when nothing required is missing, 1 otherwise, so it can be used in scripts.")],
             },
         ],
+        "voltkit-qr" => vec![Section {
+            heading: "EXAMPLES",
+            blocks: &[
+                Example("Copy the link from a QR code on screen:", "voltkit qr scan"),
+                Example("Read the codes in a photo:", "voltkit qr read photo.jpg"),
+                Example("Show a link as a QR code in the terminal:", "voltkit qr make https://example.com"),
+                Example("Save a Wi-Fi code to print:", "voltkit qr make 'WIFI:T:WPA;S:Home;P:secret;;' --output wifi.png"),
+            ],
+        }],
         "voltkit-trigger" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[Example("A Sway or i3 binding:", "bindsym $mod+Shift+t exec voltkit trigger ocr")],

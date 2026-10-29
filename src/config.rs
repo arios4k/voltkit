@@ -20,6 +20,8 @@ pub struct Hotkeys {
     pub ocr: String,
     pub color_picker: String,
     pub snippets: String,
+    pub qr: String,
+    pub ruler: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -75,6 +77,8 @@ impl Default for Hotkeys {
             ocr: "<Super><Shift>t".into(),
             color_picker: "<Super><Shift>c".into(),
             snippets: "<Super><Shift>e".into(),
+            qr: "<Super><Shift>q".into(),
+            ruler: "<Super><Shift>r".into(),
         }
     }
 }

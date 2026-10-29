@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{daemon, doctor, portal, snippets_ui};
+use crate::{daemon, doctor, portal, qr_ui, snippets_ui};
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -51,6 +51,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let toasts = adw::ToastOverlay::new();
     let stack = gtk::Stack::builder().transition_type(gtk::StackTransitionType::Crossfade).build();
     stack.add_named(&ocr_page(config, &toasts), Some("ocr"));
+    stack.add_named(&qr_ui::page(config, &toasts), Some("qr"));
     stack.add_named(&color_page(&toasts), Some("color"));
     stack.add_named(&compress_page(config, &toasts), Some("compress"));
     stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));

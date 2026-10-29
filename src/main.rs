@@ -8,6 +8,7 @@ mod manpages;
 mod modules;
 mod paste;
 mod picker;
+mod qr_ui;
 mod portal;
 mod screenshots;
 mod snippets_ui;
@@ -20,7 +21,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 
 use actions::Action;
-use modules::{color, compress, ocr, snippets};
+use modules::{color, compress, ocr, qr, snippets};
 
 /// PowerToys-style micro-utilities for Linux, in one binary.
 ///
@@ -99,6 +100,11 @@ enum Command {
         #[command(subcommand)]
         command: ExpanderCommand,
     },
+    /// Read QR codes from the screen or image files, or make them from text
+    Qr {
+        #[command(subcommand)]
+        command: QrCommand,
+    },
     /// Run the background service that listens for global shortcuts
     ///
     /// Without a subcommand, runs the service in the foreground until interrupted. It owns
@@ -133,6 +139,21 @@ enum Command {
     /// Render README screenshots of the GUI with demo content into DIR
     #[command(hide = true)]
     Screenshots { dir: PathBuf },
+}
+
+#[derive(Subcommand)]
+enum QrCommand {
+    /// Select a screen region and copy the text of the QR code in it
+    Scan,
+    /// Print the text of every QR code in an image file
+    Read { file: PathBuf },
+    /// Show TEXT as a QR code in the terminal, or save it as a PNG image
+    Make {
+        text: String,
+        /// Save a PNG image instead of printing to the terminal
+        #[arg(long, value_name = "FILE")]
+        output: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -310,6 +331,25 @@ fn main() -> Result<()> {
             }
         },
         Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
+        Some(Command::Qr { command }) => match command {
+            QrCommand::Scan => {
+                let text = portal::block_on(qr::scan())?.join("\n");
+                println!("{text}");
+                system::copy_to_clipboard(&text)?;
+            }
+            QrCommand::Read { file } => {
+                let codes = qr::decode_file(&file)?;
+                anyhow::ensure!(!codes.is_empty(), "no QR code found in {}", file.display());
+                for code in codes {
+                    println!("{code}");
+                }
+            }
+            QrCommand::Make { text, output: Some(path) } => {
+                qr::to_pixbuf(&qr::encode(&text)?, 12).savev(&path, "png", &[])?;
+                println!("Saved {}", path.display());
+            }
+            QrCommand::Make { text, output: None } => print!("{}", qr::to_terminal(&qr::encode(&text)?)),
+        },
         Some(Command::Doctor) => {
             let report = doctor::run(&config);
             print!("{}", report.render());

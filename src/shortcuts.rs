@@ -169,7 +169,7 @@ mod tests {
         assert_eq!(
             *list,
             format!(
-                "['{BASE}custom0/', '{BASE}voltkit-ocr/', '{BASE}voltkit-color/', '{BASE}voltkit-snippets/']"
+                "['{BASE}custom0/', '{BASE}voltkit-ocr/', '{BASE}voltkit-color/', '{BASE}voltkit-snippets/', '{BASE}voltkit-qr/']"
             )
         );
         let command = plan.iter().find(|a| a[2] == "command").unwrap();
