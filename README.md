@@ -77,8 +77,8 @@ fill-in field, and a live preview shows exactly what will be pasted.
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png">
-  <img src="docs/screenshots/snippets-light.png" alt="Text Expansion page with the template playground and configured snippets">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png">
+  <img src="docs/screenshots/snippet-editor-light.png" alt="Snippet editor with a trigger, text with Insert buttons for date, time, clipboard and fill-in fields, and a live preview">
 </picture>
 
 ## Why Voltkit
