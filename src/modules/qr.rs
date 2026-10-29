@@ -53,10 +53,18 @@ impl Matrix {
 }
 
 pub fn encode(text: &str) -> Result<Matrix> {
+    encode_for(text, false)
+}
+
+/// Encodes `text`, with the highest error correction when a logo will cover
+/// part of the code: up to 30% of it can then be lost and still read.
+pub fn encode_for(text: &str, with_logo: bool) -> Result<Matrix> {
     if text.is_empty() {
         bail!("nothing to encode");
     }
-    let code = qrcode::QrCode::new(text.as_bytes()).context("text is too long for a QR code")?;
+    let level = if with_logo { qrcode::EcLevel::H } else { qrcode::EcLevel::M };
+    let code = qrcode::QrCode::with_error_correction_level(text.as_bytes(), level)
+        .context("text is too long for a QR code")?;
     let dark = code.to_colors().into_iter().map(|c| c == qrcode::Color::Dark).collect();
     Ok(Matrix { width: code.width(), dark })
 }
@@ -82,6 +90,91 @@ pub fn to_pixbuf(matrix: &Matrix, scale: usize) -> Pixbuf {
         }
     }
     pixbuf
+}
+
+/// Logo sizes offered in the app (small, medium, large), as a share of the
+/// code's width. Even the largest covers about 4% of the code, far below the
+/// 30% that the highest error correction can recover.
+pub const LOGO_SIZES: [f64; 3] = [0.12, 0.16, 0.20];
+/// The smallest logo tried when a larger one makes the code unreadable.
+const MIN_LOGO: f64 = 0.08;
+/// Pixels per module for the read-back check, small and large, so the code
+/// is known to read at different sizes.
+const CHECK_SCALES: [usize; 2] = [4, 8];
+
+/// Image formats accepted as a logo, as named by GdkPixbuf.
+pub const LOGO_FORMATS: [&str; 4] = ["png", "jpeg", "webp", "svg"];
+const LOGO_MAX_BYTES: u64 = 5 * 1024 * 1024;
+const LOGO_MIN_SIDE: i32 = 16;
+const LOGO_MAX_SIDE: i32 = 8192;
+/// Logos are loaded at this size, enough for the largest saved code.
+const LOGO_PIXELS: i32 = 512;
+
+/// Loads an image to use as a logo, refusing anything that isn't a PNG, JPEG,
+/// WebP or SVG of reasonable size and shape.
+pub fn load_logo(path: &Path) -> Result<Pixbuf> {
+    let bytes = std::fs::metadata(path).with_context(|| format!("cannot open {}", path.display()))?.len();
+    if bytes > LOGO_MAX_BYTES {
+        bail!("the image is too large ({} MB); use one under 5 MB", bytes / (1024 * 1024));
+    }
+    let Some((format, w, h)) = Pixbuf::file_info(path) else {
+        bail!("not an image Voltkit can read; use a PNG, JPEG, WebP or SVG");
+    };
+    let name = format.name().map(|n| n.to_string()).unwrap_or_default();
+    if !LOGO_FORMATS.contains(&name.as_str()) {
+        bail!("{} images can't be used as a logo; use a PNG, JPEG, WebP or SVG", name.to_uppercase());
+    }
+    if name != "svg" && (w < LOGO_MIN_SIDE || h < LOGO_MIN_SIDE) {
+        bail!("the image is too small ({w}×{h}); use one at least {LOGO_MIN_SIDE}×{LOGO_MIN_SIDE} pixels");
+    }
+    if w > LOGO_MAX_SIDE || h > LOGO_MAX_SIDE {
+        bail!("the image is too large ({w}×{h}); use one under {LOGO_MAX_SIDE}×{LOGO_MAX_SIDE} pixels");
+    }
+    if w.max(h) > 2 * w.min(h).max(1) {
+        bail!("the image is too wide or tall ({w}×{h}); use a square-ish logo");
+    }
+    Pixbuf::from_file_at_scale(path, LOGO_PIXELS, LOGO_PIXELS, true)
+        .with_context(|| format!("cannot read {}", path.display()))
+}
+
+/// Renders a QR code with `logo` in the middle, on a white square that
+/// covers about `fraction` of the code's width.
+pub fn to_pixbuf_with_logo(matrix: &Matrix, scale: usize, logo: &Pixbuf, fraction: f64) -> Pixbuf {
+    let pixbuf = to_pixbuf(matrix, scale);
+    let n = matrix.width;
+    // Whole modules, centered: same parity as the code's width.
+    let mut box_modules = ((n as f64 * fraction).round() as usize).max(3);
+    if box_modules % 2 != n % 2 {
+        box_modules += 1;
+    }
+    let start = (QUIET_ZONE + (n - box_modules) / 2) * scale;
+    let side = box_modules * scale;
+    pixbuf.new_subpixbuf(start as i32, start as i32, side as i32, side as i32).fill(0xffffffff);
+
+    // The logo keeps its proportions inside the square, with a module of white around it.
+    let inner = (box_modules - 2) * scale;
+    let ratio = (inner as f64 / logo.width() as f64).min(inner as f64 / logo.height() as f64);
+    let (w, h) = (((logo.width() as f64 * ratio).round() as i32).max(1), ((logo.height() as f64 * ratio).round() as i32).max(1));
+    let (x, y) = (start as i32 + (side as i32 - w) / 2, start as i32 + (side as i32 - h) / 2);
+    logo.composite(&pixbuf, x, y, w, h, x as f64, y as f64, ratio, ratio, gtk::gdk_pixbuf::InterpType::Bilinear, 255);
+    pixbuf
+}
+
+/// The largest logo size, up to `fraction`, at which the code still reads
+/// back as `text`. `None` if even the smallest logo breaks it.
+pub fn checked_logo_size(matrix: &Matrix, text: &str, logo: &Pixbuf, fraction: f64) -> Option<f64> {
+    let mut f = fraction;
+    while f >= MIN_LOGO - 1e-9 {
+        let reads = CHECK_SCALES.iter().all(|&scale| {
+            let image = to_pixbuf_with_logo(matrix, scale, logo, f);
+            decode_pixbuf(&image).iter().any(|t| t == text)
+        });
+        if reads {
+            return Some(f);
+        }
+        f -= 0.02;
+    }
+    None
 }
 
 /// Renders a QR code with Unicode half blocks, two module rows per text line.
@@ -150,6 +243,89 @@ mod tests {
             let pixbuf = to_pixbuf(&encode(text).unwrap(), 6);
             assert_eq!(decode_pixbuf(&pixbuf), vec![text.to_owned()]);
         }
+    }
+
+    /// A colorful logo with transparent corners, like a typical app icon.
+    fn sample_logo() -> Pixbuf {
+        let logo = Pixbuf::new(Colorspace::Rgb, true, 8, 64, 64).unwrap();
+        logo.fill(0x00000000);
+        for y in 0..64u32 {
+            for x in 0..64u32 {
+                let (dx, dy) = (x as i32 - 32, y as i32 - 32);
+                if dx * dx + dy * dy < 30 * 30 {
+                    logo.put_pixel(x, y, (x * 4) as u8, 40, (y * 4) as u8, 255);
+                }
+            }
+        }
+        logo
+    }
+
+    #[test]
+    fn codes_with_a_logo_still_decode() {
+        let logo = sample_logo();
+        let long = "https://example.com/".to_owned() + &"a".repeat(150);
+        for text in ["https://github.com/arios4k/voltkit", "WIFI:T:WPA;S:Home;P:secret;;", "hi", long.as_str()] {
+            let m = encode_for(text, true).unwrap();
+            for size in LOGO_SIZES {
+                let used = checked_logo_size(&m, text, &logo, size).expect("a logo size that scans");
+                assert!(used >= MIN_LOGO - 1e-9 && used <= size + 1e-9);
+                let image = to_pixbuf_with_logo(&m, 8, &logo, used);
+                assert_eq!(decode_pixbuf(&image), vec![text.to_owned()], "{text} at {used}");
+            }
+        }
+    }
+
+    #[test]
+    fn logo_stays_small() {
+        // The square under the largest logo is a small share of the code.
+        for text in ["hi", "https://github.com/arios4k/voltkit"] {
+            let m = encode_for(text, true).unwrap();
+            let image = to_pixbuf_with_logo(&m, 1, &sample_logo(), LOGO_SIZES[2]);
+            let code = (m.width * m.width) as f64;
+            let white_box = {
+                let mut side = ((m.width as f64 * LOGO_SIZES[2]).round() as usize).max(3);
+                if side % 2 != m.width % 2 {
+                    side += 1;
+                }
+                (side * side) as f64
+            };
+            assert!(white_box / code < 0.08, "{text}: {}", white_box / code);
+            assert!(image.width() > 0);
+        }
+    }
+
+    #[test]
+    fn rejects_unsuitable_logos() {
+        let dir = std::env::temp_dir().join(format!("voltkit-logo-test-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let save = |name: &str, w: i32, h: i32, format: &str| {
+            let path = dir.join(name);
+            let p = Pixbuf::new(Colorspace::Rgb, false, 8, w, h).unwrap();
+            p.fill(0x3366ccff);
+            p.savev(&path, format, &[]).unwrap();
+            path
+        };
+        assert!(load_logo(&save("ok.png", 64, 64, "png")).is_ok());
+        assert!(load_logo(&save("ok.jpg", 100, 60, "jpeg")).is_ok());
+        assert!(load_logo(&save("tiny.png", 8, 8, "png")).is_err());
+        assert!(load_logo(&save("banner.png", 300, 50, "png")).is_err());
+        assert!(load_logo(&save("bitmap.bmp", 64, 64, "bmp")).is_err());
+        let text = dir.join("notes.png");
+        std::fs::write(&text, "not an image").unwrap();
+        assert!(load_logo(&text).is_err());
+        assert!(load_logo(&dir.join("missing.png")).is_err());
+        std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    #[test]
+    fn logo_covers_the_middle() {
+        let m = encode_for("voltkit", true).unwrap();
+        let image = to_pixbuf_with_logo(&m, 4, &sample_logo(), LOGO_SIZES[2]);
+        let c = image.width() as usize / 2;
+        let bytes = image.read_pixel_bytes();
+        let i = c * image.rowstride() as usize + c * image.n_channels() as usize;
+        // The logo's center color, not black or white.
+        assert_eq!(bytes[i + 1], 40);
     }
 
     #[test]

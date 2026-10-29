@@ -117,7 +117,33 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
         .model(&gtk::StringList::new(&["WPA / WPA2 / WPA3", "WEP", "None (open network)"]))
         .visible(false)
         .build();
-    for row in [kind.upcast_ref::<gtk::Widget>(), text.upcast_ref(), ssid.upcast_ref(), password.upcast_ref(), security.upcast_ref()] {
+    // Optional logo in the middle of the code
+    let logo_thumb = gtk::Image::builder().pixel_size(32).visible(false).build();
+    let choose_logo = gtk::Button::builder().label("Choose…").valign(gtk::Align::Center).build();
+    let remove_logo = flat_button("user-trash-symbolic", "Remove Logo");
+    remove_logo.set_visible(false);
+    let logo_row = adw::ActionRow::builder()
+        .title("Logo")
+        .subtitle("Optional: a small PNG, JPEG, WebP or SVG in the middle of the code")
+        .build();
+    logo_row.add_suffix(&logo_thumb);
+    logo_row.add_suffix(&remove_logo);
+    logo_row.add_suffix(&choose_logo);
+    let logo_size = adw::ComboRow::builder()
+        .title("Logo size")
+        .model(&gtk::StringList::new(&["Small", "Medium", "Large"]))
+        .selected(1)
+        .visible(false)
+        .build();
+    for row in [
+        kind.upcast_ref::<gtk::Widget>(),
+        text.upcast_ref(),
+        ssid.upcast_ref(),
+        password.upcast_ref(),
+        security.upcast_ref(),
+        logo_row.upcast_ref(),
+        logo_size.upcast_ref(),
+    ] {
         group.add(row);
     }
 
@@ -140,6 +166,8 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
         .child(&adw::ButtonContent::builder().icon_name("document-save-symbolic").label("Save as PNG…").build())
         .sensitive(false)
         .build();
+    // Whether the code still scans with the logo on it
+    let check = gtk::Label::builder().wrap(true).justify(gtk::Justification::Center).visible(false).build();
     let buttons = gtk::Box::builder().spacing(12).halign(gtk::Align::Center).margin_bottom(18).build();
     buttons.append(&copy);
     buttons.append(&save);
@@ -152,14 +180,17 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
     picture.set_margin_top(18);
     card.append(&picture);
     card.append(&placeholder);
+    card.append(&check);
     card.append(&buttons);
     group.add(&card);
 
-    let current: Rc<RefCell<Option<String>>> = Rc::default();
+    let current: Rc<RefCell<Option<Current>>> = Rc::default();
+    let logo: Rc<RefCell<Option<Pixbuf>>> = Rc::default();
     let update = {
         let (kind, text, ssid, password, security) = (kind.clone(), text.clone(), ssid.clone(), password.clone(), security.clone());
         let (picture, placeholder, copy, save, current) =
             (picture.clone(), placeholder.clone(), copy.clone(), save.clone(), current.clone());
+        let (logo, logo_size, check) = (logo.clone(), logo_size.clone(), check.clone());
         move || {
             let wifi = kind.selected() == 1;
             text.set_visible(!wifi);
@@ -179,17 +210,45 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
             } else {
                 (!text.text().is_empty()).then(|| text.text().to_string())
             };
-            let matrix = payload.as_deref().map(qr::encode);
-            match matrix {
-                Some(Ok(m)) => {
+            let logo = logo.borrow().clone();
+            let matrix = payload.as_deref().map(|p| qr::encode_for(p, logo.is_some()));
+            check.set_visible(false);
+            match (matrix, payload) {
+                (Some(Ok(m)), Some(payload)) => {
+                    // With a logo, use the largest size up to the chosen one at
+                    // which the code reads back correctly.
+                    let wanted = qr::LOGO_SIZES[logo_size.selected().min(2) as usize];
+                    let with_logo = logo.map(|image| {
+                        let size = qr::checked_logo_size(&m, &payload, &image, wanted);
+                        (image, size)
+                    });
+                    let shown_logo = match &with_logo {
+                        Some((image, Some(size))) => {
+                            show_check(&check, true, if *size < wanted - 1e-9 {
+                                "✓ Scans correctly (logo made smaller so it fits)"
+                            } else {
+                                "✓ Checked: scans correctly with the logo"
+                            });
+                            Some((image.clone(), *size))
+                        }
+                        Some((_, None)) => {
+                            show_check(&check, false, "This code doesn't scan with a logo. Shorten the text or remove the logo.");
+                            None
+                        }
+                        None => None,
+                    };
                     // Whole pixels per module keep the code crisp on screen.
                     let scale = (PREVIEW_SIZE / (m.width + 8)).max(1);
-                    picture.set_paintable(Some(&gdk::Texture::for_pixbuf(&qr::to_pixbuf(&m, scale))));
+                    let image = match &shown_logo {
+                        Some((image, size)) => qr::to_pixbuf_with_logo(&m, scale, image, *size),
+                        None => qr::to_pixbuf(&m, scale),
+                    };
+                    picture.set_paintable(Some(&gdk::Texture::for_pixbuf(&image)));
                     picture.set_visible(true);
                     placeholder.set_visible(false);
-                    *current.borrow_mut() = payload;
+                    *current.borrow_mut() = Some(Current { payload, logo: shown_logo });
                 }
-                other => {
+                (other, _) => {
                     picture.set_visible(false);
                     placeholder.set_visible(true);
                     placeholder.set_label(match other {
@@ -210,15 +269,61 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
         let update = update.clone();
         entry.connect_changed(move |_| update());
     }
-    for combo in [&kind, &security] {
+    for combo in [&kind, &security, &logo_size] {
         let update = update.clone();
         combo.connect_selected_notify(move |_| update());
     }
     update();
 
-    let print_ready = move |current: &Rc<RefCell<Option<String>>>| -> Option<Pixbuf> {
-        let payload = current.borrow().clone()?;
-        qr::encode(&payload).ok().map(|m| qr::to_pixbuf(&m, SAVE_SCALE))
+    {
+        let (logo, update, thumb, remove, size) =
+            (logo.clone(), update.clone(), logo_thumb.clone(), remove_logo.clone(), logo_size.clone());
+        let set_logo = Rc::new(move |image: Option<Pixbuf>| {
+            thumb.set_visible(image.is_some());
+            remove.set_visible(image.is_some());
+            size.set_visible(image.is_some());
+            if let Some(image) = &image {
+                thumb.set_paintable(Some(&gdk::Texture::for_pixbuf(image)));
+            }
+            *logo.borrow_mut() = image;
+            update();
+        });
+        {
+            let set_logo = set_logo.clone();
+            remove_logo.connect_clicked(move |_| set_logo(None));
+        }
+        let toasts = toasts.clone();
+        choose_logo.connect_clicked(move |b| {
+            let filter = gtk::FileFilter::new();
+            filter.set_name(Some("PNG, JPEG, WebP or SVG"));
+            for mime in ["image/png", "image/jpeg", "image/webp", "image/svg+xml"] {
+                filter.add_mime_type(mime);
+            }
+            let filters = gio::ListStore::new::<gtk::FileFilter>();
+            filters.append(&filter);
+            let (set_logo, toasts) = (set_logo.clone(), toasts.clone());
+            gtk::FileDialog::builder().title("Choose a Logo").filters(&filters).build().open(
+                b.root().and_downcast::<gtk::Window>().as_ref(),
+                gio::Cancellable::NONE,
+                move |res| {
+                    let Some(path) = res.ok().and_then(|f| f.path()) else { return };
+                    match qr::load_logo(&path) {
+                        Ok(image) => set_logo(Some(image)),
+                        Err(e) => toast(&toasts, format!("Can't use this logo: {e}")),
+                    }
+                },
+            );
+        });
+    }
+
+    let print_ready = move |current: &Rc<RefCell<Option<Current>>>| -> Option<Pixbuf> {
+        let current = current.borrow();
+        let current = current.as_ref()?;
+        let m = qr::encode_for(&current.payload, current.logo.is_some()).ok()?;
+        Some(match &current.logo {
+            Some((image, size)) => qr::to_pixbuf_with_logo(&m, SAVE_SCALE, image, *size),
+            None => qr::to_pixbuf(&m, SAVE_SCALE),
+        })
     };
     {
         let (current, toasts) = (current.clone(), toasts.clone());
@@ -249,6 +354,19 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
         });
     }
     group
+}
+
+/// What the Create section currently shows: the encoded text, and the logo
+/// with the size it was checked at.
+struct Current {
+    payload: String,
+    logo: Option<(Pixbuf, f64)>,
+}
+
+fn show_check(label: &gtk::Label, ok: bool, text: &str) {
+    label.set_label(text);
+    label.set_css_classes(if ok { &["success"] } else { &["error"] });
+    label.set_visible(true);
 }
 
 fn flat_button(icon: &str, tooltip: &str) -> gtk::Button {

@@ -21,7 +21,7 @@ mod system;
 
 use std::path::PathBuf;
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
 use actions::Action;
@@ -170,6 +170,10 @@ enum QrCommand {
         /// Save a PNG image instead of printing to the terminal
         #[arg(long, value_name = "FILE")]
         output: Option<PathBuf>,
+        /// Put a small logo (PNG, JPEG, WebP or SVG) in the middle of the code (PNG
+        /// output only). The code is read back to make sure it still scans.
+        #[arg(long, value_name = "IMAGE", requires = "output")]
+        logo: Option<PathBuf>,
     },
 }
 
@@ -365,11 +369,21 @@ fn main() -> Result<()> {
                     println!("{code}");
                 }
             }
-            QrCommand::Make { text, output: Some(path) } => {
-                qr::to_pixbuf(&qr::encode(&text)?, 12).savev(&path, "png", &[])?;
+            QrCommand::Make { text, output: Some(path), logo } => {
+                let image = match logo {
+                    Some(file) => {
+                        let logo = qr::load_logo(&file)?;
+                        let m = qr::encode_for(&text, true)?;
+                        let size = qr::checked_logo_size(&m, &text, &logo, qr::LOGO_SIZES[1])
+                            .context("the code doesn't scan with this logo; shorten the text")?;
+                        qr::to_pixbuf_with_logo(&m, 12, &logo, size)
+                    }
+                    None => qr::to_pixbuf(&qr::encode(&text)?, 12),
+                };
+                image.savev(&path, "png", &[])?;
                 println!("Saved {}", path.display());
             }
-            QrCommand::Make { text, output: None } => print!("{}", qr::to_terminal(&qr::encode(&text)?)),
+            QrCommand::Make { text, output: None, .. } => print!("{}", qr::to_terminal(&qr::encode(&text)?)),
         },
         Some(Command::Doctor) => {
             let report = doctor::run(&config);

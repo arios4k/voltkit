@@ -90,7 +90,8 @@ fill-in field, and a live preview shows exactly what will be pasted.
 
 Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> and drag a box around a QR code in a video, a slide or a web
 page: its text or link is on your clipboard. Going the other way, type a link, some text or your Wi-Fi
-details and scan the code with your phone. Copy it as an image or save it as a PNG to print.
+details and scan the code with your phone. Copy it as an image or save it as a PNG to print. Add your own small logo
+to the middle if you like: Voltkit reads the code back to make sure it still scans.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png">

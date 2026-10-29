@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-qr 1  "Voltkit 0.2.1" "Voltkit Manual"
+.TH voltkit-qr 1  "Voltkit 0.2.2" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
@@ -29,10 +29,13 @@ Select a screen region and copy the text of the QR code in it
 \fBvoltkit qr read\fR
 Print the text of every QR code in an image file
 .TP
-\fBvoltkit qr make [\-\-output]\fR
+\fBvoltkit qr make [\-\-output] [\-\-logo]\fR
 Show TEXT as a QR code in the terminal, or save it as a PNG image
 .RS
 \fB\-\-output\fR: Save a PNG image instead of printing to the terminal
+.RE
+.RS
+\fB\-\-logo\fR: Put a small logo (PNG, JPEG, WebP or SVG) in the middle of the code (PNG output only). The code is read back to make sure it still scans
 .RE
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
