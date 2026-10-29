@@ -1,5 +1,7 @@
 mod actions;
 mod app;
+mod awake;
+mod awake_ui;
 mod config;
 mod daemon;
 mod doctor;
@@ -106,6 +108,14 @@ enum Command {
     /// Freezes the screen and shows it full screen. Drag to measure a width and height; hold
     /// Shift for a straight line. Ctrl+C copies the size, right-click clears, Esc closes.
     Ruler,
+    /// Keep the computer from sleeping or locking its screen
+    ///
+    /// Held by the background service, so it continues after this command or the window
+    /// closes. Without DURATION, shows whether Keep Awake is on.
+    Awake {
+        /// 30m, 1h, 1h30m or a number of minutes; `on` until turned off; `off` to stop
+        duration: Option<String>,
+    },
     /// Read QR codes from the screen or image files, or make them from text
     Qr {
         #[command(subcommand)]
@@ -365,6 +375,21 @@ fn main() -> Result<()> {
         }
         Some(Command::Picker { snippet }) => picker::run(config, snippet),
         Some(Command::Ruler) => ruler::run(),
+        Some(Command::Awake { duration: None }) => match daemon::awake_status() {
+            Some((on, until)) => println!("Keep Awake: {}", awake::describe(on, until)),
+            None => println!("Keep Awake: off (the background service isn't running)"),
+        },
+        Some(Command::Awake { duration: Some(d) }) => match awake::parse_duration(&d)? {
+            None => {
+                daemon::stop_awake()?;
+                println!("Keep Awake: Off");
+            }
+            Some(minutes) => {
+                daemon::keep_awake(minutes)?;
+                let (on, until) = daemon::awake_status().unwrap_or((true, 0));
+                println!("Keep Awake: {}", awake::describe(on, until));
+            }
+        },
         Some(Command::Expander { command }) => expander_command(command, config)?,
         Some(Command::Screenshots { dir }) => screenshots::run(config, dir)?,
         Some(Command::Manpages { dir }) => {

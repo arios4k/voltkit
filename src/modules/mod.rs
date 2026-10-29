@@ -49,4 +49,10 @@ pub const ALL: &[ModuleInfo] = &[
         icon: "insert-text-symbolic",
         summary: "Snippets with dynamic variables: dates, clipboard, parameters.",
     },
+    ModuleInfo {
+        id: "awake",
+        title: "Keep Awake",
+        icon: "display-brightness-symbolic",
+        summary: "Stop your computer from sleeping or locking for a while.",
+    },
 ];

@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{daemon, doctor, portal, qr_ui, snippets_ui};
+use crate::{awake_ui, daemon, doctor, portal, qr_ui, snippets_ui};
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -56,6 +56,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&ruler_page(config), Some("ruler"));
     stack.add_named(&compress_page(config, &toasts), Some("compress"));
     stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
+    stack.add_named(&awake_ui::page(&toasts), Some("awake"));
     toasts.set_child(Some(&stack));
 
     let content_view = adw::ToolbarView::new();

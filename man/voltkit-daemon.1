@@ -61,6 +61,15 @@ Start "ocr", "color" or "snippets" and return immediately. Ignored while another
 \fBStatus() → (sss)\fR
 The version, the shortcut backend, and whether typed triggers are on, off or unavailable.
 .TP
+\fBKeepAwake(u minutes)\fR
+Keep the computer from sleeping or locking, for MINUTES or, with 0, until stopped.
+.TP
+\fBStopAwake()\fR
+End Keep Awake.
+.TP
+\fBAwakeStatus() → (bx)\fR
+Whether Keep Awake is on, and when it ends as a Unix time (0: until stopped).
+.TP
 \fBReload()\fR
 Re\-read snippets from the configuration file, so typed triggers use edits right away. The control center calls this after every change.
 .TP

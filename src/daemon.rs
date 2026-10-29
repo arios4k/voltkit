@@ -15,6 +15,7 @@ use tokio::sync::Notify;
 use zbus::fdo::{RequestNameFlags, RequestNameReply};
 
 use crate::actions::{self, Action};
+use crate::awake::KeepAwake;
 use crate::expander;
 use crate::config::Config;
 use crate::portal::{self, APP_ID};
@@ -32,6 +33,7 @@ struct State {
     quit: Arc<Notify>,
     backend: Arc<std::sync::Mutex<String>>,
     expander: Arc<std::sync::Mutex<String>>,
+    keep_awake: Arc<KeepAwake>,
     /// Snippets for typed triggers; `Reload` replaces them after edits.
     snippets: Arc<std::sync::RwLock<Vec<crate::config::Snippet>>>,
 }
@@ -82,6 +84,20 @@ impl Service {
         )
     }
 
+    /// Keeps the computer from sleeping or locking for `minutes` (0: until stopped).
+    async fn keep_awake(&self, minutes: u32) -> zbus::fdo::Result<()> {
+        self.0.keep_awake.start(minutes).await.map_err(|e| zbus::fdo::Error::Failed(format!("{e:#}")))
+    }
+
+    fn stop_awake(&self) {
+        self.0.keep_awake.stop();
+    }
+
+    /// (on, end as Unix seconds or 0 for "until turned off").
+    fn awake_status(&self) -> (bool, i64) {
+        self.0.keep_awake.status()
+    }
+
     /// Re-reads the snippets from the config file, so typed triggers use edits right away.
     fn reload(&self) -> zbus::fdo::Result<()> {
         let config = Config::load().map_err(|e| zbus::fdo::Error::Failed(format!("{e:#}")))?;
@@ -107,6 +123,7 @@ pub fn run(config: Config) -> Result<()> {
 async fn serve(config: Config) -> Result<()> {
     let state = State {
         snippets: Arc::new(std::sync::RwLock::new(config.snippets.clone())),
+        keep_awake: Arc::default(),
         config: Arc::new(config),
         busy: Arc::default(),
         quit: Arc::default(),
@@ -252,6 +269,25 @@ pub fn restart_if_running() -> Result<bool> {
         .process_group(0)
         .spawn()?;
     Ok(true)
+}
+
+const NOT_RUNNING: &str = "the background service isn't running; start it with `voltkit daemon`";
+
+/// Keeps the computer awake through the daemon for `minutes` (0: until stopped).
+pub fn keep_awake(minutes: u32) -> Result<()> {
+    if status().is_none() {
+        bail!(NOT_RUNNING);
+    }
+    portal::block_on(call::<()>("KeepAwake", &(minutes,)))
+}
+
+pub fn stop_awake() -> Result<()> {
+    portal::block_on(call::<()>("StopAwake", &())).context(NOT_RUNNING)
+}
+
+/// (on, end as Unix seconds or 0), or None if the daemon isn't running.
+pub fn awake_status() -> Option<(bool, i64)> {
+    portal::block_on(call::<(bool, i64)>("AwakeStatus", &())).ok()
 }
 
 /// Asks a running daemon to re-read the snippets. Fails if it isn't running.

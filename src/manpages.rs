@@ -159,6 +159,9 @@ fn extra_sections(page: &str) -> Vec<Section> {
                     Para("Bus name io.github.arios4k.Voltkit.Daemon, object /io/github/arios4k/Voltkit/Daemon, interface io.github.arios4k.Voltkit.Daemon1:"),
                     Item("Trigger(s action)", "Start \"ocr\", \"color\" or \"snippets\" and return immediately. Ignored while another one is open."),
                     Item("Status() → (sss)", "The version, the shortcut backend, and whether typed triggers are on, off or unavailable."),
+                    Item("KeepAwake(u minutes)", "Keep the computer from sleeping or locking, for MINUTES or, with 0, until stopped."),
+                    Item("StopAwake()", "End Keep Awake."),
+                    Item("AwakeStatus() → (bx)", "Whether Keep Awake is on, and when it ends as a Unix time (0: until stopped)."),
                     Item("Reload()", "Re-read snippets from the configuration file, so typed triggers use edits right away. The control center calls this after every change."),
                     Item("Quit()", "Stop the daemon."),
                 ],
@@ -248,6 +251,24 @@ fn extra_sections(page: &str) -> Vec<Section> {
             Section {
                 heading: "EXIT STATUS",
                 blocks: &[Para("0 when nothing required is missing, 1 otherwise, so it can be used in scripts.")],
+            },
+        ],
+        "voltkit-awake" => vec![
+            Section {
+                heading: "NOTES",
+                blocks: &[Para(
+                    "The background service holds the request through the desktop's Inhibit portal, so it \
+                     needs `voltkit daemon` running. When the time is up, Keep Awake ends by itself and shows a \
+                     notification.",
+                )],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Stay awake for a 90-minute movie:", "voltkit awake 1h30m"),
+                    Example("Stay awake until told otherwise:", "voltkit awake on"),
+                    Example("Check, then stop:", "voltkit awake\nvoltkit awake off"),
+                ],
             },
         ],
         "voltkit-qr" => vec![Section {
