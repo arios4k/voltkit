@@ -27,7 +27,7 @@ use clap::{Parser, Subcommand};
 use actions::Action;
 use modules::{color, compress, ocr, qr, snippets};
 
-/// PowerToys-style micro-utilities for Linux, in one binary.
+/// Everyday desktop micro-utilities for Linux, in one binary.
 ///
 /// Run without a subcommand to open the GTK control center. Each subcommand runs one
 /// utility from the terminal, a script or a keyboard shortcut.

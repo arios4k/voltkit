@@ -6,7 +6,7 @@ Icon=io.github.arios4k.Voltkit
 Terminal=false
 Type=Application
 Categories=Utility;GTK;
-Keywords=ocr;color;picker;compress;snippet;expander;powertoys;
+Keywords=ocr;color;picker;compress;snippet;expander;qr;ruler;hosts;
 StartupNotify=true
 Actions=ocr;color;
 

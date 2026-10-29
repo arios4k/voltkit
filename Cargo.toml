@@ -3,7 +3,7 @@ name = "voltkit"
 version = "0.2.0"
 authors = ["Alexis Rios-Negron"]
 edition = "2024"
-description = "A unified suite of PowerToys-style micro-utilities for Linux"
+description = "A unified suite of desktop micro-utilities for Linux"
 license = "MIT"
 repository = "https://github.com/arios4k/voltkit"
 homepage = "https://github.com/arios4k/voltkit"
@@ -38,11 +38,13 @@ priority = "optional"
 depends = "$auto, tesseract-ocr, tesseract-ocr-eng, wl-clipboard | xclip, xdg-desktop-portal"
 recommends = "jpegoptim, webp, ffmpeg"
 extended-description = """\
-Voltkit brings PowerToys-style micro-utilities to Linux in one GTK4/libadwaita \
-app and a single command: system-wide OCR (Super+Shift+T), a screen color \
-picker with contrast checking (Super+Shift+C), a metadata-stripping image and \
-video compressor, and a text expander with a snippet picker (Super+Shift+E) \
-and optional typed triggers. Run `voltkit doctor` after installing."""
+Voltkit brings everyday desktop micro-utilities to Linux in one \
+GTK4/libadwaita app and a single command: system-wide OCR (Super+Shift+T), a \
+QR code scanner and maker (Super+Shift+Q), a screen color picker with contrast \
+checking (Super+Shift+C), a screen ruler (Super+Shift+R), a metadata-stripping \
+image and video compressor, a text expander with a snippet picker \
+(Super+Shift+E) and optional typed triggers, Keep Awake, and a hosts and \
+environment variable editor. Run `voltkit doctor` after installing."""
 assets = [
     ["target/release/voltkit", "usr/bin/", "755"],
     ["data/io.github.arios4k.Voltkit.desktop", "usr/share/applications/", "644"],
