@@ -65,6 +65,19 @@ pub async fn screenshot_interactive() -> Result<PathBuf> {
     file_uri_to_path(response.uri().as_str())
 }
 
+/// Captures the whole screen without asking the user to select anything.
+pub async fn screenshot_full() -> Result<PathBuf> {
+    let response = Screenshot::request()
+        .interactive(false)
+        .modal(false)
+        .send()
+        .await
+        .map_err(map_portal_err)?
+        .response()
+        .map_err(map_portal_err)?;
+    file_uri_to_path(response.uri().as_str())
+}
+
 /// Lets the user click anywhere on screen and returns that pixel's color.
 pub async fn pick_color() -> Result<Rgb> {
     let c = Color::pick()

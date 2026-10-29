@@ -9,6 +9,7 @@ mod modules;
 mod paste;
 mod picker;
 mod qr_ui;
+mod ruler;
 mod portal;
 mod screenshots;
 mod snippets_ui;
@@ -100,6 +101,11 @@ enum Command {
         #[command(subcommand)]
         command: ExpanderCommand,
     },
+    /// Measure distances on screen in pixels
+    ///
+    /// Freezes the screen and shows it full screen. Drag to measure a width and height; hold
+    /// Shift for a straight line. Ctrl+C copies the size, right-click clears, Esc closes.
+    Ruler,
     /// Read QR codes from the screen or image files, or make them from text
     Qr {
         #[command(subcommand)]
@@ -358,6 +364,7 @@ fn main() -> Result<()> {
             }
         }
         Some(Command::Picker { snippet }) => picker::run(config, snippet),
+        Some(Command::Ruler) => ruler::run(),
         Some(Command::Expander { command }) => expander_command(command, config)?,
         Some(Command::Screenshots { dir }) => screenshots::run(config, dir)?,
         Some(Command::Manpages { dir }) => {

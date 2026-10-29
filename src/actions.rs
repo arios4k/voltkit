@@ -20,10 +20,12 @@ pub enum Action {
     Snippets,
     /// Read a QR code on screen
     Qr,
+    /// Measure distances on screen
+    Ruler,
 }
 
 impl Action {
-    pub const ALL: [Action; 4] = [Action::Ocr, Action::Color, Action::Snippets, Action::Qr];
+    pub const ALL: [Action; 5] = [Action::Ocr, Action::Color, Action::Snippets, Action::Qr, Action::Ruler];
 
     pub fn id(self) -> &'static str {
         match self {
@@ -31,6 +33,7 @@ impl Action {
             Action::Color => "color",
             Action::Snippets => "snippets",
             Action::Qr => "qr",
+            Action::Ruler => "ruler",
         }
     }
 
@@ -44,6 +47,7 @@ impl Action {
             Action::Color => "Pick a color from screen",
             Action::Snippets => "Insert a snippet",
             Action::Qr => "Scan a QR code on screen",
+            Action::Ruler => "Measure on screen",
         }
     }
 
@@ -53,6 +57,7 @@ impl Action {
             Action::Color => &config.hotkeys.color_picker,
             Action::Snippets => &config.hotkeys.snippets,
             Action::Qr => &config.hotkeys.qr,
+            Action::Ruler => &config.hotkeys.ruler,
         }
     }
 }
@@ -95,18 +100,19 @@ async fn scan_qr() -> Result<()> {
 /// Opens the picker (a GTK window, so it runs as its own process) and waits for it to close.
 /// With `snippet`, it opens straight on that snippet's parameter form.
 pub async fn open_picker(snippet: Option<String>) -> Result<()> {
+    let mut args = vec!["picker".to_owned()];
+    if let Some(trigger) = snippet {
+        args.extend(["--snippet".to_owned(), trigger]);
+    }
+    run_window_tool(args, "snippet picker").await
+}
+
+/// Runs `voltkit ARGS` for a tool with its own window and waits for it to close.
+async fn run_window_tool(args: Vec<String>, name: &'static str) -> Result<()> {
     let exe = std::env::current_exe()?;
-    let status = tokio::task::spawn_blocking(move || {
-        let mut cmd = std::process::Command::new(exe);
-        cmd.arg("picker");
-        if let Some(trigger) = snippet {
-            cmd.args(["--snippet", &trigger]);
-        }
-        cmd.status()
-    })
-    .await??;
+    let status = tokio::task::spawn_blocking(move || std::process::Command::new(exe).args(args).status()).await??;
     if !status.success() {
-        anyhow::bail!("snippet picker exited with {status}");
+        anyhow::bail!("{name} exited with {status}");
     }
     Ok(())
 }
@@ -118,6 +124,7 @@ pub async fn run(action: Action, config: &Config) {
         Action::Color => pick_color().await,
         Action::Snippets => open_picker(None).await,
         Action::Qr => scan_qr().await,
+        Action::Ruler => run_window_tool(vec!["ruler".into()], "screen ruler").await,
     };
     match result {
         Ok(()) => {}

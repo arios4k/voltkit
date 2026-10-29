@@ -53,6 +53,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&ocr_page(config, &toasts), Some("ocr"));
     stack.add_named(&qr_ui::page(config, &toasts), Some("qr"));
     stack.add_named(&color_page(&toasts), Some("color"));
+    stack.add_named(&ruler_page(config), Some("ruler"));
     stack.add_named(&compress_page(config, &toasts), Some("compress"));
     stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
     toasts.set_child(Some(&stack));
@@ -515,6 +516,39 @@ fn add_history_row(
             group.add(r);
         }
     }
+}
+
+// ---------------------------------------------------------------- Screen Ruler
+
+fn ruler_page(config: &Config) -> gtk::Widget {
+    let open = gtk::Button::builder()
+        .label("Open Ruler")
+        .halign(gtk::Align::Center)
+        .css_classes(["pill", "suggested-action"])
+        .build();
+    open.connect_clicked(|button| {
+        let Ok(exe) = std::env::current_exe() else { return };
+        let window = button.root().and_downcast::<gtk::Window>();
+        // Keep this window out of the screenshot the ruler measures on.
+        if let Some(w) = &window {
+            w.minimize();
+        }
+        if let Ok(mut child) = std::process::Command::new(exe).arg("ruler").spawn() {
+            std::thread::spawn(move || child.wait());
+        }
+    });
+    adw::StatusPage::builder()
+        .icon_name("zoom-fit-best-symbolic")
+        .title("Screen Ruler")
+        .description(format!(
+            "Freezes your screen so you can measure anything on it in pixels.\n\
+             Drag to measure, hold Shift for a straight line, Ctrl+C copies the size, Esc closes.\n\
+             Shortcut: {}",
+            shortcut_label(&config.hotkeys.ruler)
+        ))
+        .child(&open)
+        .build()
+        .upcast()
 }
 
 // ---------------------------------------------------------------- Compressor

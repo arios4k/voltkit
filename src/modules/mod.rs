@@ -32,6 +32,12 @@ pub const ALL: &[ModuleInfo] = &[
         summary: "HEX / RGB / HSL conversion, WCAG contrast checking and history.",
     },
     ModuleInfo {
+        id: "ruler",
+        title: "Screen Ruler",
+        icon: "zoom-fit-best-symbolic",
+        summary: "Measure distances and sizes on screen in pixels.",
+    },
+    ModuleInfo {
         id: "compress",
         title: "Asset Compressor",
         icon: "package-x-generic-symbolic",
