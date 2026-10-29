@@ -38,8 +38,8 @@ fn region_capture_command(out: &Path) -> Option<Command> {
 
 /// Captures a region through the Screenshot portal, falling back to a CLI tool
 /// when no portal is available.
-pub async fn capture_region() -> Result<PathBuf> {
-    match portal::screenshot_interactive().await {
+pub async fn capture_region(parent: Option<&str>) -> Result<PathBuf> {
+    match portal::screenshot_interactive(parent).await {
         Ok(path) => Ok(path),
         Err(e) if e.is::<portal::Cancelled>() => Err(e),
         Err(portal_err) => tokio::task::spawn_blocking(capture_region_with_tool)
@@ -65,8 +65,8 @@ pub fn recognize(image: &Path, lang: &str) -> Result<String> {
     Ok(clean(&String::from_utf8_lossy(&out)))
 }
 
-pub async fn extract_text(lang: &str) -> Result<String> {
-    let image = capture_region().await?;
+pub async fn extract_text(lang: &str, parent: Option<&str>) -> Result<String> {
+    let image = capture_region(parent).await?;
     let (path, lang) = (image.clone(), lang.to_owned());
     let text = tokio::task::spawn_blocking(move || recognize(&path, &lang)).await?;
     // The capture is ours; don't leave it in the user's Pictures folder.

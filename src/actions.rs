@@ -68,7 +68,7 @@ fn copy(text: &str) -> Option<String> {
 }
 
 async fn extract_text(config: &Config) -> Result<()> {
-    let text = ocr::extract_text(&config.ocr.lang).await?;
+    let text = ocr::extract_text(&config.ocr.lang, None).await?;
     let note = copy(&text);
     let mut preview: String = text.chars().take(160).collect();
     if preview.len() < text.len() {
@@ -79,7 +79,7 @@ async fn extract_text(config: &Config) -> Result<()> {
 }
 
 async fn pick_color() -> Result<()> {
-    let c = portal::pick_color().await?;
+    let c = portal::pick_color(None).await?;
     let note = copy(&c.to_hex());
     color::history::push(c)?;
     let title = match note {
@@ -91,7 +91,7 @@ async fn pick_color() -> Result<()> {
 }
 
 async fn scan_qr() -> Result<()> {
-    let text = qr::scan().await?.join("\n");
+    let text = qr::scan(None).await?.join("\n");
     let note = copy(&text);
     let title = if note.is_none() { "QR code copied" } else { "QR code read" };
     portal::notify(title, &(text + note.as_deref().unwrap_or(""))).await

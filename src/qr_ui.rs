@@ -76,7 +76,9 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
         // own, so the result would land in a hidden window.
         button.set_sensitive(false);
         glib::spawn_future_local(async move {
-            let scanned = gio::spawn_blocking(|| portal::block_on(qr::scan())).await;
+            // Attach the screenshot dialogs to this window (the guard keeps it exported).
+            let (parent, _guard) = portal::parent_handle(&button.native().expect("button in a window")).await;
+            let scanned = gio::spawn_blocking(move || portal::block_on(qr::scan(parent.as_deref()))).await;
             button.set_sensitive(true);
             match scanned {
                 Ok(Ok(codes)) => {
@@ -88,7 +90,7 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
                     *text.borrow_mut() = found;
                     toast(&toasts, "QR code copied to clipboard");
                 }
-                Ok(Err(e)) if e.is::<portal::Cancelled>() => {}
+                Ok(Err(e)) if e.is::<portal::Cancelled>() => toast(&toasts, "No screenshot was taken"),
                 Ok(Err(e)) => toast(&toasts, e.to_string()),
                 Err(_) => toast(&toasts, "QR scanner crashed"),
             }

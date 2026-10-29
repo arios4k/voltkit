@@ -52,9 +52,25 @@ fn map_portal_err(e: ashpd::Error) -> anyhow::Error {
     }
 }
 
+/// Turns a parent window handle (see `parent_handle`) back into an identifier.
+fn identifier(parent: Option<&str>) -> Option<ashpd::WindowIdentifier> {
+    let kind: ashpd::WindowIdentifierType = parent?.parse().ok()?;
+    Some(kind.into())
+}
+
+/// Exports `window` so portal dialogs can attach to it, returning the handle
+/// string to pass to the portal calls and a guard that keeps the export alive.
+/// Without a parent, GNOME opens the screenshot's Share dialog unattached,
+/// where it can end up behind the app's window.
+pub async fn parent_handle(window: &impl gtk::prelude::IsA<gtk::Native>) -> (Option<String>, Option<ashpd::WindowIdentifier>) {
+    let guard = ashpd::WindowIdentifier::from_native(window).await;
+    (guard.as_ref().map(|g| g.to_string()), guard)
+}
+
 /// Opens the desktop's interactive screenshot UI and returns the saved image.
-pub async fn screenshot_interactive() -> Result<PathBuf> {
+pub async fn screenshot_interactive(parent: Option<&str>) -> Result<PathBuf> {
     let response = Screenshot::request()
+        .identifier(identifier(parent))
         .interactive(true)
         .modal(true)
         .send()
@@ -79,8 +95,9 @@ pub async fn screenshot_full() -> Result<PathBuf> {
 }
 
 /// Lets the user click anywhere on screen and returns that pixel's color.
-pub async fn pick_color() -> Result<Rgb> {
+pub async fn pick_color(parent: Option<&str>) -> Result<Rgb> {
     let c = Color::pick()
+        .identifier(identifier(parent))
         .send()
         .await
         .map_err(map_portal_err)?

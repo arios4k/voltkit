@@ -282,12 +282,12 @@ fn main() -> Result<()> {
     match cli.command {
         None => app::run(config),
         Some(Command::Ocr { lang }) => {
-            let text = portal::block_on(ocr::extract_text(&lang))?;
+            let text = portal::block_on(ocr::extract_text(&lang, None))?;
             println!("{text}");
             system::copy_to_clipboard(&text)?;
         }
         Some(Command::PickColor) => {
-            let c = portal::block_on(portal::pick_color())?;
+            let c = portal::block_on(portal::pick_color(None))?;
             color::history::push(c)?;
             println!("{}", c.to_hex());
             system::copy_to_clipboard(&c.to_hex())?;
@@ -350,7 +350,7 @@ fn main() -> Result<()> {
         Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
         Some(Command::Qr { command }) => match command {
             QrCommand::Scan => {
-                let text = portal::block_on(qr::scan())?.join("\n");
+                let text = portal::block_on(qr::scan(None))?.join("\n");
                 println!("{text}");
                 system::copy_to_clipboard(&text)?;
             }

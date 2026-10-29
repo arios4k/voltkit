@@ -153,13 +153,21 @@ pub(crate) fn shortcut_label(accel: &str) -> String {
 /// with such a token; without it the window opened behind the others.
 pub(crate) fn spawn_window_tool(widget: &impl IsA<gtk::Widget>, args: &[&str]) {
     let Ok(exe) = std::env::current_exe() else { return };
-    let mut cmd = std::process::Command::new(exe);
-    cmd.args(args);
-    if let Some(token) = widget.display().app_launch_context().startup_notify_id(None::<&gio::AppInfo>, &[]) {
-        cmd.env("XDG_ACTIVATION_TOKEN", token.as_str()).env("DESKTOP_STARTUP_ID", token.as_str());
-    }
-    if let Ok(mut child) = cmd.spawn() {
-        std::thread::spawn(move || child.wait());
+    let command_line = std::iter::once(exe.as_os_str())
+        .chain(args.iter().map(std::ffi::OsStr::new))
+        .map(|a| glib::shell_quote(a).to_string_lossy().into_owned())
+        .collect::<Vec<_>>()
+        .join(" ");
+    // Launching through GIO with startup notification has GTK request the token
+    // and hand it to the new process in XDG_ACTIVATION_TOKEN.
+    let launched = gio::AppInfo::create_from_commandline(
+        &command_line,
+        Some("Voltkit"),
+        gio::AppInfoCreateFlags::SUPPORTS_STARTUP_NOTIFICATION,
+    )
+    .and_then(|info| info.launch(&[], Some(&widget.display().app_launch_context())));
+    if let Err(e) = launched {
+        eprintln!("could not start {command_line}: {e}");
     }
 }
 
@@ -327,7 +335,10 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         // own, so the result would land in a hidden window.
         button.set_sensitive(false);
         glib::spawn_future_local(async move {
-            let result = gio::spawn_blocking(move || portal::block_on(ocr::extract_text(&lang))).await;
+            // Attach the screenshot dialogs to this window (the guard keeps it exported).
+            let (parent, _guard) = portal::parent_handle(&button.native().expect("button in a window")).await;
+            let result =
+                gio::spawn_blocking(move || portal::block_on(ocr::extract_text(&lang, parent.as_deref()))).await;
             button.set_sensitive(true);
             match result {
                 Ok(Ok(text)) => {
@@ -335,6 +346,7 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
                     button.clipboard().set_text(&text);
                     toast(&toasts, "Text copied to clipboard");
                 }
+                Ok(Err(e)) if e.is::<portal::Cancelled>() => toast(&toasts, "No screenshot was taken"),
                 Ok(Err(e)) => toast(&toasts, e.to_string()),
                 Err(_) => toast(&toasts, "OCR worker crashed"),
             }
@@ -469,7 +481,8 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
             let (button, entry, toasts, remember) = (button.clone(), entry.clone(), toasts.clone(), remember.clone());
             button.set_sensitive(false);
             glib::spawn_future_local(async move {
-                let result = gio::spawn_blocking(|| portal::block_on(portal::pick_color())).await;
+                let (parent, _guard) = portal::parent_handle(&button.native().expect("button in a window")).await;
+                let result = gio::spawn_blocking(move || portal::block_on(portal::pick_color(parent.as_deref()))).await;
                 button.set_sensitive(true);
                 match result {
                     Ok(Ok(c)) => {

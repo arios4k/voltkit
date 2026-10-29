@@ -28,8 +28,8 @@ pub fn decode_pixbuf(pixbuf: &Pixbuf) -> Vec<String> {
 }
 
 /// Lets the user select a screen region and reads the QR codes in it.
-pub async fn scan() -> Result<Vec<String>> {
-    let image = ocr::capture_region().await?;
+pub async fn scan(parent: Option<&str>) -> Result<Vec<String>> {
+    let image = ocr::capture_region(parent).await?;
     let path = image.clone();
     let codes = tokio::task::spawn_blocking(move || decode_file(&path)).await?;
     let _ = std::fs::remove_file(&image);
