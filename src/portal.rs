@@ -52,6 +52,14 @@ fn map_portal_err(e: ashpd::Error) -> anyhow::Error {
     }
 }
 
+/// Whether a portal request was turned down: dismissed by the user, or refused
+/// by the desktop (GNOME refuses screenshots from apps without the permission
+/// when it can't ask, e.g. because the app has no focused window).
+pub fn is_refused(e: &anyhow::Error) -> bool {
+    e.is::<Cancelled>()
+        || matches!(e.downcast_ref::<ashpd::Error>(), Some(ashpd::Error::Response(ResponseError::Other)))
+}
+
 /// Turns a parent window handle (see `parent_handle`) back into an identifier.
 fn identifier(parent: Option<&str>) -> Option<ashpd::WindowIdentifier> {
     let kind: ashpd::WindowIdentifierType = parent?.parse().ok()?;
@@ -82,8 +90,9 @@ pub async fn screenshot_interactive(parent: Option<&str>) -> Result<PathBuf> {
 }
 
 /// Captures the whole screen without asking the user to select anything.
-pub async fn screenshot_full() -> Result<PathBuf> {
+pub async fn screenshot_full(parent: Option<&str>) -> Result<PathBuf> {
     let response = Screenshot::request()
+        .identifier(identifier(parent))
         .interactive(false)
         .modal(false)
         .send()

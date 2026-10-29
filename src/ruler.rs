@@ -26,25 +26,96 @@ pub fn run() {
         glib::spawn_future_local(async move {
             // When opened from the control center, let its window finish
             // minimizing so it isn't in the screenshot.
-            glib::timeout_future(std::time::Duration::from_millis(400)).await;
-            let shot = gio::spawn_blocking(|| portal::block_on(portal::screenshot_full())).await;
-            match shot {
-                Ok(Ok(path)) => {
-                    let texture = gdk::Texture::from_filename(&path);
-                    let _ = std::fs::remove_file(&path);
-                    match texture {
-                        Ok(texture) => show(&app, texture),
-                        Err(e) => fail(&e.to_string()).await,
-                    }
-                }
-                Ok(Err(e)) if e.is::<Cancelled>() => {}
-                Ok(Err(e)) => fail(&format!("{e:#}")).await,
-                Err(_) => fail("screenshot worker crashed").await,
+            glib::timeout_future(SETTLE).await;
+            match capture(None).await {
+                Ok(texture) => show(&app, texture),
+                // GNOME asks "Allow screenshots?" only for the focused app, and
+                // the ruler has no window yet, so a first request is refused
+                // without a prompt. Ask from a window of our own.
+                Err(e) if portal::is_refused(&e) => ask_permission(&app),
+                Err(e) => fail(&format!("{e:#}")).await,
             }
             drop(hold);
         });
     });
     app.run_with_args::<&str>(&[]);
+}
+
+/// Time for windows to finish hiding before a screenshot.
+const SETTLE: std::time::Duration = std::time::Duration::from_millis(400);
+
+async fn capture(parent: Option<String>) -> anyhow::Result<gdk::Texture> {
+    let path = gio::spawn_blocking(move || portal::block_on(portal::screenshot_full(parent.as_deref())))
+        .await
+        .map_err(|_| anyhow::anyhow!("screenshot worker crashed"))??;
+    let texture = gdk::Texture::from_filename(&path);
+    let _ = std::fs::remove_file(&path);
+    Ok(texture?)
+}
+
+/// Asks for the screenshot permission from a focused window, then takes a
+/// clean screenshot without it and opens the ruler.
+fn ask_permission(app: &adw::Application) {
+    let button = gtk::Button::builder()
+        .label("Continue")
+        .halign(gtk::Align::Center)
+        .css_classes(["suggested-action", "pill"])
+        .build();
+    let status = adw::StatusPage::builder()
+        .icon_name("video-display-symbolic")
+        .title("Allow Screen Ruler to See Your Screen")
+        .description(
+            "The ruler measures a snapshot of your screen. Your desktop will ask once whether \
+             Voltkit may take screenshots; choose Allow. This window closes before the snapshot.",
+        )
+        .child(&button)
+        .build();
+    let view = adw::ToolbarView::new();
+    view.add_top_bar(&adw::HeaderBar::new());
+    view.set_content(Some(&status));
+    let window = adw::ApplicationWindow::builder()
+        .application(app)
+        .title("Screen Ruler")
+        .default_width(520)
+        .default_height(560)
+        .content(&view)
+        .build();
+
+    let (app, prompt) = (app.clone(), window.clone());
+    button.connect_clicked(move |button| {
+        let (app, window, status, button) = (app.clone(), prompt.clone(), status.clone(), button.clone());
+        button.set_sensitive(false);
+        glib::spawn_future_local(async move {
+            let (parent, guard) = portal::parent_handle(&window).await;
+            // This first screenshot shows this window, so it's only for the permission.
+            match capture(parent).await {
+                Ok(_) => {
+                    drop(guard);
+                    let hold = app.hold();
+                    window.close();
+                    glib::timeout_future(SETTLE).await;
+                    match capture(None).await {
+                        Ok(texture) => show(&app, texture),
+                        Err(e) if e.is::<Cancelled>() => {}
+                        Err(e) => fail(&format!("{e:#}")).await,
+                    }
+                    drop(hold);
+                }
+                Err(e) => {
+                    status.set_description(Some(&if portal::is_refused(&e) {
+                        "Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then \
+                         Allow when your desktop asks."
+                            .to_owned()
+                    } else {
+                        glib::markup_escape_text(&format!("{e:#}")).to_string()
+                    }));
+                    button.set_label("Try Again");
+                    button.set_sensitive(true);
+                }
+            }
+        });
+    });
+    window.present();
 }
 
 async fn fail(message: &str) {

@@ -347,6 +347,10 @@ fn main() -> Result<()> {
                 println!("Removed {}", daemon::set_autostart(false)?.display())
             }
         },
+        // The ruler opens its own window: running it here keeps the launcher's
+        // activation token, so the window gets focus (GNOME only shows the
+        // screenshot permission prompt to the focused app).
+        Some(Command::Trigger { action: Action::Ruler }) => ruler::run(),
         Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
         Some(Command::Qr { command }) => match command {
             QrCommand::Scan => {
