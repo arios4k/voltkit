@@ -5,7 +5,8 @@
 # Voltkit
 
 **Power tools for your Linux desktop.**
-Screen OCR, a color picker, an image &amp; video compressor and a text expander, in one app.
+Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
+Keep Awake and a hosts &amp; environment editor, in one app.
 
 [![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
