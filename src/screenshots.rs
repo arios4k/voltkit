@@ -20,14 +20,17 @@ const SCALE: f32 = 2.0;
 /// Time for layout, icons and the theme switch to settle before a capture.
 const SETTLE: Duration = Duration::from_millis(600);
 
+/// Text "read" from a photo of a conference slide: clearly fictional, and the
+/// kind of thing people actually want to copy (a password, a link).
 const OCR_DEMO: &str = "\
-error[E0433]: failed to resolve: use of undeclared crate or module `tokio`
-  --> src/main.rs:12:5
-   |
-12 |     tokio::spawn(async move {
-   |     ^^^^^ use of undeclared crate or module `tokio`
-   |
-help: add `tokio` to the dependencies in Cargo.toml";
+Keynote: The Future of the Linux Desktop
+Room B · Saturday 10:30 AM
+
+Wi-Fi network: LinuxFest-Guest
+Password: open-source-rocks-2026
+
+Slides and recording:
+https://linuxfest.example.org/keynote";
 
 /// File name, size before, size after, as measured on test files.
 const COMPRESS_DEMO: &[(&str, &str)] = &[

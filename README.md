@@ -41,13 +41,13 @@ hotkeys:
 
 ### 🔍 Copy text from anything on screen
 
-Error messages in a screenshot, code in a video tutorial, text in an image: press
+A Wi-Fi password on a conference slide, a command in a video tutorial, an error in a screenshot: press
 <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd>, drag a box, and paste. Powered by Tesseract, with support for
 [100+ languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png">
-  <img src="docs/screenshots/ocr-light.png" alt="Text Extractor with recognized compiler error text">
+  <img src="docs/screenshots/ocr-light.png" alt="Text Extractor showing text read from a photo of a conference slide: a Wi-Fi password and a link">
 </picture>
 
 ### 🎨 Pick, convert and check colors
