@@ -20,7 +20,7 @@ Screen OCR, a color picker, an image &amp; video compressor and a text expander,
 
 </div>
 
-## One app instead of four
+## One app instead of eight
 
 Getting PowerToys-style basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
@@ -30,8 +30,12 @@ hotkeys:
 |---|---|---|
 | a separate OCR app like NormCap | **Text Extractor**: drag a box around any text on screen, even in videos and images, and it lands on your clipboard | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> |
 | a color picker like Eyedropper or Gcolor3 | **Color Picker**: an eyedropper for any pixel, HEX/RGB/HSL, WCAG contrast check and history | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| a QR scanner on your phone or a QR website | **QR Code**: read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> |
+| a screen ruler like KRuler, or screenshots and an image editor | **Screen Ruler**: freeze the screen and measure anything in pixels | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> |
 | an image compressor like Curtail, plus ffmpeg incantations | **Asset Compressor**: drop PNG, JPEG, WebP or MP4 files to strip metadata and shrink them | drag &amp; drop |
 | a text expander like Espanso or AutoKey | **Text Expansion**: a searchable snippet picker, plus optional typed triggers like `;date` | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> |
+| the Caffeine shell extension | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
+| editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
 
 ## Features
 
@@ -79,6 +83,39 @@ fill-in field, and a live preview shows exactly what will be pasted.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png">
   <img src="docs/screenshots/snippet-editor-light.png" alt="Snippet editor with a trigger, text with Insert buttons for date, time, clipboard and fill-in fields, and a live preview">
+</picture>
+
+### 📷 Read and make QR codes
+
+Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> and drag a box around a QR code in a video, a slide or a web
+page: its text or link is on your clipboard. Going the other way, type a link, some text or your Wi-Fi
+details and scan the code with your phone. Copy it as an image or save it as a PNG to print.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png">
+  <img src="docs/screenshots/qr-light.png" alt="QR Code page with a generated code for a link">
+</picture>
+
+### 📏 Measure anything on screen
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> freezes the screen. Drag to measure widths and heights in real
+pixels (hold Shift for a straight line), and press Ctrl+C to copy the size.
+
+### ☕ Keep your computer awake
+
+Watching, presenting or downloading? Turn on Keep Awake for 30 minutes, a few hours or until you turn it
+off, and your computer won't sleep or lock. It keeps going after you close Voltkit and switches itself off
+when the time is up.
+
+### 📝 Edit hosts and environment variables without a terminal
+
+Switch `/etc/hosts` entries on and off, add `myapp.test → 127.0.0.1` for local development, and set
+environment variables like `EDITOR` or an extra `PATH` folder for your whole desktop session. System
+entries are protected, and every hosts save keeps a backup.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png">
+  <img src="docs/screenshots/system-light.png" alt="Hosts & Environment page with hosts entries and switches">
 </picture>
 
 ## Why Voltkit
@@ -241,6 +278,10 @@ voltkit pick-color            # eyedropper → HEX on clipboard
 voltkit color '#3584e4'       # HEX / RGB / HSL + contrast vs white/black
 voltkit compress *.png --quality 75
 voltkit expand 'Hi {arg:who}, {date:%A}' --arg who=Sam
+voltkit qr make https://example.com  # QR code in the terminal (or --output code.png)
+voltkit qr scan               # read a QR code on screen
+voltkit ruler                 # measure on screen
+voltkit awake 1h30m           # keep the computer awake (on / off / no argument for status)
 ```
 
 Full documentation is in the man pages: `man voltkit`, `man voltkit-expand`, and so on.
@@ -276,6 +317,11 @@ src/
   shortcuts.rs       accelerator conversion + GNOME keybinding fallback
   picker.rs          snippet picker popup
   snippets_ui.rs     Text Expansion page: snippet list and editor
+  qr_ui.rs           QR Code page
+  ruler.rs           Screen Ruler (frozen-screenshot overlay)
+  awake.rs           Keep Awake (Inhibit portal, held by the daemon)
+  awake_ui.rs        Keep Awake page
+  system_ui.rs       Hosts & Environment page
   expander.rs        typed triggers (evdev keyboard reading, uinput virtual keyboard)
   paste.rs           paste into the focused app, restoring the clipboard
   portal.rs          XDG portal calls (screenshot, PickColor) and notifications
@@ -286,6 +332,9 @@ src/
     color.rs         parsing, HSL, WCAG luminance & contrast
     compress.rs      format detection + per-format compression pipelines
     snippets.rs      snippet template engine
+    qr.rs            QR code reading and making
+    hosts.rs         /etc/hosts parsing that preserves everything it doesn't edit
+    envvars.rs       session environment variables (environment.d)
   manpages.rs        man page generator (clap_mangen + hand-written sections)
   screenshots.rs     renders the README screenshots (hidden `screenshots` command)
 man/                 generated man pages

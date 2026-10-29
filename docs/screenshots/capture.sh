@@ -46,7 +46,18 @@ template = "¯\\_(ツ)_/¯"
 TOML
 printf '%s\n' '#7C3AED' '#4F46E5' '#F97316' '#FACC15' '#10B981' '#0EA5E9' '#EC4899' '#EF4444' \
     > "$demo/data/voltkit/colors.txt"
+cat > "$demo/hosts" <<'HOSTS'
+127.0.0.1	localhost
+127.0.1.1	workstation
+::1	ip6-localhost ip6-loopback
+127.0.0.1	myapp.test api.myapp.test	# local development
+192.168.1.20	nas.home	# storage box
+# 10.0.0.5	staging.example.com
+HOSTS
+mkdir -p "$demo/config/environment.d"
+printf '%s\n' '# Environment variables set in Voltkit. Applied at login.' 'EDITOR=nano' 'PATH=${PATH}:${HOME}/.local/bin' \
+    'GOPATH=${HOME}/go' > "$demo/config/environment.d/90-voltkit.conf"
 
 cargo build --quiet --manifest-path "$repo/Cargo.toml"
-XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" \
+XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
     "$repo/target/debug/voltkit" screenshots "$out"

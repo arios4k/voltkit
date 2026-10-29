@@ -1,5 +1,7 @@
 pub mod color;
 pub mod compress;
+pub mod envvars;
+pub mod hosts;
 pub mod ocr;
 pub mod qr;
 pub mod snippets;
@@ -54,5 +56,11 @@ pub const ALL: &[ModuleInfo] = &[
         title: "Keep Awake",
         icon: "display-brightness-symbolic",
         summary: "Stop your computer from sleeping or locking for a while.",
+    },
+    ModuleInfo {
+        id: "system",
+        title: "Hosts & Environment",
+        icon: "network-server-symbolic",
+        summary: "Edit /etc/hosts and your session's environment variables without a text editor.",
     },
 ];

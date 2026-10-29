@@ -195,7 +195,7 @@ impl Report {
 async fn portal_interfaces() -> HashMap<&'static str, u32> {
     let mut found = HashMap::new();
     let Ok(conn) = zbus::Connection::session().await else { return found };
-    for iface in ["Screenshot", "RemoteDesktop", "GlobalShortcuts"] {
+    for iface in ["Screenshot", "RemoteDesktop", "GlobalShortcuts", "Inhibit"] {
         let reply = conn
             .call_method(
                 Some("org.freedesktop.portal.Desktop"),
@@ -318,6 +318,24 @@ pub fn run(config: &Config) -> Report {
     }
 
     // Background service
+    // Keep Awake and Hosts & Environment
+    const AWAKE: &str = "Keep Awake";
+    checks.push(check(
+        AWAKE,
+        "stop sleeping and locking: Inhibit portal",
+        portals.contains_key("Inhibit"),
+        Need::Required,
+        Some(Fix::Advice("install xdg-desktop-portal and your desktop's portal backend".into())),
+    ));
+    const SYSTEM: &str = "Hosts & Environment";
+    checks.push(check(
+        SYSTEM,
+        "saving /etc/hosts: pkexec",
+        system::has("pkexec"),
+        Need::Optional,
+        Some(Fix::Advice("install polkit (pkexec) to save the hosts file; environment variables work without it".into())),
+    ));
+
     const SERVICE: &str = "Background Service";
     let status = daemon::status();
     checks.push(check(

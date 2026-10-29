@@ -15,6 +15,7 @@ mod ruler;
 mod portal;
 mod screenshots;
 mod snippets_ui;
+mod system_ui;
 mod shortcuts;
 mod system;
 

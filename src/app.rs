@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{awake_ui, daemon, doctor, portal, qr_ui, snippets_ui};
+use crate::{awake_ui, daemon, doctor, portal, qr_ui, snippets_ui, system_ui};
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -57,6 +57,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&compress_page(config, &toasts), Some("compress"));
     stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
     stack.add_named(&awake_ui::page(&toasts), Some("awake"));
+    stack.add_named(&system_ui::page(&toasts), Some("system"));
     toasts.set_child(Some(&stack));
 
     let content_view = adw::ToolbarView::new();
@@ -68,7 +69,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
 
     let list = gtk::ListBox::builder().css_classes(["navigation-sidebar"]).build();
     for m in modules::ALL {
-        let row = adw::ActionRow::builder().title(m.title).tooltip_text(m.summary).activatable(true).build();
+        let row = adw::ActionRow::builder().title(glib::markup_escape_text(m.title)).tooltip_text(m.summary).activatable(true).build();
         row.add_prefix(&gtk::Image::from_icon_name(m.icon));
         row.set_widget_name(m.id);
         list.append(&row);

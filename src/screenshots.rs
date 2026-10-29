@@ -191,6 +191,8 @@ fn fill_demo(window: &gtk::Window) {
             view.buffer().set_text(OCR_DEMO);
         } else if let Some(entry) = w.downcast_ref::<adw::EntryRow>().filter(|e| e.title() == "HEX or rgb()") {
             entry.set_text("#7C3AED");
+        } else if let Some(entry) = w.downcast_ref::<adw::EntryRow>().filter(|e| e.title() == "Text or link") {
+            entry.set_text("https://arios4k.github.io/voltkit");
         } else if let Some(group) = w.downcast_ref::<adw::PreferencesGroup>().filter(|g| g.title() == "Results") {
             for (name, sizes) in COMPRESS_DEMO {
                 let row = adw::ActionRow::builder().title(*name).subtitle(*sizes).build();
