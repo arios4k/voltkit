@@ -27,6 +27,20 @@ pub fn valid_name(name: &str) -> bool {
         && chars.all(|c| c.is_ascii_alphanumeric() || c == '_')
 }
 
+/// Variables that wire the running session together (bus addresses, display
+/// sockets, session IDs). They're set per login, and overriding them breaks the
+/// session, so the editor doesn't offer them.
+pub fn is_session_plumbing(name: &str) -> bool {
+    const EXACT: &[&str] = &[
+        "DBUS_SESSION_BUS_ADDRESS", "DISPLAY", "WAYLAND_DISPLAY", "XAUTHORITY", "SESSION_MANAGER",
+        "DESKTOP_STARTUP_ID", "XDG_ACTIVATION_TOKEN", "INVOCATION_ID", "JOURNAL_STREAM", "MANAGERPID",
+        "SYSTEMD_EXEC_PID", "PWD", "OLDPWD", "SHLVL", "_", "SSH_AUTH_SOCK", "GPG_AGENT_INFO", "USER",
+        "LOGNAME", "HOME", "SHELL",
+    ];
+    const PREFIXES: &[&str] = &["XDG_SESSION_", "XDG_RUNTIME_DIR", "XDG_SEAT", "XDG_VTNR", "GNOME_", "GDM", "GIO_LAUNCHED", "VOLTKIT_"];
+    EXACT.contains(&name) || PREFIXES.iter().any(|p| name.starts_with(p))
+}
+
 pub fn parse(text: &str) -> Vec<Var> {
     text.lines()
         .map(str::trim)
@@ -76,6 +90,12 @@ mod tests {
     #[test]
     fn values_keep_equals_signs() {
         assert_eq!(parse("JAVA_OPTS=-Xmx=2g\n")[0].value, "-Xmx=2g");
+    }
+
+    #[test]
+    fn hides_session_plumbing() {
+        assert!(is_session_plumbing("DBUS_SESSION_BUS_ADDRESS") && is_session_plumbing("XDG_SESSION_TYPE"));
+        assert!(!is_session_plumbing("PATH") && !is_session_plumbing("EDITOR") && !is_session_plumbing("LANG"));
     }
 
     #[test]

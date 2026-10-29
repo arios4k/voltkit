@@ -59,5 +59,16 @@ printf '%s\n' '# Environment variables set in Voltkit. Applied at login.' 'EDITO
     'GOPATH=${HOME}/go' > "$demo/config/environment.d/90-voltkit.conf"
 
 cargo build --quiet --manifest-path "$repo/Cargo.toml"
-XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
+# A clean environment, so the "Already in Your Session" list shows typical
+# values instead of the real ones (which can include secrets).
+env -i \
+    HOME="$HOME" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-}" DISPLAY="${DISPLAY:-}" \
+    XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+    XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-GNOME}" XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" \
+    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_TIME=en_US.UTF-8 \
+    BROWSER=firefox JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 \
+    ${VOLTKIT_LIGHT_THEME:+VOLTKIT_LIGHT_THEME="$VOLTKIT_LIGHT_THEME"} \
+    ${VOLTKIT_DARK_THEME:+VOLTKIT_DARK_THEME="$VOLTKIT_DARK_THEME"} \
+    XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
     "$repo/target/debug/voltkit" screenshots "$out"

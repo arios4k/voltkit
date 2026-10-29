@@ -72,18 +72,12 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
     scan.connect_clicked(move |button| {
         let (button, result, open, text, toasts) =
             (button.clone(), result.clone(), open.clone(), text.clone(), toasts.clone());
-        let window = button.root().and_downcast::<gtk::Window>();
-        // Keep our own window out of the capture.
-        if let Some(w) = &window {
-            w.minimize();
-        }
+        // The window stays put: GNOME won't bring back a minimized window on its
+        // own, so the result would land in a hidden window.
         button.set_sensitive(false);
         glib::spawn_future_local(async move {
             let scanned = gio::spawn_blocking(|| portal::block_on(qr::scan())).await;
             button.set_sensitive(true);
-            if let Some(w) = &window {
-                w.present();
-            }
             match scanned {
                 Ok(Ok(codes)) => {
                     let found = codes.join("\n");

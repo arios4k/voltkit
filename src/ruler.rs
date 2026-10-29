@@ -24,6 +24,9 @@ pub fn run() {
         // Hold the app open while the screenshot is taken, before any window exists.
         let (app, hold) = (app.clone(), app.hold());
         glib::spawn_future_local(async move {
+            // When opened from the control center, let its window finish
+            // minimizing so it isn't in the screenshot.
+            glib::timeout_future(std::time::Duration::from_millis(400)).await;
             let shot = gio::spawn_blocking(|| portal::block_on(portal::screenshot_full())).await;
             match shot {
                 Ok(Ok(path)) => {

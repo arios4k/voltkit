@@ -17,6 +17,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     let env = EnvEditor::new(toasts);
     page.add(&hosts.group);
     page.add(&env.group);
+    page.add(&env.session_group);
     // Rows only hold weak references; the page keeps the editors alive.
     page.connect_destroy(move |_| {
         let _ = (&hosts, &env);
@@ -33,6 +34,8 @@ struct HostsEditor {
     /// Unsaved changes: saving needs the administrator password, so edits are
     /// collected and saved together.
     dirty: Cell<bool>,
+    /// System entries are locked unless the user turns this on.
+    unlocked: Cell<bool>,
     save: gtk::Button,
     discard: gtk::Button,
     toasts: adw::ToastOverlay,
@@ -57,9 +60,22 @@ impl HostsEditor {
             rows: RefCell::default(),
             file: RefCell::new(HostsFile::default()),
             dirty: Cell::new(false),
+            unlocked: Cell::new(false),
             save,
             discard,
             toasts: toasts.clone(),
+        });
+        let unlock = adw::SwitchRow::builder()
+            .title("Allow editing system entries")
+            .subtitle("Changing localhost or your computer's name can break networking and sudo. A backup is kept either way.")
+            .build();
+        editor.group.add(&unlock);
+        let weak = Rc::downgrade(&editor);
+        unlock.connect_active_notify(move |s| {
+            with(&weak, |e| {
+                e.unlocked.set(s.is_active());
+                e.rebuild();
+            })
         });
         editor.reload();
 
@@ -117,7 +133,7 @@ impl HostsEditor {
                 .valign(gtk::Align::Center)
                 .tooltip_text(if entry.enabled { "On" } else { "Off" })
                 .build();
-            if entry.is_system() {
+            if entry.is_system() && !self.unlocked.get() {
                 // Shown for completeness, but changing these breaks networking or sudo.
                 row.add_suffix(
                     &gtk::Image::builder()
@@ -232,6 +248,10 @@ impl HostsEditor {
 
 struct EnvEditor {
     group: adw::PreferencesGroup,
+    /// Variables the session already has from elsewhere, offered for overriding.
+    session_group: adw::PreferencesGroup,
+    session_rows: RefCell<Vec<gtk::Widget>>,
+    search: gtk::SearchEntry,
     rows: RefCell<Vec<gtk::Widget>>,
     vars: RefCell<Vec<Var>>,
     toasts: adw::ToastOverlay,
@@ -252,14 +272,63 @@ impl EnvEditor {
             toast(toasts, format!("{e:#}"));
             Vec::new()
         });
-        let editor = Rc::new(Self { group, rows: RefCell::default(), vars: RefCell::new(vars), toasts: toasts.clone() });
+        let search = gtk::SearchEntry::builder().placeholder_text("Filter variables").margin_bottom(6).build();
+        let session_group = adw::PreferencesGroup::builder()
+            .title("Already in Your Session")
+            .description(
+                "Set by the system or your shell. Override one to give it a new value from Voltkit. A value set in \
+                 ~/.bashrc still wins in terminals.",
+            )
+            .build();
+        session_group.add(&search);
+        let editor = Rc::new(Self {
+            group,
+            session_group,
+            session_rows: RefCell::default(),
+            search,
+            rows: RefCell::default(),
+            vars: RefCell::new(vars),
+            toasts: toasts.clone(),
+        });
         editor.rebuild();
         let weak = Rc::downgrade(&editor);
-        add.connect_clicked(move |b| with_env(&weak, |e| e.edit(b, None)));
+        add.connect_clicked(move |b| with_env(&weak, |e| e.edit(b, None, None)));
+        let weak = Rc::downgrade(&editor);
+        editor.search.connect_search_changed(move |_| with_env(&weak, |e| e.rebuild_session()));
         editor
     }
 
+    /// Lists the session's variables that Voltkit doesn't set itself.
+    fn rebuild_session(self: &Rc<Self>) {
+        for row in self.session_rows.borrow_mut().drain(..) {
+            self.session_group.remove(&row);
+        }
+        let query = self.search.text().to_lowercase();
+        let managed: Vec<String> = self.vars.borrow().iter().map(|v| v.name.clone()).collect();
+        let mut session: Vec<(String, String)> = std::env::vars()
+            .filter(|(name, _)| !envvars::is_session_plumbing(name) && !managed.contains(name))
+            .filter(|(name, value)| query.is_empty() || name.to_lowercase().contains(&query) || value.to_lowercase().contains(&query))
+            .collect();
+        session.sort();
+        let mut rows = self.session_rows.borrow_mut();
+        for (name, value) in session {
+            let row = adw::ActionRow::builder()
+                .title(glib::markup_escape_text(&name))
+                .subtitle(glib::markup_escape_text(&value))
+                .subtitle_lines(1)
+                .build();
+            let override_button = gtk::Button::builder().label("Override").valign(gtk::Align::Center).build();
+            row.add_suffix(&override_button);
+            let weak = Rc::downgrade(self);
+            let prefill = Var { name, value };
+            override_button.connect_clicked(move |b| with_env(&weak, |e| e.edit(b, None, Some(prefill.clone()))));
+            self.session_group.add(&row);
+            rows.push(row.upcast());
+        }
+    }
+
     fn rebuild(self: &Rc<Self>) {
+        self.rebuild_session();
         for row in self.rows.borrow_mut().drain(..) {
             self.group.remove(&row);
         }
@@ -285,7 +354,7 @@ impl EnvEditor {
             row.add_suffix(&edit);
             row.add_suffix(&delete);
             let weak = Rc::downgrade(self);
-            edit.connect_clicked(move |b| with_env(&weak, |e| e.edit(b, Some(index))));
+            edit.connect_clicked(move |b| with_env(&weak, |e| e.edit(b, Some(index), None)));
             let weak = Rc::downgrade(self);
             delete.connect_clicked(move |_| with_env(&weak, |e| e.delete(index)));
             self.group.add(&row);
@@ -323,8 +392,10 @@ impl EnvEditor {
         self.toasts.add_toast(undo);
     }
 
-    fn edit(self: &Rc<Self>, parent: &impl IsA<gtk::Widget>, index: Option<usize>) {
-        let existing = index.and_then(|i| self.vars.borrow().get(i).cloned());
+    /// Opens the editor on a Voltkit variable (`index`), or on a new one,
+    /// optionally filled in from a session variable being overridden.
+    fn edit(self: &Rc<Self>, parent: &impl IsA<gtk::Widget>, index: Option<usize>, prefill: Option<Var>) {
+        let existing = index.and_then(|i| self.vars.borrow().get(i).cloned()).or(prefill);
         let others: Vec<String> =
             self.vars.borrow().iter().enumerate().filter(|(i, _)| Some(*i) != index).map(|(_, v)| v.name.clone()).collect();
         let fields = [
@@ -334,7 +405,7 @@ impl EnvEditor {
         let weak = Rc::downgrade(self);
         form_dialog(
             parent.as_ref(),
-            if existing.is_some() { "Edit Variable" } else { "New Variable" },
+            if index.is_some() { "Edit Variable" } else if existing.is_some() { "Override Variable" } else { "New Variable" },
             &fields,
             move |values| {
                 let name = values[0].trim();

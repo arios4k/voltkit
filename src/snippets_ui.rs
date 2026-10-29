@@ -7,7 +7,7 @@ use std::rc::{Rc, Weak};
 use adw::prelude::*;
 use gtk::{gio, glib};
 
-use crate::app::{shortcut_label, toast};
+use crate::app::{shortcut_label, spawn_window_tool, toast};
 use crate::config::{Config, Snippet};
 use crate::daemon;
 use crate::modules::snippets;
@@ -27,13 +27,7 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 fn usage_group(config: &Config) -> adw::PreferencesGroup {
     let usage = adw::PreferencesGroup::builder().title("Insert Snippets").build();
     let open_picker = gtk::Button::builder().label("Open").valign(gtk::Align::Center).build();
-    open_picker.connect_clicked(|_| {
-        if let Ok(exe) = std::env::current_exe() {
-            let _ = std::process::Command::new(exe).arg("picker").spawn().map(|mut c| {
-                std::thread::spawn(move || c.wait());
-            });
-        }
-    });
+    open_picker.connect_clicked(|button| spawn_window_tool(button, &["picker"]));
     let picker_row = adw::ActionRow::builder()
         .title("Snippet picker")
         .subtitle(format!("Search and paste into any app. Shortcut: {}", shortcut_label(&config.hotkeys.snippets)))

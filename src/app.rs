@@ -148,6 +148,21 @@ pub(crate) fn shortcut_label(accel: &str) -> String {
     }
 }
 
+/// Starts `voltkit ARGS` for a tool with its own window (ruler, snippet picker),
+/// passing an activation token from the click. GNOME raises a new window only
+/// with such a token; without it the window opened behind the others.
+pub(crate) fn spawn_window_tool(widget: &impl IsA<gtk::Widget>, args: &[&str]) {
+    let Ok(exe) = std::env::current_exe() else { return };
+    let mut cmd = std::process::Command::new(exe);
+    cmd.args(args);
+    if let Some(token) = widget.display().app_launch_context().startup_notify_id(None::<&gio::AppInfo>, &[]) {
+        cmd.env("XDG_ACTIVATION_TOKEN", token.as_str()).env("DESKTOP_STARTUP_ID", token.as_str());
+    }
+    if let Ok(mut child) = cmd.spawn() {
+        std::thread::spawn(move || child.wait());
+    }
+}
+
 pub(crate) fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
     toasts.add_toast(adw::Toast::new(msg.as_ref()));
 }
@@ -308,18 +323,12 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let toasts = toasts.clone();
     button.connect_clicked(move |button| {
         let (button, view, toasts, lang) = (button.clone(), view.clone(), toasts.clone(), lang.clone());
-        let window = button.root().and_downcast::<gtk::Window>();
-        // Keep our own window out of the capture.
-        if let Some(w) = &window {
-            w.minimize();
-        }
+        // The window stays put: GNOME won't bring back a minimized window on its
+        // own, so the result would land in a hidden window.
         button.set_sensitive(false);
         glib::spawn_future_local(async move {
             let result = gio::spawn_blocking(move || portal::block_on(ocr::extract_text(&lang))).await;
             button.set_sensitive(true);
-            if let Some(w) = &window {
-                w.present();
-            }
             match result {
                 Ok(Ok(text)) => {
                     view.buffer().set_text(&text);
@@ -529,14 +538,11 @@ fn ruler_page(config: &Config) -> gtk::Widget {
         .css_classes(["pill", "suggested-action"])
         .build();
     open.connect_clicked(|button| {
-        let Ok(exe) = std::env::current_exe() else { return };
-        let window = button.root().and_downcast::<gtk::Window>();
+        // Get the activation token before minimizing, while this window has focus.
+        spawn_window_tool(button, &["ruler"]);
         // Keep this window out of the screenshot the ruler measures on.
-        if let Some(w) = &window {
+        if let Some(w) = button.root().and_downcast::<gtk::Window>() {
             w.minimize();
-        }
-        if let Ok(mut child) = std::process::Command::new(exe).arg("ruler").spawn() {
-            std::thread::spawn(move || child.wait());
         }
     });
     adw::StatusPage::builder()
