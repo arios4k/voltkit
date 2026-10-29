@@ -159,6 +159,7 @@ fn extra_sections(page: &str) -> Vec<Section> {
                     Para("Bus name io.github.arios4k.Voltkit.Daemon, object /io/github/arios4k/Voltkit/Daemon, interface io.github.arios4k.Voltkit.Daemon1:"),
                     Item("Trigger(s action)", "Start \"ocr\", \"color\" or \"snippets\" and return immediately. Ignored while another one is open."),
                     Item("Status() → (sss)", "The version, the shortcut backend, and whether typed triggers are on, off or unavailable."),
+                    Item("Reload()", "Re-read snippets from the configuration file, so typed triggers use edits right away. The control center calls this after every change."),
                     Item("Quit()", "Stop the daemon."),
                 ],
             },

@@ -31,6 +31,9 @@ Show whether the daemon is running and how shortcuts are bound
 \fBvoltkit daemon stop\fR
 Stop the running daemon
 .TP
+\fBvoltkit daemon reload\fR
+Make the running daemon re\-read snippets from the config file
+.TP
 \fBvoltkit daemon enable\-autostart\fR
 Start the daemon automatically at login
 .TP
@@ -57,6 +60,9 @@ Start "ocr", "color" or "snippets" and return immediately. Ignored while another
 .TP
 \fBStatus() → (sss)\fR
 The version, the shortcut backend, and whether typed triggers are on, off or unavailable.
+.TP
+\fBReload()\fR
+Re\-read snippets from the configuration file, so typed triggers use edits right away. The control center calls this after every change.
 .TP
 \fBQuit()\fR
 Stop the daemon.

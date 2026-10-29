@@ -283,7 +283,8 @@ async fn expand(snippet: &Snippet, device: &mut VirtualDevice, shortcut: PasteSh
 }
 
 /// Runs until the daemon stops. Fails immediately if permissions are missing.
-pub async fn run(config: Arc<Config>) -> Result<()> {
+/// `snippets` is shared with the daemon, which replaces it when the list is edited.
+pub async fn run(config: Arc<Config>, snippets: Arc<std::sync::RwLock<Vec<Snippet>>>) -> Result<()> {
     let missing = missing_permissions();
     if !missing.is_empty() {
         bail!("{}; {}", missing.join("; "), next_step());
@@ -302,8 +303,8 @@ pub async fn run(config: Arc<Config>) -> Result<()> {
         tokio::select! {
             _ = rescan.tick() => watch_new_keyboards(&tx, &open),
             Some((key, value)) = rx.recv() => {
-                if let Some(snippet) = buffer.feed(key, value, &config.snippets) {
-                    let snippet = snippet.clone();
+                let hit = buffer.feed(key, value, &snippets.read().unwrap()).cloned();
+                if let Some(snippet) = hit {
                     if let Err(e) = expand(&snippet, &mut device, shortcut).await {
                         eprintln!("{}: {e:#}", snippet.trigger);
                     }

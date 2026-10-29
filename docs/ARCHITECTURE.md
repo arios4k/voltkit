@@ -32,6 +32,7 @@ second instance exits instead of waiting. Object `/io/github/arios4k/Voltkit/Dae
 |---|---|---|
 | `Trigger` | `s → ()` | start `"ocr"`, `"color"` or `"snippets"`; returns immediately; ignored while another one is open |
 | `Status` | `() → (sss)` | version; shortcut backend: `portal`, `gnome-keybindings` or `none`; typed triggers: `on`, `off` or `unavailable` |
+| `Reload` | `() → ()` | re-read snippets from the config file; the control center calls it after every edit |
 | `Quit` | `() → ()` | stop the daemon |
 
 ```bash
@@ -53,7 +54,7 @@ Picked colors go to `~/.local/share/voltkit/colors.txt`, which the GUI's history
 - [ ] OCR: language picker, QR/barcode detection, optional in-process `leptess` backend
 - [ ] Compressor: Nautilus/Dolphin/Nemo "Compress with Voltkit" context-menu entries, AVIF,
       resize presets
-- [ ] Snippet editor in the GUI (currently edited in TOML)
+- [x] Snippet editor in the GUI (add, edit, delete with undo; live preview)
 - [x] Signed APT repository on GitHub Pages (`.deb` built by cargo-deb on each tag)
 - [ ] Flatpak manifest and Flathub submission
 - [ ] arm64 packages

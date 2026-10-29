@@ -288,12 +288,6 @@ impl Picker {
     }
 }
 
-/// Template preview with parameters and the clipboard shown as placeholders.
 fn preview(template: &str) -> String {
-    let ctx = snippets::Context {
-        clipboard: Some("‹clipboard›".into()),
-        args: snippets::required_args(template).into_iter().map(|a| (a.clone(), format!("‹{a}›"))).collect(),
-        ..Default::default()
-    };
-    snippets::expand(template, &ctx).unwrap_or_else(|e| format!("⚠ {e}"))
+    snippets::preview(template).unwrap_or_else(|e| format!("⚠ {e}"))
 }

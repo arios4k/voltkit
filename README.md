@@ -68,7 +68,8 @@ it never touches. In our tests: JPEG −43%, PNG −23% (lossless), WebP −60%,
 Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>, search, press Enter, and the snippet is pasted into
 whatever app you were using. Snippets can include the date in any format, your clipboard, and
 fill-in-the-blank fields. Prefer typing? Turn on typed triggers and `;sig` becomes your signature in any
-app.
+app. Add, edit and delete snippets right in the app: Insert buttons add the date, time, clipboard or a
+fill-in field, and a live preview shows exactly what will be pasted.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png">
@@ -186,6 +187,10 @@ no daemon is running. Results and errors appear as desktop notifications.
 
 ## Text expansion
 
+**Managing snippets:** on the Text Expansion page, use **Add Snippet**, click a snippet to edit it, or
+delete it (with Undo). Changes are saved to `~/.config/voltkit/config.toml` and reach typed triggers
+immediately. If you edit that file by hand, run `voltkit daemon reload`.
+
 **Snippet picker** (no setup): press `Super+Shift+E`, type to search, press Enter. Snippets with
 `{arg:NAME}` parameters show a small form. The result is pasted into the app you were using, and
 your clipboard is put back afterwards. The first paste asks for remote-desktop permission (that's
@@ -270,6 +275,7 @@ src/
   actions.rs         hotkey actions (OCR, eyedropper) with notifications
   shortcuts.rs       accelerator conversion + GNOME keybinding fallback
   picker.rs          snippet picker popup
+  snippets_ui.rs     Text Expansion page: snippet list and editor
   expander.rs        typed triggers (evdev keyboard reading, uinput virtual keyboard)
   paste.rs           paste into the focused app, restoring the clipboard
   portal.rs          XDG portal calls (screenshot, PickColor) and notifications

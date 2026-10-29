@@ -82,6 +82,17 @@ fn expand_var(var: &str, ctx: &Context, out: &mut String) -> Result<()> {
     Ok(())
 }
 
+/// The template as it would be pasted, with fill-in fields and the clipboard
+/// shown as ‹placeholders›.
+pub fn preview(template: &str) -> Result<String> {
+    let ctx = Context {
+        clipboard: Some("‹clipboard›".into()),
+        args: required_args(template).into_iter().map(|a| (a.clone(), format!("‹{a}›"))).collect(),
+        ..Default::default()
+    };
+    expand(template, &ctx)
+}
+
 /// Names of the `{arg:NAME}` parameters a template needs, in order of first use.
 pub fn required_args(template: &str) -> Vec<String> {
     let mut names = Vec::new();
@@ -208,6 +219,12 @@ mod tests {
         assert_eq!(found, vec![";date", ";now"]);
         assert_eq!(search(&list, "").len(), 3);
         assert_eq!(search(&list, "regards")[0].trigger, ";sig");
+    }
+
+    #[test]
+    fn preview_shows_placeholders() {
+        assert_eq!(preview("> {clipboard} — {arg:author}").unwrap(), "> ‹clipboard› — ‹author›");
+        assert!(preview("{nope}").is_err());
     }
 
     #[test]

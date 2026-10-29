@@ -10,6 +10,7 @@ mod paste;
 mod picker;
 mod portal;
 mod screenshots;
+mod snippets_ui;
 mod shortcuts;
 mod system;
 
@@ -140,6 +141,8 @@ enum DaemonCommand {
     Status,
     /// Stop the running daemon
     Stop,
+    /// Make the running daemon re-read snippets from the config file
+    Reload,
     /// Start the daemon automatically at login
     EnableAutostart,
     /// Stop starting the daemon at login
@@ -289,6 +292,10 @@ fn main() -> Result<()> {
                     println!("running (v{version}), shortcuts: {backend}, typed triggers: {typed}")
                 }
                 None => println!("not running"),
+            },
+            DaemonCommand::Reload => match daemon::reload() {
+                Ok(()) => println!("Reloaded snippets"),
+                Err(_) => println!("not running"),
             },
             DaemonCommand::Stop => {
                 if daemon::stop().is_err() {

@@ -8,8 +8,8 @@ use adw::prelude::*;
 use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
-use crate::modules::{self, color, compress, ocr, snippets};
-use crate::{daemon, doctor, portal};
+use crate::modules::{self, color, compress, ocr};
+use crate::{daemon, doctor, portal, snippets_ui};
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -53,7 +53,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&ocr_page(config, &toasts), Some("ocr"));
     stack.add_named(&color_page(&toasts), Some("color"));
     stack.add_named(&compress_page(config, &toasts), Some("compress"));
-    stack.add_named(&snippets_page(config), Some("snippets"));
+    stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
     toasts.set_child(Some(&stack));
 
     let content_view = adw::ToolbarView::new();
@@ -137,14 +137,14 @@ pub(crate) fn about_dialog() -> adw::AboutDialog {
 
 /// "<Super><Shift>t" → "Shift+Super+T". The raw accelerator would also be read
 /// as markup tags by labels that support markup, which blanks them.
-fn shortcut_label(accel: &str) -> String {
+pub(crate) fn shortcut_label(accel: &str) -> String {
     match gtk::accelerator_parse(accel) {
         Some((key, mods)) => gtk::accelerator_get_label(key, mods).to_string(),
         None => glib::markup_escape_text(accel).to_string(),
     }
 }
 
-fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
+pub(crate) fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
     toasts.add_toast(adw::Toast::new(msg.as_ref()));
 }
 
@@ -638,82 +638,3 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 }
 
 // ---------------------------------------------------------------- Snippets
-
-fn snippets_page(config: &Config) -> gtk::Widget {
-    let list = adw::PreferencesGroup::builder()
-        .title("Snippets")
-        .description("Edit ~/.config/voltkit/config.toml to add your own")
-        .build();
-    for s in &config.snippets {
-        let row = adw::ActionRow::builder()
-            .title(&s.trigger)
-            .subtitle(&s.template)
-            .css_classes(["property"])
-            .build();
-        list.add(&row);
-    }
-
-    let template = adw::EntryRow::builder()
-        .title("Template")
-        .text("Meeting notes — {date:%A, %B %d} ({arg:topic})")
-        .build();
-    let preview = adw::ActionRow::builder().title("Preview").subtitle_selectable(true).build();
-    let playground = adw::PreferencesGroup::builder()
-        .title("Playground")
-        .description("Variables: {date}, {date:FMT}, {time}, {clipboard}, {arg:NAME}")
-        .build();
-    playground.add(&template);
-    playground.add(&preview);
-
-    let update = move |e: &adw::EntryRow| {
-        let text = e.text();
-        let ctx = snippets::Context {
-            clipboard: Some("‹clipboard›".into()),
-            args: snippets::required_args(&text).into_iter().map(|a| (a.clone(), format!("‹{a}›"))).collect(),
-            ..Default::default()
-        };
-        match snippets::expand(&text, &ctx) {
-            Ok(s) => {
-                e.remove_css_class("error");
-                preview.set_subtitle(&glib::markup_escape_text(&s));
-            }
-            Err(err) => {
-                e.add_css_class("error");
-                preview.set_subtitle(&glib::markup_escape_text(&err.to_string()));
-            }
-        }
-    };
-    update(&template);
-    template.connect_changed(update);
-
-    let usage = adw::PreferencesGroup::builder().title("Insert Snippets").build();
-    let open_picker = gtk::Button::builder()
-        .label("Open")
-        .valign(gtk::Align::Center)
-        .build();
-    open_picker.connect_clicked(|_| {
-        if let Ok(exe) = std::env::current_exe() {
-            let _ = std::process::Command::new(exe).arg("picker").spawn().map(|mut c| {
-                std::thread::spawn(move || c.wait());
-            });
-        }
-    });
-    let picker_row = adw::ActionRow::builder()
-        .title("Snippet picker")
-        .subtitle(format!("Search and paste into any app. Shortcut: {}", shortcut_label(&config.hotkeys.snippets)))
-        .build();
-    picker_row.add_suffix(&open_picker);
-    usage.add(&picker_row);
-    let typed = if config.expander.typed_triggers {
-        "On: type a trigger in any app to expand it"
-    } else {
-        "Off: run `voltkit expander setup`, then `voltkit expander enable`"
-    };
-    usage.add(&adw::ActionRow::builder().title("Typed triggers").subtitle(typed).build());
-
-    let page = adw::PreferencesPage::new();
-    page.add(&usage);
-    page.add(&playground);
-    page.add(&list);
-    page.upcast()
-}

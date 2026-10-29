@@ -87,6 +87,23 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path) -> Res
             save(&window, &dir.join(format!("{}-{theme}.png", module.id)), theme == "dark")?;
         }
 
+        // The snippet editor, opened on a snippet with fill-in fields.
+        sidebar.select_row(sidebar.row_at_index(3).as_ref());
+        glib::timeout_future(SETTLE).await;
+        if let Some(row) = descendants(&window)
+            .into_iter()
+            .filter_map(|w| w.downcast::<adw::ActionRow>().ok())
+            .find(|r| r.title() == ";meet")
+        {
+            row.emit_by_name::<()>("activated", &[]);
+            hide_banners(&window);
+            glib::timeout_future(SETTLE).await;
+            save(&window, &dir.join(format!("snippet-editor-{theme}.png")), theme == "dark")?;
+            for dialog in descendants(&window).into_iter().filter_map(|w| w.downcast::<adw::Dialog>().ok()) {
+                dialog.force_close();
+            }
+        }
+
         let about = app::about_dialog();
         about.present(Some(&window));
         hide_banners(&window);

@@ -32,6 +32,8 @@ struct State {
     quit: Arc<Notify>,
     backend: Arc<std::sync::Mutex<String>>,
     expander: Arc<std::sync::Mutex<String>>,
+    /// Snippets for typed triggers; `Reload` replaces them after edits.
+    snippets: Arc<std::sync::RwLock<Vec<crate::config::Snippet>>>,
 }
 
 impl State {
@@ -80,6 +82,13 @@ impl Service {
         )
     }
 
+    /// Re-reads the snippets from the config file, so typed triggers use edits right away.
+    fn reload(&self) -> zbus::fdo::Result<()> {
+        let config = Config::load().map_err(|e| zbus::fdo::Error::Failed(format!("{e:#}")))?;
+        *self.0.snippets.write().unwrap() = config.snippets;
+        Ok(())
+    }
+
     fn quit(&self) {
         self.0.quit.notify_one();
     }
@@ -97,6 +106,7 @@ pub fn run(config: Config) -> Result<()> {
 
 async fn serve(config: Config) -> Result<()> {
     let state = State {
+        snippets: Arc::new(std::sync::RwLock::new(config.snippets.clone())),
         config: Arc::new(config),
         busy: Arc::default(),
         quit: Arc::default(),
@@ -144,7 +154,7 @@ async fn serve(config: Config) -> Result<()> {
         let state = state.clone();
         tokio::spawn(async move {
             *state.expander.lock().unwrap() = "on".into();
-            if let Err(e) = expander::run(state.config.clone()).await {
+            if let Err(e) = expander::run(state.config.clone(), state.snippets.clone()).await {
                 *state.expander.lock().unwrap() = "unavailable".into();
                 eprintln!("Typed triggers unavailable: {e:#}");
                 let _ = portal::notify("Typed triggers unavailable", &format!("{e:#}")).await;
@@ -242,6 +252,11 @@ pub fn restart_if_running() -> Result<bool> {
         .process_group(0)
         .spawn()?;
     Ok(true)
+}
+
+/// Asks a running daemon to re-read the snippets. Fails if it isn't running.
+pub fn reload() -> Result<()> {
+    portal::block_on(call::<()>("Reload", &())).context("the daemon is not running")
 }
 
 pub fn stop() -> Result<()> {
