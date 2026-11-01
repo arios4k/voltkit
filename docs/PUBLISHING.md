@@ -45,7 +45,7 @@ launch, so users only install and open it.
    - **Project name:** `voltkit`
    - **Chroots:** the current Fedora releases for `x86_64` (and `aarch64` if you like)
    - **Enable internet access during builds:** on (Cargo downloads the Rust crates)
-   - **Instructions:** `sudo dnf copr enable arios4k/voltkit && sudo dnf install voltkit`
+   - **Instructions:** `sudo dnf copr enable arios/voltkit && sudo dnf install voltkit`
 3. In the project, open **Packages → New Package → SCM**:
    - **Package name:** `voltkit`
    - **Clone url:** `https://github.com/arios4k/voltkit`
