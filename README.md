@@ -220,13 +220,12 @@ sudo apt update && sudo apt install voltkit
 ```
 
 apt installs the required tools (Tesseract, wl-clipboard, the desktop portal) along with Voltkit, and
-updates arrive with `sudo apt upgrade`. Then:
+updates arrive with `sudo apt upgrade`.
 
-```bash
-voltkit doctor                    # check everything is in place
-voltkit shortcuts install         # GNOME: Super+Shift+T, C and E
-voltkit daemon enable-autostart   # start the background service at login
-```
+Then open Voltkit from your apps. That's all: it starts its background service (which also starts at
+every login from now on) and, on GNOME, adds its keyboard shortcuts. `voltkit doctor` checks that
+everything is in place. Typing triggers like `;date` anywhere is optional and needs a one-time
+`voltkit expander setup`.
 
 PNG compression needs `oxipng`, which Ubuntu doesn't package: `cargo install oxipng`.
 

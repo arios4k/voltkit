@@ -1,0 +1,83 @@
+# Publishing Voltkit
+
+Voltkit ships as native packages (no Snap or Flatpak sandbox, which would break several tools):
+
+| Where | For | Built by |
+|---|---|---|
+| apt repository on GitHub Pages | Ubuntu, Debian, Mint, Pop!_OS, Zorin | the release workflow, automatically |
+| AUR | Arch, Manjaro, EndeavourOS | each user's computer, from `packaging/aur/PKGBUILD` |
+| Fedora COPR | Fedora | COPR's build servers, from `packaging/rpm/voltkit.spec` |
+
+All three install a login entry for the background service, and Voltkit adds its shortcuts on first
+launch, so users only install and open it.
+
+## One-time setup
+
+### AUR
+
+1. Create an account at <https://aur.archlinux.org/register>.
+2. Make an SSH key for it and add the public half under **My Account → SSH Public Key**:
+
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/aur -C aur
+   cat ~/.ssh/aur.pub
+   ```
+
+3. Tell SSH to use it, by adding this to `~/.ssh/config`:
+
+   ```
+   Host aur.archlinux.org
+     IdentityFile ~/.ssh/aur
+     User aur
+   ```
+
+4. Check the name is free at <https://aur.archlinux.org/packages/voltkit>, then clone the (still empty)
+   package. Cloning a name nobody owns creates it for you on the first push:
+
+   ```bash
+   git clone ssh://aur@aur.archlinux.org/voltkit.git ~/aur-voltkit
+   ```
+
+### Fedora COPR
+
+1. Create a Fedora account at <https://accounts.fedoraproject.org>.
+2. Log in to <https://copr.fedorainfracloud.org> and choose **New Project**:
+   - **Project name:** `voltkit`
+   - **Chroots:** the current Fedora releases for `x86_64` (and `aarch64` if you like)
+   - **Enable internet access during builds:** on (Cargo downloads the Rust crates)
+   - **Instructions:** `sudo dnf copr enable arios4k/voltkit && sudo dnf install voltkit`
+3. In the project, open **Packages → New Package → SCM**:
+   - **Package name:** `voltkit`
+   - **Clone url:** `https://github.com/arios4k/voltkit`
+   - **Committish:** leave empty (the spec on `main` downloads the release it names)
+   - **Spec file:** `packaging/rpm/voltkit.spec`
+   - **How to build SRPM:** `make_srpm`
+4. Save, then **Rebuild** the package.
+
+## Every release
+
+1. Set the new version in `Cargo.toml`, `packaging/aur/PKGBUILD` (`pkgver`, and `pkgrel=1`),
+   `packaging/aur/.SRCINFO` and `packaging/rpm/voltkit.spec` (`Version`, `Release: 1`, and a
+   `%changelog` entry). `cargo test` fails until they match. Regenerate the man pages
+   (`cargo run -- manpages man`).
+2. Commit, then tag and push: `git tag vX.Y.Z && git push origin main vX.Y.Z`. The release workflow
+   publishes the GitHub Release and the apt repository.
+3. Put the release tarball's checksum into the AUR files, and commit it:
+
+   ```bash
+   packaging/update-checksums.sh
+   git commit -am "AUR checksum for vX.Y.Z" && git push
+   ```
+
+4. Publish to the AUR:
+
+   ```bash
+   cp packaging/aur/PKGBUILD packaging/aur/.SRCINFO ~/aur-voltkit/
+   cd ~/aur-voltkit && git add PKGBUILD .SRCINFO && git commit -m "Update to X.Y.Z" && git push
+   ```
+
+5. Build on COPR: **Rebuild** the `voltkit` package in the web interface (or
+   `copr-cli build-package voltkit --name voltkit`).
+
+CI builds both packages in Arch and Fedora containers on every push, so problems show up before a
+release.
