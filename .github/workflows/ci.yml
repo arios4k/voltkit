@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-24.04
     container: archlinux:latest
     steps:
+      - run: pacman -Syu --noconfirm --needed base-devel git cargo gtk4 libadwaita  # git first, so checkout makes a real clone
       - uses: actions/checkout@v4
-      - run: pacman -Syu --noconfirm --needed base-devel git cargo gtk4 libadwaita
       - name: Build the package
         run: |
           useradd -m builder
@@ -39,8 +39,8 @@ jobs:
     runs-on: ubuntu-24.04
     container: fedora:latest
     steps:
+      - run: dnf -y install rpm-build rpmdevtools git cargo rust gcc gtk4-devel libadwaita-devel  # git first, so checkout makes a real clone
       - uses: actions/checkout@v4
-      - run: dnf -y install rpm-build rpmdevtools git cargo rust gcc gtk4-devel libadwaita-devel
       - name: Build the package
         run: |
           version=$(sed -n 's/^Version: *//p' packaging/rpm/voltkit.spec)
