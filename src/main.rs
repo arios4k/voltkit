@@ -380,7 +380,12 @@ fn main() -> Result<()> {
                 }
             }
             DaemonCommand::EnableAutostart => {
-                println!("Created {}", daemon::set_autostart(true)?.display())
+                let path = daemon::set_autostart(true)?;
+                if path.starts_with("/etc") {
+                    println!("Starts at login through {}, installed with Voltkit", path.display());
+                } else {
+                    println!("Created {}", path.display());
+                }
             }
             DaemonCommand::DisableAutostart => {
                 println!("Removed {}", daemon::set_autostart(false)?.display())
