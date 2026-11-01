@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04
     container: archlinux:latest
     steps:
-      - run: pacman -Syu --noconfirm --needed base-devel git cargo gtk4 libadwaita  # git first, so checkout makes a real clone
+      - run: pacman -Syu --noconfirm --needed base-devel git cargo gtk4 libadwaita polkit tesseract tesseract-data-eng wl-clipboard xdg-desktop-portal  # git first, so checkout makes a real clone
       - uses: actions/checkout@v4
       - name: Build the package
         run: |
@@ -49,5 +49,6 @@ jobs:
           # The release tarball doesn't exist yet: use this commit instead.
           git archive --prefix="voltkit-$version/" -o ~/rpmbuild/SOURCES/voltkit-$version.tar.gz HEAD
           rpmbuild -ba packaging/rpm/voltkit.spec
-          dnf -y install ~/rpmbuild/RPMS/*/voltkit-*.rpm
+          # The container's minimal systemd stand-in must make way for the real one.
+          dnf -y install --allowerasing ~/rpmbuild/RPMS/*/voltkit-*.rpm
           voltkit --version
