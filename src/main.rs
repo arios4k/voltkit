@@ -12,6 +12,8 @@ mod paste;
 mod picker;
 mod qr_ui;
 mod ruler;
+mod usage_ui;
+mod permissions_ui;
 mod portal;
 mod screenshots;
 mod snippets_ui;
@@ -25,7 +27,7 @@ use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
 use actions::Action;
-use modules::{color, compress, ocr, qr, snippets};
+use modules::{color, compress, ocr, qr, snippets, usage};
 
 /// Everyday desktop micro-utilities for Linux, in one binary.
 ///
@@ -116,6 +118,18 @@ enum Command {
     Awake {
         /// 30m, 1h, 1h30m or a number of minutes; `on` until turned off; `off` to stop
         duration: Option<String>,
+    },
+    /// Show which programs keep a file, folder, drive or network port busy
+    ///
+    /// TARGET is a path, or a port number such as 3000. Lists each program with its PID and how
+    /// it uses the target. Only your own programs can be checked as a normal user; run it with
+    /// sudo to include other users' programs and system services.
+    Using {
+        /// A file, folder or mount point, or a port number
+        target: String,
+        /// Tab-separated output, for the app's "Check with Password"
+        #[arg(long, hide = true)]
+        machine: bool,
     },
     /// Read QR codes from the screen or image files, or make them from text
     Qr {
@@ -394,6 +408,33 @@ fn main() -> Result<()> {
         }
         Some(Command::Picker { snippet }) => picker::run(config, snippet),
         Some(Command::Ruler) => ruler::run(),
+        Some(Command::Using { target, machine }) => {
+            let target = usage::Target::parse(&target)?;
+            let scan = usage::scan(&target);
+            if machine {
+                print!("{}", usage::to_machine(&scan));
+                return Ok(());
+            }
+            if scan.holders.is_empty() {
+                println!("Nothing is using {}", target.describe());
+            }
+            for h in &scan.holders {
+                let app = h.app_id.as_deref().map(|a| format!(" ({a})")).unwrap_or_default();
+                println!("{:>7}  {:<10} {}{app}", h.pid, usage::user_name(h.uid), h.command);
+                for u in &h.uses {
+                    println!("{:>7}  {:<10}   {u}", "", "");
+                }
+                if let Some(what) = h.protected() {
+                    println!("{:>7}  {:<10}   (this is {what})", "", "");
+                }
+            }
+            if scan.unreadable > 0 {
+                eprintln!(
+                    "{} programs of other users or the system weren't checked; run with sudo to include them",
+                    scan.unreadable
+                );
+            }
+        }
         Some(Command::Awake { duration: None }) => match daemon::awake_status() {
             Some((on, until)) => println!("Keep Awake: {}", awake::describe(on, until)),
             None => println!("Keep Awake: off (the background service isn't running)"),

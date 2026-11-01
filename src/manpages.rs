@@ -280,6 +280,15 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 Example("Save a Wi-Fi code to print:", "voltkit qr make 'WIFI:T:WPA;S:Home;P:secret;;' --output wifi.png"),
             ],
         }],
+        "voltkit-using" => vec![Section {
+            heading: "EXAMPLES",
+            blocks: &[
+                Example("Find what keeps a USB drive busy:", "voltkit using /media/$USER/USB"),
+                Example("Find the program on port 3000:", "voltkit using 3000"),
+                Example("Include system services:", "sudo voltkit using 80"),
+                Example("Ask a program to quit, then force it if it won't:", "kill PID\nkill -KILL PID"),
+            ],
+        }],
         "voltkit-trigger" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[Example("A Sway or i3 binding:", "bindsym $mod+Shift+t exec voltkit trigger ocr")],

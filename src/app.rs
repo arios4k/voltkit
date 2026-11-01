@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{awake_ui, daemon, doctor, portal, qr_ui, snippets_ui, system_ui};
+use crate::{awake_ui, daemon, doctor, permissions_ui, portal, qr_ui, snippets_ui, system_ui, usage_ui};
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -58,6 +58,8 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
     stack.add_named(&awake_ui::page(&toasts), Some("awake"));
     stack.add_named(&system_ui::page(&toasts), Some("system"));
+    stack.add_named(&usage_ui::page(&toasts), Some("using"));
+    stack.add_named(&permissions_ui::page(&toasts), Some("permissions"));
     toasts.set_child(Some(&stack));
 
     let content_view = adw::ToolbarView::new();
@@ -169,6 +171,12 @@ pub(crate) fn spawn_window_tool(widget: &impl IsA<gtk::Widget>, args: &[&str]) {
     if let Err(e) = launched {
         eprintln!("could not start {command_line}: {e}");
     }
+}
+
+/// The installed app with this ID (the desktop file name without `.desktop`).
+pub(crate) fn desktop_app(id: &str) -> Option<gio::AppInfo> {
+    let file = format!("{id}.desktop");
+    gio::AppInfo::all().into_iter().find(|a| a.id().is_some_and(|i| i.eq_ignore_ascii_case(&file)))
 }
 
 pub(crate) fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {

@@ -6,7 +6,7 @@
 
 **Power tools for your Linux desktop.**
 Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
-Keep Awake and a hosts &amp; environment editor, in one app.
+Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder and an app permissions manager, in one app.
 
 [![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -21,7 +21,7 @@ Keep Awake and a hosts &amp; environment editor, in one app.
 
 </div>
 
-## One app instead of eight
+## One app instead of ten
 
 Getting these basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
@@ -37,6 +37,8 @@ hotkeys:
 | a separate text expander | **Text Expansion**: a searchable snippet picker, plus optional typed triggers like `;date` | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> |
 | a shell extension to keep the screen on | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
 | editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
+| `lsof`, `fuser` and `ss` in a terminal | **What's Using This?**: see which apps keep a file, folder, drive or port busy, and close them | — |
+| nothing: there was no screen for it | **App Permissions**: change or forget the answers you gave apps asking for screenshots, the camera, your location and more | — |
 
 ## Features
 
@@ -118,6 +120,30 @@ entries are protected, and every hosts save keeps a backup.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png">
   <img src="docs/screenshots/system-light.png" alt="Hosts & Environment page with hosts entries and switches">
+</picture>
+
+### 🔎 Find what's keeping a drive or port busy
+
+“Target is busy” when you eject a USB stick, “address already in use” when you start a dev server: pick the
+drive, file, folder or port and see which apps hold it, with what they have open. Close an app with one click
+(it's asked to quit nicely first, with Force Quit only if it won't), or let **Eject** close them and eject for
+you. Parts of the system itself are never offered for closing.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png">
+  <img src="docs/screenshots/using-light.png" alt="What's Using This? page listing the apps that keep a USB drive busy">
+</picture>
+
+### 🛡️ Review what your apps are allowed to do
+
+When an app asks to take screenshots, use the camera or microphone, or see your location, the desktop
+remembers your answer. Until now there was nowhere to see or change those answers for apps installed
+outside Flatpak, so one wrong “Deny” stuck for good. App Permissions lists them by app: flip a switch to
+change one, or forget it so the app asks again.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png">
+  <img src="docs/screenshots/permissions-light.png" alt="App Permissions page listing apps with their camera and screenshot permissions">
 </picture>
 
 ## Why Voltkit
@@ -284,6 +310,7 @@ voltkit qr make https://example.com  # QR code in the terminal (or --output code
 voltkit qr scan               # read a QR code on screen
 voltkit ruler                 # measure on screen
 voltkit awake 1h30m           # keep the computer awake (on / off / no argument for status)
+voltkit using /media/$USER/USB  # what keeps this drive busy? (or a port: voltkit using 3000)
 ```
 
 Full documentation is in the man pages: `man voltkit`, `man voltkit-expand`, and so on.
@@ -324,6 +351,8 @@ src/
   awake.rs           Keep Awake (Inhibit portal, held by the daemon)
   awake_ui.rs        Keep Awake page
   system_ui.rs       Hosts & Environment page
+  usage_ui.rs        What's Using This? page
+  permissions_ui.rs  App Permissions page
   expander.rs        typed triggers (evdev keyboard reading, uinput virtual keyboard)
   paste.rs           paste into the focused app, restoring the clipboard
   portal.rs          XDG portal calls (screenshot, PickColor) and notifications
@@ -337,6 +366,8 @@ src/
     qr.rs            QR code reading and making
     hosts.rs         /etc/hosts parsing that preserves everything it doesn't edit
     envvars.rs       session environment variables (environment.d)
+    usage.rs         finds and closes the processes using a path or port (/proc)
+    permissions.rs   the desktop portal's permission store
   manpages.rs        man page generator (clap_mangen + hand-written sections)
   screenshots.rs     renders the README screenshots (hidden `screenshots` command)
 man/                 generated man pages

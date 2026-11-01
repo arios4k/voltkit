@@ -58,6 +58,19 @@ mkdir -p "$demo/config/environment.d"
 printf '%s\n' '# Environment variables set in Voltkit. Applied at login.' 'EDITOR=nano' 'PATH=${PATH}:${HOME}/.local/bin' \
     'GOPATH=${HOME}/go' > "$demo/config/environment.d/90-voltkit.conf"
 
+# Remembered app permissions: table, id, app, values (tab-separated).
+printf '%s\t%s\t%s\t%s\n' \
+    screenshot screenshot com.obsproject.Studio yes \
+    screencast screencast com.obsproject.Studio '' \
+    background background com.obsproject.Studio no \
+    devices camera us.zoom.Zoom yes \
+    devices microphone us.zoom.Zoom yes \
+    screenshot screenshot us.zoom.Zoom no \
+    devices camera org.gnome.Snapshot yes \
+    devices microphone org.gnome.Snapshot no \
+    screenshot screenshot io.github.arios4k.Voltkit yes \
+    > "$demo/permissions"
+
 cargo build --quiet --manifest-path "$repo/Cargo.toml"
 # A clean environment, so the "Already in Your Session" list shows typical
 # values instead of the real ones (which can include secrets).
@@ -71,4 +84,5 @@ env -i \
     ${VOLTKIT_LIGHT_THEME:+VOLTKIT_LIGHT_THEME="$VOLTKIT_LIGHT_THEME"} \
     ${VOLTKIT_DARK_THEME:+VOLTKIT_DARK_THEME="$VOLTKIT_DARK_THEME"} \
     XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
+    VOLTKIT_PERMISSIONS_FILE="$demo/permissions" VOLTKIT_USAGE_DEMO=1 \
     "$repo/target/debug/voltkit" screenshots "$out"

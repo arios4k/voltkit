@@ -104,7 +104,8 @@ fn ask_permission(app: &adw::Application) {
                 Err(e) => {
                     status.set_description(Some(&if portal::is_refused(&e) {
                         "Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then \
-                         Allow when your desktop asks."
+                         Allow when your desktop asks. If you chose Deny before, forget that answer in \
+                         Voltkit's App Permissions page first."
                             .to_owned()
                     } else {
                         glib::markup_escape_text(&format!("{e:#}")).to_string()

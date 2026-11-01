@@ -1,0 +1,66 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-using 1  "Voltkit 0.3.0" "Voltkit Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-using \- Show which programs keep a file, folder, drive or network port busy
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit using\fR [\fB\-h\fR|\fB\-\-help\fR] <\fITARGET\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Show which programs keep a file, folder, drive or network port busy
+.PP
+TARGET is a path, or a port number such as 3000. Lists each program with its PID and how it uses the target. Only your own programs can be checked as a normal user; run it with sudo to include other users\*(Aq programs and system services.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+<\fITARGET\fR>
+A file, folder or mount point, or a port number
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXAMPLES
+.PP
+Find what keeps a USB drive busy:
+.RS 4
+.nf
+\fBvoltkit using /media/$USER/USB\fR
+.fi
+.RE
+.PP
+Find the program on port 3000:
+.RS 4
+.nf
+\fBvoltkit using 3000\fR
+.fi
+.RE
+.PP
+Include system services:
+.RS 4
+.nf
+\fBsudo voltkit using 80\fR
+.fi
+.RE
+.PP
+Ask a program to quit, then force it if it won\*(Aqt:
+.RS 4
+.nf
+\fBkill PID
+kill \-KILL PID\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTHOR
+Alexis Rios\-Negron

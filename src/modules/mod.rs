@@ -4,7 +4,9 @@ pub mod envvars;
 pub mod hosts;
 pub mod ocr;
 pub mod qr;
+pub mod permissions;
 pub mod snippets;
+pub mod usage;
 
 /// Static description of a module, used to build the control center sidebar.
 pub struct ModuleInfo {
@@ -62,5 +64,17 @@ pub const ALL: &[ModuleInfo] = &[
         title: "Hosts & Environment",
         icon: "network-server-symbolic",
         summary: "Edit /etc/hosts and your session's environment variables without a text editor.",
+    },
+    ModuleInfo {
+        id: "using",
+        title: "What's Using This?",
+        icon: "system-search-symbolic",
+        summary: "See which apps keep a file, folder, drive or network port busy, and close them.",
+    },
+    ModuleInfo {
+        id: "permissions",
+        title: "App Permissions",
+        icon: "security-high-symbolic",
+        summary: "Change or forget the answers you gave when apps asked for screenshots, the camera and more.",
     },
 ];
