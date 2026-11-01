@@ -14,7 +14,7 @@ optdepends=('ffmpeg: compress MP4 videos'
             'oxipng: compress PNG images'
             'xclip: clipboard on X11 sessions')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('SKIP')
+sha256sums=('43ec71754242894995f5c3b312e219c673bdbeb2f38a23870a81c7f4500933c4')
 
 prepare() {
   cd "$pkgname-$pkgver"

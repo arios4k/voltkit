@@ -20,6 +20,6 @@ pkgbase = voltkit
 	optdepends = oxipng: compress PNG images
 	optdepends = xclip: clipboard on X11 sessions
 	source = voltkit-0.4.1.tar.gz::https://github.com/arios4k/voltkit/archive/refs/tags/v0.4.1.tar.gz
-	sha256sums = SKIP
+	sha256sums = 43ec71754242894995f5c3b312e219c673bdbeb2f38a23870a81c7f4500933c4
 
 pkgname = voltkit
