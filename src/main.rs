@@ -509,3 +509,17 @@ fn main() -> Result<()> {
     }
     Ok(())
 }
+
+#[cfg(test)]
+mod packaging_tests {
+    /// The AUR and Fedora packages name the version they build; a release
+    /// must update them with Cargo.toml (see packaging/update-checksums.sh).
+    #[test]
+    fn package_versions_match() {
+        let version = env!("CARGO_PKG_VERSION");
+        let read = |p: &str| std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/").to_owned() + p).unwrap();
+        assert!(read("packaging/aur/PKGBUILD").contains(&format!("\npkgver={version}\n")), "PKGBUILD: set pkgver={version}");
+        assert!(read("packaging/aur/.SRCINFO").contains(&format!("\tpkgver = {version}\n")), ".SRCINFO: set pkgver = {version}");
+        assert!(read("packaging/rpm/voltkit.spec").contains(&format!("\nVersion:        {version}\n")), "voltkit.spec: set Version: {version}");
+    }
+}

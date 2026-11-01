@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Voltkit Background Service
+Comment=Global shortcuts for Voltkit
+Exec=voltkit daemon
+Icon=io.github.arios4k.Voltkit
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

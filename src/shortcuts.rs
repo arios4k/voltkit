@@ -129,11 +129,32 @@ fn apply(plan: Vec<Vec<String>>, dry_run: bool) -> Result<()> {
 
 pub fn gnome_install(config: &Config, dry_run: bool) -> Result<()> {
     let exe = std::env::current_exe()?;
-    apply(install_plan(&current_bindings()?, &exe, config), dry_run)
+    apply(install_plan(&current_bindings()?, &exe, config), dry_run)?;
+    if !dry_run && let Some(marker) = removed_marker() {
+        let _ = std::fs::remove_file(marker);
+    }
+    Ok(())
 }
 
 pub fn gnome_remove(dry_run: bool) -> Result<()> {
-    apply(remove_plan(&current_bindings()?), dry_run)
+    apply(remove_plan(&current_bindings()?), dry_run)?;
+    // Remember it, so the background service doesn't add them back.
+    if !dry_run && let Some(marker) = removed_marker() {
+        let _ = std::fs::create_dir_all(marker.parent().unwrap());
+        let _ = std::fs::write(marker, "Voltkit's GNOME shortcuts were removed with `voltkit shortcuts remove`.\n");
+    }
+    Ok(())
+}
+
+fn removed_marker() -> Option<std::path::PathBuf> {
+    dirs::config_dir().map(|d| d.join("voltkit").join("shortcuts-removed"))
+}
+
+/// Whether the background service should add the shortcuts by itself: on
+/// GNOME without any Voltkit shortcuts, unless the user removed them.
+pub fn gnome_first_run() -> bool {
+    let Ok(current) = current_bindings() else { return false };
+    !parse_strv(&current).iter().any(|p| is_ours(p)) && removed_marker().is_none_or(|m| !m.exists())
 }
 
 /// Installed, but without some actions (added in a newer version).

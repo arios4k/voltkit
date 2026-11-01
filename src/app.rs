@@ -23,6 +23,11 @@ pub fn run(config: Config) {
     app.add_action_entries([about]);
     let config = Rc::new(config);
     app.connect_activate(move |app| {
+        // Right after installing, the background service isn't running until
+        // the next login: start it now, so the hotkeys work straight away.
+        if app.active_window().is_none() && !daemon_running() {
+            let _ = start_daemon();
+        }
         build_window(app, &config);
     });
     // Arguments are handled by clap; don't let GTK parse them again.
@@ -188,6 +193,18 @@ pub(crate) fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
     toasts.add_toast(adw::Toast::new(msg.as_ref()));
 }
 
+/// Starts `voltkit daemon` in the background.
+fn start_daemon() -> std::io::Result<()> {
+    let mut child = std::process::Command::new(std::env::current_exe()?)
+        .arg("daemon")
+        .stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::null())
+        .spawn()?;
+    // Reap it when it exits so it doesn't linger as a zombie.
+    std::thread::spawn(move || child.wait());
+    Ok(())
+}
+
 fn daemon_running() -> bool {
     let Ok(bus) = gio::bus_get_sync(gio::BusType::Session, gio::Cancellable::NONE) else {
         return false;
@@ -275,19 +292,15 @@ fn daemon_banner(toasts: &adw::ToastOverlay) -> adw::Banner {
         .button_label("Start")
         .revealed(!daemon_running())
         .build();
+    // Started a moment ago by `run`: look again once it has had time to start.
+    {
+        let banner = banner.clone();
+        glib::timeout_add_local_once(std::time::Duration::from_millis(1500), move || banner.set_revealed(!daemon_running()));
+    }
     let toasts = toasts.clone();
     banner.connect_button_clicked(move |banner| {
-        let spawned = std::env::current_exe().and_then(|exe| {
-            std::process::Command::new(exe)
-                .arg("daemon")
-                .stdin(std::process::Stdio::null())
-                .stdout(std::process::Stdio::null())
-                .spawn()
-        });
-        match spawned {
-            Ok(mut child) => {
-                // Reap it when it exits so it doesn't linger as a zombie.
-                std::thread::spawn(move || child.wait());
+        match start_daemon() {
+            Ok(()) => {
                 let (banner, toasts) = (banner.clone(), toasts.clone());
                 glib::timeout_add_local_once(std::time::Duration::from_millis(800), move || {
                     let running = daemon_running();

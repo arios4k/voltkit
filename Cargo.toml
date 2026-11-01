@@ -1,6 +1,6 @@
 [package]
 name = "voltkit"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Alexis Rios-Negron"]
 edition = "2024"
 description = "A unified suite of desktop micro-utilities for Linux"
@@ -51,6 +51,7 @@ manager for app permissions, and a troubleshooter for sleep and wake-ups. Run `v
 assets = [
     ["target/release/voltkit", "usr/bin/", "755"],
     ["data/io.github.arios4k.Voltkit.desktop", "usr/share/applications/", "644"],
+    ["data/io.github.arios4k.Voltkit.Daemon.desktop", "etc/xdg/autostart/", "644"],
     ["data/icons/io.github.arios4k.Voltkit.svg", "usr/share/icons/hicolor/scalable/apps/", "644"],
     ["data/icons/io.github.arios4k.Voltkit-symbolic.svg", "usr/share/icons/hicolor/symbolic/apps/", "644"],
     ["man/*.1", "usr/share/man/man1/", "644"],

@@ -1,0 +1,25 @@
+pkgbase = voltkit
+	pkgdesc = Power tools for your Linux desktop: OCR, QR codes, color picker, screen ruler, Smart Paste and more in one GTK4 app
+	pkgver = 0.4.1
+	pkgrel = 1
+	url = https://github.com/arios4k/voltkit
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	makedepends = cargo
+	depends = gtk4
+	depends = libadwaita
+	depends = polkit
+	depends = tesseract
+	depends = tesseract-data-eng
+	depends = wl-clipboard
+	depends = xdg-desktop-portal
+	optdepends = ffmpeg: compress MP4 videos
+	optdepends = jpegoptim: compress JPEG images
+	optdepends = libwebp-utils: compress WebP images
+	optdepends = oxipng: compress PNG images
+	optdepends = xclip: clipboard on X11 sessions
+	source = voltkit-0.4.1.tar.gz::https://github.com/arios4k/voltkit/archive/refs/tags/v0.4.1.tar.gz
+	sha256sums = SKIP
+
+pkgname = voltkit

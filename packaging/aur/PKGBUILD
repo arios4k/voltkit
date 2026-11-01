@@ -1,0 +1,43 @@
+# Maintainer: Alexis Rios-Negron <arios4k at users dot noreply dot github dot com>
+pkgname=voltkit
+pkgver=0.4.1
+pkgrel=1
+pkgdesc="Power tools for your Linux desktop: OCR, QR codes, color picker, screen ruler, Smart Paste and more in one GTK4 app"
+arch=('x86_64' 'aarch64')
+url="https://github.com/arios4k/voltkit"
+license=('MIT')
+depends=('gtk4' 'libadwaita' 'polkit' 'tesseract' 'tesseract-data-eng' 'wl-clipboard' 'xdg-desktop-portal')
+makedepends=('cargo')
+optdepends=('ffmpeg: compress MP4 videos'
+            'jpegoptim: compress JPEG images'
+            'libwebp-utils: compress WebP images'
+            'oxipng: compress PNG images'
+            'xclip: clipboard on X11 sessions')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 target/release/voltkit -t "$pkgdir/usr/bin/"
+  install -Dm644 data/io.github.arios4k.Voltkit.desktop -t "$pkgdir/usr/share/applications/"
+  install -Dm644 data/io.github.arios4k.Voltkit.Daemon.desktop -t "$pkgdir/etc/xdg/autostart/"
+  install -Dm644 data/icons/io.github.arios4k.Voltkit.svg -t "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+  install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg -t "$pkgdir/usr/share/icons/hicolor/symbolic/apps/"
+  install -Dm644 man/*.1 -t "$pkgdir/usr/share/man/man1/"
+  install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 data/config.example.toml -t "$pkgdir/usr/share/doc/$pkgname/examples/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

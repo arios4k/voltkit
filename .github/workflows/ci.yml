@@ -11,3 +11,43 @@ jobs:
           components: clippy
       - run: cargo clippy -- -D warnings
       - run: cargo test
+
+  # Build the AUR and Fedora packages from this commit, in real Arch and
+  # Fedora, so packaging problems show up before a release is published.
+  arch:
+    runs-on: ubuntu-24.04
+    container: archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pacman -Syu --noconfirm --needed base-devel git cargo gtk4 libadwaita
+      - name: Build the package
+        run: |
+          useradd -m builder
+          version=$(sed -n 's/^pkgver=//p' packaging/aur/PKGBUILD)
+          git config --global --add safe.directory "$PWD"
+          mkdir /tmp/aur && cp packaging/aur/PKGBUILD packaging/aur/.SRCINFO /tmp/aur/
+          # The release tarball doesn't exist yet: use this commit instead.
+          git archive --prefix="voltkit-$version/" -o "/tmp/aur/voltkit-$version.tar.gz" HEAD
+          chown -R builder /tmp/aur
+          cd /tmp/aur
+          su builder -c 'makepkg --printsrcinfo' | diff -u .SRCINFO -
+          su builder -c 'makepkg --noconfirm --skipchecksums'
+          pacman -U --noconfirm voltkit-*.pkg.tar.zst
+          voltkit --version
+
+  fedora:
+    runs-on: ubuntu-24.04
+    container: fedora:latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: dnf -y install rpm-build rpmdevtools git cargo rust gcc gtk4-devel libadwaita-devel
+      - name: Build the package
+        run: |
+          version=$(sed -n 's/^Version: *//p' packaging/rpm/voltkit.spec)
+          git config --global --add safe.directory "$PWD"
+          mkdir -p ~/rpmbuild/SOURCES
+          # The release tarball doesn't exist yet: use this commit instead.
+          git archive --prefix="voltkit-$version/" -o ~/rpmbuild/SOURCES/voltkit-$version.tar.gz HEAD
+          rpmbuild -ba packaging/rpm/voltkit.spec
+          dnf -y install ~/rpmbuild/RPMS/*/voltkit-*.rpm
+          voltkit --version

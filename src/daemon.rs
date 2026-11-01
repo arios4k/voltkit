@@ -152,6 +152,13 @@ async fn serve(config: Config) -> Result<()> {
         let state = state.clone();
         tokio::spawn(async move {
             if let Err(e) = portal_shortcuts(&state).await {
+                // First run on GNOME without the portal: add the shortcuts.
+                if shortcuts::gnome_first_run() {
+                    match shortcuts::gnome_install(&state.config, false) {
+                        Ok(()) => println!("Added Voltkit's keyboard shortcuts to GNOME"),
+                        Err(e) => eprintln!("Could not add the keyboard shortcuts: {e:#}"),
+                    }
+                }
                 let fallback = if shortcuts::gnome_installed() { "gnome-keybindings" } else { "none" };
                 *state.backend.lock().unwrap() = fallback.into();
                 eprintln!("Global shortcuts portal unavailable: {e:#}");
@@ -321,12 +328,30 @@ fn autostart_entry(exe: &str) -> String {
     )
 }
 
+/// The login entry installed by the packages, which starts the service for
+/// every user. A user entry with the same name overrides it.
+const SYSTEM_AUTOSTART: &str = "/etc/xdg/autostart/io.github.arios4k.Voltkit.Daemon.desktop";
+/// The binary the system entry runs.
+const SYSTEM_EXE: &str = "/usr/bin/voltkit";
+
 pub fn set_autostart(enabled: bool) -> Result<PathBuf> {
     let path = autostart_path()?;
+    let system = std::path::Path::new(SYSTEM_AUTOSTART).exists();
+    let exe = std::env::current_exe()?;
+    if enabled && system && exe == std::path::Path::new(SYSTEM_EXE) {
+        // The package's entry already starts it: drop any override.
+        if path.exists() {
+            std::fs::remove_file(&path)?;
+        }
+        return Ok(PathBuf::from(SYSTEM_AUTOSTART));
+    }
     if enabled {
-        let exe = std::env::current_exe()?;
         std::fs::create_dir_all(path.parent().unwrap())?;
         std::fs::write(&path, autostart_entry(&exe.to_string_lossy()))?;
+    } else if system {
+        // Turn the package's entry off for this user only.
+        std::fs::create_dir_all(path.parent().unwrap())?;
+        std::fs::write(&path, format!("{}Hidden=true\n", autostart_entry(SYSTEM_EXE)))?;
     } else if path.exists() {
         std::fs::remove_file(&path)?;
     }
