@@ -46,11 +46,17 @@ echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://ar
 sudo apt update
 sudo apt install voltkit</code></pre>
 
-  <h2>Set up</h2>
-  <pre><code>voltkit doctor                    # check that everything is in place
-voltkit shortcuts install         # GNOME: Super+Shift+T, C and E
-voltkit daemon enable-autostart   # start the background service at login</code></pre>
   <p>Updates arrive with <code>sudo apt upgrade</code>.</p>
+
+  <h2>Install on Fedora</h2>
+  <p>For Fedora 43 and newer on 64-bit Intel/AMD:</p>
+  <pre><code>sudo dnf copr enable arios/voltkit
+sudo dnf install voltkit</code></pre>
+
+  <h2>Set up</h2>
+  <p>Open Voltkit from your apps. That's all: it starts its background service (which also starts at
+  every login) and, on GNOME, adds its keyboard shortcuts. <code>voltkit doctor</code> checks that
+  everything is in place.</p>
 
   <h2>Uninstall</h2>
   <pre><code>sudo apt remove voltkit

@@ -13,6 +13,7 @@ manager and a sleep troubleshooter, in one app.
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Install with apt](https://img.shields.io/badge/install-apt-orange)](#install-ubuntu-debian-and-derivatives)
+[![Install on Fedora](https://img.shields.io/badge/install-Fedora-51a2da)](#install-fedora)
 [![Made with Rust](https://img.shields.io/badge/made%20with-Rust-dea584?logo=rust&logoColor=white)](https://www.rust-lang.org)
 
 <picture>
@@ -228,6 +229,18 @@ everything is in place. Typing triggers like `;date` anywhere is optional and ne
 `voltkit expander setup`.
 
 PNG compression needs `oxipng`, which Ubuntu doesn't package: `cargo install oxipng`.
+
+## Install (Fedora)
+
+For Fedora 43 and newer, on 64-bit Intel/AMD:
+
+```bash
+sudo dnf copr enable arios/voltkit
+sudo dnf install voltkit
+```
+
+Then open Voltkit from your apps; it sets itself up the same way. Updates arrive with
+`sudo dnf upgrade`.
 
 ## Install (from source)
 
