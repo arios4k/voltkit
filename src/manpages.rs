@@ -289,6 +289,25 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 Example("Ask a program to quit, then force it if it won't:", "kill PID\nkill -KILL PID"),
             ],
         }],
+        "voltkit-sleep" => vec![Section {
+            heading: "NOTES",
+            blocks: &[Para(
+                "The sleep history comes from the system journal, which members of the adm or systemd-journal \
+                 groups can read. Linux records what woke the computer only when it was the lid or the power \
+                 button; other wakes are described by their likely causes. Which USB devices may wake the \
+                 computer can be changed in the app (with the administrator password); the choice is kept in \
+                 /etc/udev/rules.d/90-voltkit-wakeup.rules.",
+            )],
+        }],
+        "voltkit-convert" => vec![Section {
+            heading: "EXAMPLES",
+            blocks: &[
+                Example("List the conversions:", "voltkit convert"),
+                Example("Tidy JSON from a file:", "voltkit convert json < data.json"),
+                Example("Turn a copied spreadsheet range into a Markdown table:", "wl-paste | voltkit convert markdown-table"),
+                Example("Remove tracking from a link:", "echo 'https://example.com/?utm_source=x' | voltkit convert clean-link"),
+            ],
+        }],
         "voltkit-trigger" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[Example("A Sway or i3 binding:", "bindsym $mod+Shift+t exec voltkit trigger ocr")],

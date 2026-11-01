@@ -1,0 +1,65 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-convert 1  "Voltkit 0.4.0" "Voltkit Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-convert \- Convert text from standard input with one of Smart Paste\*(Aqs conversions
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit convert\fR [\fB\-h\fR|\fB\-\-help\fR] [\fICONVERSION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Convert text from standard input with one of Smart Paste\*(Aqs conversions
+.PP
+Without CONVERSION, lists them.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+[\fICONVERSION\fR]
+A conversion such as json, markdown\-table, clean\-link or snake
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXAMPLES
+.PP
+List the conversions:
+.RS 4
+.nf
+\fBvoltkit convert\fR
+.fi
+.RE
+.PP
+Tidy JSON from a file:
+.RS 4
+.nf
+\fBvoltkit convert json < data.json\fR
+.fi
+.RE
+.PP
+Turn a copied spreadsheet range into a Markdown table:
+.RS 4
+.nf
+\fBwl\-paste | voltkit convert markdown\-table\fR
+.fi
+.RE
+.PP
+Remove tracking from a link:
+.RS 4
+.nf
+\fBecho \*(Aqhttps://example.com/?utm_source=x\*(Aq | voltkit convert clean\-link\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTHOR
+Alexis Rios\-Negron

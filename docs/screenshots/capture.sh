@@ -84,5 +84,5 @@ env -i \
     ${VOLTKIT_LIGHT_THEME:+VOLTKIT_LIGHT_THEME="$VOLTKIT_LIGHT_THEME"} \
     ${VOLTKIT_DARK_THEME:+VOLTKIT_DARK_THEME="$VOLTKIT_DARK_THEME"} \
     XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
-    VOLTKIT_PERMISSIONS_FILE="$demo/permissions" VOLTKIT_USAGE_DEMO=1 \
+    VOLTKIT_PERMISSIONS_FILE="$demo/permissions" VOLTKIT_USAGE_DEMO=1 VOLTKIT_SLEEP_DEMO=1 \
     "$repo/target/debug/voltkit" screenshots "$out"

@@ -22,10 +22,12 @@ pub enum Action {
     Qr,
     /// Measure distances on screen
     Ruler,
+    /// Paste the clipboard converted
+    SmartPaste,
 }
 
 impl Action {
-    pub const ALL: [Action; 5] = [Action::Ocr, Action::Color, Action::Snippets, Action::Qr, Action::Ruler];
+    pub const ALL: [Action; 6] = [Action::Ocr, Action::Color, Action::Snippets, Action::Qr, Action::Ruler, Action::SmartPaste];
 
     pub fn id(self) -> &'static str {
         match self {
@@ -34,6 +36,7 @@ impl Action {
             Action::Snippets => "snippets",
             Action::Qr => "qr",
             Action::Ruler => "ruler",
+            Action::SmartPaste => "smart-paste",
         }
     }
 
@@ -48,6 +51,7 @@ impl Action {
             Action::Snippets => "Insert a snippet",
             Action::Qr => "Scan a QR code on screen",
             Action::Ruler => "Measure on screen",
+            Action::SmartPaste => "Paste the clipboard converted",
         }
     }
 
@@ -58,6 +62,7 @@ impl Action {
             Action::Snippets => &config.hotkeys.snippets,
             Action::Qr => &config.hotkeys.qr,
             Action::Ruler => &config.hotkeys.ruler,
+            Action::SmartPaste => &config.hotkeys.smart_paste,
         }
     }
 }
@@ -125,6 +130,7 @@ pub async fn run(action: Action, config: &Config) {
         Action::Snippets => open_picker(None).await,
         Action::Qr => scan_qr().await,
         Action::Ruler => run_window_tool(vec!["ruler".into()], "screen ruler").await,
+        Action::SmartPaste => run_window_tool(vec!["smart-paste".into()], "Smart Paste").await,
     };
     match result {
         Ok(()) => {}

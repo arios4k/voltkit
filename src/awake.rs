@@ -37,7 +37,7 @@ impl KeepAwake {
             .inhibit(
                 None,
                 InhibitFlags::Idle | InhibitFlags::Suspend,
-                InhibitOptions::default().set_reason("Keep Awake is on in Voltkit"),
+                InhibitOptions::default().set_reason(crate::modules::sleep::KEEP_AWAKE_REASON),
             )
             .await?;
 

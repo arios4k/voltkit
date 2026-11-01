@@ -136,6 +136,13 @@ pub fn gnome_remove(dry_run: bool) -> Result<()> {
     apply(remove_plan(&current_bindings()?), dry_run)
 }
 
+/// Installed, but without some actions (added in a newer version).
+pub fn gnome_incomplete() -> bool {
+    let Ok(current) = current_bindings() else { return false };
+    let paths = parse_strv(&current);
+    paths.iter().any(|p| is_ours(p)) && Action::ALL.iter().any(|a| !paths.contains(&binding_path(*a)))
+}
+
 pub fn gnome_installed() -> bool {
     current_bindings().map(|b| parse_strv(&b).iter().any(|p| is_ours(p))).unwrap_or(false)
 }
@@ -169,7 +176,7 @@ mod tests {
         assert_eq!(
             *list,
             format!(
-                "['{BASE}custom0/', '{BASE}voltkit-ocr/', '{BASE}voltkit-color/', '{BASE}voltkit-snippets/', '{BASE}voltkit-qr/', '{BASE}voltkit-ruler/']"
+                "['{BASE}custom0/', '{BASE}voltkit-ocr/', '{BASE}voltkit-color/', '{BASE}voltkit-snippets/', '{BASE}voltkit-qr/', '{BASE}voltkit-ruler/', '{BASE}voltkit-smart-paste/']"
             )
         );
         let command = plan.iter().find(|a| a[2] == "command").unwrap();

@@ -6,7 +6,8 @@
 
 **Power tools for your Linux desktop.**
 Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
-Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder and an app permissions manager, in one app.
+Smart Paste, Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
+manager and a sleep troubleshooter, in one app.
 
 [![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -21,7 +22,7 @@ Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder 
 
 </div>
 
-## One app instead of ten
+## One app instead of twelve
 
 Getting these basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
@@ -38,7 +39,9 @@ hotkeys:
 | a shell extension to keep the screen on | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
 | editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
 | `lsof`, `fuser` and `ss` in a terminal | **What's Using This?**: see which apps keep a file, folder, drive or port busy, and close them | — |
+| online converters for JSON, tables and letter case | **Smart Paste**: paste the clipboard converted: tidy JSON, a spreadsheet table as Markdown, a link without tracking, text from a PDF without broken lines, or the text in a copied image | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> |
 | nothing: there was no screen for it | **App Permissions**: change or forget the answers you gave apps asking for screenshots, the camera, your location and more | — |
+| digging through system logs in a terminal | **Why Didn't It Sleep?**: see what keeps the computer awake, what woke it up, and how much battery it used asleep | — |
 
 ## Features
 
@@ -144,6 +147,32 @@ change one, or forget it so the app asks again.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png">
   <img src="docs/screenshots/permissions-light.png" alt="App Permissions page listing apps with their camera and screenshot permissions">
+</picture>
+
+### 📋 Paste it the way you need it
+
+Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> instead of <kbd>Ctrl</kbd>+<kbd>V</kbd> and pick how to paste what you
+copied: JSON tidied or compacted, a spreadsheet range as a Markdown table or CSV, a link without its tracking
+parameters, a paragraph from a PDF without its broken lines, a list with bullets or numbers, or text in UPPERCASE,
+Title Case, snake_case and more. Copied a screenshot? Paste the text in it. Only the conversions that fit what you
+copied are offered, each with a preview, and your clipboard is left as it was. The same conversions work in
+scripts: `wl-paste | voltkit convert markdown-table`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png">
+  <img src="docs/screenshots/smartpaste-light.png" alt="Smart Paste page turning a spreadsheet range into a Markdown table and CSV">
+</picture>
+
+### 🌙 Find out why it didn't sleep
+
+Laptop warm in your bag, or battery empty in the morning? See what's keeping the computer awake right now (an app,
+a video, Keep Awake, a power setting, an external monitor), every sleep of the last week with what started and ended
+it and how much battery it used, and the USB devices allowed to wake it, with a switch to stop the one that keeps
+waking it up.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png">
+  <img src="docs/screenshots/sleep-light.png" alt="Why Didn't It Sleep? page listing what keeps the computer awake and recent sleeps">
 </picture>
 
 ## Why Voltkit
@@ -311,6 +340,9 @@ voltkit qr scan               # read a QR code on screen
 voltkit ruler                 # measure on screen
 voltkit awake 1h30m           # keep the computer awake (on / off / no argument for status)
 voltkit using /media/$USER/USB  # what keeps this drive busy? (or a port: voltkit using 3000)
+voltkit sleep                 # why it didn't sleep, and what woke it
+voltkit smart-paste           # paste the clipboard converted
+wl-paste | voltkit convert json  # Smart Paste's conversions in scripts (voltkit convert lists them)
 ```
 
 Full documentation is in the man pages: `man voltkit`, `man voltkit-expand`, and so on.
@@ -353,6 +385,8 @@ src/
   system_ui.rs       Hosts & Environment page
   usage_ui.rs        What's Using This? page
   permissions_ui.rs  App Permissions page
+  sleep_ui.rs        Why Didn't It Sleep? page
+  smartpaste_ui.rs   Smart Paste window and page
   expander.rs        typed triggers (evdev keyboard reading, uinput virtual keyboard)
   paste.rs           paste into the focused app, restoring the clipboard
   portal.rs          XDG portal calls (screenshot, PickColor) and notifications
@@ -368,6 +402,8 @@ src/
     envvars.rs       session environment variables (environment.d)
     usage.rs         finds and closes the processes using a path or port (/proc)
     permissions.rs   the desktop portal's permission store
+    sleep.rs         sleep blockers, sleep history (journal, UPower) and wake devices
+    smartpaste.rs    Smart Paste's text conversions
   manpages.rs        man page generator (clap_mangen + hand-written sections)
   screenshots.rs     renders the README screenshots (hidden `screenshots` command)
 man/                 generated man pages

@@ -4,6 +4,8 @@ pub mod envvars;
 pub mod hosts;
 pub mod ocr;
 pub mod qr;
+pub mod sleep;
+pub mod smartpaste;
 pub mod permissions;
 pub mod snippets;
 pub mod usage;
@@ -54,6 +56,12 @@ pub const ALL: &[ModuleInfo] = &[
         summary: "Snippets with dynamic variables: dates, clipboard, parameters.",
     },
     ModuleInfo {
+        id: "smartpaste",
+        title: "Smart Paste",
+        icon: "edit-paste-symbolic",
+        summary: "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case.",
+    },
+    ModuleInfo {
         id: "awake",
         title: "Keep Awake",
         icon: "display-brightness-symbolic",
@@ -76,5 +84,11 @@ pub const ALL: &[ModuleInfo] = &[
         title: "App Permissions",
         icon: "security-high-symbolic",
         summary: "Change or forget the answers you gave when apps asked for screenshots, the camera and more.",
+    },
+    ModuleInfo {
+        id: "sleep",
+        title: "Why Didn't It Sleep?",
+        icon: "weather-clear-night-symbolic",
+        summary: "What keeps the computer awake, what woke it up, and how much battery it used asleep.",
     },
 ];

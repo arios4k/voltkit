@@ -190,7 +190,7 @@ fn hide_banners(window: &gtk::Window) {
 /// Puts realistic content on the pages that start out empty.
 fn fill_demo(window: &gtk::Window) {
     for w in descendants(window) {
-        if let Some(view) = w.downcast_ref::<gtk::TextView>() {
+        if let Some(view) = w.downcast_ref::<gtk::TextView>().filter(|v| v.widget_name() != "smartpaste-input") {
             view.buffer().set_text(OCR_DEMO);
         } else if let Some(entry) = w.downcast_ref::<adw::EntryRow>().filter(|e| e.title() == "HEX or rgb()") {
             entry.set_text("#7C3AED");

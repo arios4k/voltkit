@@ -308,6 +308,13 @@ pub fn close(holder: &Holder, force: bool) -> Result<()> {
     }
 }
 
+/// A process's name and, when the desktop launched it, its app ID.
+pub fn process(pid: u32) -> Option<(String, Option<String>)> {
+    let proc_dir = PathBuf::from(format!("/proc/{pid}"));
+    let (_, _, command) = process_info(&proc_dir)?;
+    Some((command, app_id(&proc_dir)))
+}
+
 pub fn current_uid() -> u32 {
     std::fs::read_to_string("/proc/self/status")
         .ok()

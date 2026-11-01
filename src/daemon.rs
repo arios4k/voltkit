@@ -162,6 +162,13 @@ async fn serve(config: Config) -> Result<()> {
                     );
                 } else {
                     println!("Using GNOME custom keybindings");
+                    // After an update that adds tools, bind their shortcuts too.
+                    if shortcuts::gnome_incomplete() {
+                        match shortcuts::gnome_install(&state.config, false) {
+                            Ok(()) => println!("Added the shortcuts of new tools"),
+                            Err(e) => eprintln!("Could not add the new shortcuts: {e:#}"),
+                        }
+                    }
                 }
             }
         })

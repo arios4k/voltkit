@@ -14,6 +14,8 @@ mod qr_ui;
 mod ruler;
 mod usage_ui;
 mod permissions_ui;
+mod sleep_ui;
+mod smartpaste_ui;
 mod portal;
 mod screenshots;
 mod snippets_ui;
@@ -27,7 +29,7 @@ use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
 use actions::Action;
-use modules::{color, compress, ocr, qr, snippets, usage};
+use modules::{color, compress, ocr, qr, sleep, smartpaste, snippets, usage};
 
 /// Everyday desktop micro-utilities for Linux, in one binary.
 ///
@@ -131,6 +133,25 @@ enum Command {
         #[arg(long, hide = true)]
         machine: bool,
     },
+    /// Paste the clipboard converted: tidy JSON, a table as Markdown, a cleaned link…
+    ///
+    /// Opens a small window listing the conversions that fit what's on the clipboard, with a
+    /// preview of each. Enter pastes the chosen one into the app that had focus and restores the
+    /// clipboard. An image on the clipboard can be pasted as its text (OCR).
+    SmartPaste,
+    /// Convert text from standard input with one of Smart Paste's conversions
+    ///
+    /// Without CONVERSION, lists them.
+    Convert {
+        /// A conversion such as json, markdown-table, clean-link or snake
+        conversion: Option<String>,
+    },
+    /// Explain why the computer doesn't sleep, or why it woke up
+    ///
+    /// Shows what keeps the computer awake right now (apps and settings), the sleeps of the
+    /// last week with what started and ended each one and the battery used, and the USB devices
+    /// allowed to wake it.
+    Sleep,
     /// Read QR codes from the screen or image files, or make them from text
     Qr {
         #[command(subcommand)]
@@ -369,6 +390,8 @@ fn main() -> Result<()> {
         // activation token, so the window gets focus (GNOME only shows the
         // screenshot permission prompt to the focused app).
         Some(Command::Trigger { action: Action::Ruler }) => ruler::run(),
+        // Smart Paste reads the clipboard, which needs a focused window: same reason.
+        Some(Command::Trigger { action: Action::SmartPaste }) => smartpaste_ui::run(config),
         Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
         Some(Command::Qr { command }) => match command {
             QrCommand::Scan => {
@@ -407,7 +430,21 @@ fn main() -> Result<()> {
             }
         }
         Some(Command::Picker { snippet }) => picker::run(config, snippet),
+        Some(Command::SmartPaste) => smartpaste_ui::run(config),
+        Some(Command::Convert { conversion: None }) => {
+            for c in smartpaste::ALL {
+                println!("{:<16} {}", c.id, c.title);
+            }
+        }
+        Some(Command::Convert { conversion: Some(id) }) => {
+            let c = smartpaste::find(&id).with_context(|| format!("no conversion called {id}; run `voltkit convert` for the list"))?;
+            let mut input = String::new();
+            std::io::Read::read_to_string(&mut std::io::stdin(), &mut input)?;
+            let out = (c.apply)(&input).with_context(|| format!("{} doesn't fit this text", c.title))?;
+            println!("{out}");
+        }
         Some(Command::Ruler) => ruler::run(),
+        Some(Command::Sleep) => print!("{}", sleep::render_text(&portal::block_on(sleep::report()))),
         Some(Command::Using { target, machine }) => {
             let target = usage::Target::parse(&target)?;
             let scan = usage::scan(&target);

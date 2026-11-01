@@ -1,6 +1,6 @@
 [package]
 name = "voltkit"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Alexis Rios-Negron"]
 edition = "2024"
 description = "A unified suite of desktop micro-utilities for Linux"
@@ -25,6 +25,7 @@ qrcode = { version = "0.14.1", default-features = false }
 roff = "1.1.1"
 rqrr = { version = "0.11.0", default-features = false }
 serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
 tokio = { version = "1.54.1", features = ["rt", "rt-multi-thread", "macros", "signal", "time", "sync"] }
 toml = "1.1.8"
 zbus = { version = "5.19.0", default-features = false, features = ["tokio"] }
@@ -43,9 +44,10 @@ GTK4/libadwaita app and a single command: system-wide OCR (Super+Shift+T), a \
 QR code scanner and maker (Super+Shift+Q), a screen color picker with contrast \
 checking (Super+Shift+C), a screen ruler (Super+Shift+R), a metadata-stripping \
 image and video compressor, a text expander with a snippet picker \
-(Super+Shift+E) and optional typed triggers, Keep Awake, a hosts and \
-environment variable editor, a finder for the apps keeping a drive, file or \
-port busy, and a manager for app permissions. Run `voltkit doctor` after installing."""
+(Super+Shift+E) and optional typed triggers, Smart Paste for pasting the \
+clipboard converted (Super+Shift+V), Keep Awake, a hosts and environment \
+variable editor, a finder for the apps keeping a drive, file or port busy, a \
+manager for app permissions, and a troubleshooter for sleep and wake-ups. Run `voltkit doctor` after installing."""
 assets = [
     ["target/release/voltkit", "usr/bin/", "755"],
     ["data/io.github.arios4k.Voltkit.desktop", "usr/share/applications/", "644"],

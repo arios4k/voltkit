@@ -6,6 +6,7 @@ color_picker = "<Super><Shift>c"
 snippets = "<Super><Shift>e"   # opens the snippet picker
 qr = "<Super><Shift>q"         # scans a QR code on screen
 ruler = "<Super><Shift>r"      # opens the screen ruler
+smart_paste = "<Super><Shift>v" # pastes the clipboard converted (JSON, tables, case, links…)
 
 [ocr]
 lang = "eng"            # e.g. "eng+deu"; needs matching tesseract language packs

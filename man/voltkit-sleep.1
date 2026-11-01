@@ -1,0 +1,36 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-sleep 1  "Voltkit 0.4.0" "Voltkit Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-sleep \- Explain why the computer doesn\*(Aqt sleep, or why it woke up
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit sleep\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Explain why the computer doesn\*(Aqt sleep, or why it woke up
+.PP
+Shows what keeps the computer awake right now (apps and settings), the sleeps of the last week with what started and ended each one and the battery used, and the USB devices allowed to wake it.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOTES
+.PP
+The sleep history comes from the system journal, which members of the adm or systemd\-journal groups can read. Linux records what woke the computer only when it was the lid or the power button; other wakes are described by their likely causes. Which USB devices may wake the computer can be changed in the app (with the administrator password); the choice is kept in /etc/udev/rules.d/90\-voltkit\-wakeup.rules.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTHOR
+Alexis Rios\-Negron

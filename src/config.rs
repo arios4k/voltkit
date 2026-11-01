@@ -22,6 +22,7 @@ pub struct Hotkeys {
     pub snippets: String,
     pub qr: String,
     pub ruler: String,
+    pub smart_paste: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -79,6 +80,7 @@ impl Default for Hotkeys {
             snippets: "<Super><Shift>e".into(),
             qr: "<Super><Shift>q".into(),
             ruler: "<Super><Shift>r".into(),
+            smart_paste: "<Super><Shift>v".into(),
         }
     }
 }
