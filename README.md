@@ -232,7 +232,7 @@ PNG compression needs `oxipng`, which Ubuntu doesn't package: `cargo install oxi
 
 ## Install (Fedora)
 
-For Fedora 43 and newer, on 64-bit Intel/AMD:
+For Fedora 43 and newer on 64-bit Intel/AMD, from the [COPR repository](https://copr.fedorainfracloud.org/coprs/arios/voltkit/):
 
 ```bash
 sudo dnf copr enable arios/voltkit
