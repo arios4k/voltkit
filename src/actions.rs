@@ -67,6 +67,18 @@ impl Action {
     }
 }
 
+/// Hotkey results are announced on the session bus, so an open control center
+/// can show them: signal `Captured(kind, value)`, kind "ocr", "qr" or "color".
+pub const CAPTURE_PATH: &str = "/io/github/arios4k/Voltkit/Captures";
+pub const CAPTURE_INTERFACE: &str = "io.github.arios4k.Voltkit.Captures";
+pub const CAPTURE_SIGNAL: &str = "Captured";
+
+async fn announce(kind: &str, value: &str) {
+    if let Ok(conn) = zbus::Connection::session().await {
+        let _ = conn.emit_signal(None::<&str>, CAPTURE_PATH, CAPTURE_INTERFACE, CAPTURE_SIGNAL, &(kind, value)).await;
+    }
+}
+
 /// Copies to the clipboard, returning a note for the notification on failure.
 fn copy(text: &str) -> Option<String> {
     system::copy_to_clipboard(text).err().map(|e| format!("\n\nNot copied: {e}"))
@@ -75,6 +87,7 @@ fn copy(text: &str) -> Option<String> {
 async fn extract_text(config: &Config) -> Result<()> {
     let text = ocr::extract_text(&config.ocr.lang, None).await?;
     let note = copy(&text);
+    announce("ocr", &text).await;
     let mut preview: String = text.chars().take(160).collect();
     if preview.len() < text.len() {
         preview.push('…');
@@ -87,6 +100,7 @@ async fn pick_color() -> Result<()> {
     let c = portal::pick_color(None).await?;
     let note = copy(&c.to_hex());
     color::history::push(c)?;
+    announce("color", &c.to_hex()).await;
     let title = match note {
         None => format!("{} copied", c.to_hex()),
         Some(_) => c.to_hex(),
@@ -98,6 +112,7 @@ async fn pick_color() -> Result<()> {
 async fn scan_qr() -> Result<()> {
     let text = qr::scan(None).await?.join("\n");
     let note = copy(&text);
+    announce("qr", &text).await;
     let title = if note.is_none() { "QR code copied" } else { "QR code read" };
     portal::notify(title, &(text + note.as_deref().unwrap_or(""))).await
 }

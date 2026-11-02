@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.4.1
+Version:        0.4.2
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -66,5 +66,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %{_mandir}/man1/voltkit*.1*
 
 %changelog
+* Sun Nov 01 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.4.2-1
+- Hotkey results (text, QR codes, colors) show up in the open app
+- The Color Picker page names its hotkey
+
 * Sun Nov 01 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.4.1-1
 - First Fedora package: sets itself up on first launch (background service and hotkeys)

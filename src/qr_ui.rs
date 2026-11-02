@@ -68,6 +68,16 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
         });
     }
 
+    {
+        // Codes scanned with the hotkey show up here too.
+        let (result, open, text, toasts) = (result.clone(), open.clone(), text.clone(), toasts.clone());
+        crate::app::on_captured(&group, "qr", move |found| {
+            show_result(&result, &open, &found);
+            *text.borrow_mut() = found;
+            toast(&toasts, "QR code from the shortcut, copied to the clipboard");
+        });
+    }
+
     let toasts = toasts.clone();
     scan.connect_clicked(move |button| {
         let (button, result, open, text, toasts) =
@@ -83,9 +93,7 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
             match scanned {
                 Ok(Ok(codes)) => {
                     let found = codes.join("\n");
-                    result.set_subtitle(&glib::markup_escape_text(&found));
-                    result.set_visible(true);
-                    open.set_visible(qr::is_link(&found));
+                    show_result(&result, &open, &found);
                     button.clipboard().set_text(&found);
                     *text.borrow_mut() = found;
                     toast(&toasts, "QR code copied to clipboard");
@@ -97,6 +105,12 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
         });
     });
     group
+}
+
+fn show_result(result: &adw::ActionRow, open: &gtk::Button, found: &str) {
+    result.set_subtitle(&glib::markup_escape_text(found));
+    result.set_visible(true);
+    open.set_visible(qr::is_link(found));
 }
 
 fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {

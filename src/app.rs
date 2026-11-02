@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{awake_ui, daemon, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, system_ui, usage_ui};
+use crate::{actions, awake_ui, daemon, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, system_ui, usage_ui};
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -57,7 +57,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let stack = gtk::Stack::builder().transition_type(gtk::StackTransitionType::Crossfade).build();
     stack.add_named(&ocr_page(config, &toasts), Some("ocr"));
     stack.add_named(&qr_ui::page(config, &toasts), Some("qr"));
-    stack.add_named(&color_page(&toasts), Some("color"));
+    stack.add_named(&color_page(config, &toasts), Some("color"));
     stack.add_named(&ruler_page(config), Some("ruler"));
     stack.add_named(&compress_page(config, &toasts), Some("compress"));
     stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
@@ -191,6 +191,34 @@ pub(crate) fn desktop_app(id: &str) -> Option<gio::AppInfo> {
 
 pub(crate) fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
     toasts.add_toast(adw::Toast::new(msg.as_ref()));
+}
+
+/// Calls `show` with each value the hotkey for `kind` captures ("ocr", "qr" or
+/// "color"; see actions::announce) while `widget` exists.
+pub(crate) fn on_captured(widget: &impl IsA<gtk::Widget>, kind: &str, show: impl Fn(String) + 'static) {
+    let Ok(bus) = gio::bus_get_sync(gio::BusType::Session, gio::Cancellable::NONE) else { return };
+    let kind = kind.to_owned();
+    #[allow(deprecated)]
+    let id = bus.signal_subscribe(
+        None,
+        Some(actions::CAPTURE_INTERFACE),
+        Some(actions::CAPTURE_SIGNAL),
+        Some(actions::CAPTURE_PATH),
+        Some(&kind),
+        gio::DBusSignalFlags::NONE,
+        move |_, _, _, _, _, params| {
+            if let Some((_, value)) = params.get::<(String, String)>() {
+                show(value);
+            }
+        },
+    );
+    let id = std::cell::Cell::new(Some(id));
+    widget.connect_destroy(move |_| {
+        if let Some(id) = id.take() {
+            #[allow(deprecated)]
+            bus.signal_unsubscribe(id);
+        }
+    });
 }
 
 /// Starts `voltkit daemon` in the background.
@@ -353,6 +381,15 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .child(&adw::Clamp::builder().child(&body).build())
         .build();
 
+    {
+        // Text captured with the hotkey shows up here too.
+        let (view, toasts) = (view.clone(), toasts.clone());
+        on_captured(&status, "ocr", move |text| {
+            view.buffer().set_text(&text);
+            toast(&toasts, "Text from the shortcut, copied to the clipboard");
+        });
+    }
+
     let lang = config.ocr.lang.clone();
     let toasts = toasts.clone();
     button.connect_clicked(move |button| {
@@ -403,7 +440,7 @@ fn copy_row(title: &str, toasts: &adw::ToastOverlay) -> adw::ActionRow {
     row
 }
 
-fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
+fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let initial = color::Rgb::parse("#3584E4").unwrap();
     let current = Rc::new(Cell::new(initial));
 
@@ -435,7 +472,11 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
         .build();
     let input = adw::PreferencesGroup::builder()
         .title("Color")
-        .description("Type a color or pick one from your screen. Press Enter to save it to history.")
+        .description(format!(
+            "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} \
+             to pick a color: its HEX value is copied and saved here.",
+            shortcut_label(&config.hotkeys.color_picker)
+        ))
         .header_suffix(&pick)
         .build();
     input.add(&entry);
@@ -501,6 +542,7 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
         });
     }
 
+    let remember_picked = remember.clone();
     {
         let (entry, toasts) = (entry.clone(), toasts.clone());
         pick.connect_clicked(move |button| {
@@ -529,6 +571,17 @@ fn color_page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = adw::PreferencesPage::new();
     for g in [&input, &values, &contrast, &history] {
         page.add(g);
+    }
+    {
+        // Colors picked with the hotkey show up here too (already saved to history).
+        let (entry, toasts) = (entry.clone(), toasts.clone());
+        on_captured(&page, "color", move |hex| {
+            if let Ok(c) = color::Rgb::parse(&hex) {
+                entry.set_text(&c.to_hex());
+                remember_picked(c);
+                toast(&toasts, format!("Picked {} with the shortcut, copied", c.to_hex()));
+            }
+        });
     }
     page.upcast()
 }
