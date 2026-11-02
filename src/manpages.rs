@@ -299,6 +299,26 @@ fn extra_sections(page: &str) -> Vec<Section> {
                  /etc/udev/rules.d/90-voltkit-wakeup.rules.",
             )],
         }],
+        "voltkit-report" => vec![
+            Section {
+                heading: "NOTES",
+                blocks: &[Para(
+                    "The report leaves out serial numbers, user and computer names, and network addresses, so it \
+                     can be posted in a forum or bug report. Drive health comes from UDisks2 and firmware updates \
+                     from fwupd. Each run (and the background service, once a day) saves a snapshot of the \
+                     hardware, drivers, kernel and firmware in ~/.local/share/voltkit/snapshots, which later \
+                     reports compare to show what changed. --memory reads the memory slots from the SMBIOS \
+                     tables, which needs the administrator password.",
+                )],
+            },
+            Section {
+                heading: "EXAMPLES",
+                blocks: &[
+                    Example("Copy the report to paste in a forum post:", "voltkit report | wl-copy"),
+                    Example("Include memory slots and upgrade options:", "voltkit report --memory"),
+                ],
+            },
+        ],
         "voltkit-convert" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[
@@ -315,6 +335,8 @@ fn extra_sections(page: &str) -> Vec<Section> {
         "voltkit-shortcuts" => vec![Section {
             heading: "EXAMPLES",
             blocks: &[
+                Example("What does Super+V do?", "voltkit shortcuts who super+v"),
+                Example("Find shortcuts used by more than one action:", "voltkit shortcuts clashes"),
                 Example("Preview the gsettings commands:", "voltkit shortcuts install --dry-run"),
                 Example("Remove the shortcuts again:", "voltkit shortcuts remove"),
             ],

@@ -7,7 +7,7 @@
 **Power tools for your Linux desktop.**
 Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
 Smart Paste, Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
-manager and a sleep troubleshooter, in one app.
+manager, a sleep troubleshooter, a system report and a shortcut detective, in one app.
 
 [![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -23,7 +23,7 @@ manager and a sleep troubleshooter, in one app.
 
 </div>
 
-## One app instead of twelve
+## One app instead of fourteen
 
 Getting these basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
@@ -43,6 +43,8 @@ hotkeys:
 | online converters for JSON, tables and letter case | **Smart Paste**: paste the clipboard converted: tidy JSON, a spreadsheet table as Markdown, a link without tracking, text from a PDF without broken lines, or the text in a copied image | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> |
 | nothing: there was no screen for it | **App Permissions**: change or forget the answers you gave apps asking for screenshots, the camera, your location and more | — |
 | digging through system logs in a terminal | **Why Didn't It Sleep?**: see what keeps the computer awake, what woke it up, and how much battery it used asleep | — |
+| guessing why a keyboard shortcut does nothing | **Shortcut Detective**: press any shortcut to see what owns it, find clashes, pick a free combination and change it | — |
+| a pile of terminal commands to answer “what hardware do I have?” | **System Report**: your hardware explained, with driver and drive-health checks and fixes, temperatures, firmware updates, memory upgrades, what changed since an update, and a report that's safe to share | — |
 
 ## Features
 
@@ -174,6 +176,34 @@ waking it up.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png">
   <img src="docs/screenshots/sleep-light.png" alt="Why Didn't It Sleep? page listing what keeps the computer awake and recent sleeps">
+</picture>
+
+### 🖥️ Know your computer, and what changed
+
+Not just a list of specs: **System Report** checks each piece of hardware and says what it means. Is the graphics
+card on the right driver (and if not, the exact command to fix it)? Is the drive healthy, and how worn? Is the
+processor running hot or slowing itself down? Is a BIOS or device firmware update waiting? How many memory slots
+are free, and how much can this computer take?
+
+Voltkit also keeps a daily snapshot of the hardware, drivers, kernel and firmware, so when something breaks after
+an update, **What Changed** shows exactly what's different. When you need help, **Copy Report** gives you a tidy
+summary for a forum or bug report, with no serial numbers, names or network addresses.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png">
+  <img src="docs/screenshots/sysreport-light.png" alt="System Report page with checks, recent changes and the computer's hardware">
+</picture>
+
+### ⌨️ Find out what a shortcut does
+
+Pressed a shortcut and nothing happened, or the wrong thing did? Press it in **Shortcut Detective** to see every
+action that uses it: the window manager, GNOME Shell, system keys, your custom shortcuts, shell extensions and
+Voltkit itself. Clashes are listed for you, each with free combinations to switch to, and any shortcut can be
+changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png">
+  <img src="docs/screenshots/shortcuts-light.png" alt="Shortcut Detective showing that Super+V is used by two actions">
 </picture>
 
 ## Why Voltkit
@@ -353,6 +383,8 @@ voltkit ruler                 # measure on screen
 voltkit awake 1h30m           # keep the computer awake (on / off / no argument for status)
 voltkit using /media/$USER/USB  # what keeps this drive busy? (or a port: voltkit using 3000)
 voltkit sleep                 # why it didn't sleep, and what woke it
+voltkit report                # this computer, its checks and recent changes (--memory: slots and upgrades)
+voltkit shortcuts who super+v # what a shortcut does (also: shortcuts list, shortcuts clashes)
 voltkit smart-paste           # paste the clipboard converted
 wl-paste | voltkit convert json  # Smart Paste's conversions in scripts (voltkit convert lists them)
 ```
@@ -398,6 +430,8 @@ src/
   usage_ui.rs        What's Using This? page
   permissions_ui.rs  App Permissions page
   sleep_ui.rs        Why Didn't It Sleep? page
+  sysreport_ui.rs    System Report page
+  detective_ui.rs    Shortcut Detective page
   smartpaste_ui.rs   Smart Paste window and page
   expander.rs        typed triggers (evdev keyboard reading, uinput virtual keyboard)
   paste.rs           paste into the focused app, restoring the clipboard
@@ -415,6 +449,8 @@ src/
     usage.rs         finds and closes the processes using a path or port (/proc)
     permissions.rs   the desktop portal's permission store
     sleep.rs         sleep blockers, sleep history (journal, UPower) and wake devices
+    sysreport.rs     hardware, checks, drive health, sensors, firmware, snapshots, SMBIOS memory
+    keybindings.rs   every GSettings shortcut: owners, clashes, free combinations, changes
     smartpaste.rs    Smart Paste's text conversions
   manpages.rs        man page generator (clap_mangen + hand-written sections)
   screenshots.rs     renders the README screenshots (hidden `screenshots` command)

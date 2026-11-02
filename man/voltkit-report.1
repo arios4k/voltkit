@@ -1,0 +1,54 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-report 1  "Voltkit 0.5.0" "Voltkit Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-report \- Describe this computer: hardware, drivers, health and recent changes
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit report\fR [\fB\-\-memory\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Describe this computer: hardware, drivers, health and recent changes
+.PP
+Prints a report that\*(Aqs safe to share in a forum or bug report (no serial numbers, names or network addresses), with checks and fixes for drivers, drive health, disk space, temperatures and firmware updates. Also saves today\*(Aqs snapshot, so later reports can show what changed.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-\-memory\fR
+Also show memory slots and upgrade options (asks for the administrator password)
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOTES
+.PP
+The report leaves out serial numbers, user and computer names, and network addresses, so it can be posted in a forum or bug report. Drive health comes from UDisks2 and firmware updates from fwupd. Each run (and the background service, once a day) saves a snapshot of the hardware, drivers, kernel and firmware in ~/.local/share/voltkit/snapshots, which later reports compare to show what changed. \-\-memory reads the memory slots from the SMBIOS tables, which needs the administrator password.
+.SH EXAMPLES
+.PP
+Copy the report to paste in a forum post:
+.RS 4
+.nf
+\fBvoltkit report | wl\-copy\fR
+.fi
+.RE
+.PP
+Include memory slots and upgrade options:
+.RS 4
+.nf
+\fBvoltkit report \-\-memory\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTHOR
+Alexis Rios\-Negron

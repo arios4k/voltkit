@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-shortcuts 1  "Voltkit 0.4.3" "Voltkit Manual"
+.TH voltkit-shortcuts 1  "Voltkit 0.5.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
@@ -36,9 +36,32 @@ Remove the keybindings added by `install`
 .RS
 \fB\-\-dry\-run\fR: Print the gsettings commands instead of running them
 .RE
+.TP
+\fBvoltkit shortcuts list\fR
+List every system\-wide shortcut, grouped by who owns it
+.TP
+\fBvoltkit shortcuts who\fR
+Show what a shortcut does, such as `voltkit shortcuts who super+shift+s`
+.TP
+\fBvoltkit shortcuts clashes\fR
+Show shortcuts used by more than one action
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH EXAMPLES
+.PP
+What does Super+V do?
+.RS 4
+.nf
+\fBvoltkit shortcuts who super+v\fR
+.fi
+.RE
+.PP
+Find shortcuts used by more than one action:
+.RS 4
+.nf
+\fBvoltkit shortcuts clashes\fR
+.fi
+.RE
 .PP
 Preview the gsettings commands:
 .RS 4

@@ -181,6 +181,17 @@ async fn serve(config: Config) -> Result<()> {
         })
     };
 
+    // A daily snapshot of the hardware, drivers and firmware, so System
+    // Report can show what changed. Its own thread: collecting it blocks.
+    std::thread::spawn(|| {
+        loop {
+            if let Err(e) = crate::modules::sysreport::snapshot_if_due() {
+                eprintln!("system snapshot: {e:#}");
+            }
+            std::thread::sleep(std::time::Duration::from_secs(3 * 3600));
+        }
+    });
+
     let expander_task = state.config.expander.typed_triggers.then(|| {
         let state = state.clone();
         tokio::spawn(async move {

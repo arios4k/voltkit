@@ -4,6 +4,7 @@ mod awake;
 mod awake_ui;
 mod config;
 mod daemon;
+mod detective_ui;
 mod doctor;
 mod expander;
 mod manpages;
@@ -15,6 +16,7 @@ mod ruler;
 mod usage_ui;
 mod permissions_ui;
 mod sleep_ui;
+mod sysreport_ui;
 mod smartpaste_ui;
 mod portal;
 mod screenshots;
@@ -29,7 +31,7 @@ use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
 use actions::Action;
-use modules::{color, compress, ocr, qr, sleep, smartpaste, snippets, usage};
+use modules::{color, compress, keybindings, ocr, qr, sleep, smartpaste, snippets, sysreport, usage};
 
 /// Everyday desktop micro-utilities for Linux, in one binary.
 ///
@@ -146,6 +148,20 @@ enum Command {
         /// A conversion such as json, markdown-table, clean-link or snake
         conversion: Option<String>,
     },
+    /// Describe this computer: hardware, drivers, health and recent changes
+    ///
+    /// Prints a report that's safe to share in a forum or bug report (no serial numbers, names
+    /// or network addresses), with checks and fixes for drivers, drive health, disk space,
+    /// temperatures and firmware updates. Also saves today's snapshot, so later reports can
+    /// show what changed.
+    Report {
+        /// Also show memory slots and upgrade options (asks for the administrator password)
+        #[arg(long)]
+        memory: bool,
+        /// Memory slots as JSON, read as root (used by --memory and the app)
+        #[arg(long, hide = true)]
+        privileged: bool,
+    },
     /// Explain why the computer doesn't sleep, or why it woke up
     ///
     /// Shows what keeps the computer awake right now (apps and settings), the sleeps of the
@@ -256,6 +272,15 @@ enum ShortcutsCommand {
         #[arg(long)]
         dry_run: bool,
     },
+    /// List every system-wide shortcut, grouped by who owns it
+    List,
+    /// Show what a shortcut does, such as `voltkit shortcuts who super+shift+s`
+    Who {
+        /// The keys, like super+shift+s, ctrl+alt+t or print
+        keys: Vec<String>,
+    },
+    /// Show shortcuts used by more than one action
+    Clashes,
 }
 
 fn parse_kv(s: &str) -> Result<(String, String), String> {
@@ -449,6 +474,25 @@ fn main() -> Result<()> {
             println!("{out}");
         }
         Some(Command::Ruler) => ruler::run(),
+        Some(Command::Report { privileged: true, .. }) => println!("{}", serde_json::to_string(&sysreport::memory_info()?)?),
+        Some(Command::Report { memory, .. }) => {
+            let report = sysreport::collect();
+            let _ = sysreport::save_snapshot(&report.facts);
+            print!("{}", sysreport::share_text(&report, &sysreport::changes()));
+            let fixes: Vec<_> = report.checks.iter().filter(|c| c.command.is_some() || c.link.is_some()).collect();
+            if !fixes.is_empty() {
+                println!("\nFixes:");
+                for c in fixes {
+                    println!("  {}: {}", c.title, c.command.as_deref().or(c.link.as_deref()).unwrap_or(""));
+                }
+            }
+            if memory {
+                println!("\nMemory:");
+                for (label, value) in sysreport::memory_advice(&sysreport::memory_info_as_root()?) {
+                    println!("  {label}: {value}");
+                }
+            }
+        }
         Some(Command::Sleep) => print!("{}", sleep::render_text(&portal::block_on(sleep::report()))),
         Some(Command::Using { target, machine }) => {
             let target = usage::Target::parse(&target)?;
@@ -510,6 +554,48 @@ fn main() -> Result<()> {
                 }
             }
             ShortcutsCommand::Remove { dry_run } => shortcuts::gnome_remove(dry_run)?,
+            ShortcutsCommand::List => {
+                let mut owner = String::new();
+                for b in keybindings::all() {
+                    if b.owner != owner {
+                        owner = b.owner.clone();
+                        println!("\n{owner}");
+                    }
+                    let keys: Vec<String> = b.accels.iter().map(|a| keybindings::label(a)).collect();
+                    println!("  {:<28} {}", if keys.is_empty() { "-".to_owned() } else { keys.join(", ") }, b.name);
+                }
+            }
+            ShortcutsCommand::Who { keys } => {
+                let typed = keys.join(" ");
+                let combo = keybindings::parse_typed(&typed).with_context(|| format!("{typed} isn't a shortcut"))?;
+                let accel = keybindings::accel_name(combo);
+                let all = keybindings::all();
+                let users = keybindings::who(&accel, &all);
+                if users.is_empty() {
+                    println!("{} is free. Nearby free combinations:", keybindings::label(&accel));
+                } else {
+                    for b in users {
+                        println!("{}: {} ({})", keybindings::label(&accel), b.name, b.owner);
+                    }
+                    println!("Free combinations nearby:");
+                }
+                for s in keybindings::suggest(&accel, &all, 6) {
+                    println!("  {}", keybindings::label(&s));
+                }
+            }
+            ShortcutsCommand::Clashes => {
+                let all = keybindings::all();
+                let clashes = keybindings::conflicts(&all);
+                if clashes.is_empty() {
+                    println!("No clashes: no two actions share a shortcut.");
+                }
+                for (combo, users) in clashes {
+                    println!("{}", keybindings::label(&keybindings::accel_name(combo)));
+                    for b in users {
+                        println!("  {} ({})", b.name, b.owner);
+                    }
+                }
+            }
         },
     }
     Ok(())

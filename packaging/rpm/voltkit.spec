@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.4.3
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -33,8 +33,10 @@ single command: screen OCR, a QR code scanner and maker, a color picker with
 contrast checking, a screen ruler, an image and video compressor, a text
 expander, Smart Paste, Keep Awake, a hosts and environment variable editor, a
 finder for the apps keeping a drive, file or port busy, an app permissions
-manager and a troubleshooter for sleep and wake-ups. Built for Wayland, with
-global hotkeys.
+manager, a troubleshooter for sleep and wake-ups, and a system report with
+driver and drive-health checks, firmware updates and what changed after
+updates, and a shortcut detective that finds what owns a keyboard shortcut,
+lists clashes and changes them. Built for Wayland, with global hotkeys.
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -66,6 +68,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %{_mandir}/man1/voltkit*.1*
 
 %changelog
+* Mon Nov 02 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.5.0-1
+- New: System Report (drivers, drive health, temperatures, firmware, memory, what changed)
+- New: Shortcut Detective (who owns a shortcut, clashes, changing them)
+- The menu lists the tools alphabetically
+
 * Sun Nov 01 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.4.3-1
 - The download page links the Fedora COPR repository
 

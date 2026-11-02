@@ -22,6 +22,8 @@
       <li>Keep Awake, and a hosts and environment variable editor</li>
       <li>A finder for the apps keeping a drive, file or port busy</li>
       <li>An app permissions manager and a troubleshooter for sleep and wake-ups</li>
+      <li>A system report: drivers, drive health, temperatures, firmware updates, memory upgrades and what changed after updates</li>
+      <li>A shortcut detective: see what owns a keyboard shortcut, find clashes and change them</li>
     </ul>
   </description>
   <screenshots>
@@ -40,6 +42,10 @@
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/sleep-light.png</image>
       <caption>Sleep and wake-up troubleshooter</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/sysreport-light.png</image>
+      <caption>System report with checks and recent changes</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/arios4k/voltkit</url>
@@ -62,6 +68,7 @@
   </keywords>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.5.0" date="2026-11-02"/>
     <release version="0.4.3" date="2026-11-01"/>
     <release version="0.4.2" date="2026-11-01"/>
     <release version="0.4.1" date="2026-11-01"/>

@@ -1,6 +1,6 @@
 [package]
 name = "voltkit"
-version = "0.4.3"
+version = "0.5.0"
 authors = ["Alexis Rios-Negron"]
 edition = "2024"
 description = "A unified suite of desktop micro-utilities for Linux"
@@ -47,7 +47,10 @@ image and video compressor, a text expander with a snippet picker \
 (Super+Shift+E) and optional typed triggers, Smart Paste for pasting the \
 clipboard converted (Super+Shift+V), Keep Awake, a hosts and environment \
 variable editor, a finder for the apps keeping a drive, file or port busy, a \
-manager for app permissions, and a troubleshooter for sleep and wake-ups. Run `voltkit doctor` after installing."""
+manager for app permissions, a troubleshooter for sleep and wake-ups, and a \
+system report with driver and drive-health checks, firmware updates and what \
+changed after updates, and a shortcut detective that finds what owns a \
+keyboard shortcut, lists clashes and changes them. Run `voltkit doctor` after installing."""
 assets = [
     ["target/release/voltkit", "usr/bin/", "755"],
     ["data/io.github.arios4k.Voltkit.desktop", "usr/share/applications/", "644"],
