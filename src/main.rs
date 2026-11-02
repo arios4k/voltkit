@@ -246,16 +246,18 @@ enum DaemonCommand {
 enum ExpanderCommand {
     /// Show whether typed triggers are enabled and can run
     Status,
-    /// Grant keyboard access: add you to the input group and allow /dev/uinput
+    /// Grant keyboard access and turn typed triggers on, right away (no logout needed)
     Setup {
-        /// Run the commands with sudo instead of only printing them
+        /// Run the commands (asks for the administrator password) instead of only printing them
         #[arg(long)]
         apply: bool,
     },
-    /// Turn typed triggers on (restarts the daemon if it is running)
+    /// Turn typed triggers on
     Enable,
-    /// Turn typed triggers off (restarts the daemon if it is running)
+    /// Turn typed triggers off
     Disable,
+    /// Turn typed triggers off and remove Voltkit's keyboard access
+    RemoveAccess,
 }
 
 #[derive(Subcommand)]
@@ -304,35 +306,36 @@ fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Res
             }
         }
         ExpanderCommand::Setup { apply } => {
-            let user = std::env::var("USER")?;
-            let script = expander::setup_script(&user);
             if apply {
-                let status = std::process::Command::new("sudo").args(["sh", "-c", &script]).status()?;
-                anyhow::ensure!(status.success(), "setup failed");
-                println!("Done. Log out and back in, then run `voltkit expander enable`.");
+                expander::grant_access()?;
+                config.expander.typed_triggers = true;
+                config.save()?;
+                let _ = daemon::reload();
+                println!("Done: typed triggers can read the keyboard now, no need to log out.");
             } else {
-                println!("# Typed triggers need these commands to run as root. They add you to the");
-                println!("# `input` group, which lets programs you run read keyboard input, and allow");
-                println!("# /dev/uinput for the virtual keyboard. Run `voltkit expander setup --apply`");
-                println!("# to run them with sudo, then log out and back in.\n");
-                print!("{script}");
+                println!("# Typed triggers need these commands to run as root. They let the person at the");
+                println!("# computer read keyboards and use a virtual keyboard, right away. Run");
+                println!("# `voltkit expander setup --apply` to run them (it asks for your password).\n");
+                print!("{}", expander::grant_script());
             }
+        }
+        ExpanderCommand::RemoveAccess => {
+            config.expander.typed_triggers = false;
+            config.save()?;
+            let _ = daemon::reload();
+            expander::revoke_access()?;
+            println!("Typed triggers are off, and Voltkit's keyboard access is removed.");
         }
         ExpanderCommand::Enable | ExpanderCommand::Disable => {
             let enable = matches!(command, ExpanderCommand::Enable);
             config.expander.typed_triggers = enable;
             config.save()?;
-            println!("Typed triggers {}", if enable { "enabled" } else { "disabled" });
-            if enable {
-                let missing = expander::missing_permissions();
-                if !missing.is_empty() {
-                    println!("They won't work yet: {}", expander::next_step());
-                }
+            println!("Typed triggers {}", if enable { "on" } else { "off" });
+            if enable && !expander::missing_permissions().is_empty() {
+                println!("They need keyboard access first: {}", expander::next_step());
             }
-            if daemon::restart_if_running()? {
-                println!("Restarted the daemon");
-            } else {
-                println!("Takes effect the next time the daemon starts");
+            if daemon::reload().is_err() {
+                println!("Takes effect when the background service starts");
             }
         }
     }

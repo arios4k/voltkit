@@ -32,7 +32,9 @@ struct State {
     busy: Arc<AtomicBool>,
     quit: Arc<Notify>,
     backend: Arc<std::sync::Mutex<String>>,
+    /// Typed triggers: "off", "on", "needs keyboard access" or "unavailable".
     expander: Arc<std::sync::Mutex<String>>,
+    expander_task: Arc<std::sync::Mutex<Option<tokio::task::JoinHandle<()>>>>,
     keep_awake: Arc<KeepAwake>,
     /// Snippets for typed triggers; `Reload` replaces them after edits.
     snippets: Arc<std::sync::RwLock<Vec<crate::config::Snippet>>>,
@@ -98,10 +100,12 @@ impl Service {
         self.0.keep_awake.status()
     }
 
-    /// Re-reads the snippets from the config file, so typed triggers use edits right away.
+    /// Re-reads the config file: snippet edits apply right away, and typed
+    /// triggers start or stop when they're turned on or off.
     fn reload(&self) -> zbus::fdo::Result<()> {
         let config = Config::load().map_err(|e| zbus::fdo::Error::Failed(format!("{e:#}")))?;
-        *self.0.snippets.write().unwrap() = config.snippets;
+        *self.0.snippets.write().unwrap() = config.snippets.clone();
+        sync_expander(&self.0, Arc::new(config));
         Ok(())
     }
 
@@ -129,6 +133,7 @@ async fn serve(config: Config) -> Result<()> {
         quit: Arc::default(),
         backend: Arc::new(std::sync::Mutex::new("none".into())),
         expander: Arc::new(std::sync::Mutex::new("off".into())),
+        expander_task: Arc::default(),
     };
 
     let conn = zbus::connection::Builder::session()?
@@ -192,28 +197,58 @@ async fn serve(config: Config) -> Result<()> {
         }
     });
 
-    let expander_task = state.config.expander.typed_triggers.then(|| {
-        let state = state.clone();
-        tokio::spawn(async move {
-            *state.expander.lock().unwrap() = "on".into();
-            if let Err(e) = expander::run(state.config.clone(), state.snippets.clone()).await {
-                *state.expander.lock().unwrap() = "unavailable".into();
-                eprintln!("Typed triggers unavailable: {e:#}");
-                let _ = portal::notify("Typed triggers unavailable", &format!("{e:#}")).await;
-            }
-        })
-    });
+    sync_expander(&state, state.config.clone());
 
     tokio::select! {
         _ = tokio::signal::ctrl_c() => {}
         _ = state.quit.notified() => {}
     }
     portal_task.abort();
-    if let Some(task) = expander_task {
+    if let Some(task) = state.expander_task.lock().unwrap().take() {
         task.abort();
     }
     println!("Voltkit daemon stopped");
     Ok(())
+}
+
+/// Starts typed triggers if they're on and not running, or stops them if off.
+fn sync_expander(state: &State, config: Arc<Config>) {
+    let mut task = state.expander_task.lock().unwrap();
+    if config.expander.typed_triggers {
+        if task.as_ref().is_none_or(|t| t.is_finished()) {
+            *task = Some(tokio::spawn(run_expander(state.clone(), config)));
+        }
+    } else {
+        if let Some(t) = task.take() {
+            t.abort();
+            println!("Typed triggers off");
+        }
+        *state.expander.lock().unwrap() = "off".into();
+    }
+}
+
+/// Runs typed triggers, waiting for keyboard access when it's missing: once
+/// it's granted (in the app, with the password) they start by themselves.
+async fn run_expander(state: State, config: Arc<Config>) {
+    let mut said_waiting = false;
+    loop {
+        let missing = tokio::task::spawn_blocking(expander::missing_permissions).await.unwrap_or_default();
+        if !missing.is_empty() {
+            *state.expander.lock().unwrap() = "needs keyboard access".into();
+            if !said_waiting {
+                println!("Typed triggers are waiting for keyboard access: {}", missing.join("; "));
+                said_waiting = true;
+            }
+            tokio::time::sleep(std::time::Duration::from_secs(3)).await;
+            continue;
+        }
+        *state.expander.lock().unwrap() = "on".into();
+        if let Err(e) = expander::run(config.clone(), state.snippets.clone()).await {
+            *state.expander.lock().unwrap() = "unavailable".into();
+            eprintln!("Typed triggers unavailable: {e:#}");
+            tokio::time::sleep(std::time::Duration::from_secs(10)).await;
+        }
+    }
 }
 
 /// Binds the configured hotkeys via the GlobalShortcuts portal and dispatches
@@ -272,29 +307,6 @@ pub fn status() -> Option<(String, String, String)> {
     portal::block_on(call::<(String, String, String)>("Status", &())).ok()
 }
 
-/// Restarts the daemon so it picks up a new config. Does nothing if it isn't running.
-pub fn restart_if_running() -> Result<bool> {
-    if status().is_none() {
-        return Ok(false);
-    }
-    stop()?;
-    // Wait for the old instance to release the bus name.
-    for _ in 0..50 {
-        std::thread::sleep(std::time::Duration::from_millis(100));
-        if status().is_none() {
-            break;
-        }
-    }
-    use std::os::unix::process::CommandExt;
-    std::process::Command::new(std::env::current_exe()?)
-        .arg("daemon")
-        .stdin(std::process::Stdio::null())
-        .stdout(std::process::Stdio::null())
-        .stderr(std::process::Stdio::null())
-        .process_group(0)
-        .spawn()?;
-    Ok(true)
-}
 
 const NOT_RUNNING: &str = "the background service isn't running; start it with `voltkit daemon`";
 

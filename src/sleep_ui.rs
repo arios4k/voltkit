@@ -56,7 +56,7 @@ impl View {
         let now = adw::PreferencesGroup::builder()
             .title("Right Now")
             .description("Apps and settings that keep the computer awake at the moment.")
-            .header_suffix(&refresh)
+            .header_suffix(&crate::app::spaced(&refresh))
             .build();
         let history = adw::PreferencesGroup::builder()
             .title("Recent Sleeps")

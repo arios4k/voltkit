@@ -37,7 +37,7 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
             "Drag a box around a QR code anywhere on your screen: a video, a slide, a web page. Shortcut: {}",
             shortcut_label(&config.hotkeys.qr)
         ))
-        .header_suffix(&scan)
+        .header_suffix(&crate::app::spaced(&scan))
         .build();
 
     let result = adw::ActionRow::builder()

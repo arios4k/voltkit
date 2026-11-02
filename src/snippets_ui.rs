@@ -9,12 +9,12 @@ use gtk::{gio, glib};
 
 use crate::app::{shortcut_label, spawn_window_tool, toast};
 use crate::config::{Config, Snippet};
-use crate::daemon;
+use crate::{daemon, expander};
 use crate::modules::snippets;
 
 pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = adw::PreferencesPage::new();
-    page.add(&usage_group(config));
+    page.add(&usage_group(config, toasts));
     let manager = Manager::new(config.snippets.clone(), toasts);
     page.add(&manager.group);
     // The list's buttons only hold weak references, so the page keeps the manager alive.
@@ -24,7 +24,7 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     page.upcast()
 }
 
-fn usage_group(config: &Config) -> adw::PreferencesGroup {
+fn usage_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
     let usage = adw::PreferencesGroup::builder().title("Insert Snippets").build();
     let open_picker = gtk::Button::builder().label("Open").valign(gtk::Align::Center).build();
     open_picker.connect_clicked(|button| spawn_window_tool(button, &["picker"]));
@@ -34,13 +34,150 @@ fn usage_group(config: &Config) -> adw::PreferencesGroup {
         .build();
     picker_row.add_suffix(&open_picker);
     usage.add(&picker_row);
-    let typed = if config.expander.typed_triggers {
-        "On: type a snippet's trigger in any app to replace it with the text"
-    } else {
-        "Off: run `voltkit expander setup`, then `voltkit expander enable`"
-    };
-    usage.add(&adw::ActionRow::builder().title("Typed triggers").subtitle(typed).build());
+    usage.add(&typed_triggers_row(config, toasts));
     usage
+}
+
+/// How often the typed-triggers status is checked while the page is open.
+const TYPED_REFRESH: std::time::Duration = std::time::Duration::from_secs(10);
+
+/// The switch for typed triggers. Turning it on grants keyboard access the
+/// first time (one password, works at once); the background service starts
+/// and stops them by itself.
+fn typed_triggers_row(config: &Config, toasts: &adw::ToastOverlay) -> adw::SwitchRow {
+    let row = adw::SwitchRow::builder()
+        .title("Typed triggers")
+        .active(config.expander.typed_triggers)
+        .subtitle_lines(2)
+        .build();
+    // Set while the switch is moved back after a cancel or failure, so that isn't taken as a click.
+    let reverting = Rc::new(std::cell::Cell::new(false));
+
+    let refresh = {
+        let row = row.downgrade();
+        move || {
+            let row = row.clone();
+            glib::spawn_future_local(async move {
+                let (status, missing, keyboards) = gio::spawn_blocking(|| (daemon::status(), expander::missing_permissions(), expander::keyboard_count()))
+                    .await
+                    .unwrap_or((None, Vec::new(), 0));
+                let Some(row) = row.upgrade() else { return };
+                let subtitle = if !row.is_active() {
+                    "Off. Turn on to type a snippet's trigger, like ;date, in any app and have it replaced".to_owned()
+                } else if !missing.is_empty() {
+                    "Needs keyboard access: turn it off and on again to allow it".to_owned()
+                } else {
+                    match status.as_ref().map(|s| s.2.as_str()) {
+                        None => "On, but the background service isn't running: start it with the banner above".to_owned(),
+                        Some("on") => format!(
+                            "On: type a snippet's trigger in any app ({keyboards} keyboard{})",
+                            if keyboards == 1 { "" } else { "s" }
+                        ),
+                        Some("unavailable") => "On, but not working right now: `voltkit expander status` says why".to_owned(),
+                        _ => "Starting…".to_owned(),
+                    }
+                };
+                row.set_subtitle(&subtitle);
+            });
+        }
+    };
+    let refresh = Rc::new(refresh);
+    refresh();
+    {
+        let (refresh, weak) = (refresh.clone(), row.downgrade());
+        glib::timeout_add_local(TYPED_REFRESH, move || {
+            if weak.upgrade().is_none() {
+                return glib::ControlFlow::Break;
+            }
+            refresh();
+            glib::ControlFlow::Continue
+        });
+    }
+
+    let toasts = toasts.clone();
+    row.connect_active_notify(move |row| {
+        if reverting.get() {
+            return;
+        }
+        let (row, toasts, refresh, reverting) = (row.clone(), toasts.clone(), refresh.clone(), reverting.clone());
+        let revert = move |row: &adw::SwitchRow| {
+            reverting.set(true);
+            row.set_active(!row.is_active());
+            reverting.set(false);
+        };
+        glib::spawn_future_local(async move {
+            if row.is_active() {
+                if !gio::spawn_blocking(expander::missing_permissions).await.unwrap_or_default().is_empty() {
+                    let allowed = confirm(
+                        &row,
+                        "Allow Typed Triggers?",
+                        "To notice when you type a trigger like ;date, Voltkit reads the keyboard in every app. It keeps \
+                         only the last few characters in memory, and never saves or sends what you type.\n\nYour password \
+                         is needed once. It works right away: no need to log out.",
+                        "Allow",
+                        adw::ResponseAppearance::Suggested,
+                    )
+                    .await;
+                    if !allowed {
+                        revert(&row);
+                        return;
+                    }
+                    if let Ok(Err(e)) = gio::spawn_blocking(expander::grant_access).await {
+                        toast(&toasts, format!("Typed triggers not turned on: {e}"));
+                        revert(&row);
+                        return;
+                    }
+                }
+                save_typed_triggers(true, &toasts);
+                toast(&toasts, "Typed triggers are on");
+            } else {
+                save_typed_triggers(false, &toasts);
+                if gio::spawn_blocking(expander::access_granted).await.unwrap_or(false)
+                    && confirm(
+                        &row,
+                        "Also Remove Keyboard Access?",
+                        "Typed triggers are off, so Voltkit no longer reads the keyboard. Removing the access as well \
+                         means turning them on again asks for your password; the access ends fully at the next restart.",
+                        "Remove",
+                        adw::ResponseAppearance::Destructive,
+                    )
+                    .await
+                {
+                    match gio::spawn_blocking(expander::revoke_access).await {
+                        Ok(Ok(())) => toast(&toasts, "Keyboard access removed"),
+                        Ok(Err(e)) => toast(&toasts, format!("Not removed: {e}")),
+                        Err(_) => {}
+                    }
+                }
+            }
+            glib::timeout_future(std::time::Duration::from_millis(1200)).await;
+            refresh();
+        });
+    });
+    row
+}
+
+/// Saves the setting and tells the background service, which starts or stops them.
+fn save_typed_triggers(enabled: bool, toasts: &adw::ToastOverlay) {
+    let saved = Config::load().and_then(|mut config| {
+        config.expander.typed_triggers = enabled;
+        config.save()
+    });
+    match saved {
+        Ok(()) => {
+            let _ = daemon::reload();
+        }
+        Err(e) => toast(toasts, format!("Could not save the setting: {e}")),
+    }
+}
+
+async fn confirm(parent: &impl IsA<gtk::Widget>, heading: &str, body: &str, action: &str, look: adw::ResponseAppearance) -> bool {
+    let dialog = adw::AlertDialog::new(Some(heading), Some(body));
+    dialog.add_responses(&[("cancel", "Cancel"), ("ok", action)]);
+    dialog.set_response_appearance("ok", look);
+    dialog.set_default_response(Some("cancel"));
+    dialog.set_close_response("cancel");
+    dialog.choose_future(Some(parent)).await == "ok"
 }
 
 /// The "Your Snippets" list. Every change is saved to the config file at once.
@@ -61,7 +198,7 @@ impl Manager {
         let group = adw::PreferencesGroup::builder()
             .title("Your Snippets")
             .description("Click a snippet to edit it.")
-            .header_suffix(&add)
+            .header_suffix(&crate::app::spaced(&add))
             .build();
         let manager = Rc::new(Self {
             group,

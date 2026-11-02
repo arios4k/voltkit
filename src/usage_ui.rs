@@ -91,7 +91,7 @@ impl Usage {
         let header = gtk::Box::builder().spacing(6).build();
         header.append(&again);
         header.append(&eject);
-        let results = adw::PreferencesGroup::builder().title("Results").header_suffix(&header).visible(false).build();
+        let results = adw::PreferencesGroup::builder().title("Results").header_suffix(&crate::app::spaced(&header)).visible(false).build();
         results.set_widget_name("usage-results");
         let drives = adw::PreferencesGroup::builder()
             .title("Drives")

@@ -64,7 +64,7 @@ impl View {
                 "What's in this computer and how it's doing, in plain words. Copy the report when asking for help \
                  in a forum or bug report: it has no serial numbers, names or network addresses.",
             )
-            .header_suffix(&header)
+            .header_suffix(&crate::app::spaced(&header))
             .build();
         let checks = adw::PreferencesGroup::builder().title("Checks").build();
         let changes = adw::PreferencesGroup::builder()
@@ -77,13 +77,13 @@ impl View {
         let firmware = adw::PreferencesGroup::builder()
             .title("Firmware Updates")
             .description("Updates for the BIOS, drives, docks and other devices, from the makers through the Linux Vendor Firmware Service. They often fix battery, sleep and stability problems.")
-            .header_suffix(&check_online)
+            .header_suffix(&crate::app::spaced(&check_online))
             .build();
         let memory_button = gtk::Button::builder().label("Show…").valign(gtk::Align::Center).build();
         let memory = adw::PreferencesGroup::builder()
             .title("Memory and Upgrades")
             .description("Memory slots, what's in them, and how much this computer can take. Reading them needs the administrator password.")
-            .header_suffix(&memory_button)
+            .header_suffix(&crate::app::spaced(&memory_button))
             .build();
 
         let view = Rc::new(Self {

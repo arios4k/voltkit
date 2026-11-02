@@ -227,8 +227,9 @@ without the GlobalShortcuts portal, bind `voltkit trigger ocr|color|snippets` to
 
 **Is it safe to turn on typed triggers?**
 They're off by default. Wayland hides keystrokes between apps, so typed triggers need access to the
-keyboard device, which you grant once with `voltkit expander setup`. The snippet picker works without
-any of that.
+keyboard, which you allow once with your password when you turn them on. Voltkit keeps only the last
+few characters in memory and never saves or sends what you type. The snippet picker works without any
+of that.
 
 **Why isn't there a Flatpak?**
 It's on the roadmap. For now there's the apt repository for Ubuntu/Debian-based systems, and building
@@ -255,10 +256,8 @@ updates arrive with `sudo apt upgrade`.
 
 Then open Voltkit from your apps. That's all: it starts its background service (which also starts at
 every login from now on) and, on GNOME, adds its keyboard shortcuts. `voltkit doctor` checks that
-everything is in place. Typing triggers like `;date` anywhere is optional and needs a one-time
-`voltkit expander setup`.
-
-PNG compression needs `oxipng`, which Ubuntu doesn't package: `cargo install oxipng`.
+everything is in place. Typing triggers like `;date` anywhere is optional: turn on **Typed
+triggers** on the Text Expansion page (it asks for your password once and works right away).
 
 ## Install (Fedora)
 
@@ -332,19 +331,15 @@ immediately. If you edit that file by hand, run `voltkit daemon reload`.
 your clipboard is put back afterwards. The first paste asks for remote-desktop permission (that's
 how Wayland lets an app press Ctrl+V for you), and the permission is remembered.
 
-**Typed triggers** (opt-in): type `;date` in any app and it turns into `2026-10-27`. Wayland hides
-keystrokes from other apps, so this needs a one-time root setup:
+**Typed triggers** (opt-in): type `;date` in any app and it turns into `2026-10-27`. Turn on **Typed
+triggers** on the Text Expansion page. Wayland hides keystrokes from other apps, so the first time it
+asks for your password to allow keyboard access, and then works right away: no terminal, no logging
+out. Turning it off offers to remove the access again. From a terminal, the same is
+`voltkit expander setup --apply` and `voltkit expander remove-access`.
 
-```bash
-voltkit expander setup          # shows the commands and what they change
-voltkit expander setup --apply  # runs them with sudo; then log out and back in
-                                   # (restart instead if `loginctl` lingering is on)
-voltkit expander enable
-```
-
-Setup adds you to the `input` group, which lets *any* program you run read keyboard input. Voltkit
-keeps only the last few characters in memory and never logs or stores what you type. See
-`man voltkit-expander` for details and how to undo it.
+Keyboard access lets programs run by the person at the computer read the keyboard, not only Voltkit.
+Voltkit keeps only the last few characters in memory and never logs or stores what you type. See
+`man voltkit-expander` for details.
 
 For terminals, which paste with Ctrl+Shift+V, set `paste_shortcut` in the `[expander]` config section.
 
@@ -364,7 +359,7 @@ The control center shows a banner when a feature needs attention.
 | OCR | `tesseract` (+ language packs such as `tesseract-ocr-eng`) |
 | Region capture, eyedropper | the desktop's Screenshot portal; region capture falls back to `grim`+`slurp`, `gnome-screenshot`, `spectacle` or `maim` |
 | Clipboard (daemon, CLI) | `wl-clipboard` (Wayland) or `xclip` (X11). Without it, the result is still shown in a notification |
-| Compression | `oxipng` (PNG), `jpegoptim` (JPEG), `cwebp` (WebP), `ffmpeg` (MP4) |
+| Compression | built in for PNG; `jpegoptim` (JPEG), `cwebp` (WebP), `ffmpeg` (MP4) |
 
 ## Command line
 

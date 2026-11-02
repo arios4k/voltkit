@@ -3,7 +3,8 @@
 //! Wayland lets no app see another app's keystrokes, so this reads keyboards
 //! directly through evdev and replies through a uinput virtual keyboard: it
 //! erases the trigger with Backspace and pastes the expansion (see `paste.rs`).
-//! Both need the one-time setup from `voltkit expander setup`.
+//! Both need keyboard access, granted once with the administrator password
+//! (the switch on the Text Expansion page, or `voltkit expander setup`).
 //!
 //! Privacy: only the last few characters are kept in memory, to match triggers.
 //! Nothing typed is logged, stored or sent anywhere.
@@ -31,33 +32,87 @@ const KEY_DELAY: Duration = Duration::from_millis(4);
 
 // ------------------------------------------------------------ setup
 
-const UDEV_RULE_PATH: &str = "/etc/udev/rules.d/99-voltkit-uinput.rules";
-const UDEV_RULE: &str = r#"KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput""#;
+/// Lets the person at the computer (the active local session) read keyboards
+/// and use a virtual keyboard. "uaccess" is how desktops grant such devices
+/// to the logged-in user; it applies at once, with no group to join and no
+/// need to log out.
+const ACCESS_RULE_PATH: &str = "/etc/udev/rules.d/70-voltkit-typed-triggers.rules";
+const ACCESS_RULE: &str = "# Voltkit typed triggers: the person at the computer may read keyboards and use a\n\
+# virtual keyboard. Removed when keyboard access is turned off in Voltkit.\n\
+SUBSYSTEM==\"input\", KERNEL==\"event*\", ENV{ID_INPUT_KEYBOARD}==\"1\", TAG+=\"uaccess\"\n\
+KERNEL==\"uinput\", SUBSYSTEM==\"misc\", TAG+=\"uaccess\", OPTIONS+=\"static_node=uinput\"\n";
 const MODULES_PATH: &str = "/etc/modules-load.d/voltkit-uinput.conf";
+/// Set up by versions before 0.6 (with the input group); removed on revoke.
+const OLD_RULE_PATH: &str = "/etc/udev/rules.d/99-voltkit-uinput.rules";
 
-/// Shell commands (run as root) that let `user` read keyboards and create a virtual one.
-pub fn setup_script(user: &str) -> String {
+/// Re-applies the rules to the keyboards and /dev/uinput that already exist.
+const APPLY_RULES: &str = "udevadm control --reload-rules\n\
+     udevadm trigger --action=change --subsystem-match=input\n\
+     udevadm trigger --action=change --subsystem-match=misc --sysname-match=uinput\n\
+     udevadm settle --timeout=10 || true\n";
+
+/// Shell commands (run as root) that grant keyboard access.
+pub fn grant_script() -> String {
     format!(
         "set -e\n\
-         usermod -aG input {user}\n\
-         printf '%s\\n' '{UDEV_RULE}' > {UDEV_RULE_PATH}\n\
+         cat > {ACCESS_RULE_PATH} <<'EOF'\n{ACCESS_RULE}EOF\n\
          printf 'uinput\\n' > {MODULES_PATH}\n\
          modprobe uinput\n\
-         udevadm control --reload-rules\n\
-         udevadm trigger --sysname-match=uinput\n"
+         {APPLY_RULES}"
     )
+}
+
+/// Shell commands (run as root) that take keyboard access away again.
+pub fn revoke_script() -> String {
+    format!("set -e\nrm -f {ACCESS_RULE_PATH} {OLD_RULE_PATH} {MODULES_PATH}\n{APPLY_RULES}")
+}
+
+/// Runs a setup script as root through pkexec (the desktop asks for the password).
+fn run_as_root(script: &str) -> Result<()> {
+    let out = std::process::Command::new("pkexec").args(["sh", "-c", script]).output().context("pkexec is needed")?;
+    match out.status.code() {
+        Some(0) => Ok(()),
+        Some(126) | Some(127) => bail!("permission was not granted"),
+        _ => bail!("{}", String::from_utf8_lossy(&out.stderr).trim()),
+    }
+}
+
+/// Grants keyboard access and waits until this session has it.
+pub fn grant_access() -> Result<()> {
+    run_as_root(&grant_script())?;
+    for _ in 0..20 {
+        if missing_permissions().is_empty() {
+            return Ok(());
+        }
+        std::thread::sleep(Duration::from_millis(250));
+    }
+    bail!("access was granted, but this session doesn't have it yet: {}", missing_permissions().join("; "))
+}
+
+pub fn revoke_access() -> Result<()> {
+    run_as_root(&revoke_script())
+}
+
+/// Whether keyboard access was granted on this computer (by any version).
+pub fn access_granted() -> bool {
+    Path::new(ACCESS_RULE_PATH).exists() || Path::new(OLD_RULE_PATH).exists()
 }
 
 /// What still blocks typed triggers on this machine, if anything.
 pub fn missing_permissions() -> Vec<String> {
     let mut missing = Vec::new();
     if std::fs::OpenOptions::new().write(true).open("/dev/uinput").is_err() {
-        missing.push("cannot write /dev/uinput (needs the udev rule and the input group)".into());
+        missing.push("no access to the virtual keyboard (/dev/uinput)".into());
     }
     if keyboards().next().is_none() {
-        missing.push("cannot read any keyboard in /dev/input (needs the input group)".into());
+        missing.push("no access to the keyboards".into());
     }
     missing
+}
+
+/// The number of keyboards typed triggers can read.
+pub fn keyboard_count() -> usize {
+    keyboards().count()
 }
 
 // ------------------------------------------------------------ key decoding
@@ -221,7 +276,7 @@ fn virtual_keyboard() -> Result<VirtualDevice> {
         keys.insert(k);
     }
     VirtualDevice::builder()
-        .context("cannot open /dev/uinput; run `voltkit expander setup`")?
+        .context("cannot open /dev/uinput: keyboard access is needed")?
         .name(VIRTUAL_KEYBOARD)
         .with_keys(&keys)?
         .build()
@@ -282,7 +337,8 @@ async fn expand(snippet: &Snippet, device: &mut VirtualDevice, shortcut: PasteSh
     paste::paste(&text, previous, move || async move { tap(device, shortcut.keycodes()).await }).await
 }
 
-/// Runs until the daemon stops. Fails immediately if permissions are missing.
+/// Runs until the daemon stops. Fails at once if keyboard access is missing
+/// (the daemon waits for it and tries again).
 /// `snippets` is shared with the daemon, which replaces it when the list is edited.
 pub async fn run(config: Arc<Config>, snippets: Arc<std::sync::RwLock<Vec<Snippet>>>) -> Result<()> {
     let missing = missing_permissions();
@@ -317,31 +373,10 @@ pub async fn run(config: Arc<Config>, snippets: Arc<std::sync::RwLock<Vec<Snippe
     }
 }
 
-fn udev_rule_installed() -> bool {
-    Path::new(UDEV_RULE_PATH).exists()
-}
-
-/// True when systemd keeps this user's service manager running between logins.
-/// That manager starts the desktop session, so a re-login keeps its old groups.
-fn lingering() -> bool {
-    let user = std::env::var("USER").unwrap_or_default();
-    std::process::Command::new("loginctl")
-        .args(["show-user", &user, "--property=Linger", "--value"])
-        .output()
-        .is_ok_and(|o| String::from_utf8_lossy(&o.stdout).trim() == "yes")
-}
-
-/// What the user should do about missing permissions. After setup, the only
-/// thing left is a fresh session, which picks up the input group.
+/// What the user should do about missing permissions.
 pub fn next_step() -> &'static str {
-    if !udev_rule_installed() {
-        "run `voltkit expander setup`"
-    } else if lingering() {
-        "setup is done; restart your computer so your session joins the input group \
-         (logging out isn't enough because lingering keeps your user services running)"
-    } else {
-        "setup is done; log out and back in so your session joins the input group"
-    }
+    "turn on Typed triggers on Voltkit's Text Expansion page (it asks for your password once), \
+     or run `voltkit expander setup --apply`"
 }
 
 #[cfg(test)]
@@ -411,10 +446,13 @@ mod tests {
     }
 
     #[test]
-    fn setup_script_is_complete() {
-        let script = setup_script("sam");
-        assert!(script.contains("usermod -aG input sam"));
-        assert!(script.contains(UDEV_RULE_PATH));
-        assert!(script.contains("modprobe uinput"));
+    fn access_scripts_are_complete() {
+        let grant = grant_script();
+        assert!(grant.contains(ACCESS_RULE_PATH) && grant.contains("TAG+=\"uaccess\""));
+        assert!(grant.contains("modprobe uinput") && grant.contains("udevadm trigger --action=change --subsystem-match=input"));
+        // No group to join, so nothing to log out for.
+        assert!(!grant.contains("usermod"));
+        let revoke = revoke_script();
+        assert!(revoke.contains(&format!("rm -f {ACCESS_RULE_PATH}")) && revoke.contains("udevadm trigger"));
     }
 }

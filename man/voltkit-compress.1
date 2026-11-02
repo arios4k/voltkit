@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-compress 1  "Voltkit 0.5.0" "Voltkit Manual"
+.TH voltkit-compress 1  "Voltkit 0.6.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
@@ -34,7 +34,7 @@ Files to compress (.png, .jpg/.jpeg, .webp, .mp4/.m4v/.mov)
 Compression runs these programs, which must be installed:
 .TP
 \fBPNG\fR
-oxipng, lossless, all metadata stripped.
+built in (oxipng), lossless, all metadata stripped.
 .TP
 \fBJPEG\fR
 jpegoptim, recompressed down to \-\-quality, all metadata stripped.
@@ -62,7 +62,7 @@ Shrink a video harder:
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH "SEE ALSO"
-\fBvoltkit\fR(1), \fBoxipng\fR(1), \fBjpegoptim\fR(1), \fBcwebp\fR(1), \fBffmpeg\fR(1)
+\fBvoltkit\fR(1), \fBjpegoptim\fR(1), \fBcwebp\fR(1), \fBffmpeg\fR(1)
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH AUTHOR

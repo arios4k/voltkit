@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.5.0
+Version:        0.6.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -25,7 +25,6 @@ Requires:       xdg-desktop-portal
 Recommends:     ffmpeg-free
 Recommends:     jpegoptim
 Recommends:     libwebp-tools
-Recommends:     oxipng
 
 %description
 Voltkit brings everyday desktop tools to Linux in one GTK4/libadwaita app and a
@@ -68,6 +67,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %{_mandir}/man1/voltkit*.1*
 
 %changelog
+* Mon Nov 02 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.6.0-1
+- Typed triggers turn on with one switch: one password, no logout or restart
+- PNG compression is built in (oxipng is no longer needed)
+- Quit in the main menu (Ctrl+Q), more room beside header buttons
+
 * Mon Nov 02 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.5.0-1
 - New: System Report (drivers, drive health, temperatures, firmware, memory, what changed)
 - New: Shortcut Detective (who owns a shortcut, clashes, changing them)

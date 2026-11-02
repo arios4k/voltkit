@@ -20,7 +20,10 @@ pub fn run(config: Config) {
             about_dialog().present(app.active_window().as_ref());
         })
         .build();
-    app.add_action_entries([about]);
+    // Closes the window; the background service keeps the hotkeys working.
+    let quit = gio::ActionEntry::builder("quit").activate(|app: &adw::Application, _, _| app.quit()).build();
+    app.add_action_entries([about, quit]);
+    app.set_accels_for_action("app.quit", &["<Control>q"]);
     let config = Rc::new(config);
     app.connect_activate(move |app| {
         // Right after installing, the background service isn't running until
@@ -91,6 +94,9 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let sidebar_view = adw::ToolbarView::new();
     let menu = gio::Menu::new();
     menu.append(Some("About Voltkit"), Some("app.about"));
+    let end = gio::Menu::new();
+    end.append(Some("Quit"), Some("app.quit"));
+    menu.append_section(None, &end);
     let menu_button = gtk::MenuButton::builder()
         .icon_name("open-menu-symbolic")
         .tooltip_text("Main Menu")
@@ -147,19 +153,17 @@ pub(crate) fn about_dialog() -> adw::AboutDialog {
         .developers([author])
         .copyright(format!("© 2026 {author}"))
         .license_type(gtk::License::MitX11)
-        .comments("Power tools for your Linux desktop: screen OCR, a color picker, an image and video compressor and a text expander, in one app.")
+        .comments("Power tools for your Linux desktop: fourteen everyday tools, from screen OCR, QR codes and a color picker to Smart Paste, a system report and a shortcut detective, in one app.")
         .website(env!("CARGO_PKG_HOMEPAGE"))
         .issue_url(concat!(env!("CARGO_PKG_REPOSITORY"), "/issues"))
         .build()
 }
 
-/// "<Super><Shift>t" → "Shift+Super+T". The raw accelerator would also be read
+/// "<Super><Shift>t" → "Super+Shift+T". The raw accelerator would also be read
 /// as markup tags by labels that support markup, which blanks them.
 pub(crate) fn shortcut_label(accel: &str) -> String {
-    match gtk::accelerator_parse(accel) {
-        Some((key, mods)) => gtk::accelerator_get_label(key, mods).to_string(),
-        None => glib::markup_escape_text(accel).to_string(),
-    }
+    // "Super+Shift+T": the same wording as Shortcut Detective.
+    glib::markup_escape_text(&modules::keybindings::label(accel)).to_string()
 }
 
 /// Starts `voltkit ARGS` for a tool with its own window (ruler, snippet picker),
@@ -189,6 +193,12 @@ pub(crate) fn spawn_window_tool(widget: &impl IsA<gtk::Widget>, args: &[&str]) {
 pub(crate) fn desktop_app(id: &str) -> Option<gio::AppInfo> {
     let file = format!("{id}.desktop");
     gio::AppInfo::all().into_iter().find(|a| a.id().is_some_and(|i| i.eq_ignore_ascii_case(&file)))
+}
+
+/// A group's header button, with room between it and the description beside it.
+pub(crate) fn spaced<W: IsA<gtk::Widget>>(widget: &W) -> W {
+    widget.set_margin_start(24);
+    widget.clone()
 }
 
 pub(crate) fn toast(toasts: &adw::ToastOverlay, msg: impl AsRef<str>) {
@@ -479,7 +489,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
              to pick a color: its HEX value is copied and saved here.",
             shortcut_label(&config.hotkeys.color_picker)
         ))
-        .header_suffix(&pick)
+        .header_suffix(&spaced(&pick))
         .build();
     input.add(&entry);
 

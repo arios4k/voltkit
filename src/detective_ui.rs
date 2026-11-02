@@ -68,7 +68,7 @@ impl View {
                 "Find out what a keyboard shortcut does, fix shortcuts that clash, and change them. Covers the \
                  shortcuts that work everywhere (not the ones inside each app, like Ctrl+C).",
             )
-            .header_suffix(&press)
+            .header_suffix(&crate::app::spaced(&press))
             .build();
         let search = gtk::SearchEntry::builder().placeholder_text("Search by name, or type a shortcut like super+shift+s").build();
         intro.add(&search);

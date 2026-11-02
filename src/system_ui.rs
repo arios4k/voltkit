@@ -51,7 +51,7 @@ impl HostsEditor {
                  instead of deleting them to keep them for later. Saving asks for your password and keeps a \
                  backup in /etc/hosts.voltkit-backup.",
             )
-            .header_suffix(&add)
+            .header_suffix(&crate::app::spaced(&add))
             .build();
         let save = gtk::Button::builder().label("Save Changes").css_classes(["suggested-action"]).sensitive(false).build();
         let discard = gtk::Button::builder().label("Discard").sensitive(false).build();
@@ -266,7 +266,7 @@ impl EnvEditor {
                 "Set for every app in your desktop session. They apply the next time you log in (restart if \
                  logging out isn't enough). To add to a list like PATH, use ${PATH}:/new/folder.",
             )
-            .header_suffix(&add)
+            .header_suffix(&crate::app::spaced(&add))
             .build();
         let vars = envvars::load().unwrap_or_else(|e| {
             toast(toasts, format!("{e:#}"));

@@ -55,7 +55,6 @@ pub enum Tool {
     TesseractLang(String),
     WlClipboard,
     Xclip,
-    Oxipng,
     Jpegoptim,
     Cwebp,
     Ffmpeg,
@@ -76,22 +75,12 @@ impl Tool {
             (Tool::TesseractLang(l), _) => Some(format!("tesseract language data for \"{l}\"")),
             (Tool::WlClipboard, _) => p("wl-clipboard"),
             (Tool::Xclip, _) => p("xclip"),
-            (Tool::Oxipng, Apt) => None,
-            (Tool::Oxipng, _) => p("oxipng"),
             (Tool::Jpegoptim, _) => p("jpegoptim"),
             (Tool::Cwebp, Apt) => p("webp"),
             (Tool::Cwebp, Pacman) => p("libwebp"),
             (Tool::Cwebp, _) => p("libwebp-tools"),
             (Tool::Ffmpeg, Dnf) => p("ffmpeg-free"),
             (Tool::Ffmpeg, _) => p("ffmpeg"),
-        }
-    }
-
-    /// How to get the tool when the distro has no package for it.
-    fn fallback_command(&self) -> Option<&'static str> {
-        match self {
-            Tool::Oxipng => Some("cargo install oxipng"),
-            _ => None,
         }
     }
 }
@@ -139,7 +128,7 @@ impl Report {
                 (Some(pkg), Some(_)) if !packages.contains(&pkg) => packages.push(pkg),
                 (Some(_), Some(_)) => {}
                 (Some(pkg), None) => commands.push(format!("install {pkg} with your package manager")),
-                (None, _) => commands.extend(tool.fallback_command().map(str::to_owned)),
+                (None, _) => {}
             }
         }
         let mut out = Vec::new();
@@ -280,8 +269,8 @@ pub fn run(config: &Config) -> Report {
 
     // Compressor
     const COMPRESS: &str = "Asset Compressor";
+    // PNG compression is built in.
     for (program, format, tool) in [
-        ("oxipng", "PNG", Tool::Oxipng),
         ("jpegoptim", "JPEG", Tool::Jpegoptim),
         ("cwebp", "WebP", Tool::Cwebp),
         ("ffmpeg", "MP4", Tool::Ffmpeg),
@@ -383,7 +372,6 @@ mod tests {
         assert_eq!(Tool::Tesseract.package(Distro::Apt).unwrap(), "tesseract-ocr");
         assert_eq!(Tool::TesseractLang("deu".into()).package(Distro::Dnf).unwrap(), "tesseract-langpack-deu");
         assert_eq!(Tool::Cwebp.package(Distro::Apt).unwrap(), "webp");
-        assert_eq!(Tool::Oxipng.package(Distro::Apt), None);
     }
 
     fn report(distro: Distro, missing: Vec<Tool>) -> Report {
@@ -396,11 +384,8 @@ mod tests {
 
     #[test]
     fn combines_packages_into_one_command() {
-        let r = report(Distro::Apt, vec![Tool::Tesseract, Tool::WlClipboard, Tool::Oxipng, Tool::Tesseract]);
-        assert_eq!(
-            r.install_commands(),
-            vec!["sudo apt install tesseract-ocr wl-clipboard".to_owned(), "cargo install oxipng".to_owned()]
-        );
+        let r = report(Distro::Apt, vec![Tool::Tesseract, Tool::WlClipboard, Tool::Jpegoptim, Tool::Tesseract]);
+        assert_eq!(r.install_commands(), vec!["sudo apt install tesseract-ocr wl-clipboard jpegoptim".to_owned()]);
     }
 
     #[test]

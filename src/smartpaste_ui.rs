@@ -248,7 +248,7 @@ fn preview(text: &str) -> String {
 // ---------------------------------------------------------------- Page
 
 /// What the page's "Try It" box starts with.
-const SAMPLE: &str = "Name\tRole\tCity\nAna\tDesigner\tSan Juan\nLuis\tDeveloper\tPonce";
+const SAMPLE: &str = "Distribution\tDesktop\tPackages\nUbuntu\tGNOME\tapt\nFedora\tGNOME\tdnf\nLinux Mint\tCinnamon\tapt";
 
 pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = adw::PreferencesPage::new();
@@ -295,6 +295,10 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .height_request(110)
         .build();
     input.set_widget_name("smartpaste-input");
+    // Wide, even tab stops so pasted spreadsheet cells line up as columns.
+    let mut tabs = gtk::pango::TabArray::new(1, true);
+    tabs.set_tab(0, gtk::pango::TabAlign::Left, 150);
+    input.set_tabs(&tabs);
     input.buffer().set_text(SAMPLE);
     let frame = gtk::Frame::builder().child(&input).css_classes(["view"]).build();
     let try_group = adw::PreferencesGroup::builder()

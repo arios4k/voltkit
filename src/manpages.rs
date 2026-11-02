@@ -109,7 +109,7 @@ fn extra_sections(page: &str) -> Vec<Section> {
                 heading: "TOOLS",
                 blocks: &[
                     Para("Compression runs these programs, which must be installed:"),
-                    Item("PNG", "oxipng, lossless, all metadata stripped."),
+                    Item("PNG", "built in (oxipng), lossless, all metadata stripped."),
                     Item("JPEG", "jpegoptim, recompressed down to --quality, all metadata stripped."),
                     Item("WebP", "cwebp, at --quality, metadata dropped."),
                     Item("MP4", "ffmpeg, H.264 with a CRF derived from --quality, AAC audio, metadata removed, fast-start enabled."),
@@ -210,9 +210,10 @@ fn extra_sections(page: &str) -> Vec<Section> {
                          afterwards. Snippets with {arg:NAME} parameters open the picker's form instead.",
                     ),
                     Para(
-                        "After setup, start a new session so it includes the input group: log out and back \
-                         in, or restart the computer if lingering is enabled (loginctl show-user $USER \
-                         --property=Linger), since then your user services outlive a log out.",
+                        "Setup installs a udev rule that tags keyboards and /dev/uinput with uaccess, the way \
+                         desktops grant devices to the person at the computer, and applies it at once: no \
+                         group to join and no need to log out. The daemon starts and stops typed triggers as \
+                         they are turned on and off, and picks up keyboards plugged in later.",
                     ),
                     Para(
                         "Keys are decoded with a US layout, so triggers made of letters, digits and ; work on \
@@ -224,17 +225,20 @@ fn extra_sections(page: &str) -> Vec<Section> {
             Section {
                 heading: "SECURITY",
                 blocks: &[Para(
-                    "Setup adds you to the input group, which lets every program you run read keyboard input, \
-                     not only Voltkit. Typed text is never logged, written to disk or sent anywhere. Undo \
-                     the setup by removing you from the group (gpasswd -d $USER input) and deleting \
-                     /etc/udev/rules.d/99-voltkit-uinput.rules and /etc/modules-load.d/voltkit-uinput.conf.",
+                    "Keyboard access applies to every program the person at the computer runs, not only \
+                     Voltkit. Typed text is never logged, written to disk or sent anywhere. `voltkit expander \
+                     remove-access` (or turning typed triggers off in the app and choosing to remove access) \
+                     deletes /etc/udev/rules.d/70-voltkit-typed-triggers.rules and \
+                     /etc/modules-load.d/voltkit-uinput.conf; the access already granted ends at the next \
+                     restart. Setups from before version 0.6 also added you to the input group, which \
+                     `gpasswd -d $USER input` undoes.",
                 )],
             },
             Section {
                 heading: "EXAMPLES",
                 blocks: &[
                     Example("Review the setup commands, then run them:", "voltkit expander setup\nvoltkit expander setup --apply"),
-                    Example("After logging out and back in:", "voltkit expander enable"),
+                    Example("Turn typed triggers off, and remove the keyboard access:", "voltkit expander remove-access"),
                 ],
             },
         ],
@@ -379,7 +383,7 @@ fn see_also(page: &str, siblings: &[String]) -> Roff {
         .collect();
     let external = match page {
         "voltkit-ocr" => &["tesseract(1)"][..],
-        "voltkit-compress" => &["oxipng(1)", "jpegoptim(1)", "cwebp(1)", "ffmpeg(1)"],
+        "voltkit-compress" => &["jpegoptim(1)", "cwebp(1)", "ffmpeg(1)"],
         "voltkit-expand" => &["strftime(3)"],
         "voltkit-shortcuts" => &["gsettings(1)"],
         "voltkit-expander" => &["udev(7)", "usermod(8)"],

@@ -43,7 +43,7 @@ impl View {
                 "Answers you gave when apps asked to take screenshots, use the camera, see your location and more. \
                  Change an answer, or forget it so the app asks again next time.",
             )
-            .header_suffix(&refresh)
+            .header_suffix(&crate::app::spaced(&refresh))
             .build();
         let view = Rc::new(Self { group, rows: RefCell::default(), toasts: toasts.clone() });
         let weak = Rc::downgrade(&view);

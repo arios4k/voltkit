@@ -58,16 +58,26 @@ fn quality_to_crf(quality: u8) -> u8 {
     (51 - (q * 33 / 100)) as u8 // 100 -> 18, 50 -> 35, 1 -> 51
 }
 
-/// Builds the external command that writes a compressed copy of `input` to `output`.
-/// Tools that only work in place are pointed at `output`, which holds a copy.
-pub fn build_command(format: Format, input: &Path, output: &Path, quality: u8) -> Command {
+/// Compresses a PNG losslessly with oxipng, built into Voltkit (most
+/// distributions don't package it), removing all metadata.
+fn compress_png(input: &Path, output: &Path) -> Result<()> {
+    let options = oxipng::Options { strip: oxipng::StripChunks::All, force: true, ..oxipng::Options::from_preset(3) };
+    oxipng::optimize(
+        &oxipng::InFile::Path(input.to_path_buf()),
+        &oxipng::OutFile::Path { path: Some(output.to_path_buf()), preserve_attrs: false },
+        &options,
+    )
+    .map_err(|e| anyhow::anyhow!("cannot compress {}: {e}", input.display()))?;
+    Ok(())
+}
+
+/// Builds the external command that writes a compressed copy of `input` to
+/// `output`, or None for PNG, which Voltkit compresses itself. Tools that only
+/// work in place are pointed at `output`, which holds a copy.
+pub fn build_command(format: Format, input: &Path, output: &Path, quality: u8) -> Option<Command> {
     let quality = quality.clamp(1, 100);
-    match format {
-        Format::Png => {
-            let mut c = Command::new("oxipng");
-            c.args(["-o", "3", "--strip", "all", "--force", "--quiet"]).arg(output);
-            c
-        }
+    Some(match format {
+        Format::Png => return None,
         Format::Jpeg => {
             let mut c = Command::new("jpegoptim");
             c.args(["--strip-all", "--quiet", &format!("--max={quality}")]).arg(output);
@@ -91,11 +101,11 @@ pub fn build_command(format: Format, input: &Path, output: &Path, quality: u8) -
                 .arg(output);
             c
         }
-    }
+    })
 }
 
 fn works_in_place(format: Format) -> bool {
-    matches!(format, Format::Png | Format::Jpeg)
+    matches!(format, Format::Jpeg)
 }
 
 pub fn compress(input: &Path, quality: u8) -> Result<Report> {
@@ -109,7 +119,11 @@ pub fn compress(input: &Path, quality: u8) -> Result<Report> {
     if works_in_place(format) {
         std::fs::copy(input, &output)?;
     }
-    if let Err(e) = system::run(&mut build_command(format, input, &output, quality)) {
+    let result = match build_command(format, input, &output, quality) {
+        Some(mut command) => system::run(&mut command).map(|_| ()),
+        None => compress_png(input, &output),
+    };
+    if let Err(e) = result {
         let _ = std::fs::remove_file(&output);
         return Err(e);
     }
@@ -148,18 +162,31 @@ mod tests {
     #[test]
     fn commands_strip_metadata() {
         let (i, o) = (Path::new("in.x"), Path::new("out.x"));
-        let png = build_command(Format::Png, i, o, 80);
-        assert_eq!(png.get_program(), "oxipng");
-        assert!(args(&png).contains(&"all".into()));
-        assert_eq!(args(&png).last().unwrap(), "out.x");
+        assert!(build_command(Format::Png, i, o, 80).is_none());
 
-        let jpg = build_command(Format::Jpeg, i, o, 70);
+        let jpg = build_command(Format::Jpeg, i, o, 70).unwrap();
         assert!(args(&jpg).contains(&"--max=70".into()));
 
-        let webp = build_command(Format::WebP, i, o, 150);
+        let webp = build_command(Format::WebP, i, o, 150).unwrap();
         assert!(args(&webp).windows(2).any(|w| w == ["-q", "100"]));
 
-        let mp4 = build_command(Format::Mp4, i, o, 80);
+        let mp4 = build_command(Format::Mp4, i, o, 80).unwrap();
         assert!(args(&mp4).windows(2).any(|w| w == ["-map_metadata", "-1"]));
+    }
+
+    #[test]
+    fn compresses_png_without_outside_tools() {
+        let dir = std::env::temp_dir().join(format!("voltkit-png-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let input = dir.join("picture.png");
+        // A plain 64x64 image saved without compression, plus a text chunk.
+        let pixbuf = gtk::gdk_pixbuf::Pixbuf::new(gtk::gdk_pixbuf::Colorspace::Rgb, true, 8, 64, 64).unwrap();
+        pixbuf.fill(0x3366ccff);
+        pixbuf.savev(&input, "png", &[("compression", "0"), ("tEXt::Comment", "private note")]).unwrap();
+        let report = compress(&input, 80).unwrap();
+        assert!(report.output_size < report.input_size, "{} -> {}", report.input_size, report.output_size);
+        let bytes = std::fs::read(&report.output).unwrap();
+        assert!(!bytes.windows(12).any(|w| w == b"private note"), "metadata was kept");
+        std::fs::remove_dir_all(&dir).unwrap();
     }
 }
