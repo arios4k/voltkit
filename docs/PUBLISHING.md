@@ -53,6 +53,10 @@ launch, so users only install and open it.
    - **Spec file:** `packaging/rpm/voltkit.spec`
    - **How to build SRPM:** `make_srpm`
 4. Save, then **Rebuild** the package.
+5. To build automatically on each release: in the project open **Settings → Integrations**, copy the
+   **Custom webhook** URL for the `voltkit` package, and save it as the repository secret
+   `COPR_WEBHOOK_URL` (*Settings → Secrets and variables → Actions*). The URL contains a secret, so
+   keep it private.
 
 ## Every release
 
@@ -76,7 +80,8 @@ launch, so users only install and open it.
    cd ~/aur-voltkit && git add PKGBUILD .SRCINFO && git commit -m "Update to X.Y.Z" && git push
    ```
 
-5. Build on COPR: **Rebuild** the `voltkit` package in the web interface (or
+5. COPR builds by itself: the last job of the release workflow calls the COPR webhook once the tag is
+   pushed. Without the `COPR_WEBHOOK_URL` secret, press **Rebuild** on the `voltkit` package (or run
    `copr-cli build-package voltkit --name voltkit`).
 
 CI builds both packages in Arch and Fedora containers on every push, so problems show up before a
