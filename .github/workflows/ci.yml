@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04
     container: fedora:latest
     steps:
-      - run: dnf -y install rpm-build rpmdevtools git cargo rust gcc gtk4-devel libadwaita-devel  # git first, so checkout makes a real clone
+      - run: dnf -y install rpm-build rpmdevtools git cargo rust gcc gtk4-devel libadwaita-devel libappstream-glib  # git first, so checkout makes a real clone
       - uses: actions/checkout@v4
       - name: Build the package
         run: |
