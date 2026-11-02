@@ -2,6 +2,9 @@ name: Release
 
 # Pushing a tag like v0.2.0 builds the .deb, publishes a GitHub Release with it,
 # and rebuilds the signed APT repository served at https://arios4k.github.io/voltkit.
+# A tag also asks COPR to build the Fedora package from the repository (packaging/rpm/voltkit.spec,
+# which downloads the tag). That needs the repository secret COPR_WEBHOOK_URL and is skipped with a
+# notice until it exists.
 # Running it by hand only rebuilds the APT repository from existing releases.
 on:
   push:
@@ -75,3 +78,19 @@ jobs:
 
       - id: deploy
         uses: actions/deploy-pages@v4
+
+  copr:
+    needs: release
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Ask COPR to build the Fedora package
+        env:
+          COPR_WEBHOOK_URL: ${{ secrets.COPR_WEBHOOK_URL }}
+        run: |
+          if [ -z "$COPR_WEBHOOK_URL" ]; then
+            echo "::notice::COPR_WEBHOOK_URL is not set, so COPR was not asked to build. Add it (see docs/PUBLISHING.md) or press Rebuild on COPR."
+            exit 0
+          fi
+          curl --fail --silent --show-error -X POST "$COPR_WEBHOOK_URL"
+          echo "COPR was asked to build ${GITHUB_REF_NAME#v}."
