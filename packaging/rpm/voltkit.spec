@@ -14,6 +14,7 @@ BuildRequires:  rust
 BuildRequires:  gcc
 BuildRequires:  gtk4-devel
 BuildRequires:  libadwaita-devel
+BuildRequires:  libappstream-glib
 
 Requires:       hicolor-icon-theme
 Requires:       polkit
@@ -45,15 +46,20 @@ cargo build --release --locked
 install -Dm755 target/release/voltkit -t %{buildroot}%{_bindir}/
 install -Dm644 data/io.github.arios4k.Voltkit.desktop -t %{buildroot}%{_datadir}/applications/
 install -Dm644 data/io.github.arios4k.Voltkit.Daemon.desktop -t %{buildroot}%{_sysconfdir}/xdg/autostart/
+install -Dm644 data/io.github.arios4k.Voltkit.metainfo.xml -t %{buildroot}%{_metainfodir}/
 install -Dm644 data/icons/io.github.arios4k.Voltkit.svg -t %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg -t %{buildroot}%{_datadir}/icons/hicolor/symbolic/apps/
 install -Dm644 man/*.1 -t %{buildroot}%{_mandir}/man1/
+
+%check
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.arios4k.Voltkit.metainfo.xml
 
 %files
 %license LICENSE
 %doc README.md data/config.example.toml
 %{_bindir}/voltkit
 %{_datadir}/applications/io.github.arios4k.Voltkit.desktop
+%{_metainfodir}/io.github.arios4k.Voltkit.metainfo.xml
 %config(noreplace) %{_sysconfdir}/xdg/autostart/io.github.arios4k.Voltkit.Daemon.desktop
 %{_datadir}/icons/hicolor/scalable/apps/io.github.arios4k.Voltkit.svg
 %{_datadir}/icons/hicolor/symbolic/apps/io.github.arios4k.Voltkit-symbolic.svg

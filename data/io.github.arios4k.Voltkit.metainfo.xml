@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.arios4k.Voltkit</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Voltkit</name>
+  <summary>Power tools for your Linux desktop in one app</summary>
+  <developer id="io.github.arios4k">
+    <name>Alexis Rios-Negron</name>
+  </developer>
+  <description>
+    <p>
+      Voltkit brings everyday desktop tools to Linux in one GTK4 and libadwaita app and a
+      single command, built for Wayland with global hotkeys.
+    </p>
+    <ul>
+      <li>Screen OCR: copy the text from any part of the screen</li>
+      <li>A QR code scanner and maker</li>
+      <li>A screen color picker with contrast checking, and a screen ruler</li>
+      <li>An image and video compressor that strips metadata</li>
+      <li>A text expander with a snippet picker, and Smart Paste for pasting the clipboard converted</li>
+      <li>Keep Awake, and a hosts and environment variable editor</li>
+      <li>A finder for the apps keeping a drive, file or port busy</li>
+      <li>An app permissions manager and a troubleshooter for sleep and wake-ups</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/ocr-light.png</image>
+      <caption>Screen OCR</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/picker-light.png</image>
+      <caption>Color picker with contrast checking</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/compress-light.png</image>
+      <caption>Image and video compressor</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/sleep-light.png</image>
+      <caption>Sleep and wake-up troubleshooter</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/arios4k/voltkit</url>
+  <url type="bugtracker">https://github.com/arios4k/voltkit/issues</url>
+  <url type="vcs-browser">https://github.com/arios4k/voltkit</url>
+  <launchable type="desktop-id">io.github.arios4k.Voltkit.desktop</launchable>
+  <provides>
+    <binary>voltkit</binary>
+  </provides>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>ocr</keyword>
+    <keyword>qr</keyword>
+    <keyword>color picker</keyword>
+    <keyword>compress</keyword>
+    <keyword>snippets</keyword>
+    <keyword>keep awake</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.4.1" date="2026-11-01"/>
+  </releases>
+</component>
