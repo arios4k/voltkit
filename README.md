@@ -31,41 +31,36 @@ hotkeys:
 
 | Instead of… | Voltkit gives you | Shortcut |
 |---|---|---|
-| a separate OCR app | **Text Extractor**: drag a box around any text on screen, even in videos and images, and it lands on your clipboard | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> |
+| nothing: there was no screen for it | **App Permissions**: change or forget the answers you gave apps asking for screenshots, the camera, your location and more | — |
+| a separate image compressor, plus ffmpeg incantations | **Asset Compressor**: drop PNG, JPEG, WebP or MP4 files to strip metadata and shrink them | drag &amp; drop |
 | a separate color picker | **Color Picker**: an eyedropper for any pixel, HEX/RGB/HSL, WCAG contrast check and history | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
+| a shell extension to keep the screen on | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
 | a QR scanner on your phone or a QR website | **QR Code**: read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> |
 | a separate screen ruler, or screenshots and an image editor | **Screen Ruler**: freeze the screen and measure anything in pixels | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> |
-| a separate image compressor, plus ffmpeg incantations | **Asset Compressor**: drop PNG, JPEG, WebP or MP4 files to strip metadata and shrink them | drag &amp; drop |
-| a separate text expander | **Text Expansion**: a searchable snippet picker, plus optional typed triggers like `;date` | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> |
-| a shell extension to keep the screen on | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
-| editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
-| `lsof`, `fuser` and `ss` in a terminal | **What's Using This?**: see which apps keep a file, folder, drive or port busy, and close them | — |
-| online converters for JSON, tables and letter case | **Smart Paste**: paste the clipboard converted: tidy JSON, a spreadsheet table as Markdown, a link without tracking, text from a PDF without broken lines, or the text in a copied image | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> |
-| nothing: there was no screen for it | **App Permissions**: change or forget the answers you gave apps asking for screenshots, the camera, your location and more | — |
-| digging through system logs in a terminal | **Why Didn't It Sleep?**: see what keeps the computer awake, what woke it up, and how much battery it used asleep | — |
 | guessing why a keyboard shortcut does nothing | **Shortcut Detective**: press any shortcut to see what owns it, find clashes, pick a free combination and change it | — |
+| online converters for JSON, tables and letter case | **Smart Paste**: paste the clipboard converted: tidy JSON, a spreadsheet table as Markdown, a link without tracking, text from a PDF without broken lines, or the text in a copied image | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> |
 | a pile of terminal commands to answer “what hardware do I have?” | **System Report**: your hardware explained, with driver and drive-health checks and fixes, temperatures, firmware updates, memory upgrades, what changed since an update, and a report that's safe to share | — |
+| a separate text expander | **Text Expansion**: a searchable snippet picker, plus optional typed triggers like `;date` | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> |
+| a separate OCR app | **Text Extractor**: drag a box around any text on screen, even in videos and images, and it lands on your clipboard | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> |
+| `lsof`, `fuser` and `ss` in a terminal | **What's Using This?**: see which apps keep a file, folder, drive or port busy, and close them | — |
+| digging through system logs in a terminal | **Why Didn't It Sleep?**: see what keeps the computer awake, what woke it up, and how much battery it used asleep | — |
 
 ## Features
 
-### 🔍 Copy text from anything on screen
+### 🛡️ App Permissions
 
-A Wi-Fi password on a conference slide, a command in a video tutorial, an error in a screenshot: press
-<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd>, drag a box, and paste. Powered by Tesseract, with support for
-[100+ languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html).
+When an app asks to take screenshots, use the camera or microphone, or see your location, the desktop
+remembers your answer. Until now there was nowhere to see or change those answers for apps installed
+outside Flatpak, so one wrong “Deny” stuck for good. App Permissions lists them by app: flip a switch to
+change one, or forget it so the app asks again.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png">
-  <img src="docs/screenshots/ocr-light.png" alt="Text Extractor showing text read from a photo of a conference slide: a Wi-Fi password and a link">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png">
+  <img src="docs/screenshots/permissions-light.png" alt="App Permissions page listing apps with their camera and screenshot permissions">
 </picture>
 
-### 🎨 Pick, convert and check colors
-
-Grab any pixel with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> and the HEX code is already on your
-clipboard. The color page converts between HEX, RGB and HSL, rates contrast against white and black by
-WCAG standards (AA / AAA), and remembers your recent colors.
-
-### 📦 Shrink images and videos in one drop
+### 📦 Asset Compressor
 
 Drop files on the window or run `voltkit compress`. Voltkit strips location data and other metadata,
 compresses with the best tool for each format, and writes `name.min.ext` next to the original, which
@@ -76,7 +71,89 @@ it never touches. In our tests: JPEG −43%, PNG −23% (lossless), WebP −60%,
   <img src="docs/screenshots/compress-light.png" alt="Asset Compressor with four compressed files and their size savings">
 </picture>
 
-### ⌨️ Type less with snippets
+### 🎨 Color Picker
+
+Grab any pixel with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> and the HEX code is already on your
+clipboard. The color page converts between HEX, RGB and HSL, rates contrast against white and black by
+WCAG standards (AA / AAA), and remembers your recent colors.
+
+### 📝 Hosts & Environment
+
+Switch `/etc/hosts` entries on and off, add `myapp.test → 127.0.0.1` for local development, and set
+environment variables like `EDITOR` or an extra `PATH` folder for your whole desktop session. System
+entries are protected, and every hosts save keeps a backup.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png">
+  <img src="docs/screenshots/system-light.png" alt="Hosts & Environment page with hosts entries and switches">
+</picture>
+
+### ☕ Keep Awake
+
+Watching, presenting or downloading? Turn on Keep Awake for 30 minutes, a few hours or until you turn it
+off, and your computer won't sleep or lock. It keeps going after you close Voltkit and switches itself off
+when the time is up.
+
+### 📷 QR Code
+
+Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> and drag a box around a QR code in a video, a slide or a web
+page: its text or link is on your clipboard. Going the other way, type a link, some text or your Wi-Fi
+details and scan the code with your phone. Copy it as an image or save it as a PNG to print. Add your own small logo
+to the middle if you like: Voltkit reads the code back to make sure it still scans.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png">
+  <img src="docs/screenshots/qr-light.png" alt="QR Code page with a generated code for a link">
+</picture>
+
+### 📏 Screen Ruler
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> freezes the screen. Drag to measure widths and heights in real
+pixels (hold Shift for a straight line), and press Ctrl+C to copy the size.
+
+### ⌨️ Shortcut Detective
+
+Pressed a shortcut and nothing happened, or the wrong thing did? Press it in **Shortcut Detective** to see every
+action that uses it: the window manager, GNOME Shell, system keys, your custom shortcuts, shell extensions and
+Voltkit itself. Clashes are listed for you, each with free combinations to switch to, and any shortcut can be
+changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png">
+  <img src="docs/screenshots/shortcuts-light.png" alt="Shortcut Detective showing that Super+V is used by two actions">
+</picture>
+
+### 📋 Smart Paste
+
+Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> instead of <kbd>Ctrl</kbd>+<kbd>V</kbd> and pick how to paste what you
+copied: JSON tidied or compacted, a spreadsheet range as a Markdown table or CSV, a link without its tracking
+parameters, a paragraph from a PDF without its broken lines, a list with bullets or numbers, or text in UPPERCASE,
+Title Case, snake_case and more. Copied a screenshot? Paste the text in it. Only the conversions that fit what you
+copied are offered, each with a preview, and your clipboard is left as it was. The same conversions work in
+scripts: `wl-paste | voltkit convert markdown-table`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png">
+  <img src="docs/screenshots/smartpaste-light.png" alt="Smart Paste page turning a spreadsheet range into a Markdown table and CSV">
+</picture>
+
+### 🖥️ System Report
+
+Not just a list of specs: **System Report** checks each piece of hardware and says what it means. Is the graphics
+card on the right driver (and if not, the exact command to fix it)? Is the drive healthy, and how worn? Is the
+processor running hot or slowing itself down? Is a BIOS or device firmware update waiting? How many memory slots
+are free, and how much can this computer take?
+
+Voltkit also keeps a daily snapshot of the hardware, drivers, kernel and firmware, so when something breaks after
+an update, **What Changed** shows exactly what's different. When you need help, **Copy Report** gives you a tidy
+summary for a forum or bug report, with no serial numbers, names or network addresses.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png">
+  <img src="docs/screenshots/sysreport-light.png" alt="System Report page with checks, recent changes and the computer's hardware">
+</picture>
+
+### ⌨️ Text Expansion
 
 Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>, search, press Enter, and the snippet is pasted into
 whatever app you were using. Snippets can include the date in any format, your clipboard, and
@@ -94,41 +171,18 @@ fill-in field, and a live preview shows exactly what will be pasted.
   <img src="docs/screenshots/snippet-editor-light.png" alt="Snippet editor with a trigger, text with Insert buttons for date, time, clipboard and fill-in fields, and a live preview">
 </picture>
 
-### 📷 Read and make QR codes
+### 🔍 Text Extractor
 
-Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> and drag a box around a QR code in a video, a slide or a web
-page: its text or link is on your clipboard. Going the other way, type a link, some text or your Wi-Fi
-details and scan the code with your phone. Copy it as an image or save it as a PNG to print. Add your own small logo
-to the middle if you like: Voltkit reads the code back to make sure it still scans.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png">
-  <img src="docs/screenshots/qr-light.png" alt="QR Code page with a generated code for a link">
-</picture>
-
-### 📏 Measure anything on screen
-
-<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> freezes the screen. Drag to measure widths and heights in real
-pixels (hold Shift for a straight line), and press Ctrl+C to copy the size.
-
-### ☕ Keep your computer awake
-
-Watching, presenting or downloading? Turn on Keep Awake for 30 minutes, a few hours or until you turn it
-off, and your computer won't sleep or lock. It keeps going after you close Voltkit and switches itself off
-when the time is up.
-
-### 📝 Edit hosts and environment variables without a terminal
-
-Switch `/etc/hosts` entries on and off, add `myapp.test → 127.0.0.1` for local development, and set
-environment variables like `EDITOR` or an extra `PATH` folder for your whole desktop session. System
-entries are protected, and every hosts save keeps a backup.
+A Wi-Fi password on a conference slide, a command in a video tutorial, an error in a screenshot: press
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd>, drag a box, and paste. Powered by Tesseract, with support for
+[100+ languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png">
-  <img src="docs/screenshots/system-light.png" alt="Hosts & Environment page with hosts entries and switches">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png">
+  <img src="docs/screenshots/ocr-light.png" alt="Text Extractor showing text read from a photo of a conference slide: a Wi-Fi password and a link">
 </picture>
 
-### 🔎 Find what's keeping a drive or port busy
+### 🔎 What's Using This?
 
 “Target is busy” when you eject a USB stick, “address already in use” when you start a dev server: pick the
 drive, file, folder or port and see which apps hold it, with what they have open. Close an app with one click
@@ -140,33 +194,7 @@ you. Parts of the system itself are never offered for closing.
   <img src="docs/screenshots/using-light.png" alt="What's Using This? page listing the apps that keep a USB drive busy">
 </picture>
 
-### 🛡️ Review what your apps are allowed to do
-
-When an app asks to take screenshots, use the camera or microphone, or see your location, the desktop
-remembers your answer. Until now there was nowhere to see or change those answers for apps installed
-outside Flatpak, so one wrong “Deny” stuck for good. App Permissions lists them by app: flip a switch to
-change one, or forget it so the app asks again.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png">
-  <img src="docs/screenshots/permissions-light.png" alt="App Permissions page listing apps with their camera and screenshot permissions">
-</picture>
-
-### 📋 Paste it the way you need it
-
-Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> instead of <kbd>Ctrl</kbd>+<kbd>V</kbd> and pick how to paste what you
-copied: JSON tidied or compacted, a spreadsheet range as a Markdown table or CSV, a link without its tracking
-parameters, a paragraph from a PDF without its broken lines, a list with bullets or numbers, or text in UPPERCASE,
-Title Case, snake_case and more. Copied a screenshot? Paste the text in it. Only the conversions that fit what you
-copied are offered, each with a preview, and your clipboard is left as it was. The same conversions work in
-scripts: `wl-paste | voltkit convert markdown-table`.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png">
-  <img src="docs/screenshots/smartpaste-light.png" alt="Smart Paste page turning a spreadsheet range into a Markdown table and CSV">
-</picture>
-
-### 🌙 Find out why it didn't sleep
+### 🌙 Why Didn't It Sleep?
 
 Laptop warm in your bag, or battery empty in the morning? See what's keeping the computer awake right now (an app,
 a video, Keep Awake, a power setting, an external monitor), every sleep of the last week with what started and ended
@@ -176,34 +204,6 @@ waking it up.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png">
   <img src="docs/screenshots/sleep-light.png" alt="Why Didn't It Sleep? page listing what keeps the computer awake and recent sleeps">
-</picture>
-
-### 🖥️ Know your computer, and what changed
-
-Not just a list of specs: **System Report** checks each piece of hardware and says what it means. Is the graphics
-card on the right driver (and if not, the exact command to fix it)? Is the drive healthy, and how worn? Is the
-processor running hot or slowing itself down? Is a BIOS or device firmware update waiting? How many memory slots
-are free, and how much can this computer take?
-
-Voltkit also keeps a daily snapshot of the hardware, drivers, kernel and firmware, so when something breaks after
-an update, **What Changed** shows exactly what's different. When you need help, **Copy Report** gives you a tidy
-summary for a forum or bug report, with no serial numbers, names or network addresses.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png">
-  <img src="docs/screenshots/sysreport-light.png" alt="System Report page with checks, recent changes and the computer's hardware">
-</picture>
-
-### ⌨️ Find out what a shortcut does
-
-Pressed a shortcut and nothing happened, or the wrong thing did? Press it in **Shortcut Detective** to see every
-action that uses it: the window manager, GNOME Shell, system keys, your custom shortcuts, shell extensions and
-Voltkit itself. Clashes are listed for you, each with free combinations to switch to, and any shortcut can be
-changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE).
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png">
-  <img src="docs/screenshots/shortcuts-light.png" alt="Shortcut Detective showing that Super+V is used by two actions">
 </picture>
 
 ## Why Voltkit
@@ -235,7 +235,7 @@ of that.
 It's on the roadmap. For now there's the apt repository for Ubuntu/Debian-based systems, and building
 from source works anywhere with GTK 4.14+.
 
-<sub>Screenshots taken on Zorin OS 18 with its ZorinBlue theme. Regenerate them with
+<sub>Screenshots taken on Zorin OS 18 with Voltkit’s light and dark palettes. Regenerate them with
 `docs/screenshots/capture.sh`.</sub>
 
 ## Install (Ubuntu, Debian and derivatives)

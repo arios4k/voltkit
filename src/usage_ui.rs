@@ -20,10 +20,10 @@ const POLL: Duration = Duration::from_millis(200);
 const SHOWN_USES: usize = 3;
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
+    let page = crate::workspace::Workspace::new();
     let usage = Usage::new(toasts);
     page.add(&usage.check_group());
-    page.add(&usage.drives);
+    page.aside(&usage.drives);
     page.add(&usage.results);
     if std::env::var_os("VOLTKIT_USAGE_DEMO").is_some() {
         usage.demo.set(true);
@@ -129,7 +129,7 @@ impl Usage {
 
     fn check_group(self: &Rc<Self>) -> adw::PreferencesGroup {
         let group = adw::PreferencesGroup::builder()
-            .title("What's Using This?")
+            .title("Choose what to inspect")
             .description(
                 "Find the apps that keep a file, folder or drive busy (\u{201c}target is busy\u{201d}), or that use a \
                  network port (\u{201c}address already in use\u{201d}), and close them.",

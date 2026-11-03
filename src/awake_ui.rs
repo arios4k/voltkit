@@ -97,7 +97,24 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
         });
     }
 
-    let page = adw::PreferencesPage::new();
+    let page = crate::workspace::Workspace::new();
+    let status = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(12).build();
+    let headline = gtk::Label::builder().xalign(0.0).wrap(true).css_classes(["title-2"]).build();
+    let subtitle = gtk::Label::builder().xalign(0.0).wrap(true).css_classes(["dim-label"]).build();
+    status.append(&gtk::Image::builder().icon_name("display-brightness-symbolic").pixel_size(40).halign(gtk::Align::Start).css_classes(["accent"]).build());
+    status.append(&headline);
+    status.append(&subtitle);
+    let sync = {
+        let (headline, subtitle) = (headline.clone(), subtitle.clone());
+        move |switch: &adw::SwitchRow| {
+            headline.set_label(if switch.is_active() { "Keep Awake is on" } else { "Keep Awake is off" });
+            subtitle.set_label(&switch.subtitle().unwrap_or_default());
+        }
+    };
+    sync(&switch);
+    switch.connect_notify_local(Some("subtitle"), move |switch, _| sync(switch));
+    page.add(&status);
     page.add(&group);
+    page.aside(&crate::workspace::note("Set it and carry on", "Choose a duration before turning Keep Awake on. It continues after you close this window and ends automatically when the timer expires. Turn it off here whenever you are done.", "preferences-system-time-symbolic"));
     page.upcast()
 }

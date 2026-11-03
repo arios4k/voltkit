@@ -51,6 +51,7 @@ pub(crate) fn add_source_icon_path() {
 
 pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::Window {
     add_source_icon_path();
+    crate::appearance::install();
     if let Some(window) = app.active_window() {
         window.present();
         return window;
@@ -75,7 +76,18 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     toasts.set_child(Some(&stack));
 
     let content_view = adw::ToolbarView::new();
+    content_view.add_css_class("tool-workspace");
+    let tool_heading = gtk::Label::builder().label(modules::ALL[0].title).xalign(0.0).wrap(true).css_classes(["title-1"]).build();
+    let tool_summary = gtk::Label::builder().label(modules::ALL[0].summary).xalign(0.0).wrap(true).css_classes(["dim-label"]).build();
+    let tool_icon = gtk::Image::builder().icon_name(modules::ALL[0].icon).pixel_size(32).valign(gtk::Align::Start).css_classes(["tool-icon"]).build();
+    let titles = gtk::Box::new(gtk::Orientation::Vertical, 6);
+    titles.append(&tool_heading);
+    titles.append(&tool_summary);
+    let hero = gtk::Box::builder().spacing(18).margin_start(24).margin_end(24).margin_top(12).margin_bottom(20).build();
+    hero.append(&tool_icon);
+    hero.append(&titles);
     content_view.add_top_bar(&adw::HeaderBar::new());
+    content_view.add_top_bar(&hero);
     content_view.add_top_bar(&daemon_banner(&toasts));
     content_view.add_top_bar(&doctor_banner(config));
     content_view.set_content(Some(&toasts));
@@ -84,7 +96,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let list = gtk::ListBox::builder().css_classes(["navigation-sidebar"]).build();
     for m in modules::ALL {
         // Compact rows, like other GNOME sidebars, so every tool fits without scrolling.
-        let content = gtk::Box::builder().spacing(12).margin_top(4).margin_bottom(4).margin_start(4).build();
+        let content = gtk::Box::builder().spacing(12).margin_top(2).margin_bottom(2).margin_start(4).build();
         content.append(&gtk::Image::from_icon_name(m.icon));
         content.append(&gtk::Label::builder().label(m.title).xalign(0.0).ellipsize(gtk::pango::EllipsizeMode::End).build());
         let row = gtk::ListBoxRow::builder().child(&content).tooltip_text(m.summary).build();
@@ -92,6 +104,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
         list.append(&row);
     }
     let sidebar_view = adw::ToolbarView::new();
+    sidebar_view.add_css_class("tool-sidebar");
     let menu = gio::Menu::new();
     menu.append(Some("About Voltkit"), Some("app.about"));
     let end = gio::Menu::new();
@@ -119,6 +132,9 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
             if let Some(m) = modules::ALL.iter().find(|m| m.id == id) {
                 stack.set_visible_child_name(m.id);
                 content.set_title(m.title);
+                tool_heading.set_label(m.title);
+                tool_summary.set_label(m.summary);
+                tool_icon.set_icon_name(Some(m.icon));
                 split.set_show_content(true);
             }
         });
@@ -128,8 +144,8 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let window = adw::ApplicationWindow::builder()
         .application(app)
         .title("Voltkit")
-        .default_width(920)
-        .default_height(660)
+        .default_width(1240)
+        .default_height(840)
         .width_request(360)
         .height_request(400)
         .content(&split)
@@ -143,20 +159,8 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     window.upcast()
 }
 
-pub(crate) fn about_dialog() -> adw::AboutDialog {
-    let author = env!("CARGO_PKG_AUTHORS");
-    adw::AboutDialog::builder()
-        .application_name("Voltkit")
-        .application_icon(APP_ID)
-        .version(env!("CARGO_PKG_VERSION"))
-        .developer_name(author)
-        .developers([author])
-        .copyright(format!("© 2026 {author}"))
-        .license_type(gtk::License::MitX11)
-        .comments("Power tools for your Linux desktop: fourteen everyday tools, from screen OCR, QR codes and a color picker to Smart Paste, a system report and a shortcut detective, in one app.")
-        .website(env!("CARGO_PKG_HOMEPAGE"))
-        .issue_url(concat!(env!("CARGO_PKG_REPOSITORY"), "/issues"))
-        .build()
+pub(crate) fn about_dialog() -> adw::Dialog {
+    crate::about_ui::dialog()
 }
 
 /// "<Super><Shift>t" → "Super+Shift+T". The raw accelerator would also be read
@@ -379,24 +383,38 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .css_classes(["card"])
         .build();
 
-    let body = gtk::Box::new(gtk::Orientation::Vertical, 24);
-    body.append(&button);
-    body.append(&scroller);
-
-    let status = adw::StatusPage::builder()
-        .icon_name("edit-select-all-symbolic")
-        .title("Text Extractor")
-        .description(format!(
-            "Drag a box around any text on screen; it is copied to the clipboard.\nShortcut: {}",
-            shortcut_label(&config.hotkeys.ocr)
-        ))
-        .child(&adw::Clamp::builder().child(&body).build())
-        .build();
+    let status = crate::workspace::Workspace::new();
+    let capture = adw::PreferencesGroup::builder().title("Capture text")
+        .description(format!("Select text anywhere on screen. Recognition language: {}. Shortcut: {}", config.ocr.lang, shortcut_label(&config.hotkeys.ocr)))
+        .header_suffix(&button).build();
+    button.set_halign(gtk::Align::End);
+    status.banner(&capture);
+    scroller.set_min_content_height(300);
+    let copy = gtk::Button::builder().label("Copy Text").valign(gtk::Align::Center).sensitive(false).build();
+    let result = adw::PreferencesGroup::builder().title("Extracted text").description("Capture a region to see and copy its text here.")
+        .header_suffix(&copy).build();
+    result.add(&scroller);
+    status.add(&result);
+    let count = gtk::Label::builder().label("No text captured yet").xalign(0.0).css_classes(["dim-label"]).build();
+    result.add(&count);
+    let buffer = view.buffer();
+    let copy_buffer = buffer.clone();
+    copy.connect_clicked(move |button| {
+        let (start, end) = copy_buffer.bounds();
+        button.clipboard().set_text(&copy_buffer.text(&start, &end, false));
+    });
+    buffer.connect_changed(move |buffer| {
+        let chars = buffer.char_count();
+        copy.set_sensitive(chars > 0);
+        count.set_label(&format!("{chars} characters"));
+        result.set_description(Some(if chars > 0 { "Text is also copied automatically after capture." } else { "Capture a region to see and copy its text here." }));
+    });
+    status.aside(&crate::workspace::note("Capture from anything", "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer.", "edit-select-all-symbolic"));
 
     {
         // Text captured with the hotkey shows up here too.
         let (view, toasts) = (view.clone(), toasts.clone());
-        on_captured(&status, "ocr", move |text| {
+        on_captured(status.root(), "ocr", move |text| {
             view.buffer().set_text(&text);
             toast(&toasts, "Text from the shortcut, copied to the clipboard");
         });
@@ -473,7 +491,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     }
 
     let entry = adw::EntryRow::builder().title("HEX or rgb()").text(initial.to_hex()).build();
-    entry.add_suffix(&swatch);
+
     // A labeled button in the group header, away from the entry: as a small icon
     // inside the entry row it was easy to miss once the text field had focus.
     let pick = gtk::Button::builder()
@@ -507,7 +525,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     contrast.add(&on_white);
     contrast.add(&on_black);
 
-    let history = adw::PreferencesGroup::builder().title("History").build();
+    let history = adw::PreferencesGroup::builder().title("History").description("Select a saved color to reuse it. Colors picked from your screen appear here.").build();
     let history_rows: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::default();
 
     let refresh = move |c: color::Rgb| {
@@ -580,14 +598,21 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         });
     }
 
-    let page = adw::PreferencesPage::new();
-    for g in [&input, &values, &contrast, &history] {
-        page.add(g);
-    }
+    let page = crate::workspace::Workspace::new();
+    page.banner(&input);
+    let preview = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(16).build();
+    preview.append(&gtk::Label::builder().label("Live color preview").xalign(0.0).css_classes(["heading"]).build());
+    swatch.set_content_height(180);
+    swatch.set_hexpand(true);
+    preview.append(&swatch);
+    page.add(&preview);
+    page.add(&values);
+    page.aside(&contrast);
+    page.aside(&history);
     {
         // Colors picked with the hotkey show up here too (already saved to history).
         let (entry, toasts) = (entry.clone(), toasts.clone());
-        on_captured(&page, "color", move |hex| {
+        on_captured(page.root(), "color", move |hex| {
             if let Ok(c) = color::Rgb::parse(&hex) {
                 entry.set_text(&c.to_hex());
                 remember_picked(c);
@@ -649,18 +674,38 @@ fn ruler_page(config: &Config) -> gtk::Widget {
             w.minimize();
         }
     });
-    adw::StatusPage::builder()
-        .icon_name("zoom-fit-best-symbolic")
-        .title("Screen Ruler")
-        .description(format!(
-            "Freezes your screen so you can measure anything on it in pixels.\n\
-             Drag to measure, hold Shift for a straight line, Ctrl+C copies the size, Esc closes.\n\
-             Shortcut: {}",
-            shortcut_label(&config.hotkeys.ruler)
-        ))
-        .child(&open)
-        .build()
-        .upcast()
+    let page = crate::workspace::Workspace::new();
+    let preview = crate::workspace::note("Measure in real pixels", "Freeze your screen, then drag a line or a rectangle over anything you want to measure.", "zoom-fit-best-symbolic");
+    let diagram = gtk::DrawingArea::builder().content_height(200).hexpand(true).build();
+    diagram.set_draw_func(|area, cr, w, h| {
+        let color = area.color();
+        cr.set_source_rgba(color.red() as f64, color.green() as f64, color.blue() as f64, 0.55);
+        let left = 28.0;
+        let right = (w as f64 - 28.0).max(left);
+        let bottom = h as f64 - 30.0;
+        cr.set_line_width(1.5);
+        cr.rectangle(left, 35.0, right - left, bottom - 35.0);
+        let _ = cr.stroke();
+        for i in 0..=10 {
+            let x = left + (right - left) * i as f64 / 10.0;
+            cr.move_to(x, 35.0);
+            cr.line_to(x, if i % 5 == 0 { 52.0 } else { 44.0 });
+        }
+        let _ = cr.stroke();
+        cr.set_font_size(16.0);
+        cr.move_to(left + 18.0, 110.0);
+        let _ = cr.show_text("Drag to measure width × height");
+    });
+    preview.append(&diagram);
+    preview.append(&open);
+    page.add(&preview);
+    let controls = adw::PreferencesGroup::builder().title("Measurement controls").build();
+    for (title, description) in [("Drag", "Measure a rectangle"), ("Shift + drag", "Measure a straight line"), ("Ctrl+C", "Copy the measured size"), ("Esc", "Close the ruler")] {
+        controls.add(&adw::ActionRow::builder().title(title).subtitle(description).build());
+    }
+    page.aside(&controls);
+    page.aside(&crate::workspace::note("Ready when you need it", &format!("Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays.", shortcut_label(&config.hotkeys.ruler)), "input-keyboard-symbolic"));
+    page.upcast()
 }
 
 // ---------------------------------------------------------------- Compressor
@@ -674,7 +719,7 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let choose = gtk::Button::builder()
         .label("Choose Files…")
         .halign(gtk::Align::Center)
-        .css_classes(["pill"])
+        .css_classes(["pill", "suggested-action"])
         .build();
     // A plain box rather than AdwStatusPage, which scrolls internally and
     // clipped the button when placed in a card.
@@ -769,19 +814,14 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         );
     });
 
-    let body = gtk::Box::new(gtk::Orientation::Vertical, 24);
-    body.append(&drop_zone);
-    body.append(&settings);
-    body.append(&results);
-
-    let clamp = adw::Clamp::builder()
-        .child(&body)
-        .margin_top(24)
-        .margin_bottom(24)
-        .margin_start(12)
-        .margin_end(12)
-        .build();
-    gtk::ScrolledWindow::builder().child(&clamp).build().upcast()
+    let page = crate::workspace::Workspace::new();
+    page.add(&drop_zone);
+    settings.set_title("Compression settings");
+    page.aside(&settings);
+    page.aside(&crate::workspace::note("Your originals stay intact", "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video.", "document-save-symbolic"));
+    results.set_description(Some("Choose or drop files to see progress and size savings here."));
+    page.add(&results);
+    page.upcast()
 }
 
 // ---------------------------------------------------------------- Snippets
