@@ -77,6 +77,11 @@ Grab any pixel with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> and the HEX c
 clipboard. The color page converts between HEX, RGB and HSL, rates contrast against white and black by
 WCAG standards (AA / AAA), and remembers your recent colors.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
+  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Color Picker with a live preview, HEX/RGB/HSL formats, contrast ratings, and saved colors">
+</picture>
+
 ### 📝 Hosts & Environment
 
 Switch `/etc/hosts` entries on and off, add `myapp.test → 127.0.0.1` for local development, and set
@@ -94,6 +99,11 @@ Watching, presenting or downloading? Turn on Keep Awake for 30 minutes, a few ho
 off, and your computer won't sleep or lock. It keeps going after you close Voltkit and switches itself off
 when the time is up.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.7.0">
+  <img src="docs/screenshots/awake-light.png?v=0.7.0" alt="Keep Awake with its current status and duration controls">
+</picture>
+
 ### 📷 QR Code
 
 Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> and drag a box around a QR code in a video, a slide or a web
@@ -110,6 +120,11 @@ to the middle if you like: Voltkit reads the code back to make sure it still sca
 
 <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> freezes the screen. Drag to measure widths and heights in real
 pixels (hold Shift for a straight line), and press Ctrl+C to copy the size.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
+  <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="Screen Ruler with its launch action and measurement controls">
+</picture>
 
 ### ⌨️ Shortcut Detective
 
@@ -160,6 +175,11 @@ whatever app you were using. Snippets can include the date in any format, your c
 fill-in-the-blank fields. Prefer typing? Turn on typed triggers and `;sig` becomes your signature in any
 app. Add, edit and delete snippets right in the app: Insert buttons add the date, time, clipboard or a
 fill-in field, and a live preview shows exactly what will be pasted.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.7.0">
+  <img src="docs/screenshots/snippets-light.png?v=0.7.0" alt="Text Expansion with searchable snippets and insertion controls">
+</picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.7.0">
