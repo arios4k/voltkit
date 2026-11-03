@@ -13,10 +13,19 @@ use crate::{daemon, expander};
 use crate::modules::snippets;
 
 pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
-    page.add(&usage_group(config, toasts));
+    let page = crate::workspace::Workspace::new();
+    page.aside(&usage_group(config, toasts));
     let manager = Manager::new(config.snippets.clone(), toasts);
     page.add(&manager.group);
+    let search = gtk::SearchEntry::builder().placeholder_text("Find a snippet by trigger or content…").build();
+    page.banner(&search);
+    let weak = Rc::downgrade(&manager);
+    search.connect_search_changed(move |entry| {
+        if let Some(manager) = weak.upgrade() {
+            *manager.filter.borrow_mut() = entry.text().to_string();
+            manager.rebuild();
+        }
+    });
     // The list's buttons only hold weak references, so the page keeps the manager alive.
     page.connect_destroy(move |_| {
         let _ = &manager;
@@ -26,7 +35,7 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 
 fn usage_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
     let usage = adw::PreferencesGroup::builder().title("Insert Snippets").build();
-    let open_picker = gtk::Button::builder().label("Open").valign(gtk::Align::Center).build();
+    let open_picker = gtk::Button::builder().label("Open Picker").css_classes(["suggested-action"]).valign(gtk::Align::Center).build();
     open_picker.connect_clicked(|button| spawn_window_tool(button, &["picker"]));
     let picker_row = adw::ActionRow::builder()
         .title("Snippet picker")
@@ -185,6 +194,7 @@ struct Manager {
     group: adw::PreferencesGroup,
     rows: RefCell<Vec<gtk::Widget>>,
     snippets: RefCell<Vec<Snippet>>,
+    filter: RefCell<String>,
     toasts: adw::ToastOverlay,
 }
 
@@ -204,6 +214,7 @@ impl Manager {
             group,
             rows: RefCell::default(),
             snippets: RefCell::new(snippets),
+            filter: RefCell::default(),
             toasts: toasts.clone(),
         });
         manager.rebuild();
@@ -223,6 +234,7 @@ impl Manager {
         let snippets = self.snippets.borrow();
         let mut rows = self.rows.borrow_mut();
         if snippets.is_empty() {
+            self.group.set_title("Your Snippets · 0");
             let row = adw::ActionRow::builder()
                 .title("No snippets yet")
                 .subtitle("Click Add Snippet to create your first one.")
@@ -231,7 +243,11 @@ impl Manager {
             rows.push(row.upcast());
             return;
         }
+        let filter = self.filter.borrow();
         for (index, snippet) in snippets.iter().enumerate() {
+            if snippets::fuzzy_score(&filter, &snippet.trigger).is_none() && snippets::fuzzy_score(&filter, &snippet.template).is_none() {
+                continue;
+            }
             let preview = snippets::preview(&snippet.template).unwrap_or_else(|e| format!("⚠ {e}"));
             let row = adw::ActionRow::builder()
                 .title(glib::markup_escape_text(&snippet.trigger))
@@ -251,6 +267,12 @@ impl Manager {
             let weak = Rc::downgrade(self);
             delete.connect_clicked(move |_| with(&weak, |m| m.delete(index)));
 
+            self.group.add(&row);
+            rows.push(row.upcast());
+        }
+        self.group.set_title(&format!("Your Snippets · {} of {}", rows.len(), snippets.len()));
+        if rows.is_empty() {
+            let row = adw::ActionRow::builder().title("No matching snippets").subtitle("Try another trigger or a word from the snippet text.").build();
             self.group.add(&row);
             rows.push(row.upcast());
         }

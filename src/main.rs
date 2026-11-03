@@ -1,3 +1,6 @@
+mod about_ui;
+mod workspace;
+mod appearance;
 mod actions;
 mod app;
 mod awake;
@@ -206,7 +209,12 @@ enum Command {
     Manpages { dir: PathBuf },
     /// Render README screenshots of the GUI with demo content into DIR
     #[command(hide = true)]
-    Screenshots { dir: PathBuf },
+    Screenshots {
+        dir: PathBuf,
+        /// Window width for checking adaptive layouts
+        #[arg(long, value_parser = clap::value_parser!(i32).range(360..))]
+        width: Option<i32>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -540,7 +548,7 @@ fn main() -> Result<()> {
             }
         },
         Some(Command::Expander { command }) => expander_command(command, config)?,
-        Some(Command::Screenshots { dir }) => screenshots::run(config, dir)?,
+        Some(Command::Screenshots { dir, width }) => screenshots::run(config, dir, width)?,
         Some(Command::Manpages { dir }) => {
             for path in manpages::generate(&dir)? {
                 println!("{}", path.display());

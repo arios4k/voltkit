@@ -12,12 +12,12 @@ use crate::modules::envvars::{self, Var};
 use crate::modules::hosts::{self, Entry, HostsFile};
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
+    let page = crate::workspace::Workspace::new();
     let hosts = HostsEditor::new(toasts);
     let env = EnvEditor::new(toasts);
     page.add(&hosts.group);
-    page.add(&env.group);
-    page.add(&env.session_group);
+    page.aside(&env.group);
+    page.aside(&env.session_group);
     // Rows only hold weak references; the page keeps the editors alive.
     page.connect_destroy(move |_| {
         let _ = (&hosts, &env);

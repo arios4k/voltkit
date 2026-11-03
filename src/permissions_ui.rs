@@ -12,9 +12,20 @@ use crate::modules::permissions::{self, Permission, State};
 use crate::portal;
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
+    let page = crate::workspace::Workspace::new();
     let view = View::new(toasts);
     page.add(&view.group);
+    let search = gtk::SearchEntry::builder().placeholder_text("Find an app or permission…").build();
+    page.banner(&search);
+    let weak = Rc::downgrade(&view);
+    search.connect_search_changed(move |entry| {
+        if let Some(view) = weak.upgrade() {
+            *view.filter.borrow_mut() = entry.text().to_lowercase();
+            view.filter_rows();
+        }
+    });
+    page.aside(&crate::workspace::note("Choose what apps can access", "Expand an app to review its remembered permissions. A switch changes the saved answer; Forget removes that answer so the app can ask again.", "security-high-symbolic"));
+    page.aside(&crate::workspace::note("Desktop permission history", "These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have.", "dialog-information-symbolic"));
     view.reload();
     // Rows only hold weak references; the page keeps the state alive.
     page.connect_destroy(move |_| {
@@ -26,6 +37,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
 struct View {
     group: adw::PreferencesGroup,
     rows: RefCell<Vec<gtk::Widget>>,
+    filter: RefCell<String>,
     toasts: adw::ToastOverlay,
 }
 
@@ -38,14 +50,14 @@ impl View {
             .css_classes(["flat"])
             .build();
         let group = adw::PreferencesGroup::builder()
-            .title("App Permissions")
+            .title("Applications")
             .description(
                 "Answers you gave when apps asked to take screenshots, use the camera, see your location and more. \
                  Change an answer, or forget it so the app asks again next time.",
             )
             .header_suffix(&crate::app::spaced(&refresh))
             .build();
-        let view = Rc::new(Self { group, rows: RefCell::default(), toasts: toasts.clone() });
+        let view = Rc::new(Self { group, rows: RefCell::default(), filter: RefCell::default(), toasts: toasts.clone() });
         let weak = Rc::downgrade(&view);
         refresh.connect_clicked(move |_| {
             if let Some(view) = weak.upgrade() {
@@ -116,6 +128,25 @@ impl View {
             self.group.add(row);
         }
         *self.rows.borrow_mut() = rows;
+        self.filter_rows();
+    }
+
+    fn filter_rows(&self) {
+        let filter = self.filter.borrow();
+        let mut matches = 0;
+        for row in self.rows.borrow().iter() {
+            let text = row.clone().downcast::<adw::ExpanderRow>().map(|r| {
+                format!("{} {}", r.title(), r.subtitle()).to_lowercase()
+            }).unwrap_or_default();
+            let visible = filter.is_empty() || text.contains(filter.as_str());
+            row.set_visible(visible);
+            if visible { matches += 1; }
+        }
+        if !filter.is_empty() && matches == 0 {
+            self.group.set_description(Some("No apps match this search. Try an app name or a permission such as camera."));
+        } else {
+            self.group.set_description(Some("Expand an app to review its saved answers."));
+        }
     }
 
     fn permission_row(self: &Rc<Self>, p: Permission, app: &str) -> adw::ActionRow {

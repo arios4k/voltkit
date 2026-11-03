@@ -16,94 +16,134 @@ const SUGGESTIONS: usize = 6;
 type Finish = dyn Fn(anyhow::Result<()>, &str);
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
     if !kb::supported() {
-        let group = adw::PreferencesGroup::builder()
-            .title("Shortcut Detective")
-            .description(
-                "This desktop keeps its keyboard shortcuts somewhere Voltkit can't read yet. Shortcut Detective \
-                 works on GNOME, Cinnamon, Budgie and MATE; on KDE Plasma, use System Settings \u{2192} Shortcuts.",
-            )
-            .build();
-        page.add(&group);
-        return page.upcast();
+        return adw::StatusPage::builder().icon_name("input-keyboard-symbolic")
+            .title("Shortcuts aren't available on this desktop")
+            .description("Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On KDE Plasma, open System Settings → Shortcuts.")
+            .build().upcast();
     }
     let view = View::new(toasts);
-    for g in [&view.intro, &view.lookup, &view.conflicts, &view.all] {
-        page.add(g);
-    }
     if std::env::var_os("VOLTKIT_SHORTCUTS_DEMO").is_some() {
         *view.looked_up.borrow_mut() = Some("<Super>v".into());
     }
     view.reload();
-    page.connect_destroy(move |_| {
-        let _ = &view;
-    });
+    let page = view.root.clone();
+    page.connect_destroy(move |_| { let _ = &view; });
     page.upcast()
 }
 
 struct View {
-    intro: adw::PreferencesGroup,
+    root: adw::BreakpointBin,
     search: gtk::SearchEntry,
-    lookup: adw::PreferencesGroup,
-    conflicts: adw::PreferencesGroup,
-    all: adw::PreferencesGroup,
-    rows: RefCell<Vec<(adw::PreferencesGroup, gtk::Widget)>>,
+    list: gtk::ListBox,
+    detail: gtk::Box,
+    count: gtk::Label,
+    recorded: gtk::Label,
+    conflicts_only: gtk::ToggleButton,
     bindings: RefCell<Vec<Binding>>,
-    /// The combination being looked up, as GSettings writes it.
+    shown: RefCell<Vec<Binding>>,
     looked_up: RefCell<Option<String>>,
     toasts: adw::ToastOverlay,
 }
 
+fn label(text: &str, class: &str) -> gtk::Label {
+    gtk::Label::builder().label(text).xalign(0.0).wrap(class != "keycap").css_classes([class]).build()
+}
+
+fn keycaps(accel: &str) -> gtk::FlowBox {
+    let keys = gtk::FlowBox::builder().selection_mode(gtk::SelectionMode::None)
+        .min_children_per_line(2).max_children_per_line(7).column_spacing(4).row_spacing(4)
+        .halign(gtk::Align::Start).valign(gtk::Align::Center).build();
+    for key in kb::label(accel).split('+') {
+        keys.insert(&label(key.trim(), "keycap"), -1);
+    }
+    keys
+}
+
 impl View {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
-        let press = gtk::Button::builder()
-            .child(&adw::ButtonContent::builder().icon_name("input-keyboard-symbolic").label("Press a Shortcut…").build())
-            .valign(gtk::Align::Center)
-            .css_classes(["suggested-action"])
-            .build();
-        let intro = adw::PreferencesGroup::builder()
-            .title("Shortcut Detective")
-            .description(
-                "Find out what a keyboard shortcut does, fix shortcuts that clash, and change them. Covers the \
-                 shortcuts that work everywhere (not the ones inside each app, like Ctrl+C).",
-            )
-            .header_suffix(&crate::app::spaced(&press))
-            .build();
-        let search = gtk::SearchEntry::builder().placeholder_text("Search by name, or type a shortcut like super+shift+s").build();
-        intro.add(&search);
-        let lookup = adw::PreferencesGroup::builder().visible(false).build();
-        let conflicts = adw::PreferencesGroup::builder().title("Clashes").build();
-        let all = adw::PreferencesGroup::builder().title("All Shortcuts").build();
-        let view = Rc::new(Self {
-            intro,
-            search: search.clone(),
-            lookup,
-            conflicts,
-            all,
-            rows: RefCell::default(),
-            bindings: RefCell::default(),
-            looked_up: RefCell::default(),
-            toasts: toasts.clone(),
-        });
+        let body = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(18).css_classes(["detective-workspace"]).build();
+        let intro = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(12).css_classes(["detective-card"]).build();
+        intro.append(&label("Press a shortcut to investigate", "heading"));
+        let capture_bar = gtk::Box::new(gtk::Orientation::Horizontal, 12);
+        let recorded = label("Choose Record Shortcut to inspect a key combination", "dim-label");
+        recorded.set_hexpand(true);
+        let press = gtk::Button::builder().label("Record Shortcut").valign(gtk::Align::Center).css_classes(["suggested-action"]).build();
+        capture_bar.append(&recorded);
+        capture_bar.append(&press);
+        intro.append(&capture_bar);
+        body.append(&intro);
+
+        let toolbar = gtk::Box::builder().spacing(8).css_classes(["detective-toolbar"]).build();
+        let all = gtk::ToggleButton::builder().label("All Shortcuts").active(true).build();
+        let conflicts_only = gtk::ToggleButton::builder().label("Conflicts").group(&all).build();
+        let refresh = gtk::Button::builder().icon_name("view-refresh-symbolic").tooltip_text("Refresh shortcuts").build();
+        toolbar.append(&all);
+        toolbar.append(&conflicts_only);
+        toolbar.append(&refresh);
+        body.append(&toolbar);
+        let search = gtk::SearchEntry::builder().placeholder_text("Filter shortcuts by action, owner, or keys…").hexpand(true).build();
+        body.append(&search);
+
+        let workspace = gtk::Box::builder().spacing(16).valign(gtk::Align::Start).build();
+        let catalog = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(12).hexpand(true).css_classes(["detective-card"]).build();
+        let count = label("Registered shortcuts", "heading");
+        catalog.append(&count);
+        let list = gtk::ListBox::builder().selection_mode(gtk::SelectionMode::Single).css_classes(["detective-list"]).build();
+        let list_scroll = gtk::ScrolledWindow::builder().child(&list)
+            .hscrollbar_policy(gtk::PolicyType::Never).min_content_height(280)
+            .max_content_height(440).propagate_natural_height(true).build();
+        catalog.append(&list_scroll);
+        let detail = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(16).hexpand(true).css_classes(["detective-card"]).build();
+        workspace.append(&catalog);
+        workspace.append(&detail);
+        let responsive = adw::BreakpointBin::builder().height_request(240).width_request(280).build();
+        let narrow = adw::Breakpoint::new(adw::BreakpointCondition::parse("max-width: 760sp").unwrap());
+        narrow.add_setter(&workspace, "orientation", Some(&gtk::Orientation::Vertical.to_value()));
+        responsive.add_breakpoint(narrow);
+        body.append(&workspace);
+        body.append(&label("System-wide shortcuts · Select an action to inspect or change it", "dim-label"));
+        let scroll = gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&body).build();
+        responsive.set_child(Some(&scroll));
+        let root = responsive;
+        let view = Rc::new(Self { root, search: search.clone(), list: list.clone(), detail, count, recorded,
+            conflicts_only: conflicts_only.clone(), bindings: RefCell::default(), shown: RefCell::default(),
+            looked_up: RefCell::default(), toasts: toasts.clone() });
         let weak = Rc::downgrade(&view);
-        press.connect_clicked(move |b| {
+        press.connect_clicked(move |button| {
             let Some(v) = weak.upgrade() else { return };
+            v.recorded.set_label("Press the keys now · Esc to cancel");
             let weak = Rc::downgrade(&v);
-            toast(&v.toasts, "Press the shortcut to look up (Esc to cancel)");
-            capture(b, move |accel| {
-                if let (Some(v), Some(accel)) = (weak.upgrade(), accel) {
-                    v.search.set_text("");
-                    *v.looked_up.borrow_mut() = Some(accel);
-                    v.show();
+            capture(button, move |accel| {
+                if let Some(v) = weak.upgrade() {
+                    if let Some(accel) = accel {
+                        *v.looked_up.borrow_mut() = Some(accel);
+                        v.show();
+                    } else {
+                        v.recorded.set_label("Recording cancelled. Choose Record Shortcut to try again.");
+                    }
                 }
             });
         });
         let weak = Rc::downgrade(&view);
-        search.connect_search_changed(move |s| {
-            if let Some(v) = weak.upgrade() {
-                *v.looked_up.borrow_mut() = kb::parse_typed(&s.text()).map(kb::accel_name);
-                v.show();
+        search.connect_search_changed(move |_| { if let Some(v) = weak.upgrade() { v.show(); } });
+        let weak = Rc::downgrade(&view);
+        conflicts_only.connect_toggled(move |_| { if let Some(v) = weak.upgrade() { v.show(); } });
+        let weak = Rc::downgrade(&view);
+        refresh.connect_clicked(move |_| { if let Some(v) = weak.upgrade() { v.reload(); } });
+        let weak = Rc::downgrade(&view);
+        list.connect_row_selected(move |_, row| {
+            if let (Some(v), Some(row)) = (weak.upgrade(), row) {
+                let binding = v.shown.borrow().get(row.index() as usize).cloned();
+                if let Some(b) = binding {
+                    *v.looked_up.borrow_mut() = None;
+                    let accel = {
+                        let bindings = v.bindings.borrow();
+                        b.accels.iter().find(|a| kb::who(a, &bindings).len() > 1).or_else(|| b.accels.first()).cloned()
+                    };
+                    v.recorded.set_label(&accel.as_deref().map(kb::label).unwrap_or_else(|| "No shortcut assigned".into()));
+                    v.inspect(accel.as_deref(), Some(&b));
+                }
             }
         });
         view
@@ -114,95 +154,88 @@ impl View {
         self.show();
     }
 
-    fn add(&self, group: &adw::PreferencesGroup, row: impl IsA<gtk::Widget>) {
-        group.add(&row);
-        self.rows.borrow_mut().push((group.clone(), row.upcast()));
+    fn show(self: &Rc<Self>) {
+        let selected = self.list.selected_row().and_then(|row| self.shown.borrow().get(row.index() as usize).cloned());
+        while let Some(row) = self.list.first_child() { self.list.remove(&row); }
+        let bindings = self.bindings.borrow();
+        let conflicts = kb::conflicts(&bindings);
+        self.conflicts_only.set_label(&format!("Conflicts · {}", conflicts.len()));
+        let filter = self.search.text().to_lowercase();
+        let shown: Vec<Binding> = bindings.iter().filter(|b| {
+            let matches = format!("{} {} {}", b.name, b.owner, b.accels.iter().map(|a| kb::label(a)).collect::<Vec<_>>().join(" ")).to_lowercase().contains(&filter);
+            let conflict = b.accels.iter().any(|a| kb::who(a, &bindings).len() > 1);
+            matches && (!self.conflicts_only.is_active() || conflict)
+        }).cloned().collect();
+        self.count.set_label(&format!("Registered shortcuts · {} of {}", shown.len(), bindings.len()));
+        *self.shown.borrow_mut() = shown.clone();
+        for b in &shown {
+            let row = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(8).build();
+            row.append(&label(&b.name, "heading"));
+            row.append(&label(&b.owner, "dim-label"));
+            let keys = gtk::Box::new(gtk::Orientation::Vertical, 6);
+            if b.accels.is_empty() { keys.append(&label("Not set", "dim-label")); }
+            for accel in &b.accels {
+                let combo = gtk::Box::new(gtk::Orientation::Horizontal, 8);
+                combo.append(&keycaps(accel));
+                if kb::who(accel, &bindings).len() > 1 { let badge = label("Conflict", "status-chip");
+                    badge.set_valign(gtk::Align::Center);
+                    combo.append(&badge); }
+                keys.append(&combo);
+            }
+            row.append(&keys);
+            self.list.append(&row);
+        }
+        if shown.is_empty() {
+            self.list.append(&label("No shortcuts match these filters", "dim-label"));
+        }
+        drop(bindings);
+        let looked_up = self.looked_up.borrow().clone();
+        if let Some(accel) = looked_up {
+            if let Some(index) = shown.iter().position(|b| b.accels.contains(&accel)) {
+                self.list.select_row(self.list.row_at_index(index as i32).as_ref());
+                return;
+            }
+            self.recorded.set_label(&kb::label(&accel));
+            self.inspect(Some(&accel), None);
+        } else if !shown.is_empty() {
+            let index = selected.and_then(|old| shown.iter().position(|b| b.schema == old.schema && b.key == old.key && b.path == old.path)).unwrap_or(0);
+            self.list.select_row(self.list.row_at_index(index as i32).as_ref());
+        } else {
+            self.inspect(None, None);
+        }
     }
 
-    fn show(self: &Rc<Self>) {
-        for (group, row) in self.rows.take() {
-            group.remove(&row);
-        }
-        let bindings = self.bindings.borrow().clone();
-
-        // Lookup: who uses this combination?
-        let looked_up = self.looked_up.borrow().clone();
-        self.lookup.set_visible(looked_up.is_some());
-        if let Some(accel) = &looked_up {
+    fn inspect(self: &Rc<Self>, accel: Option<&str>, binding: Option<&Binding>) {
+        while let Some(child) = self.detail.first_child() { self.detail.remove(&child); }
+        self.detail.append(&label("Shortcut details", "title-2"));
+        let bindings = self.bindings.borrow();
+        if let Some(accel) = accel {
+            self.detail.append(&keycaps(accel));
             let users = kb::who(accel, &bindings);
-            self.lookup.set_title(&glib::markup_escape_text(&format!("Who Uses {}", kb::label(accel))));
-            if users.is_empty() {
-                let row = adw::ActionRow::builder().title("Nobody: it's free").subtitle("No system-wide shortcut uses this combination. Apps may still use it inside their own windows.").subtitle_lines(2).build();
-                let icon = gtk::Image::from_icon_name("emblem-ok-symbolic");
-                icon.add_css_class("success");
-                row.add_prefix(&icon);
-                self.add(&self.lookup, row);
-            }
+            let message = match users.len() {
+                0 => "Available as a system-wide shortcut. Apps may still use it within their windows.".to_owned(),
+                1 => "1 action uses this shortcut".to_owned(),
+                n => format!("{n} actions share this shortcut. Change an action to resolve the conflict."),
+            };
+            self.detail.append(&label(&message, if users.len() > 1 { "warning" } else { "dim-label" }));
             for b in users {
-                let row = self.binding_row(b, Some(accel));
-                self.add(&self.lookup, row);
+                let group = adw::PreferencesGroup::new();
+                group.add(&self.binding_row(b, Some(accel)));
+                self.detail.append(&group);
             }
-        }
-
-        // Clashes.
-        let clashes = kb::conflicts(&bindings);
-        self.conflicts.set_description(Some(if clashes.is_empty() {
-            "No two actions share a shortcut."
+            self.detail.append(&label("Free combinations to try", "heading"));
+            let suggestions = gtk::FlowBox::builder().selection_mode(gtk::SelectionMode::None).column_spacing(6).row_spacing(6).max_children_per_line(2).build();
+            for suggestion in kb::suggest(accel, &bindings, 4) {
+                suggestions.insert(&keycaps(&suggestion), -1);
+            }
+            self.detail.append(&suggestions);
+            self.detail.append(&label("Choose Change to record a new combination, turn a shortcut off, or reset its default.", "dim-label"));
+        } else if let Some(b) = binding {
+            let group = adw::PreferencesGroup::new();
+            group.add(&self.binding_row(b, None));
+            self.detail.append(&group);
         } else {
-            "These combinations do more than one thing, so only one of them works. Change one of each pair."
-        }));
-        if clashes.is_empty() {
-            let row = adw::ActionRow::builder().title("No clashes").build();
-            let icon = gtk::Image::from_icon_name("emblem-ok-symbolic");
-            icon.add_css_class("success");
-            row.add_prefix(&icon);
-            self.add(&self.conflicts, row);
-        }
-        for (combo, users) in &clashes {
-            let accel = kb::accel_name(*combo);
-            let names: Vec<String> = users.iter().map(|b| format!("{} ({})", b.name, b.owner)).collect();
-            let expander = adw::ExpanderRow::builder()
-                .title(glib::markup_escape_text(&kb::label(&accel)))
-                .subtitle(glib::markup_escape_text(&names.join(", ")))
-                .subtitle_lines(2)
-                .build();
-            let icon = gtk::Image::from_icon_name("dialog-warning-symbolic");
-            icon.add_css_class("warning");
-            expander.add_prefix(&icon);
-            for b in users {
-                expander.add_row(&self.binding_row(b, Some(&accel)));
-            }
-            self.add(&self.conflicts, expander);
-        }
-
-        // Everything, grouped by owner, filtered by the search.
-        let filter = self.search.text().to_lowercase();
-        let filter = if looked_up.is_some() { String::new() } else { filter };
-        let mut owners: Vec<(String, Vec<&Binding>)> = Vec::new();
-        for b in &bindings {
-            let labels: String = b.accels.iter().map(|a| kb::label(a)).collect::<Vec<_>>().join(" ").to_lowercase();
-            if !filter.is_empty() && !b.name.to_lowercase().contains(&filter) && !b.owner.to_lowercase().contains(&filter) && !labels.contains(&filter) {
-                continue;
-            }
-            match owners.iter_mut().find(|(o, _)| *o == b.owner) {
-                Some((_, list)) => list.push(b),
-                None => owners.push((b.owner.clone(), vec![b])),
-            }
-        }
-        if owners.is_empty() {
-            self.add(&self.all, adw::ActionRow::builder().title("No shortcuts match").build());
-        }
-        for (owner, list) in owners {
-            let set = list.iter().filter(|b| !b.accels.is_empty()).count();
-            let expander = adw::ExpanderRow::builder()
-                .title(glib::markup_escape_text(&owner))
-                .subtitle(format!("{set} set, {} not set", list.len() - set))
-                .expanded(!filter.is_empty())
-                .build();
-            for b in list {
-                expander.add_row(&self.binding_row(b, None));
-            }
-            self.add(&self.all, expander);
+            self.detail.append(&label("Select a shortcut or record a key combination to see its owners and available alternatives.", "dim-label"));
         }
     }
 

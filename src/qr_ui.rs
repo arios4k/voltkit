@@ -19,9 +19,11 @@ const PREVIEW_SIZE: usize = 260;
 const SAVE_SCALE: usize = 12;
 
 pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
-    page.add(&scan_group(config, toasts));
-    page.add(&create_group(toasts));
+    let page = crate::workspace::Workspace::new();
+    page.banner(&scan_group(config, toasts));
+    let (editor, preview) = create_group(toasts);
+    page.add(&editor);
+    page.aside(&preview);
     page.upcast()
 }
 
@@ -113,7 +115,7 @@ fn show_result(result: &adw::ActionRow, open: &gtk::Button, found: &str) {
     open.set_visible(qr::is_link(found));
 }
 
-fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
+fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::PreferencesGroup) {
     let group = adw::PreferencesGroup::builder()
         .title("Create")
         .description("Type text or a link, or describe a Wi-Fi network, then scan the code with your phone.")
@@ -196,7 +198,8 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
     card.append(&placeholder);
     card.append(&check);
     card.append(&buttons);
-    group.add(&card);
+    let preview = adw::PreferencesGroup::builder().title("QR preview").description("Ready to scan, copy, or save as a PNG.").build();
+    preview.add(&card);
 
     let current: Rc<RefCell<Option<Current>>> = Rc::default();
     let logo: Rc<RefCell<Option<Pixbuf>>> = Rc::default();
@@ -367,7 +370,7 @@ fn create_group(toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
             );
         });
     }
-    group
+    (group, preview)
 }
 
 /// What the Create section currently shows: the encoded text, and the logo

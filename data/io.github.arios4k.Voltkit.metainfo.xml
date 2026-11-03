@@ -32,7 +32,7 @@
       <caption>Screen OCR</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/picker-light.png</image>
+      <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/color-light.png</image>
       <caption>Color picker with contrast checking</caption>
     </screenshot>
     <screenshot>
@@ -68,6 +68,16 @@
   </keywords>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.7.0" date="2026-11-02">
+      <description>
+        <p>A refreshed interface across all fourteen tools.</p>
+        <ul>
+          <li>Adaptive card layouts, clearer actions, and side-by-side previews</li>
+          <li>Searchable snippets and app permissions, and a shortcut details workspace</li>
+          <li>A new About dialog, larger default window, and compact navigation</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.0" date="2026-11-02"/>
     <release version="0.5.0" date="2026-11-02"/>
     <release version="0.4.3" date="2026-11-01"/>

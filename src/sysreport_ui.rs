@@ -15,11 +15,11 @@ const CHANGES_PER_DAY: usize = 6;
 const DAYS_SHOWN: usize = 7;
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
+    let page = crate::workspace::Workspace::new();
     let view = View::new(toasts);
-    for g in [&view.intro, &view.checks, &view.changes, &view.computer, &view.temperatures, &view.firmware, &view.memory] {
-        page.add(g);
-    }
+    page.banner(&view.intro);
+    for group in [&view.checks, &view.changes] { page.add(group); }
+    for group in [&view.computer, &view.temperatures, &view.firmware, &view.memory] { page.aside(group); }
     view.reload();
     page.connect_destroy(move |_| {
         let _ = &view;
@@ -59,7 +59,7 @@ impl View {
         header.append(&refresh);
         header.append(&copy);
         let intro = adw::PreferencesGroup::builder()
-            .title("System Report")
+            .title("Overview")
             .description(
                 "What's in this computer and how it's doing, in plain words. Copy the report when asking for help \
                  in a forum or bug report: it has no serial numbers, names or network addresses.",

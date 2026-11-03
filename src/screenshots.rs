@@ -40,7 +40,7 @@ const COMPRESS_DEMO: &[(&str, &str)] = &[
     ("product-demo.mp4", "38.2 MB → 8.8 MB (−77%)"),
 ];
 
-pub fn run(config: Config, dir: PathBuf) -> Result<()> {
+pub fn run(config: Config, dir: PathBuf, width: Option<i32>) -> Result<()> {
     std::fs::create_dir_all(&dir)?;
     let app = adw::Application::builder()
         .application_id("io.github.arios4k.Voltkit.Screenshots")
@@ -55,7 +55,7 @@ pub fn run(config: Config, dir: PathBuf) -> Result<()> {
             // Keep the app alive while the async capture runs.
             let hold = app.hold();
             glib::spawn_future_local(async move {
-                *result.borrow_mut() = capture(&app, &config, &dir).await;
+                *result.borrow_mut() = capture(&app, &config, &dir, width).await;
                 drop(hold);
                 app.quit();
             });
@@ -65,10 +65,18 @@ pub fn run(config: Config, dir: PathBuf) -> Result<()> {
     result.replace(Ok(()))
 }
 
-async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path) -> Result<()> {
+async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width: Option<i32>) -> Result<()> {
+    // Capture settled pages even when rendering is slower than the crossfade.
+    // This changes only this preview process, not the desktop preference.
+    if let Some(settings) = gtk::Settings::default() {
+        settings.set_gtk_enable_animations(false);
+    }
     let style = adw::StyleManager::default();
     // Kept at its default size: resizing a shown window on Broadway stalls its drawing.
     let window = app::build_window(app, config);
+    if let Some(width) = width {
+        window.set_default_size(width, 780);
+    }
     fill_demo(&window);
     let sidebar = descendants(&window)
         .into_iter()
@@ -91,7 +99,9 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path) -> Res
         }
 
         // The snippet editor, opened on a snippet with fill-in fields.
-        sidebar.select_row(sidebar.row_at_index(3).as_ref());
+        if let Some(index) = modules::ALL.iter().position(|module| module.id == "snippets") {
+            sidebar.select_row(sidebar.row_at_index(index as i32).as_ref());
+        }
         glib::timeout_future(SETTLE).await;
         if let Some(row) = descendants(&window)
             .into_iter()
@@ -107,6 +117,10 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path) -> Res
             }
         }
 
+        // A fictional color preview is a neutral backdrop for the About dialog.
+        if let Some(index) = modules::ALL.iter().position(|module| module.id == "color") {
+            sidebar.select_row(sidebar.row_at_index(index as i32).as_ref());
+        }
         let about = app::about_dialog();
         about.present(Some(&window));
         hide_banners(&window);

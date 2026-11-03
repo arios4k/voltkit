@@ -12,11 +12,12 @@ use crate::modules::sleep::{self, Blocker, Effect, Event, Note, Report, WakeDevi
 use crate::{daemon, portal};
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
+    let page = crate::workspace::Workspace::new();
     let view = View::new(toasts);
-    for group in [&view.now, &view.history, &view.devices, &view.mode] {
-        page.add(group);
-    }
+    page.add(&view.now);
+    page.add(&view.history);
+    page.aside(&view.devices);
+    page.aside(&view.mode);
     view.reload();
     // Reload when the page is shown again: things change while it's hidden.
     {

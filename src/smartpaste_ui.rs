@@ -52,6 +52,7 @@ struct Popup {
 
 impl Popup {
     fn build(app: &adw::Application, config: Rc<Config>) {
+        crate::appearance::install();
         let list = gtk::ListBox::builder().selection_mode(gtk::SelectionMode::Browse).css_classes(["boxed-list"]).build();
         let preview = gtk::TextView::builder()
             .editable(false)
@@ -251,10 +252,10 @@ fn preview(text: &str) -> String {
 const SAMPLE: &str = "Distribution\tDesktop\tPackages\nUbuntu\tGNOME\tapt\nFedora\tGNOME\tdnf\nLinux Mint\tCinnamon\tapt";
 
 pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let page = adw::PreferencesPage::new();
+    let page = crate::workspace::Workspace::new();
     let shortcut = shortcut_label(&config.hotkeys.smart_paste);
     let intro = adw::PreferencesGroup::builder()
-        .title("Smart Paste")
+        .title("Use it in any app")
         .description(
             "Like Ctrl+V, but you choose how it's pasted: tidy JSON, a spreadsheet table as Markdown or CSV, a link \
              without tracking, text from a PDF without broken lines, a new letter case, or the text in a screenshot.",
@@ -292,18 +293,18 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .bottom_margin(10)
         .left_margin(12)
         .right_margin(12)
-        .height_request(110)
+        .height_request(260)
         .build();
     input.set_widget_name("smartpaste-input");
     // Wide, even tab stops so pasted spreadsheet cells line up as columns.
     let mut tabs = gtk::pango::TabArray::new(1, true);
-    tabs.set_tab(0, gtk::pango::TabAlign::Left, 150);
+    tabs.set_tab(0, gtk::pango::TabAlign::Left, 110);
     input.set_tabs(&tabs);
     input.buffer().set_text(SAMPLE);
     let frame = gtk::Frame::builder().child(&input).css_classes(["view"]).build();
     let try_group = adw::PreferencesGroup::builder()
-        .title("Try It")
-        .description("See what Smart Paste can do without leaving this window: type or paste text here, then copy any result below.")
+        .title("Source text")
+        .description("See what Smart Paste can do without leaving this window: type or paste text here, then copy a converted result.")
         .build();
     try_group.add(&frame);
     let results = adw::PreferencesGroup::builder().title("Conversions").build();
@@ -351,8 +352,8 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         update(&buffer.text(&start, &end, false));
     });
 
-    page.add(&intro);
     page.add(&try_group);
-    page.add(&results);
+    page.aside(&results);
+    page.aside(&intro);
     page.upcast()
 }

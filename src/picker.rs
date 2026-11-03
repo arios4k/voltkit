@@ -47,6 +47,7 @@ struct Picker {
 }
 
 pub(crate) fn build(app: &adw::Application, config: Rc<Config>, preselect: Option<String>) -> gtk::Window {
+    crate::appearance::install();
     let search = gtk::SearchEntry::builder()
         .placeholder_text("Search snippets")
         .hexpand(true)

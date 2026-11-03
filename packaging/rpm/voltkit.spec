@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.6.0
+Version:        0.7.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -67,6 +67,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %{_mandir}/man1/voltkit*.1*
 
 %changelog
+* Mon Nov 02 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.7.0-1
+- Redesign all tools with adaptive card layouts and consistent light and dark styling
+- Add searchable snippet and app permission lists and a shortcut details workspace
+- Add a branded About dialog, larger default window, and compact tool navigation
+
 * Mon Nov 02 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.6.0-1
 - Typed triggers turn on with one switch: one password, no logout or restart
 - PNG compression is built in (oxipng is no longer needed)
