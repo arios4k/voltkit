@@ -17,8 +17,8 @@ manager, a sleep troubleshooter, a system report and a shortcut detective, in on
 [![Made with Rust](https://img.shields.io/badge/made%20with-Rust-dea584?logo=rust&logoColor=white)](https://www.rust-lang.org)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png">
-  <img src="docs/screenshots/color-light.png" alt="Voltkit's color picker showing #7C3AED with its HEX, RGB and HSL values and WCAG contrast ratings">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
+  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Voltkit's color picker showing #7C3AED with its HEX, RGB and HSL values and WCAG contrast ratings">
 </picture>
 
 </div>
@@ -56,8 +56,8 @@ outside Flatpak, so one wrong “Deny” stuck for good. App Permissions lists t
 change one, or forget it so the app asks again.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png">
-  <img src="docs/screenshots/permissions-light.png" alt="App Permissions page listing apps with their camera and screenshot permissions">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.7.0">
+  <img src="docs/screenshots/permissions-light.png?v=0.7.0" alt="App Permissions page listing apps with their camera and screenshot permissions">
 </picture>
 
 ### 📦 Asset Compressor
@@ -67,8 +67,8 @@ compresses with the best tool for each format, and writes `name.min.ext` next to
 it never touches. In our tests: JPEG −43%, PNG −23% (lossless), WebP −60%, MP4 −77%.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png">
-  <img src="docs/screenshots/compress-light.png" alt="Asset Compressor with four compressed files and their size savings">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
+  <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="Asset Compressor with four compressed files and their size savings">
 </picture>
 
 ### 🎨 Color Picker
@@ -84,8 +84,8 @@ environment variables like `EDITOR` or an extra `PATH` folder for your whole des
 entries are protected, and every hosts save keeps a backup.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png">
-  <img src="docs/screenshots/system-light.png" alt="Hosts & Environment page with hosts entries and switches">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.7.0">
+  <img src="docs/screenshots/system-light.png?v=0.7.0" alt="Hosts & Environment page with hosts entries and switches">
 </picture>
 
 ### ☕ Keep Awake
@@ -102,8 +102,8 @@ details and scan the code with your phone. Copy it as an image or save it as a P
 to the middle if you like: Voltkit reads the code back to make sure it still scans.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png">
-  <img src="docs/screenshots/qr-light.png" alt="QR Code page with a generated code for a link">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.7.0">
+  <img src="docs/screenshots/qr-light.png?v=0.7.0" alt="QR Code page with a generated code for a link">
 </picture>
 
 ### 📏 Screen Ruler
@@ -119,8 +119,8 @@ Voltkit itself. Clashes are listed for you, each with free combinations to switc
 changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png">
-  <img src="docs/screenshots/shortcuts-light.png" alt="Shortcut Detective showing that Super+V is used by two actions">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.7.0">
+  <img src="docs/screenshots/shortcuts-light.png?v=0.7.0" alt="Shortcut Detective showing that Super+V is used by two actions">
 </picture>
 
 ### 📋 Smart Paste
@@ -133,8 +133,8 @@ copied are offered, each with a preview, and your clipboard is left as it was. T
 scripts: `wl-paste | voltkit convert markdown-table`.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png">
-  <img src="docs/screenshots/smartpaste-light.png" alt="Smart Paste page turning a spreadsheet range into a Markdown table and CSV">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.7.0">
+  <img src="docs/screenshots/smartpaste-light.png?v=0.7.0" alt="Smart Paste page turning a spreadsheet range into a Markdown table and CSV">
 </picture>
 
 ### 🖥️ System Report
@@ -149,8 +149,8 @@ an update, **What Changed** shows exactly what's different. When you need help, 
 summary for a forum or bug report, with no serial numbers, names or network addresses.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png">
-  <img src="docs/screenshots/sysreport-light.png" alt="System Report page with checks, recent changes and the computer's hardware">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.7.0">
+  <img src="docs/screenshots/sysreport-light.png?v=0.7.0" alt="System Report page with checks, recent changes and the computer's hardware">
 </picture>
 
 ### ⌨️ Text Expansion
@@ -162,13 +162,13 @@ app. Add, edit and delete snippets right in the app: Insert buttons add the date
 fill-in field, and a live preview shows exactly what will be pasted.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png">
-  <img src="docs/screenshots/picker-light.png" alt="Snippet picker listing snippets with live previews">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.7.0">
+  <img src="docs/screenshots/picker-light.png?v=0.7.0" alt="Snippet picker listing snippets with live previews">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png">
-  <img src="docs/screenshots/snippet-editor-light.png" alt="Snippet editor with a trigger, text with Insert buttons for date, time, clipboard and fill-in fields, and a live preview">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.7.0">
+  <img src="docs/screenshots/snippet-editor-light.png?v=0.7.0" alt="Snippet editor with a trigger, text with Insert buttons for date, time, clipboard and fill-in fields, and a live preview">
 </picture>
 
 ### 🔍 Text Extractor
@@ -178,8 +178,8 @@ A Wi-Fi password on a conference slide, a command in a video tutorial, an error 
 [100+ languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png">
-  <img src="docs/screenshots/ocr-light.png" alt="Text Extractor showing text read from a photo of a conference slide: a Wi-Fi password and a link">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.7.0">
+  <img src="docs/screenshots/ocr-light.png?v=0.7.0" alt="Text Extractor showing text read from a photo of a conference slide: a Wi-Fi password and a link">
 </picture>
 
 ### 🔎 What's Using This?
@@ -190,8 +190,8 @@ drive, file, folder or port and see which apps hold it, with what they have open
 you. Parts of the system itself are never offered for closing.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png">
-  <img src="docs/screenshots/using-light.png" alt="What's Using This? page listing the apps that keep a USB drive busy">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.7.0">
+  <img src="docs/screenshots/using-light.png?v=0.7.0" alt="What's Using This? page listing the apps that keep a USB drive busy">
 </picture>
 
 ### 🌙 Why Didn't It Sleep?
@@ -202,8 +202,8 @@ it and how much battery it used, and the USB devices allowed to wake it, with a 
 waking it up.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png">
-  <img src="docs/screenshots/sleep-light.png" alt="Why Didn't It Sleep? page listing what keeps the computer awake and recent sleeps">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.7.0">
+  <img src="docs/screenshots/sleep-light.png?v=0.7.0" alt="Why Didn't It Sleep? page listing what keeps the computer awake and recent sleeps">
 </picture>
 
 ## Why Voltkit
@@ -481,8 +481,8 @@ the repository locally: `APT_KEY_ID=<fingerprint> packaging/apt/build-repo.sh ta
 Created by **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png">
-  <img src="docs/screenshots/about-light.png" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.7.0">
+  <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
 </picture>
 
 ## License
