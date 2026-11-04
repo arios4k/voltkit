@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.8.0
+Version:        0.9.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -75,6 +75,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Wed Nov 04 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.0-1
+- Translate the app, command line, help and man pages into French and Simplified Chinese
+
 * Tue Nov 03 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.8.0-1
 - Translate the app, command line, help and man pages into Spanish and German
 - Follow the system language, falling back to English

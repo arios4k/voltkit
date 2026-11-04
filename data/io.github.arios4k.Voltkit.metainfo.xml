@@ -143,6 +143,15 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.9.0" date="2026-11-04">
+      <description>
+        <p>Voltkit now speaks French and Simplified Chinese.</p>
+        <p xml:lang="es">Voltkit ahora habla francés y chino simplificado.</p>
+        <p xml:lang="de">Voltkit spricht jetzt Französisch und vereinfachtes Chinesisch.</p>
+        <p xml:lang="fr">Voltkit parle maintenant français et chinois simplifié.</p>
+        <p xml:lang="zh_CN">Voltkit 现在支持法语和简体中文。</p>
+      </description>
+    </release>
     <release version="0.8.0" date="2026-11-03">
       <description>
         <p>Voltkit now speaks Spanish and German.</p>
