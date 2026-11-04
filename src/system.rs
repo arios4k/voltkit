@@ -6,6 +6,7 @@ use std::process::{Child, Command, ExitStatus, Stdio};
 use std::time::{Duration, Instant};
 
 use anyhow::{Context, Result, bail};
+use crate::i18n::tr;
 
 pub fn is_wayland() -> bool {
     std::env::var_os("WAYLAND_DISPLAY").is_some()
@@ -23,9 +24,9 @@ pub fn run(cmd: &mut Command) -> Result<Vec<u8>> {
     let program = cmd.get_program().to_string_lossy().into_owned();
     let out = cmd
         .output()
-        .with_context(|| format!("`{program}` is not installed; `voltkit doctor` shows how to install it"))?;
+        .with_context(|| trf!("`{}` is not installed; `voltkit doctor` shows how to install it", program))?;
     if !out.status.success() {
-        bail!("`{program}` failed: {}", String::from_utf8_lossy(&out.stderr).trim());
+        bail!("{}", trf!("`{}` failed: {}", program, String::from_utf8_lossy(&out.stderr).trim()));
     }
     Ok(out.stdout)
 }
@@ -44,7 +45,7 @@ fn wait_with_timeout(child: &mut Child, timeout: Duration) -> Result<ExitStatus>
         if start.elapsed() > timeout {
             let _ = child.kill();
             let _ = child.wait();
-            bail!("timed out after {}s", timeout.as_secs());
+            bail!("{}", trf!("timed out after {}s", timeout.as_secs()));
         }
         std::thread::sleep(Duration::from_millis(15));
     }
@@ -65,11 +66,11 @@ pub fn copy_to_clipboard(text: &str) -> Result<()> {
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .spawn()
-        .context("no clipboard tool found; `voltkit doctor` shows how to install one")?;
+        .context(tr("no clipboard tool found; `voltkit doctor` shows how to install one"))?;
     child.stdin.take().unwrap().write_all(text.as_bytes())?;
-    let status = wait_with_timeout(&mut child, CLIPBOARD_TIMEOUT).context("could not set the clipboard")?;
+    let status = wait_with_timeout(&mut child, CLIPBOARD_TIMEOUT).context(tr("could not set the clipboard"))?;
     if !status.success() {
-        bail!("could not set the clipboard ({status})");
+        bail!("{}", trf!("could not set the clipboard ({})", status));
     }
     Ok(())
 }
@@ -88,18 +89,18 @@ pub fn read_clipboard() -> Result<String> {
         .stdout(Stdio::piped())
         .stderr(Stdio::null())
         .spawn()
-        .context("no clipboard tool found; `voltkit doctor` shows how to install one")?;
+        .context(tr("no clipboard tool found; `voltkit doctor` shows how to install one"))?;
     // Read on another thread so a large clipboard can't fill the pipe and stall the child.
     let mut stdout = child.stdout.take().unwrap();
     let reader = std::thread::spawn(move || {
         let mut buf = Vec::new();
         stdout.read_to_end(&mut buf).map(|_| buf)
     });
-    let status = wait_with_timeout(&mut child, CLIPBOARD_TIMEOUT).context("could not read the clipboard")?;
-    let bytes = reader.join().map_err(|_| anyhow::anyhow!("clipboard reader crashed"))??;
+    let status = wait_with_timeout(&mut child, CLIPBOARD_TIMEOUT).context(tr("could not read the clipboard"))?;
+    let bytes = reader.join().map_err(|_| anyhow::anyhow!("{}", tr("clipboard reader crashed")))??;
     if !status.success() {
         // wl-paste fails when the clipboard is empty or holds no text.
-        bail!("clipboard has no text");
+        bail!("{}", tr("clipboard has no text"));
     }
     Ok(String::from_utf8_lossy(&bytes).into_owned())
 }

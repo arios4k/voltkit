@@ -91,7 +91,7 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         if let (Ok(name), Some(settings)) = (std::env::var(var), gtk::Settings::default()) {
             settings.set_gtk_theme_name(Some(&name));
         }
-        for (i, module) in modules::ALL.iter().enumerate() {
+        for (i, module) in modules::sorted().into_iter().enumerate() {
             sidebar.select_row(sidebar.row_at_index(i as i32).as_ref());
             hide_banners(&window);
             glib::timeout_future(SETTLE).await;
@@ -99,7 +99,7 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         }
 
         // The snippet editor, opened on a snippet with fill-in fields.
-        if let Some(index) = modules::ALL.iter().position(|module| module.id == "snippets") {
+        if let Some(index) = modules::sorted().into_iter().position(|module| module.id == "snippets") {
             sidebar.select_row(sidebar.row_at_index(index as i32).as_ref());
         }
         glib::timeout_future(SETTLE).await;
@@ -118,7 +118,7 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         }
 
         // A fictional color preview is a neutral backdrop for the About dialog.
-        if let Some(index) = modules::ALL.iter().position(|module| module.id == "color") {
+        if let Some(index) = modules::sorted().into_iter().position(|module| module.id == "color") {
             sidebar.select_row(sidebar.row_at_index(index as i32).as_ref());
         }
         let about = app::about_dialog();

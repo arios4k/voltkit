@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="alternate" hreflang="en" href="index.html">
+<link rel="alternate" hreflang="es" href="index.es.html">
+<link rel="alternate" hreflang="de" href="index.de.html">
+<title>Voltkit-APT-Repository</title>
+<style>
+  :root { --bg: #fafafa; --fg: #1f2328; --muted: #59636e; --card: #fff; --border: #d1d9e0; --accent: #5b3fd6; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0f1117; --fg: #e6edf3; --muted: #9198a1; --card: #161b22; --border: #30363d; --accent: #a78bfa; }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { margin: 0 0 4px; font-size: 2rem; }
+  h2 { margin-top: 2rem; font-size: 1.15rem; }
+  p.lead { color: var(--muted); margin-top: 0; }
+  pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+        overflow-x: auto; font: 14px/1.5 ui-monospace, monospace; }
+  code { font-family: ui-monospace, monospace; }
+  a { color: var(--accent); }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  .langs { float: right; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <nav class="langs"><a href="index.html" hreflang="en" lang="en">English</a> · <a href="index.es.html" hreflang="es" lang="es">Español</a> · <strong>Deutsch</strong></nav>
+  <h1>⚡ Voltkit</h1>
+  <p class="lead">Praktische Werkzeuge für Ihren Linux-Desktop: Texterkennung, ein QR-Code-Scanner und
+  -Generator, ein Farbwähler, ein Bildschirmlineal, ein Bild- und Videokompressor, Textbausteine, „Wach
+  halten“, ein Editor für hosts und Umgebungsvariablen, „Intelligentes Einfügen“, eine Suche nach „Was belegt
+  das?“, eine Verwaltung für App-Berechtigungen, eine Fehlersuche für die Bereitschaft, ein Systembericht und ein
+  Tastenkürzel-Detektiv – in einer nativen GTK4-App. Auf Deutsch, Englisch und Spanisch.</p>
+
+  <h2>Installation</h2>
+  <p>Für Ubuntu 24.04+, Debian 13+ und Abkömmlinge (Linux Mint 22, Zorin OS 18, Pop!_OS 24.04) auf 64-Bit-Intel/AMD:</p>
+  <pre><code>sudo curl -fsSLo /usr/share/keyrings/voltkit-archive-keyring.gpg \
+  https://arios4k.github.io/voltkit/voltkit-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://arios4k.github.io/voltkit stable main" \
+  | sudo tee /etc/apt/sources.list.d/voltkit.list
+
+sudo apt update
+sudo apt install voltkit</code></pre>
+
+  <p>Aktualisierungen kommen mit <code>sudo apt upgrade</code>.</p>
+
+  <h2>Installation unter Fedora</h2>
+  <p>Für Fedora 43 und neuer auf 64-Bit-Intel/AMD, aus dem <a href="https://copr.fedorainfracloud.org/coprs/arios/voltkit/">COPR-Repository</a>:</p>
+  <pre><code>sudo dnf copr enable arios/voltkit
+sudo dnf install voltkit</code></pre>
+
+  <h2>Einrichtung</h2>
+  <p>Öffnen Sie Voltkit aus Ihren Apps. Das ist alles: Es startet seinen Hintergrunddienst (der auch bei
+  jeder Anmeldung startet) und fügt unter GNOME seine Tastenkürzel hinzu. <code>voltkit doctor</code> prüft,
+  ob alles eingerichtet ist.</p>
+
+  <h2>Deinstallation</h2>
+  <pre><code>sudo apt remove voltkit
+sudo rm /etc/apt/sources.list.d/voltkit.list /usr/share/keyrings/voltkit-archive-keyring.gpg</code></pre>
+
+  <p class="muted">Quellcode, Dokumentation und Fehlermeldungen: <a href="https://github.com/arios4k/voltkit/blob/main/README.de.md">github.com/arios4k/voltkit</a>.
+  Die Pakete sind signiert; der Schlüssel ist <a href="voltkit-archive-keyring.gpg">voltkit-archive-keyring.gpg</a>.</p>
+</main>
+</body>
+</html>

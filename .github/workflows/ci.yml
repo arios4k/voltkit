@@ -11,6 +11,8 @@ jobs:
           components: clippy
       - run: cargo clippy -- -D warnings
       - run: cargo test
+      # Every message in the sources is in each translation, and the catalogs are current.
+      - run: python3 po/update.py --check
 
   # Build the Fedora package from this commit, in real Fedora, so packaging
   # problems show up before a release is published.

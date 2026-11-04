@@ -6,10 +6,11 @@ use anyhow::{Context, Result, bail};
 use gtk::gdk_pixbuf::{Colorspace, Pixbuf};
 
 use super::ocr;
+use crate::i18n::tr;
 
 /// Reads every QR code in an image file.
 pub fn decode_file(path: &Path) -> Result<Vec<String>> {
-    let pixbuf = Pixbuf::from_file(path).with_context(|| format!("cannot open {}", path.display()))?;
+    let pixbuf = Pixbuf::from_file(path).with_context(|| trf!("cannot open {}", path.display()))?;
     Ok(decode_pixbuf(&pixbuf))
 }
 
@@ -35,7 +36,7 @@ pub async fn scan(parent: Option<&str>) -> Result<Vec<String>> {
     let _ = std::fs::remove_file(&image);
     let codes = codes?;
     if codes.is_empty() {
-        bail!("no QR code found in the selected area");
+        bail!("{}", tr("no QR code found in the selected area"));
     }
     Ok(codes)
 }
@@ -60,11 +61,11 @@ pub fn encode(text: &str) -> Result<Matrix> {
 /// part of the code: up to 30% of it can then be lost and still read.
 pub fn encode_for(text: &str, with_logo: bool) -> Result<Matrix> {
     if text.is_empty() {
-        bail!("nothing to encode");
+        bail!("{}", tr("nothing to encode"));
     }
     let level = if with_logo { qrcode::EcLevel::H } else { qrcode::EcLevel::M };
     let code = qrcode::QrCode::with_error_correction_level(text.as_bytes(), level)
-        .context("text is too long for a QR code")?;
+        .context(tr("text is too long for a QR code"))?;
     let dark = code.to_colors().into_iter().map(|c| c == qrcode::Color::Dark).collect();
     Ok(Matrix { width: code.width(), dark })
 }
@@ -113,28 +114,28 @@ const LOGO_PIXELS: i32 = 512;
 /// Loads an image to use as a logo, refusing anything that isn't a PNG, JPEG,
 /// WebP or SVG of reasonable size and shape.
 pub fn load_logo(path: &Path) -> Result<Pixbuf> {
-    let bytes = std::fs::metadata(path).with_context(|| format!("cannot open {}", path.display()))?.len();
+    let bytes = std::fs::metadata(path).with_context(|| trf!("cannot open {}", path.display()))?.len();
     if bytes > LOGO_MAX_BYTES {
-        bail!("the image is too large ({} MB); use one under 5 MB", bytes / (1024 * 1024));
+        bail!("{}", trf!("the image is too large ({} MB); use one under 5 MB", bytes / (1024 * 1024)));
     }
     let Some((format, w, h)) = Pixbuf::file_info(path) else {
-        bail!("not an image Voltkit can read; use a PNG, JPEG, WebP or SVG");
+        bail!("{}", tr("not an image Voltkit can read; use a PNG, JPEG, WebP or SVG"));
     };
     let name = format.name().map(|n| n.to_string()).unwrap_or_default();
     if !LOGO_FORMATS.contains(&name.as_str()) {
-        bail!("{} images can't be used as a logo; use a PNG, JPEG, WebP or SVG", name.to_uppercase());
+        bail!("{}", trf!("{} images can't be used as a logo; use a PNG, JPEG, WebP or SVG", name.to_uppercase()));
     }
     if name != "svg" && (w < LOGO_MIN_SIDE || h < LOGO_MIN_SIDE) {
-        bail!("the image is too small ({w}×{h}); use one at least {LOGO_MIN_SIDE}×{LOGO_MIN_SIDE} pixels");
+        bail!("{}", trf!("the image is too small ({}×{}); use one at least {}×{} pixels", w, h, LOGO_MIN_SIDE, LOGO_MIN_SIDE));
     }
     if w > LOGO_MAX_SIDE || h > LOGO_MAX_SIDE {
-        bail!("the image is too large ({w}×{h}); use one under {LOGO_MAX_SIDE}×{LOGO_MAX_SIDE} pixels");
+        bail!("{}", trf!("the image is too large ({}×{}); use one under {}×{} pixels", w, h, LOGO_MAX_SIDE, LOGO_MAX_SIDE));
     }
     if w.max(h) > 2 * w.min(h).max(1) {
-        bail!("the image is too wide or tall ({w}×{h}); use a square-ish logo");
+        bail!("{}", trf!("the image is too wide or tall ({}×{}); use a square-ish logo", w, h));
     }
     Pixbuf::from_file_at_scale(path, LOGO_PIXELS, LOGO_PIXELS, true)
-        .with_context(|| format!("cannot read {}", path.display()))
+        .with_context(|| trf!("cannot read {}", path.display()))
 }
 
 /// Renders a QR code with `logo` in the middle, on a white square that

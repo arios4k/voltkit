@@ -1,0 +1,54 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-report 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-report \- Diesen Computer beschreiben: Hardware, Treiber, Zustand und letzte Änderungen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit report\fR [\fB\-\-memory\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Diesen Computer beschreiben: Hardware, Treiber, Zustand und letzte Änderungen
+.PP
+Gibt einen Bericht aus, der sich gefahrlos in einem Forum oder Fehlerbericht teilen lässt (keine Seriennummern, Namen oder Netzwerkadressen), mit Prüfungen und Lösungen für Treiber, Laufwerkszustand, Speicherplatz, Temperaturen und Firmware\-Aktualisierungen. Speichert außerdem die heutige Aufnahme, damit spätere Berichte zeigen können, was sich geändert hat.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-\-memory\fR
+Auch Speichersteckplätze und Aufrüstoptionen anzeigen (fragt nach dem Administratorpasswort)
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH HINWEISE
+.PP
+Der Bericht lässt Seriennummern, Benutzer\- und Computernamen sowie Netzwerkadressen weg, sodass er in einem Forum oder Fehlerbericht veröffentlicht werden kann. Der Laufwerkszustand stammt von UDisks2, Firmware\-Aktualisierungen von fwupd. Jeder Aufruf (und der Hintergrunddienst einmal täglich) speichert eine Aufnahme von Hardware, Treibern, Kernel und Firmware in ~/.local/share/voltkit/snapshots, mit der spätere Berichte vergleichen, was sich geändert hat. \-\-memory liest die Speichersteckplätze aus den SMBIOS\-Tabellen, wofür das Administratorpasswort nötig ist.
+.SH BEISPIELE
+.PP
+Den Bericht kopieren, um ihn in einem Forenbeitrag einzufügen:
+.RS 4
+.nf
+\fBvoltkit report | wl\-copy\fR
+.fi
+.RE
+.PP
+Speichersteckplätze und Aufrüstoptionen einbeziehen:
+.RS 4
+.nf
+\fBvoltkit report \-\-memory\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

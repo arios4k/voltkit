@@ -9,6 +9,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 use anyhow::{Context, Result, bail};
+use crate::i18n::tr;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Target {
@@ -22,18 +23,18 @@ impl Target {
         let text = text.trim();
         let digits = text.strip_prefix(':').unwrap_or(text);
         if !digits.is_empty() && digits.chars().all(|c| c.is_ascii_digit()) {
-            let port: u16 = digits.parse().ok().filter(|&p| p > 0).context("ports go from 1 to 65535")?;
+            let port: u16 = digits.parse().ok().filter(|&p| p > 0).context(tr("ports go from 1 to 65535"))?;
             return Ok(Target::Port(port));
         }
         let path = Path::new(text);
-        let path = path.canonicalize().with_context(|| format!("{} doesn't exist", path.display()))?;
+        let path = path.canonicalize().with_context(|| trf!("{} doesn't exist", path.display()))?;
         Ok(Target::Path(path))
     }
 
     pub fn describe(&self) -> String {
         match self {
             Target::Path(p) => p.display().to_string(),
-            Target::Port(p) => format!("port {p}"),
+            Target::Port(p) => trf!("port {}", p),
         }
     }
 }
@@ -138,19 +139,19 @@ fn path_uses(proc_dir: &Path, target: &Path) -> Option<Vec<String>> {
         if let Ok(link) = std::fs::read_link(fd.path()) {
             let link = strip_deleted(&link);
             if inside(&link) && seen.insert(link.clone()) {
-                uses.push(format!("has {} open", link.display()));
+                uses.push(trf!("has {} open", link.display()));
             }
         }
     }
     if let Ok(cwd) = std::fs::read_link(proc_dir.join("cwd"))
         && inside(&cwd)
     {
-        uses.push(format!("is working in {}", cwd.display()));
+        uses.push(trf!("is working in {}", cwd.display()));
     }
     if let Ok(exe) = std::fs::read_link(proc_dir.join("exe")) {
         let exe = strip_deleted(&exe);
         if inside(&exe) {
-            uses.push(format!("is running from {}", exe.display()));
+            uses.push(trf!("is running from {}", exe.display()));
             seen.insert(exe);
         }
     }
@@ -160,7 +161,7 @@ fn path_uses(proc_dir: &Path, target: &Path) -> Option<Vec<String>> {
             let Some(path) = line.split_whitespace().nth(5).filter(|p| p.starts_with('/')) else { continue };
             let path = strip_deleted(Path::new(path));
             if inside(&path) && seen.insert(path.clone()) {
-                uses.push(format!("has {} loaded", path.display()));
+                uses.push(trf!("has {} loaded", path.display()));
             }
         }
     }
@@ -199,9 +200,9 @@ fn parse_sockets(text: &str, proto: &str, port: u16) -> Vec<(u64, String)> {
                 return None;
             }
             match proto {
-                "TCP" if state == LISTEN => Some((inode, format!("is listening on TCP port {port}"))),
-                "TCP" => Some((inode, format!("has a TCP connection on port {port}"))),
-                _ => Some((inode, format!("is using UDP port {port}"))),
+                "TCP" if state == LISTEN => Some((inode, trf!("is listening on TCP port {}", port))),
+                "TCP" => Some((inode, trf!("has a TCP connection on port {}", port))),
+                _ => Some((inode, trf!("is using UDP port {}", port))),
             }
         })
         .collect()
@@ -246,31 +247,31 @@ fn app_id_from_unit(unit: &str) -> Option<String> {
 /// Parts of the system Voltkit won't close, with what they are.
 fn protection(pid: u32, command: &str) -> Option<&'static str> {
     if pid == 1 {
-        return Some("the system's service manager");
+        return Some(tr("the system's service manager"));
     }
     const PARTS: &[(&str, &str)] = &[
-        ("gnome-shell", "the desktop itself"),
-        ("plasmashell", "the desktop itself"),
-        ("kwin", "the window manager"),
-        ("Xwayland", "the display server"),
-        ("Xorg", "the display server"),
-        ("gnome-session", "your login session"),
-        ("systemd", "a system service manager"),
-        ("dbus-", "the message bus apps use to talk to each other"),
-        ("gdm", "the login screen"),
-        ("sshd", "the remote login service"),
-        ("login", "your login session"),
-        ("polkit", "the system's permission service"),
-        ("udisksd", "the drive manager"),
-        ("gvfs", "the desktop's file system service"),
-        ("xdg-", "a desktop portal service"),
-        ("pipewire", "the sound and video service"),
-        ("wireplumber", "the sound and video service"),
-        ("pulseaudio", "the sound service"),
-        ("NetworkManager", "the network service"),
-        ("voltkit", "Voltkit itself"),
+        ("gnome-shell", N_!("the desktop itself")),
+        ("plasmashell", N_!("the desktop itself")),
+        ("kwin", N_!("the window manager")),
+        ("Xwayland", N_!("the display server")),
+        ("Xorg", N_!("the display server")),
+        ("gnome-session", N_!("your login session")),
+        ("systemd", N_!("a system service manager")),
+        ("dbus-", N_!("the message bus apps use to talk to each other")),
+        ("gdm", N_!("the login screen")),
+        ("sshd", N_!("the remote login service")),
+        ("login", N_!("your login session")),
+        ("polkit", N_!("the system's permission service")),
+        ("udisksd", N_!("the drive manager")),
+        ("gvfs", N_!("the desktop's file system service")),
+        ("xdg-", N_!("a desktop portal service")),
+        ("pipewire", N_!("the sound and video service")),
+        ("wireplumber", N_!("the sound and video service")),
+        ("pulseaudio", N_!("the sound service")),
+        ("NetworkManager", N_!("the network service")),
+        ("voltkit", N_!("Voltkit itself")),
     ];
-    PARTS.iter().find(|(prefix, _)| command.starts_with(prefix)).map(|(_, what)| *what)
+    PARTS.iter().find(|(prefix, _)| command.starts_with(prefix)).map(|(_, what)| tr(what))
 }
 
 /// Whether the process is still running (and is still the same process).
@@ -286,7 +287,7 @@ pub fn is_running(pid: u32, start: u64) -> bool {
 /// administrator password.
 pub fn close(holder: &Holder, force: bool) -> Result<()> {
     if holder.protected().is_some() {
-        bail!("{} is part of the system, so Voltkit won't close it", holder.command);
+        bail!("{}", trf!("{} is part of the system, so Voltkit won't close it", holder.command));
     }
     if !is_running(holder.pid, holder.start) {
         return Ok(());
@@ -299,12 +300,12 @@ pub fn close(holder: &Holder, force: bool) -> Result<()> {
     } else {
         Command::new("pkexec").args(["kill", signal, &pid]).output()
     }
-    .context("could not run kill")?;
+    .context(tr("could not run kill"))?;
     match output.status.code() {
         Some(0) => Ok(()),
-        Some(126) | Some(127) if !mine => bail!("not closed: permission was not granted"),
+        Some(126) | Some(127) if !mine => bail!("{}", tr("not closed: permission was not granted")),
         _ if !is_running(holder.pid, holder.start) => Ok(()),
-        _ => bail!("could not close {}: {}", holder.command, String::from_utf8_lossy(&output.stderr).trim()),
+        _ => bail!("{}", trf!("could not close {}: {}", holder.command, String::from_utf8_lossy(&output.stderr).trim())),
     }
 }
 
@@ -386,10 +387,15 @@ pub fn scan_as_root(target: &Target) -> Result<Scan> {
         Target::Path(p) => p.to_string_lossy().into_owned(),
         Target::Port(p) => p.to_string(),
     };
-    let output = Command::new("pkexec").arg(exe).args(["using", "--machine", "--"]).arg(arg).output().context("pkexec is needed")?;
+    let output = Command::new("pkexec")
+        .arg(exe)
+        .args(["using", "--machine", "--lang", crate::i18n::language(), "--"])
+        .arg(arg)
+        .output()
+        .context(tr("pkexec is needed"))?;
     match output.status.code() {
         Some(0) => Ok(from_machine(&String::from_utf8_lossy(&output.stdout))),
-        Some(126) | Some(127) => bail!("permission was not granted"),
+        Some(126) | Some(127) => bail!("{}", tr("permission was not granted")),
         _ => bail!("{}", String::from_utf8_lossy(&output.stderr).trim()),
     }
 }

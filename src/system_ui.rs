@@ -10,6 +10,7 @@ use gtk::{gio, glib};
 use crate::app::toast;
 use crate::modules::envvars::{self, Var};
 use crate::modules::hosts::{self, Entry, HostsFile};
+use crate::i18n::tr;
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = crate::workspace::Workspace::new();
@@ -43,18 +44,18 @@ struct HostsEditor {
 
 impl HostsEditor {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
-        let add = header_button("list-add-symbolic", "Add Entry");
+        let add = header_button("list-add-symbolic", tr("Add Entry"));
         let group = adw::PreferencesGroup::builder()
-            .title("Hosts File")
+            .title(tr("Hosts File"))
             .description(
-                "Point names at addresses on this computer, such as myapp.test → 127.0.0.1. Turn entries off \
+                tr("Point names at addresses on this computer, such as myapp.test → 127.0.0.1. Turn entries off \
                  instead of deleting them to keep them for later. Saving asks for your password and keeps a \
-                 backup in /etc/hosts.voltkit-backup.",
+                 backup in /etc/hosts.voltkit-backup."),
             )
             .header_suffix(&crate::app::spaced(&add))
             .build();
-        let save = gtk::Button::builder().label("Save Changes").css_classes(["suggested-action"]).sensitive(false).build();
-        let discard = gtk::Button::builder().label("Discard").sensitive(false).build();
+        let save = gtk::Button::builder().label(tr("Save Changes")).css_classes(["suggested-action"]).sensitive(false).build();
+        let discard = gtk::Button::builder().label(tr("Discard")).sensitive(false).build();
         let editor = Rc::new(Self {
             group,
             rows: RefCell::default(),
@@ -66,8 +67,8 @@ impl HostsEditor {
             toasts: toasts.clone(),
         });
         let unlock = adw::SwitchRow::builder()
-            .title("Allow editing system entries")
-            .subtitle("Changing localhost or your computer's name can break networking and sudo. A backup is kept either way.")
+            .title(tr("Allow editing system entries"))
+            .subtitle(tr("Changing localhost or your computer's name can break networking and sudo. A backup is kept either way."))
             .build();
         editor.group.add(&unlock);
         let weak = Rc::downgrade(&editor);
@@ -131,21 +132,21 @@ impl HostsEditor {
             let enabled = gtk::Switch::builder()
                 .active(entry.enabled)
                 .valign(gtk::Align::Center)
-                .tooltip_text(if entry.enabled { "On" } else { "Off" })
+                .tooltip_text(if entry.enabled { tr("On") } else { tr("Off") })
                 .build();
             if entry.is_system() && !self.unlocked.get() {
                 // Shown for completeness, but changing these breaks networking or sudo.
                 row.add_suffix(
                     &gtk::Image::builder()
                         .icon_name("changes-prevent-symbolic")
-                        .tooltip_text("System entry, kept as it is")
+                        .tooltip_text(tr("System entry, kept as it is"))
                         .build(),
                 );
                 enabled.set_sensitive(false);
                 row.add_suffix(&enabled);
             } else {
-                let edit = flat_button("document-edit-symbolic", "Edit");
-                let delete = flat_button("user-trash-symbolic", "Delete");
+                let edit = flat_button("document-edit-symbolic", tr("Edit"));
+                let delete = flat_button("user-trash-symbolic", tr("Delete"));
                 row.add_suffix(&enabled);
                 row.add_suffix(&edit);
                 row.add_suffix(&delete);
@@ -181,25 +182,25 @@ impl HostsEditor {
     fn edit(self: &Rc<Self>, parent: &impl IsA<gtk::Widget>, index: Option<usize>) {
         let existing = index.and_then(|i| self.file.borrow().get(i).cloned());
         let fields = [
-            ("IP address", existing.as_ref().map_or("127.0.0.1".into(), |e| e.ip.clone())),
-            ("Host names, separated by spaces", existing.as_ref().map_or(String::new(), |e| e.names.join(" "))),
-            ("Note (optional)", existing.as_ref().map_or(String::new(), |e| e.comment.clone())),
+            (tr("IP address"), existing.as_ref().map_or("127.0.0.1".into(), |e| e.ip.clone())),
+            (tr("Host names, separated by spaces"), existing.as_ref().map_or(String::new(), |e| e.names.join(" "))),
+            (tr("Note (optional)"), existing.as_ref().map_or(String::new(), |e| e.comment.clone())),
         ];
         let weak = Rc::downgrade(self);
         form_dialog(
             parent.as_ref(),
-            if existing.is_some() { "Edit Host Entry" } else { "New Host Entry" },
+            if existing.is_some() { tr("Edit Host Entry") } else { tr("New Host Entry") },
             &fields,
             |values| {
                 if !hosts::valid_ip(values[0].trim()) {
-                    return Err("Enter an IP address, such as 127.0.0.1 or ::1.".into());
+                    return Err(tr("Enter an IP address, such as 127.0.0.1 or ::1.").into());
                 }
                 let names: Vec<&str> = values[1].split_whitespace().collect();
                 if names.is_empty() {
-                    return Err("Enter at least one host name, such as myapp.test.".into());
+                    return Err(tr("Enter at least one host name, such as myapp.test.").into());
                 }
                 if let Some(bad) = names.iter().find(|n| !hosts::valid_name(n)) {
-                    return Err(format!("“{bad}” isn't a valid host name (letters, digits, dots and dashes)."));
+                    return Err(trf!("“{}” isn't a valid host name (letters, digits, dots and dashes).", bad));
                 }
                 Ok(())
             },
@@ -231,7 +232,7 @@ impl HostsEditor {
             let result = gio::spawn_blocking(move || hosts::save(&file)).await;
             match result {
                 Ok(Ok(())) => {
-                    toast(&this.toasts, format!("Saved {}. The previous version is in {}.", hosts::PATH, hosts::BACKUP));
+                    toast(&this.toasts, trf!("Saved {}. The previous version is in {}.", hosts::PATH, hosts::BACKUP));
                     this.reload();
                 }
                 Ok(Err(e)) => {
@@ -259,12 +260,12 @@ struct EnvEditor {
 
 impl EnvEditor {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
-        let add = header_button("list-add-symbolic", "Add Variable");
+        let add = header_button("list-add-symbolic", tr("Add Variable"));
         let group = adw::PreferencesGroup::builder()
-            .title("Environment Variables")
+            .title(tr("Environment Variables"))
             .description(
-                "Set for every app in your desktop session. They apply the next time you log in (restart if \
-                 logging out isn't enough). To add to a list like PATH, use ${PATH}:/new/folder.",
+                tr("Set for every app in your desktop session. They apply the next time you log in (restart if \
+                 logging out isn't enough). To add to a list like PATH, use ${PATH}:/new/folder."),
             )
             .header_suffix(&crate::app::spaced(&add))
             .build();
@@ -272,12 +273,12 @@ impl EnvEditor {
             toast(toasts, format!("{e:#}"));
             Vec::new()
         });
-        let search = gtk::SearchEntry::builder().placeholder_text("Filter variables").margin_bottom(6).build();
+        let search = gtk::SearchEntry::builder().placeholder_text(tr("Filter variables")).margin_bottom(6).build();
         let session_group = adw::PreferencesGroup::builder()
-            .title("Already in Your Session")
+            .title(tr("Already in Your Session"))
             .description(
-                "Set by the system or your shell. Override one to give it a new value from Voltkit. A value set in \
-                 ~/.bashrc still wins in terminals.",
+                tr("Set by the system or your shell. Override one to give it a new value from Voltkit. A value set in \
+                 ~/.bashrc still wins in terminals."),
             )
             .build();
         session_group.add(&search);
@@ -317,7 +318,7 @@ impl EnvEditor {
                 .subtitle(glib::markup_escape_text(&value))
                 .subtitle_lines(1)
                 .build();
-            let override_button = gtk::Button::builder().label("Override").valign(gtk::Align::Center).build();
+            let override_button = gtk::Button::builder().label(tr("Override")).valign(gtk::Align::Center).build();
             row.add_suffix(&override_button);
             let weak = Rc::downgrade(self);
             let prefill = Var { name, value };
@@ -336,8 +337,8 @@ impl EnvEditor {
         let mut rows = self.rows.borrow_mut();
         if vars.is_empty() {
             let row = adw::ActionRow::builder()
-                .title("No variables yet")
-                .subtitle("Click Add Variable to set one, such as EDITOR=nano.")
+                .title(tr("No variables yet"))
+                .subtitle(tr("Click Add Variable to set one, such as EDITOR=nano."))
                 .build();
             self.group.add(&row);
             rows.push(row.upcast());
@@ -349,8 +350,8 @@ impl EnvEditor {
                 .subtitle(glib::markup_escape_text(&var.value))
                 .subtitle_selectable(true)
                 .build();
-            let edit = flat_button("document-edit-symbolic", "Edit");
-            let delete = flat_button("user-trash-symbolic", "Delete");
+            let edit = flat_button("document-edit-symbolic", tr("Edit"));
+            let delete = flat_button("user-trash-symbolic", tr("Delete"));
             row.add_suffix(&edit);
             row.add_suffix(&delete);
             let weak = Rc::downgrade(self);
@@ -366,7 +367,7 @@ impl EnvEditor {
         match envvars::save(&self.vars.borrow()) {
             Ok(_) => true,
             Err(e) => {
-                toast(&self.toasts, format!("Could not save: {e:#}"));
+                toast(&self.toasts, trf!("Could not save: {}", format!("{:#}", e)));
                 false
             }
         }
@@ -379,7 +380,7 @@ impl EnvEditor {
             return;
         }
         self.rebuild();
-        let undo = adw::Toast::builder().title(format!("Deleted {}", removed.name)).button_label("Undo").build();
+        let undo = adw::Toast::builder().title(trf!("Deleted {}", removed.name)).button_label(tr("Undo")).build();
         let weak = Rc::downgrade(self);
         undo.connect_button_clicked(move |_| {
             with_env(&weak, |e| {
@@ -399,24 +400,24 @@ impl EnvEditor {
         let others: Vec<String> =
             self.vars.borrow().iter().enumerate().filter(|(i, _)| Some(*i) != index).map(|(_, v)| v.name.clone()).collect();
         let fields = [
-            ("Name", existing.as_ref().map_or(String::new(), |v| v.name.clone())),
-            ("Value", existing.as_ref().map_or(String::new(), |v| v.value.clone())),
+            (tr("Name"), existing.as_ref().map_or(String::new(), |v| v.name.clone())),
+            (tr("Value"), existing.as_ref().map_or(String::new(), |v| v.value.clone())),
         ];
         let weak = Rc::downgrade(self);
         form_dialog(
             parent.as_ref(),
-            if index.is_some() { "Edit Variable" } else if existing.is_some() { "Override Variable" } else { "New Variable" },
+            if index.is_some() { tr("Edit Variable") } else if existing.is_some() { tr("Override Variable") } else { tr("New Variable") },
             &fields,
             move |values| {
                 let name = values[0].trim();
                 if !envvars::valid_name(name) {
-                    return Err("Names use letters, digits and underscores, and don't start with a digit.".into());
+                    return Err(tr("Names use letters, digits and underscores, and don't start with a digit.").into());
                 }
                 if others.iter().any(|o| o == name) {
-                    return Err(format!("{name} is already set; edit that one instead."));
+                    return Err(trf!("{} is already set; edit that one instead.", name));
                 }
                 if values[1].contains('\n') {
-                    return Err("Values must fit on one line.".into());
+                    return Err(tr("Values must fit on one line.").into());
                 }
                 Ok(())
             },
@@ -430,7 +431,7 @@ impl EnvEditor {
                     }
                     if e.save() {
                         e.rebuild();
-                        toast(&e.toasts, format!("Saved {name}. Log out and back in to apply it."));
+                        toast(&e.toasts, trf!("Saved {}. Log out and back in to apply it.", name));
                     }
                 })
             },
@@ -479,8 +480,8 @@ fn form_dialog(
     on_save: impl Fn(Vec<String>) + 'static,
 ) {
     let dialog = adw::Dialog::builder().title(title).content_width(460).build();
-    let cancel = gtk::Button::with_label("Cancel");
-    let save = gtk::Button::builder().label("Save").css_classes(["suggested-action"]).build();
+    let cancel = gtk::Button::with_label(tr("Cancel"));
+    let save = gtk::Button::builder().label(tr("Save")).css_classes(["suggested-action"]).build();
     let header = adw::HeaderBar::builder().show_start_title_buttons(false).show_end_title_buttons(false).build();
     header.pack_start(&cancel);
     header.pack_end(&save);

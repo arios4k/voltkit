@@ -5,6 +5,7 @@
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
+use crate::i18n::tr;
 
 const FILE_NAME: &str = "90-voltkit.conf";
 const HEADER: &str = "# Environment variables set in Voltkit. Applied at login.\n";
@@ -61,11 +62,11 @@ pub fn render(vars: &[Var]) -> String {
 
 pub fn load() -> Result<Vec<Var>> {
     let Some(path) = path().filter(|p| p.exists()) else { return Ok(Vec::new()) };
-    Ok(parse(&std::fs::read_to_string(&path).with_context(|| format!("cannot read {}", path.display()))?))
+    Ok(parse(&std::fs::read_to_string(&path).with_context(|| trf!("cannot read {}", path.display()))?))
 }
 
 pub fn save(vars: &[Var]) -> Result<PathBuf> {
-    let path = path().context("no config directory")?;
+    let path = path().context(tr("no config directory"))?;
     std::fs::create_dir_all(path.parent().unwrap())?;
     std::fs::write(&path, render(vars))?;
     Ok(path)

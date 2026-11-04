@@ -7,6 +7,7 @@ use anyhow::{Context, Result, bail};
 
 use crate::portal;
 use crate::system::{self, has};
+use crate::i18n::tr;
 
 /// Interactive region capture backends, tried in order.
 fn region_capture_command(out: &Path) -> Option<Command> {
@@ -44,18 +45,18 @@ pub async fn capture_region(parent: Option<&str>) -> Result<PathBuf> {
         Err(e) if e.is::<portal::Cancelled>() => Err(e),
         Err(portal_err) => tokio::task::spawn_blocking(capture_region_with_tool)
             .await?
-            .with_context(|| format!("screenshot portal failed ({portal_err}) and so did the fallback")),
+            .with_context(|| trf!("screenshot portal failed ({}) and so did the fallback", portal_err)),
     }
 }
 
 fn capture_region_with_tool() -> Result<PathBuf> {
     let path = std::env::temp_dir().join(format!("voltkit-ocr-{}.png", std::process::id()));
     let Some(mut cmd) = region_capture_command(&path) else {
-        bail!("no region screenshot tool found (install grim+slurp, gnome-screenshot, spectacle or maim)");
+        bail!("{}", tr("no region screenshot tool found (install grim+slurp, gnome-screenshot, spectacle or maim)"));
     };
     system::run(&mut cmd)?;
     if !path.exists() {
-        bail!("capture cancelled");
+        bail!("{}", tr("capture cancelled"));
     }
     Ok(path)
 }
@@ -73,7 +74,7 @@ pub async fn extract_text(lang: &str, parent: Option<&str>) -> Result<String> {
     let _ = std::fs::remove_file(&image);
     let text = text?;
     if text.is_empty() {
-        bail!("no text found in the selected region");
+        bail!("{}", tr("no text found in the selected region"));
     }
     Ok(text)
 }

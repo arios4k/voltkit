@@ -1,0 +1,57 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-picker 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-picker \- Die Bausteinauswahl öffnen und den gewählten Baustein in die aktive App einfügen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit picker\fR [\fB\-\-snippet\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Die Bausteinauswahl öffnen und den gewählten Baustein in die aktive App einfügen
+.PP
+Mit der Tastatur suchen, die Eingabetaste drücken und eventuelle {arg:NAME}\-Parameter ausfüllen. Der erweiterte Text wird über das RemoteDesktop\-Portal in die App eingefügt, die den Fokus hatte (der Desktop fragt einmal nach Erlaubnis), und die vorherige Zwischenablage wird wiederhergestellt.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-\-snippet\fR \fI<TRIGGER>\fR
+Direkt beim Baustein mit diesem Kürzel öffnen
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH TASTEN
+.TP
+\fBAuf, Ab\fR
+Einen Baustein wählen, während Sie im Suchfeld tippen.
+.TP
+\fBEingabe\fR
+Den Baustein einfügen oder zum nächsten Parameterfeld wechseln.
+.TP
+\fBEscape\fR
+Vom Parameterformular zurückgehen oder die Auswahl schließen.
+.SH HINWEISE
+.PP
+Beim ersten Einfügen wird um die Fernsteuerungsberechtigung gebeten; die Freigabe wird in ~/.local/state/voltkit/remote\-desktop\-token gespeichert. Wird das Einfügen abgelehnt oder ist es nicht verfügbar, bleibt der erweiterte Text in der Zwischenablage, und eine Benachrichtigung bittet, Strg+V zu drücken. Apps, die mit einem anderen Tastenkürzel einfügen, etwa Terminals, brauchen paste_shortcut im Abschnitt [expander] der Konfiguration.
+.SH BEISPIELE
+.PP
+Die Auswahl direkt im Formular eines Bausteins öffnen:
+.RS 4
+.nf
+\fBvoltkit picker \-\-snippet \*(Aq;quote\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

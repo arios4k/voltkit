@@ -1,0 +1,78 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-qr 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-qr \- QR\-Codes vom Bildschirm oder aus Bilddateien lesen oder aus Text erstellen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit qr\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIbefehle\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+QR\-Codes vom Bildschirm oder aus Bilddateien lesen oder aus Text erstellen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEFEHLE
+.TP
+\fBvoltkit qr scan\fR
+Einen Bildschirmbereich auswählen und den Text des darin enthaltenen QR\-Codes kopieren
+.TP
+\fBvoltkit qr read\fR
+Den Text jedes QR\-Codes in einer Bilddatei ausgeben
+.TP
+\fBvoltkit qr make [\-\-output] [\-\-logo]\fR
+TEXT als QR\-Code im Terminal anzeigen oder als PNG\-Bild speichern
+.RS
+\fB\-\-output\fR: Ein PNG\-Bild speichern, statt im Terminal auszugeben
+.RE
+.RS
+\fB\-\-logo\fR: Ein kleines Logo (PNG, JPEG, WebP oder SVG) in die Mitte des Codes setzen (nur bei PNG\-Ausgabe). Der Code wird danach gelesen, um sicherzustellen, dass er sich noch scannen lässt
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEISPIELE
+.PP
+Den Link aus einem QR\-Code auf dem Bildschirm kopieren:
+.RS 4
+.nf
+\fBvoltkit qr scan\fR
+.fi
+.RE
+.PP
+Die Codes in einem Foto lesen:
+.RS 4
+.nf
+\fBvoltkit qr read photo.jpg\fR
+.fi
+.RE
+.PP
+Einen Link als QR\-Code im Terminal anzeigen:
+.RS 4
+.nf
+\fBvoltkit qr make https://example.com\fR
+.fi
+.RE
+.PP
+Einen WLAN\-Code zum Drucken speichern:
+.RS 4
+.nf
+\fBvoltkit qr make \*(AqWIFI:T:WPA;S:Home;P:secret;;\*(Aq \-\-output wifi.png\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

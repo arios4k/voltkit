@@ -6,6 +6,7 @@ use std::process::Command;
 
 use crate::config::Config;
 use crate::{daemon, expander, portal, shortcuts, system};
+use crate::i18n::tr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Distro {
@@ -72,7 +73,7 @@ impl Tool {
             (Tool::TesseractLang(l), Apt) => Some(format!("tesseract-ocr-{l}")),
             (Tool::TesseractLang(l), Dnf) => Some(format!("tesseract-langpack-{l}")),
             (Tool::TesseractLang(l), Pacman) => Some(format!("tesseract-data-{l}")),
-            (Tool::TesseractLang(l), _) => Some(format!("tesseract language data for \"{l}\"")),
+            (Tool::TesseractLang(l), _) => Some(trf!("tesseract language data for \"{}\"", l)),
             (Tool::WlClipboard, _) => p("wl-clipboard"),
             (Tool::Xclip, _) => p("xclip"),
             (Tool::Jpegoptim, _) => p("jpegoptim"),
@@ -127,7 +128,7 @@ impl Report {
             match (tool.package(self.distro), self.distro.install_prefix()) {
                 (Some(pkg), Some(_)) if !packages.contains(&pkg) => packages.push(pkg),
                 (Some(_), Some(_)) => {}
-                (Some(pkg), None) => commands.push(format!("install {pkg} with your package manager")),
+                (Some(pkg), None) => commands.push(trf!("install {} with your package manager", pkg)),
                 (None, _) => {}
             }
         }
@@ -146,7 +147,7 @@ impl Report {
         for c in &self.checks {
             if c.feature != feature {
                 feature = c.feature;
-                out.push_str(&format!("\n{feature}\n"));
+                out.push_str(&format!("\n{}\n", tr(feature)));
             }
             let mark = match (c.ok, c.need) {
                 (true, _) => "✓",
@@ -163,14 +164,14 @@ impl Report {
         let optional = self.missing(Need::Optional).count();
         out.push('\n');
         if required + optional == 0 {
-            out.push_str("Everything is in place.\n");
+            out.push_str(tr("Everything is in place."));
+            out.push('\n');
         } else {
-            out.push_str(&format!(
-                "{required} required and {optional} optional item(s) missing (✗ breaks a feature, – limits it).\n"
-            ));
+            out.push_str(&trf!("{} required and {} optional item(s) missing (✗ breaks a feature, – limits it).", required, optional));
+            out.push('\n');
             let commands = self.install_commands();
             if !commands.is_empty() {
-                out.push_str("\nTo install them:\n");
+                out.push_str(&format!("\n{}\n", tr("To install them:")));
                 for c in commands {
                     out.push_str(&format!("  {c}\n"));
                 }
@@ -223,7 +224,7 @@ pub fn run(config: &Config) -> Report {
     let mut checks = Vec::new();
 
     // OCR
-    const OCR: &str = "Text Extractor (OCR)";
+    const OCR: &str = N_!("Text Extractor (OCR)");
     let tesseract = system::has("tesseract");
     checks.push(check(OCR, "tesseract", tesseract, Need::Required, Some(Fix::Install(Tool::Tesseract))));
     if tesseract {
@@ -231,7 +232,7 @@ pub fn run(config: &Config) -> Report {
         for lang in config.ocr.lang.split('+').filter(|l| !l.is_empty()) {
             checks.push(check(
                 OCR,
-                format!("language data: {lang}"),
+                trf!("language data: {}", lang),
                 installed.iter().any(|l| l == lang),
                 Need::Required,
                 Some(Fix::Install(Tool::TesseractLang(lang.to_owned()))),
@@ -240,35 +241,35 @@ pub fn run(config: &Config) -> Report {
     }
     let fallback_capture = ["grim", "gnome-screenshot", "spectacle", "maim"].into_iter().find(|t| system::has(t));
     let (capture_ok, capture_what) = match (portals.contains_key("Screenshot"), fallback_capture) {
-        (true, _) => (true, "region capture: Screenshot portal".to_owned()),
-        (false, Some(tool)) => (true, format!("region capture: {tool}")),
-        (false, None) => (false, "region capture".to_owned()),
+        (true, _) => (true, tr("region capture: Screenshot portal").to_owned()),
+        (false, Some(tool)) => (true, trf!("region capture: {}", tool)),
+        (false, None) => (false, tr("region capture").to_owned()),
     };
     checks.push(check(
         OCR,
         capture_what,
         capture_ok,
         Need::Required,
-        Some(Fix::Advice("install xdg-desktop-portal and your desktop's portal backend".into())),
+        Some(Fix::Advice(tr("install xdg-desktop-portal and your desktop's portal backend").into())),
     ));
 
     // Color picker
-    const COLOR: &str = "Color Picker";
+    const COLOR: &str = N_!("Color Picker");
     checks.push(check(
         COLOR,
-        "screen eyedropper: Screenshot portal",
+        tr("screen eyedropper: Screenshot portal"),
         portals.contains_key("Screenshot"),
         Need::Required,
-        Some(Fix::Advice("install xdg-desktop-portal and your desktop's portal backend".into())),
+        Some(Fix::Advice(tr("install xdg-desktop-portal and your desktop's portal backend").into())),
     ));
 
     // Clipboard
-    const CLIPBOARD: &str = "Clipboard (hotkeys and command line)";
+    const CLIPBOARD: &str = N_!("Clipboard (hotkeys and command line)");
     let (tool, name) = if wayland { (Tool::WlClipboard, "wl-copy") } else { (Tool::Xclip, "xclip") };
     checks.push(check(CLIPBOARD, name, system::has(name), Need::Required, Some(Fix::Install(tool))));
 
     // Compressor
-    const COMPRESS: &str = "Asset Compressor";
+    const COMPRESS: &str = N_!("Asset Compressor");
     // PNG compression is built in.
     for (program, format, tool) in [
         ("jpegoptim", "JPEG", Tool::Jpegoptim),
@@ -279,19 +280,19 @@ pub fn run(config: &Config) -> Report {
     }
 
     // Text expansion
-    const EXPAND: &str = "Text Expansion";
+    const EXPAND: &str = N_!("Text Expansion");
     checks.push(check(
         EXPAND,
-        "picker pastes for you: RemoteDesktop portal",
+        tr("picker pastes for you: RemoteDesktop portal"),
         portals.contains_key("RemoteDesktop"),
         Need::Optional,
-        Some(Fix::Advice("without it the snippet is copied and you press Ctrl+V".into())),
+        Some(Fix::Advice(tr("without it the snippet is copied and you press Ctrl+V").into())),
     ));
     if config.expander.typed_triggers {
         let missing = expander::missing_permissions();
         checks.push(check(
             EXPAND,
-            "typed triggers: keyboard access",
+            tr("typed triggers: keyboard access"),
             missing.is_empty(),
             Need::Required,
             Some(Fix::Advice(expander::next_step().to_owned())),
@@ -299,45 +300,45 @@ pub fn run(config: &Config) -> Report {
     } else {
         checks.push(check(
             EXPAND,
-            "typed triggers (off)",
+            tr("typed triggers (off)"),
             false,
             Need::Optional,
-            Some(Fix::Advice("turn on with `voltkit expander setup`, then `voltkit expander enable`".into())),
+            Some(Fix::Advice(tr("turn on with `voltkit expander setup`, then `voltkit expander enable`").into())),
         ));
     }
 
     // Background service
     // Keep Awake and Hosts & Environment
-    const AWAKE: &str = "Keep Awake";
+    const AWAKE: &str = N_!("Keep Awake");
     checks.push(check(
         AWAKE,
-        "stop sleeping and locking: Inhibit portal",
+        tr("stop sleeping and locking: Inhibit portal"),
         portals.contains_key("Inhibit"),
         Need::Required,
-        Some(Fix::Advice("install xdg-desktop-portal and your desktop's portal backend".into())),
+        Some(Fix::Advice(tr("install xdg-desktop-portal and your desktop's portal backend").into())),
     ));
-    const SYSTEM: &str = "Hosts & Environment";
+    const SYSTEM: &str = N_!("Hosts & Environment");
     checks.push(check(
         SYSTEM,
-        "saving /etc/hosts: pkexec",
+        tr("saving /etc/hosts: pkexec"),
         system::has("pkexec"),
         Need::Optional,
-        Some(Fix::Advice("install polkit (pkexec) to save the hosts file; environment variables work without it".into())),
+        Some(Fix::Advice(tr("install polkit (pkexec) to save the hosts file; environment variables work without it").into())),
     ));
 
-    const SERVICE: &str = "Background Service";
+    const SERVICE: &str = N_!("Background Service");
     let status = daemon::status();
     checks.push(check(
         SERVICE,
-        "daemon running",
+        tr("daemon running"),
         status.is_some(),
         Need::Required,
-        Some(Fix::Advice("start it with `voltkit daemon enable-autostart`, then log in again or run `voltkit daemon`".into())),
+        Some(Fix::Advice(tr("start it with `voltkit daemon enable-autostart`, then log in again or run `voltkit daemon`").into())),
     ));
     let (shortcuts_ok, shortcuts_what) = if portals.contains_key("GlobalShortcuts") {
-        (true, "hotkeys: GlobalShortcuts portal".to_owned())
+        (true, tr("hotkeys: GlobalShortcuts portal").to_owned())
     } else if shortcuts::gnome_installed() {
-        (true, "hotkeys: GNOME custom shortcuts".to_owned())
+        (true, tr("hotkeys: GNOME custom shortcuts").to_owned())
     } else {
         (false, "hotkeys".to_owned())
     };
@@ -347,7 +348,7 @@ pub fn run(config: &Config) -> Report {
         shortcuts_ok,
         Need::Required,
         Some(Fix::Advice(
-            "on GNOME run `voltkit shortcuts install`; elsewhere bind `voltkit trigger ocr|color|snippets`".into(),
+            tr("on GNOME run `voltkit shortcuts install`; elsewhere bind `voltkit trigger ocr|color|snippets`").into(),
         )),
     ));
 

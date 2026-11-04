@@ -10,6 +10,7 @@ use ashpd::desktop::{Color, ResponseError};
 use zbus::zvariant::Value;
 
 use crate::modules::color::Rgb;
+use crate::i18n::tr;
 
 pub const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -129,7 +130,7 @@ pub async fn notify(summary: &str, body: &str) -> Result<()> {
         &("Voltkit", 0u32, APP_ID, summary, escape_markup(body), Vec::<&str>::new(), hints, 4000i32),
     )
     .await
-    .context("failed to show notification")?;
+    .context(tr("failed to show notification"))?;
     Ok(())
 }
 
@@ -139,7 +140,7 @@ fn escape_markup(s: &str) -> String {
 
 fn file_uri_to_path(uri: &str) -> Result<PathBuf> {
     let Some(rest) = uri.strip_prefix("file://") else {
-        bail!("portal returned a non-file URI: {uri}");
+        bail!("{}", trf!("portal returned a non-file URI: {}", uri));
     };
     let bytes = rest.as_bytes();
     let mut out = Vec::with_capacity(bytes.len());

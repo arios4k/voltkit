@@ -1,0 +1,5093 @@
+# Spanish translation of Voltkit.
+# This file is distributed under the same license as Voltkit (MIT).
+# Update it with po/update.py; see po/README.md.
+msgid ""
+msgstr ""
+"Project-Id-Version: voltkit\n"
+"Report-Msgid-Bugs-To: https://github.com/arios4k/voltkit/issues\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/about_ui.rs:15
+msgid "Power tools for your Linux desktop."
+msgstr "Herramientas potentes para tu escritorio Linux."
+
+#: src/about_ui.rs:18
+msgid "Copy version information"
+msgstr "Copiar información de la versión"
+
+#: src/about_ui.rs:20
+#, rust-format
+msgid "Version {}"
+msgstr "Versión {}"
+
+#: src/about_ui.rs:25
+msgid "Version information copied"
+msgstr "Información de la versión copiada"
+
+#: src/about_ui.rs:33
+#, rust-format
+msgid "{} everyday tools"
+msgstr "{} herramientas para el día a día"
+
+#: src/about_ui.rs:34
+msgid "Native Linux app"
+msgstr "App nativa de Linux"
+
+#: src/about_ui.rs:34
+msgid "Open source"
+msgstr "Código abierto"
+
+#: src/about_ui.rs:42
+msgid "Explore Voltkit"
+msgstr "Explora Voltkit"
+
+#: src/about_ui.rs:43
+msgid "Project & source code"
+msgstr "Proyecto y código fuente"
+
+#: src/about_ui.rs:43
+msgid "Documentation, releases, and the code behind Voltkit"
+msgstr "Documentación, versiones y el código detrás de Voltkit"
+
+#: src/about_ui.rs:45
+msgid "Report an issue"
+msgstr "Reportar un problema"
+
+#: src/about_ui.rs:45
+msgid "Share a bug or suggest an improvement"
+msgstr "Comparte un error o sugiere una mejora"
+
+#: src/about_ui.rs:49
+msgid "Credits and license"
+msgstr "Créditos y licencia"
+
+#: src/about_ui.rs:50
+msgid "Created by"
+msgstr "Creado por"
+
+#: src/about_ui.rs:52 src/about_ui.rs:96
+msgid "MIT License"
+msgstr "Licencia MIT"
+
+#: src/about_ui.rs:52
+msgid "Free to use, modify, and share"
+msgstr "Libre para usar, modificar y compartir"
+
+#: src/about_ui.rs:67 src/app.rs:111
+msgid "About Voltkit"
+msgstr "Acerca de Voltkit"
+
+#: src/about_ui.rs:74
+msgid "Open in browser"
+msgstr "Abrir en el navegador"
+
+#: src/about_ui.rs:81
+#, rust-format
+msgid "Could not open link: {}"
+msgstr "No se pudo abrir el enlace: {}"
+
+#: src/actions.rs:50
+msgid "Extract text from screen"
+msgstr "Extraer texto de la pantalla"
+
+#: src/actions.rs:51
+msgid "Pick a color from screen"
+msgstr "Tomar un color de la pantalla"
+
+#: src/actions.rs:52
+msgid "Insert a snippet"
+msgstr "Insertar un fragmento"
+
+#: src/actions.rs:53
+msgid "Scan a QR code on screen"
+msgstr "Escanear un código QR en pantalla"
+
+#: src/actions.rs:54
+msgid "Measure on screen"
+msgstr "Medir en pantalla"
+
+#: src/actions.rs:55
+msgid "Paste the clipboard converted"
+msgstr "Pegar el portapapeles convertido"
+
+#: src/actions.rs:85
+#, rust-format
+msgid ""
+"\n"
+"\n"
+"Not copied: {}"
+msgstr ""
+"\n"
+"\n"
+"No se copió: {}"
+
+#: src/actions.rs:96
+msgid "Text copied"
+msgstr "Texto copiado"
+
+#: src/actions.rs:96
+msgid "Text extracted"
+msgstr "Texto extraído"
+
+#: src/actions.rs:106
+#, rust-format
+msgid "{} copied"
+msgstr "{} copiado"
+
+#: src/actions.rs:117
+msgid "QR code copied"
+msgstr "Código QR copiado"
+
+#: src/actions.rs:117
+msgid "QR code read"
+msgstr "Código QR leído"
+
+#: src/actions.rs:128
+msgid "snippet picker"
+msgstr "selector de fragmentos"
+
+#: src/actions.rs:136
+#, rust-format
+msgid "{} exited with {}"
+msgstr "{} terminó con {}"
+
+#: src/actions.rs:148
+msgid "screen ruler"
+msgstr "regla de pantalla"
+
+#: src/actions.rs:149 src/modules/mod.rs:110 src/smartpaste_ui.rs:100
+msgid "Smart Paste"
+msgstr "Pegado inteligente"
+
+#: src/app.rs:113
+msgid "Quit"
+msgstr "Salir"
+
+#: src/app.rs:117
+msgid "Main Menu"
+msgstr "Menú principal"
+
+#: src/app.rs:194
+#, rust-format
+msgid "could not start {}: {}"
+msgstr "no se pudo iniciar {}: {}"
+
+#: src/app.rs:277
+msgid "Details"
+msgstr "Detalles"
+
+#: src/app.rs:292
+#, rust-format
+msgid "{} feature needs attention"
+msgid_plural "{} features need attention"
+msgstr[0] "{} función necesita atención"
+msgstr[1] "{} funciones necesitan atención"
+
+#: src/app.rs:304
+#, rust-format
+msgid ""
+"{}\n"
+"\n"
+"Run `voltkit doctor` for the full report."
+msgstr ""
+"{}\n"
+"\n"
+"Ejecuta `voltkit doctor` para ver el informe completo."
+
+#: src/app.rs:305
+msgid "Needs Attention"
+msgstr "Necesita atención"
+
+#: src/app.rs:316
+msgid "Copy Command"
+msgstr "Copiar comando"
+
+#: src/app.rs:319 src/usage_ui.rs:344 src/usage_ui.rs:369
+msgid "Close"
+msgstr "Cerrar"
+
+#: src/app.rs:332
+msgid "The background service is off, so keyboard shortcuts won't work"
+msgstr ""
+"El servicio en segundo plano está apagado, así que los atajos de teclado no funcionarán"
+
+#: src/app.rs:333
+msgid "Start"
+msgstr "Iniciar"
+
+#: src/app.rs:350
+msgid "The background service failed to start"
+msgstr "No se pudo iniciar el servicio en segundo plano"
+
+#: src/app.rs:354
+#, rust-format
+msgid "Could not start the service: {}"
+msgstr "No se pudo iniciar el servicio: {}"
+
+#: src/app.rs:364
+msgid "Capture Region"
+msgstr "Capturar región"
+
+#: src/app.rs:384
+msgid "Capture text"
+msgstr "Capturar texto"
+
+#: src/app.rs:385
+#, rust-format
+msgid ""
+"Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
+msgstr ""
+"Selecciona texto en cualquier parte de la pantalla. Idioma de reconocimiento: {}. Atajo: {}"
+
+#: src/app.rs:390
+msgid "Copy Text"
+msgstr "Copiar texto"
+
+#: src/app.rs:391
+msgid "Extracted text"
+msgstr "Texto extraído"
+
+#: src/app.rs:391 src/app.rs:407
+msgid "Capture a region to see and copy its text here."
+msgstr "Captura una región para ver y copiar su texto aquí."
+
+#: src/app.rs:395
+msgid "No text captured yet"
+msgstr "Todavía no se ha capturado texto"
+
+#: src/app.rs:406
+#, rust-format
+msgid "{} character"
+msgid_plural "{} characters"
+msgstr[0] "{} carácter"
+msgstr[1] "{} caracteres"
+
+#: src/app.rs:407
+msgid "Text is also copied automatically after capture."
+msgstr "El texto también se copia automáticamente después de capturarlo."
+
+#: src/app.rs:409
+msgid "Capture from anything"
+msgstr "Captura desde cualquier cosa"
+
+#: src/app.rs:409
+msgid ""
+"Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
+msgstr ""
+"Selecciona un párrafo, un mensaje de error o el texto de una imagen. El escritorio te pide que elijas una región de la pantalla; el reconocimiento se hace localmente en tu computadora."
+
+#: src/app.rs:416
+msgid "Text from the shortcut, copied to the clipboard"
+msgstr "Texto del atajo, copiado al portapapeles"
+
+#: src/app.rs:437
+msgid "Text copied to clipboard"
+msgstr "Texto copiado al portapapeles"
+
+#: src/app.rs:439 src/qr_ui.rs:101
+msgid "No screenshot was taken"
+msgstr "No se tomó ninguna captura de pantalla"
+
+#: src/app.rs:441
+msgid "OCR worker crashed"
+msgstr "El proceso de OCR falló"
+
+#: src/app.rs:456 src/qr_ui.rs:49 src/smartpaste_ui.rs:329 src/sysreport_ui.rs:382
+msgid "Copy"
+msgstr "Copiar"
+
+#: src/app.rs:464 src/app.rs:584
+#, rust-format
+msgid "Copied {}"
+msgstr "{} copiado"
+
+#: src/app.rs:490
+msgid "HEX or rgb()"
+msgstr "HEX o rgb()"
+
+#: src/app.rs:495
+msgid "Pick from Screen"
+msgstr "Tomar de la pantalla"
+
+#: src/app.rs:496
+msgid "Pick a color anywhere on screen"
+msgstr "Toma un color de cualquier parte de la pantalla"
+
+#: src/app.rs:501
+msgid "Color"
+msgstr "Color"
+
+#: src/app.rs:502
+#, rust-format
+msgid ""
+"Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
+msgstr ""
+"Escribe un color o toma uno de tu pantalla. Presiona Enter para guardarlo en el historial. Desde cualquier app, presiona {} para tomar un color: su valor HEX se copia y se guarda aquí."
+
+#: src/app.rs:510
+msgid "Formats"
+msgstr "Formatos"
+
+#: src/app.rs:515
+msgid "Text on white"
+msgstr "Texto sobre blanco"
+
+#: src/app.rs:516
+msgid "Text on black"
+msgstr "Texto sobre negro"
+
+#: src/app.rs:517
+msgid "WCAG Contrast"
+msgstr "Contraste WCAG"
+
+#: src/app.rs:521
+msgid "History"
+msgstr "Historial"
+
+#: src/app.rs:521
+msgid ""
+"Select a saved color to reuse it. Colors picked from your screen appear here."
+msgstr ""
+"Selecciona un color guardado para reutilizarlo. Los colores que tomes de tu pantalla aparecen aquí."
+
+#: src/app.rs:563
+#, rust-format
+msgid "Could not save history: {}"
+msgstr "No se pudo guardar el historial: {}"
+
+#: src/app.rs:587
+#, rust-format
+msgid "Color picker unavailable: {}"
+msgstr "El selector de color no está disponible: {}"
+
+#: src/app.rs:588
+msgid "Color picker crashed"
+msgstr "El selector de color falló"
+
+#: src/app.rs:597
+msgid "Live color preview"
+msgstr "Vista previa del color"
+
+#: src/app.rs:612
+#, rust-format
+msgid "Picked {} with the shortcut, copied"
+msgstr "Se tomó {} con el atajo y se copió"
+
+#: src/app.rs:658
+msgid "Open Ruler"
+msgstr "Abrir regla"
+
+#: src/app.rs:671
+msgid "Measure in real pixels"
+msgstr "Mide en píxeles reales"
+
+#: src/app.rs:671
+msgid ""
+"Freeze your screen, then drag a line or a rectangle over anything you want to measure."
+msgstr ""
+"Congela tu pantalla y luego arrastra una línea o un rectángulo sobre lo que quieras medir."
+
+#: src/app.rs:690
+msgid "Drag to measure width × height"
+msgstr "Arrastra para medir ancho × alto"
+
+#: src/app.rs:695
+msgid "Measurement controls"
+msgstr "Controles de medición"
+
+#: src/app.rs:696
+msgid "Drag"
+msgstr "Arrastrar"
+
+#: src/app.rs:696
+msgid "Measure a rectangle"
+msgstr "Mide un rectángulo"
+
+#: src/app.rs:696
+msgid "Shift + drag"
+msgstr "Mayús + arrastrar"
+
+#: src/app.rs:696
+msgid "Measure a straight line"
+msgstr "Mide una línea recta"
+
+#: src/app.rs:696
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: src/app.rs:696
+msgid "Copy the measured size"
+msgstr "Copia el tamaño medido"
+
+#: src/app.rs:696
+msgid "Esc"
+msgstr "Esc"
+
+#: src/app.rs:696
+msgid "Close the ruler"
+msgstr "Cierra la regla"
+
+#: src/app.rs:700
+msgid "Ready when you need it"
+msgstr "Lista cuando la necesites"
+
+#: src/app.rs:700
+#, rust-format
+msgid ""
+"Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
+msgstr ""
+"Atajo global: {}. Las medidas usan los píxeles de la captura de pantalla, también en pantallas de alta densidad."
+
+#: src/app.rs:708
+msgid "Quality"
+msgstr "Calidad"
+
+#: src/app.rs:709
+msgid "Lower is smaller. PNG is always lossless."
+msgstr "Más baja es más pequeño. PNG siempre es sin pérdida."
+
+#: src/app.rs:713
+msgid "Choose Files…"
+msgstr "Elegir archivos…"
+
+#: src/app.rs:730
+msgid "Drop Files Here"
+msgstr "Suelta los archivos aquí"
+
+#: src/app.rs:732
+msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
+msgstr ""
+"PNG, JPEG, WebP y MP4. Se quitan los metadatos; los originales se conservan."
+
+#: src/app.rs:748 src/usage_ui.rs:95
+msgid "Results"
+msgstr "Resultados"
+
+#: src/app.rs:754
+msgid "Compressing…"
+msgstr "Comprimiendo…"
+
+#: src/app.rs:771 src/app.rs:774
+msgid "Failed"
+msgstr "Falló"
+
+#: src/app.rs:796
+msgid "Compress Files"
+msgstr "Comprimir archivos"
+
+#: src/app.rs:812
+msgid "Compression settings"
+msgstr "Ajustes de compresión"
+
+#: src/app.rs:814
+msgid "Your originals stay intact"
+msgstr "Tus originales quedan intactos"
+
+#: src/app.rs:814
+msgid ""
+"Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
+msgstr ""
+"Las copias comprimidas se guardan junto a cada archivo como nombre.min.ext. Los metadatos se quitan de la copia. La compresión PNG es sin pérdida; la calidad se aplica a JPEG, WebP y video."
+
+#: src/app.rs:815
+msgid "Choose or drop files to see progress and size savings here."
+msgstr ""
+"Elige o suelta archivos para ver aquí el progreso y el espacio ahorrado."
+
+#: src/awake.rs:69
+msgid "Keep Awake ended"
+msgstr "Se terminó Mantener activo"
+
+#: src/awake.rs:69
+msgid "Your computer can sleep again."
+msgstr "Tu computadora puede suspenderse de nuevo."
+
+#: src/awake.rs:113
+#, rust-format
+msgid "can't read the duration {}; try 30m, 1h, 1h30m, on or off"
+msgstr "no se puede leer la duración {}; prueba 30m, 1h, 1h30m, on u off"
+
+#: src/awake.rs:117
+#, rust-format
+msgid "can't read the duration {}; add m or h, like 30m or 2h"
+msgstr "no se puede leer la duración {}; agrega m o h, como 30m o 2h"
+
+#: src/awake.rs:124
+#, rust-format
+msgid "the duration {} is zero; use off to turn Keep Awake off"
+msgstr "la duración {} es cero; usa off para apagar Mantener activo"
+
+#: src/awake.rs:132 src/awake_ui.rs:22 src/sysreport_ui.rs:224 src/system_ui.rs:135
+msgid "Off"
+msgstr "Apagado"
+
+#: src/awake.rs:133
+msgid "On until turned off"
+msgstr "Encendido hasta que lo apagues"
+
+#: src/awake.rs:134
+#, rust-format
+msgid "On until {}"
+msgstr "Encendido hasta las {}"
+
+#: src/awake.rs:135 src/system_ui.rs:135
+msgid "On"
+msgstr "Encendido"
+
+#: src/awake_ui.rs:17
+msgid "30 minutes"
+msgstr "30 minutos"
+
+#: src/awake_ui.rs:17
+msgid "1 hour"
+msgstr "1 hora"
+
+#: src/awake_ui.rs:17
+msgid "2 hours"
+msgstr "2 horas"
+
+#: src/awake_ui.rs:17
+msgid "4 hours"
+msgstr "4 horas"
+
+#: src/awake_ui.rs:17
+msgid "Until turned off"
+msgstr "Hasta que lo apagues"
+
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:86
+msgid "Keep Awake"
+msgstr "Mantener activo"
+
+#: src/awake_ui.rs:24
+msgid "For"
+msgstr "Durante"
+
+#: src/awake_ui.rs:31
+msgid ""
+"Stops your computer from sleeping or locking the screen while you watch, present, read or download. It keeps going after you close this window, and switches itself off when the time is up."
+msgstr ""
+"Evita que tu computadora se suspenda o bloquee la pantalla mientras ves, presentas, lees o descargas algo. Sigue funcionando después de cerrar esta ventana y se apaga sola cuando se acaba el tiempo."
+
+#: src/awake_ui.rs:56
+msgid "Needs the background service: start it with the banner above"
+msgstr ""
+"Necesita el servicio en segundo plano: inícialo con el aviso de arriba"
+
+#: src/awake_ui.rs:94 src/main.rs:579 src/main.rs:590
+#, rust-format
+msgid "Keep Awake: {}"
+msgstr "Mantener activo: {}"
+
+#: src/awake_ui.rs:111 src/modules/sleep.rs:248
+msgid "Keep Awake is on"
+msgstr "Mantener activo está encendido"
+
+#: src/awake_ui.rs:111 src/sleep_ui.rs:188
+msgid "Keep Awake is off"
+msgstr "Mantener activo está apagado"
+
+#: src/awake_ui.rs:119
+msgid "Set it and carry on"
+msgstr "Configúralo y sigue con lo tuyo"
+
+#: src/awake_ui.rs:119
+msgid ""
+"Choose a duration before turning Keep Awake on. It continues after you close this window and ends automatically when the timer expires. Turn it off here whenever you are done."
+msgstr ""
+"Elige una duración antes de encender Mantener activo. Sigue funcionando después de cerrar esta ventana y termina automáticamente cuando se acaba el tiempo. Apágalo aquí cuando termines."
+
+#: src/config.rs:118
+#, rust-format
+msgid "invalid config at {}"
+msgstr "configuración no válida en {}"
+
+#: src/config.rs:122 src/daemon.rs:352 src/modules/envvars.rs:69
+msgid "no config directory"
+msgstr "no hay carpeta de configuración"
+
+#: src/daemon.rs:47
+#, rust-format
+msgid "{}: skipped, another action is still open"
+msgstr "{}: se omitió, otra acción sigue abierta"
+
+#: src/daemon.rs:54
+#, rust-format
+msgid "{}: started"
+msgstr "{}: iniciado"
+
+#: src/daemon.rs:56
+#, rust-format
+msgid "{}: finished"
+msgstr "{}: terminado"
+
+#: src/daemon.rs:76
+#, rust-format
+msgid "unknown action {}"
+msgstr "acción desconocida {}"
+
+#: src/daemon.rs:144
+msgid "cannot connect to the session bus"
+msgstr "no se puede conectar al bus de sesión"
+
+#: src/daemon.rs:148
+msgid "the Voltkit daemon is already running"
+msgstr "el daemon de Voltkit ya se está ejecutando"
+
+#: src/daemon.rs:150
+#, rust-format
+msgid "Voltkit daemon {} started"
+msgstr "Daemon de Voltkit {} iniciado"
+
+#: src/daemon.rs:164
+msgid "Added Voltkit's keyboard shortcuts to GNOME"
+msgstr "Se agregaron los atajos de teclado de Voltkit a GNOME"
+
+#: src/daemon.rs:165
+#, rust-format
+msgid "Could not add the keyboard shortcuts: {}"
+msgstr "No se pudieron agregar los atajos de teclado: {}"
+
+#: src/daemon.rs:170
+#, rust-format
+msgid "Global shortcuts portal unavailable: {}"
+msgstr "El portal de atajos globales no está disponible: {}"
+
+#: src/daemon.rs:172
+msgid ""
+"Bind `voltkit trigger ocr` / `voltkit trigger color` in your desktop's keyboard settings, or on GNOME run `voltkit shortcuts install`."
+msgstr ""
+"Asigna `voltkit trigger ocr` / `voltkit trigger color` en la configuración de teclado de tu escritorio, o en GNOME ejecuta `voltkit shortcuts install`."
+
+#: src/daemon.rs:175
+msgid "Using GNOME custom keybindings"
+msgstr "Usando atajos personalizados de GNOME"
+
+#: src/daemon.rs:179
+msgid "Added the shortcuts of new tools"
+msgstr "Se agregaron los atajos de las herramientas nuevas"
+
+#: src/daemon.rs:180
+#, rust-format
+msgid "Could not add the new shortcuts: {}"
+msgstr "No se pudieron agregar los atajos nuevos: {}"
+
+#: src/daemon.rs:193
+#, rust-format
+msgid "system snapshot: {}"
+msgstr "instantánea del sistema: {}"
+
+#: src/daemon.rs:209
+msgid "Voltkit daemon stopped"
+msgstr "Daemon de Voltkit detenido"
+
+#: src/daemon.rs:223 src/main.rs:350
+msgid "Typed triggers off"
+msgstr "Disparadores al escribir apagados"
+
+#: src/daemon.rs:238
+#, rust-format
+msgid "Typed triggers are waiting for keyboard access: {}"
+msgstr "Los disparadores al escribir esperan acceso al teclado: {}"
+
+#: src/daemon.rs:247
+#, rust-format
+msgid "Typed triggers unavailable: {}"
+msgstr "Disparadores al escribir no disponibles: {}"
+
+#: src/daemon.rs:271
+#, rust-format
+msgid "Shortcut {} {}"
+msgstr "Atajo {} {}"
+
+#: src/daemon.rs:307
+msgid "off"
+msgstr "apagados"
+
+#: src/daemon.rs:308
+msgid "on"
+msgstr "encendidos"
+
+#: src/daemon.rs:309
+msgid "needs keyboard access"
+msgstr "necesitan acceso al teclado"
+
+#: src/daemon.rs:310
+msgid "unavailable"
+msgstr "no disponibles"
+
+#: src/daemon.rs:321
+msgid "the background service isn't running; start it with `voltkit daemon`"
+msgstr ""
+"el servicio en segundo plano no se está ejecutando; inícialo con `voltkit daemon`"
+
+#: src/daemon.rs:342 src/daemon.rs:346
+msgid "the daemon is not running"
+msgstr "el daemon no se está ejecutando"
+
+#: src/detective_ui.rs:22
+msgid "Shortcuts aren't available on this desktop"
+msgstr "Los atajos no están disponibles en este escritorio"
+
+#: src/detective_ui.rs:23
+msgid ""
+"Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On KDE Plasma, open System Settings → Shortcuts."
+msgstr ""
+"Detective de atajos es compatible con GNOME, Cinnamon, Budgie y MATE. En KDE Plasma, abre Preferencias del sistema → Accesos rápidos."
+
+#: src/detective_ui.rs:68
+msgid "Press a shortcut to investigate"
+msgstr "Presiona un atajo para investigarlo"
+
+#: src/detective_ui.rs:70
+msgid "Choose Record Shortcut to inspect a key combination"
+msgstr "Elige Grabar atajo para inspeccionar una combinación de teclas"
+
+#: src/detective_ui.rs:72
+msgid "Record Shortcut"
+msgstr "Grabar atajo"
+
+#: src/detective_ui.rs:79
+msgid "All Shortcuts"
+msgstr "Todos los atajos"
+
+#: src/detective_ui.rs:80
+msgid "Conflicts"
+msgstr "Conflictos"
+
+#: src/detective_ui.rs:81
+msgid "Refresh shortcuts"
+msgstr "Actualizar atajos"
+
+#: src/detective_ui.rs:86
+msgid "Filter shortcuts by action, owner, or keys…"
+msgstr "Filtra los atajos por acción, dueño o teclas…"
+
+#: src/detective_ui.rs:91
+msgid "Registered shortcuts"
+msgstr "Atajos registrados"
+
+#: src/detective_ui.rs:106
+msgid "System-wide shortcuts · Select an action to inspect or change it"
+msgstr ""
+"Atajos de todo el sistema · Selecciona una acción para inspeccionarla o cambiarla"
+
+#: src/detective_ui.rs:116
+msgid "Press the keys now · Esc to cancel"
+msgstr "Presiona las teclas ahora · Esc para cancelar"
+
+#: src/detective_ui.rs:124
+msgid "Recording cancelled. Choose Record Shortcut to try again."
+msgstr "Se canceló la grabación. Elige Grabar atajo para intentarlo de nuevo."
+
+#: src/detective_ui.rs:145
+msgid "No shortcut assigned"
+msgstr "Sin atajo asignado"
+
+#: src/detective_ui.rs:163
+#, rust-format
+msgid "Conflicts · {}"
+msgstr "Conflictos · {}"
+
+#: src/detective_ui.rs:170
+#, rust-format
+msgid "Registered shortcuts · {} of {}"
+msgstr "Atajos registrados · {} de {}"
+
+#: src/detective_ui.rs:177 src/detective_ui.rs:246
+msgid "Not set"
+msgstr "Sin asignar"
+
+#: src/detective_ui.rs:181
+msgid "Conflict"
+msgstr "Conflicto"
+
+#: src/detective_ui.rs:190
+msgid "No shortcuts match these filters"
+msgstr "Ningún atajo coincide con estos filtros"
+
+#: src/detective_ui.rs:211
+msgid "Shortcut details"
+msgstr "Detalles del atajo"
+
+#: src/detective_ui.rs:217
+msgid ""
+"Available as a system-wide shortcut. Apps may still use it within their windows."
+msgstr ""
+"Disponible como atajo de todo el sistema. Las apps aún pueden usarlo dentro de sus ventanas."
+
+#: src/detective_ui.rs:218
+msgid "1 action uses this shortcut"
+msgstr "1 acción usa este atajo"
+
+#: src/detective_ui.rs:219
+#, rust-format
+msgid ""
+"{} actions share this shortcut. Change an action to resolve the conflict."
+msgstr ""
+"{} acciones comparten este atajo. Cambia una acción para resolver el conflicto."
+
+#: src/detective_ui.rs:227
+msgid "Free combinations to try"
+msgstr "Combinaciones libres para probar"
+
+#: src/detective_ui.rs:233
+msgid ""
+"Choose Change to record a new combination, turn a shortcut off, or reset its default."
+msgstr ""
+"Elige Cambiar para grabar una combinación nueva, desactivar un atajo o restablecer el predeterminado."
+
+#: src/detective_ui.rs:239
+msgid ""
+"Select a shortcut or record a key combination to see its owners and available alternatives."
+msgstr ""
+"Selecciona un atajo o graba una combinación de teclas para ver a quién pertenece y qué alternativas hay."
+
+#: src/detective_ui.rs:246
+msgid "  or  "
+msgstr "  o  "
+
+#: src/detective_ui.rs:252
+msgid "Change…"
+msgstr "Cambiar…"
+
+#: src/detective_ui.rs:261
+msgid "Locked by the system administrator"
+msgstr "Bloqueado por el administrador del sistema"
+
+#: src/detective_ui.rs:272
+#, rust-format
+msgid "{} · now {}"
+msgstr "{} · ahora {}"
+
+#: src/detective_ui.rs:272
+msgid "not set"
+msgstr "sin asignar"
+
+#: src/detective_ui.rs:274 src/detective_ui.rs:310
+msgid "Press the New Shortcut…"
+msgstr "Presiona el atajo nuevo…"
+
+#: src/detective_ui.rs:277 src/snippets_ui.rs:406 src/system_ui.rs:484
+msgid "Save"
+msgstr "Guardar"
+
+#: src/detective_ui.rs:286
+#, rust-format
+msgid "{} is free"
+msgstr "{} está libre"
+
+#: src/detective_ui.rs:290
+#, rust-format
+msgid "{} is already used by {}. Pick another, or change that one first."
+msgstr "{} ya lo usa {}. Elige otro, o cambia ese primero."
+
+#: src/detective_ui.rs:307
+msgid "Press the keys now (Esc to cancel)"
+msgstr "Presiona las teclas ahora (Esc para cancelar)"
+
+#: src/detective_ui.rs:324
+msgid "Free combinations"
+msgstr "Combinaciones libres"
+
+#: src/detective_ui.rs:327 src/sleep_ui.rs:181
+msgid "Turn Off"
+msgstr "Desactivar"
+
+#: src/detective_ui.rs:328
+msgid "Reset to Default"
+msgstr "Restablecer predeterminado"
+
+#: src/detective_ui.rs:338
+msgid "Change Shortcut"
+msgstr "Cambiar atajo"
+
+#: src/detective_ui.rs:350 src/permissions_ui.rs:170
+#, rust-format
+msgid "Not changed: {}"
+msgstr "No se cambió: {}"
+
+#: src/detective_ui.rs:358
+#, rust-format
+msgid "“{}” is now {}"
+msgstr "“{}” ahora es {}"
+
+#: src/detective_ui.rs:363
+#, rust-format
+msgid "“{}” has no shortcut now"
+msgstr "“{}” ya no tiene atajo"
+
+#: src/detective_ui.rs:367
+#, rust-format
+msgid "“{}” is back to its default"
+msgstr "“{}” volvió a su valor predeterminado"
+
+#: src/doctor.rs:76
+#, rust-format
+msgid "tesseract language data for \"{}\""
+msgstr "datos de idioma de tesseract para \"{}\""
+
+#: src/doctor.rs:131
+#, rust-format
+msgid "install {} with your package manager"
+msgstr "instala {} con tu gestor de paquetes"
+
+#: src/doctor.rs:167
+msgid "Everything is in place."
+msgstr "Todo está en orden."
+
+#: src/doctor.rs:170
+#, rust-format
+msgid ""
+"{} required and {} optional item(s) missing (✗ breaks a feature, – limits it)."
+msgstr ""
+"Faltan {} elemento(s) obligatorio(s) y {} opcional(es) (✗ impide una función, – la limita)."
+
+#: src/doctor.rs:174
+msgid "To install them:"
+msgstr "Para instalarlos:"
+
+#: src/doctor.rs:227
+msgid "Text Extractor (OCR)"
+msgstr "Extractor de texto (OCR)"
+
+#: src/doctor.rs:235
+#, rust-format
+msgid "language data: {}"
+msgstr "datos de idioma: {}"
+
+#: src/doctor.rs:244
+msgid "region capture: Screenshot portal"
+msgstr "captura de región: portal Screenshot"
+
+#: src/doctor.rs:245
+#, rust-format
+msgid "region capture: {}"
+msgstr "captura de región: {}"
+
+#: src/doctor.rs:246
+msgid "region capture"
+msgstr "captura de región"
+
+#: src/doctor.rs:253 src/doctor.rs:263 src/doctor.rs:318
+msgid "install xdg-desktop-portal and your desktop's portal backend"
+msgstr "instala xdg-desktop-portal y el backend de portales de tu escritorio"
+
+#: src/doctor.rs:257 src/modules/mod.rs:74
+msgid "Color Picker"
+msgstr "Selector de color"
+
+#: src/doctor.rs:260
+msgid "screen eyedropper: Screenshot portal"
+msgstr "cuentagotas de pantalla: portal Screenshot"
+
+#: src/doctor.rs:267
+msgid "Clipboard (hotkeys and command line)"
+msgstr "Portapapeles (atajos y línea de comandos)"
+
+#: src/doctor.rs:272 src/modules/mod.rs:68
+msgid "Asset Compressor"
+msgstr "Compresor de archivos"
+
+#: src/doctor.rs:283 src/modules/mod.rs:122
+msgid "Text Expansion"
+msgstr "Expansión de texto"
+
+#: src/doctor.rs:286
+msgid "picker pastes for you: RemoteDesktop portal"
+msgstr "el selector pega por ti: portal RemoteDesktop"
+
+#: src/doctor.rs:289
+msgid "without it the snippet is copied and you press Ctrl+V"
+msgstr "sin él, el fragmento se copia y presionas Ctrl+V"
+
+#: src/doctor.rs:295
+msgid "typed triggers: keyboard access"
+msgstr "disparadores al escribir: acceso al teclado"
+
+#: src/doctor.rs:303
+msgid "typed triggers (off)"
+msgstr "disparadores al escribir (apagados)"
+
+#: src/doctor.rs:306
+msgid "turn on with `voltkit expander setup`, then `voltkit expander enable`"
+msgstr ""
+"actívalos con `voltkit expander setup` y luego `voltkit expander enable`"
+
+#: src/doctor.rs:315
+msgid "stop sleeping and locking: Inhibit portal"
+msgstr "evitar suspensión y bloqueo: portal Inhibit"
+
+#: src/doctor.rs:320 src/modules/mod.rs:80
+msgid "Hosts & Environment"
+msgstr "Hosts y entorno"
+
+#: src/doctor.rs:323
+msgid "saving /etc/hosts: pkexec"
+msgstr "guardar /etc/hosts: pkexec"
+
+#: src/doctor.rs:326
+msgid ""
+"install polkit (pkexec) to save the hosts file; environment variables work without it"
+msgstr ""
+"instala polkit (pkexec) para guardar el archivo hosts; las variables de entorno funcionan sin él"
+
+#: src/doctor.rs:329
+msgid "Background Service"
+msgstr "Servicio en segundo plano"
+
+#: src/doctor.rs:333
+msgid "daemon running"
+msgstr "daemon en ejecución"
+
+#: src/doctor.rs:336
+msgid ""
+"start it with `voltkit daemon enable-autostart`, then log in again or run `voltkit daemon`"
+msgstr ""
+"inícialo con `voltkit daemon enable-autostart` y luego vuelve a iniciar sesión o ejecuta `voltkit daemon`"
+
+#: src/doctor.rs:339
+msgid "hotkeys: GlobalShortcuts portal"
+msgstr "atajos: portal GlobalShortcuts"
+
+#: src/doctor.rs:341
+msgid "hotkeys: GNOME custom shortcuts"
+msgstr "atajos: atajos personalizados de GNOME"
+
+#: src/doctor.rs:351
+msgid ""
+"on GNOME run `voltkit shortcuts install`; elsewhere bind `voltkit trigger ocr|color|snippets`"
+msgstr ""
+"en GNOME ejecuta `voltkit shortcuts install`; en otros escritorios asigna `voltkit trigger ocr|color|snippets`"
+
+#: src/expander.rs:73 src/modules/sleep.rs:558 src/modules/sysreport.rs:855 src/modules/usage.rs:395
+msgid "pkexec is needed"
+msgstr "se necesita pkexec"
+
+#: src/expander.rs:76 src/modules/sysreport.rs:858 src/modules/usage.rs:398
+msgid "permission was not granted"
+msgstr "no se concedió el permiso"
+
+#: src/expander.rs:90
+#, rust-format
+msgid "access was granted, but this session doesn't have it yet: {}"
+msgstr "se concedió el acceso, pero esta sesión todavía no lo tiene: {}"
+
+#: src/expander.rs:106
+msgid "no access to the virtual keyboard (/dev/uinput)"
+msgstr "sin acceso al teclado virtual (/dev/uinput)"
+
+#: src/expander.rs:109
+msgid "no access to the keyboards"
+msgstr "sin acceso a los teclados"
+
+#: src/expander.rs:280
+msgid "cannot open /dev/uinput: keyboard access is needed"
+msgstr "no se puede abrir /dev/uinput: se necesita acceso al teclado"
+
+#: src/expander.rs:284
+msgid "cannot create the virtual keyboard"
+msgstr "no se puede crear el teclado virtual"
+
+#: src/expander.rs:357
+#, rust-format
+msgid "Typed triggers on ({} keyboard(s))"
+msgstr "Disparadores al escribir encendidos ({} teclado(s))"
+
+#: src/expander.rs:379
+msgid ""
+"turn on Typed triggers on Voltkit's Text Expansion page (it asks for your password once), or run `voltkit expander setup --apply`"
+msgstr ""
+"activa Disparadores al escribir en la página Expansión de texto de Voltkit (pide tu contraseña una vez), o ejecuta `voltkit expander setup --apply`"
+
+#: src/i18n.rs:379
+msgid "Commands"
+msgstr "Comandos"
+
+#: src/i18n.rs:382
+msgid "Usage"
+msgstr "Uso"
+
+#: src/i18n.rs:390
+msgid "Options"
+msgstr "Opciones"
+
+#: src/i18n.rs:391
+msgid "Arguments"
+msgstr "Argumentos"
+
+#: src/i18n.rs:409
+msgid "Print help (see more with '--help')"
+msgstr "Muestra la ayuda (ve más con '--help')"
+
+#: src/i18n.rs:409
+msgid "Print help (see a summary with '-h')"
+msgstr "Muestra la ayuda (ve un resumen con '-h')"
+
+#: src/i18n.rs:411
+msgid "Print help"
+msgstr "Muestra la ayuda"
+
+#: src/i18n.rs:420
+msgid "Print version"
+msgstr "Muestra la versión"
+
+#: src/i18n.rs:434
+msgid "Print this message or the help of the given subcommand(s)"
+msgstr "Muestra este mensaje o la ayuda de los subcomandos indicados"
+
+#: src/main.rs:308
+#, rust-format
+msgid "expected name=value, got {}"
+msgstr "se esperaba nombre=valor, se recibió {}"
+
+#: src/main.rs:314
+msgid "typed triggers: enabled"
+msgstr "disparadores al escribir: activados"
+
+#: src/main.rs:314
+msgid "typed triggers: disabled"
+msgstr "disparadores al escribir: desactivados"
+
+#: src/main.rs:317
+msgid "permissions: ok"
+msgstr "permisos: bien"
+
+#: src/main.rs:320
+#, rust-format
+msgid "permissions: {}"
+msgstr "permisos: {}"
+
+#: src/main.rs:322
+#, rust-format
+msgid "next step: {}"
+msgstr "siguiente paso: {}"
+
+#: src/main.rs:331
+msgid "Done: typed triggers can read the keyboard now, no need to log out."
+msgstr ""
+"Listo: los disparadores al escribir ya pueden leer el teclado, sin necesidad de cerrar sesión."
+
+#: src/main.rs:333
+msgid ""
+"# Typed triggers need these commands to run as root. They let the person at the"
+msgstr ""
+"# Los disparadores al escribir necesitan que estos comandos se ejecuten como root. Permiten que la persona"
+
+#: src/main.rs:334
+msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
+msgstr ""
+"# frente a la computadora lea teclados y use un teclado virtual, de inmediato. Ejecuta"
+
+#: src/main.rs:335
+msgid ""
+"# `voltkit expander setup --apply` to run them (it asks for your password).\n"
+msgstr ""
+"# `voltkit expander setup --apply` para ejecutarlos (pide tu contraseña).\n"
+
+#: src/main.rs:344
+msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
+msgstr ""
+"Los disparadores al escribir están apagados y se quitó el acceso de Voltkit al teclado."
+
+#: src/main.rs:350
+msgid "Typed triggers on"
+msgstr "Disparadores al escribir encendidos"
+
+#: src/main.rs:352
+#, rust-format
+msgid "They need keyboard access first: {}"
+msgstr "Primero necesitan acceso al teclado: {}"
+
+#: src/main.rs:355
+msgid "Takes effect when the background service starts"
+msgstr "Se aplica cuando se inicie el servicio en segundo plano"
+
+#: src/main.rs:364
+msgid "Error"
+msgstr "Error"
+
+#: src/main.rs:411
+msgid "on white"
+msgstr "sobre blanco"
+
+#: src/main.rs:411
+msgid "on black"
+msgstr "sobre negro"
+
+#: src/main.rs:441
+#, rust-format
+msgid "running (v{}), shortcuts: {}, typed triggers: {}"
+msgstr "en ejecución (v{}), atajos: {}, disparadores al escribir: {}"
+
+#: src/main.rs:443 src/main.rs:447 src/main.rs:451
+msgid "not running"
+msgstr "no se está ejecutando"
+
+#: src/main.rs:446
+msgid "Reloaded snippets"
+msgstr "Fragmentos recargados"
+
+#: src/main.rs:457
+#, rust-format
+msgid "Starts at login through {}, installed with Voltkit"
+msgstr "Se inicia al iniciar sesión mediante {}, instalado con Voltkit"
+
+#: src/main.rs:459
+#, rust-format
+msgid "Created {}"
+msgstr "Se creó {}"
+
+#: src/main.rs:463
+#, rust-format
+msgid "Removed {}"
+msgstr "Se eliminó {}"
+
+#: src/main.rs:481
+#, rust-format
+msgid "no QR code found in {}"
+msgstr "no se encontró ningún código QR en {}"
+
+#: src/main.rs:492
+msgid "the code doesn't scan with this logo; shorten the text"
+msgstr "el código no se puede escanear con este logo; acorta el texto"
+
+#: src/main.rs:498 src/qr_ui.rs:364 src/snippets_ui.rs:347
+#, rust-format
+msgid "Saved {}"
+msgstr "Se guardó {}"
+
+#: src/main.rs:517
+#, rust-format
+msgid "no conversion called {}; run `voltkit convert` for the list"
+msgstr ""
+"no hay ninguna conversión llamada {}; ejecuta `voltkit convert` para ver la lista"
+
+#: src/main.rs:520
+#, rust-format
+msgid "{} doesn't fit this text"
+msgstr "{} no sirve para este texto"
+
+#: src/main.rs:531
+msgid "Fixes:"
+msgstr "Soluciones:"
+
+#: src/main.rs:537
+msgid "Memory:"
+msgstr "Memoria:"
+
+#: src/main.rs:555
+#, rust-format
+msgid "Nothing is using {}"
+msgstr "Nada está usando {}"
+
+#: src/main.rs:564
+#, rust-format
+msgid "this is {}"
+msgstr "esto es {}"
+
+#: src/main.rs:571
+#, rust-format
+msgid ""
+"{} program of other users or the system wasn't checked; run with sudo to include it"
+msgid_plural ""
+"{} programs of other users or the system weren't checked; run with sudo to include them"
+msgstr[0] ""
+"{} programa de otros usuarios o del sistema no se revisó; ejecútalo con sudo para incluirlo"
+msgstr[1] ""
+"{} programas de otros usuarios o del sistema no se revisaron; ejecútalo con sudo para incluirlos"
+
+#: src/main.rs:580
+msgid "Keep Awake: off (the background service isn't running)"
+msgstr ""
+"Mantener activo: apagado (el servicio en segundo plano no se está ejecutando)"
+
+#: src/main.rs:585
+msgid "Keep Awake: Off"
+msgstr "Mantener activo: Apagado"
+
+#: src/main.rs:612
+msgid "Added to GNOME keyboard shortcuts"
+msgstr "Se agregó a los atajos de teclado de GNOME"
+
+#: src/main.rs:629
+#, rust-format
+msgid "{} isn't a shortcut"
+msgstr "{} no es un atajo"
+
+#: src/main.rs:634
+#, rust-format
+msgid "{} is free. Nearby free combinations:"
+msgstr "{} está libre. Combinaciones libres cercanas:"
+
+#: src/main.rs:639
+msgid "Free combinations nearby:"
+msgstr "Combinaciones libres cercanas:"
+
+#: src/main.rs:649
+msgid "No clashes: no two actions share a shortcut."
+msgstr "Sin conflictos: ninguna acción comparte un atajo."
+
+#: src/manpages.rs:31
+msgid "FILES"
+msgstr "ARCHIVOS"
+
+#: src/manpages.rs:33
+msgid ""
+"Configuration: hotkeys, OCR language, compression quality and snippets. Every key is optional."
+msgstr ""
+"Configuración: atajos, idioma del OCR, calidad de compresión y fragmentos. Todas las claves son opcionales."
+
+#: src/manpages.rs:34
+msgid ""
+"Color history, newest first, shared by pick-color, the daemon and the control center."
+msgstr ""
+"Historial de colores, del más reciente al más antiguo, compartido por pick-color, el daemon y el centro de control."
+
+#: src/manpages.rs:35
+msgid "Created by voltkit daemon enable-autostart."
+msgstr "Lo crea voltkit daemon enable-autostart."
+
+#: src/manpages.rs:44 src/manpages.rs:67 src/manpages.rs:84 src/manpages.rs:101
+msgid "EXAMPLES"
+msgstr "EJEMPLOS"
+
+#: src/manpages.rs:46
+msgid "Open the control center:"
+msgstr "Abre el centro de control:"
+
+#: src/manpages.rs:47
+msgid "Copy text from part of the screen:"
+msgstr "Copia texto de una parte de la pantalla:"
+
+#: src/manpages.rs:48
+msgid "Check a color's contrast:"
+msgstr "Revisa el contraste de un color:"
+
+#: src/manpages.rs:49
+msgid "Start the background service at every login:"
+msgstr "Inicia el servicio en segundo plano en cada inicio de sesión:"
+
+#: src/manpages.rs:54
+msgid "ENVIRONMENT"
+msgstr "ENTORNO"
+
+#: src/manpages.rs:56
+msgid ""
+"When set, the clipboard is accessed with wl-copy and wl-paste; otherwise with xclip."
+msgstr ""
+"Si está definida, el portapapeles se usa con wl-copy y wl-paste; si no, con xclip."
+
+#: src/manpages.rs:57
+msgid "Override the base directories of the files listed above."
+msgstr "Cambian las carpetas base de los archivos indicados arriba."
+
+#: src/manpages.rs:61 src/manpages.rs:257
+msgid "EXIT STATUS"
+msgstr "ESTADO DE SALIDA"
+
+#: src/manpages.rs:62
+msgid "0 on success, 1 on any error. Errors are printed to standard error."
+msgstr ""
+"0 si todo sale bien, 1 ante cualquier error. Los errores se muestran en la salida de error estándar."
+
+#: src/manpages.rs:69
+msgid "Recognize English text:"
+msgstr "Reconoce texto en inglés:"
+
+#: src/manpages.rs:70
+msgid "Recognize English and German:"
+msgstr "Reconoce inglés y alemán:"
+
+#: src/manpages.rs:71
+msgid "Save the text instead of only copying it:"
+msgstr "Guarda el texto en lugar de solo copiarlo:"
+
+#: src/manpages.rs:75 src/manpages.rs:189 src/manpages.rs:263 src/manpages.rs:298
+msgid "NOTES"
+msgstr "NOTAS"
+
+#: src/manpages.rs:77
+msgid ""
+"Each language needs its Tesseract data package, for example tesseract-ocr-deu on Debian and Ubuntu. List the installed ones with tesseract --list-langs. Leave a small margin around the text when selecting: letters cut by the selection edge are misread."
+msgstr ""
+"Cada idioma necesita su paquete de datos de Tesseract, por ejemplo tesseract-ocr-spa en Debian y Ubuntu. Ve los instalados con tesseract --list-langs. Deja un pequeño margen alrededor del texto al seleccionar: las letras cortadas por el borde de la selección se leen mal."
+
+#: src/manpages.rs:86
+msgid "Pick a color and show all its formats:"
+msgstr "Toma un color y muestra todos sus formatos:"
+
+#: src/manpages.rs:91
+msgid "CONTRAST LEVELS"
+msgstr "NIVELES DE CONTRASTE"
+
+#: src/manpages.rs:93
+msgid "Ratings are for normal-size text under WCAG 2.x:"
+msgstr "Las calificaciones son para texto de tamaño normal según WCAG 2.x:"
+
+#: src/manpages.rs:94
+msgid "7:1 or higher."
+msgstr "7:1 o más."
+
+#: src/manpages.rs:95
+msgid "4.5:1 or higher."
+msgstr "4.5:1 o más."
+
+#: src/manpages.rs:96 src/modules/color.rs:93
+msgid "AA Large"
+msgstr "AA grande"
+
+#: src/manpages.rs:96
+msgid "3:1 or higher; passes only for large text (18pt, or 14pt bold)."
+msgstr "3:1 o más; solo pasa para texto grande (18 pt, o 14 pt en negrita)."
+
+#: src/manpages.rs:97 src/modules/color.rs:94
+msgid "Fail"
+msgstr "No pasa"
+
+#: src/manpages.rs:97
+msgid "Below 3:1."
+msgstr "Menos de 3:1."
+
+#: src/manpages.rs:103
+msgid "Hex with or without #, short or long form:"
+msgstr "Hex con o sin #, en forma corta o larga:"
+
+#: src/manpages.rs:104
+msgid "Functional notation:"
+msgstr "Notación funcional:"
+
+#: src/manpages.rs:110
+msgid "TOOLS"
+msgstr "HERRAMIENTAS"
+
+#: src/manpages.rs:112
+msgid "Compression runs these programs, which must be installed:"
+msgstr "La compresión usa estos programas, que deben estar instalados:"
+
+#: src/manpages.rs:113
+msgid "built in (oxipng), lossless, all metadata stripped."
+msgstr "integrado (oxipng), sin pérdida, se quitan todos los metadatos."
+
+#: src/manpages.rs:114
+msgid "jpegoptim, recompressed down to --quality, all metadata stripped."
+msgstr ""
+"jpegoptim, recomprimido hasta --quality, se quitan todos los metadatos."
+
+#: src/manpages.rs:115
+msgid "cwebp, at --quality, metadata dropped."
+msgstr "cwebp, con --quality, sin metadatos."
+
+#: src/manpages.rs:116
+msgid ""
+"ffmpeg, H.264 with a CRF derived from --quality, AAC audio, metadata removed, fast-start enabled."
+msgstr ""
+"ffmpeg, H.264 con un CRF derivado de --quality, audio AAC, sin metadatos y con inicio rápido."
+
+#: src/manpages.rs:122
+msgid "Compress every PNG in a folder:"
+msgstr "Comprime todos los PNG de una carpeta:"
+
+#: src/manpages.rs:123
+msgid "Shrink a video harder:"
+msgstr "Reduce más un video:"
+
+#: src/manpages.rs:129
+msgid "VARIABLES"
+msgstr "VARIABLES"
+
+#: src/manpages.rs:131
+msgid "Today's date as YYYY-MM-DD."
+msgstr "La fecha de hoy como AAAA-MM-DD."
+
+#: src/manpages.rs:132
+msgid ""
+"The current time in any strftime(3) FORMAT, for example {date:%A %d %B}."
+msgstr ""
+"La hora actual en cualquier FORMATO de strftime(3), por ejemplo {date:%A %d %B}."
+
+#: src/manpages.rs:133
+msgid "The current time as HH:MM."
+msgstr "La hora actual como HH:MM."
+
+#: src/manpages.rs:134
+msgid "The clipboard's text, or nothing if it is empty."
+msgstr "El texto del portapapeles, o nada si está vacío."
+
+#: src/manpages.rs:135
+msgid "The value given with --arg NAME=VALUE."
+msgstr "El valor dado con --arg NAME=VALUE."
+
+#: src/manpages.rs:136
+msgid "A literal { or }."
+msgstr "Una { o } literal."
+
+#: src/manpages.rs:142
+msgid "Fill in parameters:"
+msgstr "Completa parámetros:"
+
+#: src/manpages.rs:143
+msgid "Values with spaces need quotes:"
+msgstr "Los valores con espacios necesitan comillas:"
+
+#: src/manpages.rs:144
+msgid "Quote the clipboard with a timestamp:"
+msgstr "Cita el portapapeles con fecha y hora:"
+
+#: src/manpages.rs:150
+msgid "SHORTCUT BACKENDS"
+msgstr "BACKENDS DE ATAJOS"
+
+#: src/manpages.rs:152
+msgid ""
+"The GlobalShortcuts portal (GNOME 48+, KDE Plasma 5.27+, Hyprland). The desktop asks once for approval."
+msgstr ""
+"El portal GlobalShortcuts (GNOME 48+, KDE Plasma 5.27+, Hyprland). El escritorio pide aprobación una vez."
+
+#: src/manpages.rs:153
+msgid "Custom shortcuts added by voltkit shortcuts install."
+msgstr "Atajos personalizados agregados por voltkit shortcuts install."
+
+#: src/manpages.rs:154
+msgid "Bind voltkit trigger ACTION in the desktop or compositor settings."
+msgstr ""
+"Asigna voltkit trigger ACTION en la configuración del escritorio o del compositor."
+
+#: src/manpages.rs:158
+msgid "D-BUS INTERFACE"
+msgstr "INTERFAZ D-BUS"
+
+#: src/manpages.rs:160
+msgid ""
+"Bus name io.github.arios4k.Voltkit.Daemon, object /io/github/arios4k/Voltkit/Daemon, interface io.github.arios4k.Voltkit.Daemon1:"
+msgstr ""
+"Nombre de bus io.github.arios4k.Voltkit.Daemon, objeto /io/github/arios4k/Voltkit/Daemon, interfaz io.github.arios4k.Voltkit.Daemon1:"
+
+#: src/manpages.rs:161
+msgid ""
+"Start \"ocr\", \"color\" or \"snippets\" and return immediately. Ignored while another one is open."
+msgstr ""
+"Inicia \"ocr\", \"color\" o \"snippets\" y regresa de inmediato. Se ignora mientras otra esté abierta."
+
+#: src/manpages.rs:162
+msgid ""
+"The version, the shortcut backend, and whether typed triggers are on, off or unavailable."
+msgstr ""
+"La versión, el backend de atajos y si los disparadores al escribir están encendidos, apagados o no disponibles."
+
+#: src/manpages.rs:163
+msgid ""
+"Keep the computer from sleeping or locking, for MINUTES or, with 0, until stopped."
+msgstr ""
+"Evita que la computadora se suspenda o se bloquee, durante MINUTES minutos o, con 0, hasta que se detenga."
+
+#: src/manpages.rs:164
+msgid "End Keep Awake."
+msgstr "Termina Mantener activo."
+
+#: src/manpages.rs:165
+msgid ""
+"Whether Keep Awake is on, and when it ends as a Unix time (0: until stopped)."
+msgstr ""
+"Si Mantener activo está encendido, y cuándo termina como hora Unix (0: hasta que se detenga)."
+
+#: src/manpages.rs:166
+msgid ""
+"Re-read snippets from the configuration file, so typed triggers use edits right away. The control center calls this after every change."
+msgstr ""
+"Vuelve a leer los fragmentos del archivo de configuración, para que los disparadores al escribir usen los cambios de inmediato. El centro de control lo llama después de cada cambio."
+
+#: src/manpages.rs:167
+msgid "Stop the daemon."
+msgstr "Detiene el daemon."
+
+#: src/manpages.rs:173
+msgid "Check whether it is running:"
+msgstr "Revisa si se está ejecutando:"
+
+#: src/manpages.rs:174
+msgid "Trigger OCR from another program:"
+msgstr "Activa el OCR desde otro programa:"
+
+#: src/manpages.rs:181
+msgid "KEYS"
+msgstr "TECLAS"
+
+#: src/manpages.rs:183
+msgid "Up, Down"
+msgstr "Arriba, Abajo"
+
+#: src/manpages.rs:183
+msgid "Choose a snippet while typing in the search box."
+msgstr "Elige un fragmento mientras escribes en el cuadro de búsqueda."
+
+#: src/manpages.rs:184
+msgid "Enter"
+msgstr "Enter"
+
+#: src/manpages.rs:184
+msgid "Insert the snippet, or move to the next parameter field."
+msgstr "Inserta el fragmento, o pasa al siguiente campo de parámetro."
+
+#: src/manpages.rs:185
+msgid "Escape"
+msgstr "Escape"
+
+#: src/manpages.rs:185
+msgid "Go back from the parameter form, or close the picker."
+msgstr "Regresa del formulario de parámetros, o cierra el selector."
+
+#: src/manpages.rs:191
+msgid ""
+"The first paste asks for remote-desktop permission; the grant is remembered in ~/.local/state/voltkit/remote-desktop-token. If pasting is refused or unavailable, the expansion stays on the clipboard and a notification says to press Ctrl+V. Apps that paste with another shortcut, such as terminals, need paste_shortcut set in the [expander] section of the configuration."
+msgstr ""
+"El primer pegado pide permiso de escritorio remoto; el permiso se recuerda en ~/.local/state/voltkit/remote-desktop-token. Si el pegado se rechaza o no está disponible, la expansión queda en el portapapeles y una notificación dice que presiones Ctrl+V. Las apps que pegan con otro atajo, como las terminales, necesitan paste_shortcut en la sección [expander] de la configuración."
+
+#: src/manpages.rs:200
+msgid "Open the picker on one snippet's form:"
+msgstr "Abre el selector en el formulario de un fragmento:"
+
+#: src/manpages.rs:205
+msgid "HOW IT WORKS"
+msgstr "CÓMO FUNCIONA"
+
+#: src/manpages.rs:208
+msgid ""
+"The daemon reads key presses from /dev/input and keeps the last 64 typed characters in memory. When they end with a snippet's trigger, it erases the trigger with Backspace through a uinput virtual keyboard and pastes the expansion, restoring the clipboard afterwards. Snippets with {arg:NAME} parameters open the picker's form instead."
+msgstr ""
+"El daemon lee las pulsaciones de teclas de /dev/input y guarda en memoria los últimos 64 caracteres escritos. Cuando terminan con el disparador de un fragmento, borra el disparador con Retroceso mediante un teclado virtual uinput y pega la expansión, restaurando el portapapeles después. Los fragmentos con parámetros {arg:NAME} abren en su lugar el formulario del selector."
+
+#: src/manpages.rs:214
+msgid ""
+"Setup installs a udev rule that tags keyboards and /dev/uinput with uaccess, the way desktops grant devices to the person at the computer, and applies it at once: no group to join and no need to log out. The daemon starts and stops typed triggers as they are turned on and off, and picks up keyboards plugged in later."
+msgstr ""
+"La configuración instala una regla de udev que marca los teclados y /dev/uinput con uaccess, como los escritorios conceden dispositivos a la persona frente a la computadora, y la aplica de inmediato: no hay que unirse a ningún grupo ni cerrar sesión. El daemon inicia y detiene los disparadores al escribir cuando se encienden y apagan, y detecta los teclados que se conecten después."
+
+#: src/manpages.rs:220
+msgid ""
+"Keys are decoded with a US layout, so triggers made of letters, digits and ; work on most layouts while punctuation may differ. A trigger that is a prefix of another (;d and ;date) fires first, so the longer one is unreachable."
+msgstr ""
+"Las teclas se decodifican con una distribución de EE. UU., así que los disparadores hechos de letras, dígitos y ; funcionan en la mayoría de las distribuciones, mientras que la puntuación puede variar. Un disparador que es prefijo de otro (;d y ;date) se activa primero, así que el más largo no se puede alcanzar."
+
+#: src/manpages.rs:227
+msgid "SECURITY"
+msgstr "SEGURIDAD"
+
+#: src/manpages.rs:229
+msgid ""
+"Keyboard access applies to every program the person at the computer runs, not only Voltkit. Typed text is never logged, written to disk or sent anywhere. `voltkit expander remove-access` (or turning typed triggers off in the app and choosing to remove access) deletes /etc/udev/rules.d/70-voltkit-typed-triggers.rules and /etc/modules-load.d/voltkit-uinput.conf; the access already granted ends at the next restart. Setups from before version 0.6 also added you to the input group, which `gpasswd -d $USER input` undoes."
+msgstr ""
+"El acceso al teclado aplica a todos los programas que ejecuta la persona frente a la computadora, no solo a Voltkit. Lo que escribes nunca se registra, se guarda en disco ni se envía a ningún lado. `voltkit expander remove-access` (o apagar los disparadores al escribir en la app y elegir quitar el acceso) borra /etc/udev/rules.d/70-voltkit-typed-triggers.rules y /etc/modules-load.d/voltkit-uinput.conf; el acceso ya concedido termina en el siguiente reinicio. Las configuraciones anteriores a la versión 0.6 también te agregaban al grupo input, lo que `gpasswd -d $USER input` deshace."
+
+#: src/manpages.rs:241
+msgid "Review the setup commands, then run them:"
+msgstr "Revisa los comandos de configuración y luego ejecútalos:"
+
+#: src/manpages.rs:242
+msgid "Turn typed triggers off, and remove the keyboard access:"
+msgstr "Apaga los disparadores al escribir y quita el acceso al teclado:"
+
+#: src/manpages.rs:248
+msgid "OUTPUT"
+msgstr "SALIDA"
+
+#: src/manpages.rs:250
+msgid "In place."
+msgstr "En orden."
+
+#: src/manpages.rs:251
+msgid "Missing, and the feature does not work without it."
+msgstr "Falta, y la función no sirve sin ello."
+
+#: src/manpages.rs:252
+msgid "Missing or off, but the feature still works in a limited way."
+msgstr ""
+"Falta o está apagado, pero la función sigue andando de forma limitada."
+
+#: src/manpages.rs:253
+msgid ""
+"Install commands use the package manager of the running distribution (apt, dnf, pacman or zypper), detected from /etc/os-release."
+msgstr ""
+"Los comandos de instalación usan el gestor de paquetes de la distribución en uso (apt, dnf, pacman o zypper), detectado a partir de /etc/os-release."
+
+#: src/manpages.rs:258
+msgid ""
+"0 when nothing required is missing, 1 otherwise, so it can be used in scripts."
+msgstr ""
+"0 si no falta nada obligatorio, 1 en caso contrario, así que sirve en scripts."
+
+#: src/manpages.rs:265
+msgid ""
+"The background service holds the request through the desktop's Inhibit portal, so it needs `voltkit daemon` running. When the time is up, Keep Awake ends by itself and shows a notification."
+msgstr ""
+"El servicio en segundo plano mantiene la solicitud mediante el portal Inhibit del escritorio, así que necesita `voltkit daemon` en ejecución. Cuando se acaba el tiempo, Mantener activo termina solo y muestra una notificación."
+
+#: src/manpages.rs:273
+msgid "Stay awake for a 90-minute movie:"
+msgstr "Mantén la computadora activa durante una película de 90 minutos:"
+
+#: src/manpages.rs:274
+msgid "Stay awake until told otherwise:"
+msgstr "Mantén la computadora activa hasta nuevo aviso:"
+
+#: src/manpages.rs:275
+msgid "Check, then stop:"
+msgstr "Revisa y luego detén:"
+
+#: src/manpages.rs:282
+msgid "Copy the link from a QR code on screen:"
+msgstr "Copia el enlace de un código QR en pantalla:"
+
+#: src/manpages.rs:283
+msgid "Read the codes in a photo:"
+msgstr "Lee los códigos de una foto:"
+
+#: src/manpages.rs:284
+msgid "Show a link as a QR code in the terminal:"
+msgstr "Muestra un enlace como código QR en la terminal:"
+
+#: src/manpages.rs:285
+msgid "Save a Wi-Fi code to print:"
+msgstr "Guarda un código de Wi-Fi para imprimir:"
+
+#: src/manpages.rs:291
+msgid "Find what keeps a USB drive busy:"
+msgstr "Averigua qué mantiene ocupada una memoria USB:"
+
+#: src/manpages.rs:292
+msgid "Find the program on port 3000:"
+msgstr "Encuentra el programa en el puerto 3000:"
+
+#: src/manpages.rs:293
+msgid "Include system services:"
+msgstr "Incluye los servicios del sistema:"
+
+#: src/manpages.rs:294
+msgid "Ask a program to quit, then force it if it won't:"
+msgstr "Pide a un programa que se cierre y luego fuérzalo si no lo hace:"
+
+#: src/manpages.rs:300
+msgid ""
+"The sleep history comes from the system journal, which members of the adm or systemd-journal groups can read. Linux records what woke the computer only when it was the lid or the power button; other wakes are described by their likely causes. Which USB devices may wake the computer can be changed in the app (with the administrator password); the choice is kept in /etc/udev/rules.d/90-voltkit-wakeup.rules."
+msgstr ""
+"El historial de suspensiones viene del registro del sistema, que pueden leer los miembros de los grupos adm o systemd-journal. Linux registra qué despertó la computadora solo cuando fue la tapa o el botón de encendido; los demás despertares se describen por sus causas probables. Qué dispositivos USB pueden despertar la computadora se puede cambiar en la app (con la contraseña de administrador); la elección se guarda en /etc/udev/rules.d/90-voltkit-wakeup.rules."
+
+#: src/manpages.rs:311
+msgid ""
+"The report leaves out serial numbers, user and computer names, and network addresses, so it can be posted in a forum or bug report. Drive health comes from UDisks2 and firmware updates from fwupd. Each run (and the background service, once a day) saves a snapshot of the hardware, drivers, kernel and firmware in ~/.local/share/voltkit/snapshots, which later reports compare to show what changed. --memory reads the memory slots from the SMBIOS tables, which needs the administrator password."
+msgstr ""
+"El informe omite números de serie, nombres de usuario y de equipo, y direcciones de red, así que se puede publicar en un foro o en un reporte de errores. La salud de las unidades viene de UDisks2 y las actualizaciones de firmware de fwupd. Cada ejecución (y el servicio en segundo plano, una vez al día) guarda una instantánea del hardware, los drivers, el kernel y el firmware en ~/.local/share/voltkit/snapshots, que los informes posteriores comparan para mostrar qué cambió. --memory lee las ranuras de memoria de las tablas SMBIOS, lo que necesita la contraseña de administrador."
+
+#: src/manpages.rs:322
+msgid "Copy the report to paste in a forum post:"
+msgstr "Copia el informe para pegarlo en una publicación de un foro:"
+
+#: src/manpages.rs:323
+msgid "Include memory slots and upgrade options:"
+msgstr "Incluye las ranuras de memoria y las opciones de ampliación:"
+
+#: src/manpages.rs:330
+msgid "List the conversions:"
+msgstr "Muestra las conversiones:"
+
+#: src/manpages.rs:331
+msgid "Tidy JSON from a file:"
+msgstr "Ordena el JSON de un archivo:"
+
+#: src/manpages.rs:332
+msgid "Turn a copied spreadsheet range into a Markdown table:"
+msgstr ""
+"Convierte un rango copiado de una hoja de cálculo en una tabla Markdown:"
+
+#: src/manpages.rs:333
+msgid "Remove tracking from a link:"
+msgstr "Quita el rastreo de un enlace:"
+
+#: src/manpages.rs:338
+msgid "A Sway or i3 binding:"
+msgstr "Un atajo de Sway o i3:"
+
+#: src/manpages.rs:343
+msgid "What does Super+V do?"
+msgstr "¿Qué hace Super+V?"
+
+#: src/manpages.rs:344
+msgid "Find shortcuts used by more than one action:"
+msgstr "Encuentra atajos que usan varias acciones:"
+
+#: src/manpages.rs:345
+msgid "Preview the gsettings commands:"
+msgstr "Ve los comandos de gsettings antes de ejecutarlos:"
+
+#: src/manpages.rs:346
+msgid "Remove the shortcuts again:"
+msgstr "Quita los atajos de nuevo:"
+
+#: src/manpages.rs:397
+msgid "SEE ALSO"
+msgstr "VÉASE TAMBIÉN"
+
+#: src/manpages.rs:414
+msgid "COMMANDS"
+msgstr "COMANDOS"
+
+#: src/manpages.rs:445
+msgid "Voltkit Manual"
+msgstr "Manual de Voltkit"
+
+#: src/manpages.rs:471
+msgid "AUTHOR"
+msgstr "AUTOR"
+
+#: src/manpages.rs:479
+msgid "NAME"
+msgstr "NOMBRE"
+
+#: src/manpages.rs:479
+msgid "SYNOPSIS"
+msgstr "SINOPSIS"
+
+#: src/manpages.rs:479
+msgid "DESCRIPTION"
+msgstr "DESCRIPCIÓN"
+
+#: src/manpages.rs:479
+msgid "OPTIONS"
+msgstr "OPCIONES"
+
+#: src/manpages.rs:479
+msgid "SUBCOMMANDS"
+msgstr "SUBCOMANDOS"
+
+#: src/modules/color.rs:24
+#, rust-format
+msgid "expected rgb(0-255, 0-255, 0-255), got {}"
+msgstr "se esperaba rgb(0-255, 0-255, 0-255), se recibió {}"
+
+#: src/modules/color.rs:31
+#, rust-format
+msgid "unrecognized color {}"
+msgstr "color no reconocido {}"
+
+#: src/modules/color.rs:34
+#, rust-format
+msgid "invalid hex color {}"
+msgstr "color hex no válido {}"
+
+#: src/modules/compress.rs:70
+#, rust-format
+msgid "cannot compress {}: {}"
+msgstr "no se puede comprimir {}: {}"
+
+#: src/modules/compress.rs:113
+#, rust-format
+msgid "unsupported file type: {}"
+msgstr "tipo de archivo no compatible: {}"
+
+#: src/modules/compress.rs:116 src/modules/envvars.rs:65 src/modules/hosts.rs:109 src/modules/qr.rs:138
+#, rust-format
+msgid "cannot read {}"
+msgstr "no se puede leer {}"
+
+#: src/modules/hosts.rs:183
+msgid "pkexec is needed to save /etc/hosts"
+msgstr "se necesita pkexec para guardar /etc/hosts"
+
+#: src/modules/hosts.rs:189
+msgid "not saved: permission was not granted"
+msgstr "no se guardó: no se concedió el permiso"
+
+#: src/modules/hosts.rs:190
+#, rust-format
+msgid "could not save {}: {}"
+msgstr "no se pudo guardar {}: {}"
+
+#: src/modules/keybindings.rs:61
+msgid "Shift"
+msgstr "Mayús"
+
+#: src/modules/keybindings.rs:62
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: src/modules/keybindings.rs:63
+msgid "Alt"
+msgstr "Alt"
+
+#: src/modules/keybindings.rs:200 src/modules/keybindings.rs:216
+#, rust-format
+msgid "Extension: {}"
+msgstr "Extensión: {}"
+
+#: src/modules/keybindings.rs:315
+msgid "Windows"
+msgstr "Ventanas"
+
+#: src/modules/keybindings.rs:316
+msgid "Sessions"
+msgstr "Sesiones"
+
+#: src/modules/keybindings.rs:318 src/modules/sysreport.rs:177
+msgid "System"
+msgstr "Sistema"
+
+#: src/modules/keybindings.rs:342
+msgid "Custom shortcuts"
+msgstr "Atajos personalizados"
+
+#: src/modules/keybindings.rs:442
+msgid "the extension's settings are gone"
+msgstr "la configuración de la extensión ya no existe"
+
+#: src/modules/keybindings.rs:455 src/modules/keybindings.rs:500
+msgid "this shortcut is locked by the system administrator"
+msgstr "el administrador del sistema bloqueó este atajo"
+
+#: src/modules/keybindings.rs:460
+#, rust-format
+msgid "{} isn't a valid shortcut"
+msgstr "{} no es un atajo válido"
+
+#: src/modules/keybindings.rs:489
+msgid "could not save the shortcut"
+msgstr "no se pudo guardar el atajo"
+
+#: src/modules/keybindings.rs:503
+msgid "custom shortcuts have no default"
+msgstr "los atajos personalizados no tienen valor predeterminado"
+
+#: src/modules/mod.rs:62
+msgid "App Permissions"
+msgstr "Permisos de apps"
+
+#: src/modules/mod.rs:64
+msgid ""
+"Change or forget the answers you gave when apps asked for screenshots, the camera and more."
+msgstr ""
+"Cambia u olvida las respuestas que diste cuando las apps pidieron capturas de pantalla, la cámara y más."
+
+#: src/modules/mod.rs:70
+msgid "Drop images or videos to strip metadata and shrink them."
+msgstr ""
+"Suelta imágenes o videos para quitarles los metadatos y reducir su tamaño."
+
+#: src/modules/mod.rs:76
+msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
+msgstr "Conversión HEX / RGB / HSL, revisión de contraste WCAG e historial."
+
+#: src/modules/mod.rs:82
+msgid ""
+"Edit /etc/hosts and your session's environment variables without a text editor."
+msgstr ""
+"Edita /etc/hosts y las variables de entorno de tu sesión sin un editor de texto."
+
+#: src/modules/mod.rs:88
+msgid "Stop your computer from sleeping or locking for a while."
+msgstr "Evita que tu computadora se suspenda o se bloquee por un rato."
+
+#: src/modules/mod.rs:92
+msgid "QR Code"
+msgstr "Código QR"
+
+#: src/modules/mod.rs:94
+msgid ""
+"Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
+msgstr ""
+"Lee un código QR en cualquier parte de la pantalla, o convierte texto, enlaces y datos de Wi-Fi en uno."
+
+#: src/modules/mod.rs:98 src/ruler.rs:79 src/ruler.rs:125 src/ruler.rs:176
+msgid "Screen Ruler"
+msgstr "Regla de pantalla"
+
+#: src/modules/mod.rs:100
+msgid "Measure distances and sizes on screen in pixels."
+msgstr "Mide distancias y tamaños en pantalla en píxeles."
+
+#: src/modules/mod.rs:104
+msgid "Shortcut Detective"
+msgstr "Detective de atajos"
+
+#: src/modules/mod.rs:106
+msgid ""
+"Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
+msgstr ""
+"Averigua qué app es dueña de un atajo de teclado, resuelve conflictos y elige combinaciones libres."
+
+#: src/modules/mod.rs:112
+msgid ""
+"Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
+msgstr ""
+"Pega lo que copiaste ya convertido: JSON ordenado, tablas como Markdown, enlaces limpios, otro tipo de mayúsculas."
+
+#: src/modules/mod.rs:116
+msgid "System Report"
+msgstr "Informe del sistema"
+
+#: src/modules/mod.rs:118
+msgid ""
+"What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
+msgstr ""
+"Lo que hay en esta computadora, explicado: drivers, salud de las unidades, temperaturas, actualizaciones de firmware y qué cambió."
+
+#: src/modules/mod.rs:124
+msgid "Snippets with dynamic variables: dates, clipboard, parameters."
+msgstr "Fragmentos con variables dinámicas: fechas, portapapeles, parámetros."
+
+#: src/modules/mod.rs:128
+msgid "Text Extractor"
+msgstr "Extractor de texto"
+
+#: src/modules/mod.rs:130
+msgid "Drag a box around any text on screen and copy it to the clipboard."
+msgstr ""
+"Arrastra un recuadro alrededor de cualquier texto en pantalla y cópialo al portapapeles."
+
+#: src/modules/mod.rs:134
+msgid "What's Using This?"
+msgstr "¿Qué lo está usando?"
+
+#: src/modules/mod.rs:136
+msgid ""
+"See which apps keep a file, folder, drive or network port busy, and close them."
+msgstr ""
+"Mira qué apps mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red, y ciérralas."
+
+#: src/modules/mod.rs:140
+msgid "Why Didn't It Sleep?"
+msgstr "¿Por qué no se suspendió?"
+
+#: src/modules/mod.rs:142
+msgid ""
+"What keeps the computer awake, what woke it up, and how much battery it used asleep."
+msgstr ""
+"Qué mantiene activa la computadora, qué la despertó y cuánta batería usó mientras estaba suspendida."
+
+#: src/modules/ocr.rs:48
+#, rust-format
+msgid "screenshot portal failed ({}) and so did the fallback"
+msgstr "el portal de capturas falló ({}) y la alternativa también"
+
+#: src/modules/ocr.rs:55
+msgid ""
+"no region screenshot tool found (install grim+slurp, gnome-screenshot, spectacle or maim)"
+msgstr ""
+"no se encontró ninguna herramienta para capturar regiones (instala grim+slurp, gnome-screenshot, spectacle o maim)"
+
+#: src/modules/ocr.rs:59
+msgid "capture cancelled"
+msgstr "captura cancelada"
+
+#: src/modules/ocr.rs:77
+msgid "no text found in the selected region"
+msgstr "no se encontró texto en la región seleccionada"
+
+#: src/modules/permissions.rs:53
+msgid "Take screenshots"
+msgstr "Tomar capturas de pantalla"
+
+#: src/modules/permissions.rs:54
+msgid "Use the camera"
+msgstr "Usar la cámara"
+
+#: src/modules/permissions.rs:55
+msgid "Use the microphone"
+msgstr "Usar el micrófono"
+
+#: src/modules/permissions.rs:56
+msgid "Play sound"
+msgstr "Reproducir sonido"
+
+#: src/modules/permissions.rs:57
+msgid "See your location"
+msgstr "Ver tu ubicación"
+
+#: src/modules/permissions.rs:58
+msgid "Run in the background"
+msgstr "Ejecutarse en segundo plano"
+
+#: src/modules/permissions.rs:59
+msgid "Show notifications"
+msgstr "Mostrar notificaciones"
+
+#: src/modules/permissions.rs:60
+msgid "Keep the computer awake"
+msgstr "Mantener la computadora activa"
+
+#: src/modules/permissions.rs:61
+msgid "Control your computer remotely"
+msgstr "Controlar tu computadora a distancia"
+
+#: src/modules/permissions.rs:62
+msgid "Record or share your screen"
+msgstr "Grabar o compartir tu pantalla"
+
+#: src/modules/permissions.rs:63
+msgid "Change the wallpaper"
+msgstr "Cambiar el fondo de pantalla"
+
+#: src/modules/permissions.rs:64
+msgid "Run with real-time priority"
+msgstr "Ejecutarse con prioridad de tiempo real"
+
+#: src/modules/permissions.rs:65
+msgid "Look at the windows on screen"
+msgstr "Ver las ventanas en pantalla"
+
+#: src/modules/permissions.rs:66
+msgid "Use desktop services"
+msgstr "Usar servicios del escritorio"
+
+#: src/modules/permissions.rs:74 src/permissions_ui.rs:159 src/permissions_ui.rs:168
+msgid "Allowed"
+msgstr "Permitido"
+
+#: src/modules/permissions.rs:75 src/permissions_ui.rs:168
+msgid "Denied"
+msgstr "Denegado"
+
+#: src/modules/permissions.rs:77
+msgid "Allowed: exact location"
+msgstr "Permitido: ubicación exacta"
+
+#: src/modules/permissions.rs:78
+msgid "Allowed: approximate location"
+msgstr "Permitido: ubicación aproximada"
+
+#: src/modules/permissions.rs:79 src/modules/permissions.rs:81
+msgid "Remembered"
+msgstr "Recordado"
+
+#: src/modules/permissions.rs:120
+msgid "no session bus"
+msgstr "no hay bus de sesión"
+
+#: src/modules/qr.rs:13 src/modules/qr.rs:117
+#, rust-format
+msgid "cannot open {}"
+msgstr "no se puede abrir {}"
+
+#: src/modules/qr.rs:39
+msgid "no QR code found in the selected area"
+msgstr "no se encontró ningún código QR en el área seleccionada"
+
+#: src/modules/qr.rs:64
+msgid "nothing to encode"
+msgstr "no hay nada que codificar"
+
+#: src/modules/qr.rs:68
+msgid "text is too long for a QR code"
+msgstr "el texto es demasiado largo para un código QR"
+
+#: src/modules/qr.rs:119
+#, rust-format
+msgid "the image is too large ({} MB); use one under 5 MB"
+msgstr "la imagen es demasiado grande ({} MB); usa una de menos de 5 MB"
+
+#: src/modules/qr.rs:122
+msgid "not an image Voltkit can read; use a PNG, JPEG, WebP or SVG"
+msgstr "no es una imagen que Voltkit pueda leer; usa un PNG, JPEG, WebP o SVG"
+
+#: src/modules/qr.rs:126
+#, rust-format
+msgid "{} images can't be used as a logo; use a PNG, JPEG, WebP or SVG"
+msgstr ""
+"las imágenes {} no se pueden usar como logo; usa un PNG, JPEG, WebP o SVG"
+
+#: src/modules/qr.rs:129
+#, rust-format
+msgid "the image is too small ({}×{}); use one at least {}×{} pixels"
+msgstr ""
+"la imagen es demasiado pequeña ({}×{}); usa una de al menos {}×{} píxeles"
+
+#: src/modules/qr.rs:132
+#, rust-format
+msgid "the image is too large ({}×{}); use one under {}×{} pixels"
+msgstr ""
+"la imagen es demasiado grande ({}×{}); usa una de menos de {}×{} píxeles"
+
+#: src/modules/qr.rs:135
+#, rust-format
+msgid "the image is too wide or tall ({}×{}); use a square-ish logo"
+msgstr ""
+"la imagen es demasiado ancha o alta ({}×{}); usa un logo más o menos cuadrado"
+
+#: src/modules/sleep.rs:44
+msgid "Stops the computer from sleeping"
+msgstr "Evita que la computadora se suspenda"
+
+#: src/modules/sleep.rs:45
+msgid "Keeps the screen on and stops automatic sleep"
+msgstr "Mantiene la pantalla encendida y evita la suspensión automática"
+
+#: src/modules/sleep.rs:46
+msgid "Stops closing the lid from putting it to sleep"
+msgstr "Evita que cerrar la tapa la suspenda"
+
+#: src/modules/sleep.rs:199
+msgid "An external monitor is connected (or was just changed)"
+msgstr "Hay un monitor externo conectado (o se acaba de cambiar)"
+
+#: src/modules/sleep.rs:246
+msgid "A window"
+msgstr "Una ventana"
+
+#: src/modules/sleep.rs:246
+msgid "Asked to keep the screen on, usually for a playing video"
+msgstr ""
+"Pidió mantener la pantalla encendida, normalmente para un video en reproducción"
+
+#: src/modules/sleep.rs:254
+msgid "Asked the computer to stay awake"
+msgstr "Pidió que la computadora siga activa"
+
+#: src/modules/sleep.rs:284 src/modules/sleep.rs:288
+msgid "Never sleeps by itself when plugged in"
+msgstr "Nunca se suspende sola cuando está conectada"
+
+#: src/modules/sleep.rs:285
+msgid ""
+"Automatic sleep is turned off for when the computer is plugged in, which it is now. Turn it on under Power Saving in the power settings."
+msgstr ""
+"La suspensión automática está desactivada para cuando la computadora está conectada a la corriente, como ahora. Actívala en Ahorro de energía, en la configuración de energía."
+
+#: src/modules/sleep.rs:289
+msgid ""
+"Automatic sleep is turned off for when the computer is plugged in. Turn it on under Power Saving in the power settings."
+msgstr ""
+"La suspensión automática está desactivada para cuando la computadora está conectada a la corriente. Actívala en Ahorro de energía, en la configuración de energía."
+
+#: src/modules/sleep.rs:292 src/modules/sleep.rs:296
+msgid "Never sleeps by itself when on battery"
+msgstr "Nunca se suspende sola cuando usa la batería"
+
+#: src/modules/sleep.rs:293
+msgid ""
+"Automatic sleep is turned off for when the computer is on battery, which it is now. Turn it on under Power Saving in the power settings."
+msgstr ""
+"La suspensión automática está desactivada para cuando la computadora usa la batería, como ahora. Actívala en Ahorro de energía, en la configuración de energía."
+
+#: src/modules/sleep.rs:297
+msgid ""
+"Automatic sleep is turned off for when the computer is on battery. Turn it on under Power Saving in the power settings."
+msgstr ""
+"La suspensión automática está desactivada para cuando la computadora usa la batería. Actívala en Ahorro de energía, en la configuración de energía."
+
+#: src/modules/sleep.rs:323
+msgid "This is set in /etc/systemd/logind.conf."
+msgstr "Esto se configura en /etc/systemd/logind.conf."
+
+#: src/modules/sleep.rs:326
+msgid "Closing the lid never puts it to sleep"
+msgstr "Cerrar la tapa nunca la suspende"
+
+#: src/modules/sleep.rs:327
+#, rust-format
+msgid "The lid is set to “{}”. {}"
+msgstr "La tapa está configurada como “{}”. {}"
+
+#: src/modules/sleep.rs:333
+msgid "Closing the lid doesn't sleep while a monitor or dock is connected"
+msgstr ""
+"Cerrar la tapa no la suspende mientras hay un monitor o una base conectados"
+
+#: src/modules/sleep.rs:334
+#, rust-format
+msgid ""
+"An external monitor or dock is connected now, so closing the lid keeps the computer running (so you can keep using the big screen). Disconnect it to sleep. {}"
+msgstr ""
+"Hay un monitor externo o una base conectados, así que cerrar la tapa mantiene la computadora funcionando (para que sigas usando la pantalla grande). Desconéctalo para suspenderla. {}"
+
+#: src/modules/sleep.rs:340
+msgid "Closing the lid doesn't sleep while plugged in"
+msgstr "Cerrar la tapa no la suspende mientras está conectada"
+
+#: src/modules/sleep.rs:341
+#, rust-format
+msgid "The lid is set to “{}” on power. {}"
+msgstr "La tapa está configurada como “{}” con corriente. {}"
+
+#: src/modules/sleep.rs:352
+msgid "Uses light sleep (s2idle)"
+msgstr "Usa suspensión ligera (s2idle)"
+
+#: src/modules/sleep.rs:354
+msgid ""
+"Light sleep wakes up instantly but uses more battery than deep sleep, which this computer also supports. Deep sleep can be chosen with the kernel option mem_sleep_default=deep."
+msgstr ""
+"La suspensión ligera despierta al instante pero usa más batería que la suspensión profunda, que esta computadora también admite. La suspensión profunda se puede elegir con la opción del kernel mem_sleep_default=deep."
+
+#: src/modules/sleep.rs:358
+msgid ""
+"Light sleep wakes up instantly but uses more battery than deep sleep. Some apps and devices can also wake it more easily."
+msgstr ""
+"La suspensión ligera despierta al instante pero usa más batería que la suspensión profunda. Algunas apps y dispositivos también pueden despertarla con más facilidad."
+
+#: src/modules/sleep.rs:374
+msgid "journalctl isn't available"
+msgstr "journalctl no está disponible"
+
+#: src/modules/sleep.rs:378
+msgid ""
+"Your account can't read the system log. Being in the “adm” group allows it."
+msgstr ""
+"Tu cuenta no puede leer el registro del sistema. Estar en el grupo “adm” lo permite."
+
+#: src/modules/sleep.rs:437
+msgid "you closed the lid"
+msgstr "cerraste la tapa"
+
+#: src/modules/sleep.rs:439
+msgid "you pressed the power button"
+msgstr "presionaste el botón de encendido"
+
+#: src/modules/sleep.rs:444
+msgid "it was idle, or you chose Suspend"
+msgstr "estuvo inactiva, o elegiste Suspender"
+
+#: src/modules/sleep.rs:455
+msgid "you opening the lid"
+msgstr "abrir la tapa"
+
+#: src/modules/sleep.rs:457
+msgid "the power button"
+msgstr "el botón de encendido"
+
+#: src/modules/sleep.rs:459
+msgid "something right away: often a USB device, the network or a driver"
+msgstr "algo de inmediato: a menudo un dispositivo USB, la red o un driver"
+
+#: src/modules/sleep.rs:461
+msgid ""
+"something while the lid was still closed: often a USB device or the network"
+msgstr ""
+"algo mientras la tapa seguía cerrada: a menudo un dispositivo USB o la red"
+
+#: src/modules/sleep.rs:463
+msgid "a key, the touchpad, a USB device or a timer"
+msgstr "una tecla, el touchpad, un dispositivo USB o un temporizador"
+
+#: src/modules/sleep.rs:529
+#, rust-format
+msgid "USB device {}:{}"
+msgstr "Dispositivo USB {}:{}"
+
+#: src/modules/sleep.rs:550 src/modules/sleep.rs:555
+msgid "this device can't be changed"
+msgstr "este dispositivo no se puede cambiar"
+
+#: src/modules/sleep.rs:552
+msgid "the device was unplugged"
+msgstr "el dispositivo se desconectó"
+
+#: src/modules/sleep.rs:561
+msgid "not changed: permission was not granted"
+msgstr "no se cambió: no se concedió el permiso"
+
+#: src/modules/sleep.rs:562
+#, rust-format
+msgid "could not change it: {}"
+msgstr "no se pudo cambiar: {}"
+
+#: src/modules/sleep.rs:587
+msgid "Mon"
+msgstr "lun"
+
+#: src/modules/sleep.rs:587
+msgid "Tue"
+msgstr "mar"
+
+#: src/modules/sleep.rs:587
+msgid "Wed"
+msgstr "mié"
+
+#: src/modules/sleep.rs:587
+msgid "Thu"
+msgstr "jue"
+
+#: src/modules/sleep.rs:587
+msgid "Fri"
+msgstr "vie"
+
+#: src/modules/sleep.rs:587
+msgid "Sat"
+msgstr "sáb"
+
+#: src/modules/sleep.rs:587
+msgid "Sun"
+msgstr "dom"
+
+#. TRANSLATORS: a weekday and a time; {} is the weekday, the rest is a chrono time format (%H:%M for 24-hour time).
+#: src/modules/sleep.rs:592
+#, rust-format
+msgid "{} %-I:%M %p"
+msgstr "{} %H:%M"
+
+#: src/modules/sleep.rs:611
+#, rust-format
+msgid "Went to sleep because {}"
+msgstr "Se suspendió porque {}"
+
+#: src/modules/sleep.rs:611
+#, rust-format
+msgid "Woken by {}"
+msgstr "Se despertó por {}"
+
+#: src/modules/sleep.rs:613
+#, rust-format
+msgid "Battery {}% → {}%"
+msgstr "Batería {}% → {}%"
+
+#: src/modules/sleep.rs:615
+#, rust-format
+msgid " ({}% an hour{})"
+msgstr " ({}% por hora{})"
+
+#: src/modules/sleep.rs:615
+msgid ", more than usual"
+msgstr ", más de lo normal"
+
+#: src/modules/sleep.rs:619
+#, rust-format
+msgid "Slept {} → {} · {}"
+msgstr "Suspendida {} → {} · {}"
+
+#: src/modules/sleep.rs:623
+#, rust-format
+msgid "Lid closed {} but stayed awake for {}"
+msgstr "Tapa cerrada el {}, pero siguió activa durante {}"
+
+#: src/modules/sleep.rs:624
+#, rust-format
+msgid "Lid closed {} but it stayed awake"
+msgstr "Tapa cerrada el {}, pero siguió activa"
+
+#: src/modules/sleep.rs:626
+msgid ""
+"Usually because a monitor or dock was connected, it was plugged in, or an app kept it awake"
+msgstr ""
+"Normalmente porque había un monitor o una base conectados, estaba conectada a la corriente o una app la mantuvo activa"
+
+#: src/modules/sleep.rs:632
+msgid "Right now"
+msgstr "Ahora mismo"
+
+#: src/modules/sleep.rs:634
+msgid "Nothing is keeping the computer awake."
+msgstr "Nada mantiene activa la computadora."
+
+#: src/modules/sleep.rs:642
+msgid "Recent sleeps"
+msgstr "Suspensiones recientes"
+
+#: src/modules/sleep.rs:646
+msgid "No sleeps in the last week."
+msgstr "No hubo suspensiones en la última semana."
+
+#: src/modules/sleep.rs:655
+msgid "USB devices that can wake it"
+msgstr "Dispositivos USB que pueden despertarla"
+
+#: src/modules/sleep.rs:658
+msgid "None."
+msgstr "Ninguno."
+
+#: src/modules/sleep.rs:661
+#, rust-format
+msgid "woke it {} time"
+msgid_plural "woke it {} times"
+msgstr[0] "la despertó {} vez"
+msgstr[1] "la despertó {} veces"
+
+#: src/modules/smartpaste.rs:13
+msgid "Plain text"
+msgstr "Texto sin formato"
+
+#: src/modules/smartpaste.rs:14
+msgid "Formatted JSON"
+msgstr "JSON con formato"
+
+#: src/modules/smartpaste.rs:15
+msgid "Compact JSON"
+msgstr "JSON compacto"
+
+#: src/modules/smartpaste.rs:16
+msgid "Markdown table"
+msgstr "Tabla Markdown"
+
+#: src/modules/smartpaste.rs:18
+msgid "Link without tracking"
+msgstr "Enlace sin rastreo"
+
+#: src/modules/smartpaste.rs:19
+msgid "Readable link"
+msgstr "Enlace legible"
+
+#: src/modules/smartpaste.rs:20
+msgid "Decoded Base64"
+msgstr "Base64 decodificado"
+
+#: src/modules/smartpaste.rs:21
+msgid "Join broken lines"
+msgstr "Unir líneas cortadas"
+
+#: src/modules/smartpaste.rs:22
+msgid "One line"
+msgstr "Una sola línea"
+
+#: src/modules/smartpaste.rs:23
+msgid "Tidy spaces"
+msgstr "Ordenar espacios"
+
+#: src/modules/smartpaste.rs:24
+msgid "Bulleted list"
+msgstr "Lista con viñetas"
+
+#: src/modules/smartpaste.rs:25
+msgid "Numbered list"
+msgstr "Lista numerada"
+
+#: src/modules/smartpaste.rs:26
+msgid "Quote"
+msgstr "Cita"
+
+#: src/modules/smartpaste.rs:27
+msgid "UPPERCASE"
+msgstr "MAYÚSCULAS"
+
+#: src/modules/smartpaste.rs:28
+msgid "lowercase"
+msgstr "minúsculas"
+
+#: src/modules/smartpaste.rs:29
+msgid "Title Case"
+msgstr "Tipo Título"
+
+#: src/modules/smartpaste.rs:30
+msgid "Sentence case"
+msgstr "Tipo oración"
+
+#: src/modules/snippets.rs:48
+#, rust-format
+msgid "unmatched '}}' at byte {}"
+msgstr "'}}' sin pareja en el byte {}"
+
+#: src/modules/snippets.rs:51
+#, rust-format
+msgid "unclosed '{{' at byte {}"
+msgstr "'{{' sin cerrar en el byte {}"
+
+#: src/modules/snippets.rs:72
+#, rust-format
+msgid "invalid date format {}"
+msgstr "formato de fecha no válido {}"
+
+#: src/modules/snippets.rs:79
+#, rust-format
+msgid "missing parameter {}"
+msgstr "falta el parámetro {}"
+
+#: src/modules/snippets.rs:81
+#, rust-format
+msgid "unknown variable {{{}}}"
+msgstr "variable desconocida {{{}}}"
+
+#: src/modules/snippets.rs:90
+msgid "‹clipboard›"
+msgstr "‹portapapeles›"
+
+#: src/modules/sysreport.rs:176
+msgid "Computer"
+msgstr "Computadora"
+
+#: src/modules/sysreport.rs:178
+msgid "Kernel"
+msgstr "Kernel"
+
+#: src/modules/sysreport.rs:179
+msgid "Desktop"
+msgstr "Escritorio"
+
+#: src/modules/sysreport.rs:180 src/modules/sysreport.rs:556 src/modules/sysreport.rs:557
+msgid "Processor"
+msgstr "Procesador"
+
+#: src/modules/sysreport.rs:181 src/modules/sysreport.rs:934
+msgid "Memory"
+msgstr "Memoria"
+
+#: src/modules/sysreport.rs:183 src/modules/sysreport.rs:558
+msgid "Graphics"
+msgstr "Gráficos"
+
+#: src/modules/sysreport.rs:184
+msgid "Storage"
+msgstr "Almacenamiento"
+
+#: src/modules/sysreport.rs:185
+msgid "Network"
+msgstr "Red"
+
+#: src/modules/sysreport.rs:186
+msgid "Audio"
+msgstr "Audio"
+
+#: src/modules/sysreport.rs:187
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/modules/sysreport.rs:188
+msgid "Camera"
+msgstr "Cámara"
+
+#: src/modules/sysreport.rs:330 src/modules/sysreport.rs:1053
+#, rust-format
+msgid "{} cores, {} threads"
+msgstr "{} núcleos, {} hilos"
+
+#: src/modules/sysreport.rs:332 src/modules/sysreport.rs:1054
+#, rust-format
+msgid "{} cores"
+msgstr "{} núcleos"
+
+#: src/modules/sysreport.rs:335 src/modules/sysreport.rs:1055
+#, rust-format
+msgid "up to {} GHz"
+msgstr "hasta {} GHz"
+
+#: src/modules/sysreport.rs:367 src/modules/sysreport.rs:1056
+#, rust-format
+msgid "{} GB usable"
+msgstr "{} GB utilizables"
+
+#: src/modules/sysreport.rs:369 src/modules/sysreport.rs:1057
+#, rust-format
+msgid " · {} GB swap"
+msgstr " · {} GB de swap"
+
+#: src/modules/sysreport.rs:401
+#, rust-format
+msgid "{} (no driver)"
+msgstr "{} (sin driver)"
+
+#: src/modules/sysreport.rs:411 src/modules/sysreport.rs:1052
+msgid "no driver"
+msgstr "sin driver"
+
+#: src/modules/sysreport.rs:423
+#, rust-format
+msgid "Available ({})"
+msgstr "Disponible ({})"
+
+#: src/modules/sysreport.rs:424
+msgid "Available"
+msgstr "Disponible"
+
+#: src/modules/sysreport.rs:463
+msgid " · failing"
+msgstr " · fallando"
+
+#: src/modules/sysreport.rs:465 src/modules/sysreport.rs:1058
+#, rust-format
+msgid " · {}% worn"
+msgstr " · {}% desgastado"
+
+#: src/modules/sysreport.rs:504
+msgid "NVMe SSD"
+msgstr "SSD NVMe"
+
+#: src/modules/sysreport.rs:506
+msgid "USB drive"
+msgstr "unidad USB"
+
+#: src/modules/sysreport.rs:508
+msgid "hard disk"
+msgstr "disco duro"
+
+#: src/modules/sysreport.rs:559
+msgid "Drive"
+msgstr "Unidad"
+
+#: src/modules/sysreport.rs:560 src/modules/sysreport.rs:738
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/modules/sysreport.rs:573
+msgid "Fan"
+msgstr "Ventilador"
+
+#: src/modules/sysreport.rs:573
+#, rust-format
+msgid "Fan {}"
+msgstr "Ventilador {}"
+
+#: src/modules/sysreport.rs:663
+msgid "fwupd isn't installed"
+msgstr "fwupd no está instalado"
+
+#: src/modules/sysreport.rs:699 src/modules/sysreport.rs:730 src/modules/sysreport.rs:745
+#, rust-format
+msgid "{} has no driver"
+msgstr "{} no tiene driver"
+
+#: src/modules/sysreport.rs:699
+msgid ""
+"The screen works with a basic fallback, but video, games and external monitors may be slow or not work."
+msgstr ""
+"La pantalla funciona con una alternativa básica, pero el video, los juegos y los monitores externos pueden ir lentos o no funcionar."
+
+#: src/modules/sysreport.rs:704
+#, rust-format
+msgid "{} uses a basic fallback driver"
+msgstr "{} usa un driver básico de respaldo"
+
+#: src/modules/sysreport.rs:704
+msgid ""
+"Video and games are slow, and the computer may use more power than it should."
+msgstr ""
+"El video y los juegos van lentos, y la computadora puede consumir más energía de la necesaria."
+
+#: src/modules/sysreport.rs:711
+#, rust-format
+msgid "{} uses the open-source driver (nouveau)"
+msgstr "{} usa el driver de código abierto (nouveau)"
+
+#: src/modules/sysreport.rs:712
+msgid ""
+"It works for everyday use, but NVIDIA's own driver is much faster for games and graphics work, and on laptops it can switch the card off to save battery."
+msgstr ""
+"Funciona para el uso diario, pero el driver propio de NVIDIA es mucho más rápido para juegos y trabajo gráfico, y en laptops puede apagar la tarjeta para ahorrar batería."
+
+#: src/modules/sysreport.rs:717 src/modules/sysreport.rs:738
+#, rust-format
+msgid "{} works"
+msgstr "{} funciona"
+
+#: src/modules/sysreport.rs:717
+#, rust-format
+msgid "Driver: {}"
+msgstr "Driver: {}"
+
+#: src/modules/sysreport.rs:731
+msgid ""
+"Wi-Fi won't work until a driver is installed. Connect with a cable or a USB Wi-Fi adapter to install one."
+msgstr ""
+"El Wi-Fi no funcionará hasta que se instale un driver. Conéctate con un cable o un adaptador Wi-Fi USB para instalar uno."
+
+#: src/modules/sysreport.rs:731
+msgid "This network connection won't work until a driver is installed."
+msgstr "Esta conexión de red no funcionará hasta que se instale un driver."
+
+#: src/modules/sysreport.rs:738
+msgid "Wired network"
+msgstr "Red cableada"
+
+#: src/modules/sysreport.rs:739
+#, rust-format
+msgid "{}, driver: {}"
+msgstr "{}, driver: {}"
+
+#: src/modules/sysreport.rs:745
+#, rust-format
+msgid "This device ({}) may not work."
+msgstr "Este dispositivo ({}) podría no funcionar."
+
+#: src/modules/sysreport.rs:752
+#, rust-format
+msgid "{} may fail soon"
+msgstr "{} podría fallar pronto"
+
+#: src/modules/sysreport.rs:753
+msgid ""
+"The drive reports a problem with its health. Back up your files now, and plan to replace it."
+msgstr ""
+"La unidad informa un problema con su salud. Haz una copia de seguridad de tus archivos ahora y planea reemplazarla."
+
+#: src/modules/sysreport.rs:756
+#, rust-format
+msgid "{} has {} damaged sectors"
+msgstr "{} tiene {} sectores dañados"
+
+#: src/modules/sysreport.rs:756
+msgid "Damaged sectors often grow over time. Keep a backup of your files."
+msgstr ""
+"Los sectores dañados suelen aumentar con el tiempo. Mantén una copia de seguridad de tus archivos."
+
+#: src/modules/sysreport.rs:758
+#, rust-format
+msgid "{} is {}% worn"
+msgstr "{} está desgastado al {}%"
+
+#: src/modules/sysreport.rs:758
+msgid ""
+"SSDs wear out with writes. It still works, but plan to replace it and keep a backup."
+msgstr ""
+"Los SSD se desgastan con las escrituras. Todavía funciona, pero planea reemplazarlo y mantén una copia de seguridad."
+
+#: src/modules/sysreport.rs:760
+msgid "No problems reported"
+msgstr "No se informan problemas"
+
+#: src/modules/sysreport.rs:762
+#, rust-format
+msgid ", {}% worn"
+msgstr ", {}% desgastado"
+
+#: src/modules/sysreport.rs:765
+#, rust-format
+msgid ", {} hours of use"
+msgstr ", {} horas de uso"
+
+#: src/modules/sysreport.rs:767
+#, rust-format
+msgid "{} is healthy"
+msgstr "{} está en buen estado"
+
+#: src/modules/sysreport.rs:771
+msgid "The system drive"
+msgstr "La unidad del sistema"
+
+#: src/modules/sysreport.rs:771
+msgid "Your home folder"
+msgstr "Tu carpeta personal"
+
+#: src/modules/sysreport.rs:778
+#, rust-format
+msgid "{} free of {}"
+msgstr "{} libres de {}"
+
+#: src/modules/sysreport.rs:780
+#, rust-format
+msgid "{} is almost full"
+msgstr "{} está casi llena"
+
+#: src/modules/sysreport.rs:780
+#, rust-format
+msgid "{}. Apps and updates can fail; delete or move some files."
+msgstr ""
+"{}. Las apps y las actualizaciones pueden fallar; borra o mueve algunos archivos."
+
+#: src/modules/sysreport.rs:782
+#, rust-format
+msgid "{} is getting full"
+msgstr "{} se está llenando"
+
+#: src/modules/sysreport.rs:790
+#, rust-format
+msgid "{} is running hot ({} °C)"
+msgstr "{} está muy caliente ({} °C)"
+
+#: src/modules/sysreport.rs:791
+msgid ""
+"Check that the air vents aren't blocked or dusty, and that it isn't on a soft surface."
+msgstr ""
+"Revisa que las rejillas de ventilación no estén bloqueadas ni sucias, y que no esté sobre una superficie blanda."
+
+#: src/modules/sysreport.rs:798
+msgid "The processor has slowed down because of heat"
+msgstr "El procesador se ralentizó por el calor"
+
+#: src/modules/sysreport.rs:800
+#, rust-format
+msgid ""
+"{} time since the computer started. A few is normal under heavy work; many means it's overheating (dust, blocked vents, or old thermal paste)."
+msgid_plural ""
+"{} times since the computer started. A few is normal under heavy work; many means it's overheating (dust, blocked vents, or old thermal paste)."
+msgstr[0] ""
+"{} vez desde que se inició la computadora. Unas pocas son normales con trabajo pesado; muchas significan que se está sobrecalentando (polvo, rejillas bloqueadas o pasta térmica vieja)."
+msgstr[1] ""
+"{} veces desde que se inició la computadora. Unas pocas son normales con trabajo pesado; muchas significan que se está sobrecalentando (polvo, rejillas bloqueadas o pasta térmica vieja)."
+
+#: src/modules/sysreport.rs:808
+msgid "Restart to finish installing updates"
+msgstr "Reinicia para terminar de instalar las actualizaciones"
+
+#: src/modules/sysreport.rs:808
+msgid "Some updates only take effect after a restart."
+msgstr "Algunas actualizaciones solo se aplican después de reiniciar."
+
+#: src/modules/sysreport.rs:812
+msgid "A newer Linux kernel is installed"
+msgstr "Hay un kernel de Linux más nuevo instalado"
+
+#: src/modules/sysreport.rs:812
+#, rust-format
+msgid "Restart to start using {}."
+msgstr "Reinicia para empezar a usar {}."
+
+#: src/modules/sysreport.rs:820
+#, rust-format
+msgid "Firmware update for {}"
+msgstr "Actualización de firmware para {}"
+
+#: src/modules/sysreport.rs:848
+msgid "can't read the SMBIOS table"
+msgstr "no se puede leer la tabla SMBIOS"
+
+#: src/modules/sysreport.rs:934
+msgid "This computer doesn't describe its memory slots"
+msgstr "Esta computadora no describe sus ranuras de memoria"
+
+#: src/modules/sysreport.rs:947
+msgid "Installed"
+msgstr "Instalada"
+
+#: src/modules/sysreport.rs:949
+msgid "All memory is soldered to the board: it can't be upgraded"
+msgstr "Toda la memoria está soldada a la placa: no se puede ampliar"
+
+#: src/modules/sysreport.rs:951
+#, rust-format
+msgid "{} slot, {} free"
+msgid_plural "{} slots, {} free"
+msgstr[0] "{} ranura, {} libre"
+msgstr[1] "{} ranuras, {} libres"
+
+#: src/modules/sysreport.rs:953
+#, rust-format
+msgid ", plus {} GB soldered to the board"
+msgstr ", más {} GB soldados a la placa"
+
+#: src/modules/sysreport.rs:957
+msgid "Slots"
+msgstr "Ranuras"
+
+#: src/modules/sysreport.rs:960
+msgid ", soldered"
+msgstr ", soldada"
+
+#: src/modules/sysreport.rs:961
+msgid "empty"
+msgstr "vacía"
+
+#: src/modules/sysreport.rs:963
+msgid "Slot"
+msgstr "Ranura"
+
+#: src/modules/sysreport.rs:968
+msgid "Maximum"
+msgstr "Máximo"
+
+#: src/modules/sysreport.rs:968
+#, rust-format
+msgid "Up to {} GB{} (as the computer reports it)"
+msgstr "Hasta {} GB{} (según lo que informa la computadora)"
+
+#: src/modules/sysreport.rs:978
+#, rust-format
+msgid "System report (Voltkit {})"
+msgstr "Informe del sistema (Voltkit {})"
+
+#: src/modules/sysreport.rs:988
+msgid "Checks:"
+msgstr "Revisiones:"
+
+#: src/modules/sysreport.rs:999
+msgid "Recent changes:"
+msgstr "Cambios recientes:"
+
+#: src/modules/sysreport.rs:1028
+#, rust-format
+msgid "{}: added ({})"
+msgstr "{}: agregado ({})"
+
+#: src/modules/sysreport.rs:1029
+#, rust-format
+msgid "{}: removed (was {})"
+msgstr "{}: quitado (antes {})"
+
+#: src/modules/sysreport.rs:1038
+#, rust-format
+msgid "Driver for {}"
+msgstr "Driver de {}"
+
+#: src/modules/sysreport.rs:1040
+#, rust-format
+msgid "Firmware of {}"
+msgstr "Firmware de {}"
+
+#: src/modules/sysreport.rs:1042
+#, rust-format
+msgid "Drive {}"
+msgstr "Unidad {}"
+
+#: src/modules/sysreport.rs:1072 src/modules/sysreport.rs:1085
+msgid "no data folder"
+msgstr "no hay carpeta de datos"
+
+#: src/modules/sysreport.rs:1137
+msgid "Jan"
+msgstr "ene"
+
+#: src/modules/sysreport.rs:1137
+msgid "Feb"
+msgstr "feb"
+
+#: src/modules/sysreport.rs:1137
+msgid "Mar"
+msgstr "mar"
+
+#: src/modules/sysreport.rs:1137
+msgid "Apr"
+msgstr "abr"
+
+#: src/modules/sysreport.rs:1137
+msgid "May"
+msgstr "may"
+
+#: src/modules/sysreport.rs:1137
+msgid "Jun"
+msgstr "jun"
+
+#: src/modules/sysreport.rs:1138
+msgid "Jul"
+msgstr "jul"
+
+#: src/modules/sysreport.rs:1138
+msgid "Aug"
+msgstr "ago"
+
+#: src/modules/sysreport.rs:1138
+msgid "Sep"
+msgstr "sep"
+
+#: src/modules/sysreport.rs:1138
+msgid "Oct"
+msgstr "oct"
+
+#: src/modules/sysreport.rs:1138
+msgid "Nov"
+msgstr "nov"
+
+#: src/modules/sysreport.rs:1138
+msgid "Dec"
+msgstr "dic"
+
+#. TRANSLATORS: a short date; {} is the month's abbreviation, the rest is a chrono date format (%-d is the day of the month).
+#: src/modules/sysreport.rs:1145
+#, rust-format
+msgid "{} %-d"
+msgstr "%-d {}"
+
+#: src/modules/usage.rs:26
+msgid "ports go from 1 to 65535"
+msgstr "los puertos van del 1 al 65535"
+
+#: src/modules/usage.rs:30
+#, rust-format
+msgid "{} doesn't exist"
+msgstr "{} no existe"
+
+#: src/modules/usage.rs:37
+#, rust-format
+msgid "port {}"
+msgstr "puerto {}"
+
+#: src/modules/usage.rs:142
+#, rust-format
+msgid "has {} open"
+msgstr "tiene {} abierto"
+
+#: src/modules/usage.rs:149
+#, rust-format
+msgid "is working in {}"
+msgstr "está trabajando en {}"
+
+#: src/modules/usage.rs:154
+#, rust-format
+msgid "is running from {}"
+msgstr "se está ejecutando desde {}"
+
+#: src/modules/usage.rs:164
+#, rust-format
+msgid "has {} loaded"
+msgstr "tiene {} cargado"
+
+#: src/modules/usage.rs:203
+#, rust-format
+msgid "is listening on TCP port {}"
+msgstr "escucha en el puerto TCP {}"
+
+#: src/modules/usage.rs:204
+#, rust-format
+msgid "has a TCP connection on port {}"
+msgstr "tiene una conexión TCP en el puerto {}"
+
+#: src/modules/usage.rs:205
+#, rust-format
+msgid "is using UDP port {}"
+msgstr "usa el puerto UDP {}"
+
+#: src/modules/usage.rs:250
+msgid "the system's service manager"
+msgstr "el gestor de servicios del sistema"
+
+#: src/modules/usage.rs:253 src/modules/usage.rs:254
+msgid "the desktop itself"
+msgstr "el escritorio en sí"
+
+#: src/modules/usage.rs:255
+msgid "the window manager"
+msgstr "el gestor de ventanas"
+
+#: src/modules/usage.rs:256 src/modules/usage.rs:257
+msgid "the display server"
+msgstr "el servidor gráfico"
+
+#: src/modules/usage.rs:258 src/modules/usage.rs:263
+msgid "your login session"
+msgstr "tu sesión"
+
+#: src/modules/usage.rs:259
+msgid "a system service manager"
+msgstr "un gestor de servicios del sistema"
+
+#: src/modules/usage.rs:260
+msgid "the message bus apps use to talk to each other"
+msgstr "el bus de mensajes que usan las apps para comunicarse entre sí"
+
+#: src/modules/usage.rs:261
+msgid "the login screen"
+msgstr "la pantalla de inicio de sesión"
+
+#: src/modules/usage.rs:262
+msgid "the remote login service"
+msgstr "el servicio de inicio de sesión remoto"
+
+#: src/modules/usage.rs:264
+msgid "the system's permission service"
+msgstr "el servicio de permisos del sistema"
+
+#: src/modules/usage.rs:265
+msgid "the drive manager"
+msgstr "el gestor de unidades"
+
+#: src/modules/usage.rs:266
+msgid "the desktop's file system service"
+msgstr "el servicio de sistema de archivos del escritorio"
+
+#: src/modules/usage.rs:267
+msgid "a desktop portal service"
+msgstr "un servicio de portal del escritorio"
+
+#: src/modules/usage.rs:268 src/modules/usage.rs:269
+msgid "the sound and video service"
+msgstr "el servicio de sonido y video"
+
+#: src/modules/usage.rs:270
+msgid "the sound service"
+msgstr "el servicio de sonido"
+
+#: src/modules/usage.rs:271
+msgid "the network service"
+msgstr "el servicio de red"
+
+#: src/modules/usage.rs:272
+msgid "Voltkit itself"
+msgstr "el propio Voltkit"
+
+#: src/modules/usage.rs:290
+#, rust-format
+msgid "{} is part of the system, so Voltkit won't close it"
+msgstr "{} es parte del sistema, así que Voltkit no lo cerrará"
+
+#: src/modules/usage.rs:303
+msgid "could not run kill"
+msgstr "no se pudo ejecutar kill"
+
+#: src/modules/usage.rs:306
+msgid "not closed: permission was not granted"
+msgstr "no se cerró: no se concedió el permiso"
+
+#: src/modules/usage.rs:308
+#, rust-format
+msgid "could not close {}: {}"
+msgstr "no se pudo cerrar {}: {}"
+
+#: src/paste.rs:40
+#, rust-format
+msgid "unknown paste_shortcut {} (use ctrl+v, ctrl+shift+v or shift+insert)"
+msgstr ""
+"paste_shortcut desconocido {} (usa ctrl+v, ctrl+shift+v o shift+insert)"
+
+#: src/permissions_ui.rs:19
+msgid "Find an app or permission…"
+msgstr "Busca una app o un permiso…"
+
+#: src/permissions_ui.rs:28
+msgid "Choose what apps can access"
+msgstr "Elige a qué pueden acceder las apps"
+
+#: src/permissions_ui.rs:28
+msgid ""
+"Expand an app to review its remembered permissions. A switch changes the saved answer; Forget removes that answer so the app can ask again."
+msgstr ""
+"Expande una app para revisar sus permisos recordados. Un interruptor cambia la respuesta guardada; Olvidar quita esa respuesta para que la app pueda volver a preguntar."
+
+#: src/permissions_ui.rs:29
+msgid "Desktop permission history"
+msgstr "Historial de permisos del escritorio"
+
+#: src/permissions_ui.rs:29
+msgid ""
+"These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have."
+msgstr ""
+"Son respuestas guardadas por el portal del escritorio, incluso para apps instaladas fuera de Flatpak. Una app aparece después de pedir acceso. No es una lista de todo lo que una app puede hacer."
+
+#: src/permissions_ui.rs:49
+msgid "Refresh"
+msgstr "Actualizar"
+
+#: src/permissions_ui.rs:54
+msgid "Applications"
+msgstr "Aplicaciones"
+
+#: src/permissions_ui.rs:56
+msgid ""
+"Answers you gave when apps asked to take screenshots, use the camera, see your location and more. Change an answer, or forget it so the app asks again next time."
+msgstr ""
+"Respuestas que diste cuando las apps pidieron tomar capturas de pantalla, usar la cámara, ver tu ubicación y más. Cambia una respuesta, u olvídala para que la app vuelva a preguntar la próxima vez."
+
+#: src/permissions_ui.rs:78
+#, rust-format
+msgid "Could not read permissions: {}"
+msgstr "No se pudieron leer los permisos: {}"
+
+#: src/permissions_ui.rs:92
+msgid "No app has asked for anything yet"
+msgstr "Ninguna app ha pedido nada todavía"
+
+#: src/permissions_ui.rs:93
+msgid ""
+"Answers appear here after an app asks, for example to take a screenshot"
+msgstr ""
+"Las respuestas aparecen aquí después de que una app pregunta, por ejemplo para tomar una captura de pantalla"
+
+#: src/permissions_ui.rs:147
+msgid ""
+"No apps match this search. Try an app name or a permission such as camera."
+msgstr ""
+"Ninguna app coincide con esta búsqueda. Prueba con el nombre de una app o un permiso como cámara."
+
+#: src/permissions_ui.rs:149
+msgid "Expand an app to review its saved answers."
+msgstr "Expande una app para revisar sus respuestas guardadas."
+
+#: src/permissions_ui.rs:182
+msgid "Forget, so the app asks again"
+msgstr "Olvidar, para que la app vuelva a preguntar"
+
+#: src/permissions_ui.rs:193
+#, rust-format
+msgid "{} will ask again: {}"
+msgstr "{} volverá a preguntar: {}"
+
+#: src/permissions_ui.rs:194
+#, rust-format
+msgid "Not forgotten: {}"
+msgstr "No se olvidó: {}"
+
+#: src/permissions_ui.rs:209
+#, rust-format
+msgid "{} allowed"
+msgstr "{} permitidos"
+
+#: src/permissions_ui.rs:209
+#, rust-format
+msgid "{} denied"
+msgstr "{} denegados"
+
+#: src/permissions_ui.rs:209
+#, rust-format
+msgid "{} remembered"
+msgstr "{} recordados"
+
+#: src/permissions_ui.rs:222
+msgid "Apps without an ID"
+msgstr "Apps sin ID"
+
+#: src/picker.rs:53
+msgid "Search snippets"
+msgstr "Buscar fragmentos"
+
+#: src/picker.rs:66
+msgid "Insert"
+msgstr "Insertar"
+
+#: src/picker.rs:80
+msgid "↑↓ choose · Enter insert · Esc cancel"
+msgstr "↑↓ elegir · Enter insertar · Esc cancelar"
+
+#: src/picker.rs:102
+msgid "Insert Snippet"
+msgstr "Insertar fragmento"
+
+#: src/picker.rs:175 src/snippets_ui.rs:277
+msgid "No matching snippets"
+msgstr "Ningún fragmento coincide"
+
+#: src/picker.rs:279 src/smartpaste_ui.rs:230
+#, rust-format
+msgid "paste failed: {}"
+msgstr "falló el pegado: {}"
+
+#: src/picker.rs:282
+msgid "Snippet copied"
+msgstr "Fragmento copiado"
+
+#: src/picker.rs:282 src/smartpaste_ui.rs:232
+msgid "Press Ctrl+V to paste it."
+msgstr "Presiona Ctrl+V para pegarlo."
+
+#: src/picker.rs:286 src/smartpaste_ui.rs:234
+msgid "paste worker crashed"
+msgstr "el proceso de pegado falló"
+
+#: src/portal.rs:133
+msgid "failed to show notification"
+msgstr "no se pudo mostrar la notificación"
+
+#: src/portal.rs:143
+#, rust-format
+msgid "portal returned a non-file URI: {}"
+msgstr "el portal devolvió una URI que no es un archivo: {}"
+
+#: src/qr_ui.rs:33
+msgid "Scan from Screen"
+msgstr "Escanear de la pantalla"
+
+#: src/qr_ui.rs:38
+msgid "Scan"
+msgstr "Escanear"
+
+#: src/qr_ui.rs:39
+#, rust-format
+msgid ""
+"Drag a box around a QR code anywhere on your screen: a video, a slide, a web page. Shortcut: {}"
+msgstr ""
+"Arrastra un recuadro alrededor de un código QR en cualquier parte de tu pantalla: un video, una diapositiva, una página web. Atajo: {}"
+
+#: src/qr_ui.rs:44
+msgid "Result"
+msgstr "Resultado"
+
+#: src/qr_ui.rs:50
+msgid "Open Link"
+msgstr "Abrir enlace"
+
+#: src/qr_ui.rs:60 src/smartpaste_ui.rs:336
+msgid "Copied"
+msgstr "Copiado"
+
+#: src/qr_ui.rs:77
+msgid "QR code from the shortcut, copied to the clipboard"
+msgstr "Código QR del atajo, copiado al portapapeles"
+
+#: src/qr_ui.rs:99
+msgid "QR code copied to clipboard"
+msgstr "Código QR copiado al portapapeles"
+
+#: src/qr_ui.rs:103
+msgid "QR scanner crashed"
+msgstr "El escáner QR falló"
+
+#: src/qr_ui.rs:118
+msgid "Create"
+msgstr "Crear"
+
+#: src/qr_ui.rs:119
+msgid ""
+"Type text or a link, or describe a Wi-Fi network, then scan the code with your phone."
+msgstr ""
+"Escribe un texto o un enlace, o describe una red Wi-Fi, y escanea el código con tu teléfono."
+
+#: src/qr_ui.rs:123
+msgid "Content"
+msgstr "Contenido"
+
+#: src/qr_ui.rs:124 src/qr_ui.rs:126
+msgid "Text or link"
+msgstr "Texto o enlace"
+
+#: src/qr_ui.rs:124
+msgid "Wi-Fi network"
+msgstr "Red Wi-Fi"
+
+#: src/qr_ui.rs:127
+msgid "Network name"
+msgstr "Nombre de la red"
+
+#: src/qr_ui.rs:128
+msgid "Password"
+msgstr "Contraseña"
+
+#: src/qr_ui.rs:130
+msgid "Security"
+msgstr "Seguridad"
+
+#: src/qr_ui.rs:131
+msgid "WPA / WPA2 / WPA3"
+msgstr "WPA / WPA2 / WPA3"
+
+#: src/qr_ui.rs:131
+msgid "None (open network)"
+msgstr "Ninguna (red abierta)"
+
+#: src/qr_ui.rs:136
+msgid "Choose…"
+msgstr "Elegir…"
+
+#: src/qr_ui.rs:137
+msgid "Remove Logo"
+msgstr "Quitar logo"
+
+#: src/qr_ui.rs:140
+msgid "Logo"
+msgstr "Logo"
+
+#: src/qr_ui.rs:141
+msgid "Optional: a small PNG, JPEG, WebP or SVG in the middle of the code"
+msgstr "Opcional: un PNG, JPEG, WebP o SVG pequeño en el centro del código"
+
+#: src/qr_ui.rs:147
+msgid "Logo size"
+msgstr "Tamaño del logo"
+
+#: src/qr_ui.rs:148
+msgid "Small"
+msgstr "Pequeño"
+
+#: src/qr_ui.rs:148
+msgid "Medium"
+msgstr "Mediano"
+
+#: src/qr_ui.rs:148
+msgid "Large"
+msgstr "Grande"
+
+#: src/qr_ui.rs:171 src/qr_ui.rs:272
+msgid "Your QR code appears here"
+msgstr "Tu código QR aparece aquí"
+
+#: src/qr_ui.rs:176
+msgid "Copy Image"
+msgstr "Copiar imagen"
+
+#: src/qr_ui.rs:180
+msgid "Save as PNG…"
+msgstr "Guardar como PNG…"
+
+#: src/qr_ui.rs:199
+msgid "QR preview"
+msgstr "Vista previa del QR"
+
+#: src/qr_ui.rs:199
+msgid "Ready to scan, copy, or save as a PNG."
+msgstr "Listo para escanear, copiar o guardar como PNG."
+
+#: src/qr_ui.rs:243
+msgid "✓ Scans correctly (logo made smaller so it fits)"
+msgstr "✓ Se escanea bien (el logo se achicó para que quepa)"
+
+#: src/qr_ui.rs:245
+msgid "✓ Checked: scans correctly with the logo"
+msgstr "✓ Comprobado: se escanea bien con el logo"
+
+#: src/qr_ui.rs:250
+msgid ""
+"This code doesn't scan with a logo. Shorten the text or remove the logo."
+msgstr ""
+"Este código no se puede escanear con un logo. Acorta el texto o quita el logo."
+
+#: src/qr_ui.rs:270
+msgid "That's too much text for a QR code."
+msgstr "Es demasiado texto para un código QR."
+
+#: src/qr_ui.rs:271
+msgid "Enter the network name to create a code"
+msgstr "Escribe el nombre de la red para crear un código"
+
+#: src/qr_ui.rs:313
+msgid "PNG, JPEG, WebP or SVG"
+msgstr "PNG, JPEG, WebP o SVG"
+
+#: src/qr_ui.rs:320
+msgid "Choose a Logo"
+msgstr "Elige un logo"
+
+#: src/qr_ui.rs:327
+#, rust-format
+msgid "Can't use this logo: {}"
+msgstr "No se puede usar este logo: {}"
+
+#: src/qr_ui.rs:348
+msgid "QR code image copied"
+msgstr "Imagen del código QR copiada"
+
+#: src/qr_ui.rs:365 src/system_ui.rs:370
+#, rust-format
+msgid "Could not save: {}"
+msgstr "No se pudo guardar: {}"
+
+#: src/ruler.rs:17
+msgid ""
+"Drag to measure  ·  Shift: straight line  ·  Ctrl+C: copy size  ·  Right-click: clear  ·  Esc: close"
+msgstr ""
+"Arrastra para medir  ·  Mayús: línea recta  ·  Ctrl+C: copiar tamaño  ·  Clic derecho: borrar  ·  Esc: cerrar"
+
+#: src/ruler.rs:51
+msgid "screenshot worker crashed"
+msgstr "el proceso de captura de pantalla falló"
+
+#: src/ruler.rs:61
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/ruler.rs:67
+msgid "Allow Screen Ruler to See Your Screen"
+msgstr "Permite que la Regla de pantalla vea tu pantalla"
+
+#: src/ruler.rs:69
+msgid ""
+"The ruler measures a snapshot of your screen. Your desktop will ask once whether Voltkit may take screenshots; choose Allow. This window closes before the snapshot."
+msgstr ""
+"La regla mide una instantánea de tu pantalla. Tu escritorio preguntará una vez si Voltkit puede tomar capturas de pantalla; elige Permitir. Esta ventana se cierra antes de la instantánea."
+
+#: src/ruler.rs:107
+msgid ""
+"Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then Allow when your desktop asks. If you chose Deny before, forget that answer in Voltkit's App Permissions page first."
+msgstr ""
+"No se permitieron las capturas de pantalla, así que la regla no puede abrirse. Elige Intentar de nuevo y luego Permitir cuando tu escritorio pregunte. Si antes elegiste Denegar, primero olvida esa respuesta en la página Permisos de apps de Voltkit."
+
+#: src/ruler.rs:114
+msgid "Try Again"
+msgstr "Intentar de nuevo"
+
+#: src/ruler.rs:258
+#, rust-format
+msgid "Copied {}  ·  Esc: close"
+msgstr "Se copió {}  ·  Esc: cerrar"
+
+#: src/ruler.rs:259
+#, rust-format
+msgid "Could not copy: {}"
+msgstr "No se pudo copiar: {}"
+
+#: src/shortcuts.rs:23
+#, rust-format
+msgid "invalid accelerator {}"
+msgstr "acelerador no válido {}"
+
+#: src/shortcuts.rs:29
+#, rust-format
+msgid "unknown modifier <{}> in {}"
+msgstr "modificador desconocido <{}> en {}"
+
+#: src/shortcuts.rs:34
+#, rust-format
+msgid "accelerator {} has no key"
+msgstr "el acelerador {} no tiene tecla"
+
+#: src/shortcuts.rs:88
+#, rust-format
+msgid "Voltkit: {}"
+msgstr "Voltkit: {}"
+
+#: src/shortcuts.rs:113
+msgid "gsettings not found; this fallback is for GNOME-based desktops"
+msgstr ""
+"no se encontró gsettings; esta alternativa es para escritorios basados en GNOME"
+
+#: src/sleep_ui.rs:54 src/sysreport_ui.rs:53 src/usage_ui.rs:83
+msgid "Check Again"
+msgstr "Volver a revisar"
+
+#: src/sleep_ui.rs:59
+msgid "Right Now"
+msgstr "Ahora mismo"
+
+#: src/sleep_ui.rs:60
+msgid "Apps and settings that keep the computer awake at the moment."
+msgstr "Apps y ajustes que mantienen activa la computadora en este momento."
+
+#: src/sleep_ui.rs:64
+msgid "Recent Sleeps"
+msgstr "Suspensiones recientes"
+
+#: src/sleep_ui.rs:66
+msgid ""
+"The last week, newest first. Linux only records what woke the computer when it was the lid or the power button."
+msgstr ""
+"La última semana, de la más reciente a la más antigua. Linux solo registra qué despertó la computadora cuando fue la tapa o el botón de encendido."
+
+#: src/sleep_ui.rs:71
+msgid "Devices That Can Wake It"
+msgstr "Dispositivos que pueden despertarla"
+
+#: src/sleep_ui.rs:73
+msgid ""
+"USB devices allowed to wake the computer from sleep. A mouse or receiver that wakes it in your bag can be stopped here. Changing it asks for your password and lasts after restarts."
+msgstr ""
+"Dispositivos USB que pueden despertar la computadora. Aquí puedes desactivar un mouse o receptor que la despierta dentro de tu mochila. Cambiarlo pide tu contraseña y se mantiene después de reiniciar."
+
+#: src/sleep_ui.rs:77
+msgid "Sleep Mode"
+msgstr "Modo de suspensión"
+
+#: src/sleep_ui.rs:118
+msgid "Nothing is keeping it awake"
+msgstr "Nada la mantiene activa"
+
+#: src/sleep_ui.rs:119
+msgid "It sleeps when you close the lid, choose Suspend, or leave it idle."
+msgstr ""
+"Se suspende cuando cierras la tapa, eliges Suspender o la dejas inactiva."
+
+#: src/sleep_ui.rs:131
+msgid "Power Settings"
+msgstr "Configuración de energía"
+
+#: src/sleep_ui.rs:139
+msgid "The sleep history isn't available"
+msgstr "El historial de suspensiones no está disponible"
+
+#: src/sleep_ui.rs:143
+msgid "No sleeps in the last week"
+msgstr "No hubo suspensiones en la última semana"
+
+#: src/sleep_ui.rs:151
+msgid "No USB devices that could wake it are connected"
+msgstr "No hay conectados dispositivos USB que puedan despertarla"
+
+#: src/sleep_ui.rs:204 src/sleep_ui.rs:232
+msgid "Can wake the computer"
+msgstr "Puede despertar la computadora"
+
+#: src/sleep_ui.rs:205
+msgid "Woke the computer once since it started"
+msgstr "Despertó la computadora una vez desde que se inició"
+
+#: src/sleep_ui.rs:206
+#, rust-format
+msgid "Woke the computer {} times since it started"
+msgstr "Despertó la computadora {} veces desde que se inició"
+
+#: src/sleep_ui.rs:211 src/sleep_ui.rs:232
+msgid "Can't wake the computer"
+msgstr "No puede despertar la computadora"
+
+#: src/sleep_ui.rs:233
+#, rust-format
+msgid "{} can wake the computer"
+msgstr "{} puede despertar la computadora"
+
+#: src/sleep_ui.rs:233
+#, rust-format
+msgid "{} won't wake the computer"
+msgstr "{} no despertará la computadora"
+
+#: src/sleep_ui.rs:281
+msgid "Settings"
+msgstr "Configuración"
+
+#: src/smartpaste_ui.rs:72
+msgid ""
+"Choose how to paste what you copied, then press Enter. The preview shows exactly what will be pasted."
+msgstr ""
+"Elige cómo pegar lo que copiaste y presiona Enter. La vista previa muestra exactamente lo que se pegará."
+
+#: src/smartpaste_ui.rs:79
+msgid "Reading the Clipboard…"
+msgstr "Leyendo el portapapeles…"
+
+#: src/smartpaste_ui.rs:84
+msgid "↑↓ choose · Enter paste · Esc cancel"
+msgstr "↑↓ elegir · Enter pegar · Esc cancelar"
+
+#: src/smartpaste_ui.rs:163
+msgid "Reading the Text in the Image…"
+msgstr "Leyendo el texto de la imagen…"
+
+#: src/smartpaste_ui.rs:178
+msgid "Text in the image"
+msgstr "Texto de la imagen"
+
+#: src/smartpaste_ui.rs:184
+msgid "No Text in the Image"
+msgstr "No hay texto en la imagen"
+
+#: src/smartpaste_ui.rs:184
+msgid "The image on the clipboard has no text Voltkit can read."
+msgstr "La imagen del portapapeles no tiene texto que Voltkit pueda leer."
+
+#: src/smartpaste_ui.rs:188
+msgid "Nothing to Paste"
+msgstr "Nada que pegar"
+
+#: src/smartpaste_ui.rs:188
+msgid "Copy some text or an image first, then press the shortcut again."
+msgstr ""
+"Primero copia algún texto o una imagen y luego presiona el atajo otra vez."
+
+#: src/smartpaste_ui.rs:232
+msgid "Converted text copied"
+msgstr "Texto convertido copiado"
+
+#: src/smartpaste_ui.rs:259
+msgid "Use it in any app"
+msgstr "Úsalo en cualquier app"
+
+#: src/smartpaste_ui.rs:261
+msgid ""
+"Like Ctrl+V, but you choose how it's pasted: tidy JSON, a spreadsheet table as Markdown or CSV, a link without tracking, text from a PDF without broken lines, a new letter case, or the text in a screenshot."
+msgstr ""
+"Como Ctrl+V, pero tú eliges cómo se pega: JSON ordenado, una tabla de una hoja de cálculo como Markdown o CSV, un enlace sin rastreo, texto de un PDF sin líneas cortadas, otro tipo de mayúsculas o el texto de una captura de pantalla."
+
+#: src/smartpaste_ui.rs:266
+msgid "Copy something"
+msgstr "Copia algo"
+
+#: src/smartpaste_ui.rs:266
+msgid "Text, cells from a spreadsheet, JSON, a link, or a screenshot."
+msgstr ""
+"Texto, celdas de una hoja de cálculo, JSON, un enlace o una captura de pantalla."
+
+#: src/smartpaste_ui.rs:267
+msgid "Click where it should go"
+msgstr "Haz clic donde debe ir"
+
+#: src/smartpaste_ui.rs:267
+msgid "In any app: an email, a document, a chat, a terminal."
+msgstr "En cualquier app: un correo, un documento, un chat, una terminal."
+
+#: src/smartpaste_ui.rs:269
+msgid "Press the Smart Paste shortcut"
+msgstr "Presiona el atajo de Pegado inteligente"
+
+#: src/smartpaste_ui.rs:270
+#, rust-format
+msgid ""
+"{} instead of Ctrl+V. A small window lists the ways it can be pasted, each with a preview."
+msgstr ""
+"{} en lugar de Ctrl+V. Una pequeña ventana muestra las formas en que se puede pegar, cada una con vista previa."
+
+#: src/smartpaste_ui.rs:273
+msgid "Choose one and press Enter"
+msgstr "Elige una y presiona Enter"
+
+#: src/smartpaste_ui.rs:274
+msgid ""
+"It's pasted where you clicked, and your clipboard is left as it was. The first time, your desktop asks to let Voltkit type for you."
+msgstr ""
+"Se pega donde hiciste clic, y tu portapapeles queda como estaba. La primera vez, tu escritorio pide permiso para que Voltkit escriba por ti."
+
+#: src/smartpaste_ui.rs:307
+msgid "Source text"
+msgstr "Texto de origen"
+
+#: src/smartpaste_ui.rs:308
+msgid ""
+"See what Smart Paste can do without leaving this window: type or paste text here, then copy a converted result."
+msgstr ""
+"Mira lo que puede hacer Pegado inteligente sin salir de esta ventana: escribe o pega texto aquí y luego copia un resultado convertido."
+
+#: src/smartpaste_ui.rs:311
+msgid "Conversions"
+msgstr "Conversiones"
+
+#: src/smartpaste_ui.rs:342
+msgid "Only plain text fits this"
+msgstr "Para esto solo sirve el texto sin formato"
+
+#: src/snippets_ui.rs:21
+msgid "Find a snippet by trigger or content…"
+msgstr "Busca un fragmento por disparador o contenido…"
+
+#: src/snippets_ui.rs:38
+msgid "Insert Snippets"
+msgstr "Insertar fragmentos"
+
+#: src/snippets_ui.rs:39
+msgid "Open Picker"
+msgstr "Abrir selector"
+
+#: src/snippets_ui.rs:42
+msgid "Snippet picker"
+msgstr "Selector de fragmentos"
+
+#: src/snippets_ui.rs:43
+#, rust-format
+msgid "Search and paste into any app. Shortcut: {}"
+msgstr "Busca y pega en cualquier app. Atajo: {}"
+
+#: src/snippets_ui.rs:59
+msgid "Typed triggers"
+msgstr "Disparadores al escribir"
+
+#: src/snippets_ui.rs:76
+msgid ""
+"Off. Turn on to type a snippet's trigger, like ;date, in any app and have it replaced"
+msgstr ""
+"Apagado. Enciéndelo para escribir el disparador de un fragmento, como ;date, en cualquier app y que se reemplace"
+
+#: src/snippets_ui.rs:78
+msgid "Needs keyboard access: turn it off and on again to allow it"
+msgstr ""
+"Necesita acceso al teclado: apágalo y vuelve a encenderlo para permitirlo"
+
+#: src/snippets_ui.rs:81
+msgid ""
+"On, but the background service isn't running: start it with the banner above"
+msgstr ""
+"Encendido, pero el servicio en segundo plano no se está ejecutando: inícialo con el aviso de arriba"
+
+#: src/snippets_ui.rs:83
+#, rust-format
+msgid "On: type a snippet's trigger in any app ({} keyboard)"
+msgid_plural "On: type a snippet's trigger in any app ({} keyboards)"
+msgstr[0] ""
+"Encendido: escribe el disparador de un fragmento en cualquier app ({} teclado)"
+msgstr[1] ""
+"Encendido: escribe el disparador de un fragmento en cualquier app ({} teclados)"
+
+#: src/snippets_ui.rs:87
+msgid "On, but not working right now: `voltkit expander status` says why"
+msgstr ""
+"Encendido, pero no funciona en este momento: `voltkit expander status` dice por qué"
+
+#: src/snippets_ui.rs:88
+msgid "Starting…"
+msgstr "Iniciando…"
+
+#: src/snippets_ui.rs:124
+msgid "Allow Typed Triggers?"
+msgstr "¿Permitir disparadores al escribir?"
+
+#: src/snippets_ui.rs:125
+msgid ""
+"To notice when you type a trigger like ;date, Voltkit reads the keyboard in every app. It keeps only the last few characters in memory, and never saves or sends what you type.\n"
+"\n"
+"Your password is needed once. It works right away: no need to log out."
+msgstr ""
+"Para notar cuando escribes un disparador como ;date, Voltkit lee el teclado en todas las apps. Solo guarda en memoria los últimos caracteres, y nunca guarda ni envía lo que escribes.\n"
+"\n"
+"Tu contraseña se necesita una sola vez. Funciona de inmediato: no hace falta cerrar sesión."
+
+#: src/snippets_ui.rs:128
+msgid "Allow"
+msgstr "Permitir"
+
+#: src/snippets_ui.rs:137
+#, rust-format
+msgid "Typed triggers not turned on: {}"
+msgstr "No se encendieron los disparadores al escribir: {}"
+
+#: src/snippets_ui.rs:143
+msgid "Typed triggers are on"
+msgstr "Los disparadores al escribir están encendidos"
+
+#: src/snippets_ui.rs:149
+msgid "Also Remove Keyboard Access?"
+msgstr "¿Quitar también el acceso al teclado?"
+
+#: src/snippets_ui.rs:150
+msgid ""
+"Typed triggers are off, so Voltkit no longer reads the keyboard. Removing the access as well means turning them on again asks for your password; the access ends fully at the next restart."
+msgstr ""
+"Los disparadores al escribir están apagados, así que Voltkit ya no lee el teclado. Si también quitas el acceso, volver a encenderlos pedirá tu contraseña; el acceso termina por completo en el siguiente reinicio."
+
+#: src/snippets_ui.rs:152
+msgid "Remove"
+msgstr "Quitar"
+
+#: src/snippets_ui.rs:158
+msgid "Keyboard access removed"
+msgstr "Acceso al teclado quitado"
+
+#: src/snippets_ui.rs:159
+#, rust-format
+msgid "Not removed: {}"
+msgstr "No se quitó: {}"
+
+#: src/snippets_ui.rs:181
+#, rust-format
+msgid "Could not save the setting: {}"
+msgstr "No se pudo guardar el ajuste: {}"
+
+#: src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382 src/system_ui.rs:483
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/snippets_ui.rs:206
+msgid "Add Snippet"
+msgstr "Agregar fragmento"
+
+#: src/snippets_ui.rs:211
+msgid "Your Snippets"
+msgstr "Tus fragmentos"
+
+#: src/snippets_ui.rs:212
+msgid "Click a snippet to edit it."
+msgstr "Haz clic en un fragmento para editarlo."
+
+#: src/snippets_ui.rs:239
+msgid "Your Snippets · 0"
+msgstr "Tus fragmentos · 0"
+
+#: src/snippets_ui.rs:241
+msgid "No snippets yet"
+msgstr "Todavía no hay fragmentos"
+
+#: src/snippets_ui.rs:242
+msgid "Click Add Snippet to create your first one."
+msgstr "Haz clic en Agregar fragmento para crear el primero."
+
+#: src/snippets_ui.rs:260 src/system_ui.rs:148 src/system_ui.rs:353
+msgid "Edit"
+msgstr "Editar"
+
+#: src/snippets_ui.rs:261 src/system_ui.rs:149 src/system_ui.rs:354
+msgid "Delete"
+msgstr "Eliminar"
+
+#: src/snippets_ui.rs:275
+#, rust-format
+msgid "Your Snippets · {} of {}"
+msgstr "Tus fragmentos · {} de {}"
+
+#: src/snippets_ui.rs:277
+msgid "Try another trigger or a word from the snippet text."
+msgstr "Prueba otro disparador o una palabra del texto del fragmento."
+
+#: src/snippets_ui.rs:293
+#, rust-format
+msgid "Could not save snippets: {}"
+msgstr "No se pudieron guardar los fragmentos: {}"
+
+#: src/snippets_ui.rs:311 src/system_ui.rs:383
+#, rust-format
+msgid "Deleted {}"
+msgstr "Se eliminó {}"
+
+#: src/snippets_ui.rs:312 src/system_ui.rs:383
+msgid "Undo"
+msgstr "Deshacer"
+
+#: src/snippets_ui.rs:372
+msgid "Enter a trigger, such as ;sig."
+msgstr "Escribe un disparador, como ;sig."
+
+#: src/snippets_ui.rs:374
+msgid "Triggers can't contain spaces."
+msgstr "Los disparadores no pueden tener espacios."
+
+#: src/snippets_ui.rs:376
+#, rust-format
+msgid "Another snippet already uses {}."
+msgstr "Otro fragmento ya usa {}."
+
+#: src/snippets_ui.rs:387
+#, rust-format
+msgid ""
+"When typing, {} expands before you can finish {}. They still work from the picker."
+msgstr ""
+"Al escribir, {} se expande antes de que puedas terminar {}. Igual funcionan desde el selector."
+
+#: src/snippets_ui.rs:400
+msgid "New Snippet"
+msgstr "Nuevo fragmento"
+
+#: src/snippets_ui.rs:400
+msgid "Edit Snippet"
+msgstr "Editar fragmento"
+
+#: src/snippets_ui.rs:406
+msgid "Add"
+msgstr "Agregar"
+
+#: src/snippets_ui.rs:415 src/snippets_ui.rs:418
+msgid "Trigger"
+msgstr "Disparador"
+
+#: src/snippets_ui.rs:419
+msgid ""
+"A short code that names the snippet. Find it by this name in the picker, or type it in any app when typed triggers are on. Starting with ; avoids clashes with normal words."
+msgstr ""
+"Un código corto que da nombre al fragmento. Búscalo por este nombre en el selector, o escríbelo en cualquier app cuando los disparadores al escribir estén encendidos. Empezar con ; evita conflictos con palabras normales."
+
+#: src/snippets_ui.rs:443
+msgid "Insert:"
+msgstr "Insertar:"
+
+#: src/snippets_ui.rs:444
+msgid "Date"
+msgstr "Fecha"
+
+#: src/snippets_ui.rs:445
+msgid "Time"
+msgstr "Hora"
+
+#: src/snippets_ui.rs:446
+msgid "Clipboard"
+msgstr "Portapapeles"
+
+#: src/snippets_ui.rs:446
+msgid "Whatever you copied last"
+msgstr "Lo último que copiaste"
+
+#: src/snippets_ui.rs:447
+msgid "Fill-in Field"
+msgstr "Campo para completar"
+
+#: src/snippets_ui.rs:447
+msgid "A blank you fill in each time you use the snippet"
+msgstr "Un espacio en blanco que completas cada vez que usas el fragmento"
+
+#: src/snippets_ui.rs:472
+msgid "Text"
+msgstr "Texto"
+
+#: src/snippets_ui.rs:473
+msgid ""
+"What gets pasted. Use Insert to add values that are filled in when you use the snippet."
+msgstr ""
+"Lo que se pega. Usa Insertar para agregar valores que se completan al usar el fragmento."
+
+#: src/snippets_ui.rs:491
+msgid "Preview"
+msgstr "Vista previa"
+
+#: src/snippets_ui.rs:492
+msgid ""
+"Exactly what will be pasted right now. ‹Fill-in› fields are asked for when you use the snippet, and ‹clipboard› becomes whatever you copied last."
+msgstr ""
+"Exactamente lo que se pegaría ahora mismo. Los campos ‹para completar› se preguntan al usar el fragmento, y ‹portapapeles› se convierte en lo último que copiaste."
+
+#: src/snippets_ui.rs:536
+msgid "Type the text to paste above."
+msgstr "Escribe arriba el texto que se pegará."
+
+#: src/snippets_ui.rs:537
+#, rust-format
+msgid "This text can't be expanded: {}."
+msgstr "Este texto no se puede expandir: {}."
+
+#: src/sysreport_ui.rs:55
+msgid "Copy Report"
+msgstr "Copiar informe"
+
+#: src/sysreport_ui.rs:63
+msgid "Overview"
+msgstr "Resumen"
+
+#: src/sysreport_ui.rs:65
+msgid ""
+"What's in this computer and how it's doing, in plain words. Copy the report when asking for help in a forum or bug report: it has no serial numbers, names or network addresses."
+msgstr ""
+"Lo que hay en esta computadora y cómo está, en palabras sencillas. Copia el informe cuando pidas ayuda en un foro o en un reporte de errores: no incluye números de serie, nombres ni direcciones de red."
+
+#: src/sysreport_ui.rs:70
+msgid "Checks"
+msgstr "Revisiones"
+
+#: src/sysreport_ui.rs:72
+msgid "What Changed"
+msgstr "Qué cambió"
+
+#: src/sysreport_ui.rs:73
+msgid ""
+"Hardware, drivers, kernel and firmware, compared day by day: handy when something stops working after an update."
+msgstr ""
+"Hardware, drivers, kernel y firmware, comparados día a día: útil cuando algo deja de funcionar después de una actualización."
+
+#: src/sysreport_ui.rs:75
+msgid "This Computer"
+msgstr "Esta computadora"
+
+#: src/sysreport_ui.rs:76
+msgid "Temperatures"
+msgstr "Temperaturas"
+
+#: src/sysreport_ui.rs:77
+msgid "Check Online"
+msgstr "Buscar en línea"
+
+#: src/sysreport_ui.rs:79
+msgid "Firmware Updates"
+msgstr "Actualizaciones de firmware"
+
+#: src/sysreport_ui.rs:80
+msgid ""
+"Updates for the BIOS, drives, docks and other devices, from the makers through the Linux Vendor Firmware Service. They often fix battery, sleep and stability problems."
+msgstr ""
+"Actualizaciones para la BIOS, las unidades, las bases y otros dispositivos, de los fabricantes a través del Linux Vendor Firmware Service. Suelen arreglar problemas de batería, suspensión y estabilidad."
+
+#: src/sysreport_ui.rs:83
+msgid "Show…"
+msgstr "Mostrar…"
+
+#: src/sysreport_ui.rs:85
+msgid "Memory and Upgrades"
+msgstr "Memoria y ampliaciones"
+
+#: src/sysreport_ui.rs:86
+msgid ""
+"Memory slots, what's in them, and how much this computer can take. Reading them needs the administrator password."
+msgstr ""
+"Las ranuras de memoria, qué tienen y cuánta memoria admite esta computadora. Leerlas necesita la contraseña de administrador."
+
+#: src/sysreport_ui.rs:124
+#, rust-format
+msgid "Could not check online: {}"
+msgstr "No se pudo buscar en línea: {}"
+
+#: src/sysreport_ui.rs:141
+#, rust-format
+msgid "Not shown: {}"
+msgstr "No se muestra: {}"
+
+#: src/sysreport_ui.rs:167
+msgid "Checking this computer…"
+msgstr "Revisando esta computadora…"
+
+#: src/sysreport_ui.rs:209
+msgid "hot"
+msgstr "caliente"
+
+#: src/sysreport_ui.rs:209
+msgid "warm"
+msgstr "tibia"
+
+#: src/sysreport_ui.rs:209
+msgid "normal"
+msgstr "normal"
+
+#: src/sysreport_ui.rs:230
+msgid "Slowed down because of heat"
+msgstr "Se ralentizó por el calor"
+
+#: src/sysreport_ui.rs:231
+#, rust-format
+msgid "{} time since the computer started"
+msgid_plural "{} times since the computer started"
+msgstr[0] "{} vez desde que se inició la computadora"
+msgstr[1] "{} veces desde que se inició la computadora"
+
+#: src/sysreport_ui.rs:240
+msgid "Firmware updates aren't available"
+msgstr "Las actualizaciones de firmware no están disponibles"
+
+#: src/sysreport_ui.rs:241
+msgid ""
+"Install fwupd to get firmware updates from the makers of your hardware."
+msgstr ""
+"Instala fwupd para recibir actualizaciones de firmware de los fabricantes de tu hardware."
+
+#: src/sysreport_ui.rs:247
+msgid "Up to date"
+msgstr "Al día"
+
+#: src/sysreport_ui.rs:248
+msgid "As of the last check. Check Online downloads the latest list."
+msgstr ""
+"Según la última revisión. Buscar en línea descarga la lista más reciente."
+
+#: src/sysreport_ui.rs:261
+msgid "Install…"
+msgstr "Instalar…"
+
+#: src/sysreport_ui.rs:273
+#, rust-format
+msgid ""
+"\n"
+"Fix: <tt>{}</tt>"
+msgstr ""
+"\n"
+"Solución: <tt>{}</tt>"
+
+#: src/sysreport_ui.rs:291
+msgid "Copy the command, to paste in a terminal"
+msgstr "Copia el comando para pegarlo en una terminal"
+
+#: src/sysreport_ui.rs:295
+msgid "Command copied: paste it in a terminal"
+msgstr "Comando copiado: pégalo en una terminal"
+
+#: src/sysreport_ui.rs:300
+msgid "Open Guide"
+msgstr "Abrir guía"
+
+#: src/sysreport_ui.rs:312
+msgid "Nothing to compare yet"
+msgstr "Todavía no hay nada que comparar"
+
+#: src/sysreport_ui.rs:313
+msgid ""
+"Voltkit saves a snapshot each day while it runs, so changes show up here from tomorrow on."
+msgstr ""
+"Voltkit guarda una instantánea cada día mientras se ejecuta, así que los cambios aparecen aquí a partir de mañana."
+
+#: src/sysreport_ui.rs:330 src/usage_ui.rs:332
+#, rust-format
+msgid "and {} more"
+msgstr "y {} más"
+
+#: src/sysreport_ui.rs:378
+msgid "Copy System Report"
+msgstr "Copiar informe del sistema"
+
+#: src/sysreport_ui.rs:379
+msgid ""
+"This is what will be copied. It has no serial numbers, user or computer names, or network addresses."
+msgstr ""
+"Esto es lo que se copiará. No incluye números de serie, nombres de usuario ni de equipo, ni direcciones de red."
+
+#: src/sysreport_ui.rs:390
+msgid "Report copied: paste it where you're asking for help"
+msgstr "Informe copiado: pégalo donde estés pidiendo ayuda"
+
+#: src/sysreport_ui.rs:400
+msgid "Software"
+msgstr "Software"
+
+#: src/sysreport_ui.rs:405
+msgid "Command copied: paste “fwupdmgr update” in a terminal"
+msgstr "Comando copiado: pega “fwupdmgr update” en una terminal"
+
+#: src/system.rs:27
+#, rust-format
+msgid "`{}` is not installed; `voltkit doctor` shows how to install it"
+msgstr "`{}` no está instalado; `voltkit doctor` muestra cómo instalarlo"
+
+#: src/system.rs:29
+#, rust-format
+msgid "`{}` failed: {}"
+msgstr "`{}` falló: {}"
+
+#: src/system.rs:48
+#, rust-format
+msgid "timed out after {}s"
+msgstr "se agotó el tiempo después de {} s"
+
+#: src/system.rs:69 src/system.rs:92
+msgid "no clipboard tool found; `voltkit doctor` shows how to install one"
+msgstr ""
+"no se encontró ninguna herramienta de portapapeles; `voltkit doctor` muestra cómo instalar una"
+
+#: src/system.rs:71
+msgid "could not set the clipboard"
+msgstr "no se pudo establecer el portapapeles"
+
+#: src/system.rs:73
+#, rust-format
+msgid "could not set the clipboard ({})"
+msgstr "no se pudo establecer el portapapeles ({})"
+
+#: src/system.rs:99
+msgid "could not read the clipboard"
+msgstr "no se pudo leer el portapapeles"
+
+#: src/system.rs:100
+msgid "clipboard reader crashed"
+msgstr "el lector del portapapeles falló"
+
+#: src/system.rs:103
+msgid "clipboard has no text"
+msgstr "el portapapeles no tiene texto"
+
+#: src/system_ui.rs:47
+msgid "Add Entry"
+msgstr "Agregar entrada"
+
+#: src/system_ui.rs:49
+msgid "Hosts File"
+msgstr "Archivo hosts"
+
+#: src/system_ui.rs:51
+msgid ""
+"Point names at addresses on this computer, such as myapp.test → 127.0.0.1. Turn entries off instead of deleting them to keep them for later. Saving asks for your password and keeps a backup in /etc/hosts.voltkit-backup."
+msgstr ""
+"Apunta nombres a direcciones en esta computadora, como myapp.test → 127.0.0.1. Desactiva las entradas en lugar de borrarlas para conservarlas para después. Guardar pide tu contraseña y guarda una copia de seguridad en /etc/hosts.voltkit-backup."
+
+#: src/system_ui.rs:57
+msgid "Save Changes"
+msgstr "Guardar cambios"
+
+#: src/system_ui.rs:58
+msgid "Discard"
+msgstr "Descartar"
+
+#: src/system_ui.rs:70
+msgid "Allow editing system entries"
+msgstr "Permitir editar entradas del sistema"
+
+#: src/system_ui.rs:71
+msgid ""
+"Changing localhost or your computer's name can break networking and sudo. A backup is kept either way."
+msgstr ""
+"Cambiar localhost o el nombre de tu computadora puede romper la red y sudo. De todas formas se guarda una copia de seguridad."
+
+#: src/system_ui.rs:142
+msgid "System entry, kept as it is"
+msgstr "Entrada del sistema, se deja como está"
+
+#: src/system_ui.rs:185
+msgid "IP address"
+msgstr "Dirección IP"
+
+#: src/system_ui.rs:186
+msgid "Host names, separated by spaces"
+msgstr "Nombres de host, separados por espacios"
+
+#: src/system_ui.rs:187
+msgid "Note (optional)"
+msgstr "Nota (opcional)"
+
+#: src/system_ui.rs:192
+msgid "Edit Host Entry"
+msgstr "Editar entrada de hosts"
+
+#: src/system_ui.rs:192
+msgid "New Host Entry"
+msgstr "Nueva entrada de hosts"
+
+#: src/system_ui.rs:196
+msgid "Enter an IP address, such as 127.0.0.1 or ::1."
+msgstr "Escribe una dirección IP, como 127.0.0.1 o ::1."
+
+#: src/system_ui.rs:200
+msgid "Enter at least one host name, such as myapp.test."
+msgstr "Escribe al menos un nombre de host, como myapp.test."
+
+#: src/system_ui.rs:203
+#, rust-format
+msgid "“{}” isn't a valid host name (letters, digits, dots and dashes)."
+msgstr ""
+"“{}” no es un nombre de host válido (letras, dígitos, puntos y guiones)."
+
+#: src/system_ui.rs:235
+#, rust-format
+msgid "Saved {}. The previous version is in {}."
+msgstr "Se guardó {}. La versión anterior está en {}."
+
+#: src/system_ui.rs:263
+msgid "Add Variable"
+msgstr "Agregar variable"
+
+#: src/system_ui.rs:265
+msgid "Environment Variables"
+msgstr "Variables de entorno"
+
+#: src/system_ui.rs:267
+msgid ""
+"Set for every app in your desktop session. They apply the next time you log in (restart if logging out isn't enough). To add to a list like PATH, use ${PATH}:/new/folder."
+msgstr ""
+"Se definen para todas las apps de tu sesión de escritorio. Se aplican la próxima vez que inicies sesión (reinicia si cerrar sesión no basta). Para agregar a una lista como PATH, usa ${PATH}:/nueva/carpeta."
+
+#: src/system_ui.rs:276
+msgid "Filter variables"
+msgstr "Filtrar variables"
+
+#: src/system_ui.rs:278
+msgid "Already in Your Session"
+msgstr "Ya en tu sesión"
+
+#: src/system_ui.rs:280
+msgid ""
+"Set by the system or your shell. Override one to give it a new value from Voltkit. A value set in ~/.bashrc still wins in terminals."
+msgstr ""
+"Definidas por el sistema o tu shell. Sobrescribe una para darle un valor nuevo desde Voltkit. Un valor definido en ~/.bashrc sigue ganando en las terminales."
+
+#: src/system_ui.rs:321
+msgid "Override"
+msgstr "Sobrescribir"
+
+#: src/system_ui.rs:340
+msgid "No variables yet"
+msgstr "Todavía no hay variables"
+
+#: src/system_ui.rs:341
+msgid "Click Add Variable to set one, such as EDITOR=nano."
+msgstr "Haz clic en Agregar variable para definir una, como EDITOR=nano."
+
+#: src/system_ui.rs:403
+msgid "Name"
+msgstr "Nombre"
+
+#: src/system_ui.rs:404
+msgid "Value"
+msgstr "Valor"
+
+#: src/system_ui.rs:409
+msgid "Edit Variable"
+msgstr "Editar variable"
+
+#: src/system_ui.rs:409
+msgid "Override Variable"
+msgstr "Sobrescribir variable"
+
+#: src/system_ui.rs:409
+msgid "New Variable"
+msgstr "Nueva variable"
+
+#: src/system_ui.rs:414
+msgid ""
+"Names use letters, digits and underscores, and don't start with a digit."
+msgstr ""
+"Los nombres usan letras, dígitos y guiones bajos, y no empiezan con un dígito."
+
+#: src/system_ui.rs:417
+#, rust-format
+msgid "{} is already set; edit that one instead."
+msgstr "{} ya está definida; edita esa en su lugar."
+
+#: src/system_ui.rs:420
+msgid "Values must fit on one line."
+msgstr "Los valores deben caber en una línea."
+
+#: src/system_ui.rs:434
+#, rust-format
+msgid "Saved {}. Log out and back in to apply it."
+msgstr "Se guardó {}. Cierra sesión y vuelve a entrar para aplicarla."
+
+#: src/usage_ui.rs:88
+msgid "Eject"
+msgstr "Expulsar"
+
+#: src/usage_ui.rs:98
+msgid "Drives"
+msgstr "Unidades"
+
+#: src/usage_ui.rs:99
+msgid "USB sticks, memory cards and other disks you can eject"
+msgstr "Memorias USB, tarjetas de memoria y otros discos que puedes expulsar"
+
+#: src/usage_ui.rs:133
+msgid "Choose what to inspect"
+msgstr "Elige qué revisar"
+
+#: src/usage_ui.rs:135
+msgid ""
+"Find the apps that keep a file, folder or drive busy (“target is busy”), or that use a network port (“address already in use”), and close them."
+msgstr ""
+"Encuentra las apps que mantienen ocupado un archivo, una carpeta o una unidad (“target is busy”), o que usan un puerto de red (“address already in use”), y ciérralas."
+
+#: src/usage_ui.rs:140
+msgid "File…"
+msgstr "Archivo…"
+
+#: src/usage_ui.rs:141
+msgid "Folder…"
+msgstr "Carpeta…"
+
+#: src/usage_ui.rs:142
+msgid "File or folder"
+msgstr "Archivo o carpeta"
+
+#: src/usage_ui.rs:142
+msgid "Or drop one on this window"
+msgstr "O suelta uno en esta ventana"
+
+#: src/usage_ui.rs:150
+msgid "Choose a Folder"
+msgstr "Elige una carpeta"
+
+#: src/usage_ui.rs:150
+msgid "Choose a File"
+msgstr "Elige un archivo"
+
+#: src/usage_ui.rs:164
+msgid "Network port, such as 3000"
+msgstr "Puerto de red, como 3000"
+
+#: src/usage_ui.rs:174
+msgid "Enter a port number from 1 to 65535"
+msgstr "Escribe un número de puerto del 1 al 65535"
+
+#: src/usage_ui.rs:191 src/usage_ui.rs:202
+msgid "Check"
+msgstr "Revisar"
+
+#: src/usage_ui.rs:219
+msgid "No drives to eject are connected"
+msgstr "No hay unidades para expulsar conectadas"
+
+#: src/usage_ui.rs:254
+#, rust-format
+msgid "Port {}"
+msgstr "Puerto {}"
+
+#: src/usage_ui.rs:265
+#, rust-format
+msgid "Using “{}”"
+msgstr "Qué está usando “{}”"
+
+#: src/usage_ui.rs:275
+msgid "Nothing is using it"
+msgstr "Nada lo está usando"
+
+#: src/usage_ui.rs:276
+msgid "You can eject it now."
+msgstr "Ya puedes expulsarla."
+
+#: src/usage_ui.rs:276
+msgid "No app has it open."
+msgstr "Ninguna app lo tiene abierto."
+
+#: src/usage_ui.rs:285
+msgid "Check with Password"
+msgstr "Revisar con contraseña"
+
+#: src/usage_ui.rs:288
+#, rust-format
+msgid "{} program of other users or the system wasn't checked"
+msgid_plural "{} programs of other users or the system weren't checked"
+msgstr[0] "{} programa de otros usuarios o del sistema no se revisó"
+msgstr[1] "{} programas de otros usuarios o del sistema no se revisaron"
+
+#: src/usage_ui.rs:292
+msgid "Servers and system services often run that way"
+msgstr "Los servidores y servicios del sistema suelen ejecutarse así"
+
+#: src/usage_ui.rs:306
+#, rust-format
+msgid "Not checked: {}"
+msgstr "No se revisó: {}"
+
+#: src/usage_ui.rs:324
+#, rust-format
+msgid "in {} · PID {}"
+msgstr "en {} · PID {}"
+
+#: src/usage_ui.rs:325
+#, rust-format
+msgid "{} · PID {}"
+msgstr "{} · PID {}"
+
+#: src/usage_ui.rs:335
+#, rust-format
+msgid "This is {}, so Voltkit won't close it."
+msgstr "Esto es {}, así que Voltkit no lo cerrará."
+
+#: src/usage_ui.rs:361
+#, rust-format
+msgid "Force Quit {}?"
+msgstr "¿Forzar el cierre de {}?"
+
+#: src/usage_ui.rs:362
+msgid ""
+"It stops immediately, without a chance to save. Anything unsaved in it is lost."
+msgstr ""
+"Se detiene de inmediato, sin oportunidad de guardar. Se pierde todo lo que no se haya guardado."
+
+#: src/usage_ui.rs:363 src/usage_ui.rs:396
+msgid "Force Quit"
+msgstr "Forzar cierre"
+
+#: src/usage_ui.rs:367
+#, rust-format
+msgid "Close {}?"
+msgstr "¿Cerrar {}?"
+
+#: src/usage_ui.rs:368
+#, rust-format
+msgid ""
+"Voltkit asks {} to quit, like closing its window. Unsaved work in it may be lost."
+msgstr ""
+"Voltkit le pide a {} que se cierre, como cuando cierras su ventana. Se puede perder el trabajo sin guardar."
+
+#: src/usage_ui.rs:389
+msgid "Stopping…"
+msgstr "Deteniendo…"
+
+#: src/usage_ui.rs:389
+msgid "Closing…"
+msgstr "Cerrando…"
+
+#: src/usage_ui.rs:391
+#, rust-format
+msgid "{} closed"
+msgstr "Se cerró {}"
+
+#: src/usage_ui.rs:408
+#, rust-format
+msgid ""
+"These apps are using {}: {}. Voltkit asks them to quit, like closing their windows, then ejects. Unsaved work in them may be lost."
+msgstr ""
+"Estas apps están usando {}: {}. Voltkit les pide que se cierren, como cuando cierras sus ventanas, y luego expulsa la unidad. Se puede perder el trabajo sin guardar."
+
+#: src/usage_ui.rs:409
+#, rust-format
+msgid "Close {} and Eject?"
+msgstr "¿Cerrar {} y expulsar?"
+
+#: src/usage_ui.rs:409
+msgid "Close and Eject"
+msgstr "Cerrar y expulsar"
+
+#: src/usage_ui.rs:419
+msgid "Some apps didn't close. Use Force Quit on them, then eject."
+msgstr ""
+"Algunas apps no se cerraron. Usa Forzar cierre en ellas y luego expulsa."
+
+#: src/usage_ui.rs:433
+#, rust-format
+msgid "{} ejected: you can unplug it"
+msgstr "Se expulsó {}: ya puedes desconectarla"
+
+#: src/usage_ui.rs:440
+#, rust-format
+msgid "Could not eject: {}"
+msgstr "No se pudo expulsar: {}"
+
+#: src/usage_ui.rs:464
+#, rust-format
+msgid "{} App"
+msgid_plural "{} Apps"
+msgstr[0] "{} app"
+msgstr[1] "{} apps"
+
+#: src/main.rs (command-line help)
+msgid "A unified suite of desktop micro-utilities for Linux"
+msgstr "Un conjunto unificado de microutilidades de escritorio para Linux"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Everyday desktop micro-utilities for Linux, in one binary.\n"
+"\n"
+"Run without a subcommand to open the GTK control center. Each subcommand runs one utility from the terminal, a script or a keyboard shortcut."
+msgstr ""
+"Microutilidades de escritorio para el día a día en Linux, en un solo binario.\n"
+"\n"
+"Ejecútalo sin subcomando para abrir el centro de control GTK. Cada subcomando ejecuta una utilidad desde la terminal, un script o un atajo de teclado."
+
+#: src/main.rs (command-line help)
+msgid "Select a screen region and copy the recognized text to the clipboard"
+msgstr ""
+"Selecciona una región de la pantalla y copia el texto reconocido al portapapeles"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Select a screen region and copy the recognized text to the clipboard\n"
+"\n"
+"Opens the desktop's interactive screenshot tool through the XDG Screenshot portal, then runs Tesseract on the selected region. Without the portal it falls back to grim+slurp, gnome-screenshot, spectacle or maim. The text is printed and copied to the clipboard."
+msgstr ""
+"Selecciona una región de la pantalla y copia el texto reconocido al portapapeles\n"
+"\n"
+"Abre la herramienta interactiva de capturas del escritorio mediante el portal Screenshot de XDG y luego ejecuta Tesseract en la región seleccionada. Sin el portal, recurre a grim+slurp, gnome-screenshot, spectacle o maim. El texto se muestra y se copia al portapapeles."
+
+#: src/main.rs (command-line help)
+msgid "Tesseract language code(s), e.g. \"eng\" or \"eng+deu\""
+msgstr "Código(s) de idioma de Tesseract, p. ej. \"eng\" o \"spa+eng\""
+
+#: src/main.rs (command-line help)
+msgid "Pick a color from the screen and copy its HEX value"
+msgstr "Toma un color de la pantalla y copia su valor HEX"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Pick a color from the screen and copy its HEX value\n"
+"\n"
+"Uses the XDG Screenshot portal's color picker. The value is printed, copied to the clipboard and added to the color history shown in the control center."
+msgstr ""
+"Toma un color de la pantalla y copia su valor HEX\n"
+"\n"
+"Usa el selector de color del portal Screenshot de XDG. El valor se muestra, se copia al portapapeles y se agrega al historial de colores del centro de control."
+
+#: src/main.rs (command-line help)
+msgid "Convert a color (#hex or rgb(...)) and report WCAG contrast"
+msgstr "Convierte un color (#hex o rgb(...)) e informa el contraste WCAG"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Convert a color (#hex or rgb(...)) and report WCAG contrast\n"
+"\n"
+"Prints the color as HEX, RGB and HSL, and its WCAG 2.x contrast ratio as text on white and on black."
+msgstr ""
+"Convierte un color (#hex o rgb(...)) e informa el contraste WCAG\n"
+"\n"
+"Muestra el color como HEX, RGB y HSL, y su relación de contraste WCAG 2.x como texto sobre blanco y sobre negro."
+
+#: src/main.rs (command-line help)
+msgid "#rgb, #rrggbb (the # is optional) or rgb(r, g, b)"
+msgstr "#rgb, #rrggbb (el # es opcional) o rgb(r, g, b)"
+
+#: src/main.rs (command-line help)
+msgid "Strip metadata and compress PNG, JPEG, WebP or MP4 files"
+msgstr "Quita los metadatos y comprime archivos PNG, JPEG, WebP o MP4"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Strip metadata and compress PNG, JPEG, WebP or MP4 files\n"
+"\n"
+"Each FILE is written to NAME.min.EXT beside it; originals are never modified."
+msgstr ""
+"Quita los metadatos y comprime archivos PNG, JPEG, WebP o MP4\n"
+"\n"
+"Cada FILE se escribe en NAME.min.EXT junto al original; los originales nunca se modifican."
+
+#: src/main.rs (command-line help)
+msgid "Files to compress (.png, .jpg/.jpeg, .webp, .mp4/.m4v/.mov)"
+msgstr "Archivos a comprimir (.png, .jpg/.jpeg, .webp, .mp4/.m4v/.mov)"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Quality from 1 (smallest) to 100 (best); ignored for PNG, which is always lossless"
+msgstr ""
+"Calidad de 1 (más pequeño) a 100 (mejor); se ignora en PNG, que siempre es sin pérdida"
+
+#: src/main.rs (command-line help)
+msgid "Expand a snippet template, e.g. \"Sent {date:%A}: {clipboard}\""
+msgstr ""
+"Expande una plantilla de fragmento, p. ej. \"Enviado {date:%A}: {clipboard}\""
+
+#: src/main.rs (command-line help)
+msgid ""
+"Expand a snippet template, e.g. \"Sent {date:%A}: {clipboard}\"\n"
+"\n"
+"Prints TEMPLATE with its {variables} replaced. Fails if a variable is unknown or an {arg:NAME} has no matching --arg."
+msgstr ""
+"Expande una plantilla de fragmento, p. ej. \"Enviado {date:%A}: {clipboard}\"\n"
+"\n"
+"Muestra TEMPLATE con sus {variables} reemplazadas. Falla si una variable es desconocida o si un {arg:NAME} no tiene su --arg."
+
+#: src/main.rs (command-line help)
+msgid ""
+"Text with {variables} to expand; quote it to keep the braces from the shell"
+msgstr ""
+"Texto con {variables} para expandir; ponlo entre comillas para que el shell no toque las llaves"
+
+#: src/main.rs (command-line help)
+msgid "A value for {arg:NAME}; repeat for several parameters"
+msgstr "Un valor para {arg:NAME}; repítelo para varios parámetros"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Open the snippet picker and paste the chosen snippet into the focused app"
+msgstr "Abre el selector de fragmentos y pega el elegido en la app enfocada"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Open the snippet picker and paste the chosen snippet into the focused app\n"
+"\n"
+"Search with the keyboard, press Enter, and fill in any {arg:NAME} parameters. The expansion is pasted into the app that had focus, through the RemoteDesktop portal (the desktop asks for permission once), and the previous clipboard is restored."
+msgstr ""
+"Abre el selector de fragmentos y pega el elegido en la app enfocada\n"
+"\n"
+"Busca con el teclado, presiona Enter y completa los parámetros {arg:NAME} que haya. La expansión se pega en la app que tenía el foco, mediante el portal RemoteDesktop (el escritorio pide permiso una vez), y se restaura el portapapeles anterior."
+
+#: src/main.rs (command-line help)
+msgid "Open directly on the snippet with this trigger"
+msgstr "Abre directamente en el fragmento con este disparador"
+
+#: src/main.rs (command-line help)
+msgid "Set up and toggle typed triggers (type ;date anywhere to expand it)"
+msgstr ""
+"Configura y activa o desactiva los disparadores al escribir (escribe ;date en cualquier lado para expandirlo)"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Set up and toggle typed triggers (type ;date anywhere to expand it)\n"
+"\n"
+"Typed triggers read keyboard input through evdev and paste through a uinput virtual keyboard, which needs a one-time setup with root rights. Only the last few typed characters are kept in memory; nothing is logged or stored."
+msgstr ""
+"Configura y activa o desactiva los disparadores al escribir (escribe ;date en cualquier lado para expandirlo)\n"
+"\n"
+"Los disparadores al escribir leen el teclado mediante evdev y pegan mediante un teclado virtual uinput, lo que requiere una configuración única con permisos de root. Solo se guardan en memoria los últimos caracteres escritos; nada se registra ni se almacena."
+
+#: src/main.rs (command-line help)
+msgid "Show whether typed triggers are enabled and can run"
+msgstr ""
+"Muestra si los disparadores al escribir están activados y pueden funcionar"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Grant keyboard access and turn typed triggers on, right away (no logout needed)"
+msgstr ""
+"Concede acceso al teclado y enciende los disparadores al escribir, de inmediato (sin cerrar sesión)"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Run the commands (asks for the administrator password) instead of only printing them"
+msgstr ""
+"Ejecuta los comandos (pide la contraseña de administrador) en lugar de solo mostrarlos"
+
+#: src/main.rs (command-line help)
+msgid "Turn typed triggers on"
+msgstr "Enciende los disparadores al escribir"
+
+#: src/main.rs (command-line help)
+msgid "Turn typed triggers off"
+msgstr "Apaga los disparadores al escribir"
+
+#: src/main.rs (command-line help)
+msgid "Turn typed triggers off and remove Voltkit's keyboard access"
+msgstr ""
+"Apaga los disparadores al escribir y quita el acceso de Voltkit al teclado"
+
+#: src/main.rs (command-line help)
+msgid "Measure distances on screen in pixels"
+msgstr "Mide distancias en pantalla en píxeles"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Measure distances on screen in pixels\n"
+"\n"
+"Freezes the screen and shows it full screen. Drag to measure a width and height; hold Shift for a straight line. Ctrl+C copies the size, right-click clears, Esc closes."
+msgstr ""
+"Mide distancias en pantalla en píxeles\n"
+"\n"
+"Congela la pantalla y la muestra a pantalla completa. Arrastra para medir un ancho y un alto; mantén Mayús para una línea recta. Ctrl+C copia el tamaño, el clic derecho borra, Esc cierra."
+
+#: src/main.rs (command-line help)
+msgid "Keep the computer from sleeping or locking its screen"
+msgstr "Evita que la computadora se suspenda o bloquee la pantalla"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Keep the computer from sleeping or locking its screen\n"
+"\n"
+"Held by the background service, so it continues after this command or the window closes. Without DURATION, shows whether Keep Awake is on."
+msgstr ""
+"Evita que la computadora se suspenda o bloquee la pantalla\n"
+"\n"
+"Lo mantiene el servicio en segundo plano, así que sigue después de que termine este comando o se cierre la ventana. Sin DURATION, muestra si Mantener activo está encendido."
+
+#: src/main.rs (command-line help)
+msgid ""
+"30m, 1h, 1h30m or a number of minutes; `on` until turned off; `off` to stop"
+msgstr ""
+"30m, 1h, 1h30m o un número de minutos; `on` hasta que lo apagues; `off` para detenerlo"
+
+#: src/main.rs (command-line help)
+msgid "Show which programs keep a file, folder, drive or network port busy"
+msgstr ""
+"Muestra qué programas mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Show which programs keep a file, folder, drive or network port busy\n"
+"\n"
+"TARGET is a path, or a port number such as 3000. Lists each program with its PID and how it uses the target. Only your own programs can be checked as a normal user; run it with sudo to include other users' programs and system services."
+msgstr ""
+"Muestra qué programas mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red\n"
+"\n"
+"TARGET es una ruta, o un número de puerto como 3000. Muestra cada programa con su PID y cómo usa el objetivo. Como usuario normal solo se pueden revisar tus propios programas; ejecútalo con sudo para incluir los programas de otros usuarios y los servicios del sistema."
+
+#: src/main.rs (command-line help)
+msgid "A file, folder or mount point, or a port number"
+msgstr "Un archivo, una carpeta o un punto de montaje, o un número de puerto"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Paste the clipboard converted: tidy JSON, a table as Markdown, a cleaned link…"
+msgstr ""
+"Pega el portapapeles convertido: JSON ordenado, una tabla como Markdown, un enlace limpio…"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Paste the clipboard converted: tidy JSON, a table as Markdown, a cleaned link…\n"
+"\n"
+"Opens a small window listing the conversions that fit what's on the clipboard, with a preview of each. Enter pastes the chosen one into the app that had focus and restores the clipboard. An image on the clipboard can be pasted as its text (OCR)."
+msgstr ""
+"Pega el portapapeles convertido: JSON ordenado, una tabla como Markdown, un enlace limpio…\n"
+"\n"
+"Abre una pequeña ventana con las conversiones que sirven para lo que hay en el portapapeles, cada una con vista previa. Enter pega la elegida en la app que tenía el foco y restaura el portapapeles. Una imagen en el portapapeles se puede pegar como su texto (OCR)."
+
+#: src/main.rs (command-line help)
+msgid ""
+"Convert text from standard input with one of Smart Paste's conversions"
+msgstr ""
+"Convierte texto de la entrada estándar con una de las conversiones de Pegado inteligente"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Convert text from standard input with one of Smart Paste's conversions\n"
+"\n"
+"Without CONVERSION, lists them."
+msgstr ""
+"Convierte texto de la entrada estándar con una de las conversiones de Pegado inteligente\n"
+"\n"
+"Sin CONVERSION, las muestra."
+
+#: src/main.rs (command-line help)
+msgid "A conversion such as json, markdown-table, clean-link or snake"
+msgstr "Una conversión como json, markdown-table, clean-link o snake"
+
+#: src/main.rs (command-line help)
+msgid "Describe this computer: hardware, drivers, health and recent changes"
+msgstr ""
+"Describe esta computadora: hardware, drivers, salud y cambios recientes"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Describe this computer: hardware, drivers, health and recent changes\n"
+"\n"
+"Prints a report that's safe to share in a forum or bug report (no serial numbers, names or network addresses), with checks and fixes for drivers, drive health, disk space, temperatures and firmware updates. Also saves today's snapshot, so later reports can show what changed."
+msgstr ""
+"Describe esta computadora: hardware, drivers, salud y cambios recientes\n"
+"\n"
+"Muestra un informe seguro para compartir en un foro o un reporte de errores (sin números de serie, nombres ni direcciones de red), con revisiones y soluciones para drivers, salud de las unidades, espacio en disco, temperaturas y actualizaciones de firmware. También guarda la instantánea de hoy, para que informes posteriores muestren qué cambió."
+
+#: src/main.rs (command-line help)
+msgid ""
+"Also show memory slots and upgrade options (asks for the administrator password)"
+msgstr ""
+"Muestra también las ranuras de memoria y las opciones de ampliación (pide la contraseña de administrador)"
+
+#: src/main.rs (command-line help)
+msgid "Explain why the computer doesn't sleep, or why it woke up"
+msgstr "Explica por qué la computadora no se suspende, o por qué se despertó"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Explain why the computer doesn't sleep, or why it woke up\n"
+"\n"
+"Shows what keeps the computer awake right now (apps and settings), the sleeps of the last week with what started and ended each one and the battery used, and the USB devices allowed to wake it."
+msgstr ""
+"Explica por qué la computadora no se suspende, o por qué se despertó\n"
+"\n"
+"Muestra qué mantiene activa la computadora ahora mismo (apps y ajustes), las suspensiones de la última semana con qué inició y terminó cada una y la batería usada, y los dispositivos USB que pueden despertarla."
+
+#: src/main.rs (command-line help)
+msgid "Read QR codes from the screen or image files, or make them from text"
+msgstr ""
+"Lee códigos QR de la pantalla o de archivos de imagen, o créalos a partir de texto"
+
+#: src/main.rs (command-line help)
+msgid "Select a screen region and copy the text of the QR code in it"
+msgstr ""
+"Selecciona una región de la pantalla y copia el texto del código QR que contiene"
+
+#: src/main.rs (command-line help)
+msgid "Print the text of every QR code in an image file"
+msgstr "Muestra el texto de cada código QR de un archivo de imagen"
+
+#: src/main.rs (command-line help)
+msgid "Show TEXT as a QR code in the terminal, or save it as a PNG image"
+msgstr ""
+"Muestra TEXT como código QR en la terminal, o guárdalo como imagen PNG"
+
+#: src/main.rs (command-line help)
+msgid "Save a PNG image instead of printing to the terminal"
+msgstr "Guarda una imagen PNG en lugar de mostrarlo en la terminal"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Put a small logo (PNG, JPEG, WebP or SVG) in the middle of the code (PNG output only). The code is read back to make sure it still scans"
+msgstr ""
+"Pon un logo pequeño (PNG, JPEG, WebP o SVG) en el centro del código (solo con salida PNG). El código se vuelve a leer para comprobar que todavía se puede escanear"
+
+#: src/main.rs (command-line help)
+msgid "Run the background service that listens for global shortcuts"
+msgstr "Ejecuta el servicio en segundo plano que escucha los atajos globales"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Run the background service that listens for global shortcuts\n"
+"\n"
+"Without a subcommand, runs the service in the foreground until interrupted. It owns io.github.arios4k.Voltkit.Daemon on the session bus, so only one instance runs, and binds the configured hotkeys through the XDG GlobalShortcuts portal when the desktop provides it."
+msgstr ""
+"Ejecuta el servicio en segundo plano que escucha los atajos globales\n"
+"\n"
+"Sin subcomando, ejecuta el servicio en primer plano hasta que se interrumpa. Ocupa io.github.arios4k.Voltkit.Daemon en el bus de sesión, así que solo se ejecuta una instancia, y asigna los atajos configurados mediante el portal GlobalShortcuts de XDG cuando el escritorio lo ofrece."
+
+#: src/main.rs (command-line help)
+msgid "Show whether the daemon is running and how shortcuts are bound"
+msgstr ""
+"Muestra si el daemon se está ejecutando y cómo están asignados los atajos"
+
+#: src/main.rs (command-line help)
+msgid "Stop the running daemon"
+msgstr "Detiene el daemon en ejecución"
+
+#: src/main.rs (command-line help)
+msgid "Make the running daemon re-read snippets from the config file"
+msgstr ""
+"Hace que el daemon en ejecución vuelva a leer los fragmentos del archivo de configuración"
+
+#: src/main.rs (command-line help)
+msgid "Start the daemon automatically at login"
+msgstr "Inicia el daemon automáticamente al iniciar sesión"
+
+#: src/main.rs (command-line help)
+msgid "Stop starting the daemon at login"
+msgstr "Deja de iniciar el daemon al iniciar sesión"
+
+#: src/main.rs (command-line help)
+msgid "Check that everything Voltkit needs is installed and set up"
+msgstr "Revisa que todo lo que Voltkit necesita esté instalado y configurado"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Check that everything Voltkit needs is installed and set up\n"
+"\n"
+"Checks the helper programs, OCR language data, desktop portals, clipboard tools, the background service and hotkeys, then prints the install command for anything missing on this distro."
+msgstr ""
+"Revisa que todo lo que Voltkit necesita esté instalado y configurado\n"
+"\n"
+"Revisa los programas auxiliares, los datos de idioma del OCR, los portales del escritorio, las herramientas de portapapeles, el servicio en segundo plano y los atajos, y luego muestra el comando de instalación de lo que falte en esta distribución."
+
+#: src/main.rs (command-line help)
+msgid "Run a hotkey action via the daemon, or directly if it isn't running"
+msgstr ""
+"Ejecuta una acción de atajo mediante el daemon, o directamente si no se está ejecutando"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Run a hotkey action via the daemon, or directly if it isn't running\n"
+"\n"
+"Meant to be bound to a key in the desktop's keyboard settings or a compositor config. Results and errors are shown as desktop notifications."
+msgstr ""
+"Ejecuta una acción de atajo mediante el daemon, o directamente si no se está ejecutando\n"
+"\n"
+"Pensado para asignarse a una tecla en la configuración de teclado del escritorio o en la configuración de un compositor. Los resultados y errores se muestran como notificaciones del escritorio."
+
+#: src/main.rs (command-line help)
+msgid ""
+"Manage GNOME keybindings for desktops without the GlobalShortcuts portal"
+msgstr ""
+"Administra los atajos de GNOME en escritorios sin el portal GlobalShortcuts"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Manage GNOME keybindings for desktops without the GlobalShortcuts portal\n"
+"\n"
+"Adds or removes custom shortcuts in GNOME Settings (via gsettings) that run `voltkit trigger`. Other custom shortcuts are left untouched."
+msgstr ""
+"Administra los atajos de GNOME en escritorios sin el portal GlobalShortcuts\n"
+"\n"
+"Agrega o quita atajos personalizados en la Configuración de GNOME (mediante gsettings) que ejecutan `voltkit trigger`. Los demás atajos personalizados no se tocan."
+
+#: src/main.rs (command-line help)
+msgid ""
+"Add Super+Shift+T, C and E (or your configured keys) to GNOME Settings"
+msgstr ""
+"Agrega Super+Mayús+T, C y E (o tus teclas configuradas) a la Configuración de GNOME"
+
+#: src/main.rs (command-line help)
+msgid "Print the gsettings commands instead of running them"
+msgstr "Muestra los comandos de gsettings en lugar de ejecutarlos"
+
+#: src/main.rs (command-line help)
+msgid "Remove the keybindings added by `install`"
+msgstr "Quita los atajos agregados por `install`"
+
+#: src/main.rs (command-line help)
+msgid "List every system-wide shortcut, grouped by who owns it"
+msgstr "Muestra todos los atajos de todo el sistema, agrupados por dueño"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Show what a shortcut does, such as `voltkit shortcuts who super+shift+s`"
+msgstr "Muestra qué hace un atajo, como `voltkit shortcuts who super+shift+s`"
+
+#: src/main.rs (command-line help)
+msgid "The keys, like super+shift+s, ctrl+alt+t or print"
+msgstr "Las teclas, como super+shift+s, ctrl+alt+t o print"
+
+#: src/main.rs (command-line help)
+msgid "Show shortcuts used by more than one action"
+msgstr "Muestra los atajos que usa más de una acción"

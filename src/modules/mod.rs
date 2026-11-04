@@ -20,91 +20,126 @@ pub struct ModuleInfo {
     pub summary: &'static str,
 }
 
-/// Sorted by title: the sidebar lists them in this order.
+impl ModuleInfo {
+    pub fn title(&self) -> &'static str {
+        crate::i18n::tr(self.title)
+    }
+
+    pub fn summary(&self) -> &'static str {
+        crate::i18n::tr(self.summary)
+    }
+}
+
+/// The tools in sidebar order: by title in the user's language, ignoring
+/// accents, case and leading punctuation such as Spanish's ¿.
+pub fn sorted() -> Vec<&'static ModuleInfo> {
+    let key = |m: &ModuleInfo| -> String {
+        m.title()
+            .chars()
+            .skip_while(|c| !c.is_alphanumeric())
+            .flat_map(char::to_lowercase)
+            .map(|c| match c {
+                'á' | 'à' | 'â' | 'ä' => 'a',
+                'é' | 'è' | 'ê' | 'ë' => 'e',
+                'í' | 'ì' | 'î' | 'ï' => 'i',
+                'ó' | 'ò' | 'ô' | 'ö' => 'o',
+                'ú' | 'ù' | 'û' | 'ü' => 'u',
+                'ñ' => 'n',
+                'ß' => 's',
+                c => c,
+            })
+            .collect()
+    };
+    let mut all: Vec<&ModuleInfo> = ALL.iter().collect();
+    all.sort_by_cached_key(|m| key(m));
+    all
+}
+
+/// Sorted by English title; [`sorted`] gives the order for the user's language.
 pub const ALL: &[ModuleInfo] = &[
     ModuleInfo {
         id: "permissions",
-        title: "App Permissions",
+        title: N_!("App Permissions"),
         icon: "security-high-symbolic",
-        summary: "Change or forget the answers you gave when apps asked for screenshots, the camera and more.",
+        summary: N_!("Change or forget the answers you gave when apps asked for screenshots, the camera and more."),
     },
     ModuleInfo {
         id: "compress",
-        title: "Asset Compressor",
+        title: N_!("Asset Compressor"),
         icon: "package-x-generic-symbolic",
-        summary: "Drop images or videos to strip metadata and shrink them.",
+        summary: N_!("Drop images or videos to strip metadata and shrink them."),
     },
     ModuleInfo {
         id: "color",
-        title: "Color Picker",
+        title: N_!("Color Picker"),
         icon: "color-select-symbolic",
-        summary: "HEX / RGB / HSL conversion, WCAG contrast checking and history.",
+        summary: N_!("HEX / RGB / HSL conversion, WCAG contrast checking and history."),
     },
     ModuleInfo {
         id: "system",
-        title: "Hosts & Environment",
+        title: N_!("Hosts & Environment"),
         icon: "network-server-symbolic",
-        summary: "Edit /etc/hosts and your session's environment variables without a text editor.",
+        summary: N_!("Edit /etc/hosts and your session's environment variables without a text editor."),
     },
     ModuleInfo {
         id: "awake",
-        title: "Keep Awake",
+        title: N_!("Keep Awake"),
         icon: "display-brightness-symbolic",
-        summary: "Stop your computer from sleeping or locking for a while.",
+        summary: N_!("Stop your computer from sleeping or locking for a while."),
     },
     ModuleInfo {
         id: "qr",
-        title: "QR Code",
+        title: N_!("QR Code"),
         icon: "view-grid-symbolic",
-        summary: "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one.",
+        summary: N_!("Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."),
     },
     ModuleInfo {
         id: "ruler",
-        title: "Screen Ruler",
+        title: N_!("Screen Ruler"),
         icon: "zoom-fit-best-symbolic",
-        summary: "Measure distances and sizes on screen in pixels.",
+        summary: N_!("Measure distances and sizes on screen in pixels."),
     },
     ModuleInfo {
         id: "shortcuts",
-        title: "Shortcut Detective",
+        title: N_!("Shortcut Detective"),
         icon: "input-keyboard-symbolic",
-        summary: "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations.",
+        summary: N_!("Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."),
     },
     ModuleInfo {
         id: "smartpaste",
-        title: "Smart Paste",
+        title: N_!("Smart Paste"),
         icon: "edit-paste-symbolic",
-        summary: "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case.",
+        summary: N_!("Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."),
     },
     ModuleInfo {
         id: "sysreport",
-        title: "System Report",
+        title: N_!("System Report"),
         icon: "computer-symbolic",
-        summary: "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed.",
+        summary: N_!("What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."),
     },
     ModuleInfo {
         id: "snippets",
-        title: "Text Expansion",
+        title: N_!("Text Expansion"),
         icon: "insert-text-symbolic",
-        summary: "Snippets with dynamic variables: dates, clipboard, parameters.",
+        summary: N_!("Snippets with dynamic variables: dates, clipboard, parameters."),
     },
     ModuleInfo {
         id: "ocr",
-        title: "Text Extractor",
+        title: N_!("Text Extractor"),
         icon: "edit-select-all-symbolic",
-        summary: "Drag a box around any text on screen and copy it to the clipboard.",
+        summary: N_!("Drag a box around any text on screen and copy it to the clipboard."),
     },
     ModuleInfo {
         id: "using",
-        title: "What's Using This?",
+        title: N_!("What's Using This?"),
         icon: "system-search-symbolic",
-        summary: "See which apps keep a file, folder, drive or network port busy, and close them.",
+        summary: N_!("See which apps keep a file, folder, drive or network port busy, and close them."),
     },
     ModuleInfo {
         id: "sleep",
-        title: "Why Didn't It Sleep?",
+        title: N_!("Why Didn't It Sleep?"),
         icon: "weather-clear-night-symbolic",
-        summary: "What keeps the computer awake, what woke it up, and how much battery it used asleep.",
+        summary: N_!("What keeps the computer awake, what woke it up, and how much battery it used asleep."),
     },
 ];
 
@@ -116,5 +151,7 @@ mod tests {
         let mut sorted = titles.clone();
         sorted.sort();
         assert_eq!(titles, sorted);
+        let ids: Vec<&str> = super::sorted().iter().map(|m| m.id).collect();
+        assert_eq!(ids, super::ALL.iter().map(|m| m.id).collect::<Vec<_>>());
     }
 }

@@ -67,7 +67,7 @@ fn compress_png(input: &Path, output: &Path) -> Result<()> {
         &oxipng::OutFile::Path { path: Some(output.to_path_buf()), preserve_attrs: false },
         &options,
     )
-    .map_err(|e| anyhow::anyhow!("cannot compress {}: {e}", input.display()))?;
+    .map_err(|e| anyhow::anyhow!("{}", trf!("cannot compress {}: {}", input.display(), e)))?;
     Ok(())
 }
 
@@ -110,10 +110,10 @@ fn works_in_place(format: Format) -> bool {
 
 pub fn compress(input: &Path, quality: u8) -> Result<Report> {
     let Some(format) = Format::from_path(input) else {
-        bail!("unsupported file type: {}", input.display());
+        bail!("{}", trf!("unsupported file type: {}", input.display()));
     };
     let input_size = std::fs::metadata(input)
-        .with_context(|| format!("cannot read {}", input.display()))?
+        .with_context(|| trf!("cannot read {}", input.display()))?
         .len();
     let output = output_path(input);
     if works_in_place(format) {

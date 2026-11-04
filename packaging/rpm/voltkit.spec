@@ -51,13 +51,15 @@ install -Dm644 data/io.github.arios4k.Voltkit.metainfo.xml -t %{buildroot}%{_met
 install -Dm644 data/icons/io.github.arios4k.Voltkit.svg -t %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg -t %{buildroot}%{_datadir}/icons/hicolor/symbolic/apps/
 install -Dm644 man/*.1 -t %{buildroot}%{_mandir}/man1/
+install -Dm644 man/es/*.1 -t %{buildroot}%{_mandir}/es/man1/
+install -Dm644 man/de/*.1 -t %{buildroot}%{_mandir}/de/man1/
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.arios4k.Voltkit.metainfo.xml
 
 %files
 %license LICENSE
-%doc README.md data/config.example.toml
+%doc README.md README.es.md README.de.md data/config.example.toml
 %{_bindir}/voltkit
 %{_datadir}/applications/io.github.arios4k.Voltkit.desktop
 %{_metainfodir}/io.github.arios4k.Voltkit.metainfo.xml
@@ -65,6 +67,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %{_datadir}/icons/hicolor/scalable/apps/io.github.arios4k.Voltkit.svg
 %{_datadir}/icons/hicolor/symbolic/apps/io.github.arios4k.Voltkit-symbolic.svg
 %{_mandir}/man1/voltkit*.1*
+%lang(es) %{_mandir}/es/man1/voltkit*.1*
+%lang(de) %{_mandir}/de/man1/voltkit*.1*
 
 %changelog
 * Mon Nov 02 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.7.0-1

@@ -1,0 +1,63 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-awake 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-awake \- Verhindern, dass der Computer in Bereitschaft geht oder den Bildschirm sperrt
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit awake\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIDURATION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Verhindern, dass der Computer in Bereitschaft geht oder den Bildschirm sperrt
+.PP
+Wird vom Hintergrunddienst gehalten und läuft daher weiter, nachdem dieser Befehl oder das Fenster beendet ist. Ohne DURATION wird angezeigt, ob „Wach halten“ an ist.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+[\fIDURATION\fR]
+30m, 1h, 1h30m oder eine Anzahl Minuten; `on` bis zum Ausschalten; `off` zum Beenden
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH HINWEISE
+.PP
+Der Hintergrunddienst hält die Anfrage über das Inhibit\-Portal des Desktops, daher muss `voltkit daemon` laufen. Wenn die Zeit um ist, endet „Wach halten“ von selbst und zeigt eine Benachrichtigung.
+.SH BEISPIELE
+.PP
+Für einen 90\-minütigen Film wach bleiben:
+.RS 4
+.nf
+\fBvoltkit awake 1h30m\fR
+.fi
+.RE
+.PP
+Bis auf Weiteres wach bleiben:
+.RS 4
+.nf
+\fBvoltkit awake on\fR
+.fi
+.RE
+.PP
+Prüfen und dann beenden:
+.RS 4
+.nf
+\fBvoltkit awake
+voltkit awake off\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

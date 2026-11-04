@@ -9,6 +9,7 @@ use gtk::{gio, glib};
 
 use crate::app::toast;
 use crate::modules::sysreport::{self, Change, Check, Level, MemoryInfo, MemoryModule, Report};
+use crate::i18n::tr;
 
 /// Changes listed per day before "and N more".
 const CHANGES_PER_DAY: usize = 6;
@@ -49,9 +50,9 @@ fn header_button(icon: &str, tooltip: &str) -> gtk::Button {
 
 impl View {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
-        let refresh = header_button("view-refresh-symbolic", "Check Again");
+        let refresh = header_button("view-refresh-symbolic", tr("Check Again"));
         let copy = gtk::Button::builder()
-            .child(&adw::ButtonContent::builder().icon_name("edit-copy-symbolic").label("Copy Report").build())
+            .child(&adw::ButtonContent::builder().icon_name("edit-copy-symbolic").label(tr("Copy Report")).build())
             .valign(gtk::Align::Center)
             .css_classes(["suggested-action"])
             .build();
@@ -59,30 +60,30 @@ impl View {
         header.append(&refresh);
         header.append(&copy);
         let intro = adw::PreferencesGroup::builder()
-            .title("Overview")
+            .title(tr("Overview"))
             .description(
-                "What's in this computer and how it's doing, in plain words. Copy the report when asking for help \
-                 in a forum or bug report: it has no serial numbers, names or network addresses.",
+                tr("What's in this computer and how it's doing, in plain words. Copy the report when asking for help \
+                 in a forum or bug report: it has no serial numbers, names or network addresses."),
             )
             .header_suffix(&crate::app::spaced(&header))
             .build();
-        let checks = adw::PreferencesGroup::builder().title("Checks").build();
+        let checks = adw::PreferencesGroup::builder().title(tr("Checks")).build();
         let changes = adw::PreferencesGroup::builder()
-            .title("What Changed")
-            .description("Hardware, drivers, kernel and firmware, compared day by day: handy when something stops working after an update.")
+            .title(tr("What Changed"))
+            .description(tr("Hardware, drivers, kernel and firmware, compared day by day: handy when something stops working after an update."))
             .build();
-        let computer = adw::PreferencesGroup::builder().title("This Computer").build();
-        let temperatures = adw::PreferencesGroup::builder().title("Temperatures").visible(false).build();
-        let check_online = gtk::Button::builder().label("Check Online").valign(gtk::Align::Center).build();
+        let computer = adw::PreferencesGroup::builder().title(tr("This Computer")).build();
+        let temperatures = adw::PreferencesGroup::builder().title(tr("Temperatures")).visible(false).build();
+        let check_online = gtk::Button::builder().label(tr("Check Online")).valign(gtk::Align::Center).build();
         let firmware = adw::PreferencesGroup::builder()
-            .title("Firmware Updates")
-            .description("Updates for the BIOS, drives, docks and other devices, from the makers through the Linux Vendor Firmware Service. They often fix battery, sleep and stability problems.")
+            .title(tr("Firmware Updates"))
+            .description(tr("Updates for the BIOS, drives, docks and other devices, from the makers through the Linux Vendor Firmware Service. They often fix battery, sleep and stability problems."))
             .header_suffix(&crate::app::spaced(&check_online))
             .build();
-        let memory_button = gtk::Button::builder().label("Show…").valign(gtk::Align::Center).build();
+        let memory_button = gtk::Button::builder().label(tr("Show…")).valign(gtk::Align::Center).build();
         let memory = adw::PreferencesGroup::builder()
-            .title("Memory and Upgrades")
-            .description("Memory slots, what's in them, and how much this computer can take. Reading them needs the administrator password.")
+            .title(tr("Memory and Upgrades"))
+            .description(tr("Memory slots, what's in them, and how much this computer can take. Reading them needs the administrator password."))
             .header_suffix(&crate::app::spaced(&memory_button))
             .build();
 
@@ -120,7 +121,7 @@ impl View {
             glib::spawn_future_local(async move {
                 match gio::spawn_blocking(sysreport::refresh_firmware_list).await {
                     Ok(Ok(())) => v.reload(),
-                    Ok(Err(e)) => toast(&v.toasts, format!("Could not check online: {e}")),
+                    Ok(Err(e)) => toast(&v.toasts, trf!("Could not check online: {}", e)),
                     Err(_) => {}
                 }
                 b.set_sensitive(true);
@@ -137,7 +138,7 @@ impl View {
                         v.show_memory(&info);
                         b.set_visible(false);
                     }
-                    Ok(Err(e)) => toast(&v.toasts, format!("Not shown: {e}")),
+                    Ok(Err(e)) => toast(&v.toasts, trf!("Not shown: {}", e)),
                     Err(_) => {}
                 }
                 b.set_sensitive(true);
@@ -163,7 +164,7 @@ impl View {
 
     fn reload(self: &Rc<Self>) {
         self.clear();
-        let waiting = adw::ActionRow::builder().title("Checking this computer…").build();
+        let waiting = adw::ActionRow::builder().title(tr("Checking this computer…")).build();
         waiting.add_prefix(&gtk::Spinner::builder().spinning(true).build());
         self.add(&self.checks, waiting);
         let view = self.clone();
@@ -205,7 +206,7 @@ impl View {
         self.temperatures.set_visible(!report.sensors.is_empty() || !report.fans.is_empty());
         for s in &report.sensors {
             let verdict = sysreport::temperature_verdict(s);
-            let row = adw::ActionRow::builder().title(&s.label).subtitle(format!("{:.0} °C \u{00b7} {verdict}", s.celsius)).build();
+            let row = adw::ActionRow::builder().title(&s.label).subtitle(format!("{:.0} °C \u{00b7} {}", s.celsius, match verdict { "hot" => tr("hot"), "warm" => tr("warm"), _ => tr("normal") })).build();
             let icon = gtk::Image::from_icon_name(match verdict {
                 "hot" => "dialog-warning-symbolic",
                 "warm" => "weather-clear-symbolic",
@@ -220,14 +221,14 @@ impl View {
             self.add(&self.temperatures, row);
         }
         for (label, rpm) in &report.fans {
-            let row = adw::ActionRow::builder().title(label).subtitle(if *rpm == 0 { "Off".to_owned() } else { format!("{rpm} RPM") }).build();
+            let row = adw::ActionRow::builder().title(label).subtitle(if *rpm == 0 { tr("Off").to_owned() } else { format!("{rpm} RPM") }).build();
             row.add_prefix(&gtk::Image::from_icon_name("weather-windy-symbolic"));
             self.add(&self.temperatures, row);
         }
         if report.throttled > 0 {
             let row = adw::ActionRow::builder()
-                .title("Slowed down because of heat")
-                .subtitle(format!("{} times since the computer started", report.throttled))
+                .title(tr("Slowed down because of heat"))
+                .subtitle(trnf!("{} time since the computer started", "{} times since the computer started", report.throttled))
                 .build();
             row.add_prefix(&gtk::Image::from_icon_name("dialog-information-symbolic"));
             self.add(&self.temperatures, row);
@@ -236,15 +237,15 @@ impl View {
         match &report.firmware {
             None => {
                 let row = adw::ActionRow::builder()
-                    .title("Firmware updates aren't available")
-                    .subtitle("Install fwupd to get firmware updates from the makers of your hardware.")
+                    .title(tr("Firmware updates aren't available"))
+                    .subtitle(tr("Install fwupd to get firmware updates from the makers of your hardware."))
                     .build();
                 self.add(&self.firmware, row);
             }
             Some(updates) if updates.is_empty() => {
                 let row = adw::ActionRow::builder()
-                    .title("Up to date")
-                    .subtitle("As of the last check. Check Online downloads the latest list.")
+                    .title(tr("Up to date"))
+                    .subtitle(tr("As of the last check. Check Online downloads the latest list."))
                     .build();
                 row.add_prefix(&gtk::Image::from_icon_name("emblem-ok-symbolic"));
                 self.add(&self.firmware, row);
@@ -257,7 +258,7 @@ impl View {
                         .subtitle_lines(3)
                         .build();
                     row.add_prefix(&gtk::Image::from_icon_name("software-update-available-symbolic"));
-                    let install = gtk::Button::builder().label("Install…").valign(gtk::Align::Center).build();
+                    let install = gtk::Button::builder().label(tr("Install…")).valign(gtk::Align::Center).build();
                     install.connect_clicked(open_updates);
                     row.add_suffix(&install);
                     self.add(&self.firmware, row);
@@ -269,7 +270,7 @@ impl View {
     fn check_row(&self, check: &Check) -> adw::ActionRow {
         let mut subtitle = glib::markup_escape_text(&check.detail).to_string();
         if let Some(command) = &check.command {
-            subtitle.push_str(&format!("\nFix: <tt>{}</tt>", glib::markup_escape_text(command)));
+            subtitle.push_str(&trf!("\nFix: <tt>{}</tt>", glib::markup_escape_text(command)));
         }
         let row = adw::ActionRow::builder()
             .title(glib::markup_escape_text(&check.title))
@@ -287,16 +288,16 @@ impl View {
         image.add_css_class(class);
         row.add_prefix(&image);
         if let Some(command) = check.command.clone() {
-            let copy = header_button("edit-copy-symbolic", "Copy the command, to paste in a terminal");
+            let copy = header_button("edit-copy-symbolic", tr("Copy the command, to paste in a terminal"));
             let toasts = self.toasts.clone();
             copy.connect_clicked(move |b| {
                 b.clipboard().set_text(&command);
-                toast(&toasts, "Command copied: paste it in a terminal");
+                toast(&toasts, tr("Command copied: paste it in a terminal"));
             });
             row.add_suffix(&copy);
         }
         if let Some(link) = check.link.clone() {
-            let open = gtk::Button::builder().label("Open Guide").valign(gtk::Align::Center).build();
+            let open = gtk::Button::builder().label(tr("Open Guide")).valign(gtk::Align::Center).build();
             open.connect_clicked(move |b| {
                 gtk::UriLauncher::new(&link).launch(b.root().and_downcast::<gtk::Window>().as_ref(), gio::Cancellable::NONE, |_| {});
             });
@@ -308,8 +309,8 @@ impl View {
     fn show_changes(&self, changes: &[Change]) {
         if changes.is_empty() {
             let row = adw::ActionRow::builder()
-                .title("Nothing to compare yet")
-                .subtitle("Voltkit saves a snapshot each day while it runs, so changes show up here from tomorrow on.")
+                .title(tr("Nothing to compare yet"))
+                .subtitle(tr("Voltkit saves a snapshot each day while it runs, so changes show up here from tomorrow on."))
                 .subtitle_lines(2)
                 .build();
             self.add(&self.changes, row);
@@ -326,7 +327,7 @@ impl View {
         for (date, list) in days.into_iter().take(DAYS_SHOWN) {
             let mut lines: Vec<String> = list.iter().take(CHANGES_PER_DAY).map(|c| c.describe()).collect();
             if list.len() > CHANGES_PER_DAY {
-                lines.push(format!("and {} more", list.len() - CHANGES_PER_DAY));
+                lines.push(trf!("and {} more", list.len() - CHANGES_PER_DAY));
             }
             let row = adw::ActionRow::builder()
                 .title(sysreport::short_date(date))
@@ -374,11 +375,11 @@ impl View {
         preview.buffer().set_text(&text);
         let scroller = gtk::ScrolledWindow::builder().child(&preview).min_content_height(300).min_content_width(480).css_classes(["card"]).build();
         let dialog = adw::AlertDialog::new(
-            Some("Copy System Report"),
-            Some("This is what will be copied. It has no serial numbers, user or computer names, or network addresses."),
+            Some(tr("Copy System Report")),
+            Some(tr("This is what will be copied. It has no serial numbers, user or computer names, or network addresses.")),
         );
         dialog.set_extra_child(Some(&scroller));
-        dialog.add_responses(&[("cancel", "Cancel"), ("copy", "Copy")]);
+        dialog.add_responses(&[("cancel", tr("Cancel")), ("copy", tr("Copy"))]);
         dialog.set_response_appearance("copy", adw::ResponseAppearance::Suggested);
         dialog.set_default_response(Some("copy"));
         dialog.set_close_response("cancel");
@@ -386,7 +387,7 @@ impl View {
         dialog.connect_response(None, move |_, response| {
             if response == "copy" {
                 button2.clipboard().set_text(&text);
-                toast(&toasts, "Report copied: paste it where you're asking for help");
+                toast(&toasts, tr("Report copied: paste it where you're asking for help"));
             }
         });
         dialog.present(Some(button));
@@ -396,12 +397,12 @@ impl View {
 /// Opens the desktop's software updates, where firmware updates are installed.
 fn open_updates(widget: &gtk::Button) {
     let ctx = widget.display().app_launch_context();
-    let launched = gio::AppInfo::create_from_commandline("gnome-software --mode=updates", Some("Software"), gio::AppInfoCreateFlags::NONE)
+    let launched = gio::AppInfo::create_from_commandline("gnome-software --mode=updates", Some(tr("Software")), gio::AppInfoCreateFlags::NONE)
         .and_then(|info| info.launch(&[], Some(&ctx)));
     if launched.is_err() {
         widget.clipboard().set_text("fwupdmgr update");
         if let Some(overlay) = widget.ancestor(adw::ToastOverlay::static_type()).and_downcast::<adw::ToastOverlay>() {
-            toast(&overlay, "Command copied: paste “fwupdmgr update” in a terminal");
+            toast(&overlay, tr("Command copied: paste “fwupdmgr update” in a terminal"));
         }
     }
 }

@@ -1,0 +1,63 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-awake 1  "Voltkit 0.7.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-awake \- Evita que la computadora se suspenda o bloquee la pantalla
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit awake\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIDURATION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Evita que la computadora se suspenda o bloquee la pantalla
+.PP
+Lo mantiene el servicio en segundo plano, así que sigue después de que termine este comando o se cierre la ventana. Sin DURATION, muestra si Mantener activo está encendido.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+[\fIDURATION\fR]
+30m, 1h, 1h30m o un número de minutos; `on` hasta que lo apagues; `off` para detenerlo
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOTAS
+.PP
+El servicio en segundo plano mantiene la solicitud mediante el portal Inhibit del escritorio, así que necesita `voltkit daemon` en ejecución. Cuando se acaba el tiempo, Mantener activo termina solo y muestra una notificación.
+.SH EJEMPLOS
+.PP
+Mantén la computadora activa durante una película de 90 minutos:
+.RS 4
+.nf
+\fBvoltkit awake 1h30m\fR
+.fi
+.RE
+.PP
+Mantén la computadora activa hasta nuevo aviso:
+.RS 4
+.nf
+\fBvoltkit awake on\fR
+.fi
+.RE
+.PP
+Revisa y luego detén:
+.RS 4
+.nf
+\fBvoltkit awake
+voltkit awake off\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

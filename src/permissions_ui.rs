@@ -10,12 +10,13 @@ use gtk::{gio, glib};
 use crate::app::toast;
 use crate::modules::permissions::{self, Permission, State};
 use crate::portal;
+use crate::i18n::tr;
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = crate::workspace::Workspace::new();
     let view = View::new(toasts);
     page.add(&view.group);
-    let search = gtk::SearchEntry::builder().placeholder_text("Find an app or permission…").build();
+    let search = gtk::SearchEntry::builder().placeholder_text(tr("Find an app or permission…")).build();
     page.banner(&search);
     let weak = Rc::downgrade(&view);
     search.connect_search_changed(move |entry| {
@@ -24,8 +25,8 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
             view.filter_rows();
         }
     });
-    page.aside(&crate::workspace::note("Choose what apps can access", "Expand an app to review its remembered permissions. A switch changes the saved answer; Forget removes that answer so the app can ask again.", "security-high-symbolic"));
-    page.aside(&crate::workspace::note("Desktop permission history", "These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have.", "dialog-information-symbolic"));
+    page.aside(&crate::workspace::note(tr("Choose what apps can access"), tr("Expand an app to review its remembered permissions. A switch changes the saved answer; Forget removes that answer so the app can ask again."), "security-high-symbolic"));
+    page.aside(&crate::workspace::note(tr("Desktop permission history"), tr("These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have."), "dialog-information-symbolic"));
     view.reload();
     // Rows only hold weak references; the page keeps the state alive.
     page.connect_destroy(move |_| {
@@ -45,15 +46,15 @@ impl View {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
         let refresh = gtk::Button::builder()
             .icon_name("view-refresh-symbolic")
-            .tooltip_text("Refresh")
+            .tooltip_text(tr("Refresh"))
             .valign(gtk::Align::Center)
             .css_classes(["flat"])
             .build();
         let group = adw::PreferencesGroup::builder()
-            .title("Applications")
+            .title(tr("Applications"))
             .description(
-                "Answers you gave when apps asked to take screenshots, use the camera, see your location and more. \
-                 Change an answer, or forget it so the app asks again next time.",
+                tr("Answers you gave when apps asked to take screenshots, use the camera, see your location and more. \
+                 Change an answer, or forget it so the app asks again next time."),
             )
             .header_suffix(&crate::app::spaced(&refresh))
             .build();
@@ -74,7 +75,7 @@ impl View {
                 Ok(Ok(list)) => view.show(list),
                 Ok(Err(e)) => {
                     view.show(Vec::new());
-                    toast(&view.toasts, format!("Could not read permissions: {e}"));
+                    toast(&view.toasts, trf!("Could not read permissions: {}", e));
                 }
                 Err(_) => view.show(Vec::new()),
             }
@@ -88,8 +89,8 @@ impl View {
         let mut rows: Vec<gtk::Widget> = Vec::new();
         if list.is_empty() {
             let row = adw::ActionRow::builder()
-                .title("No app has asked for anything yet")
-                .subtitle("Answers appear here after an app asks, for example to take a screenshot")
+                .title(tr("No app has asked for anything yet"))
+                .subtitle(tr("Answers appear here after an app asks, for example to take a screenshot"))
                 .build();
             rows.push(row.upcast());
         }
@@ -143,9 +144,9 @@ impl View {
             if visible { matches += 1; }
         }
         if !filter.is_empty() && matches == 0 {
-            self.group.set_description(Some("No apps match this search. Try an app name or a permission such as camera."));
+            self.group.set_description(Some(tr("No apps match this search. Try an app name or a permission such as camera.")));
         } else {
-            self.group.set_description(Some("Expand an app to review its saved answers."));
+            self.group.set_description(Some(tr("Expand an app to review its saved answers.")));
         }
     }
 
@@ -155,7 +156,7 @@ impl View {
             let switch = gtk::Switch::builder()
                 .active(p.state() == State::Allowed)
                 .valign(gtk::Align::Center)
-                .tooltip_text("Allowed")
+                .tooltip_text(tr("Allowed"))
                 .build();
             let (weak, p, row_) = (Rc::downgrade(self), p.clone(), row.clone());
             switch.connect_state_set(move |_, allowed| {
@@ -164,9 +165,9 @@ impl View {
                 glib::spawn_future_local(async move {
                     let q = p.clone();
                     match gio::spawn_blocking(move || portal::block_on(permissions::set_allowed(&q, allowed))).await {
-                        Ok(Ok(())) => row.set_subtitle(if allowed { "Allowed" } else { "Denied" }),
+                        Ok(Ok(())) => row.set_subtitle(if allowed { tr("Allowed") } else { tr("Denied") }),
                         Ok(Err(e)) => {
-                            toast(&view.toasts, format!("Not changed: {e}"));
+                            toast(&view.toasts, trf!("Not changed: {}", e));
                             view.reload();
                         }
                         Err(_) => view.reload(),
@@ -178,7 +179,7 @@ impl View {
         }
         let forget = gtk::Button::builder()
             .icon_name("edit-undo-symbolic")
-            .tooltip_text("Forget, so the app asks again")
+            .tooltip_text(tr("Forget, so the app asks again"))
             .valign(gtk::Align::Center)
             .css_classes(["flat"])
             .build();
@@ -189,8 +190,8 @@ impl View {
             glib::spawn_future_local(async move {
                 let title = p.title();
                 match gio::spawn_blocking(move || portal::block_on(permissions::forget(&p))).await {
-                    Ok(Ok(())) => toast(&view.toasts, format!("{app} will ask again: {}", title.to_lowercase())),
-                    Ok(Err(e)) => toast(&view.toasts, format!("Not forgotten: {e}")),
+                    Ok(Ok(())) => toast(&view.toasts, trf!("{} will ask again: {}", app, title.to_lowercase())),
+                    Ok(Err(e)) => toast(&view.toasts, trf!("Not forgotten: {}", e)),
                     Err(_) => {}
                 }
                 view.reload();
@@ -205,10 +206,10 @@ impl View {
 fn summary(perms: &[Permission]) -> String {
     let count = |s| perms.iter().filter(|p| p.state() == s).count();
     let mut parts = Vec::new();
-    for (state, label) in [(State::Allowed, "allowed"), (State::Denied, "denied"), (State::Other, "remembered")] {
+    for (state, label) in [(State::Allowed, N_!("{} allowed")), (State::Denied, N_!("{} denied")), (State::Other, N_!("{} remembered"))] {
         match count(state) {
             0 => {}
-            n => parts.push(format!("{n} {label}")),
+            n => parts.push(crate::i18n::fill(tr(label), &[&n])),
         }
     }
     parts.join(" · ")
@@ -218,7 +219,7 @@ fn summary(perms: &[Permission]) -> String {
 fn app_name(app: &str) -> (String, gio::Icon) {
     let fallback: gio::Icon = gio::ThemedIcon::new("application-x-executable").upcast();
     if app.is_empty() {
-        return ("Apps without an ID".into(), fallback);
+        return (tr("Apps without an ID").into(), fallback);
     }
     match crate::app::desktop_app(app) {
         Some(info) => (info.display_name().to_string(), info.icon().unwrap_or(fallback)),

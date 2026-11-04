@@ -12,6 +12,7 @@ use anyhow::{Result, bail};
 use crate::actions::Action;
 use crate::config::Config;
 use crate::system;
+use crate::i18n::tr;
 
 /// Converts a GTK accelerator (`<Super><Shift>t`) to the XDG shortcuts
 /// format used by the portal (`LOGO+SHIFT+t`).
@@ -19,18 +20,18 @@ pub fn accel_to_portal(accel: &str) -> Result<String> {
     let mut parts = Vec::new();
     let mut rest = accel.trim();
     while let Some(tail) = rest.strip_prefix('<') {
-        let Some(end) = tail.find('>') else { bail!("invalid accelerator {accel:?}") };
+        let Some(end) = tail.find('>') else { bail!("{}", trf!("invalid accelerator {}", format!("{:?}", accel))) };
         parts.push(match tail[..end].to_ascii_lowercase().as_str() {
             "super" | "meta" | "logo" => "LOGO",
             "shift" => "SHIFT",
             "control" | "ctrl" | "primary" => "CTRL",
             "alt" => "ALT",
-            m => bail!("unknown modifier <{m}> in {accel:?}"),
+            m => bail!("{}", trf!("unknown modifier <{}> in {}", m, format!("{:?}", accel))),
         });
         rest = &tail[end + 1..];
     }
     if rest.is_empty() {
-        bail!("accelerator {accel:?} has no key");
+        bail!("{}", trf!("accelerator {} has no key", format!("{:?}", accel)));
     }
     Ok(parts.into_iter().chain([rest]).collect::<Vec<_>>().join("+"))
 }
@@ -84,7 +85,7 @@ fn install_plan(current: &str, exe: &Path, config: &Config) -> Vec<Vec<String>> 
         let schema = format!("{SCHEMA}.custom-keybinding:{path}");
         let command = format!("{} trigger {}", shell_quote(&exe.to_string_lossy()), action.id());
         for (key, value) in [
-            ("name", format!("Voltkit: {}", action.description())),
+            ("name", trf!("Voltkit: {}", action.description())),
             ("command", command),
             ("binding", action.accelerator(config).to_owned()),
         ] {
@@ -109,7 +110,7 @@ fn remove_plan(current: &str) -> Vec<Vec<String>> {
 
 fn current_bindings() -> Result<String> {
     if !system::has("gsettings") {
-        bail!("gsettings not found; this fallback is for GNOME-based desktops");
+        bail!("{}", tr("gsettings not found; this fallback is for GNOME-based desktops"));
     }
     let out = system::run(Command::new("gsettings").args(["get", SCHEMA, KEY]))?;
     Ok(String::from_utf8_lossy(&out).into_owned())

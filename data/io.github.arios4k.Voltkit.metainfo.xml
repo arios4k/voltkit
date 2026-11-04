@@ -5,6 +5,8 @@
   <project_license>MIT</project_license>
   <name>Voltkit</name>
   <summary>Power tools for your Linux desktop in one app</summary>
+  <summary xml:lang="es">Herramientas potentes para tu escritorio Linux en una sola app</summary>
+  <summary xml:lang="de">Praktische Werkzeuge für Ihren Linux-Desktop in einer App</summary>
   <developer id="io.github.arios4k">
     <name>Alexis Rios-Negron</name>
   </developer>
@@ -13,39 +15,71 @@
       Voltkit brings everyday desktop tools to Linux in one GTK4 and libadwaita app and a
       single command, built for Wayland with global hotkeys.
     </p>
+    <p xml:lang="es">Voltkit lleva herramientas de escritorio para el día a día a Linux en una sola app GTK4 y libadwaita y un solo comando, hecha para Wayland con atajos globales.</p>
+    <p xml:lang="de">Voltkit bringt alltägliche Desktop-Werkzeuge in einer GTK4- und libadwaita-App und einem einzigen Befehl auf Linux, gemacht für Wayland mit globalen Tastenkürzeln.</p>
     <ul>
       <li>Screen OCR: copy the text from any part of the screen</li>
+      <li xml:lang="es">OCR de pantalla: copia el texto de cualquier parte de la pantalla</li>
+      <li xml:lang="de">Texterkennung: Text aus jedem Teil des Bildschirms kopieren</li>
       <li>A QR code scanner and maker</li>
+      <li xml:lang="es">Un lector y creador de códigos QR</li>
+      <li xml:lang="de">Ein QR-Code-Scanner und -Generator</li>
       <li>A screen color picker with contrast checking, and a screen ruler</li>
+      <li xml:lang="es">Un selector de color de pantalla con revisión de contraste, y una regla de pantalla</li>
+      <li xml:lang="de">Ein Farbwähler mit Kontrastprüfung und ein Bildschirmlineal</li>
       <li>An image and video compressor that strips metadata</li>
+      <li xml:lang="es">Un compresor de imágenes y videos que quita los metadatos</li>
+      <li xml:lang="de">Ein Bild- und Videokompressor, der Metadaten entfernt</li>
       <li>A text expander with a snippet picker, and Smart Paste for pasting the clipboard converted</li>
+      <li xml:lang="es">Un expansor de texto con selector de fragmentos, y Pegado inteligente para pegar el portapapeles convertido</li>
+      <li xml:lang="de">Textbausteine mit Bausteinauswahl und „Intelligentes Einfügen“, um die Zwischenablage umgewandelt einzufügen</li>
       <li>Keep Awake, and a hosts and environment variable editor</li>
+      <li xml:lang="es">Mantener activo, y un editor de hosts y variables de entorno</li>
+      <li xml:lang="de">„Wach halten“ sowie ein Editor für hosts und Umgebungsvariablen</li>
       <li>A finder for the apps keeping a drive, file or port busy</li>
+      <li xml:lang="es">Un buscador de las apps que mantienen ocupada una unidad, un archivo o un puerto</li>
+      <li xml:lang="de">Eine Suche nach Apps, die ein Laufwerk, eine Datei oder einen Port belegen</li>
       <li>An app permissions manager and a troubleshooter for sleep and wake-ups</li>
+      <li xml:lang="es">Un administrador de permisos de apps y un diagnóstico de suspensión y despertares</li>
+      <li xml:lang="de">Eine Verwaltung für App-Berechtigungen und eine Fehlersuche für Bereitschaft und Aufwachen</li>
       <li>A system report: drivers, drive health, temperatures, firmware updates, memory upgrades and what changed after updates</li>
+      <li xml:lang="es">Un informe del sistema: drivers, salud de las unidades, temperaturas, actualizaciones de firmware, ampliaciones de memoria y qué cambió tras las actualizaciones</li>
+      <li xml:lang="de">Ein Systembericht: Treiber, Laufwerkszustand, Temperaturen, Firmware-Aktualisierungen, Speicheraufrüstung und was sich nach Aktualisierungen geändert hat</li>
       <li>A shortcut detective: see what owns a keyboard shortcut, find clashes and change them</li>
+      <li xml:lang="es">Un detective de atajos: mira a quién pertenece un atajo de teclado, encuentra conflictos y cámbialos</li>
+      <li xml:lang="de">Ein Tastenkürzel-Detektiv: sehen, wem ein Tastenkürzel gehört, Konflikte finden und ändern</li>
     </ul>
   </description>
   <screenshots>
     <screenshot type="default">
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/ocr-light.png</image>
       <caption>Screen OCR</caption>
+      <caption xml:lang="es">OCR de pantalla</caption>
+      <caption xml:lang="de">Texterkennung</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/color-light.png</image>
       <caption>Color picker with contrast checking</caption>
+      <caption xml:lang="es">Selector de color con revisión de contraste</caption>
+      <caption xml:lang="de">Farbwähler mit Kontrastprüfung</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/compress-light.png</image>
       <caption>Image and video compressor</caption>
+      <caption xml:lang="es">Compresor de imágenes y videos</caption>
+      <caption xml:lang="de">Bild- und Videokompressor</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/sleep-light.png</image>
       <caption>Sleep and wake-up troubleshooter</caption>
+      <caption xml:lang="es">Diagnóstico de suspensión y despertares</caption>
+      <caption xml:lang="de">Fehlersuche für Bereitschaft und Aufwachen</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/sysreport-light.png</image>
       <caption>System report with checks and recent changes</caption>
+      <caption xml:lang="es">Informe del sistema con revisiones y cambios recientes</caption>
+      <caption xml:lang="de">Systembericht mit Prüfungen und letzten Änderungen</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/arios4k/voltkit</url>
@@ -67,6 +101,11 @@
     <keyword>keep awake</keyword>
   </keywords>
   <content_rating type="oars-1.1"/>
+  <languages>
+    <lang>en</lang>
+    <lang percentage="100">es</lang>
+    <lang percentage="100">de</lang>
+  </languages>
   <releases>
     <release version="0.7.0" date="2026-11-02">
       <description>

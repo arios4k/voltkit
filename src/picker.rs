@@ -14,6 +14,7 @@ use crate::config::{Config, Snippet};
 use crate::modules::snippets;
 use crate::paste::{self, PasteShortcut};
 use crate::portal::{self, APP_ID, Cancelled};
+use crate::i18n::tr;
 
 /// Lets the picker window hide and the previous app regain focus before pasting.
 const REFOCUS_DELAY: Duration = Duration::from_millis(250);
@@ -49,7 +50,7 @@ struct Picker {
 pub(crate) fn build(app: &adw::Application, config: Rc<Config>, preselect: Option<String>) -> gtk::Window {
     crate::appearance::install();
     let search = gtk::SearchEntry::builder()
-        .placeholder_text("Search snippets")
+        .placeholder_text(tr("Search snippets"))
         .hexpand(true)
         .build();
     let list = gtk::ListBox::builder()
@@ -62,7 +63,7 @@ pub(crate) fn build(app: &adw::Application, config: Rc<Config>, preselect: Optio
 
     let form = adw::PreferencesGroup::new();
     let insert = gtk::Button::builder()
-        .label("Insert")
+        .label(tr("Insert"))
         .halign(gtk::Align::End)
         .css_classes(["suggested-action", "pill"])
         .build();
@@ -76,7 +77,7 @@ pub(crate) fn build(app: &adw::Application, config: Rc<Config>, preselect: Optio
 
     let error = gtk::Label::builder().css_classes(["error"]).wrap(true).visible(false).build();
     let hint = gtk::Label::builder()
-        .label("↑↓ choose · Enter insert · Esc cancel")
+        .label(tr("↑↓ choose · Enter insert · Esc cancel"))
         .css_classes(["dim-label", "caption"])
         .build();
 
@@ -98,7 +99,7 @@ pub(crate) fn build(app: &adw::Application, config: Rc<Config>, preselect: Optio
 
     let window = adw::ApplicationWindow::builder()
         .application(app)
-        .title("Insert Snippet")
+        .title(tr("Insert Snippet"))
         .default_width(520)
         .default_height(460)
         .content(&view)
@@ -171,7 +172,7 @@ impl Picker {
             self.list.append(&row);
         }
         if found.is_empty() {
-            let row = adw::ActionRow::builder().title("No matching snippets").sensitive(false).build();
+            let row = adw::ActionRow::builder().title(tr("No matching snippets")).sensitive(false).build();
             self.list.append(&row);
         }
         self.list.select_row(self.list.row_at_index(0).as_ref());
@@ -275,14 +276,14 @@ impl Picker {
                 Ok(Err(e)) => {
                     // The expansion is still on the clipboard; tell the user to paste it.
                     if !e.is::<Cancelled>() {
-                        eprintln!("paste failed: {e:#}");
+                        eprintln!("{}", trf!("paste failed: {}", format!("{:#}", e)));
                     }
                     let _ = gio::spawn_blocking(|| {
-                        portal::block_on(portal::notify("Snippet copied", "Press Ctrl+V to paste it."))
+                        portal::block_on(portal::notify(tr("Snippet copied"), tr("Press Ctrl+V to paste it.")))
                     })
                     .await;
                 }
-                Err(_) => eprintln!("paste worker crashed"),
+                Err(_) => eprintln!("{}", tr("paste worker crashed")),
             }
             this.app.quit();
         });

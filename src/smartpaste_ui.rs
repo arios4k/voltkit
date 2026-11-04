@@ -15,6 +15,7 @@ use crate::config::Config;
 use crate::modules::{ocr, smartpaste};
 use crate::paste::{self, PasteShortcut};
 use crate::portal::{self, APP_ID, Cancelled};
+use crate::i18n::tr;
 
 /// Lets the window hide and the previous app regain focus before pasting.
 const REFOCUS_DELAY: Duration = Duration::from_millis(250);
@@ -68,19 +69,19 @@ impl Popup {
         let lists = gtk::Box::new(gtk::Orientation::Vertical, 12);
         lists.append(
             &gtk::Label::builder()
-                .label("Choose how to paste what you copied, then press Enter. The preview shows exactly what will be pasted.")
+                .label(tr("Choose how to paste what you copied, then press Enter. The preview shows exactly what will be pasted."))
                 .wrap(true)
                 .xalign(0.0)
                 .build(),
         );
         lists.append(&gtk::ScrolledWindow::builder().child(&list).vexpand(true).min_content_height(200).build());
         lists.append(&gtk::ScrolledWindow::builder().child(&preview).min_content_height(130).max_content_height(130).build());
-        let status = adw::StatusPage::builder().icon_name("edit-paste-symbolic").title("Reading the Clipboard…").css_classes(["compact"]).build();
+        let status = adw::StatusPage::builder().icon_name("edit-paste-symbolic").title(tr("Reading the Clipboard…")).css_classes(["compact"]).build();
         let stack = gtk::Stack::new();
         stack.add_named(&status, Some("status"));
         stack.add_named(&lists, Some("list"));
 
-        let hint = gtk::Label::builder().label("↑↓ choose · Enter paste · Esc cancel").css_classes(["dim-label", "caption"]).build();
+        let hint = gtk::Label::builder().label(tr("↑↓ choose · Enter paste · Esc cancel")).css_classes(["dim-label", "caption"]).build();
         let body = gtk::Box::builder()
             .orientation(gtk::Orientation::Vertical)
             .spacing(12)
@@ -96,7 +97,7 @@ impl Popup {
         view.set_content(Some(&body));
         let window = adw::ApplicationWindow::builder()
             .application(app)
-            .title("Smart Paste")
+            .title(tr("Smart Paste"))
             .default_width(540)
             .default_height(560)
             .content(&view)
@@ -152,14 +153,14 @@ impl Popup {
             && !text.trim().is_empty()
         {
             *self.original.borrow_mut() = Some(text.to_string());
-            self.show(smartpaste::available(&text).into_iter().map(|(c, out)| (c.title.to_owned(), out)).collect());
+            self.show(smartpaste::available(&text).into_iter().map(|(c, out)| (tr(c.title).to_owned(), out)).collect());
             return;
         }
         if clipboard.formats().contains_type(gdk::Texture::static_type())
             && let Ok(texture) = clipboard.read_texture_future().await
             && let Some(texture) = texture
         {
-            self.status.set_title("Reading the Text in the Image…");
+            self.status.set_title(tr("Reading the Text in the Image…"));
             let lang = self.config.ocr.lang.clone();
             let path = std::env::temp_dir().join(format!("voltkit-smartpaste-{}.png", std::process::id()));
             let saved = texture.save_to_png(&path).is_ok();
@@ -174,17 +175,17 @@ impl Popup {
             .filter(|t| !t.trim().is_empty());
             match text {
                 Some(text) => {
-                    let mut items = vec![("Text in the image".to_owned(), text.trim().to_owned())];
+                    let mut items = vec![(tr("Text in the image").to_owned(), text.trim().to_owned())];
                     items.extend(
-                        smartpaste::available(text.trim()).into_iter().filter(|(c, _)| c.id != "plain").map(|(c, out)| (c.title.to_owned(), out)),
+                        smartpaste::available(text.trim()).into_iter().filter(|(c, _)| c.id != "plain").map(|(c, out)| (tr(c.title).to_owned(), out)),
                     );
                     self.show(items);
                 }
-                None => self.empty("No Text in the Image", "The image on the clipboard has no text Voltkit can read."),
+                None => self.empty(tr("No Text in the Image"), tr("The image on the clipboard has no text Voltkit can read.")),
             }
             return;
         }
-        self.empty("Nothing to Paste", "Copy some text or an image first, then press the shortcut again.");
+        self.empty(tr("Nothing to Paste"), tr("Copy some text or an image first, then press the shortcut again."));
     }
 
     fn empty(&self, title: &str, description: &str) {
@@ -226,11 +227,11 @@ impl Popup {
                 Ok(Err(e)) => {
                     // The converted text is still on the clipboard; say so.
                     if !e.is::<Cancelled>() {
-                        eprintln!("paste failed: {e:#}");
+                        eprintln!("{}", trf!("paste failed: {}", format!("{:#}", e)));
                     }
-                    let _ = gio::spawn_blocking(|| portal::block_on(portal::notify("Converted text copied", "Press Ctrl+V to paste it."))).await;
+                    let _ = gio::spawn_blocking(|| portal::block_on(portal::notify(tr("Converted text copied"), tr("Press Ctrl+V to paste it.")))).await;
                 }
-                Err(_) => eprintln!("paste worker crashed"),
+                Err(_) => eprintln!("{}", tr("paste worker crashed")),
             }
             this.app.quit();
         });
@@ -255,23 +256,23 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = crate::workspace::Workspace::new();
     let shortcut = shortcut_label(&config.hotkeys.smart_paste);
     let intro = adw::PreferencesGroup::builder()
-        .title("Use it in any app")
+        .title(tr("Use it in any app"))
         .description(
-            "Like Ctrl+V, but you choose how it's pasted: tidy JSON, a spreadsheet table as Markdown or CSV, a link \
-             without tracking, text from a PDF without broken lines, a new letter case, or the text in a screenshot.",
+            tr("Like Ctrl+V, but you choose how it's pasted: tidy JSON, a spreadsheet table as Markdown or CSV, a link \
+             without tracking, text from a PDF without broken lines, a new letter case, or the text in a screenshot."),
         )
         .build();
     let steps = [
-        ("Copy something", "Text, cells from a spreadsheet, JSON, a link, or a screenshot.".to_owned()),
-        ("Click where it should go", "In any app: an email, a document, a chat, a terminal.".to_owned()),
+        (tr("Copy something"), tr("Text, cells from a spreadsheet, JSON, a link, or a screenshot.").to_owned()),
+        (tr("Click where it should go"), tr("In any app: an email, a document, a chat, a terminal.").to_owned()),
         (
-            "Press the Smart Paste shortcut",
-            format!("{shortcut} instead of Ctrl+V. A small window lists the ways it can be pasted, each with a preview."),
+            tr("Press the Smart Paste shortcut"),
+            trf!("{} instead of Ctrl+V. A small window lists the ways it can be pasted, each with a preview.", shortcut),
         ),
         (
-            "Choose one and press Enter",
-            "It's pasted where you clicked, and your clipboard is left as it was. The first time, your desktop asks \
-             to let Voltkit type for you."
+            tr("Choose one and press Enter"),
+            tr("It's pasted where you clicked, and your clipboard is left as it was. The first time, your desktop asks \
+             to let Voltkit type for you.")
                 .to_owned(),
         ),
     ];
@@ -303,11 +304,11 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     input.buffer().set_text(SAMPLE);
     let frame = gtk::Frame::builder().child(&input).css_classes(["view"]).build();
     let try_group = adw::PreferencesGroup::builder()
-        .title("Source text")
-        .description("See what Smart Paste can do without leaving this window: type or paste text here, then copy a converted result.")
+        .title(tr("Source text"))
+        .description(tr("See what Smart Paste can do without leaving this window: type or paste text here, then copy a converted result."))
         .build();
     try_group.add(&frame);
-    let results = adw::PreferencesGroup::builder().title("Conversions").build();
+    let results = adw::PreferencesGroup::builder().title(tr("Conversions")).build();
 
     let rows: Rc<RefCell<Vec<gtk::Widget>>> = Rc::default();
     let update = {
@@ -319,26 +320,26 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
             let mut new_rows = Vec::new();
             for (conversion, result) in smartpaste::available(text).into_iter().filter(|(c, _)| c.id != "plain") {
                 let row = adw::ActionRow::builder()
-                    .title(conversion.title)
+                    .title(tr(conversion.title))
                     .subtitle(glib::markup_escape_text(&preview(&result)))
                     .subtitle_lines(PREVIEW_LINES as i32)
                     .build();
                 let copy = gtk::Button::builder()
                     .icon_name("edit-copy-symbolic")
-                    .tooltip_text("Copy")
+                    .tooltip_text(tr("Copy"))
                     .valign(gtk::Align::Center)
                     .css_classes(["flat"])
                     .build();
                 let toasts = toasts.clone();
                 copy.connect_clicked(move |b| {
                     b.clipboard().set_text(&result);
-                    toast(&toasts, "Copied");
+                    toast(&toasts, tr("Copied"));
                 });
                 row.add_suffix(&copy);
                 new_rows.push(row.upcast::<gtk::Widget>());
             }
             if new_rows.is_empty() {
-                new_rows.push(adw::ActionRow::builder().title("Only plain text fits this").build().upcast());
+                new_rows.push(adw::ActionRow::builder().title(tr("Only plain text fits this")).build().upcast());
             }
             for row in &new_rows {
                 results.add(row);

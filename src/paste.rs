@@ -37,7 +37,7 @@ impl FromStr for PasteShortcut {
             "ctrl+v" => Self::CtrlV,
             "ctrl+shift+v" | "shift+ctrl+v" => Self::CtrlShiftV,
             "shift+insert" => Self::ShiftInsert,
-            other => bail!("unknown paste_shortcut {other:?} (use ctrl+v, ctrl+shift+v or shift+insert)"),
+            other => bail!("{}", trf!("unknown paste_shortcut {} (use ctrl+v, ctrl+shift+v or shift+insert)", format!("{:?}", other))),
         })
     }
 }

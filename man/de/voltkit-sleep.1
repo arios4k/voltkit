@@ -1,0 +1,36 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-sleep 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-sleep \- Erklären, warum der Computer nicht in Bereitschaft geht oder warum er aufgewacht ist
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit sleep\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Erklären, warum der Computer nicht in Bereitschaft geht oder warum er aufgewacht ist
+.PP
+Zeigt, was den Computer gerade wach hält (Apps und Einstellungen), die Bereitschaftsphasen der letzten Woche mit Beginn, Ende und Akkuverbrauch sowie die USB\-Geräte, die ihn wecken dürfen.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH HINWEISE
+.PP
+Der Verlauf der Bereitschaftsphasen stammt aus dem Systemjournal, das Mitglieder der Gruppen adm oder systemd\-journal lesen können. Linux zeichnet nur auf, was den Computer geweckt hat, wenn es der Deckel oder der Ein\-/Ausschalter war; andere Aufwachvorgänge werden anhand ihrer wahrscheinlichen Ursachen beschrieben. Welche USB\-Geräte den Computer wecken dürfen, lässt sich in der App ändern (mit dem Administratorpasswort); die Wahl wird in /etc/udev/rules.d/90\-voltkit\-wakeup.rules gespeichert.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

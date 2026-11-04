@@ -1,0 +1,110 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-daemon 1  "Voltkit 0.7.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-daemon \- Ejecuta el servicio en segundo plano que escucha los atajos globales
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit daemon\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIcomandos\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Ejecuta el servicio en segundo plano que escucha los atajos globales
+.PP
+Sin subcomando, ejecuta el servicio en primer plano hasta que se interrumpa. Ocupa io.github.arios4k.Voltkit.Daemon en el bus de sesión, así que solo se ejecuta una instancia, y asigna los atajos configurados mediante el portal GlobalShortcuts de XDG cuando el escritorio lo ofrece.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMANDOS
+.TP
+\fBvoltkit daemon status\fR
+Muestra si el daemon se está ejecutando y cómo están asignados los atajos
+.TP
+\fBvoltkit daemon stop\fR
+Detiene el daemon en ejecución
+.TP
+\fBvoltkit daemon reload\fR
+Hace que el daemon en ejecución vuelva a leer los fragmentos del archivo de configuración
+.TP
+\fBvoltkit daemon enable\-autostart\fR
+Inicia el daemon automáticamente al iniciar sesión
+.TP
+\fBvoltkit daemon disable\-autostart\fR
+Deja de iniciar el daemon al iniciar sesión
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "BACKENDS DE ATAJOS"
+.TP
+\fBportal\fR
+El portal GlobalShortcuts (GNOME 48+, KDE Plasma 5.27+, Hyprland). El escritorio pide aprobación una vez.
+.TP
+\fBgnome\-keybindings\fR
+Atajos personalizados agregados por voltkit shortcuts install.
+.TP
+\fBnone\fR
+Asigna voltkit trigger ACTION en la configuración del escritorio o del compositor.
+.SH "INTERFAZ D-BUS"
+.PP
+Nombre de bus io.github.arios4k.Voltkit.Daemon, objeto /io/github/arios4k/Voltkit/Daemon, interfaz io.github.arios4k.Voltkit.Daemon1:
+.TP
+\fBTrigger(s action)\fR
+Inicia "ocr", "color" o "snippets" y regresa de inmediato. Se ignora mientras otra esté abierta.
+.TP
+\fBStatus() → (sss)\fR
+La versión, el backend de atajos y si los disparadores al escribir están encendidos, apagados o no disponibles.
+.TP
+\fBKeepAwake(u minutes)\fR
+Evita que la computadora se suspenda o se bloquee, durante MINUTES minutos o, con 0, hasta que se detenga.
+.TP
+\fBStopAwake()\fR
+Termina Mantener activo.
+.TP
+\fBAwakeStatus() → (bx)\fR
+Si Mantener activo está encendido, y cuándo termina como hora Unix (0: hasta que se detenga).
+.TP
+\fBReload()\fR
+Vuelve a leer los fragmentos del archivo de configuración, para que los disparadores al escribir usen los cambios de inmediato. El centro de control lo llama después de cada cambio.
+.TP
+\fBQuit()\fR
+Detiene el daemon.
+.SH EJEMPLOS
+.PP
+Revisa si se está ejecutando:
+.RS 4
+.nf
+\fBvoltkit daemon status\fR
+.fi
+.RE
+.PP
+Activa el OCR desde otro programa:
+.RS 4
+.nf
+\fBbusctl \-\-user call io.github.arios4k.Voltkit.Daemon /io/github/arios4k/Voltkit/Daemon io.github.arios4k.Voltkit.Daemon1 Trigger s ocr\fR
+.fi
+.RE
+.SH ARCHIVOS
+.TP
+\fB~/.config/voltkit/config.toml\fR
+Configuración: atajos, idioma del OCR, calidad de compresión y fragmentos. Todas las claves son opcionales.
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+Historial de colores, del más reciente al más antiguo, compartido por pick\-color, el daemon y el centro de control.
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+Lo crea voltkit daemon enable\-autostart.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1), \fBbusctl\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

@@ -1,0 +1,41 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-pick-color 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-pick\-color \- Eine Farbe vom Bildschirm aufnehmen und ihren HEX\-Wert kopieren
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit pick\-color\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Eine Farbe vom Bildschirm aufnehmen und ihren HEX\-Wert kopieren
+.PP
+Verwendet den Farbwähler des XDG\-Screenshot\-Portals. Der Wert wird ausgegeben, in die Zwischenablage kopiert und dem Farbverlauf in der Zentrale hinzugefügt.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEISPIELE
+.PP
+Eine Farbe aufnehmen und alle ihre Formate anzeigen:
+.RS 4
+.nf
+\fBvoltkit color "$(voltkit pick\-color)"\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

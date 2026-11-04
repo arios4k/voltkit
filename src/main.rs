@@ -1,3 +1,5 @@
+#[macro_use]
+mod i18n;
 mod about_ui;
 mod workspace;
 mod appearance;
@@ -31,10 +33,11 @@ mod system;
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
-use clap::{Parser, Subcommand};
+use clap::{CommandFactory, FromArgMatches, Parser, Subcommand};
 
 use actions::Action;
 use modules::{color, compress, keybindings, ocr, qr, sleep, smartpaste, snippets, sysreport, usage};
+use crate::i18n::tr;
 
 /// Everyday desktop micro-utilities for Linux, in one binary.
 ///
@@ -137,6 +140,9 @@ enum Command {
         /// Tab-separated output, for the app's "Check with Password"
         #[arg(long, hide = true)]
         machine: bool,
+        /// The app's language, which pkexec doesn't pass on
+        #[arg(long, hide = true)]
+        lang: Option<String>,
     },
     /// Paste the clipboard converted: tidy JSON, a table as Markdown, a cleaned link…
     ///
@@ -207,6 +213,9 @@ enum Command {
     /// Write man pages for voltkit and its subcommands into DIR
     #[command(hide = true)]
     Manpages { dir: PathBuf },
+    /// Print the command-line help text, for collecting it into the translations (po/update.py)
+    #[command(hide = true)]
+    I18nStrings,
     /// Render README screenshots of the GUI with demo content into DIR
     #[command(hide = true)]
     Screenshots {
@@ -296,21 +305,21 @@ enum ShortcutsCommand {
 fn parse_kv(s: &str) -> Result<(String, String), String> {
     s.split_once('=')
         .map(|(k, v)| (k.to_owned(), v.to_owned()))
-        .ok_or_else(|| format!("expected name=value, got {s:?}"))
+        .ok_or_else(|| trf!("expected name=value, got {}", format!("{:?}", s)))
 }
 
 fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Result<()> {
     match command {
         ExpanderCommand::Status => {
-            println!("typed triggers: {}", if config.expander.typed_triggers { "enabled" } else { "disabled" });
+            println!("{}", if config.expander.typed_triggers { tr("typed triggers: enabled") } else { tr("typed triggers: disabled") });
             let missing = expander::missing_permissions();
             if missing.is_empty() {
-                println!("permissions: ok");
+                println!("{}", tr("permissions: ok"));
             } else {
                 for m in missing {
-                    println!("permissions: {m}");
+                    println!("{}", trf!("permissions: {}", m));
                 }
-                println!("next step: {}", expander::next_step());
+                println!("{}", trf!("next step: {}", expander::next_step()));
             }
         }
         ExpanderCommand::Setup { apply } => {
@@ -319,11 +328,11 @@ fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Res
                 config.expander.typed_triggers = true;
                 config.save()?;
                 let _ = daemon::reload();
-                println!("Done: typed triggers can read the keyboard now, no need to log out.");
+                println!("{}", tr("Done: typed triggers can read the keyboard now, no need to log out."));
             } else {
-                println!("# Typed triggers need these commands to run as root. They let the person at the");
-                println!("# computer read keyboards and use a virtual keyboard, right away. Run");
-                println!("# `voltkit expander setup --apply` to run them (it asks for your password).\n");
+                println!("{}", tr("# Typed triggers need these commands to run as root. They let the person at the"));
+                println!("{}", tr("# computer read keyboards and use a virtual keyboard, right away. Run"));
+                println!("{}", tr("# `voltkit expander setup --apply` to run them (it asks for your password).\n"));
                 print!("{}", expander::grant_script());
             }
         }
@@ -332,26 +341,53 @@ fn expander_command(command: ExpanderCommand, mut config: config::Config) -> Res
             config.save()?;
             let _ = daemon::reload();
             expander::revoke_access()?;
-            println!("Typed triggers are off, and Voltkit's keyboard access is removed.");
+            println!("{}", tr("Typed triggers are off, and Voltkit's keyboard access is removed."));
         }
         ExpanderCommand::Enable | ExpanderCommand::Disable => {
             let enable = matches!(command, ExpanderCommand::Enable);
             config.expander.typed_triggers = enable;
             config.save()?;
-            println!("Typed triggers {}", if enable { "on" } else { "off" });
+            println!("{}", if enable { tr("Typed triggers on") } else { tr("Typed triggers off") });
             if enable && !expander::missing_permissions().is_empty() {
-                println!("They need keyboard access first: {}", expander::next_step());
+                println!("{}", trf!("They need keyboard access first: {}", expander::next_step()));
             }
             if daemon::reload().is_err() {
-                println!("Takes effect when the background service starts");
+                println!("{}", tr("Takes effect when the background service starts"));
             }
         }
     }
     Ok(())
 }
 
-fn main() -> Result<()> {
-    let cli = Cli::parse();
+fn main() {
+    if let Err(e) = run() {
+        eprintln!("{}: {e:#}", tr("Error"));
+        std::process::exit(1);
+    }
+}
+
+fn run() -> Result<()> {
+    let cli = if i18n::language() == "en" {
+        Cli::parse()
+    } else {
+        let command = i18n::localize_command(Cli::command(), true);
+        let matches = command.clone().get_matches();
+        // The translated `help` subcommand stands in for clap's own, at any level.
+        let mut path = vec!["voltkit".to_owned()];
+        let mut level = &matches;
+        while let Some((name, sub)) = level.subcommand() {
+            if name == "help" {
+                // Asking for `--help` on the named command prints it with the full usage line.
+                path.extend(sub.get_many::<String>("command").into_iter().flatten().cloned());
+                path.push("--help".to_owned());
+                command.get_matches_from(path);
+                return Ok(());
+            }
+            path.push(name.to_owned());
+            level = sub;
+        }
+        Cli::from_arg_matches(&matches).unwrap_or_else(|e| e.exit())
+    };
     let config = config::Config::load()?;
 
     match cli.command {
@@ -372,9 +408,9 @@ fn main() -> Result<()> {
             println!("HEX  {}", c.to_hex());
             println!("RGB  {}", c.to_rgb_string());
             println!("HSL  {}", c.to_hsl_string());
-            for (name, bg) in [("white", color::Rgb::WHITE), ("black", color::Rgb::BLACK)] {
+            for (name, bg) in [(tr("on white"), color::Rgb::WHITE), (tr("on black"), color::Rgb::BLACK)] {
                 let ratio = c.contrast_ratio(bg);
-                println!("on {name:<5} {ratio:>5.2}:1  {}", color::wcag_rating(ratio));
+                println!("{name:<12} {ratio:>5.2}:1  {}", color::wcag_rating(ratio));
             }
         }
         Some(Command::Compress { files, quality }) => {
@@ -402,29 +438,29 @@ fn main() -> Result<()> {
         Some(Command::Daemon { command: Some(cmd) }) => match cmd {
             DaemonCommand::Status => match daemon::status() {
                 Some((version, backend, typed)) => {
-                    println!("running (v{version}), shortcuts: {backend}, typed triggers: {typed}")
+                    println!("{}", trf!("running (v{}), shortcuts: {}, typed triggers: {}", version, backend, daemon::describe_typed(&typed)))
                 }
-                None => println!("not running"),
+                None => println!("{}", tr("not running")),
             },
             DaemonCommand::Reload => match daemon::reload() {
-                Ok(()) => println!("Reloaded snippets"),
-                Err(_) => println!("not running"),
+                Ok(()) => println!("{}", tr("Reloaded snippets")),
+                Err(_) => println!("{}", tr("not running")),
             },
             DaemonCommand::Stop => {
                 if daemon::stop().is_err() {
-                    println!("not running");
+                    println!("{}", tr("not running"));
                 }
             }
             DaemonCommand::EnableAutostart => {
                 let path = daemon::set_autostart(true)?;
                 if path.starts_with("/etc") {
-                    println!("Starts at login through {}, installed with Voltkit", path.display());
+                    println!("{}", trf!("Starts at login through {}, installed with Voltkit", path.display()));
                 } else {
-                    println!("Created {}", path.display());
+                    println!("{}", trf!("Created {}", path.display()));
                 }
             }
             DaemonCommand::DisableAutostart => {
-                println!("Removed {}", daemon::set_autostart(false)?.display())
+                println!("{}", trf!("Removed {}", daemon::set_autostart(false)?.display()))
             }
         },
         // The ruler opens its own window: running it here keeps the launcher's
@@ -442,7 +478,7 @@ fn main() -> Result<()> {
             }
             QrCommand::Read { file } => {
                 let codes = qr::decode_file(&file)?;
-                anyhow::ensure!(!codes.is_empty(), "no QR code found in {}", file.display());
+                anyhow::ensure!(!codes.is_empty(), "{}", trf!("no QR code found in {}", file.display()));
                 for code in codes {
                     println!("{code}");
                 }
@@ -453,13 +489,13 @@ fn main() -> Result<()> {
                         let logo = qr::load_logo(&file)?;
                         let m = qr::encode_for(&text, true)?;
                         let size = qr::checked_logo_size(&m, &text, &logo, qr::LOGO_SIZES[1])
-                            .context("the code doesn't scan with this logo; shorten the text")?;
+                            .context(tr("the code doesn't scan with this logo; shorten the text"))?;
                         qr::to_pixbuf_with_logo(&m, 12, &logo, size)
                     }
                     None => qr::to_pixbuf(&qr::encode(&text)?, 12),
                 };
                 image.savev(&path, "png", &[])?;
-                println!("Saved {}", path.display());
+                println!("{}", trf!("Saved {}", path.display()));
             }
             QrCommand::Make { text, output: None, .. } => print!("{}", qr::to_terminal(&qr::encode(&text)?)),
         },
@@ -474,14 +510,14 @@ fn main() -> Result<()> {
         Some(Command::SmartPaste) => smartpaste_ui::run(config),
         Some(Command::Convert { conversion: None }) => {
             for c in smartpaste::ALL {
-                println!("{:<16} {}", c.id, c.title);
+                println!("{:<16} {}", c.id, tr(c.title));
             }
         }
         Some(Command::Convert { conversion: Some(id) }) => {
-            let c = smartpaste::find(&id).with_context(|| format!("no conversion called {id}; run `voltkit convert` for the list"))?;
+            let c = smartpaste::find(&id).with_context(|| trf!("no conversion called {}; run `voltkit convert` for the list", id))?;
             let mut input = String::new();
             std::io::Read::read_to_string(&mut std::io::stdin(), &mut input)?;
-            let out = (c.apply)(&input).with_context(|| format!("{} doesn't fit this text", c.title))?;
+            let out = (c.apply)(&input).with_context(|| trf!("{} doesn't fit this text", tr(c.title)))?;
             println!("{out}");
         }
         Some(Command::Ruler) => ruler::run(),
@@ -492,20 +528,23 @@ fn main() -> Result<()> {
             print!("{}", sysreport::share_text(&report, &sysreport::changes()));
             let fixes: Vec<_> = report.checks.iter().filter(|c| c.command.is_some() || c.link.is_some()).collect();
             if !fixes.is_empty() {
-                println!("\nFixes:");
+                println!("\n{}", tr("Fixes:"));
                 for c in fixes {
                     println!("  {}: {}", c.title, c.command.as_deref().or(c.link.as_deref()).unwrap_or(""));
                 }
             }
             if memory {
-                println!("\nMemory:");
+                println!("\n{}", tr("Memory:"));
                 for (label, value) in sysreport::memory_advice(&sysreport::memory_info_as_root()?) {
                     println!("  {label}: {value}");
                 }
             }
         }
         Some(Command::Sleep) => print!("{}", sleep::render_text(&portal::block_on(sleep::report()))),
-        Some(Command::Using { target, machine }) => {
+        Some(Command::Using { target, machine, lang }) => {
+            if let Some(lang) = lang {
+                i18n::set_language(&lang);
+            }
             let target = usage::Target::parse(&target)?;
             let scan = usage::scan(&target);
             if machine {
@@ -513,7 +552,7 @@ fn main() -> Result<()> {
                 return Ok(());
             }
             if scan.holders.is_empty() {
-                println!("Nothing is using {}", target.describe());
+                println!("{}", trf!("Nothing is using {}", target.describe()));
             }
             for h in &scan.holders {
                 let app = h.app_id.as_deref().map(|a| format!(" ({a})")).unwrap_or_default();
@@ -522,33 +561,42 @@ fn main() -> Result<()> {
                     println!("{:>7}  {:<10}   {u}", "", "");
                 }
                 if let Some(what) = h.protected() {
-                    println!("{:>7}  {:<10}   (this is {what})", "", "");
+                    println!("{:>7}  {:<10}   ({})", "", "", trf!("this is {}", what));
                 }
             }
             if scan.unreadable > 0 {
                 eprintln!(
-                    "{} programs of other users or the system weren't checked; run with sudo to include them",
-                    scan.unreadable
+                    "{}",
+                    trnf!(
+                        "{} program of other users or the system wasn't checked; run with sudo to include it",
+                        "{} programs of other users or the system weren't checked; run with sudo to include them",
+                        scan.unreadable
+                    )
                 );
             }
         }
         Some(Command::Awake { duration: None }) => match daemon::awake_status() {
-            Some((on, until)) => println!("Keep Awake: {}", awake::describe(on, until)),
-            None => println!("Keep Awake: off (the background service isn't running)"),
+            Some((on, until)) => println!("{}", trf!("Keep Awake: {}", awake::describe(on, until))),
+            None => println!("{}", tr("Keep Awake: off (the background service isn't running)")),
         },
         Some(Command::Awake { duration: Some(d) }) => match awake::parse_duration(&d)? {
             None => {
                 daemon::stop_awake()?;
-                println!("Keep Awake: Off");
+                println!("{}", tr("Keep Awake: Off"));
             }
             Some(minutes) => {
                 daemon::keep_awake(minutes)?;
                 let (on, until) = daemon::awake_status().unwrap_or((true, 0));
-                println!("Keep Awake: {}", awake::describe(on, until));
+                println!("{}", trf!("Keep Awake: {}", awake::describe(on, until)));
             }
         },
         Some(Command::Expander { command }) => expander_command(command, config)?,
         Some(Command::Screenshots { dir, width }) => screenshots::run(config, dir, width)?,
+        Some(Command::I18nStrings) => {
+            for s in i18n::command_strings(&Cli::command()) {
+                print!("{s}\0");
+            }
+        }
         Some(Command::Manpages { dir }) => {
             for path in manpages::generate(&dir)? {
                 println!("{}", path.display());
@@ -561,7 +609,7 @@ fn main() -> Result<()> {
                     for action in Action::ALL {
                         println!("{:<18} {}", action.accelerator(&config), action.description());
                     }
-                    println!("Added to GNOME keyboard shortcuts");
+                    println!("{}", tr("Added to GNOME keyboard shortcuts"));
                 }
             }
             ShortcutsCommand::Remove { dry_run } => shortcuts::gnome_remove(dry_run)?,
@@ -578,17 +626,17 @@ fn main() -> Result<()> {
             }
             ShortcutsCommand::Who { keys } => {
                 let typed = keys.join(" ");
-                let combo = keybindings::parse_typed(&typed).with_context(|| format!("{typed} isn't a shortcut"))?;
+                let combo = keybindings::parse_typed(&typed).with_context(|| trf!("{} isn't a shortcut", typed))?;
                 let accel = keybindings::accel_name(combo);
                 let all = keybindings::all();
                 let users = keybindings::who(&accel, &all);
                 if users.is_empty() {
-                    println!("{} is free. Nearby free combinations:", keybindings::label(&accel));
+                    println!("{}", trf!("{} is free. Nearby free combinations:", keybindings::label(&accel)));
                 } else {
                     for b in users {
                         println!("{}: {} ({})", keybindings::label(&accel), b.name, b.owner);
                     }
-                    println!("Free combinations nearby:");
+                    println!("{}", tr("Free combinations nearby:"));
                 }
                 for s in keybindings::suggest(&accel, &all, 6) {
                     println!("  {}", keybindings::label(&s));
@@ -598,7 +646,7 @@ fn main() -> Result<()> {
                 let all = keybindings::all();
                 let clashes = keybindings::conflicts(&all);
                 if clashes.is_empty() {
-                    println!("No clashes: no two actions share a shortcut.");
+                    println!("{}", tr("No clashes: no two actions share a shortcut."));
                 }
                 for (combo, users) in clashes {
                     println!("{}", keybindings::label(&keybindings::accel_name(combo)));

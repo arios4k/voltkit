@@ -14,6 +14,7 @@ use chrono::{DateTime, Local, TimeZone};
 use tokio::sync::Notify;
 
 use crate::portal;
+use crate::i18n::tr;
 
 struct Session {
     id: u64,
@@ -65,7 +66,7 @@ impl KeepAwake {
                         *session = None;
                     }
                 }
-                let _ = portal::notify("Keep Awake ended", "Your computer can sleep again.").await;
+                let _ = portal::notify(tr("Keep Awake ended"), tr("Your computer can sleep again.")).await;
             }
         });
         Ok(())
@@ -109,18 +110,18 @@ pub fn parse_duration(text: &str) -> Result<Option<u32>> {
                 minutes += if c == 'h' { n * 60 } else { n };
                 number.clear();
             }
-            _ => bail!("can't read the duration {text:?}; try 30m, 1h, 1h30m, on or off"),
+            _ => bail!("{}", trf!("can't read the duration {}; try 30m, 1h, 1h30m, on or off", format!("{:?}", text))),
         }
     }
     if !number.is_empty() {
-        bail!("can't read the duration {text:?}; add m or h, like 30m or 2h");
+        bail!("{}", trf!("can't read the duration {}; add m or h, like 30m or 2h", format!("{:?}", text)));
     }
     positive(minutes, text)
 }
 
 fn positive(minutes: u32, text: &str) -> Result<Option<u32>> {
     if minutes == 0 {
-        bail!("the duration {text:?} is zero; use off to turn Keep Awake off");
+        bail!("{}", trf!("the duration {} is zero; use off to turn Keep Awake off", format!("{:?}", text)));
     }
     Ok(Some(minutes))
 }
@@ -128,10 +129,10 @@ fn positive(minutes: u32, text: &str) -> Result<Option<u32>> {
 /// "Off", "On until turned off" or "On until 15:30".
 pub fn describe(on: bool, until: i64) -> String {
     match (on, Local.timestamp_opt(until, 0).single()) {
-        (false, _) => "Off".into(),
-        (true, _) if until == 0 => "On until turned off".into(),
-        (true, Some(t)) => format!("On until {}", t.format("%H:%M")),
-        (true, None) => "On".into(),
+        (false, _) => tr("Off").into(),
+        (true, _) if until == 0 => tr("On until turned off").into(),
+        (true, Some(t)) => trf!("On until {}", t.format("%H:%M")),
+        (true, None) => tr("On").into(),
     }
 }
 

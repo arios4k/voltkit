@@ -1,0 +1,67 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-color 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-color \- Eine Farbe (#hex oder rgb(...)) umrechnen und den WCAG\-Kontrast angeben
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit color\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIVALUE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Eine Farbe (#hex oder rgb(...)) umrechnen und den WCAG\-Kontrast angeben
+.PP
+Gibt die Farbe als HEX, RGB und HSL aus sowie ihr WCAG\-2.x\-Kontrastverhältnis als Text auf Weiß und auf Schwarz.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+<\fIVALUE\fR>
+#rgb, #rrggbb (das # ist optional) oder rgb(r, g, b)
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH KONTRASTSTUFEN
+.PP
+Die Bewertungen gelten für Text normaler Größe nach WCAG 2.x:
+.TP
+\fBAAA\fR
+7:1 oder höher.
+.TP
+\fBAA\fR
+4,5:1 oder höher.
+.TP
+\fBAA groß\fR
+3:1 oder höher; gilt nur für großen Text (18 pt oder 14 pt fett).
+.TP
+\fBNicht bestanden\fR
+Unter 3:1.
+.SH BEISPIELE
+.PP
+Hex mit oder ohne #, kurz oder lang:
+.RS 4
+.nf
+\fBvoltkit color f80\fR
+.fi
+.RE
+.PP
+Funktionsschreibweise:
+.RS 4
+.nf
+\fBvoltkit color \*(Aqrgb(51, 130, 202)\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

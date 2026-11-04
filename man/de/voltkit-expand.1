@@ -1,0 +1,81 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expand 1  "Voltkit 0.7.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-expand \- Eine Bausteinvorlage erweitern, z. B. "Gesendet {date:%A}: {clipboard}"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit expand\fR [\fB\-\-arg\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fITEMPLATE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Eine Bausteinvorlage erweitern, z. B. "Gesendet {date:%A}: {clipboard}"
+.PP
+Gibt TEMPLATE mit ersetzten {variables} aus. Schlägt fehl, wenn eine Variable unbekannt ist oder ein {arg:NAME} kein passendes \-\-arg hat.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+<\fITEMPLATE\fR>
+Text mit zu erweiternden {variables}; in Anführungszeichen setzen, damit die Shell die Klammern nicht verändert
+.SH OPTIONEN
+.TP
+\fB\-\-arg\fR \fI<NAME=VALUE>\fR
+Ein Wert für {arg:NAME}; für mehrere Parameter wiederholen
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH VARIABLEN
+.TP
+\fB{date}\fR
+Das heutige Datum als JJJJ\-MM\-TT.
+.TP
+\fB{date:FORMAT}\fR
+Die aktuelle Zeit in einem beliebigen strftime(3)\-FORMAT, zum Beispiel {date:%A %d %B}.
+.TP
+\fB{time}\fR
+Die aktuelle Uhrzeit als HH:MM.
+.TP
+\fB{clipboard}\fR
+Der Text der Zwischenablage, oder nichts, wenn sie leer ist.
+.TP
+\fB{arg:NAME}\fR
+Der mit \-\-arg NAME=VALUE übergebene Wert.
+.TP
+\fB{{ and }}\fR
+Eine wörtliche { oder }.
+.SH BEISPIELE
+.PP
+Parameter ausfüllen:
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}, re: {arg:topic}\*(Aq \-\-arg name=Sam \-\-arg topic=Invoices\fR
+.fi
+.RE
+.PP
+Werte mit Leerzeichen brauchen Anführungszeichen:
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}\*(Aq \-\-arg \*(Aqname=Sam Lee\*(Aq\fR
+.fi
+.RE
+.PP
+Die Zwischenablage mit Zeitstempel zitieren:
+.RS 4
+.nf
+\fBvoltkit expand \*(Aq> {clipboard} ({date} {time})\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1), \fBstrftime\fR(3)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

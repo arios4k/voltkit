@@ -1,0 +1,80 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expander 1  "Voltkit 0.7.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-expander \- Configura y activa o desactiva los disparadores al escribir (escribe ;date en cualquier lado para expandirlo)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit expander\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIcomandos\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Configura y activa o desactiva los disparadores al escribir (escribe ;date en cualquier lado para expandirlo)
+.PP
+Los disparadores al escribir leen el teclado mediante evdev y pegan mediante un teclado virtual uinput, lo que requiere una configuración única con permisos de root. Solo se guardan en memoria los últimos caracteres escritos; nada se registra ni se almacena.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMANDOS
+.TP
+\fBvoltkit expander status\fR
+Muestra si los disparadores al escribir están activados y pueden funcionar
+.TP
+\fBvoltkit expander setup [\-\-apply]\fR
+Concede acceso al teclado y enciende los disparadores al escribir, de inmediato (sin cerrar sesión)
+.RS
+\fB\-\-apply\fR: Ejecuta los comandos (pide la contraseña de administrador) en lugar de solo mostrarlos
+.RE
+.TP
+\fBvoltkit expander enable\fR
+Enciende los disparadores al escribir
+.TP
+\fBvoltkit expander disable\fR
+Apaga los disparadores al escribir
+.TP
+\fBvoltkit expander remove\-access\fR
+Apaga los disparadores al escribir y quita el acceso de Voltkit al teclado
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "CÓMO FUNCIONA"
+.PP
+El daemon lee las pulsaciones de teclas de /dev/input y guarda en memoria los últimos 64 caracteres escritos. Cuando terminan con el disparador de un fragmento, borra el disparador con Retroceso mediante un teclado virtual uinput y pega la expansión, restaurando el portapapeles después. Los fragmentos con parámetros {arg:NAME} abren en su lugar el formulario del selector.
+.PP
+La configuración instala una regla de udev que marca los teclados y /dev/uinput con uaccess, como los escritorios conceden dispositivos a la persona frente a la computadora, y la aplica de inmediato: no hay que unirse a ningún grupo ni cerrar sesión. El daemon inicia y detiene los disparadores al escribir cuando se encienden y apagan, y detecta los teclados que se conecten después.
+.PP
+Las teclas se decodifican con una distribución de EE. UU., así que los disparadores hechos de letras, dígitos y ; funcionan en la mayoría de las distribuciones, mientras que la puntuación puede variar. Un disparador que es prefijo de otro (;d y ;date) se activa primero, así que el más largo no se puede alcanzar.
+.SH SEGURIDAD
+.PP
+El acceso al teclado aplica a todos los programas que ejecuta la persona frente a la computadora, no solo a Voltkit. Lo que escribes nunca se registra, se guarda en disco ni se envía a ningún lado. `voltkit expander remove\-access` (o apagar los disparadores al escribir en la app y elegir quitar el acceso) borra /etc/udev/rules.d/70\-voltkit\-typed\-triggers.rules y /etc/modules\-load.d/voltkit\-uinput.conf; el acceso ya concedido termina en el siguiente reinicio. Las configuraciones anteriores a la versión 0.6 también te agregaban al grupo input, lo que `gpasswd \-d $USER input` deshace.
+.SH EJEMPLOS
+.PP
+Revisa los comandos de configuración y luego ejecútalos:
+.RS 4
+.nf
+\fBvoltkit expander setup
+voltkit expander setup \-\-apply\fR
+.fi
+.RE
+.PP
+Apaga los disparadores al escribir y quita el acceso al teclado:
+.RS 4
+.nf
+\fBvoltkit expander remove\-access\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1), \fBudev\fR(7), \fBusermod\fR(8)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron
