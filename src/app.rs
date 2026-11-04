@@ -10,6 +10,7 @@ use gtk::{gdk, gio, glib};
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
 use crate::{actions, awake_ui, daemon, detective_ui, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, sysreport_ui, system_ui, usage_ui};
+use crate::i18n::tr;
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
@@ -77,9 +78,10 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
 
     let content_view = adw::ToolbarView::new();
     content_view.add_css_class("tool-workspace");
-    let tool_heading = gtk::Label::builder().label(modules::ALL[0].title).xalign(0.0).wrap(true).css_classes(["title-1"]).build();
-    let tool_summary = gtk::Label::builder().label(modules::ALL[0].summary).xalign(0.0).wrap(true).css_classes(["dim-label"]).build();
-    let tool_icon = gtk::Image::builder().icon_name(modules::ALL[0].icon).pixel_size(32).valign(gtk::Align::Start).css_classes(["tool-icon"]).build();
+    let tools = modules::sorted();
+    let tool_heading = gtk::Label::builder().label(tools[0].title()).xalign(0.0).wrap(true).css_classes(["title-1"]).build();
+    let tool_summary = gtk::Label::builder().label(tools[0].summary()).xalign(0.0).wrap(true).css_classes(["dim-label"]).build();
+    let tool_icon = gtk::Image::builder().icon_name(tools[0].icon).pixel_size(32).valign(gtk::Align::Start).css_classes(["tool-icon"]).build();
     let titles = gtk::Box::new(gtk::Orientation::Vertical, 6);
     titles.append(&tool_heading);
     titles.append(&tool_summary);
@@ -91,28 +93,28 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     content_view.add_top_bar(&daemon_banner(&toasts));
     content_view.add_top_bar(&doctor_banner(config));
     content_view.set_content(Some(&toasts));
-    let content = adw::NavigationPage::new(&content_view, modules::ALL[0].title);
+    let content = adw::NavigationPage::new(&content_view, tools[0].title());
 
     let list = gtk::ListBox::builder().css_classes(["navigation-sidebar"]).build();
-    for m in modules::ALL {
+    for m in &tools {
         // Compact rows, like other GNOME sidebars, so every tool fits without scrolling.
         let content = gtk::Box::builder().spacing(12).margin_top(2).margin_bottom(2).margin_start(4).build();
         content.append(&gtk::Image::from_icon_name(m.icon));
-        content.append(&gtk::Label::builder().label(m.title).xalign(0.0).ellipsize(gtk::pango::EllipsizeMode::End).build());
-        let row = gtk::ListBoxRow::builder().child(&content).tooltip_text(m.summary).build();
+        content.append(&gtk::Label::builder().label(m.title()).xalign(0.0).ellipsize(gtk::pango::EllipsizeMode::End).build());
+        let row = gtk::ListBoxRow::builder().child(&content).tooltip_text(m.summary()).build();
         row.set_widget_name(m.id);
         list.append(&row);
     }
     let sidebar_view = adw::ToolbarView::new();
     sidebar_view.add_css_class("tool-sidebar");
     let menu = gio::Menu::new();
-    menu.append(Some("About Voltkit"), Some("app.about"));
+    menu.append(Some(tr("About Voltkit")), Some("app.about"));
     let end = gio::Menu::new();
-    end.append(Some("Quit"), Some("app.quit"));
+    end.append(Some(tr("Quit")), Some("app.quit"));
     menu.append_section(None, &end);
     let menu_button = gtk::MenuButton::builder()
         .icon_name("open-menu-symbolic")
-        .tooltip_text("Main Menu")
+        .tooltip_text(tr("Main Menu"))
         .menu_model(&menu)
         .primary(true)
         .build();
@@ -131,9 +133,9 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
             let id = row.widget_name();
             if let Some(m) = modules::ALL.iter().find(|m| m.id == id) {
                 stack.set_visible_child_name(m.id);
-                content.set_title(m.title);
-                tool_heading.set_label(m.title);
-                tool_summary.set_label(m.summary);
+                content.set_title(m.title());
+                tool_heading.set_label(m.title());
+                tool_summary.set_label(m.summary());
                 tool_icon.set_icon_name(Some(m.icon));
                 split.set_show_content(true);
             }
@@ -189,7 +191,7 @@ pub(crate) fn spawn_window_tool(widget: &impl IsA<gtk::Widget>, args: &[&str]) {
     )
     .and_then(|info| info.launch(&[], Some(&widget.display().app_launch_context())));
     if let Err(e) = launched {
-        eprintln!("could not start {command_line}: {e}");
+        eprintln!("{}", trf!("could not start {}: {}", command_line, e));
     }
 }
 
@@ -272,7 +274,7 @@ fn daemon_running() -> bool {
 /// Shown when `voltkit doctor` finds something a feature needs. The checks
 /// run on a worker thread so the window opens immediately.
 fn doctor_banner(config: &Config) -> adw::Banner {
-    let banner = adw::Banner::builder().button_label("Details").revealed(false).build();
+    let banner = adw::Banner::builder().button_label(tr("Details")).revealed(false).build();
     let config = config.clone();
     let b = banner.clone();
     glib::spawn_future_local(async move {
@@ -287,12 +289,7 @@ fn doctor_banner(config: &Config) -> adw::Banner {
             return;
         }
         let features: std::collections::BTreeSet<&str> = missing.iter().map(|c| c.feature).collect();
-        b.set_title(&format!(
-            "{} feature{} need{} attention",
-            features.len(),
-            if features.len() == 1 { "" } else { "s" },
-            if features.len() == 1 { "s" } else { "" },
-        ));
+        b.set_title(&trnf!("{} feature needs attention", "{} features need attention", features.len()));
         b.set_revealed(true);
 
         let commands = report.install_commands();
@@ -300,12 +297,12 @@ fn doctor_banner(config: &Config) -> adw::Banner {
             let body: String = missing
                 .iter()
                 .map(|c| match &c.fix {
-                    Some(doctor::Fix::Advice(advice)) => format!("• {}: {} ({advice})\n", c.feature, c.what),
-                    _ => format!("• {}: {}\n", c.feature, c.what),
+                    Some(doctor::Fix::Advice(advice)) => format!("• {}: {} ({advice})\n", tr(c.feature), c.what),
+                    _ => format!("• {}: {}\n", tr(c.feature), c.what),
                 })
                 .collect();
-            let body = format!("{}\n\nRun `voltkit doctor` for the full report.", body.trim_end());
-            let dialog = adw::AlertDialog::new(Some("Needs Attention"), Some(&body));
+            let body = trf!("{}\n\nRun `voltkit doctor` for the full report.", body.trim_end());
+            let dialog = adw::AlertDialog::new(Some(tr("Needs Attention")), Some(&body));
             if !commands.is_empty() {
                 let label = gtk::Label::builder()
                     .label(commands.join("\n"))
@@ -316,10 +313,10 @@ fn doctor_banner(config: &Config) -> adw::Banner {
                     .build();
                 label.set_margin_top(6);
                 dialog.set_extra_child(Some(&label));
-                dialog.add_response("copy", "Copy Command");
+                dialog.add_response("copy", tr("Copy Command"));
                 dialog.set_response_appearance("copy", adw::ResponseAppearance::Suggested);
             }
-            dialog.add_response("close", "Close");
+            dialog.add_response("close", tr("Close"));
             dialog.set_default_response(Some("close"));
             let text = commands.join("\n");
             dialog.connect_response(Some("copy"), move |d, _| d.clipboard().set_text(&text));
@@ -332,8 +329,8 @@ fn doctor_banner(config: &Config) -> adw::Banner {
 /// Shown while the background service is off, since global shortcuts need it.
 fn daemon_banner(toasts: &adw::ToastOverlay) -> adw::Banner {
     let banner = adw::Banner::builder()
-        .title("The background service is off, so keyboard shortcuts won't work")
-        .button_label("Start")
+        .title(tr("The background service is off, so keyboard shortcuts won't work"))
+        .button_label(tr("Start"))
         .revealed(!daemon_running())
         .build();
     // Started a moment ago by `run`: look again once it has had time to start.
@@ -350,11 +347,11 @@ fn daemon_banner(toasts: &adw::ToastOverlay) -> adw::Banner {
                     let running = daemon_running();
                     banner.set_revealed(!running);
                     if !running {
-                        toast(&toasts, "The background service failed to start");
+                        toast(&toasts, tr("The background service failed to start"));
                     }
                 });
             }
-            Err(e) => toast(&toasts, format!("Could not start the service: {e}")),
+            Err(e) => toast(&toasts, trf!("Could not start the service: {}", e)),
         }
     });
     banner
@@ -364,7 +361,7 @@ fn daemon_banner(toasts: &adw::ToastOverlay) -> adw::Banner {
 
 fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let button = gtk::Button::builder()
-        .label("Capture Region")
+        .label(tr("Capture Region"))
         .halign(gtk::Align::Center)
         .css_classes(["pill", "suggested-action"])
         .build();
@@ -384,18 +381,18 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .build();
 
     let status = crate::workspace::Workspace::new();
-    let capture = adw::PreferencesGroup::builder().title("Capture text")
-        .description(format!("Select text anywhere on screen. Recognition language: {}. Shortcut: {}", config.ocr.lang, shortcut_label(&config.hotkeys.ocr)))
+    let capture = adw::PreferencesGroup::builder().title(tr("Capture text"))
+        .description(trf!("Select text anywhere on screen. Recognition language: {}. Shortcut: {}", config.ocr.lang, shortcut_label(&config.hotkeys.ocr)))
         .header_suffix(&button).build();
     button.set_halign(gtk::Align::End);
     status.banner(&capture);
     scroller.set_min_content_height(300);
-    let copy = gtk::Button::builder().label("Copy Text").valign(gtk::Align::Center).sensitive(false).build();
-    let result = adw::PreferencesGroup::builder().title("Extracted text").description("Capture a region to see and copy its text here.")
+    let copy = gtk::Button::builder().label(tr("Copy Text")).valign(gtk::Align::Center).sensitive(false).build();
+    let result = adw::PreferencesGroup::builder().title(tr("Extracted text")).description(tr("Capture a region to see and copy its text here."))
         .header_suffix(&copy).build();
     result.add(&scroller);
     status.add(&result);
-    let count = gtk::Label::builder().label("No text captured yet").xalign(0.0).css_classes(["dim-label"]).build();
+    let count = gtk::Label::builder().label(tr("No text captured yet")).xalign(0.0).css_classes(["dim-label"]).build();
     result.add(&count);
     let buffer = view.buffer();
     let copy_buffer = buffer.clone();
@@ -406,17 +403,17 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     buffer.connect_changed(move |buffer| {
         let chars = buffer.char_count();
         copy.set_sensitive(chars > 0);
-        count.set_label(&format!("{chars} characters"));
-        result.set_description(Some(if chars > 0 { "Text is also copied automatically after capture." } else { "Capture a region to see and copy its text here." }));
+        count.set_label(&trnf!("{} character", "{} characters", chars));
+        result.set_description(Some(if chars > 0 { tr("Text is also copied automatically after capture.") } else { tr("Capture a region to see and copy its text here.") }));
     });
-    status.aside(&crate::workspace::note("Capture from anything", "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer.", "edit-select-all-symbolic"));
+    status.aside(&crate::workspace::note(tr("Capture from anything"), tr("Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."), "edit-select-all-symbolic"));
 
     {
         // Text captured with the hotkey shows up here too.
         let (view, toasts) = (view.clone(), toasts.clone());
         on_captured(status.root(), "ocr", move |text| {
             view.buffer().set_text(&text);
-            toast(&toasts, "Text from the shortcut, copied to the clipboard");
+            toast(&toasts, tr("Text from the shortcut, copied to the clipboard"));
         });
     }
 
@@ -437,11 +434,11 @@ fn ocr_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
                 Ok(Ok(text)) => {
                     view.buffer().set_text(&text);
                     button.clipboard().set_text(&text);
-                    toast(&toasts, "Text copied to clipboard");
+                    toast(&toasts, tr("Text copied to clipboard"));
                 }
-                Ok(Err(e)) if e.is::<portal::Cancelled>() => toast(&toasts, "No screenshot was taken"),
+                Ok(Err(e)) if e.is::<portal::Cancelled>() => toast(&toasts, tr("No screenshot was taken")),
                 Ok(Err(e)) => toast(&toasts, e.to_string()),
-                Err(_) => toast(&toasts, "OCR worker crashed"),
+                Err(_) => toast(&toasts, tr("OCR worker crashed")),
             }
         });
     });
@@ -456,7 +453,7 @@ fn copy_row(title: &str, toasts: &adw::ToastOverlay) -> adw::ActionRow {
     let row = adw::ActionRow::builder().title(title).subtitle_selectable(true).build();
     let button = gtk::Button::builder()
         .icon_name("edit-copy-symbolic")
-        .tooltip_text("Copy")
+        .tooltip_text(tr("Copy"))
         .valign(gtk::Align::Center)
         .css_classes(["flat"])
         .build();
@@ -464,7 +461,7 @@ fn copy_row(title: &str, toasts: &adw::ToastOverlay) -> adw::ActionRow {
     button.connect_clicked(move |b| {
         let value = r.subtitle().unwrap_or_default();
         b.clipboard().set_text(&value);
-        toast(&toasts, format!("Copied {value}"));
+        toast(&toasts, trf!("Copied {}", value));
     });
     row.add_suffix(&button);
     row
@@ -490,23 +487,19 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         });
     }
 
-    let entry = adw::EntryRow::builder().title("HEX or rgb()").text(initial.to_hex()).build();
+    let entry = adw::EntryRow::builder().title(tr("HEX or rgb()")).text(initial.to_hex()).build();
 
     // A labeled button in the group header, away from the entry: as a small icon
     // inside the entry row it was easy to miss once the text field had focus.
     let pick = gtk::Button::builder()
-        .child(&adw::ButtonContent::builder().icon_name("color-select-symbolic").label("Pick from Screen").build())
-        .tooltip_text("Pick a color anywhere on screen")
+        .child(&adw::ButtonContent::builder().icon_name("color-select-symbolic").label(tr("Pick from Screen")).build())
+        .tooltip_text(tr("Pick a color anywhere on screen"))
         .valign(gtk::Align::Center)
         .css_classes(["suggested-action"])
         .build();
     let input = adw::PreferencesGroup::builder()
-        .title("Color")
-        .description(format!(
-            "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} \
-             to pick a color: its HEX value is copied and saved here.",
-            shortcut_label(&config.hotkeys.color_picker)
-        ))
+        .title(tr("Color"))
+        .description(trf!("Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here.", shortcut_label(&config.hotkeys.color_picker)))
         .header_suffix(&spaced(&pick))
         .build();
     input.add(&entry);
@@ -514,18 +507,18 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let hex = copy_row("HEX", toasts);
     let rgb = copy_row("RGB", toasts);
     let hsl = copy_row("HSL", toasts);
-    let values = adw::PreferencesGroup::builder().title("Formats").build();
+    let values = adw::PreferencesGroup::builder().title(tr("Formats")).build();
     for r in [&hex, &rgb, &hsl] {
         values.add(r);
     }
 
-    let on_white = adw::ActionRow::builder().title("Text on white").build();
-    let on_black = adw::ActionRow::builder().title("Text on black").build();
-    let contrast = adw::PreferencesGroup::builder().title("WCAG Contrast").build();
+    let on_white = adw::ActionRow::builder().title(tr("Text on white")).build();
+    let on_black = adw::ActionRow::builder().title(tr("Text on black")).build();
+    let contrast = adw::PreferencesGroup::builder().title(tr("WCAG Contrast")).build();
     contrast.add(&on_white);
     contrast.add(&on_black);
 
-    let history = adw::PreferencesGroup::builder().title("History").description("Select a saved color to reuse it. Colors picked from your screen appear here.").build();
+    let history = adw::PreferencesGroup::builder().title(tr("History")).description(tr("Select a saved color to reuse it. Colors picked from your screen appear here.")).build();
     let history_rows: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::default();
 
     let refresh = move |c: color::Rgb| {
@@ -567,7 +560,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
             let c = current.get();
             remember(c);
             if let Err(e) = color::history::push(c) {
-                toast(&toasts, format!("Could not save history: {e}"));
+                toast(&toasts, trf!("Could not save history: {}", e));
             }
         });
     }
@@ -588,11 +581,11 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
                         remember(c);
                         let _ = color::history::push(c);
                         button.clipboard().set_text(&c.to_hex());
-                        toast(&toasts, format!("Copied {}", c.to_hex()));
+                        toast(&toasts, trf!("Copied {}", c.to_hex()));
                     }
                     Ok(Err(e)) if e.is::<portal::Cancelled>() => {}
-                    Ok(Err(e)) => toast(&toasts, format!("Color picker unavailable: {e}")),
-                    Err(_) => toast(&toasts, "Color picker crashed"),
+                    Ok(Err(e)) => toast(&toasts, trf!("Color picker unavailable: {}", e)),
+                    Err(_) => toast(&toasts, tr("Color picker crashed")),
                 }
             });
         });
@@ -601,7 +594,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = crate::workspace::Workspace::new();
     page.banner(&input);
     let preview = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(16).build();
-    preview.append(&gtk::Label::builder().label("Live color preview").xalign(0.0).css_classes(["heading"]).build());
+    preview.append(&gtk::Label::builder().label(tr("Live color preview")).xalign(0.0).css_classes(["heading"]).build());
     swatch.set_content_height(180);
     swatch.set_hexpand(true);
     preview.append(&swatch);
@@ -616,7 +609,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
             if let Ok(c) = color::Rgb::parse(&hex) {
                 entry.set_text(&c.to_hex());
                 remember_picked(c);
-                toast(&toasts, format!("Picked {} with the shortcut, copied", c.to_hex()));
+                toast(&toasts, trf!("Picked {} with the shortcut, copied", c.to_hex()));
             }
         });
     }
@@ -662,7 +655,7 @@ fn add_history_row(
 
 fn ruler_page(config: &Config) -> gtk::Widget {
     let open = gtk::Button::builder()
-        .label("Open Ruler")
+        .label(tr("Open Ruler"))
         .halign(gtk::Align::Center)
         .css_classes(["pill", "suggested-action"])
         .build();
@@ -675,7 +668,7 @@ fn ruler_page(config: &Config) -> gtk::Widget {
         }
     });
     let page = crate::workspace::Workspace::new();
-    let preview = crate::workspace::note("Measure in real pixels", "Freeze your screen, then drag a line or a rectangle over anything you want to measure.", "zoom-fit-best-symbolic");
+    let preview = crate::workspace::note(tr("Measure in real pixels"), tr("Freeze your screen, then drag a line or a rectangle over anything you want to measure."), "zoom-fit-best-symbolic");
     let diagram = gtk::DrawingArea::builder().content_height(200).hexpand(true).build();
     diagram.set_draw_func(|area, cr, w, h| {
         let color = area.color();
@@ -694,17 +687,17 @@ fn ruler_page(config: &Config) -> gtk::Widget {
         let _ = cr.stroke();
         cr.set_font_size(16.0);
         cr.move_to(left + 18.0, 110.0);
-        let _ = cr.show_text("Drag to measure width × height");
+        let _ = cr.show_text(tr("Drag to measure width × height"));
     });
     preview.append(&diagram);
     preview.append(&open);
     page.add(&preview);
-    let controls = adw::PreferencesGroup::builder().title("Measurement controls").build();
-    for (title, description) in [("Drag", "Measure a rectangle"), ("Shift + drag", "Measure a straight line"), ("Ctrl+C", "Copy the measured size"), ("Esc", "Close the ruler")] {
+    let controls = adw::PreferencesGroup::builder().title(tr("Measurement controls")).build();
+    for (title, description) in [(tr("Drag"), tr("Measure a rectangle")), (tr("Shift + drag"), tr("Measure a straight line")), (tr("Ctrl+C"), tr("Copy the measured size")), (tr("Esc"), tr("Close the ruler"))] {
         controls.add(&adw::ActionRow::builder().title(title).subtitle(description).build());
     }
     page.aside(&controls);
-    page.aside(&crate::workspace::note("Ready when you need it", &format!("Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays.", shortcut_label(&config.hotkeys.ruler)), "input-keyboard-symbolic"));
+    page.aside(&crate::workspace::note(tr("Ready when you need it"), &trf!("Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays.", shortcut_label(&config.hotkeys.ruler)), "input-keyboard-symbolic"));
     page.upcast()
 }
 
@@ -712,12 +705,12 @@ fn ruler_page(config: &Config) -> gtk::Widget {
 
 fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let quality = adw::SpinRow::with_range(1.0, 100.0, 1.0);
-    quality.set_title("Quality");
-    quality.set_subtitle("Lower is smaller. PNG is always lossless.");
+    quality.set_title(tr("Quality"));
+    quality.set_subtitle(tr("Lower is smaller. PNG is always lossless."));
     quality.set_value(config.compress.quality as f64);
 
     let choose = gtk::Button::builder()
-        .label("Choose Files…")
+        .label(tr("Choose Files…"))
         .halign(gtk::Align::Center)
         .css_classes(["pill", "suggested-action"])
         .build();
@@ -734,9 +727,9 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         .margin_top(24)
         .css_classes(["dim-label"])
         .build();
-    let drop_title = gtk::Label::builder().label("Drop Files Here").css_classes(["title-2"]).build();
+    let drop_title = gtk::Label::builder().label(tr("Drop Files Here")).css_classes(["title-2"]).build();
     let drop_text = gtk::Label::builder()
-        .label("PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept.")
+        .label(tr("PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."))
         .wrap(true)
         .justify(gtk::Justification::Center)
         .margin_start(12)
@@ -752,13 +745,13 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 
     let settings = adw::PreferencesGroup::new();
     settings.add(&quality);
-    let results = adw::PreferencesGroup::builder().title("Results").build();
+    let results = adw::PreferencesGroup::builder().title(tr("Results")).build();
 
     let process: Rc<dyn Fn(PathBuf)> = {
         let (quality, results, toasts) = (quality.clone(), results.clone(), toasts.clone());
         Rc::new(move |path: PathBuf| {
             let name = path.file_name().unwrap_or_default().to_string_lossy().into_owned();
-            let row = adw::ActionRow::builder().title(&name).subtitle("Compressing…").build();
+            let row = adw::ActionRow::builder().title(&name).subtitle(tr("Compressing…")).build();
             let spinner = gtk::Spinner::builder().spinning(true).build();
             row.add_suffix(&spinner);
             results.add(&row);
@@ -775,10 +768,10 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
                         r.change_percent()
                     )),
                     Ok(Err(e)) => {
-                        row.set_subtitle("Failed");
+                        row.set_subtitle(tr("Failed"));
                         toast(&toasts, format!("{name}: {e}"));
                     }
-                    Err(_) => row.set_subtitle("Failed"),
+                    Err(_) => row.set_subtitle(tr("Failed")),
                 }
             });
         })
@@ -800,7 +793,7 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     choose.connect_clicked(move |b| {
         let process = process.clone();
         let parent = b.root().and_downcast::<gtk::Window>();
-        gtk::FileDialog::builder().title("Compress Files").build().open_multiple(
+        gtk::FileDialog::builder().title(tr("Compress Files")).build().open_multiple(
             parent.as_ref(),
             gio::Cancellable::NONE,
             move |res| {
@@ -816,10 +809,10 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 
     let page = crate::workspace::Workspace::new();
     page.add(&drop_zone);
-    settings.set_title("Compression settings");
+    settings.set_title(tr("Compression settings"));
     page.aside(&settings);
-    page.aside(&crate::workspace::note("Your originals stay intact", "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video.", "document-save-symbolic"));
-    results.set_description(Some("Choose or drop files to see progress and size savings here."));
+    page.aside(&crate::workspace::note(tr("Your originals stay intact"), tr("Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."), "document-save-symbolic"));
+    results.set_description(Some(tr("Choose or drop files to see progress and size savings here.")));
     page.add(&results);
     page.upcast()
 }

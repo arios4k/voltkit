@@ -6,6 +6,7 @@ use std::net::IpAddr;
 use std::process::{Command, Stdio};
 
 use anyhow::{Context, Result, bail};
+use crate::i18n::tr;
 
 pub const PATH: &str = "/etc/hosts";
 pub const BACKUP: &str = "/etc/hosts.voltkit-backup";
@@ -105,7 +106,7 @@ impl HostsFile {
     /// screenshots; saving always writes /etc/hosts).
     pub fn load() -> Result<Self> {
         let path = std::env::var("VOLTKIT_HOSTS_FILE").unwrap_or_else(|_| PATH.to_owned());
-        Ok(Self::parse(&std::fs::read_to_string(&path).with_context(|| format!("cannot read {path}"))?))
+        Ok(Self::parse(&std::fs::read_to_string(&path).with_context(|| trf!("cannot read {}", path))?))
     }
 
     pub fn render(&self) -> String {
@@ -179,14 +180,14 @@ pub fn save(file: &HostsFile) -> Result<()> {
         .stdout(Stdio::null())
         .stderr(Stdio::piped())
         .spawn()
-        .context("pkexec is needed to save /etc/hosts")?;
+        .context(tr("pkexec is needed to save /etc/hosts"))?;
     child.stdin.take().unwrap().write_all(file.render().as_bytes())?;
     let out = child.wait_with_output()?;
     match out.status.code() {
         Some(0) => Ok(()),
         // pkexec: 126 = authorization refused or dialog dismissed, 127 = not authorized
-        Some(126) | Some(127) => bail!("not saved: permission was not granted"),
-        _ => bail!("could not save {PATH}: {}", String::from_utf8_lossy(&out.stderr).trim()),
+        Some(126) | Some(127) => bail!("{}", tr("not saved: permission was not granted")),
+        _ => bail!("{}", trf!("could not save {}: {}", PATH, String::from_utf8_lossy(&out.stderr).trim())),
     }
 }
 

@@ -24,6 +24,7 @@ use crate::config::{Config, Snippet};
 use crate::modules::snippets;
 use crate::paste::{self, PasteShortcut};
 use crate::system;
+use crate::i18n::tr;
 
 const VIRTUAL_KEYBOARD: &str = "Voltkit virtual keyboard";
 const BUFFER_LEN: usize = 64;
@@ -69,10 +70,10 @@ pub fn revoke_script() -> String {
 
 /// Runs a setup script as root through pkexec (the desktop asks for the password).
 fn run_as_root(script: &str) -> Result<()> {
-    let out = std::process::Command::new("pkexec").args(["sh", "-c", script]).output().context("pkexec is needed")?;
+    let out = std::process::Command::new("pkexec").args(["sh", "-c", script]).output().context(tr("pkexec is needed"))?;
     match out.status.code() {
         Some(0) => Ok(()),
-        Some(126) | Some(127) => bail!("permission was not granted"),
+        Some(126) | Some(127) => bail!("{}", tr("permission was not granted")),
         _ => bail!("{}", String::from_utf8_lossy(&out.stderr).trim()),
     }
 }
@@ -86,7 +87,7 @@ pub fn grant_access() -> Result<()> {
         }
         std::thread::sleep(Duration::from_millis(250));
     }
-    bail!("access was granted, but this session doesn't have it yet: {}", missing_permissions().join("; "))
+    bail!("{}", trf!("access was granted, but this session doesn't have it yet: {}", missing_permissions().join("; ")))
 }
 
 pub fn revoke_access() -> Result<()> {
@@ -102,10 +103,10 @@ pub fn access_granted() -> bool {
 pub fn missing_permissions() -> Vec<String> {
     let mut missing = Vec::new();
     if std::fs::OpenOptions::new().write(true).open("/dev/uinput").is_err() {
-        missing.push("no access to the virtual keyboard (/dev/uinput)".into());
+        missing.push(tr("no access to the virtual keyboard (/dev/uinput)").into());
     }
     if keyboards().next().is_none() {
-        missing.push("no access to the keyboards".into());
+        missing.push(tr("no access to the keyboards").into());
     }
     missing
 }
@@ -276,11 +277,11 @@ fn virtual_keyboard() -> Result<VirtualDevice> {
         keys.insert(k);
     }
     VirtualDevice::builder()
-        .context("cannot open /dev/uinput: keyboard access is needed")?
+        .context(tr("cannot open /dev/uinput: keyboard access is needed"))?
         .name(VIRTUAL_KEYBOARD)
         .with_keys(&keys)?
         .build()
-        .context("cannot create the virtual keyboard")
+        .context(tr("cannot create the virtual keyboard"))
 }
 
 async fn tap(device: &mut VirtualDevice, keys: &[KeyCode]) -> Result<()> {
@@ -353,7 +354,7 @@ pub async fn run(config: Arc<Config>, snippets: Arc<std::sync::RwLock<Vec<Snippe
     watch_new_keyboards(&tx, &open);
     let mut rescan = tokio::time::interval(RESCAN_EVERY);
     let mut buffer = TriggerBuffer::default();
-    println!("Typed triggers on ({} keyboard(s))", open.lock().unwrap().len());
+    println!("{}", trf!("Typed triggers on ({} keyboard(s))", open.lock().unwrap().len()));
 
     loop {
         tokio::select! {
@@ -375,8 +376,8 @@ pub async fn run(config: Arc<Config>, snippets: Arc<std::sync::RwLock<Vec<Snippe
 
 /// What the user should do about missing permissions.
 pub fn next_step() -> &'static str {
-    "turn on Typed triggers on Voltkit's Text Expansion page (it asks for your password once), \
-     or run `voltkit expander setup --apply`"
+    tr("turn on Typed triggers on Voltkit's Text Expansion page (it asks for your password once), \
+     or run `voltkit expander setup --apply`")
 }
 
 #[cfg(test)]

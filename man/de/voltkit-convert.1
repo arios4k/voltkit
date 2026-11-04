@@ -1,0 +1,66 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-convert 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-convert \- Text aus der Standardeingabe mit einer der Umwandlungen von „Intelligentes Einfügen“ umwandeln
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit convert\fR [\fB\-h\fR|\fB\-\-help\fR] [\fICONVERSION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Text aus der Standardeingabe mit einer der Umwandlungen von „Intelligentes Einfügen“ umwandeln
+.PP
+Ohne CONVERSION werden sie aufgelistet.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+[\fICONVERSION\fR]
+Eine Umwandlung wie json, markdown\-table, clean\-link oder snake
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEISPIELE
+.PP
+Die Umwandlungen auflisten:
+.RS 4
+.nf
+\fBvoltkit convert\fR
+.fi
+.RE
+.PP
+JSON aus einer Datei formatieren:
+.RS 4
+.nf
+\fBvoltkit convert json < data.json\fR
+.fi
+.RE
+.PP
+Einen kopierten Tabellenbereich in eine Markdown\-Tabelle umwandeln:
+.RS 4
+.nf
+\fBwl\-paste | voltkit convert markdown\-table\fR
+.fi
+.RE
+.PP
+Tracking aus einem Link entfernen:
+.RS 4
+.nf
+\fBecho \*(Aqhttps://example.com/?utm_source=x\*(Aq | voltkit convert clean\-link\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

@@ -1,0 +1,48 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-doctor 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-doctor \- Revisa que todo lo que Voltkit necesita esté instalado y configurado
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit doctor\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Revisa que todo lo que Voltkit necesita esté instalado y configurado
+.PP
+Revisa los programas auxiliares, los datos de idioma del OCR, los portales del escritorio, las herramientas de portapapeles, el servicio en segundo plano y los atajos, y luego muestra el comando de instalación de lo que falte en esta distribución.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SALIDA
+.TP
+\fB✓\fR
+En orden.
+.TP
+\fB✗\fR
+Falta, y la función no sirve sin ello.
+.TP
+\fB–\fR
+Falta o está apagado, pero la función sigue andando de forma limitada.
+.PP
+Los comandos de instalación usan el gestor de paquetes de la distribución en uso (apt, dnf, pacman o zypper), detectado a partir de /etc/os\-release.
+.SH "ESTADO DE SALIDA"
+.PP
+0 si no falta nada obligatorio, 1 en caso contrario, así que sirve en scripts.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

@@ -1,6 +1,7 @@
 //! Color parsing, conversion and WCAG 2.x contrast checking.
 
 use anyhow::{Result, bail};
+use crate::i18n::tr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Rgb {
@@ -20,17 +21,17 @@ impl Rgb {
             let parts: Vec<_> = inner.split(',').map(|p| p.trim().parse::<u8>()).collect();
             return match parts.as_slice() {
                 [Ok(r), Ok(g), Ok(b)] => Ok(Rgb { r: *r, g: *g, b: *b }),
-                _ => bail!("expected rgb(0-255, 0-255, 0-255), got {input:?}"),
+                _ => bail!("{}", trf!("expected rgb(0-255, 0-255, 0-255), got {}", format!("{:?}", input))),
             };
         }
         let hex = s.strip_prefix('#').unwrap_or(&s);
         let expanded: String = match hex.len() {
             3 => hex.chars().flat_map(|c| [c, c]).collect(),
             6 => hex.to_owned(),
-            _ => bail!("unrecognized color {input:?}"),
+            _ => bail!("{}", trf!("unrecognized color {}", format!("{:?}", input))),
         };
         let v = u32::from_str_radix(&expanded, 16)
-            .map_err(|_| anyhow::anyhow!("invalid hex color {input:?}"))?;
+            .map_err(|_| anyhow::anyhow!("{}", trf!("invalid hex color {}", format!("{:?}", input))))?;
         Ok(Rgb { r: (v >> 16) as u8, g: (v >> 8) as u8, b: v as u8 })
     }
 
@@ -89,8 +90,8 @@ pub fn wcag_rating(ratio: f64) -> &'static str {
     match ratio {
         r if r >= 7.0 => "AAA",
         r if r >= 4.5 => "AA",
-        r if r >= 3.0 => "AA Large",
-        _ => "Fail",
+        r if r >= 3.0 => tr("AA Large"),
+        _ => tr("Fail"),
     }
 }
 

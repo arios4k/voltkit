@@ -1,0 +1,80 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expander 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-expander \- Kürzel beim Tippen einrichten und umschalten (;date irgendwo tippen, um es zu erweitern)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit expander\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIbefehle\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Kürzel beim Tippen einrichten und umschalten (;date irgendwo tippen, um es zu erweitern)
+.PP
+Kürzel beim Tippen lesen die Tastatureingabe über evdev und fügen über eine virtuelle uinput\-Tastatur ein; dafür ist eine einmalige Einrichtung mit Root\-Rechten nötig. Nur die letzten paar getippten Zeichen bleiben im Speicher; nichts wird protokolliert oder gespeichert.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEFEHLE
+.TP
+\fBvoltkit expander status\fR
+Anzeigen, ob Kürzel beim Tippen aktiviert sind und laufen können
+.TP
+\fBvoltkit expander setup [\-\-apply]\fR
+Tastaturzugriff erteilen und Kürzel beim Tippen sofort einschalten (ohne Abmelden)
+.RS
+\fB\-\-apply\fR: Die Befehle ausführen (fragt nach dem Administratorpasswort), statt sie nur auszugeben
+.RE
+.TP
+\fBvoltkit expander enable\fR
+Kürzel beim Tippen einschalten
+.TP
+\fBvoltkit expander disable\fR
+Kürzel beim Tippen ausschalten
+.TP
+\fBvoltkit expander remove\-access\fR
+Kürzel beim Tippen ausschalten und den Tastaturzugriff von Voltkit entfernen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH FUNKTIONSWEISE
+.PP
+Der Dienst liest Tastendrücke aus /dev/input und behält die letzten 64 getippten Zeichen im Speicher. Enden sie mit dem Kürzel eines Bausteins, löscht er das Kürzel per Rücktaste über eine virtuelle uinput\-Tastatur und fügt den erweiterten Text ein; danach stellt er die Zwischenablage wieder her. Bausteine mit {arg:NAME}\-Parametern öffnen stattdessen das Formular der Auswahl.
+.PP
+Die Einrichtung installiert eine udev\-Regel, die Tastaturen und /dev/uinput mit uaccess kennzeichnet – so, wie Desktops der Person am Computer Geräte freigeben – und wendet sie sofort an: keine Gruppe beitreten, kein Abmelden. Der Dienst startet und stoppt Kürzel beim Tippen, wenn sie ein\- und ausgeschaltet werden, und erkennt später angeschlossene Tastaturen.
+.PP
+Tasten werden mit einer US\-Tastaturbelegung entschlüsselt, daher funktionieren Kürzel aus Buchstaben, Ziffern und ; mit den meisten Belegungen, während Satzzeichen abweichen können. Ein Kürzel, das der Anfang eines anderen ist (;d und ;date), löst zuerst aus, sodass das längere unerreichbar ist.
+.SH SICHERHEIT
+.PP
+Der Tastaturzugriff gilt für jedes Programm, das die Person am Computer ausführt, nicht nur für Voltkit. Getippter Text wird nie protokolliert, auf die Festplatte geschrieben oder irgendwohin gesendet. `voltkit expander remove\-access` (oder das Ausschalten von Kürzeln beim Tippen in der App mit der Wahl, den Zugriff zu entfernen) löscht /etc/udev/rules.d/70\-voltkit\-typed\-triggers.rules und /etc/modules\-load.d/voltkit\-uinput.conf; der bereits erteilte Zugriff endet beim nächsten Neustart. Einrichtungen vor Version 0.6 haben Sie außerdem zur Gruppe input hinzugefügt, was `gpasswd \-d $USER input` rückgängig macht.
+.SH BEISPIELE
+.PP
+Die Einrichtungsbefehle prüfen und dann ausführen:
+.RS 4
+.nf
+\fBvoltkit expander setup
+voltkit expander setup \-\-apply\fR
+.fi
+.RE
+.PP
+Kürzel beim Tippen ausschalten und den Tastaturzugriff entfernen:
+.RS 4
+.nf
+\fBvoltkit expander remove\-access\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1), \fBudev\fR(7), \fBusermod\fR(8)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

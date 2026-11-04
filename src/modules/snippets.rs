@@ -17,6 +17,7 @@ use std::fmt::Write;
 
 use anyhow::{Result, bail};
 use chrono::{DateTime, Local};
+use crate::i18n::tr;
 
 #[derive(Debug, Clone)]
 pub struct Context {
@@ -44,10 +45,10 @@ pub fn expand(template: &str, ctx: &Context) -> Result<String> {
             continue;
         }
         if tail.starts_with('}') {
-            bail!("unmatched '}}' at byte {}", template.len() - tail.len());
+            bail!("{}", trf!("unmatched '}}' at byte {}", template.len() - tail.len()));
         }
         let Some(end) = tail.find('}') else {
-            bail!("unclosed '{{' at byte {}", template.len() - tail.len());
+            bail!("{}", trf!("unclosed '{{' at byte {}", template.len() - tail.len()));
         };
         expand_var(&tail[1..end], ctx, &mut out)?;
         rest = &tail[end + 1..];
@@ -68,16 +69,16 @@ fn expand_var(var: &str, ctx: &Context, out: &mut String) -> Result<()> {
             // chrono panics on Display for invalid formats; validate first.
             let items: Vec<_> = chrono::format::StrftimeItems::new(fmt).collect();
             if items.iter().any(|i| matches!(i, chrono::format::Item::Error)) {
-                bail!("invalid date format {fmt:?}");
+                bail!("{}", trf!("invalid date format {}", format!("{:?}", fmt)));
             }
             write!(out, "{}", ctx.now.format_with_items(items.into_iter()))?
         }
         ("clipboard", None) => out.push_str(ctx.clipboard.as_deref().unwrap_or("")),
         ("arg", Some(key)) => match ctx.args.get(key.trim()) {
             Some(v) => out.push_str(v),
-            None => bail!("missing parameter {:?}", key.trim()),
+            None => bail!("{}", trf!("missing parameter {}", format!("{:?}", key.trim()))),
         },
-        _ => bail!("unknown variable {{{var}}}"),
+        _ => bail!("{}", trf!("unknown variable {{{}}}", var)),
     }
     Ok(())
 }
@@ -86,7 +87,7 @@ fn expand_var(var: &str, ctx: &Context, out: &mut String) -> Result<()> {
 /// shown as ‹placeholders›.
 pub fn preview(template: &str) -> Result<String> {
     let ctx = Context {
-        clipboard: Some("‹clipboard›".into()),
+        clipboard: Some(tr("‹clipboard›").into()),
         args: required_args(template).into_iter().map(|a| (a.clone(), format!("‹{a}›"))).collect(),
         ..Default::default()
     };

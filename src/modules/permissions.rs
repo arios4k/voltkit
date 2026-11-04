@@ -9,6 +9,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
+use crate::i18n::tr;
 
 const BUS_NAME: &str = "org.freedesktop.impl.portal.PermissionStore";
 const OBJECT_PATH: &str = "/org/freedesktop/impl/portal/PermissionStore";
@@ -49,20 +50,20 @@ impl Permission {
     /// What the app asked to do, in plain words.
     pub fn title(&self) -> String {
         let known = match (self.table.as_str(), self.id.as_str()) {
-            ("screenshot", _) => "Take screenshots",
-            ("devices", "camera") => "Use the camera",
-            ("devices", "microphone") => "Use the microphone",
-            ("devices", "speakers") => "Play sound",
-            ("location", _) => "See your location",
-            ("background", _) => "Run in the background",
-            ("notifications", _) => "Show notifications",
-            ("inhibit", _) => "Keep the computer awake",
-            ("remote-desktop", _) => "Control your computer remotely",
-            ("screencast", _) => "Record or share your screen",
-            ("wallpaper", _) => "Change the wallpaper",
-            ("realtime", _) => "Run with real-time priority",
-            ("gnome", "shell-introspect") => "Look at the windows on screen",
-            ("kde-authorized", _) => "Use desktop services",
+            ("screenshot", _) => tr("Take screenshots"),
+            ("devices", "camera") => tr("Use the camera"),
+            ("devices", "microphone") => tr("Use the microphone"),
+            ("devices", "speakers") => tr("Play sound"),
+            ("location", _) => tr("See your location"),
+            ("background", _) => tr("Run in the background"),
+            ("notifications", _) => tr("Show notifications"),
+            ("inhibit", _) => tr("Keep the computer awake"),
+            ("remote-desktop", _) => tr("Control your computer remotely"),
+            ("screencast", _) => tr("Record or share your screen"),
+            ("wallpaper", _) => tr("Change the wallpaper"),
+            ("realtime", _) => tr("Run with real-time priority"),
+            ("gnome", "shell-introspect") => tr("Look at the windows on screen"),
+            ("kde-authorized", _) => tr("Use desktop services"),
             _ => "",
         };
         if known.is_empty() { format!("{} ({})", self.table, self.id) } else { known.to_owned() }
@@ -70,14 +71,14 @@ impl Permission {
 
     pub fn describe_state(&self) -> String {
         match self.state() {
-            State::Allowed => "Allowed".into(),
-            State::Denied => "Denied".into(),
+            State::Allowed => tr("Allowed").into(),
+            State::Denied => tr("Denied").into(),
             State::Other if self.table == "location" => match self.values.first().map(String::as_str) {
-                Some("EXACT") => "Allowed: exact location".into(),
-                Some("CITY") | Some("NEIGHBORHOOD") | Some("STREET") => "Allowed: approximate location".into(),
-                _ => "Remembered".into(),
+                Some("EXACT") => tr("Allowed: exact location").into(),
+                Some("CITY") | Some("NEIGHBORHOOD") | Some("STREET") => tr("Allowed: approximate location").into(),
+                _ => tr("Remembered").into(),
             },
-            State::Other => "Remembered".into(),
+            State::Other => tr("Remembered").into(),
         }
     }
 }
@@ -116,7 +117,7 @@ pub async fn load() -> Result<Vec<Permission>> {
     let mut all = if let Some(file) = demo_file() {
         parse_demo(&std::fs::read_to_string(file)?)
     } else {
-        let conn = zbus::Connection::session().await.context("no session bus")?;
+        let conn = zbus::Connection::session().await.context(tr("no session bus"))?;
         let mut all = Vec::new();
         for table in tables() {
             let Ok((ids,)) = call::<(Vec<String>,)>(&conn, "List", &(table.as_str(),)).await else { continue };

@@ -11,13 +11,14 @@ use crate::app::{shortcut_label, spawn_window_tool, toast};
 use crate::config::{Config, Snippet};
 use crate::{daemon, expander};
 use crate::modules::snippets;
+use crate::i18n::tr;
 
 pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = crate::workspace::Workspace::new();
     page.aside(&usage_group(config, toasts));
     let manager = Manager::new(config.snippets.clone(), toasts);
     page.add(&manager.group);
-    let search = gtk::SearchEntry::builder().placeholder_text("Find a snippet by trigger or content…").build();
+    let search = gtk::SearchEntry::builder().placeholder_text(tr("Find a snippet by trigger or content…")).build();
     page.banner(&search);
     let weak = Rc::downgrade(&manager);
     search.connect_search_changed(move |entry| {
@@ -34,12 +35,12 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 }
 
 fn usage_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
-    let usage = adw::PreferencesGroup::builder().title("Insert Snippets").build();
-    let open_picker = gtk::Button::builder().label("Open Picker").css_classes(["suggested-action"]).valign(gtk::Align::Center).build();
+    let usage = adw::PreferencesGroup::builder().title(tr("Insert Snippets")).build();
+    let open_picker = gtk::Button::builder().label(tr("Open Picker")).css_classes(["suggested-action"]).valign(gtk::Align::Center).build();
     open_picker.connect_clicked(|button| spawn_window_tool(button, &["picker"]));
     let picker_row = adw::ActionRow::builder()
-        .title("Snippet picker")
-        .subtitle(format!("Search and paste into any app. Shortcut: {}", shortcut_label(&config.hotkeys.snippets)))
+        .title(tr("Snippet picker"))
+        .subtitle(trf!("Search and paste into any app. Shortcut: {}", shortcut_label(&config.hotkeys.snippets)))
         .build();
     picker_row.add_suffix(&open_picker);
     usage.add(&picker_row);
@@ -55,7 +56,7 @@ const TYPED_REFRESH: std::time::Duration = std::time::Duration::from_secs(10);
 /// and stops them by itself.
 fn typed_triggers_row(config: &Config, toasts: &adw::ToastOverlay) -> adw::SwitchRow {
     let row = adw::SwitchRow::builder()
-        .title("Typed triggers")
+        .title(tr("Typed triggers"))
         .active(config.expander.typed_triggers)
         .subtitle_lines(2)
         .build();
@@ -72,18 +73,19 @@ fn typed_triggers_row(config: &Config, toasts: &adw::ToastOverlay) -> adw::Switc
                     .unwrap_or((None, Vec::new(), 0));
                 let Some(row) = row.upgrade() else { return };
                 let subtitle = if !row.is_active() {
-                    "Off. Turn on to type a snippet's trigger, like ;date, in any app and have it replaced".to_owned()
+                    tr("Off. Turn on to type a snippet's trigger, like ;date, in any app and have it replaced").to_owned()
                 } else if !missing.is_empty() {
-                    "Needs keyboard access: turn it off and on again to allow it".to_owned()
+                    tr("Needs keyboard access: turn it off and on again to allow it").to_owned()
                 } else {
                     match status.as_ref().map(|s| s.2.as_str()) {
-                        None => "On, but the background service isn't running: start it with the banner above".to_owned(),
-                        Some("on") => format!(
-                            "On: type a snippet's trigger in any app ({keyboards} keyboard{})",
-                            if keyboards == 1 { "" } else { "s" }
+                        None => tr("On, but the background service isn't running: start it with the banner above").to_owned(),
+                        Some("on") => trnf!(
+                            "On: type a snippet's trigger in any app ({} keyboard)",
+                            "On: type a snippet's trigger in any app ({} keyboards)",
+                            keyboards
                         ),
-                        Some("unavailable") => "On, but not working right now: `voltkit expander status` says why".to_owned(),
-                        _ => "Starting…".to_owned(),
+                        Some("unavailable") => tr("On, but not working right now: `voltkit expander status` says why").to_owned(),
+                        _ => tr("Starting…").to_owned(),
                     }
                 };
                 row.set_subtitle(&subtitle);
@@ -119,11 +121,11 @@ fn typed_triggers_row(config: &Config, toasts: &adw::ToastOverlay) -> adw::Switc
                 if !gio::spawn_blocking(expander::missing_permissions).await.unwrap_or_default().is_empty() {
                     let allowed = confirm(
                         &row,
-                        "Allow Typed Triggers?",
-                        "To notice when you type a trigger like ;date, Voltkit reads the keyboard in every app. It keeps \
+                        tr("Allow Typed Triggers?"),
+                        tr("To notice when you type a trigger like ;date, Voltkit reads the keyboard in every app. It keeps \
                          only the last few characters in memory, and never saves or sends what you type.\n\nYour password \
-                         is needed once. It works right away: no need to log out.",
-                        "Allow",
+                         is needed once. It works right away: no need to log out."),
+                        tr("Allow"),
                         adw::ResponseAppearance::Suggested,
                     )
                     .await;
@@ -132,29 +134,29 @@ fn typed_triggers_row(config: &Config, toasts: &adw::ToastOverlay) -> adw::Switc
                         return;
                     }
                     if let Ok(Err(e)) = gio::spawn_blocking(expander::grant_access).await {
-                        toast(&toasts, format!("Typed triggers not turned on: {e}"));
+                        toast(&toasts, trf!("Typed triggers not turned on: {}", e));
                         revert(&row);
                         return;
                     }
                 }
                 save_typed_triggers(true, &toasts);
-                toast(&toasts, "Typed triggers are on");
+                toast(&toasts, tr("Typed triggers are on"));
             } else {
                 save_typed_triggers(false, &toasts);
                 if gio::spawn_blocking(expander::access_granted).await.unwrap_or(false)
                     && confirm(
                         &row,
-                        "Also Remove Keyboard Access?",
-                        "Typed triggers are off, so Voltkit no longer reads the keyboard. Removing the access as well \
-                         means turning them on again asks for your password; the access ends fully at the next restart.",
-                        "Remove",
+                        tr("Also Remove Keyboard Access?"),
+                        tr("Typed triggers are off, so Voltkit no longer reads the keyboard. Removing the access as well \
+                         means turning them on again asks for your password; the access ends fully at the next restart."),
+                        tr("Remove"),
                         adw::ResponseAppearance::Destructive,
                     )
                     .await
                 {
                     match gio::spawn_blocking(expander::revoke_access).await {
-                        Ok(Ok(())) => toast(&toasts, "Keyboard access removed"),
-                        Ok(Err(e)) => toast(&toasts, format!("Not removed: {e}")),
+                        Ok(Ok(())) => toast(&toasts, tr("Keyboard access removed")),
+                        Ok(Err(e)) => toast(&toasts, trf!("Not removed: {}", e)),
                         Err(_) => {}
                     }
                 }
@@ -176,13 +178,13 @@ fn save_typed_triggers(enabled: bool, toasts: &adw::ToastOverlay) {
         Ok(()) => {
             let _ = daemon::reload();
         }
-        Err(e) => toast(toasts, format!("Could not save the setting: {e}")),
+        Err(e) => toast(toasts, trf!("Could not save the setting: {}", e)),
     }
 }
 
 async fn confirm(parent: &impl IsA<gtk::Widget>, heading: &str, body: &str, action: &str, look: adw::ResponseAppearance) -> bool {
     let dialog = adw::AlertDialog::new(Some(heading), Some(body));
-    dialog.add_responses(&[("cancel", "Cancel"), ("ok", action)]);
+    dialog.add_responses(&[("cancel", tr("Cancel")), ("ok", action)]);
     dialog.set_response_appearance("ok", look);
     dialog.set_default_response(Some("cancel"));
     dialog.set_close_response("cancel");
@@ -201,13 +203,13 @@ struct Manager {
 impl Manager {
     fn new(snippets: Vec<Snippet>, toasts: &adw::ToastOverlay) -> Rc<Self> {
         let add = gtk::Button::builder()
-            .child(&adw::ButtonContent::builder().icon_name("list-add-symbolic").label("Add Snippet").build())
+            .child(&adw::ButtonContent::builder().icon_name("list-add-symbolic").label(tr("Add Snippet")).build())
             .valign(gtk::Align::Center)
             .css_classes(["suggested-action"])
             .build();
         let group = adw::PreferencesGroup::builder()
-            .title("Your Snippets")
-            .description("Click a snippet to edit it.")
+            .title(tr("Your Snippets"))
+            .description(tr("Click a snippet to edit it."))
             .header_suffix(&crate::app::spaced(&add))
             .build();
         let manager = Rc::new(Self {
@@ -234,10 +236,10 @@ impl Manager {
         let snippets = self.snippets.borrow();
         let mut rows = self.rows.borrow_mut();
         if snippets.is_empty() {
-            self.group.set_title("Your Snippets · 0");
+            self.group.set_title(tr("Your Snippets · 0"));
             let row = adw::ActionRow::builder()
-                .title("No snippets yet")
-                .subtitle("Click Add Snippet to create your first one.")
+                .title(tr("No snippets yet"))
+                .subtitle(tr("Click Add Snippet to create your first one."))
                 .build();
             self.group.add(&row);
             rows.push(row.upcast());
@@ -255,8 +257,8 @@ impl Manager {
                 .subtitle_lines(2)
                 .activatable(true)
                 .build();
-            let edit = icon_button("document-edit-symbolic", "Edit");
-            let delete = icon_button("user-trash-symbolic", "Delete");
+            let edit = icon_button("document-edit-symbolic", tr("Edit"));
+            let delete = icon_button("user-trash-symbolic", tr("Delete"));
             row.add_suffix(&edit);
             row.add_suffix(&delete);
 
@@ -270,9 +272,9 @@ impl Manager {
             self.group.add(&row);
             rows.push(row.upcast());
         }
-        self.group.set_title(&format!("Your Snippets · {} of {}", rows.len(), snippets.len()));
+        self.group.set_title(&trf!("Your Snippets · {} of {}", rows.len(), snippets.len()));
         if rows.is_empty() {
-            let row = adw::ActionRow::builder().title("No matching snippets").subtitle("Try another trigger or a word from the snippet text.").build();
+            let row = adw::ActionRow::builder().title(tr("No matching snippets")).subtitle(tr("Try another trigger or a word from the snippet text.")).build();
             self.group.add(&row);
             rows.push(row.upcast());
         }
@@ -288,7 +290,7 @@ impl Manager {
             config.save()
         });
         if let Err(e) = result {
-            toast(&self.toasts, format!("Could not save snippets: {e}"));
+            toast(&self.toasts, trf!("Could not save snippets: {}", e));
             return false;
         }
         gio::spawn_blocking(|| {
@@ -306,8 +308,8 @@ impl Manager {
         self.rebuild();
 
         let undo = adw::Toast::builder()
-            .title(format!("Deleted {}", removed.trigger))
-            .button_label("Undo")
+            .title(trf!("Deleted {}", removed.trigger))
+            .button_label(tr("Undo"))
             .build();
         let weak = Rc::downgrade(self);
         undo.connect_button_clicked(move |_| {
@@ -342,7 +344,7 @@ impl Manager {
                 }
                 if m.save() {
                     m.rebuild();
-                    toast(&m.toasts, format!("Saved {trigger}"));
+                    toast(&m.toasts, trf!("Saved {}", trigger));
                 }
             })
         });
@@ -367,11 +369,11 @@ fn icon_button(icon: &str, tooltip: &str) -> gtk::Button {
 /// What's wrong with a trigger, if anything, given the other snippets' triggers.
 fn trigger_problem(trigger: &str, others: &[String]) -> Option<String> {
     if trigger.is_empty() {
-        Some("Enter a trigger, such as ;sig.".into())
+        Some(tr("Enter a trigger, such as ;sig.").into())
     } else if trigger.chars().any(char::is_whitespace) {
-        Some("Triggers can't contain spaces.".into())
+        Some(tr("Triggers can't contain spaces.").into())
     } else if others.iter().any(|o| o == trigger) {
-        Some(format!("Another snippet already uses {trigger}."))
+        Some(trf!("Another snippet already uses {}.", trigger))
     } else {
         None
     }
@@ -382,7 +384,7 @@ fn trigger_problem(trigger: &str, others: &[String]) -> Option<String> {
 fn trigger_warning(trigger: &str, others: &[String]) -> Option<String> {
     let other = others.iter().find(|o| !o.is_empty() && (o.starts_with(trigger) || trigger.starts_with(o.as_str())))?;
     let (short, long) = if other.len() < trigger.len() { (other.as_str(), trigger) } else { (trigger, other.as_str()) };
-    Some(format!("When typing, {short} expands before you can finish {long}. They still work from the picker."))
+    Some(trf!("When typing, {} expands before you can finish {}. They still work from the picker.", short, long))
 }
 
 /// Date and time formats offered by the editor's Insert buttons.
@@ -395,13 +397,13 @@ fn open_editor(parent: &gtk::Widget, existing: Option<Snippet>, others: Vec<Stri
     let existing = existing.unwrap_or_else(|| Snippet { trigger: ";".into(), template: String::new() });
 
     let dialog = adw::Dialog::builder()
-        .title(if is_new { "New Snippet" } else { "Edit Snippet" })
+        .title(if is_new { tr("New Snippet") } else { tr("Edit Snippet") })
         .content_width(580)
         .content_height(640)
         .build();
-    let cancel = gtk::Button::with_label("Cancel");
+    let cancel = gtk::Button::with_label(tr("Cancel"));
     let save = gtk::Button::builder()
-        .label(if is_new { "Add" } else { "Save" })
+        .label(if is_new { tr("Add") } else { tr("Save") })
         .css_classes(["suggested-action"])
         .sensitive(false)
         .build();
@@ -410,11 +412,11 @@ fn open_editor(parent: &gtk::Widget, existing: Option<Snippet>, others: Vec<Stri
     header.pack_end(&save);
 
     // Trigger
-    let trigger = adw::EntryRow::builder().title("Trigger").text(&existing.trigger).build();
+    let trigger = adw::EntryRow::builder().title(tr("Trigger")).text(&existing.trigger).build();
     let trigger_note = gtk::Label::builder().xalign(0.0).wrap(true).visible(false).css_classes(["caption"]).build();
     let trigger_group = adw::PreferencesGroup::builder()
-        .title("Trigger")
-        .description("A short code that names the snippet. Find it by this name in the picker, or type it in any app when typed triggers are on. Starting with ; avoids clashes with normal words.")
+        .title(tr("Trigger"))
+        .description(tr("A short code that names the snippet. Find it by this name in the picker, or type it in any app when typed triggers are on. Starting with ; avoids clashes with normal words."))
         .build();
     trigger_group.add(&trigger);
     trigger_group.add(&trigger_note);
@@ -438,11 +440,11 @@ fn open_editor(parent: &gtk::Widget, existing: Option<Snippet>, others: Vec<Stri
         .build();
 
     let inserts = gtk::Box::builder().spacing(6).margin_bottom(8).build();
-    inserts.append(&gtk::Label::builder().label("Insert:").css_classes(["dim-label"]).build());
-    inserts.append(&format_menu("Date", "x-office-calendar-symbolic", DATE_FORMATS, &buffer, &view));
-    inserts.append(&format_menu("Time", "alarm-symbolic", TIME_FORMATS, &buffer, &view));
-    let clipboard = insert_button("Clipboard", "edit-paste-symbolic", "Whatever you copied last");
-    let fill_in = insert_button("Fill-in Field", "document-edit-symbolic", "A blank you fill in each time you use the snippet");
+    inserts.append(&gtk::Label::builder().label(tr("Insert:")).css_classes(["dim-label"]).build());
+    inserts.append(&format_menu(tr("Date"), "x-office-calendar-symbolic", DATE_FORMATS, &buffer, &view));
+    inserts.append(&format_menu(tr("Time"), "alarm-symbolic", TIME_FORMATS, &buffer, &view));
+    let clipboard = insert_button(tr("Clipboard"), "edit-paste-symbolic", tr("Whatever you copied last"));
+    let fill_in = insert_button(tr("Fill-in Field"), "document-edit-symbolic", tr("A blank you fill in each time you use the snippet"));
     inserts.append(&clipboard);
     inserts.append(&fill_in);
     {
@@ -467,8 +469,8 @@ fn open_editor(parent: &gtk::Widget, existing: Option<Snippet>, others: Vec<Stri
     }
 
     let text_group = adw::PreferencesGroup::builder()
-        .title("Text")
-        .description("What gets pasted. Use Insert to add values that are filled in when you use the snippet.")
+        .title(tr("Text"))
+        .description(tr("What gets pasted. Use Insert to add values that are filled in when you use the snippet."))
         .build();
     text_group.add(&inserts);
     text_group.add(&scroller);
@@ -486,8 +488,8 @@ fn open_editor(parent: &gtk::Widget, existing: Option<Snippet>, others: Vec<Stri
     let preview_card = gtk::Box::builder().css_classes(["card"]).build();
     preview_card.append(&preview);
     let preview_group = adw::PreferencesGroup::builder()
-        .title("Preview")
-        .description("Exactly what will be pasted right now. ‹Fill-in› fields are asked for when you use the snippet, and ‹clipboard› becomes whatever you copied last.")
+        .title(tr("Preview"))
+        .description(tr("Exactly what will be pasted right now. ‹Fill-in› fields are asked for when you use the snippet, and ‹clipboard› becomes whatever you copied last."))
         .build();
     preview_group.add(&preview_card);
 
@@ -531,8 +533,8 @@ fn open_editor(parent: &gtk::Widget, existing: Option<Snippet>, others: Vec<Stri
                 trigger.remove_css_class("error");
             }
 
-            let rendered = if text.trim().is_empty() { Err("Type the text to paste above.".to_owned()) } else {
-                snippets::preview(&text).map_err(|e| format!("This text can't be expanded: {e}."))
+            let rendered = if text.trim().is_empty() { Err(tr("Type the text to paste above.").to_owned()) } else {
+                snippets::preview(&text).map_err(|e| trf!("This text can't be expanded: {}.", e))
             };
             match &rendered {
                 Ok(out) => {

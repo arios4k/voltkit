@@ -1,0 +1,48 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-doctor 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-doctor \- Prüfen, ob alles, was Voltkit braucht, installiert und eingerichtet ist
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit doctor\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Prüfen, ob alles, was Voltkit braucht, installiert und eingerichtet ist
+.PP
+Prüft die Hilfsprogramme, die OCR\-Sprachdaten, die Desktop\-Portale, die Werkzeuge für die Zwischenablage, den Hintergrunddienst und die Tastenkürzel und gibt dann den Installationsbefehl für alles aus, was auf dieser Distribution fehlt.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUSGABE
+.TP
+\fB✓\fR
+Vorhanden.
+.TP
+\fB✗\fR
+Fehlt, und die Funktion arbeitet ohne nicht.
+.TP
+\fB–\fR
+Fehlt oder ist aus, aber die Funktion arbeitet eingeschränkt weiter.
+.PP
+Installationsbefehle verwenden die Paketverwaltung der laufenden Distribution (apt, dnf, pacman oder zypper), erkannt anhand von /etc/os\-release.
+.SH EXIT-STATUS
+.PP
+0, wenn nichts Erforderliches fehlt, sonst 1, sodass es in Skripten nutzbar ist.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

@@ -1,7 +1,11 @@
 [Desktop Entry]
 Type=Application
 Name=Voltkit Background Service
+Name[es]=Servicio en segundo plano de Voltkit
+Name[de]=Voltkit-Hintergrunddienst
 Comment=Global shortcuts for Voltkit
+Comment[es]=Atajos globales de Voltkit
+Comment[de]=Globale Tastenkürzel für Voltkit
 Exec=voltkit daemon
 Icon=io.github.arios4k.Voltkit
 NoDisplay=true

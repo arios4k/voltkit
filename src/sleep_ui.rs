@@ -10,6 +10,7 @@ use gtk::{gio, glib};
 use crate::app::{desktop_app, toast};
 use crate::modules::sleep::{self, Blocker, Effect, Event, Note, Report, WakeDevice};
 use crate::{daemon, portal};
+use crate::i18n::tr;
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     let page = crate::workspace::Workspace::new();
@@ -50,30 +51,30 @@ impl View {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
         let refresh = gtk::Button::builder()
             .icon_name("view-refresh-symbolic")
-            .tooltip_text("Check Again")
+            .tooltip_text(tr("Check Again"))
             .valign(gtk::Align::Center)
             .css_classes(["flat"])
             .build();
         let now = adw::PreferencesGroup::builder()
-            .title("Right Now")
-            .description("Apps and settings that keep the computer awake at the moment.")
+            .title(tr("Right Now"))
+            .description(tr("Apps and settings that keep the computer awake at the moment."))
             .header_suffix(&crate::app::spaced(&refresh))
             .build();
         let history = adw::PreferencesGroup::builder()
-            .title("Recent Sleeps")
+            .title(tr("Recent Sleeps"))
             .description(
-                "The last week, newest first. Linux only records what woke the computer when it was the lid or the \
-                 power button.",
+                tr("The last week, newest first. Linux only records what woke the computer when it was the lid or the \
+                 power button."),
             )
             .build();
         let devices = adw::PreferencesGroup::builder()
-            .title("Devices That Can Wake It")
+            .title(tr("Devices That Can Wake It"))
             .description(
-                "USB devices allowed to wake the computer from sleep. A mouse or receiver that wakes it in your bag \
-                 can be stopped here. Changing it asks for your password and lasts after restarts.",
+                tr("USB devices allowed to wake the computer from sleep. A mouse or receiver that wakes it in your bag \
+                 can be stopped here. Changing it asks for your password and lasts after restarts."),
             )
             .build();
-        let mode = adw::PreferencesGroup::builder().title("Sleep Mode").visible(false).build();
+        let mode = adw::PreferencesGroup::builder().title(tr("Sleep Mode")).visible(false).build();
         let view = Rc::new(Self {
             now,
             history,
@@ -114,8 +115,8 @@ impl View {
 
         if report.blockers.is_empty() && report.notes.is_empty() {
             let row = adw::ActionRow::builder()
-                .title("Nothing is keeping it awake")
-                .subtitle("It sleeps when you close the lid, choose Suspend, or leave it idle.")
+                .title(tr("Nothing is keeping it awake"))
+                .subtitle(tr("It sleeps when you close the lid, choose Suspend, or leave it idle."))
                 .build();
             row.add_prefix(&gtk::Image::from_icon_name("emblem-ok-symbolic"));
             self.add(&self.now, row);
@@ -127,7 +128,7 @@ impl View {
         for note in report.notes {
             let row = note_row(&note);
             if note.in_power_settings {
-                let button = gtk::Button::builder().label("Power Settings").valign(gtk::Align::Center).build();
+                let button = gtk::Button::builder().label(tr("Power Settings")).valign(gtk::Align::Center).build();
                 button.connect_clicked(open_power_settings);
                 row.add_suffix(&button);
             }
@@ -135,11 +136,11 @@ impl View {
         }
 
         if let Some(problem) = &report.history_problem {
-            let row = adw::ActionRow::builder().title("The sleep history isn't available").subtitle(glib::markup_escape_text(problem)).build();
+            let row = adw::ActionRow::builder().title(tr("The sleep history isn't available")).subtitle(glib::markup_escape_text(problem)).build();
             row.add_prefix(&gtk::Image::from_icon_name("dialog-information-symbolic"));
             self.add(&self.history, row);
         } else if report.history.is_empty() {
-            let row = adw::ActionRow::builder().title("No sleeps in the last week").build();
+            let row = adw::ActionRow::builder().title(tr("No sleeps in the last week")).build();
             self.add(&self.history, row);
         }
         for event in &report.history {
@@ -147,7 +148,7 @@ impl View {
         }
 
         if report.devices.is_empty() {
-            let row = adw::ActionRow::builder().title("No USB devices that could wake it are connected").build();
+            let row = adw::ActionRow::builder().title(tr("No USB devices that could wake it are connected")).build();
             self.add(&self.devices, row);
         }
         for device in report.devices {
@@ -177,14 +178,14 @@ impl View {
             .build();
         row.add_prefix(&gtk::Image::builder().gicon(&icon).pixel_size(32).build());
         if blocker.keep_awake {
-            let button = gtk::Button::builder().label("Turn Off").valign(gtk::Align::Center).build();
+            let button = gtk::Button::builder().label(tr("Turn Off")).valign(gtk::Align::Center).build();
             let view = Rc::downgrade(self);
             button.connect_clicked(move |b| {
                 let Some(view) = view.upgrade() else { return };
                 b.set_sensitive(false);
                 glib::spawn_future_local(async move {
                     match gio::spawn_blocking(daemon::stop_awake).await {
-                        Ok(Ok(())) => toast(&view.toasts, "Keep Awake is off"),
+                        Ok(Ok(())) => toast(&view.toasts, tr("Keep Awake is off")),
                         Ok(Err(e)) => toast(&view.toasts, e.to_string()),
                         Err(_) => {}
                     }
@@ -200,14 +201,14 @@ impl View {
         let row = adw::SwitchRow::builder()
             .title(glib::markup_escape_text(&device.name))
             .subtitle(match device.wakeups {
-                0 => "Can wake the computer".to_owned(),
-                1 => "Woke the computer once since it started".to_owned(),
-                n => format!("Woke the computer {n} times since it started"),
+                0 => tr("Can wake the computer").to_owned(),
+                1 => tr("Woke the computer once since it started").to_owned(),
+                n => trf!("Woke the computer {} times since it started", n),
             })
             .active(device.enabled)
             .build();
         if !device.enabled {
-            row.set_subtitle("Can't wake the computer");
+            row.set_subtitle(tr("Can't wake the computer"));
         }
         row.add_prefix(&gtk::Image::from_icon_name("drive-removable-media-usb-symbolic"));
         // Set while the switch is put back after a failure, so that isn't taken as a click.
@@ -228,8 +229,8 @@ impl View {
                 let result = gio::spawn_blocking(move || sleep::set_wake(&d, enabled)).await;
                 match result {
                     Ok(Ok(())) => {
-                        row.set_subtitle(if enabled { "Can wake the computer" } else { "Can't wake the computer" });
-                        toast(&view.toasts, if enabled { format!("{} can wake the computer", device.name) } else { format!("{} won't wake the computer", device.name) });
+                        row.set_subtitle(if enabled { tr("Can wake the computer") } else { tr("Can't wake the computer") });
+                        toast(&view.toasts, if enabled { trf!("{} can wake the computer", device.name) } else { trf!("{} won't wake the computer", device.name) });
                     }
                     Ok(Err(e)) => {
                         toast(&view.toasts, e.to_string());
@@ -277,7 +278,7 @@ fn event_row(event: &Event) -> adw::ActionRow {
 }
 
 fn open_power_settings(widget: &gtk::Button) {
-    let launched = gio::AppInfo::create_from_commandline("gnome-control-center power", Some("Settings"), gio::AppInfoCreateFlags::NONE)
+    let launched = gio::AppInfo::create_from_commandline("gnome-control-center power", Some(tr("Settings")), gio::AppInfoCreateFlags::NONE)
         .and_then(|info| info.launch(&[], Some(&widget.display().app_launch_context())));
     if launched.is_err()
         && let Some(info) = desktop_app("org.gnome.Settings")

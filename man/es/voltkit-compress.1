@@ -1,0 +1,70 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-compress 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-compress \- Quita los metadatos y comprime archivos PNG, JPEG, WebP o MP4
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit compress\fR [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Quita los metadatos y comprime archivos PNG, JPEG, WebP o MP4
+.PP
+Cada FILE se escribe en NAME.min.EXT junto al original; los originales nunca se modifican.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+<\fIFILE\fR>
+Archivos a comprimir (.png, .jpg/.jpeg, .webp, .mp4/.m4v/.mov)
+.SH OPCIONES
+.TP
+\fB\-\-quality\fR \fI<QUALITY>\fR [default: 80]
+Calidad de 1 (más pequeño) a 100 (mejor); se ignora en PNG, que siempre es sin pérdida
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH HERRAMIENTAS
+.PP
+La compresión usa estos programas, que deben estar instalados:
+.TP
+\fBPNG\fR
+integrado (oxipng), sin pérdida, se quitan todos los metadatos.
+.TP
+\fBJPEG\fR
+jpegoptim, recomprimido hasta \-\-quality, se quitan todos los metadatos.
+.TP
+\fBWebP\fR
+cwebp, con \-\-quality, sin metadatos.
+.TP
+\fBMP4\fR
+ffmpeg, H.264 con un CRF derivado de \-\-quality, audio AAC, sin metadatos y con inicio rápido.
+.SH EJEMPLOS
+.PP
+Comprime todos los PNG de una carpeta:
+.RS 4
+.nf
+\fBvoltkit compress ~/Pictures/*.png\fR
+.fi
+.RE
+.PP
+Reduce más un video:
+.RS 4
+.nf
+\fBvoltkit compress clip.mp4 \-\-quality 50\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1), \fBjpegoptim\fR(1), \fBcwebp\fR(1), \fBffmpeg\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

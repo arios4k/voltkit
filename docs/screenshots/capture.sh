@@ -11,10 +11,21 @@
 # On distributions that theme libadwaita, name the matching light and dark
 # themes so both passes look consistent, e.g. on Zorin OS:
 #   VOLTKIT_LIGHT_THEME=ZorinBlue-Light VOLTKIT_DARK_THEME=ZorinBlue-Dark docs/screenshots/capture.sh
+#
+# Pass a language to capture the translated app into docs/screenshots/LANG,
+# for README.LANG.md:
+#   docs/screenshots/capture.sh es
 set -euo pipefail
 
 repo=$(cd "$(dirname "$0")/../.." && pwd)
-out="$repo/docs/screenshots"
+lang=${1:-en}
+case $lang in
+    en) out="$repo/docs/screenshots"; locale=en_US ;;
+    es) out="$repo/docs/screenshots/es"; locale=es_MX ;;
+    de) out="$repo/docs/screenshots/de"; locale=de_DE ;;
+    *) echo "unknown language $lang (en, es or de)" >&2; exit 2 ;;
+esac
+mkdir -p "$out"
 demo=$(mktemp -d)
 trap 'rm -rf "$demo"' EXIT
 
@@ -79,7 +90,7 @@ env -i \
     XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
     XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-GNOME}" XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" \
     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-    LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_TIME=en_US.UTF-8 \
+    LANG=$locale.UTF-8 LANGUAGE=$locale:$lang LC_TIME=$locale.UTF-8 \
     BROWSER=firefox JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 \
     ${VOLTKIT_LIGHT_THEME:+VOLTKIT_LIGHT_THEME="$VOLTKIT_LIGHT_THEME"} \
     ${VOLTKIT_DARK_THEME:+VOLTKIT_DARK_THEME="$VOLTKIT_DARK_THEME"} \

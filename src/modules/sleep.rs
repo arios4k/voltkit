@@ -15,6 +15,7 @@ use gtk::gio;
 use gtk::prelude::*;
 
 use super::usage;
+use crate::i18n::tr;
 
 /// The reason Voltkit's own Keep Awake gives (see awake.rs).
 pub const KEEP_AWAKE_REASON: &str = "Keep Awake is on in Voltkit";
@@ -40,9 +41,9 @@ pub enum Effect {
 impl Effect {
     pub fn describe(self) -> &'static str {
         match self {
-            Effect::Sleep => "Stops the computer from sleeping",
-            Effect::Idle => "Keeps the screen on and stops automatic sleep",
-            Effect::Lid => "Stops closing the lid from putting it to sleep",
+            Effect::Sleep => tr("Stops the computer from sleeping"),
+            Effect::Idle => tr("Keeps the screen on and stops automatic sleep"),
+            Effect::Lid => tr("Stops closing the lid from putting it to sleep"),
         }
     }
 }
@@ -195,7 +196,7 @@ fn logind_blocker(what: &str, who: &str, why: &str, mode: &str, pid: u32, have_g
         None => (who.to_owned(), None),
     };
     let (name, reason) = if effect == Effect::Lid && why.contains("External monitor") {
-        ("GNOME".to_owned(), "An external monitor is connected (or was just changed)".to_owned())
+        ("GNOME".to_owned(), tr("An external monitor is connected (or was just changed)").to_owned())
     } else {
         (name, why.to_owned())
     };
@@ -242,15 +243,15 @@ fn gnome_blocker(app: &str, reason: &str, effect: Effect) -> Blocker {
     // GNOME's app ID is a desktop file name, a program path, or "mutter" for
     // windows that asked to keep the screen on (usually a playing video).
     let (name, app_id, reason) = if app == "mutter" {
-        ("A window".to_owned(), None, "Asked to keep the screen on, usually for a playing video".to_owned())
+        (tr("A window").to_owned(), None, tr("Asked to keep the screen on, usually for a playing video").to_owned())
     } else if keep_awake {
-        ("Voltkit".to_owned(), Some("io.github.arios4k.Voltkit".to_owned()), "Keep Awake is on".to_owned())
+        ("Voltkit".to_owned(), Some("io.github.arios4k.Voltkit".to_owned()), tr("Keep Awake is on").to_owned())
     } else {
         let id = app.strip_suffix(".desktop").unwrap_or(app);
         let name = Path::new(id).file_name().map_or_else(|| id.to_owned(), |n| n.to_string_lossy().into_owned());
         // Electron and Chromium apps give their toolkit's name as the reason.
         let reason = if reason.is_empty() || reason == "Electron" || reason == "Chromium" {
-            "Asked the computer to stay awake".to_owned()
+            tr("Asked the computer to stay awake").to_owned()
         } else {
             reason.to_owned()
         };
@@ -276,17 +277,27 @@ fn power_notes(on_battery: bool) -> Vec<Note> {
     }
     let settings = gio::Settings::new(SCHEMA);
     let mut notes = Vec::new();
-    for (key, when, now) in [("sleep-inactive-ac-type", "plugged in", !on_battery), ("sleep-inactive-battery-type", "on battery", on_battery)] {
+    for (key, plugged_in, now) in [("sleep-inactive-ac-type", true, !on_battery), ("sleep-inactive-battery-type", false, on_battery)] {
         if settings.string(key) == "nothing" {
-            notes.push(Note {
-                title: format!("Never sleeps by itself when {when}"),
-                detail: format!(
-                    "Automatic sleep is turned off for when the computer is {when}{}. Turn it on under Power \
-                     Saving in the power settings.",
-                    if now { ", which it is now" } else { "" }
+            let (title, detail) = match (plugged_in, now) {
+                (true, true) => (
+                    tr("Never sleeps by itself when plugged in"),
+                    tr("Automatic sleep is turned off for when the computer is plugged in, which it is now. Turn it on under Power Saving in the power settings."),
                 ),
-                in_power_settings: true,
-            });
+                (true, false) => (
+                    tr("Never sleeps by itself when plugged in"),
+                    tr("Automatic sleep is turned off for when the computer is plugged in. Turn it on under Power Saving in the power settings."),
+                ),
+                (false, true) => (
+                    tr("Never sleeps by itself when on battery"),
+                    tr("Automatic sleep is turned off for when the computer is on battery, which it is now. Turn it on under Power Saving in the power settings."),
+                ),
+                (false, false) => (
+                    tr("Never sleeps by itself when on battery"),
+                    tr("Automatic sleep is turned off for when the computer is on battery. Turn it on under Power Saving in the power settings."),
+                ),
+            };
+            notes.push(Note { title: title.to_owned(), detail: detail.to_owned(), in_power_settings: true });
         }
     }
     notes
@@ -309,28 +320,25 @@ async fn lid_notes(on_battery: bool) -> Vec<Note> {
 
 fn lid_note(lid: &str, external: &str, docked_action: &str, docked: bool, on_battery: bool) -> Option<Note> {
     let sleeps = |action: &str| matches!(action, "suspend" | "hibernate" | "hybrid-sleep" | "suspend-then-hibernate");
-    let file = "This is set in /etc/systemd/logind.conf.";
+    let file = tr("This is set in /etc/systemd/logind.conf.");
     if !sleeps(lid) {
         return Some(Note {
-            title: "Closing the lid never puts it to sleep".into(),
-            detail: format!("The lid is set to \u{201c}{}\u{201d}. {file}", if lid.is_empty() { "ignore" } else { lid }),
+            title: tr("Closing the lid never puts it to sleep").into(),
+            detail: trf!("The lid is set to “{}”. {}", if lid.is_empty() { "ignore" } else { lid }, file),
             in_power_settings: false,
         });
     }
     if docked && !sleeps(docked_action) {
         return Some(Note {
-            title: "Closing the lid doesn't sleep while a monitor or dock is connected".into(),
-            detail: format!(
-                "An external monitor or dock is connected now, so closing the lid keeps the computer running \
-                 (so you can keep using the big screen). Disconnect it to sleep. {file}"
-            ),
+            title: tr("Closing the lid doesn't sleep while a monitor or dock is connected").into(),
+            detail: trf!("An external monitor or dock is connected now, so closing the lid keeps the computer running (so you can keep using the big screen). Disconnect it to sleep. {}", file),
             in_power_settings: false,
         });
     }
     if !on_battery && !external.is_empty() && !sleeps(external) {
         return Some(Note {
-            title: "Closing the lid doesn't sleep while plugged in".into(),
-            detail: format!("The lid is set to \u{201c}{external}\u{201d} on power. {file}"),
+            title: tr("Closing the lid doesn't sleep while plugged in").into(),
+            detail: trf!("The lid is set to “{}” on power. {}", external, file),
             in_power_settings: false,
         });
     }
@@ -341,14 +349,14 @@ fn sleep_mode(mem_sleep: &str) -> Option<Note> {
     let current = mem_sleep.split_whitespace().find(|m| m.starts_with('['))?.trim_matches(['[', ']']);
     let deep_available = mem_sleep.split_whitespace().any(|m| m.trim_matches(['[', ']']) == "deep");
     (current == "s2idle").then(|| Note {
-        title: "Uses light sleep (s2idle)".into(),
+        title: tr("Uses light sleep (s2idle)").into(),
         detail: if deep_available {
-            "Light sleep wakes up instantly but uses more battery than deep sleep, which this computer also \
-             supports. Deep sleep can be chosen with the kernel option mem_sleep_default=deep."
+            tr("Light sleep wakes up instantly but uses more battery than deep sleep, which this computer also \
+             supports. Deep sleep can be chosen with the kernel option mem_sleep_default=deep.")
                 .into()
         } else {
-            "Light sleep wakes up instantly but uses more battery than deep sleep. Some apps and devices can \
-             also wake it more easily."
+            tr("Light sleep wakes up instantly but uses more battery than deep sleep. Some apps and devices can \
+             also wake it more easily.")
                 .into()
         },
         in_power_settings: false,
@@ -363,11 +371,11 @@ fn journal_events() -> Result<Vec<(f64, String, String)>> {
         .args(["-q", "-o", "short-unix", "--no-pager", "--since", &format!("-{HISTORY_DAYS} days")])
         .args(["SYSLOG_IDENTIFIER=systemd-sleep", "SYSLOG_IDENTIFIER=systemd-logind"])
         .output()
-        .context("journalctl isn't available")?;
+        .context(tr("journalctl isn't available"))?;
     let text = String::from_utf8_lossy(&output.stdout);
     let lines: Vec<(f64, String, String)> = text.lines().filter_map(parse_journal_line).collect();
     if lines.is_empty() && String::from_utf8_lossy(&output.stderr).contains("insufficient permissions") {
-        bail!("Your account can't read the system log. Being in the \u{201c}adm\u{201d} group allows it.");
+        bail!("{}", tr("Your account can't read the system log. Being in the \u{201c}adm\u{201d} group allows it."));
     }
     Ok(lines)
 }
@@ -426,14 +434,14 @@ pub fn parse_history(lines: &[(f64, String, String)], battery: &[(f64, f64)]) ->
                 .clone()
                 .find_map(|l| {
                     if lid_closed(l) {
-                        Some("you closed the lid")
+                        Some(N_!("you closed the lid"))
                     } else if power_key(l) {
-                        Some("you pressed the power button")
+                        Some(N_!("you pressed the power button"))
                     } else {
                         None
                     }
                 })
-                .unwrap_or("it was idle, or you chose Suspend");
+                .unwrap_or(N_!("it was idle, or you chose Suspend"));
             let Some((j, end)) = lines[i + 1..].iter().enumerate().find(|(_, l)| sleep_end(l) || sleep_start(l) || boot(l)) else { continue };
             if !sleep_end(end) {
                 continue;
@@ -444,15 +452,15 @@ pub fn parse_history(lines: &[(f64, String, String)], battery: &[(f64, f64)]) ->
             let pressed = after.iter().any(|l| power_key(l) && l.0 - end.0 <= 20.0);
             let lid_cause = cause == "you closed the lid";
             let (woke, unexpected) = if opened {
-                ("you opening the lid", false)
+                (N_!("you opening the lid"), false)
             } else if pressed {
-                ("the power button", false)
+                (N_!("the power button"), false)
             } else if end.0 - t < 60.0 {
-                ("something right away: often a USB device, the network or a driver", true)
+                (N_!("something right away: often a USB device, the network or a driver"), true)
             } else if lid_cause {
-                ("something while the lid was still closed: often a USB device or the network", true)
+                (N_!("something while the lid was still closed: often a USB device or the network"), true)
             } else {
-                ("a key, the touchpad, a USB device or a timer", false)
+                (N_!("a key, the touchpad, a USB device or a timer"), false)
             };
             events.push(Event::Slept {
                 start: t,
@@ -518,7 +526,7 @@ pub fn wake_devices() -> Vec<WakeDevice> {
             let (vendor, product) = (read(&path, "idVendor"), read(&path, "idProduct"));
             let label = [read(&path, "manufacturer"), read(&path, "product")].into_iter().filter(|s| !s.is_empty()).collect::<Vec<_>>().join(" ");
             Some(WakeDevice {
-                name: if label.is_empty() { format!("USB device {vendor}:{product}") } else { label },
+                name: if label.is_empty() { trf!("USB device {}:{}", vendor, product) } else { label },
                 enabled: wakeup == "enabled",
                 wakeups: read(&path, "power/wakeup_count").parse().unwrap_or(0),
                 sysfs: path,
@@ -539,19 +547,19 @@ fn is_usb_id(id: &str) -> bool {
 /// restarts (through a udev rule). Asks for the administrator password.
 pub fn set_wake(device: &WakeDevice, enabled: bool) -> Result<()> {
     if !is_usb_id(&device.vendor) || !is_usb_id(&device.product) {
-        bail!("this device can't be changed");
+        bail!("{}", tr("this device can't be changed"));
     }
-    let sysfs = device.sysfs.canonicalize().context("the device was unplugged")?;
+    let sysfs = device.sysfs.canonicalize().context(tr("the device was unplugged"))?;
     let wakeup = sysfs.join("power/wakeup");
     if !sysfs.starts_with("/sys/devices") || !wakeup.is_file() {
-        bail!("this device can't be changed");
+        bail!("{}", tr("this device can't be changed"));
     }
     let script = wake_script(&device.vendor, &device.product, &wakeup, enabled);
-    let output = Command::new("pkexec").args(["sh", "-c", &script]).output().context("pkexec is needed")?;
+    let output = Command::new("pkexec").args(["sh", "-c", &script]).output().context(tr("pkexec is needed"))?;
     match output.status.code() {
         Some(0) => Ok(()),
-        Some(126) | Some(127) => bail!("not changed: permission was not granted"),
-        _ => bail!("could not change it: {}", String::from_utf8_lossy(&output.stderr).trim()),
+        Some(126) | Some(127) => bail!("{}", tr("not changed: permission was not granted")),
+        _ => bail!("{}", trf!("could not change it: {}", String::from_utf8_lossy(&output.stderr).trim())),
     }
 }
 
@@ -575,7 +583,15 @@ fn wake_script(vendor: &str, product: &str, wakeup: &Path, enabled: bool) -> Str
 /// Local time like "Tue 11:42 PM".
 pub fn when(t: f64) -> String {
     use chrono::TimeZone;
-    chrono::Local.timestamp_opt(t as i64, 0).single().map_or_else(String::new, |d| d.format("%a %-I:%M %p").to_string())
+    use chrono::Datelike;
+    const DAYS: [&str; 7] = [N_!("Mon"), N_!("Tue"), N_!("Wed"), N_!("Thu"), N_!("Fri"), N_!("Sat"), N_!("Sun")];
+    chrono::Local.timestamp_opt(t as i64, 0).single().map_or_else(String::new, |d| {
+        let day = tr(DAYS[d.weekday().num_days_from_monday() as usize]);
+        // TRANSLATORS: a weekday and a time; {} is the weekday, the rest is a chrono time format
+        // (%H:%M for 24-hour time).
+        let time = d.format(tr("{} %-I:%M %p")).to_string();
+        crate::i18n::fill(&time, &[&day])
+    })
 }
 
 /// "7 h 23 min", "3 min".
@@ -592,30 +608,30 @@ pub fn duration(seconds: f64) -> String {
 pub fn describe_event(event: &Event) -> (String, Vec<String>) {
     match event {
         Event::Slept { start, end, cause, woke, battery, .. } => {
-            let mut details = vec![format!("Went to sleep because {cause}"), format!("Woken by {woke}")];
+            let mut details = vec![trf!("Went to sleep because {}", tr(cause)), trf!("Woken by {}", tr(woke))];
             if let Some((before, after)) = battery {
-                let mut text = format!("Battery {before:.0}% \u{2192} {after:.0}%");
+                let mut text = trf!("Battery {}% → {}%", format!("{:.0}", before), format!("{:.0}", after));
                 if let Some(rate) = drain_per_hour(*start, *end, *battery) {
-                    text.push_str(&format!(" ({rate:.1}% an hour{})", if is_high_drain(rate) { ", more than usual" } else { "" }));
+                    text.push_str(&trf!(" ({}% an hour{})", format!("{:.1}", rate), if is_high_drain(rate) { tr(", more than usual") } else { "" }));
                 }
                 details.push(text);
             }
-            (format!("Slept {} \u{2192} {} \u{00b7} {}", when(*start), when(*end), duration(end - start)), details)
+            (trf!("Slept {} → {} · {}", when(*start), when(*end), duration(end - start)), details)
         }
         Event::LidAwake { start, end } => (
             match end {
-                Some(end) => format!("Lid closed {} but stayed awake for {}", when(*start), duration(end - start)),
-                None => format!("Lid closed {} but it stayed awake", when(*start)),
+                Some(end) => trf!("Lid closed {} but stayed awake for {}", when(*start), duration(end - start)),
+                None => trf!("Lid closed {} but it stayed awake", when(*start)),
             },
-            vec!["Usually because a monitor or dock was connected, it was plugged in, or an app kept it awake".into()],
+            vec![tr("Usually because a monitor or dock was connected, it was plugged in, or an app kept it awake").into()],
         ),
     }
 }
 
 pub fn render_text(report: &Report) -> String {
-    let mut out = String::from("Right now\n");
+    let mut out = format!("{}\n", tr("Right now"));
     if report.blockers.is_empty() && report.notes.is_empty() {
-        out.push_str("  Nothing is keeping the computer awake.\n");
+        out.push_str(&format!("  {}\n", tr("Nothing is keeping the computer awake.")));
     }
     for b in &report.blockers {
         out.push_str(&format!("  {}: {}\n      {}\n", b.name, b.effect.describe(), b.reason));
@@ -623,11 +639,11 @@ pub fn render_text(report: &Report) -> String {
     for n in &report.notes {
         out.push_str(&format!("  {}\n      {}\n", n.title, n.detail));
     }
-    out.push_str("\nRecent sleeps\n");
+    out.push_str(&format!("\n{}\n", tr("Recent sleeps")));
     if let Some(problem) = &report.history_problem {
         out.push_str(&format!("  {problem}\n"));
     } else if report.history.is_empty() {
-        out.push_str("  No sleeps in the last week.\n");
+        out.push_str(&format!("  {}\n", tr("No sleeps in the last week.")));
     }
     for event in &report.history {
         let (title, details) = describe_event(event);
@@ -636,13 +652,13 @@ pub fn render_text(report: &Report) -> String {
             out.push_str(&format!("      {d}\n"));
         }
     }
-    out.push_str("\nUSB devices that can wake it\n");
+    out.push_str(&format!("\n{}\n", tr("USB devices that can wake it")));
     let allowed: Vec<_> = report.devices.iter().filter(|d| d.enabled).collect();
     if allowed.is_empty() {
-        out.push_str("  None.\n");
+        out.push_str(&format!("  {}\n", tr("None.")));
     }
     for d in allowed {
-        let woke = if d.wakeups > 0 { format!(" (woke it {} times)", d.wakeups) } else { String::new() };
+        let woke = if d.wakeups > 0 { format!(" ({})", trnf!("woke it {} time", "woke it {} times", d.wakeups)) } else { String::new() };
         out.push_str(&format!("  {}{woke}\n", d.name));
     }
     if let Some(mode) = &report.sleep_mode {

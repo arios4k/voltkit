@@ -1,0 +1,61 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-trigger 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-trigger \- Ejecuta una acción de atajo mediante el daemon, o directamente si no se está ejecutando
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit trigger\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIACTION\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Ejecuta una acción de atajo mediante el daemon, o directamente si no se está ejecutando
+.PP
+Pensado para asignarse a una tecla en la configuración de teclado del escritorio o en la configuración de un compositor. Los resultados y errores se muestran como notificaciones del escritorio.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+<\fIACTION\fR>
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+ocr: Extract text from a screen region
+.IP \(bu 2
+color: Pick a color from the screen
+.IP \(bu 2
+snippets: Open the snippet picker
+.IP \(bu 2
+qr: Read a QR code on screen
+.IP \(bu 2
+ruler: Measure distances on screen
+.IP \(bu 2
+smart\-paste: Paste the clipboard converted
+.RE
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EJEMPLOS
+.PP
+Un atajo de Sway o i3:
+.RS 4
+.nf
+\fBbindsym $mod+Shift+t exec voltkit trigger ocr\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

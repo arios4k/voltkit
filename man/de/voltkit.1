@@ -1,0 +1,145 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit \- Eine einheitliche Sammlung kleiner Desktop\-Werkzeuge für Linux
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit\fR [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fIbefehle\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Kleine Desktop\-Werkzeuge für den Alltag unter Linux, in einem Programm.
+.PP
+Ohne Unterbefehl öffnet sich die GTK\-Zentrale. Jeder Unterbefehl führt ein Werkzeug aus dem Terminal, einem Skript oder über ein Tastenkürzel aus.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Version anzeigen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH Befehle
+.TP
+voltkit\-ocr(1)
+Einen Bildschirmbereich auswählen und den erkannten Text in die Zwischenablage kopieren
+.TP
+voltkit\-pick\-color(1)
+Eine Farbe vom Bildschirm aufnehmen und ihren HEX\-Wert kopieren
+.TP
+voltkit\-color(1)
+Eine Farbe (#hex oder rgb(...)) umrechnen und den WCAG\-Kontrast angeben
+.TP
+voltkit\-compress(1)
+Metadaten entfernen und PNG\-, JPEG\-, WebP\- oder MP4\-Dateien komprimieren
+.TP
+voltkit\-expand(1)
+Eine Bausteinvorlage erweitern, z. B. "Gesendet {date:%A}: {clipboard}"
+.TP
+voltkit\-picker(1)
+Die Bausteinauswahl öffnen und den gewählten Baustein in die aktive App einfügen
+.TP
+voltkit\-expander(1)
+Kürzel beim Tippen einrichten und umschalten (;date irgendwo tippen, um es zu erweitern)
+.TP
+voltkit\-ruler(1)
+Abstände auf dem Bildschirm in Pixeln messen
+.TP
+voltkit\-awake(1)
+Verhindern, dass der Computer in Bereitschaft geht oder den Bildschirm sperrt
+.TP
+voltkit\-using(1)
+Anzeigen, welche Programme eine Datei, einen Ordner, ein Laufwerk oder einen Netzwerkport belegen
+.TP
+voltkit\-smart\-paste(1)
+Die Zwischenablage umgewandelt einfügen: aufgeräumtes JSON, eine Tabelle als Markdown, ein bereinigter Link …
+.TP
+voltkit\-convert(1)
+Text aus der Standardeingabe mit einer der Umwandlungen von „Intelligentes Einfügen“ umwandeln
+.TP
+voltkit\-report(1)
+Diesen Computer beschreiben: Hardware, Treiber, Zustand und letzte Änderungen
+.TP
+voltkit\-sleep(1)
+Erklären, warum der Computer nicht in Bereitschaft geht oder warum er aufgewacht ist
+.TP
+voltkit\-qr(1)
+QR\-Codes vom Bildschirm oder aus Bilddateien lesen oder aus Text erstellen
+.TP
+voltkit\-daemon(1)
+Den Hintergrunddienst ausführen, der auf globale Tastenkürzel reagiert
+.TP
+voltkit\-doctor(1)
+Prüfen, ob alles, was Voltkit braucht, installiert und eingerichtet ist
+.TP
+voltkit\-trigger(1)
+Eine Tastenkürzel\-Aktion über den Dienst ausführen oder direkt, wenn er nicht läuft
+.TP
+voltkit\-shortcuts(1)
+GNOME\-Tastenkürzel für Desktops ohne GlobalShortcuts\-Portal verwalten
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEISPIELE
+.PP
+Die Zentrale öffnen:
+.RS 4
+.nf
+\fBvoltkit\fR
+.fi
+.RE
+.PP
+Text aus einem Teil des Bildschirms kopieren:
+.RS 4
+.nf
+\fBvoltkit ocr\fR
+.fi
+.RE
+.PP
+Den Kontrast einer Farbe prüfen:
+.RS 4
+.nf
+\fBvoltkit color \*(Aq#3584e4\*(Aq\fR
+.fi
+.RE
+.PP
+Den Hintergrunddienst bei jeder Anmeldung starten:
+.RS 4
+.nf
+\fBvoltkit daemon enable\-autostart\fR
+.fi
+.RE
+.SH DATEIEN
+.TP
+\fB~/.config/voltkit/config.toml\fR
+Konfiguration: Tastenkürzel, OCR\-Sprache, Komprimierungsqualität und Textbausteine. Jeder Schlüssel ist optional.
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+Farbverlauf, neueste zuerst, gemeinsam genutzt von pick\-color, dem Dienst und der Zentrale.
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+Wird von voltkit daemon enable\-autostart erstellt.
+.SH UMGEBUNG
+.TP
+\fBWAYLAND_DISPLAY\fR
+Ist sie gesetzt, wird die Zwischenablage mit wl\-copy und wl\-paste angesprochen, sonst mit xclip.
+.TP
+\fBXDG_CONFIG_HOME, XDG_DATA_HOME\fR
+Überschreiben die Basisordner der oben genannten Dateien.
+.SH EXIT-STATUS
+.PP
+0 bei Erfolg, 1 bei einem Fehler. Fehler werden auf die Standardfehlerausgabe geschrieben.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\-ocr\fR(1), \fBvoltkit\-pick\-color\fR(1), \fBvoltkit\-color\fR(1), \fBvoltkit\-compress\fR(1), \fBvoltkit\-expand\fR(1), \fBvoltkit\-picker\fR(1), \fBvoltkit\-expander\fR(1), \fBvoltkit\-ruler\fR(1), \fBvoltkit\-awake\fR(1), \fBvoltkit\-using\fR(1), \fBvoltkit\-smart\-paste\fR(1), \fBvoltkit\-convert\fR(1), \fBvoltkit\-report\fR(1), \fBvoltkit\-sleep\fR(1), \fBvoltkit\-qr\fR(1), \fBvoltkit\-daemon\fR(1), \fBvoltkit\-doctor\fR(1), \fBvoltkit\-trigger\fR(1), \fBvoltkit\-shortcuts\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

@@ -12,8 +12,9 @@ use gtk::{cairo, gdk, gio, glib};
 
 use crate::portal::{self, APP_ID, Cancelled};
 use crate::system;
+use crate::i18n::tr;
 
-const HINT: &str = "Drag to measure  ·  Shift: straight line  ·  Ctrl+C: copy size  ·  Right-click: clear  ·  Esc: close";
+const HINT: &str = N_!("Drag to measure  ·  Shift: straight line  ·  Ctrl+C: copy size  ·  Right-click: clear  ·  Esc: close");
 
 pub fn run() {
     let app = adw::Application::builder()
@@ -47,7 +48,7 @@ const SETTLE: std::time::Duration = std::time::Duration::from_millis(400);
 async fn capture(parent: Option<String>) -> anyhow::Result<gdk::Texture> {
     let path = gio::spawn_blocking(move || portal::block_on(portal::screenshot_full(parent.as_deref())))
         .await
-        .map_err(|_| anyhow::anyhow!("screenshot worker crashed"))??;
+        .map_err(|_| anyhow::anyhow!("{}", tr("screenshot worker crashed")))??;
     let texture = gdk::Texture::from_filename(&path);
     let _ = std::fs::remove_file(&path);
     Ok(texture?)
@@ -57,16 +58,16 @@ async fn capture(parent: Option<String>) -> anyhow::Result<gdk::Texture> {
 /// clean screenshot without it and opens the ruler.
 fn ask_permission(app: &adw::Application) {
     let button = gtk::Button::builder()
-        .label("Continue")
+        .label(tr("Continue"))
         .halign(gtk::Align::Center)
         .css_classes(["suggested-action", "pill"])
         .build();
     let status = adw::StatusPage::builder()
         .icon_name("video-display-symbolic")
-        .title("Allow Screen Ruler to See Your Screen")
+        .title(tr("Allow Screen Ruler to See Your Screen"))
         .description(
-            "The ruler measures a snapshot of your screen. Your desktop will ask once whether \
-             Voltkit may take screenshots; choose Allow. This window closes before the snapshot.",
+            tr("The ruler measures a snapshot of your screen. Your desktop will ask once whether \
+             Voltkit may take screenshots; choose Allow. This window closes before the snapshot."),
         )
         .child(&button)
         .build();
@@ -75,7 +76,7 @@ fn ask_permission(app: &adw::Application) {
     view.set_content(Some(&status));
     let window = adw::ApplicationWindow::builder()
         .application(app)
-        .title("Screen Ruler")
+        .title(tr("Screen Ruler"))
         .default_width(520)
         .default_height(560)
         .content(&view)
@@ -103,14 +104,14 @@ fn ask_permission(app: &adw::Application) {
                 }
                 Err(e) => {
                     status.set_description(Some(&if portal::is_refused(&e) {
-                        "Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then \
+                        tr("Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then \
                          Allow when your desktop asks. If you chose Deny before, forget that answer in \
-                         Voltkit's App Permissions page first."
+                         Voltkit's App Permissions page first.")
                             .to_owned()
                     } else {
                         glib::markup_escape_text(&format!("{e:#}")).to_string()
                     }));
-                    button.set_label("Try Again");
+                    button.set_label(tr("Try Again"));
                     button.set_sensitive(true);
                 }
             }
@@ -121,7 +122,7 @@ fn ask_permission(app: &adw::Application) {
 
 async fn fail(message: &str) {
     let message = message.to_owned();
-    let _ = gio::spawn_blocking(move || portal::block_on(portal::notify("Screen Ruler", &message))).await;
+    let _ = gio::spawn_blocking(move || portal::block_on(portal::notify(tr("Screen Ruler"), &message))).await;
 }
 
 #[derive(Default)]
@@ -157,7 +158,7 @@ fn show(app: &adw::Application, texture: gdk::Texture) {
     let area = gtk::DrawingArea::builder().hexpand(true).vexpand(true).build();
     area.set_cursor_from_name(Some("crosshair"));
     let hint = gtk::Label::builder()
-        .label(HINT)
+        .label(tr(HINT))
         .halign(gtk::Align::Center)
         .valign(gtk::Align::Start)
         .margin_top(16)
@@ -172,7 +173,7 @@ fn show(app: &adw::Application, texture: gdk::Texture) {
 
     let window = gtk::ApplicationWindow::builder()
         .application(app)
-        .title("Screen Ruler")
+        .title(tr("Screen Ruler"))
         .decorated(false)
         .child(&overlay)
         .build();
@@ -254,8 +255,8 @@ fn show(app: &adw::Application, texture: gdk::Texture) {
                     };
                     // wl-copy keeps serving the clipboard after this window closes.
                     let message = match system::copy_to_clipboard(&text) {
-                        Ok(()) => format!("Copied {text}  ·  Esc: close"),
-                        Err(e) => format!("Could not copy: {e}"),
+                        Ok(()) => trf!("Copied {}  ·  Esc: close", text),
+                        Err(e) => trf!("Could not copy: {}", e),
                     };
                     hint.set_label(&message);
                 }

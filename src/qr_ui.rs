@@ -12,6 +12,7 @@ use crate::app::{shortcut_label, toast};
 use crate::config::Config;
 use crate::modules::qr::{self, WifiSecurity};
 use crate::portal;
+use crate::i18n::tr;
 
 /// On-screen size of the generated code, in logical pixels.
 const PREVIEW_SIZE: usize = 260;
@@ -29,27 +30,24 @@ pub fn page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 
 fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
     let scan = gtk::Button::builder()
-        .child(&adw::ButtonContent::builder().icon_name("camera-photo-symbolic").label("Scan from Screen").build())
+        .child(&adw::ButtonContent::builder().icon_name("camera-photo-symbolic").label(tr("Scan from Screen")).build())
         .valign(gtk::Align::Center)
         .css_classes(["suggested-action"])
         .build();
     let group = adw::PreferencesGroup::builder()
-        .title("Scan")
-        .description(format!(
-            "Drag a box around a QR code anywhere on your screen: a video, a slide, a web page. Shortcut: {}",
-            shortcut_label(&config.hotkeys.qr)
-        ))
+        .title(tr("Scan"))
+        .description(trf!("Drag a box around a QR code anywhere on your screen: a video, a slide, a web page. Shortcut: {}", shortcut_label(&config.hotkeys.qr)))
         .header_suffix(&crate::app::spaced(&scan))
         .build();
 
     let result = adw::ActionRow::builder()
-        .title("Result")
+        .title(tr("Result"))
         .subtitle_selectable(true)
         .subtitle_lines(4)
         .visible(false)
         .build();
-    let copy = flat_button("edit-copy-symbolic", "Copy");
-    let open = flat_button("web-browser-symbolic", "Open Link");
+    let copy = flat_button("edit-copy-symbolic", tr("Copy"));
+    let open = flat_button("web-browser-symbolic", tr("Open Link"));
     result.add_suffix(&open);
     result.add_suffix(&copy);
     group.add(&result);
@@ -59,7 +57,7 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
         let (text, toasts) = (text.clone(), toasts.clone());
         copy.connect_clicked(move |b| {
             b.clipboard().set_text(&text.borrow());
-            toast(&toasts, "Copied");
+            toast(&toasts, tr("Copied"));
         });
     }
     {
@@ -76,7 +74,7 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
         crate::app::on_captured(&group, "qr", move |found| {
             show_result(&result, &open, &found);
             *text.borrow_mut() = found;
-            toast(&toasts, "QR code from the shortcut, copied to the clipboard");
+            toast(&toasts, tr("QR code from the shortcut, copied to the clipboard"));
         });
     }
 
@@ -98,11 +96,11 @@ fn scan_group(config: &Config, toasts: &adw::ToastOverlay) -> adw::PreferencesGr
                     show_result(&result, &open, &found);
                     button.clipboard().set_text(&found);
                     *text.borrow_mut() = found;
-                    toast(&toasts, "QR code copied to clipboard");
+                    toast(&toasts, tr("QR code copied to clipboard"));
                 }
-                Ok(Err(e)) if e.is::<portal::Cancelled>() => toast(&toasts, "No screenshot was taken"),
+                Ok(Err(e)) if e.is::<portal::Cancelled>() => toast(&toasts, tr("No screenshot was taken")),
                 Ok(Err(e)) => toast(&toasts, e.to_string()),
-                Err(_) => toast(&toasts, "QR scanner crashed"),
+                Err(_) => toast(&toasts, tr("QR scanner crashed")),
             }
         });
     });
@@ -117,37 +115,37 @@ fn show_result(result: &adw::ActionRow, open: &gtk::Button, found: &str) {
 
 fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::PreferencesGroup) {
     let group = adw::PreferencesGroup::builder()
-        .title("Create")
-        .description("Type text or a link, or describe a Wi-Fi network, then scan the code with your phone.")
+        .title(tr("Create"))
+        .description(tr("Type text or a link, or describe a Wi-Fi network, then scan the code with your phone."))
         .build();
 
     let kind = adw::ComboRow::builder()
-        .title("Content")
-        .model(&gtk::StringList::new(&["Text or link", "Wi-Fi network"]))
+        .title(tr("Content"))
+        .model(&gtk::StringList::new(&[tr("Text or link"), tr("Wi-Fi network")]))
         .build();
-    let text = adw::EntryRow::builder().title("Text or link").build();
-    let ssid = adw::EntryRow::builder().title("Network name").visible(false).build();
-    let password = adw::PasswordEntryRow::builder().title("Password").visible(false).build();
+    let text = adw::EntryRow::builder().title(tr("Text or link")).build();
+    let ssid = adw::EntryRow::builder().title(tr("Network name")).visible(false).build();
+    let password = adw::PasswordEntryRow::builder().title(tr("Password")).visible(false).build();
     let security = adw::ComboRow::builder()
-        .title("Security")
-        .model(&gtk::StringList::new(&["WPA / WPA2 / WPA3", "WEP", "None (open network)"]))
+        .title(tr("Security"))
+        .model(&gtk::StringList::new(&[tr("WPA / WPA2 / WPA3"), "WEP", tr("None (open network)")]))
         .visible(false)
         .build();
     // Optional logo in the middle of the code
     let logo_thumb = gtk::Image::builder().pixel_size(32).visible(false).build();
-    let choose_logo = gtk::Button::builder().label("Choose…").valign(gtk::Align::Center).build();
-    let remove_logo = flat_button("user-trash-symbolic", "Remove Logo");
+    let choose_logo = gtk::Button::builder().label(tr("Choose…")).valign(gtk::Align::Center).build();
+    let remove_logo = flat_button("user-trash-symbolic", tr("Remove Logo"));
     remove_logo.set_visible(false);
     let logo_row = adw::ActionRow::builder()
-        .title("Logo")
-        .subtitle("Optional: a small PNG, JPEG, WebP or SVG in the middle of the code")
+        .title(tr("Logo"))
+        .subtitle(tr("Optional: a small PNG, JPEG, WebP or SVG in the middle of the code"))
         .build();
     logo_row.add_suffix(&logo_thumb);
     logo_row.add_suffix(&remove_logo);
     logo_row.add_suffix(&choose_logo);
     let logo_size = adw::ComboRow::builder()
-        .title("Logo size")
-        .model(&gtk::StringList::new(&["Small", "Medium", "Large"]))
+        .title(tr("Logo size"))
+        .model(&gtk::StringList::new(&[tr("Small"), tr("Medium"), tr("Large")]))
         .selected(1)
         .visible(false)
         .build();
@@ -170,16 +168,16 @@ fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::Pref
         .visible(false)
         .build();
     let placeholder = gtk::Label::builder()
-        .label("Your QR code appears here")
+        .label(tr("Your QR code appears here"))
         .css_classes(["dim-label"])
         .height_request(PREVIEW_SIZE as i32)
         .build();
     let copy = gtk::Button::builder()
-        .child(&adw::ButtonContent::builder().icon_name("edit-copy-symbolic").label("Copy Image").build())
+        .child(&adw::ButtonContent::builder().icon_name("edit-copy-symbolic").label(tr("Copy Image")).build())
         .sensitive(false)
         .build();
     let save = gtk::Button::builder()
-        .child(&adw::ButtonContent::builder().icon_name("document-save-symbolic").label("Save as PNG…").build())
+        .child(&adw::ButtonContent::builder().icon_name("document-save-symbolic").label(tr("Save as PNG…")).build())
         .sensitive(false)
         .build();
     // Whether the code still scans with the logo on it
@@ -198,7 +196,7 @@ fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::Pref
     card.append(&placeholder);
     card.append(&check);
     card.append(&buttons);
-    let preview = adw::PreferencesGroup::builder().title("QR preview").description("Ready to scan, copy, or save as a PNG.").build();
+    let preview = adw::PreferencesGroup::builder().title(tr("QR preview")).description(tr("Ready to scan, copy, or save as a PNG.")).build();
     preview.add(&card);
 
     let current: Rc<RefCell<Option<Current>>> = Rc::default();
@@ -242,14 +240,14 @@ fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::Pref
                     let shown_logo = match &with_logo {
                         Some((image, Some(size))) => {
                             show_check(&check, true, if *size < wanted - 1e-9 {
-                                "✓ Scans correctly (logo made smaller so it fits)"
+                                tr("✓ Scans correctly (logo made smaller so it fits)")
                             } else {
-                                "✓ Checked: scans correctly with the logo"
+                                tr("✓ Checked: scans correctly with the logo")
                             });
                             Some((image.clone(), *size))
                         }
                         Some((_, None)) => {
-                            show_check(&check, false, "This code doesn't scan with a logo. Shorten the text or remove the logo.");
+                            show_check(&check, false, tr("This code doesn't scan with a logo. Shorten the text or remove the logo."));
                             None
                         }
                         None => None,
@@ -269,9 +267,9 @@ fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::Pref
                     picture.set_visible(false);
                     placeholder.set_visible(true);
                     placeholder.set_label(match other {
-                        Some(Err(_)) => "That's too much text for a QR code.",
-                        _ if wifi => "Enter the network name to create a code",
-                        _ => "Your QR code appears here",
+                        Some(Err(_)) => tr("That's too much text for a QR code."),
+                        _ if wifi => tr("Enter the network name to create a code"),
+                        _ => tr("Your QR code appears here"),
                     });
                     *current.borrow_mut() = None;
                 }
@@ -312,21 +310,21 @@ fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::Pref
         let toasts = toasts.clone();
         choose_logo.connect_clicked(move |b| {
             let filter = gtk::FileFilter::new();
-            filter.set_name(Some("PNG, JPEG, WebP or SVG"));
+            filter.set_name(Some(tr("PNG, JPEG, WebP or SVG")));
             for mime in ["image/png", "image/jpeg", "image/webp", "image/svg+xml"] {
                 filter.add_mime_type(mime);
             }
             let filters = gio::ListStore::new::<gtk::FileFilter>();
             filters.append(&filter);
             let (set_logo, toasts) = (set_logo.clone(), toasts.clone());
-            gtk::FileDialog::builder().title("Choose a Logo").filters(&filters).build().open(
+            gtk::FileDialog::builder().title(tr("Choose a Logo")).filters(&filters).build().open(
                 b.root().and_downcast::<gtk::Window>().as_ref(),
                 gio::Cancellable::NONE,
                 move |res| {
                     let Some(path) = res.ok().and_then(|f| f.path()) else { return };
                     match qr::load_logo(&path) {
                         Ok(image) => set_logo(Some(image)),
-                        Err(e) => toast(&toasts, format!("Can't use this logo: {e}")),
+                        Err(e) => toast(&toasts, trf!("Can't use this logo: {}", e)),
                     }
                 },
             );
@@ -347,7 +345,7 @@ fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::Pref
         copy.connect_clicked(move |b| {
             if let Some(pixbuf) = print_ready(&current) {
                 b.clipboard().set_texture(&gdk::Texture::for_pixbuf(&pixbuf));
-                toast(&toasts, "QR code image copied");
+                toast(&toasts, tr("QR code image copied"));
             }
         });
     }
@@ -363,8 +361,8 @@ fn create_group(toasts: &adw::ToastOverlay) -> (adw::PreferencesGroup, adw::Pref
                 move |res| {
                     let Some(path) = res.ok().and_then(|f| f.path()) else { return };
                     match pixbuf.savev(&path, "png", &[]) {
-                        Ok(()) => toast(&toasts, format!("Saved {}", path.display())),
-                        Err(e) => toast(&toasts, format!("Could not save: {e}")),
+                        Ok(()) => toast(&toasts, trf!("Saved {}", path.display())),
+                        Err(e) => toast(&toasts, trf!("Could not save: {}", e)),
                     }
                 },
             );

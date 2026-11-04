@@ -1,0 +1,110 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-daemon 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-daemon \- Den Hintergrunddienst ausführen, der auf globale Tastenkürzel reagiert
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit daemon\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIbefehle\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Den Hintergrunddienst ausführen, der auf globale Tastenkürzel reagiert
+.PP
+Ohne Unterbefehl läuft der Dienst im Vordergrund, bis er unterbrochen wird. Er belegt io.github.arios4k.Voltkit.Daemon auf dem Sitzungsbus, sodass nur eine Instanz läuft, und belegt die eingestellten Tastenkürzel über das XDG\-GlobalShortcuts\-Portal, wenn der Desktop es anbietet.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEFEHLE
+.TP
+\fBvoltkit daemon status\fR
+Anzeigen, ob der Dienst läuft und wie die Tastenkürzel belegt sind
+.TP
+\fBvoltkit daemon stop\fR
+Den laufenden Dienst beenden
+.TP
+\fBvoltkit daemon reload\fR
+Den laufenden Dienst die Bausteine neu aus der Konfigurationsdatei lesen lassen
+.TP
+\fBvoltkit daemon enable\-autostart\fR
+Den Dienst bei der Anmeldung automatisch starten
+.TP
+\fBvoltkit daemon disable\-autostart\fR
+Den Dienst nicht mehr bei der Anmeldung starten
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH TASTENKÜRZEL-BACKENDS
+.TP
+\fBportal\fR
+Das GlobalShortcuts\-Portal (GNOME 48+, KDE Plasma 5.27+, Hyprland). Der Desktop fragt einmal nach Zustimmung.
+.TP
+\fBgnome\-keybindings\fR
+Eigene Tastenkürzel, hinzugefügt von voltkit shortcuts install.
+.TP
+\fBnone\fR
+Belegen Sie voltkit trigger ACTION in den Einstellungen des Desktops oder Compositors.
+.SH D-BUS-SCHNITTSTELLE
+.PP
+Busname io.github.arios4k.Voltkit.Daemon, Objekt /io/github/arios4k/Voltkit/Daemon, Schnittstelle io.github.arios4k.Voltkit.Daemon1:
+.TP
+\fBTrigger(s action)\fR
+Startet „ocr“, „color“ oder „snippets“ und kehrt sofort zurück. Wird ignoriert, solange eine andere offen ist.
+.TP
+\fBStatus() → (sss)\fR
+Die Version, das Tastenkürzel\-Backend und ob Kürzel beim Tippen an, aus oder nicht verfügbar sind.
+.TP
+\fBKeepAwake(u minutes)\fR
+Verhindert Bereitschaft und Bildschirmsperre, für MINUTES Minuten oder, mit 0, bis zum Beenden.
+.TP
+\fBStopAwake()\fR
+Beendet „Wach halten“.
+.TP
+\fBAwakeStatus() → (bx)\fR
+Ob „Wach halten“ an ist und wann es endet, als Unix\-Zeit (0: bis zum Beenden).
+.TP
+\fBReload()\fR
+Liest die Textbausteine neu aus der Konfigurationsdatei, damit Kürzel beim Tippen Änderungen sofort verwenden. Die Zentrale ruft dies nach jeder Änderung auf.
+.TP
+\fBQuit()\fR
+Beendet den Dienst.
+.SH BEISPIELE
+.PP
+Prüfen, ob er läuft:
+.RS 4
+.nf
+\fBvoltkit daemon status\fR
+.fi
+.RE
+.PP
+Texterkennung aus einem anderen Programm auslösen:
+.RS 4
+.nf
+\fBbusctl \-\-user call io.github.arios4k.Voltkit.Daemon /io/github/arios4k/Voltkit/Daemon io.github.arios4k.Voltkit.Daemon1 Trigger s ocr\fR
+.fi
+.RE
+.SH DATEIEN
+.TP
+\fB~/.config/voltkit/config.toml\fR
+Konfiguration: Tastenkürzel, OCR\-Sprache, Komprimierungsqualität und Textbausteine. Jeder Schlüssel ist optional.
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+Farbverlauf, neueste zuerst, gemeinsam genutzt von pick\-color, dem Dienst und der Zentrale.
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+Wird von voltkit daemon enable\-autostart erstellt.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1), \fBbusctl\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

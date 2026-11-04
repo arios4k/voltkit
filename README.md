@@ -4,6 +4,8 @@
 
 # Voltkit
 
+**English** · [Español](README.es.md) · [Deutsch](README.de.md)
+
 **Power tools for your Linux desktop.**
 Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
 Smart Paste, Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
@@ -237,6 +239,7 @@ waking it up.
   `voltkit compress *.jpg`), with man pages for all of them.
 - **Self-checking.** `voltkit doctor` tells you exactly what's missing and the command to install it.
 - **Signed packages.** Install and update through apt from a GPG-signed repository.
+- **In your language.** English, Spanish and German, following your system language.
 
 ## FAQ
 
@@ -255,8 +258,12 @@ of that.
 It's on the roadmap. For now there's the apt repository for Ubuntu/Debian-based systems, and building
 from source works anywhere with GTK 4.14+.
 
+**How do I change the language?**
+Voltkit follows your session's language (English, Spanish or German). To try another one for Voltkit only,
+start it from a terminal with `LANGUAGE=es voltkit` (or `de`, `en`).
+
 <sub>Screenshots taken on Zorin OS 18 with Voltkit’s light and dark palettes. Regenerate them with
-`docs/screenshots/capture.sh`.</sub>
+`docs/screenshots/capture.sh` (pass `es` or `de` to capture the translated app).</sub>
 
 ## Install (Ubuntu, Debian and derivatives)
 
@@ -409,7 +416,7 @@ Full documentation is in the man pages: `man voltkit`, `man voltkit-expand`, and
 ### Man pages
 
 The pages in [`man/`](man/) are generated from the CLI definitions, so they always match
-`--help`. Install them next to the binary, where `man` finds them automatically:
+`--help`; the translations are in `man/es/` and `man/de/`. Install them next to the binary, where `man` finds them automatically:
 
 ```bash
 mkdir -p ~/.cargo/share/man/man1 && cp man/*.1 ~/.cargo/share/man/man1/
@@ -426,11 +433,18 @@ cargo run -- manpages man
 `~/.config/voltkit/config.toml`. Every key is optional; see
 [`data/config.example.toml`](data/config.example.toml).
 
+## Translations
+
+Voltkit is translated into Spanish and German. The text lives in ordinary gettext files in [`po/`](po/), which
+are built into the binary, so there's nothing extra to install. To add a language or fix a translation, see
+[`po/README.md`](po/README.md).
+
 ## Project layout
 
 ```
 src/
   main.rs            CLI entry point (clap) → GUI when run with no subcommand
+  i18n.rs            translations: built-in .po catalogs, the system language
   app.rs             GTK4 / libadwaita control center
   daemon.rs          background service: D-Bus API, portal shortcuts, autostart
   actions.rs         hotkey actions (OCR, eyedropper) with notifications
@@ -469,7 +483,8 @@ src/
     smartpaste.rs    Smart Paste's text conversions
   manpages.rs        man page generator (clap_mangen + hand-written sections)
   screenshots.rs     renders the README screenshots (hidden `screenshots` command)
-man/                 generated man pages
+po/                  translations (Spanish, German) and update.py to refresh them
+man/                 generated man pages (man/es, man/de: translated)
 packaging/apt/        APT repository builder and its landing page
 docs/screenshots/    README screenshots and capture.sh to regenerate them
 docs/ARCHITECTURE.md design notes and roadmap
@@ -480,6 +495,7 @@ docs/ARCHITECTURE.md design notes and roadmap
 ```bash
 cargo test
 cargo clippy
+python3 po/update.py --check   # translations up to date and complete
 ```
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. The
@@ -488,7 +504,7 @@ especially welcome.
 
 ## Releasing
 
-1. Bump `version` in `Cargo.toml`, run `cargo run -- manpages man`, and commit.
+1. Bump `version` in `Cargo.toml`, run `cargo run -- manpages man` and `python3 po/update.py`, and commit.
 2. Tag and push: `git tag v0.2.0 && git push origin v0.2.0`.
 
 The [Release workflow](.github/workflows/release.yml) builds the `.deb`, publishes a GitHub Release

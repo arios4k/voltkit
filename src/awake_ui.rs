@@ -10,25 +10,26 @@ use gtk::{gio, glib};
 
 use crate::app::toast;
 use crate::{awake, daemon};
+use crate::i18n::tr;
 
 /// Choices in the duration list, in minutes; 0 means until turned off.
 const DURATIONS: &[(u32, &str)] =
-    &[(30, "30 minutes"), (60, "1 hour"), (120, "2 hours"), (240, "4 hours"), (0, "Until turned off")];
+    &[(30, N_!("30 minutes")), (60, N_!("1 hour")), (120, N_!("2 hours")), (240, N_!("4 hours")), (0, N_!("Until turned off"))];
 const DEFAULT_DURATION: u32 = 1;
 const REFRESH: Duration = Duration::from_secs(15);
 
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
-    let switch = adw::SwitchRow::builder().title("Keep Awake").subtitle("Off").build();
+    let switch = adw::SwitchRow::builder().title(tr("Keep Awake")).subtitle(tr("Off")).build();
     let duration = adw::ComboRow::builder()
-        .title("For")
-        .model(&gtk::StringList::new(&DURATIONS.iter().map(|(_, label)| *label).collect::<Vec<_>>()))
+        .title(tr("For"))
+        .model(&gtk::StringList::new(&DURATIONS.iter().map(|(_, label)| tr(label)).collect::<Vec<_>>()))
         .selected(DEFAULT_DURATION)
         .build();
     let group = adw::PreferencesGroup::builder()
-        .title("Keep Awake")
+        .title(tr("Keep Awake"))
         .description(
-            "Stops your computer from sleeping or locking the screen while you watch, present, read or \
-             download. It keeps going after you close this window, and switches itself off when the time is up.",
+            tr("Stops your computer from sleeping or locking the screen while you watch, present, read or \
+             download. It keeps going after you close this window, and switches itself off when the time is up."),
         )
         .build();
     group.add(&switch);
@@ -52,7 +53,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
                     }
                     None => {
                         switch.set_active(false);
-                        switch.set_subtitle("Needs the background service: start it with the banner above");
+                        switch.set_subtitle(tr("Needs the background service: start it with the banner above"));
                         switch.set_sensitive(false);
                     }
                 }
@@ -90,7 +91,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
                 })
                 .await;
                 if let Ok(Err(e)) = result {
-                    toast(&toasts, format!("Keep Awake: {e:#}"));
+                    toast(&toasts, trf!("Keep Awake: {}", format!("{:#}", e)));
                 }
                 refresh();
             });
@@ -107,7 +108,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     let sync = {
         let (headline, subtitle) = (headline.clone(), subtitle.clone());
         move |switch: &adw::SwitchRow| {
-            headline.set_label(if switch.is_active() { "Keep Awake is on" } else { "Keep Awake is off" });
+            headline.set_label(if switch.is_active() { tr("Keep Awake is on") } else { tr("Keep Awake is off") });
             subtitle.set_label(&switch.subtitle().unwrap_or_default());
         }
     };
@@ -115,6 +116,6 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     switch.connect_notify_local(Some("subtitle"), move |switch, _| sync(switch));
     page.add(&status);
     page.add(&group);
-    page.aside(&crate::workspace::note("Set it and carry on", "Choose a duration before turning Keep Awake on. It continues after you close this window and ends automatically when the timer expires. Turn it off here whenever you are done.", "preferences-system-time-symbolic"));
+    page.aside(&crate::workspace::note(tr("Set it and carry on"), tr("Choose a duration before turning Keep Awake on. It continues after you close this window and ends automatically when the timer expires. Turn it off here whenever you are done."), "preferences-system-time-symbolic"));
     page.upcast()
 }

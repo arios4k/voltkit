@@ -2,6 +2,7 @@ use std::path::PathBuf;
 
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
+use crate::i18n::tr;
 
 /// User configuration, stored at `~/.config/voltkit/config.toml`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -114,11 +115,11 @@ impl Config {
             return Ok(Self::default());
         };
         let text = std::fs::read_to_string(&path)?;
-        toml::from_str(&text).with_context(|| format!("invalid config at {}", path.display()))
+        toml::from_str(&text).with_context(|| trf!("invalid config at {}", path.display()))
     }
 
     pub fn save(&self) -> Result<()> {
-        let path = Self::path().context("no config directory")?;
+        let path = Self::path().context(tr("no config directory"))?;
         std::fs::create_dir_all(path.parent().unwrap())?;
         std::fs::write(&path, toml::to_string_pretty(self)?)?;
         Ok(())

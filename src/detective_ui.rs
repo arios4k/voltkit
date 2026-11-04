@@ -9,6 +9,7 @@ use gtk::{gdk, glib};
 
 use crate::app::toast;
 use crate::modules::keybindings::{self as kb, Binding};
+use crate::i18n::tr;
 
 const SUGGESTIONS: usize = 6;
 
@@ -18,8 +19,8 @@ type Finish = dyn Fn(anyhow::Result<()>, &str);
 pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     if !kb::supported() {
         return adw::StatusPage::builder().icon_name("input-keyboard-symbolic")
-            .title("Shortcuts aren't available on this desktop")
-            .description("Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On KDE Plasma, open System Settings → Shortcuts.")
+            .title(tr("Shortcuts aren't available on this desktop"))
+            .description(tr("Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On KDE Plasma, open System Settings → Shortcuts."))
             .build().upcast();
     }
     let view = View::new(toasts);
@@ -64,30 +65,30 @@ impl View {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
         let body = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(18).css_classes(["detective-workspace"]).build();
         let intro = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(12).css_classes(["detective-card"]).build();
-        intro.append(&label("Press a shortcut to investigate", "heading"));
+        intro.append(&label(tr("Press a shortcut to investigate"), "heading"));
         let capture_bar = gtk::Box::new(gtk::Orientation::Horizontal, 12);
-        let recorded = label("Choose Record Shortcut to inspect a key combination", "dim-label");
+        let recorded = label(tr("Choose Record Shortcut to inspect a key combination"), "dim-label");
         recorded.set_hexpand(true);
-        let press = gtk::Button::builder().label("Record Shortcut").valign(gtk::Align::Center).css_classes(["suggested-action"]).build();
+        let press = gtk::Button::builder().label(tr("Record Shortcut")).valign(gtk::Align::Center).css_classes(["suggested-action"]).build();
         capture_bar.append(&recorded);
         capture_bar.append(&press);
         intro.append(&capture_bar);
         body.append(&intro);
 
         let toolbar = gtk::Box::builder().spacing(8).css_classes(["detective-toolbar"]).build();
-        let all = gtk::ToggleButton::builder().label("All Shortcuts").active(true).build();
-        let conflicts_only = gtk::ToggleButton::builder().label("Conflicts").group(&all).build();
-        let refresh = gtk::Button::builder().icon_name("view-refresh-symbolic").tooltip_text("Refresh shortcuts").build();
+        let all = gtk::ToggleButton::builder().label(tr("All Shortcuts")).active(true).build();
+        let conflicts_only = gtk::ToggleButton::builder().label(tr("Conflicts")).group(&all).build();
+        let refresh = gtk::Button::builder().icon_name("view-refresh-symbolic").tooltip_text(tr("Refresh shortcuts")).build();
         toolbar.append(&all);
         toolbar.append(&conflicts_only);
         toolbar.append(&refresh);
         body.append(&toolbar);
-        let search = gtk::SearchEntry::builder().placeholder_text("Filter shortcuts by action, owner, or keys…").hexpand(true).build();
+        let search = gtk::SearchEntry::builder().placeholder_text(tr("Filter shortcuts by action, owner, or keys…")).hexpand(true).build();
         body.append(&search);
 
         let workspace = gtk::Box::builder().spacing(16).valign(gtk::Align::Start).build();
         let catalog = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(12).hexpand(true).css_classes(["detective-card"]).build();
-        let count = label("Registered shortcuts", "heading");
+        let count = label(tr("Registered shortcuts"), "heading");
         catalog.append(&count);
         let list = gtk::ListBox::builder().selection_mode(gtk::SelectionMode::Single).css_classes(["detective-list"]).build();
         let list_scroll = gtk::ScrolledWindow::builder().child(&list)
@@ -102,7 +103,7 @@ impl View {
         narrow.add_setter(&workspace, "orientation", Some(&gtk::Orientation::Vertical.to_value()));
         responsive.add_breakpoint(narrow);
         body.append(&workspace);
-        body.append(&label("System-wide shortcuts · Select an action to inspect or change it", "dim-label"));
+        body.append(&label(tr("System-wide shortcuts · Select an action to inspect or change it"), "dim-label"));
         let scroll = gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&body).build();
         responsive.set_child(Some(&scroll));
         let root = responsive;
@@ -112,7 +113,7 @@ impl View {
         let weak = Rc::downgrade(&view);
         press.connect_clicked(move |button| {
             let Some(v) = weak.upgrade() else { return };
-            v.recorded.set_label("Press the keys now · Esc to cancel");
+            v.recorded.set_label(tr("Press the keys now · Esc to cancel"));
             let weak = Rc::downgrade(&v);
             capture(button, move |accel| {
                 if let Some(v) = weak.upgrade() {
@@ -120,7 +121,7 @@ impl View {
                         *v.looked_up.borrow_mut() = Some(accel);
                         v.show();
                     } else {
-                        v.recorded.set_label("Recording cancelled. Choose Record Shortcut to try again.");
+                        v.recorded.set_label(tr("Recording cancelled. Choose Record Shortcut to try again."));
                     }
                 }
             });
@@ -141,7 +142,7 @@ impl View {
                         let bindings = v.bindings.borrow();
                         b.accels.iter().find(|a| kb::who(a, &bindings).len() > 1).or_else(|| b.accels.first()).cloned()
                     };
-                    v.recorded.set_label(&accel.as_deref().map(kb::label).unwrap_or_else(|| "No shortcut assigned".into()));
+                    v.recorded.set_label(&accel.as_deref().map(kb::label).unwrap_or_else(|| tr("No shortcut assigned").into()));
                     v.inspect(accel.as_deref(), Some(&b));
                 }
             }
@@ -159,25 +160,25 @@ impl View {
         while let Some(row) = self.list.first_child() { self.list.remove(&row); }
         let bindings = self.bindings.borrow();
         let conflicts = kb::conflicts(&bindings);
-        self.conflicts_only.set_label(&format!("Conflicts · {}", conflicts.len()));
+        self.conflicts_only.set_label(&trf!("Conflicts · {}", conflicts.len()));
         let filter = self.search.text().to_lowercase();
         let shown: Vec<Binding> = bindings.iter().filter(|b| {
             let matches = format!("{} {} {}", b.name, b.owner, b.accels.iter().map(|a| kb::label(a)).collect::<Vec<_>>().join(" ")).to_lowercase().contains(&filter);
             let conflict = b.accels.iter().any(|a| kb::who(a, &bindings).len() > 1);
             matches && (!self.conflicts_only.is_active() || conflict)
         }).cloned().collect();
-        self.count.set_label(&format!("Registered shortcuts · {} of {}", shown.len(), bindings.len()));
+        self.count.set_label(&trf!("Registered shortcuts · {} of {}", shown.len(), bindings.len()));
         *self.shown.borrow_mut() = shown.clone();
         for b in &shown {
             let row = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(8).build();
             row.append(&label(&b.name, "heading"));
             row.append(&label(&b.owner, "dim-label"));
             let keys = gtk::Box::new(gtk::Orientation::Vertical, 6);
-            if b.accels.is_empty() { keys.append(&label("Not set", "dim-label")); }
+            if b.accels.is_empty() { keys.append(&label(tr("Not set"), "dim-label")); }
             for accel in &b.accels {
                 let combo = gtk::Box::new(gtk::Orientation::Horizontal, 8);
                 combo.append(&keycaps(accel));
-                if kb::who(accel, &bindings).len() > 1 { let badge = label("Conflict", "status-chip");
+                if kb::who(accel, &bindings).len() > 1 { let badge = label(tr("Conflict"), "status-chip");
                     badge.set_valign(gtk::Align::Center);
                     combo.append(&badge); }
                 keys.append(&combo);
@@ -186,7 +187,7 @@ impl View {
             self.list.append(&row);
         }
         if shown.is_empty() {
-            self.list.append(&label("No shortcuts match these filters", "dim-label"));
+            self.list.append(&label(tr("No shortcuts match these filters"), "dim-label"));
         }
         drop(bindings);
         let looked_up = self.looked_up.borrow().clone();
@@ -207,15 +208,15 @@ impl View {
 
     fn inspect(self: &Rc<Self>, accel: Option<&str>, binding: Option<&Binding>) {
         while let Some(child) = self.detail.first_child() { self.detail.remove(&child); }
-        self.detail.append(&label("Shortcut details", "title-2"));
+        self.detail.append(&label(tr("Shortcut details"), "title-2"));
         let bindings = self.bindings.borrow();
         if let Some(accel) = accel {
             self.detail.append(&keycaps(accel));
             let users = kb::who(accel, &bindings);
             let message = match users.len() {
-                0 => "Available as a system-wide shortcut. Apps may still use it within their windows.".to_owned(),
-                1 => "1 action uses this shortcut".to_owned(),
-                n => format!("{n} actions share this shortcut. Change an action to resolve the conflict."),
+                0 => tr("Available as a system-wide shortcut. Apps may still use it within their windows.").to_owned(),
+                1 => tr("1 action uses this shortcut").to_owned(),
+                n => trf!("{} actions share this shortcut. Change an action to resolve the conflict.", n),
             };
             self.detail.append(&label(&message, if users.len() > 1 { "warning" } else { "dim-label" }));
             for b in users {
@@ -223,32 +224,32 @@ impl View {
                 group.add(&self.binding_row(b, Some(accel)));
                 self.detail.append(&group);
             }
-            self.detail.append(&label("Free combinations to try", "heading"));
+            self.detail.append(&label(tr("Free combinations to try"), "heading"));
             let suggestions = gtk::FlowBox::builder().selection_mode(gtk::SelectionMode::None).column_spacing(6).row_spacing(6).max_children_per_line(2).build();
             for suggestion in kb::suggest(accel, &bindings, 4) {
                 suggestions.insert(&keycaps(&suggestion), -1);
             }
             self.detail.append(&suggestions);
-            self.detail.append(&label("Choose Change to record a new combination, turn a shortcut off, or reset its default.", "dim-label"));
+            self.detail.append(&label(tr("Choose Change to record a new combination, turn a shortcut off, or reset its default."), "dim-label"));
         } else if let Some(b) = binding {
             let group = adw::PreferencesGroup::new();
             group.add(&self.binding_row(b, None));
             self.detail.append(&group);
         } else {
-            self.detail.append(&label("Select a shortcut or record a key combination to see its owners and available alternatives.", "dim-label"));
+            self.detail.append(&label(tr("Select a shortcut or record a key combination to see its owners and available alternatives."), "dim-label"));
         }
     }
 
     /// A shortcut with its keys and a Change button. `focus` is the
     /// combination this row was found by, which is the one that changes.
     fn binding_row(self: &Rc<Self>, b: &Binding, focus: Option<&str>) -> adw::ActionRow {
-        let keys = if b.accels.is_empty() { "Not set".to_owned() } else { b.accels.iter().map(|a| kb::label(a)).collect::<Vec<_>>().join("  or  ") };
+        let keys = if b.accels.is_empty() { tr("Not set").to_owned() } else { b.accels.iter().map(|a| kb::label(a)).collect::<Vec<_>>().join(tr("  or  ")) };
         let row = adw::ActionRow::builder()
             .title(glib::markup_escape_text(&b.name))
             .subtitle(glib::markup_escape_text(&if focus.is_some() { format!("{} \u{00b7} {keys}", b.owner) } else { keys }))
             .build();
         if b.writable {
-            let change = gtk::Button::builder().label("Change…").valign(gtk::Align::Center).build();
+            let change = gtk::Button::builder().label(tr("Change…")).valign(gtk::Align::Center).build();
             let (weak, b, old) = (Rc::downgrade(self), b.clone(), focus.map(str::to_owned).or_else(|| b.accels.first().cloned()));
             change.connect_clicked(move |button| {
                 if let Some(v) = weak.upgrade() {
@@ -257,7 +258,7 @@ impl View {
             });
             row.add_suffix(&change);
         } else {
-            row.add_suffix(&gtk::Image::builder().icon_name("changes-prevent-symbolic").tooltip_text("Locked by the system administrator").build());
+            row.add_suffix(&gtk::Image::builder().icon_name("changes-prevent-symbolic").tooltip_text(tr("Locked by the system administrator")).build());
         }
         row
     }
@@ -268,16 +269,12 @@ impl View {
 
         let current = adw::ActionRow::builder()
             .title(glib::markup_escape_text(&b.name))
-            .subtitle(glib::markup_escape_text(&format!(
-                "{} \u{00b7} now {}",
-                b.owner,
-                old.as_deref().map(kb::label).unwrap_or_else(|| "not set".into())
-            )))
+            .subtitle(glib::markup_escape_text(&trf!("{} · now {}", b.owner, old.as_deref().map(kb::label).unwrap_or_else(|| tr("not set").into()))))
             .build();
-        let press = gtk::Button::builder().label("Press the New Shortcut…").css_classes(["pill", "suggested-action"]).halign(gtk::Align::Center).build();
+        let press = gtk::Button::builder().label(tr("Press the New Shortcut…")).css_classes(["pill", "suggested-action"]).halign(gtk::Align::Center).build();
         let status = gtk::Label::builder().wrap(true).justify(gtk::Justification::Center).visible(false).build();
         let suggestions = gtk::FlowBox::builder().selection_mode(gtk::SelectionMode::None).max_children_per_line(3).column_spacing(6).row_spacing(6).homogeneous(true).build();
-        let save = gtk::Button::builder().label("Save").css_classes(["suggested-action"]).sensitive(false).build();
+        let save = gtk::Button::builder().label(tr("Save")).css_classes(["suggested-action"]).sensitive(false).build();
 
         // Shows the chosen combination and whether it's free.
         let choose: Rc<dyn Fn(String)> = {
@@ -286,11 +283,11 @@ impl View {
                 let others: Vec<String> = kb::who(&accel, &bindings).into_iter().filter(|o| o.schema != b.schema || o.key != b.key || o.path != b.path).map(|o| format!("{} ({})", o.name, o.owner)).collect();
                 status.set_visible(true);
                 if others.is_empty() {
-                    status.set_label(&format!("{} is free", kb::label(&accel)));
+                    status.set_label(&trf!("{} is free", kb::label(&accel)));
                     status.set_css_classes(&["success"]);
                     save.set_sensitive(true);
                 } else {
-                    status.set_label(&format!("{} is already used by {}. Pick another, or change that one first.", kb::label(&accel), others.join(", ")));
+                    status.set_label(&trf!("{} is already used by {}. Pick another, or change that one first.", kb::label(&accel), others.join(", ")));
                     status.set_css_classes(&["warning"]);
                     save.set_sensitive(false);
                 }
@@ -307,10 +304,10 @@ impl View {
             let choose = choose.clone();
             press.connect_clicked(move |button| {
                 let choose = choose.clone();
-                button.set_label("Press the keys now (Esc to cancel)");
+                button.set_label(tr("Press the keys now (Esc to cancel)"));
                 let button2 = button.clone();
                 capture(button, move |accel| {
-                    button2.set_label("Press the New Shortcut…");
+                    button2.set_label(tr("Press the New Shortcut…"));
                     if let Some(accel) = accel {
                         choose(accel);
                     }
@@ -324,11 +321,11 @@ impl View {
         content.append(&current_list);
         content.append(&press);
         content.append(&status);
-        content.append(&gtk::Label::builder().label("Free combinations").css_classes(["heading"]).xalign(0.0).build());
+        content.append(&gtk::Label::builder().label(tr("Free combinations")).css_classes(["heading"]).xalign(0.0).build());
         content.append(&suggestions);
 
-        let disable = gtk::Button::builder().label("Turn Off").css_classes(["destructive-action"]).build();
-        let reset = gtk::Button::builder().label("Reset to Default").visible(b.path.is_none() && !b.is_default()).build();
+        let disable = gtk::Button::builder().label(tr("Turn Off")).css_classes(["destructive-action"]).build();
+        let reset = gtk::Button::builder().label(tr("Reset to Default")).visible(b.path.is_none() && !b.is_default()).build();
         let actions = gtk::Box::builder().spacing(12).halign(gtk::Align::End).build();
         actions.append(&disable);
         actions.append(&reset);
@@ -338,7 +335,7 @@ impl View {
         let view = adw::ToolbarView::new();
         view.add_top_bar(&adw::HeaderBar::new());
         view.set_content(Some(&content));
-        let dialog = adw::Dialog::builder().title("Change Shortcut").content_width(460).child(&view).build();
+        let dialog = adw::Dialog::builder().title(tr("Change Shortcut")).content_width(460).child(&view).build();
 
         let finish: Rc<Finish> = {
             let (weak, dialog) = (Rc::downgrade(self), dialog.clone());
@@ -350,7 +347,7 @@ impl View {
                         dialog.close();
                         v.reload();
                     }
-                    Err(e) => toast(&v.toasts, format!("Not changed: {e}")),
+                    Err(e) => toast(&v.toasts, trf!("Not changed: {}", e)),
                 }
             })
         };
@@ -358,16 +355,16 @@ impl View {
             let (b, old, chosen, finish) = (b.clone(), old.clone(), chosen.clone(), finish.clone());
             save.connect_clicked(move |_| {
                 let Some(new) = chosen.borrow().clone() else { return };
-                finish(kb::change(&b, old.as_deref(), Some(&new)), &format!("“{}” is now {}", b.name, kb::label(&new)));
+                finish(kb::change(&b, old.as_deref(), Some(&new)), &trf!("“{}” is now {}", b.name, kb::label(&new)));
             });
         }
         {
             let (b, old, finish) = (b.clone(), old.clone(), finish.clone());
-            disable.connect_clicked(move |_| finish(kb::change(&b, old.as_deref(), None), &format!("“{}” has no shortcut now", b.name)));
+            disable.connect_clicked(move |_| finish(kb::change(&b, old.as_deref(), None), &trf!("“{}” has no shortcut now", b.name)));
         }
         {
             let (b, finish) = (b.clone(), finish.clone());
-            reset.connect_clicked(move |_| finish(kb::reset(&b), &format!("“{}” is back to its default", b.name)));
+            reset.connect_clicked(move |_| finish(kb::reset(&b), &trf!("“{}” is back to its default", b.name)));
         }
         dialog.present(Some(parent));
     }

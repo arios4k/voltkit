@@ -17,6 +17,7 @@ use gtk::prelude::*;
 use serde::{Deserialize, Serialize};
 
 use crate::doctor::{Distro, detect_distro};
+use crate::i18n::tr;
 
 /// How long daily snapshots are kept.
 const SNAPSHOT_DAYS: usize = 90;
@@ -167,42 +168,55 @@ pub fn collect() -> Report {
     let firmware = firmware_updates();
 
     let mut overview = Vec::new();
-    let mut facts = BTreeMap::new();
-    let mut add = |label: &str, value: String, fact: bool| {
-        if value.is_empty() {
-            return;
+    let mut add = |label: &str, value: String| {
+        if !value.is_empty() {
+            overview.push((tr(label).to_owned(), value));
         }
-        if fact {
-            facts.insert(label.to_owned(), value.clone());
-        }
-        overview.push((label.to_owned(), value));
     };
-    add("Computer", computer_name(), true);
-    add("System", os_value(&os_release, "PRETTY_NAME"), true);
-    add("Kernel", read_trim("/proc/sys/kernel/osrelease"), true);
-    add("Desktop", desktop(), false);
-    add("Processor", processor(), true);
-    add("Memory", memory(), true);
+    add(N_!("Computer"), computer_name());
+    add(N_!("System"), os_value(&os_release, "PRETTY_NAME"));
+    add(N_!("Kernel"), read_trim("/proc/sys/kernel/osrelease"));
+    add(N_!("Desktop"), desktop());
+    add(N_!("Processor"), processor());
+    add(N_!("Memory"), memory());
     let list = |kind: Kind| devices.iter().filter(|d| d.kind == kind).map(device_line).collect::<Vec<_>>().join("\n");
-    add("Graphics", list(Kind::Graphics), false);
-    add("Storage", drives.iter().map(drive_line).collect::<Vec<_>>().join("\n"), false);
-    add("Network", list(Kind::Network), false);
-    add("Audio", list(Kind::Audio), false);
-    add("Bluetooth", bluetooth(), false);
-    add("Camera", cameras().join("\n"), false);
-    add("BIOS", bios(), true);
+    add(N_!("Graphics"), list(Kind::Graphics));
+    add(N_!("Storage"), drives.iter().map(drive_line).collect::<Vec<_>>().join("\n"));
+    add(N_!("Network"), list(Kind::Network));
+    add(N_!("Audio"), list(Kind::Audio));
+    add(N_!("Bluetooth"), bluetooth());
+    add(N_!("Camera"), cameras().join("\n"));
+    add("BIOS", bios());
 
-    for d in &devices {
-        if matches!(d.kind, Kind::Graphics | Kind::Network | Kind::Audio | Kind::Storage) {
-            facts.insert(format!("Driver for {}", d.display_name()), driver_with_version(d.driver.as_deref()));
+    // Snapshots are compared day by day, so they're kept in English whatever the
+    // language: a change of language mustn't show up as everything changing.
+    // [`fact_label`] and [`fact_value`] translate them for display.
+    let facts = crate::i18n::in_english(|| {
+        let mut facts = BTreeMap::new();
+        let mut fact = |label: String, value: String| {
+            if !value.is_empty() {
+                facts.insert(label, value);
+            }
+        };
+        fact("Computer".into(), computer_name());
+        fact("System".into(), os_value(&os_release, "PRETTY_NAME"));
+        fact("Kernel".into(), read_trim("/proc/sys/kernel/osrelease"));
+        fact("Processor".into(), processor());
+        fact("Memory".into(), memory());
+        fact("BIOS".into(), bios());
+        for d in &devices {
+            if matches!(d.kind, Kind::Graphics | Kind::Network | Kind::Audio | Kind::Storage) {
+                fact(format!("Driver for {}", d.display_name()), driver_with_version(d.driver.as_deref()));
+            }
         }
-    }
-    for d in &drives {
-        facts.insert(format!("Drive {}", d.model), format_size(d.size));
-    }
-    for (name, version) in firmware_versions() {
-        facts.insert(format!("Firmware of {name}"), version);
-    }
+        for d in &drives {
+            fact(format!("Drive {}", d.model), format_size(d.size));
+        }
+        for (name, version) in firmware_versions() {
+            fact(format!("Firmware of {name}"), version);
+        }
+        facts
+    });
 
     let mut report = Report { overview, devices, drives, sensors, fans, throttled, firmware, checks: Vec::new(), facts };
     report.checks = checks(&report, &os_release);
@@ -313,12 +327,12 @@ fn processor() -> String {
     let max_khz: u64 = read_trim("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq").parse().unwrap_or(0);
     let mut parts = Vec::new();
     if !cores.is_empty() && cores.len() != threads {
-        parts.push(format!("{} cores, {threads} threads", cores.len()));
+        parts.push(trf!("{} cores, {} threads", cores.len(), threads));
     } else if threads > 0 {
-        parts.push(format!("{threads} cores"));
+        parts.push(trf!("{} cores", threads));
     }
     if max_khz > 0 {
-        parts.push(format!("up to {:.1} GHz", max_khz as f64 / 1e6));
+        parts.push(trf!("up to {} GHz", format!("{:.1}", max_khz as f64 / 1e6)));
     }
     if parts.is_empty() { model } else { format!("{model} \u{00b7} {}", parts.join(", ")) }
 }
@@ -350,9 +364,9 @@ fn memory() -> String {
         return String::new();
     }
     let swap = meminfo_kb("SwapTotal") as f64 / 1024.0 / 1024.0;
-    let mut out = format!("{total:.0} GB usable");
+    let mut out = trf!("{} GB usable", format!("{:.0}", total));
     if swap >= 0.5 {
-        out.push_str(&format!(" \u{00b7} {swap:.0} GB swap"));
+        out.push_str(&trf!(" · {} GB swap", format!("{:.0}", swap)));
     }
     out
 }
@@ -384,7 +398,7 @@ pub fn parse_lspci(text: &str) -> Vec<Device> {
 fn device_line(d: &Device) -> String {
     match &d.driver {
         Some(driver) => format!("{} ({driver})", d.display_name()),
-        None => format!("{} (no driver)", d.display_name()),
+        None => trf!("{} (no driver)", d.display_name()),
     }
 }
 
@@ -394,7 +408,7 @@ fn driver_with_version(driver: Option<&str>) -> String {
             let version = read_trim(format!("/sys/module/{d}/version"));
             if version.is_empty() { d.to_owned() } else { format!("{d} {version}") }
         }
-        None => "no driver".into(),
+        None => tr("no driver").into(),
     }
 }
 
@@ -406,8 +420,8 @@ fn bluetooth() -> String {
         .map(|e| {
             let driver = std::fs::read_link(e.path().join("device/driver")).ok().and_then(|p| p.file_name().map(|n| n.to_string_lossy().into_owned()));
             match driver {
-                Some(d) => format!("Available ({d})"),
-                None => "Available".into(),
+                Some(d) => trf!("Available ({})", d),
+                None => tr("Available").into(),
             }
         })
         .collect();
@@ -446,9 +460,9 @@ pub fn format_size(bytes: u64) -> String {
 fn drive_line(d: &Drive) -> String {
     let mut line = format!("{} \u{00b7} {} {}", d.model, format_size(d.size), d.kind);
     if d.failing {
-        line.push_str(" \u{00b7} failing");
+        line.push_str(tr(" \u{00b7} failing"));
     } else if let Some(w) = d.wear_percent {
-        line.push_str(&format!(" \u{00b7} {w}% worn"));
+        line.push_str(&trf!(" · {}% worn", w));
     }
     line
 }
@@ -487,11 +501,11 @@ async fn drives_async() -> Result<Vec<Drive>> {
         let nvme = interfaces.get("org.freedesktop.UDisks2.NVMe.Controller");
         let ata = interfaces.get("org.freedesktop.UDisks2.Drive.Ata");
         let kind = if nvme.is_some() {
-            "NVMe SSD"
+            tr("NVMe SSD")
         } else if usb {
-            "USB drive"
+            tr("USB drive")
         } else if rotation > 0 {
-            "hard disk"
+            tr("hard disk")
         } else {
             "SSD"
         }
@@ -539,11 +553,11 @@ fn sensors() -> (Vec<Sensor>, Vec<(String, u32)>) {
         let label_of = |i: u32| read_trim(chip.join(format!("temp{i}_label")));
         // One meaningful reading per chip.
         let pick: Option<(u32, &str, f64)> = match name.as_str() {
-            "coretemp" => (1..=8).find(|i| label_of(*i).starts_with("Package")).map(|i| (i, "Processor", 90.0)),
-            "k10temp" | "zenpower" => (1..=8).find(|i| matches!(label_of(*i).as_str(), "Tctl" | "Tdie")).or(Some(1)).map(|i| (i, "Processor", 90.0)),
-            "amdgpu" | "nouveau" | "radeon" => Some((1, "Graphics", 85.0)),
-            "nvme" => Some((1, "Drive", 70.0)),
-            "iwlwifi_1" | "iwlwifi" | "mt7921_phy0" | "ath11k_hwmon" => Some((1, "Wi-Fi", 80.0)),
+            "coretemp" => (1..=8).find(|i| label_of(*i).starts_with("Package")).map(|i| (i, tr("Processor"), 90.0)),
+            "k10temp" | "zenpower" => (1..=8).find(|i| matches!(label_of(*i).as_str(), "Tctl" | "Tdie")).or(Some(1)).map(|i| (i, tr("Processor"), 90.0)),
+            "amdgpu" | "nouveau" | "radeon" => Some((1, tr("Graphics"), 85.0)),
+            "nvme" => Some((1, tr("Drive"), 70.0)),
+            "iwlwifi_1" | "iwlwifi" | "mt7921_phy0" | "ath11k_hwmon" => Some((1, tr("Wi-Fi"), 80.0)),
             _ => None,
         };
         if let Some((i, label, default_high)) = pick
@@ -556,7 +570,7 @@ fn sensors() -> (Vec<Sensor>, Vec<(String, u32)>) {
         }
         for i in 1..=4 {
             if let Ok(rpm) = read_trim(chip.join(format!("fan{i}_input"))).parse::<u32>() {
-                let label = if fans.is_empty() { "Fan".to_owned() } else { format!("Fan {}", fans.len() + 1) };
+                let label = if fans.is_empty() { tr("Fan").to_owned() } else { trf!("Fan {}", fans.len() + 1) };
                 fans.push((label, rpm));
             }
         }
@@ -646,7 +660,7 @@ fn firmware_versions() -> Vec<(String, String)> {
 
 /// Downloads the latest firmware list (needs the network).
 pub fn refresh_firmware_list() -> Result<()> {
-    let out = Command::new("timeout").args(["120", "fwupdmgr", "refresh", "--force"]).output().context("fwupd isn't installed")?;
+    let out = Command::new("timeout").args(["120", "fwupdmgr", "refresh", "--force"]).output().context(tr("fwupd isn't installed"))?;
     if out.status.success() || out.status.code() == Some(2) {
         Ok(())
     } else {
@@ -682,25 +696,25 @@ fn checks(report: &Report, os_release: &str) -> Vec<Check> {
         let (command, link) = driver_fix(os_release, nvidia);
         match d.driver.as_deref() {
             None => checks.push(
-                Check::new(Level::Problem, format!("{name} has no driver"), "The screen works with a basic fallback, but video, games and external monitors may be slow or not work.")
+                Check::new(Level::Problem, trf!("{} has no driver", name), tr("The screen works with a basic fallback, but video, games and external monitors may be slow or not work."))
                     .command(command)
                     .link(link),
             ),
             Some("simpledrm" | "efifb" | "vesafb" | "vesa" | "fbdev") => checks.push(
-                Check::new(Level::Warning, format!("{name} uses a basic fallback driver"), "Video and games are slow, and the computer may use more power than it should.")
+                Check::new(Level::Warning, trf!("{} uses a basic fallback driver", name), tr("Video and games are slow, and the computer may use more power than it should."))
                     .command(command)
                     .link(link),
             ),
             Some("nouveau") => checks.push(
                 Check::new(
                     Level::Info,
-                    format!("{name} uses the open-source driver (nouveau)"),
-                    "It works for everyday use, but NVIDIA's own driver is much faster for games and graphics work, and on laptops it can switch the card off to save battery.",
+                    trf!("{} uses the open-source driver (nouveau)", name),
+                    tr("It works for everyday use, but NVIDIA's own driver is much faster for games and graphics work, and on laptops it can switch the card off to save battery."),
                 )
                 .command(command)
                 .link(link),
             ),
-            Some(driver) => checks.push(Check::new(Level::Ok, format!("{name} works"), format!("Driver: {}", driver_with_version(Some(driver))))),
+            Some(driver) => checks.push(Check::new(Level::Ok, trf!("{} works", name), trf!("Driver: {}", driver_with_version(Some(driver))))),
         }
     }
 
@@ -713,59 +727,59 @@ fn checks(report: &Report, os_release: &str) -> Vec<Check> {
                 checks.push(
                     Check::new(
                         Level::Problem,
-                        format!("{name} has no driver"),
-                        if wifi { "Wi-Fi won't work until a driver is installed. Connect with a cable or a USB Wi-Fi adapter to install one." } else { "This network connection won't work until a driver is installed." },
+                        trf!("{} has no driver", name),
+                        if wifi { tr("Wi-Fi won't work until a driver is installed. Connect with a cable or a USB Wi-Fi adapter to install one.") } else { tr("This network connection won't work until a driver is installed.") },
                     )
                     .command(command),
                 );
             }
             Some(driver) => checks.push(Check::new(
                 Level::Ok,
-                format!("{} works", if wifi { "Wi-Fi" } else { "Wired network" }),
-                format!("{name}, driver: {driver}"),
+                trf!("{} works", if wifi { tr("Wi-Fi") } else { tr("Wired network") }),
+                trf!("{}, driver: {}", name, driver),
             )),
         }
     }
 
     for d in report.devices.iter().filter(|d| matches!(d.kind, Kind::Audio | Kind::Storage | Kind::Usb) && d.driver.is_none()) {
-        checks.push(Check::new(Level::Warning, format!("{} has no driver", d.display_name()), format!("This {} may not work.", d.class.to_lowercase())));
+        checks.push(Check::new(Level::Warning, trf!("{} has no driver", d.display_name()), trf!("This device ({}) may not work.", d.class)));
     }
 
     for d in &report.drives {
         if d.failing {
             checks.push(Check::new(
                 Level::Problem,
-                format!("{} may fail soon", d.model),
-                "The drive reports a problem with its health. Back up your files now, and plan to replace it.",
+                trf!("{} may fail soon", d.model),
+                tr("The drive reports a problem with its health. Back up your files now, and plan to replace it."),
             ));
         } else if let Some(bad) = d.bad_sectors.filter(|b| *b > 0) {
-            checks.push(Check::new(Level::Warning, format!("{} has {bad} damaged sectors", d.model), "Damaged sectors often grow over time. Keep a backup of your files."));
+            checks.push(Check::new(Level::Warning, trf!("{} has {} damaged sectors", d.model, bad), tr("Damaged sectors often grow over time. Keep a backup of your files.")));
         } else if let Some(w) = d.wear_percent.filter(|w| *w >= 80) {
-            checks.push(Check::new(Level::Warning, format!("{} is {w}% worn", d.model), "SSDs wear out with writes. It still works, but plan to replace it and keep a backup."));
+            checks.push(Check::new(Level::Warning, trf!("{} is {}% worn", d.model, w), tr("SSDs wear out with writes. It still works, but plan to replace it and keep a backup.")));
         } else if !d.removable {
-            let mut detail = String::from("No problems reported");
+            let mut detail = String::from(tr("No problems reported"));
             if let Some(w) = d.wear_percent {
-                detail.push_str(&format!(", {w}% worn"));
+                detail.push_str(&trf!(", {}% worn", w));
             }
             if let Some(h) = d.power_on_hours {
-                detail.push_str(&format!(", {h} hours of use"));
+                detail.push_str(&trf!(", {} hours of use", h));
             }
-            checks.push(Check::new(Level::Ok, format!("{} is healthy", d.model), detail));
+            checks.push(Check::new(Level::Ok, trf!("{} is healthy", d.model), detail));
         }
     }
 
-    for (label, path) in [("The system drive", PathBuf::from("/")), ("Your home folder", dirs::home_dir().unwrap_or_default())] {
+    for (label, path) in [(tr("The system drive"), PathBuf::from("/")), (tr("Your home folder"), dirs::home_dir().unwrap_or_default())] {
         let Ok(info) = gio::File::for_path(&path).query_filesystem_info("filesystem::size,filesystem::free", gio::Cancellable::NONE) else { continue };
         let (size, free) = (info.attribute_uint64("filesystem::size"), info.attribute_uint64("filesystem::free"));
         if size == 0 || (path != Path::new("/") && checks.iter().any(|c| c.detail.contains(&format_size(free)))) {
             continue;
         }
         let pct = free as f64 / size as f64 * 100.0;
-        let detail = format!("{} free of {}", format_size(free), format_size(size));
+        let detail = trf!("{} free of {}", format_size(free), format_size(size));
         if pct < 5.0 {
-            checks.push(Check::new(Level::Problem, format!("{label} is almost full"), format!("{detail}. Apps and updates can fail; delete or move some files.")));
+            checks.push(Check::new(Level::Problem, trf!("{} is almost full", label), trf!("{}. Apps and updates can fail; delete or move some files.", detail)));
         } else if pct < 10.0 {
-            checks.push(Check::new(Level::Warning, format!("{label} is getting full"), detail));
+            checks.push(Check::new(Level::Warning, trf!("{} is getting full", label), detail));
         }
     }
 
@@ -773,16 +787,17 @@ fn checks(report: &Report, os_release: &str) -> Vec<Check> {
         if temperature_verdict(s) == "hot" {
             checks.push(Check::new(
                 Level::Warning,
-                format!("{} is running hot ({:.0} °C)", s.label, s.celsius),
-                "Check that the air vents aren't blocked or dusty, and that it isn't on a soft surface.",
+                trf!("{} is running hot ({} °C)", s.label, format!("{:.0}", s.celsius)),
+                tr("Check that the air vents aren't blocked or dusty, and that it isn't on a soft surface."),
             ));
         }
     }
     if report.throttled > 0 {
         checks.push(Check::new(
             Level::Info,
-            "The processor has slowed down because of heat",
-            format!(
+            tr("The processor has slowed down because of heat"),
+            trnf!(
+                "{} time since the computer started. A few is normal under heavy work; many means it's overheating (dust, blocked vents, or old thermal paste).",
                 "{} times since the computer started. A few is normal under heavy work; many means it's overheating (dust, blocked vents, or old thermal paste).",
                 report.throttled
             ),
@@ -790,11 +805,11 @@ fn checks(report: &Report, os_release: &str) -> Vec<Check> {
     }
 
     if Path::new("/var/run/reboot-required").exists() {
-        checks.push(Check::new(Level::Info, "Restart to finish installing updates", "Some updates only take effect after a restart."));
+        checks.push(Check::new(Level::Info, tr("Restart to finish installing updates"), tr("Some updates only take effect after a restart.")));
     } else if let Some(newest) = newest_kernel()
         && newest != read_trim("/proc/sys/kernel/osrelease")
     {
-        checks.push(Check::new(Level::Info, "A newer Linux kernel is installed", format!("Restart to start using {newest}.")));
+        checks.push(Check::new(Level::Info, tr("A newer Linux kernel is installed"), trf!("Restart to start using {}.", newest)));
     }
 
     if let Some(updates) = &report.firmware {
@@ -802,7 +817,7 @@ fn checks(report: &Report, os_release: &str) -> Vec<Check> {
             checks.push(
                 Check::new(
                     Level::Info,
-                    format!("Firmware update for {}", u.device),
+                    trf!("Firmware update for {}", u.device),
                     format!("{} \u{2192} {}. {}", u.current, u.available, u.summary).trim_end_matches(". ").to_owned(),
                 )
                 .command(Some("fwupdmgr update".into())),
@@ -830,17 +845,17 @@ fn version_key(v: &str) -> Vec<u64> {
 
 /// Reads the memory slots from the SMBIOS tables. Needs root.
 pub fn memory_info() -> Result<MemoryInfo> {
-    let table = std::fs::read("/sys/firmware/dmi/tables/DMI").context("can't read the SMBIOS table")?;
+    let table = std::fs::read("/sys/firmware/dmi/tables/DMI").context(tr("can't read the SMBIOS table"))?;
     Ok(parse_smbios_memory(&table))
 }
 
 /// Runs `voltkit report --privileged` as root through pkexec.
 pub fn memory_info_as_root() -> Result<MemoryInfo> {
     let exe = std::env::current_exe()?;
-    let out = Command::new("pkexec").arg(exe).args(["report", "--privileged"]).output().context("pkexec is needed")?;
+    let out = Command::new("pkexec").arg(exe).args(["report", "--privileged"]).output().context(tr("pkexec is needed"))?;
     match out.status.code() {
         Some(0) => Ok(serde_json::from_slice(&out.stdout)?),
-        Some(126) | Some(127) => bail!("permission was not granted"),
+        Some(126) | Some(127) => bail!("{}", tr("permission was not granted")),
         _ => bail!("{}", String::from_utf8_lossy(&out.stderr).trim()),
     }
 }
@@ -916,7 +931,7 @@ pub fn parse_smbios_memory(table: &[u8]) -> MemoryInfo {
 pub fn memory_advice(info: &MemoryInfo) -> Vec<(String, String)> {
     let installed: Vec<&MemoryModule> = info.slots.iter().filter(|m| m.size_mb.is_some()).collect();
     if info.slots.is_empty() {
-        return vec![("Memory".into(), "This computer doesn't describe its memory slots".into())];
+        return vec![(tr("Memory").into(), tr("This computer doesn't describe its memory slots").into())];
     }
     let total_gb = installed.iter().filter_map(|m| m.size_mb).sum::<u64>() as f64 / 1024.0;
     let kind = installed.iter().find(|m| !m.kind.is_empty()).map(|m| m.kind.clone()).unwrap_or_default();
@@ -929,28 +944,28 @@ pub fn memory_advice(info: &MemoryInfo) -> Vec<(String, String)> {
     let slots: Vec<&MemoryModule> = info.slots.iter().filter(|m| !m.soldered).collect();
     let free = slots.iter().filter(|m| m.size_mb.is_none()).count();
     let soldered_gb = info.slots.iter().filter(|m| m.soldered).filter_map(|m| m.size_mb).sum::<u64>() as f64 / 1024.0;
-    let mut rows = vec![("Installed".into(), format!("{total_gb:.0} GB{kind_speed}"))];
+    let mut rows = vec![(tr("Installed").into(), format!("{total_gb:.0} GB{kind_speed}"))];
     let layout = if slots.is_empty() {
-        "All memory is soldered to the board: it can't be upgraded".to_owned()
+        tr("All memory is soldered to the board: it can't be upgraded").to_owned()
     } else {
-        let mut s = format!("{} slot{}, {free} free", slots.len(), if slots.len() == 1 { "" } else { "s" });
+        let mut s = trnf!("{} slot, {} free", "{} slots, {} free", slots.len(), free);
         if soldered_gb > 0.0 {
-            s.push_str(&format!(", plus {soldered_gb:.0} GB soldered to the board"));
+            s.push_str(&trf!(", plus {} GB soldered to the board", format!("{:.0}", soldered_gb)));
         }
         s
     };
-    rows.push(("Slots".into(), layout));
+    rows.push((tr("Slots").into(), layout));
     for m in &info.slots {
         let what = match m.size_mb {
-            Some(mb) => format!("{:.0} GB{}{}", mb as f64 / 1024.0, if m.kind.is_empty() { String::new() } else { format!(" {}", m.kind) }, if m.soldered { ", soldered" } else { "" }),
-            None => "empty".into(),
+            Some(mb) => format!("{:.0} GB{}{}", mb as f64 / 1024.0, if m.kind.is_empty() { String::new() } else { format!(" {}", m.kind) }, if m.soldered { tr(", soldered") } else { "" }),
+            None => tr("empty").into(),
         };
-        let name = if m.locator.is_empty() { "Slot".to_owned() } else { m.locator.clone() };
+        let name = if m.locator.is_empty() { tr("Slot").to_owned() } else { m.locator.clone() };
         rows.push((name, what));
     }
     if let Some(max) = info.max_mb.filter(|_| !slots.is_empty()) {
         let max_gb = max as f64 / 1024.0;
-        rows.push(("Maximum".into(), format!("Up to {max_gb:.0} GB{kind_speed} (as the computer reports it)")));
+        rows.push((tr("Maximum").into(), trf!("Up to {} GB{} (as the computer reports it)", format!("{:.0}", max_gb), kind_speed)));
     }
     rows
 }
@@ -960,17 +975,17 @@ pub fn memory_advice(info: &MemoryInfo) -> Vec<(String, String)> {
 /// A summary for forums, bug reports or support: no serial numbers, user or
 /// computer names, or network addresses.
 pub fn share_text(report: &Report, changes: &[Change]) -> String {
-    let mut out = format!("System report (Voltkit {})\n\n", env!("CARGO_PKG_VERSION"));
+    let mut out = format!("{}\n\n", trf!("System report (Voltkit {})", env!("CARGO_PKG_VERSION")));
     for (label, value) in &report.overview {
         let mut lines = value.lines();
         out.push_str(&format!("{label}: {}\n", lines.next().unwrap_or("")));
         for l in lines {
-            out.push_str(&format!("{}  {l}\n", " ".repeat(label.len())));
+            out.push_str(&format!("{}  {l}\n", " ".repeat(label.chars().count())));
         }
     }
     let notable: Vec<&Check> = report.checks.iter().filter(|c| c.level != Level::Ok).collect();
     if !notable.is_empty() {
-        out.push_str("\nChecks:\n");
+        out.push_str(&format!("\n{}\n", tr("Checks:")));
         for c in notable {
             let mark = match c.level {
                 Level::Problem => "✗",
@@ -981,7 +996,7 @@ pub fn share_text(report: &Report, changes: &[Change]) -> String {
         }
     }
     if !changes.is_empty() {
-        out.push_str("\nRecent changes:\n");
+        out.push_str(&format!("\n{}\n", tr("Recent changes:")));
         for c in changes.iter().take(10) {
             out.push_str(&format!("- {}: {}\n", c.date, c.describe()));
         }
@@ -1001,14 +1016,47 @@ pub struct Change {
 }
 
 impl Change {
+    /// What changed, in the user's language.
+    pub fn label(&self) -> String {
+        fact_label(&self.what)
+    }
+
     pub fn describe(&self) -> String {
-        match (&self.before, &self.after) {
-            (Some(b), Some(a)) => format!("{}: {b} \u{2192} {a}", self.what),
-            (None, Some(a)) => format!("{}: added ({a})", self.what),
-            (Some(b), None) => format!("{}: removed (was {b})", self.what),
-            (None, None) => self.what.clone(),
+        let what = self.label();
+        match (self.before.as_deref().map(fact_value), self.after.as_deref().map(fact_value)) {
+            (Some(b), Some(a)) => format!("{what}: {b} \u{2192} {a}"),
+            (None, Some(a)) => trf!("{}: added ({})", what, a),
+            (Some(b), None) => trf!("{}: removed (was {})", what, b),
+            (None, None) => what,
         }
     }
+}
+
+/// The name of a snapshot fact (kept in English) in the user's language.
+pub fn fact_label(key: &str) -> String {
+    if let Some(name) = key.strip_prefix("Driver for ") {
+        trf!("Driver for {}", name)
+    } else if let Some(name) = key.strip_prefix("Firmware of ") {
+        trf!("Firmware of {}", name)
+    } else if let Some(name) = key.strip_prefix("Drive ") {
+        trf!("Drive {}", name)
+    } else {
+        tr(key).to_owned()
+    }
+}
+
+/// A snapshot value (kept in English) in the user's language: the words in it
+/// are translated, names and numbers are left as they are.
+pub fn fact_value(value: &str) -> String {
+    crate::i18n::translate_english(value, &[
+        N_!("no driver"),
+        N_!("{} cores, {} threads"),
+        N_!("{} cores"),
+        N_!("up to {} GHz"),
+        N_!("{} GB usable"),
+        N_!(" · {} GB swap"),
+        N_!(" · {}% worn"),
+    ])
 }
 
 fn snapshot_dir() -> Option<PathBuf> {
@@ -1021,7 +1069,7 @@ pub fn save_snapshot(facts: &BTreeMap<String, String>) -> Result<()> {
     if std::env::var_os("VOLTKIT_REPORT_DEMO").is_some() || facts.is_empty() {
         return Ok(());
     }
-    let dir = snapshot_dir().context("no data folder")?;
+    let dir = snapshot_dir().context(tr("no data folder"))?;
     std::fs::create_dir_all(&dir)?;
     let today = chrono::Local::now().format("%Y-%m-%d").to_string();
     std::fs::write(dir.join(format!("{today}.json")), serde_json::to_vec_pretty(facts)?)?;
@@ -1034,7 +1082,7 @@ pub fn save_snapshot(facts: &BTreeMap<String, String>) -> Result<()> {
 
 /// Saves today's snapshot unless there already is one.
 pub fn snapshot_if_due() -> Result<()> {
-    let dir = snapshot_dir().context("no data folder")?;
+    let dir = snapshot_dir().context(tr("no data folder"))?;
     let today = chrono::Local::now().format("%Y-%m-%d").to_string();
     if dir.join(format!("{today}.json")).exists() {
         return Ok(());
@@ -1084,7 +1132,19 @@ pub fn diff_snapshots(snapshots: &[(String, BTreeMap<String, String>)]) -> Vec<C
 
 /// "Nov 1" for a snapshot date.
 pub fn short_date(date: &str) -> String {
-    chrono::NaiveDate::parse_from_str(date, "%Y-%m-%d").map(|d| d.format("%b %-d").to_string()).unwrap_or_else(|_| date.to_owned())
+    use chrono::Datelike;
+    const MONTHS: [&str; 12] = [
+        N_!("Jan"), N_!("Feb"), N_!("Mar"), N_!("Apr"), N_!("May"), N_!("Jun"),
+        N_!("Jul"), N_!("Aug"), N_!("Sep"), N_!("Oct"), N_!("Nov"), N_!("Dec"),
+    ];
+    chrono::NaiveDate::parse_from_str(date, "%Y-%m-%d")
+        .map(|d| {
+            let month = tr(MONTHS[d.month0() as usize]);
+            // TRANSLATORS: a short date; {} is the month's abbreviation, the rest is a
+            // chrono date format (%-d is the day of the month).
+            crate::i18n::fill(&d.format(tr("{} %-d")).to_string(), &[&month])
+        })
+        .unwrap_or_else(|_| date.to_owned())
 }
 
 // ---------------------------------------------------------------- Demo
@@ -1145,7 +1205,26 @@ fn demo() -> Report {
         facts: BTreeMap::new(),
     };
     let os = "ID=fedora\n";
-    report.checks = checks(&report, os).into_iter().filter(|c| !c.title.contains("full") && !c.title.contains("kernel") && !c.title.contains("Restart")).collect();
+    // Leave out checks that depend on the machine taking the screenshots, found by
+    // their English titles; the list is the same in every language.
+    let english = crate::i18n::in_english(|| checks(&report, os));
+    report.checks = checks(&report, os)
+        .into_iter()
+        .zip(english)
+        .filter(|(_, c)| !c.title.contains("full") && !c.title.contains("kernel") && !c.title.contains("Restart"))
+        .map(|(c, _)| c)
+        .collect();
+    // The demo is written in English, like a saved snapshot: show it in the user's language.
+    for (label, value) in &mut report.overview {
+        *label = tr(label).to_owned();
+        *value = fact_value(value);
+    }
+    for s in &mut report.sensors {
+        s.label = tr(&s.label).to_owned();
+    }
+    for (label, _) in &mut report.fans {
+        *label = tr(label).to_owned();
+    }
     report
 }
 

@@ -9,6 +9,7 @@ use crate::config::Config;
 use crate::modules::{color, ocr, qr};
 use crate::portal::{self, Cancelled};
 use crate::system;
+use crate::i18n::tr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
 pub enum Action {
@@ -46,12 +47,12 @@ impl Action {
 
     pub fn description(self) -> &'static str {
         match self {
-            Action::Ocr => "Extract text from screen",
-            Action::Color => "Pick a color from screen",
-            Action::Snippets => "Insert a snippet",
-            Action::Qr => "Scan a QR code on screen",
-            Action::Ruler => "Measure on screen",
-            Action::SmartPaste => "Paste the clipboard converted",
+            Action::Ocr => tr("Extract text from screen"),
+            Action::Color => tr("Pick a color from screen"),
+            Action::Snippets => tr("Insert a snippet"),
+            Action::Qr => tr("Scan a QR code on screen"),
+            Action::Ruler => tr("Measure on screen"),
+            Action::SmartPaste => tr("Paste the clipboard converted"),
         }
     }
 
@@ -81,7 +82,7 @@ async fn announce(kind: &str, value: &str) {
 
 /// Copies to the clipboard, returning a note for the notification on failure.
 fn copy(text: &str) -> Option<String> {
-    system::copy_to_clipboard(text).err().map(|e| format!("\n\nNot copied: {e}"))
+    system::copy_to_clipboard(text).err().map(|e| trf!("\n\nNot copied: {}", e))
 }
 
 async fn extract_text(config: &Config) -> Result<()> {
@@ -92,7 +93,7 @@ async fn extract_text(config: &Config) -> Result<()> {
     if preview.len() < text.len() {
         preview.push('…');
     }
-    let title = if note.is_none() { "Text copied" } else { "Text extracted" };
+    let title = if note.is_none() { tr("Text copied") } else { tr("Text extracted") };
     portal::notify(title, &(preview + note.as_deref().unwrap_or(""))).await
 }
 
@@ -102,7 +103,7 @@ async fn pick_color() -> Result<()> {
     color::history::push(c)?;
     announce("color", &c.to_hex()).await;
     let title = match note {
-        None => format!("{} copied", c.to_hex()),
+        None => trf!("{} copied", c.to_hex()),
         Some(_) => c.to_hex(),
     };
     let body = format!("{}\n{}{}", c.to_rgb_string(), c.to_hsl_string(), note.as_deref().unwrap_or(""));
@@ -113,7 +114,7 @@ async fn scan_qr() -> Result<()> {
     let text = qr::scan(None).await?.join("\n");
     let note = copy(&text);
     announce("qr", &text).await;
-    let title = if note.is_none() { "QR code copied" } else { "QR code read" };
+    let title = if note.is_none() { tr("QR code copied") } else { tr("QR code read") };
     portal::notify(title, &(text + note.as_deref().unwrap_or(""))).await
 }
 
@@ -124,7 +125,7 @@ pub async fn open_picker(snippet: Option<String>) -> Result<()> {
     if let Some(trigger) = snippet {
         args.extend(["--snippet".to_owned(), trigger]);
     }
-    run_window_tool(args, "snippet picker").await
+    run_window_tool(args, N_!("snippet picker")).await
 }
 
 /// Runs `voltkit ARGS` for a tool with its own window and waits for it to close.
@@ -132,7 +133,7 @@ async fn run_window_tool(args: Vec<String>, name: &'static str) -> Result<()> {
     let exe = std::env::current_exe()?;
     let status = tokio::task::spawn_blocking(move || std::process::Command::new(exe).args(args).status()).await??;
     if !status.success() {
-        anyhow::bail!("{name} exited with {status}");
+        anyhow::bail!("{}", trf!("{} exited with {}", tr(name), status));
     }
     Ok(())
 }
@@ -144,8 +145,8 @@ pub async fn run(action: Action, config: &Config) {
         Action::Color => pick_color().await,
         Action::Snippets => open_picker(None).await,
         Action::Qr => scan_qr().await,
-        Action::Ruler => run_window_tool(vec!["ruler".into()], "screen ruler").await,
-        Action::SmartPaste => run_window_tool(vec!["smart-paste".into()], "Smart Paste").await,
+        Action::Ruler => run_window_tool(vec!["ruler".into()], N_!("screen ruler")).await,
+        Action::SmartPaste => run_window_tool(vec!["smart-paste".into()], N_!("Smart Paste")).await,
     };
     match result {
         Ok(()) => {}

@@ -1,0 +1,36 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-sleep 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-sleep \- Explica por qué la computadora no se suspende, o por qué se despertó
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit sleep\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Explica por qué la computadora no se suspende, o por qué se despertó
+.PP
+Muestra qué mantiene activa la computadora ahora mismo (apps y ajustes), las suspensiones de la última semana con qué inició y terminó cada una y la batería usada, y los dispositivos USB que pueden despertarla.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOTAS
+.PP
+El historial de suspensiones viene del registro del sistema, que pueden leer los miembros de los grupos adm o systemd\-journal. Linux registra qué despertó la computadora solo cuando fue la tapa o el botón de encendido; los demás despertares se describen por sus causas probables. Qué dispositivos USB pueden despertar la computadora se puede cambiar en la app (con la contraseña de administrador); la elección se guarda en /etc/udev/rules.d/90\-voltkit\-wakeup.rules.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

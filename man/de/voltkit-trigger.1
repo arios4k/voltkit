@@ -1,0 +1,61 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-trigger 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-trigger \- Eine Tastenkürzel\-Aktion über den Dienst ausführen oder direkt, wenn er nicht läuft
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit trigger\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIACTION\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Eine Tastenkürzel\-Aktion über den Dienst ausführen oder direkt, wenn er nicht läuft
+.PP
+Gedacht, um in den Tastatureinstellungen des Desktops oder in der Konfiguration eines Compositors auf eine Taste gelegt zu werden. Ergebnisse und Fehler erscheinen als Desktop\-Benachrichtigungen.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+<\fIACTION\fR>
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+ocr: Extract text from a screen region
+.IP \(bu 2
+color: Pick a color from the screen
+.IP \(bu 2
+snippets: Open the snippet picker
+.IP \(bu 2
+qr: Read a QR code on screen
+.IP \(bu 2
+ruler: Measure distances on screen
+.IP \(bu 2
+smart\-paste: Paste the clipboard converted
+.RE
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEISPIELE
+.PP
+Eine Sway\- oder i3\-Tastenbelegung:
+.RS 4
+.nf
+\fBbindsym $mod+Shift+t exec voltkit trigger ocr\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

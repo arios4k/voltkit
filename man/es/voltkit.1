@@ -1,0 +1,145 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit \- Un conjunto unificado de microutilidades de escritorio para Linux
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit\fR [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fIcomandos\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Microutilidades de escritorio para el día a día en Linux, en un solo binario.
+.PP
+Ejecútalo sin subcomando para abrir el centro de control GTK. Cada subcomando ejecuta una utilidad desde la terminal, un script o un atajo de teclado.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Muestra la versión
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH Comandos
+.TP
+voltkit\-ocr(1)
+Selecciona una región de la pantalla y copia el texto reconocido al portapapeles
+.TP
+voltkit\-pick\-color(1)
+Toma un color de la pantalla y copia su valor HEX
+.TP
+voltkit\-color(1)
+Convierte un color (#hex o rgb(...)) e informa el contraste WCAG
+.TP
+voltkit\-compress(1)
+Quita los metadatos y comprime archivos PNG, JPEG, WebP o MP4
+.TP
+voltkit\-expand(1)
+Expande una plantilla de fragmento, p. ej. "Enviado {date:%A}: {clipboard}"
+.TP
+voltkit\-picker(1)
+Abre el selector de fragmentos y pega el elegido en la app enfocada
+.TP
+voltkit\-expander(1)
+Configura y activa o desactiva los disparadores al escribir (escribe ;date en cualquier lado para expandirlo)
+.TP
+voltkit\-ruler(1)
+Mide distancias en pantalla en píxeles
+.TP
+voltkit\-awake(1)
+Evita que la computadora se suspenda o bloquee la pantalla
+.TP
+voltkit\-using(1)
+Muestra qué programas mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red
+.TP
+voltkit\-smart\-paste(1)
+Pega el portapapeles convertido: JSON ordenado, una tabla como Markdown, un enlace limpio…
+.TP
+voltkit\-convert(1)
+Convierte texto de la entrada estándar con una de las conversiones de Pegado inteligente
+.TP
+voltkit\-report(1)
+Describe esta computadora: hardware, drivers, salud y cambios recientes
+.TP
+voltkit\-sleep(1)
+Explica por qué la computadora no se suspende, o por qué se despertó
+.TP
+voltkit\-qr(1)
+Lee códigos QR de la pantalla o de archivos de imagen, o créalos a partir de texto
+.TP
+voltkit\-daemon(1)
+Ejecuta el servicio en segundo plano que escucha los atajos globales
+.TP
+voltkit\-doctor(1)
+Revisa que todo lo que Voltkit necesita esté instalado y configurado
+.TP
+voltkit\-trigger(1)
+Ejecuta una acción de atajo mediante el daemon, o directamente si no se está ejecutando
+.TP
+voltkit\-shortcuts(1)
+Administra los atajos de GNOME en escritorios sin el portal GlobalShortcuts
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EJEMPLOS
+.PP
+Abre el centro de control:
+.RS 4
+.nf
+\fBvoltkit\fR
+.fi
+.RE
+.PP
+Copia texto de una parte de la pantalla:
+.RS 4
+.nf
+\fBvoltkit ocr\fR
+.fi
+.RE
+.PP
+Revisa el contraste de un color:
+.RS 4
+.nf
+\fBvoltkit color \*(Aq#3584e4\*(Aq\fR
+.fi
+.RE
+.PP
+Inicia el servicio en segundo plano en cada inicio de sesión:
+.RS 4
+.nf
+\fBvoltkit daemon enable\-autostart\fR
+.fi
+.RE
+.SH ARCHIVOS
+.TP
+\fB~/.config/voltkit/config.toml\fR
+Configuración: atajos, idioma del OCR, calidad de compresión y fragmentos. Todas las claves son opcionales.
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+Historial de colores, del más reciente al más antiguo, compartido por pick\-color, el daemon y el centro de control.
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+Lo crea voltkit daemon enable\-autostart.
+.SH ENTORNO
+.TP
+\fBWAYLAND_DISPLAY\fR
+Si está definida, el portapapeles se usa con wl\-copy y wl\-paste; si no, con xclip.
+.TP
+\fBXDG_CONFIG_HOME, XDG_DATA_HOME\fR
+Cambian las carpetas base de los archivos indicados arriba.
+.SH "ESTADO DE SALIDA"
+.PP
+0 si todo sale bien, 1 ante cualquier error. Los errores se muestran en la salida de error estándar.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\-ocr\fR(1), \fBvoltkit\-pick\-color\fR(1), \fBvoltkit\-color\fR(1), \fBvoltkit\-compress\fR(1), \fBvoltkit\-expand\fR(1), \fBvoltkit\-picker\fR(1), \fBvoltkit\-expander\fR(1), \fBvoltkit\-ruler\fR(1), \fBvoltkit\-awake\fR(1), \fBvoltkit\-using\fR(1), \fBvoltkit\-smart\-paste\fR(1), \fBvoltkit\-convert\fR(1), \fBvoltkit\-report\fR(1), \fBvoltkit\-sleep\fR(1), \fBvoltkit\-qr\fR(1), \fBvoltkit\-daemon\fR(1), \fBvoltkit\-doctor\fR(1), \fBvoltkit\-trigger\fR(1), \fBvoltkit\-shortcuts\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

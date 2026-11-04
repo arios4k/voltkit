@@ -1,0 +1,86 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-shortcuts 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-shortcuts \- Administra los atajos de GNOME en escritorios sin el portal GlobalShortcuts
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit shortcuts\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIcomandos\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Administra los atajos de GNOME en escritorios sin el portal GlobalShortcuts
+.PP
+Agrega o quita atajos personalizados en la Configuración de GNOME (mediante gsettings) que ejecutan `voltkit trigger`. Los demás atajos personalizados no se tocan.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMANDOS
+.TP
+\fBvoltkit shortcuts install [\-\-dry\-run]\fR
+Agrega Super+Mayús+T, C y E (o tus teclas configuradas) a la Configuración de GNOME
+.RS
+\fB\-\-dry\-run\fR: Muestra los comandos de gsettings en lugar de ejecutarlos
+.RE
+.TP
+\fBvoltkit shortcuts remove [\-\-dry\-run]\fR
+Quita los atajos agregados por `install`
+.RS
+\fB\-\-dry\-run\fR: Muestra los comandos de gsettings en lugar de ejecutarlos
+.RE
+.TP
+\fBvoltkit shortcuts list\fR
+Muestra todos los atajos de todo el sistema, agrupados por dueño
+.TP
+\fBvoltkit shortcuts who\fR
+Muestra qué hace un atajo, como `voltkit shortcuts who super+shift+s`
+.TP
+\fBvoltkit shortcuts clashes\fR
+Muestra los atajos que usa más de una acción
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EJEMPLOS
+.PP
+¿Qué hace Super+V?
+.RS 4
+.nf
+\fBvoltkit shortcuts who super+v\fR
+.fi
+.RE
+.PP
+Encuentra atajos que usan varias acciones:
+.RS 4
+.nf
+\fBvoltkit shortcuts clashes\fR
+.fi
+.RE
+.PP
+Ve los comandos de gsettings antes de ejecutarlos:
+.RS 4
+.nf
+\fBvoltkit shortcuts install \-\-dry\-run\fR
+.fi
+.RE
+.PP
+Quita los atajos de nuevo:
+.RS 4
+.nf
+\fBvoltkit shortcuts remove\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1), \fBgsettings\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

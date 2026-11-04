@@ -20,6 +20,7 @@ use crate::expander;
 use crate::config::Config;
 use crate::portal::{self, APP_ID};
 use crate::shortcuts;
+use crate::i18n::tr;
 
 pub const BUS_NAME: &str = "io.github.arios4k.Voltkit.Daemon";
 const OBJECT_PATH: &str = "/io/github/arios4k/Voltkit/Daemon";
@@ -43,16 +44,16 @@ struct State {
 impl State {
     fn spawn(&self, action: Action) {
         if self.busy.swap(true, Ordering::SeqCst) {
-            println!("{}: skipped, another action is still open", action.id());
+            println!("{}", trf!("{}: skipped, another action is still open", action.id()));
             return;
         }
         let state = self.clone();
         tokio::spawn(async move {
             // Released on drop, so a failing or panicking action can't block later hotkeys.
             let _busy = BusyGuard(state.busy.clone());
-            println!("{}: started", action.id());
+            println!("{}", trf!("{}: started", action.id()));
             actions::run(action, &state.config).await;
-            println!("{}: finished", action.id());
+            println!("{}", trf!("{}: finished", action.id()));
         });
     }
 }
@@ -72,7 +73,7 @@ impl Service {
     /// Starts an action ("ocr" or "color") and returns immediately.
     fn trigger(&self, action: &str) -> zbus::fdo::Result<()> {
         let action = Action::from_id(action)
-            .ok_or_else(|| zbus::fdo::Error::InvalidArgs(format!("unknown action {action:?}")))?;
+            .ok_or_else(|| zbus::fdo::Error::InvalidArgs(trf!("unknown action {}", format!("{:?}", action))))?;
         self.0.spawn(action);
         Ok(())
     }
@@ -140,13 +141,13 @@ async fn serve(config: Config) -> Result<()> {
         .serve_at(OBJECT_PATH, Service(state.clone()))?
         .build()
         .await
-        .context("cannot connect to the session bus")?;
+        .context(tr("cannot connect to the session bus"))?;
     // Without DoNotQueue a second instance would silently wait in line for the name.
     let reply = conn.request_name_with_flags(BUS_NAME, RequestNameFlags::DoNotQueue.into()).await;
     if !matches!(reply, Ok(RequestNameReply::PrimaryOwner)) {
-        bail!("the Voltkit daemon is already running");
+        bail!("{}", tr("the Voltkit daemon is already running"));
     }
-    println!("Voltkit daemon {} started", env!("CARGO_PKG_VERSION"));
+    println!("{}", trf!("Voltkit daemon {} started", env!("CARGO_PKG_VERSION")));
 
     // Best effort: lets xdg-desktop-portal ≥ 1.19 attribute us to our .desktop file.
     if let Ok(id) = APP_ID.parse() {
@@ -160,25 +161,23 @@ async fn serve(config: Config) -> Result<()> {
                 // First run on GNOME without the portal: add the shortcuts.
                 if shortcuts::gnome_first_run() {
                     match shortcuts::gnome_install(&state.config, false) {
-                        Ok(()) => println!("Added Voltkit's keyboard shortcuts to GNOME"),
-                        Err(e) => eprintln!("Could not add the keyboard shortcuts: {e:#}"),
+                        Ok(()) => println!("{}", tr("Added Voltkit's keyboard shortcuts to GNOME")),
+                        Err(e) => eprintln!("{}", trf!("Could not add the keyboard shortcuts: {}", format!("{:#}", e))),
                     }
                 }
                 let fallback = if shortcuts::gnome_installed() { "gnome-keybindings" } else { "none" };
                 *state.backend.lock().unwrap() = fallback.into();
-                eprintln!("Global shortcuts portal unavailable: {e:#}");
+                eprintln!("{}", trf!("Global shortcuts portal unavailable: {}", format!("{:#}", e)));
                 if fallback == "none" {
-                    eprintln!(
-                        "Bind `voltkit trigger ocr` / `voltkit trigger color` in your desktop's \
-                         keyboard settings, or on GNOME run `voltkit shortcuts install`."
-                    );
+                    eprintln!("{}", tr("Bind `voltkit trigger ocr` / `voltkit trigger color` in your desktop's \
+                         keyboard settings, or on GNOME run `voltkit shortcuts install`."));
                 } else {
-                    println!("Using GNOME custom keybindings");
+                    println!("{}", tr("Using GNOME custom keybindings"));
                     // After an update that adds tools, bind their shortcuts too.
                     if shortcuts::gnome_incomplete() {
                         match shortcuts::gnome_install(&state.config, false) {
-                            Ok(()) => println!("Added the shortcuts of new tools"),
-                            Err(e) => eprintln!("Could not add the new shortcuts: {e:#}"),
+                            Ok(()) => println!("{}", tr("Added the shortcuts of new tools")),
+                            Err(e) => eprintln!("{}", trf!("Could not add the new shortcuts: {}", format!("{:#}", e))),
                         }
                     }
                 }
@@ -191,7 +190,7 @@ async fn serve(config: Config) -> Result<()> {
     std::thread::spawn(|| {
         loop {
             if let Err(e) = crate::modules::sysreport::snapshot_if_due() {
-                eprintln!("system snapshot: {e:#}");
+                eprintln!("{}", trf!("system snapshot: {}", format!("{:#}", e)));
             }
             std::thread::sleep(std::time::Duration::from_secs(3 * 3600));
         }
@@ -207,7 +206,7 @@ async fn serve(config: Config) -> Result<()> {
     if let Some(task) = state.expander_task.lock().unwrap().take() {
         task.abort();
     }
-    println!("Voltkit daemon stopped");
+    println!("{}", tr("Voltkit daemon stopped"));
     Ok(())
 }
 
@@ -221,7 +220,7 @@ fn sync_expander(state: &State, config: Arc<Config>) {
     } else {
         if let Some(t) = task.take() {
             t.abort();
-            println!("Typed triggers off");
+            println!("{}", tr("Typed triggers off"));
         }
         *state.expander.lock().unwrap() = "off".into();
     }
@@ -236,7 +235,7 @@ async fn run_expander(state: State, config: Arc<Config>) {
         if !missing.is_empty() {
             *state.expander.lock().unwrap() = "needs keyboard access".into();
             if !said_waiting {
-                println!("Typed triggers are waiting for keyboard access: {}", missing.join("; "));
+                println!("{}", trf!("Typed triggers are waiting for keyboard access: {}", missing.join("; ")));
                 said_waiting = true;
             }
             tokio::time::sleep(std::time::Duration::from_secs(3)).await;
@@ -245,7 +244,7 @@ async fn run_expander(state: State, config: Arc<Config>) {
         *state.expander.lock().unwrap() = "on".into();
         if let Err(e) = expander::run(config.clone(), state.snippets.clone()).await {
             *state.expander.lock().unwrap() = "unavailable".into();
-            eprintln!("Typed triggers unavailable: {e:#}");
+            eprintln!("{}", trf!("Typed triggers unavailable: {}", format!("{:#}", e)));
             tokio::time::sleep(std::time::Duration::from_secs(10)).await;
         }
     }
@@ -269,7 +268,7 @@ async fn portal_shortcuts(state: &State) -> Result<()> {
 
     *state.backend.lock().unwrap() = "portal".into();
     for s in bound.shortcuts() {
-        println!("Shortcut {:<6} {}", s.id(), s.trigger_description());
+        println!("{}", trf!("Shortcut {} {}", format!("{:<6}", s.id()), s.trigger_description()));
     }
 
     let mut activations = portal.receive_activated().await?;
@@ -302,24 +301,35 @@ pub fn trigger(action: Action, config: &Config) -> Result<()> {
     })
 }
 
+/// The typed-trigger state from [`status`] in words for the user.
+pub fn describe_typed(state: &str) -> &str {
+    match state {
+        "off" => tr("off"),
+        "on" => tr("on"),
+        "needs keyboard access" => tr("needs keyboard access"),
+        "unavailable" => tr("unavailable"),
+        other => other,
+    }
+}
+
 /// Returns (version, shortcut backend, typed-trigger state) of the running daemon, if any.
 pub fn status() -> Option<(String, String, String)> {
     portal::block_on(call::<(String, String, String)>("Status", &())).ok()
 }
 
 
-const NOT_RUNNING: &str = "the background service isn't running; start it with `voltkit daemon`";
+const NOT_RUNNING: &str = N_!("the background service isn't running; start it with `voltkit daemon`");
 
 /// Keeps the computer awake through the daemon for `minutes` (0: until stopped).
 pub fn keep_awake(minutes: u32) -> Result<()> {
     if status().is_none() {
-        bail!(NOT_RUNNING);
+        bail!("{}", tr(NOT_RUNNING));
     }
     portal::block_on(call::<()>("KeepAwake", &(minutes,)))
 }
 
 pub fn stop_awake() -> Result<()> {
-    portal::block_on(call::<()>("StopAwake", &())).context(NOT_RUNNING)
+    portal::block_on(call::<()>("StopAwake", &())).context(tr(NOT_RUNNING))
 }
 
 /// (on, end as Unix seconds or 0), or None if the daemon isn't running.
@@ -329,17 +339,17 @@ pub fn awake_status() -> Option<(bool, i64)> {
 
 /// Asks a running daemon to re-read the snippets. Fails if it isn't running.
 pub fn reload() -> Result<()> {
-    portal::block_on(call::<()>("Reload", &())).context("the daemon is not running")
+    portal::block_on(call::<()>("Reload", &())).context(tr("the daemon is not running"))
 }
 
 pub fn stop() -> Result<()> {
-    portal::block_on(call::<()>("Quit", &())).context("the daemon is not running")
+    portal::block_on(call::<()>("Quit", &())).context(tr("the daemon is not running"))
 }
 
 // ------------------------------------------------------------ autostart
 
 fn autostart_path() -> Result<PathBuf> {
-    Ok(dirs::config_dir().context("no config directory")?.join("autostart").join(format!("{BUS_NAME}.desktop")))
+    Ok(dirs::config_dir().context(tr("no config directory"))?.join("autostart").join(format!("{BUS_NAME}.desktop")))
 }
 
 fn autostart_entry(exe: &str) -> String {

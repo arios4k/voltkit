@@ -1,0 +1,67 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-using 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-using \- Anzeigen, welche Programme eine Datei, einen Ordner, ein Laufwerk oder einen Netzwerkport belegen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit using\fR [\fB\-h\fR|\fB\-\-help\fR] <\fITARGET\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Anzeigen, welche Programme eine Datei, einen Ordner, ein Laufwerk oder einen Netzwerkport belegen
+.PP
+TARGET ist ein Pfad oder eine Portnummer wie 3000. Listet jedes Programm mit seiner PID und der Art, wie es das Ziel verwendet. Als normaler Benutzer lassen sich nur eigene Programme prüfen; mit sudo werden auch Programme anderer Benutzer und Systemdienste einbezogen.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+<\fITARGET\fR>
+Eine Datei, ein Ordner oder Einhängepunkt oder eine Portnummer
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEISPIELE
+.PP
+Herausfinden, was einen USB\-Stick belegt:
+.RS 4
+.nf
+\fBvoltkit using /media/$USER/USB\fR
+.fi
+.RE
+.PP
+Das Programm auf Port 3000 finden:
+.RS 4
+.nf
+\fBvoltkit using 3000\fR
+.fi
+.RE
+.PP
+Systemdienste einbeziehen:
+.RS 4
+.nf
+\fBsudo voltkit using 80\fR
+.fi
+.RE
+.PP
+Ein Programm zum Beenden auffordern und es erzwingen, wenn es nicht reagiert:
+.RS 4
+.nf
+\fBkill PID
+kill \-KILL PID\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

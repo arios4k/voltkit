@@ -13,6 +13,7 @@ use gtk::gdk;
 use gtk::gio;
 use gtk::glib::translate::{FromGlib, IntoGlib};
 use gtk::prelude::*;
+use crate::i18n::tr;
 
 const MEDIA_KEYS: &str = "org.gnome.settings-daemon.plugins.media-keys";
 const CUSTOM: &str = "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding";
@@ -57,9 +58,9 @@ pub struct Combo {
 
 /// Modifiers in the order they're written: GSettings names, and labels.
 const MODIFIERS: [(gdk::ModifierType, &str, &str); 6] = [
-    (gdk::ModifierType::SHIFT_MASK, "<Shift>", "Shift"),
-    (gdk::ModifierType::CONTROL_MASK, "<Control>", "Ctrl"),
-    (gdk::ModifierType::ALT_MASK, "<Alt>", "Alt"),
+    (gdk::ModifierType::SHIFT_MASK, "<Shift>", N_!("Shift")),
+    (gdk::ModifierType::CONTROL_MASK, "<Control>", N_!("Ctrl")),
+    (gdk::ModifierType::ALT_MASK, "<Alt>", N_!("Alt")),
     (gdk::ModifierType::SUPER_MASK, "<Super>", "Super"),
     (gdk::ModifierType::META_MASK, "<Meta>", "Meta"),
     (gdk::ModifierType::HYPER_MASK, "<Hyper>", "Hyper"),
@@ -112,7 +113,7 @@ pub fn label(accel: &str) -> String {
     let mut parts: Vec<String> = order
         .iter()
         .filter(|m| mods.contains(**m))
-        .filter_map(|m| MODIFIERS.iter().find(|(mm, _, _)| mm == m).map(|(_, _, l)| (*l).to_owned()))
+        .filter_map(|m| MODIFIERS.iter().find(|(mm, _, _)| mm == m).map(|(_, _, l)| tr(l).to_owned()))
         .collect();
     parts.push(key_label);
     parts.join("+")
@@ -196,7 +197,7 @@ pub fn all() -> Vec<Binding> {
         let owner = match system_owner(&id) {
             Some(o) => o.to_owned(),
             None => match extensions.iter().find(|e| e.schema.as_deref() == Some(id.as_str())) {
-                Some(e) => format!("Extension: {}", e.name),
+                Some(e) => trf!("Extension: {}", e.name),
                 None => continue,
             },
         };
@@ -212,7 +213,7 @@ pub fn all() -> Vec<Binding> {
         let Ok(source) = gio::SettingsSchemaSource::from_directory(dir, schema_source().as_ref(), false) else { continue };
         let Some(schema) = source.lookup(id, false) else { continue };
         let settings = gio::Settings::new_full(&schema, None::<&gio::SettingsBackend>, None);
-        read_schema(&schema, &settings, &format!("Extension: {}", e.name), Some(dir.clone()), &mut bindings);
+        read_schema(&schema, &settings, &trf!("Extension: {}", e.name), Some(dir.clone()), &mut bindings);
     }
     bindings.extend(custom_bindings());
     bindings.sort_by(|a, b| (&a.owner, a.name.to_lowercase()).cmp(&(&b.owner, b.name.to_lowercase())));
@@ -311,10 +312,10 @@ fn enabled_extension_ids() -> Vec<String> {
 /// Who the desktop's own shortcut schemas belong to.
 fn system_owner(id: &str) -> Option<&'static str> {
     Some(match id {
-        "org.gnome.desktop.wm.keybindings" | "org.gnome.mutter.keybindings" | "org.cinnamon.desktop.keybindings.wm" | "org.mate.Marco.global-keybindings" => "Windows",
-        "org.gnome.mutter.wayland.keybindings" => "Sessions",
+        "org.gnome.desktop.wm.keybindings" | "org.gnome.mutter.keybindings" | "org.cinnamon.desktop.keybindings.wm" | "org.mate.Marco.global-keybindings" => tr("Windows"),
+        "org.gnome.mutter.wayland.keybindings" => tr("Sessions"),
         "org.gnome.shell.keybindings" => "GNOME Shell",
-        MEDIA_KEYS => "System",
+        MEDIA_KEYS => tr("System"),
         _ => return None,
     })
 }
@@ -338,7 +339,7 @@ fn custom_bindings() -> Vec<Binding> {
                 schema: CUSTOM.into(),
                 key: "binding".into(),
                 name: if name.is_empty() { s.string("command").to_string() } else { name.trim_start_matches("Voltkit: ").to_owned() },
-                owner: if voltkit { "Voltkit".into() } else { "Custom shortcuts".into() },
+                owner: if voltkit { "Voltkit".into() } else { tr("Custom shortcuts").into() },
                 accels: if accel.is_empty() { Vec::new() } else { vec![accel] },
                 defaults: Vec::new(),
                 list: false,
@@ -438,7 +439,7 @@ pub fn suggest(accel: &str, bindings: &[Binding], count: usize) -> Vec<String> {
 fn settings_for(b: &Binding) -> Result<gio::Settings> {
     if let Some(dir) = &b.schema_dir {
         let source = gio::SettingsSchemaSource::from_directory(dir, schema_source().as_ref(), false)?;
-        let schema = source.lookup(&b.schema, false).context("the extension's settings are gone")?;
+        let schema = source.lookup(&b.schema, false).context(tr("the extension's settings are gone"))?;
         return Ok(gio::Settings::new_full(&schema, None::<&gio::SettingsBackend>, None));
     }
     Ok(match &b.path {
@@ -451,12 +452,12 @@ fn settings_for(b: &Binding) -> Result<gio::Settings> {
 /// keeping its other shortcuts.
 pub fn change(b: &Binding, old: Option<&str>, new: Option<&str>) -> Result<()> {
     if !b.writable {
-        bail!("this shortcut is locked by the system administrator");
+        bail!("{}", tr("this shortcut is locked by the system administrator"));
     }
     if let Some(new) = new
         && combo(new).is_none()
     {
-        bail!("{new} isn't a valid shortcut");
+        bail!("{}", trf!("{} isn't a valid shortcut", new));
     }
     let mut accels: Vec<String> = b.accels.clone();
     match old.and_then(|o| accels.iter().position(|a| combo(a) == combo(o))) {
@@ -485,7 +486,7 @@ pub fn change(b: &Binding, old: Option<&str>, new: Option<&str>) -> Result<()> {
     } else {
         settings.set_string(&b.key, accels.first().map(String::as_str).unwrap_or(""))
     };
-    result.context("could not save the shortcut")?;
+    result.context(tr("could not save the shortcut"))?;
     gio::Settings::sync();
     if let Some(action) = b.voltkit_action() {
         save_voltkit_hotkey(action, accels.first().map(String::as_str).unwrap_or(""))?;
@@ -496,10 +497,10 @@ pub fn change(b: &Binding, old: Option<&str>, new: Option<&str>) -> Result<()> {
 /// Puts the shortcut back to how the desktop came.
 pub fn reset(b: &Binding) -> Result<()> {
     if !b.writable {
-        bail!("this shortcut is locked by the system administrator");
+        bail!("{}", tr("this shortcut is locked by the system administrator"));
     }
     if b.path.is_some() {
-        bail!("custom shortcuts have no default");
+        bail!("{}", tr("custom shortcuts have no default"));
     }
     settings_for(b)?.reset(&b.key);
     gio::Settings::sync();

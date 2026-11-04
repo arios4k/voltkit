@@ -1,0 +1,57 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-picker 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-picker \- Abre el selector de fragmentos y pega el elegido en la app enfocada
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit picker\fR [\fB\-\-snippet\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Abre el selector de fragmentos y pega el elegido en la app enfocada
+.PP
+Busca con el teclado, presiona Enter y completa los parámetros {arg:NAME} que haya. La expansión se pega en la app que tenía el foco, mediante el portal RemoteDesktop (el escritorio pide permiso una vez), y se restaura el portapapeles anterior.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-\-snippet\fR \fI<TRIGGER>\fR
+Abre directamente en el fragmento con este disparador
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH TECLAS
+.TP
+\fBArriba, Abajo\fR
+Elige un fragmento mientras escribes en el cuadro de búsqueda.
+.TP
+\fBEnter\fR
+Inserta el fragmento, o pasa al siguiente campo de parámetro.
+.TP
+\fBEscape\fR
+Regresa del formulario de parámetros, o cierra el selector.
+.SH NOTAS
+.PP
+El primer pegado pide permiso de escritorio remoto; el permiso se recuerda en ~/.local/state/voltkit/remote\-desktop\-token. Si el pegado se rechaza o no está disponible, la expansión queda en el portapapeles y una notificación dice que presiones Ctrl+V. Las apps que pegan con otro atajo, como las terminales, necesitan paste_shortcut en la sección [expander] de la configuración.
+.SH EJEMPLOS
+.PP
+Abre el selector en el formulario de un fragmento:
+.RS 4
+.nf
+\fBvoltkit picker \-\-snippet \*(Aq;quote\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

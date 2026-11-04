@@ -10,6 +10,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::app::toast;
 use crate::modules::usage::{self, Holder, Scan, Target};
+use crate::i18n::tr;
 
 /// How long an app gets to quit before Force Quit is offered.
 const GRACE: Duration = Duration::from_secs(3);
@@ -79,23 +80,23 @@ impl Usage {
     fn new(toasts: &adw::ToastOverlay) -> Rc<Self> {
         let again = gtk::Button::builder()
             .icon_name("view-refresh-symbolic")
-            .tooltip_text("Check Again")
+            .tooltip_text(tr("Check Again"))
             .valign(gtk::Align::Center)
             .css_classes(["flat"])
             .build();
         let eject = gtk::Button::builder()
-            .child(&adw::ButtonContent::builder().icon_name("media-eject-symbolic").label("Eject").build())
+            .child(&adw::ButtonContent::builder().icon_name("media-eject-symbolic").label(tr("Eject")).build())
             .valign(gtk::Align::Center)
             .visible(false)
             .build();
         let header = gtk::Box::builder().spacing(6).build();
         header.append(&again);
         header.append(&eject);
-        let results = adw::PreferencesGroup::builder().title("Results").header_suffix(&crate::app::spaced(&header)).visible(false).build();
+        let results = adw::PreferencesGroup::builder().title(tr("Results")).header_suffix(&crate::app::spaced(&header)).visible(false).build();
         results.set_widget_name("usage-results");
         let drives = adw::PreferencesGroup::builder()
-            .title("Drives")
-            .description("USB sticks, memory cards and other disks you can eject")
+            .title(tr("Drives"))
+            .description(tr("USB sticks, memory cards and other disks you can eject"))
             .build();
         let usage = Rc::new(Self {
             drives,
@@ -129,16 +130,16 @@ impl Usage {
 
     fn check_group(self: &Rc<Self>) -> adw::PreferencesGroup {
         let group = adw::PreferencesGroup::builder()
-            .title("Choose what to inspect")
+            .title(tr("Choose what to inspect"))
             .description(
-                "Find the apps that keep a file, folder or drive busy (\u{201c}target is busy\u{201d}), or that use a \
-                 network port (\u{201c}address already in use\u{201d}), and close them.",
+                tr("Find the apps that keep a file, folder or drive busy (\u{201c}target is busy\u{201d}), or that use a \
+                 network port (\u{201c}address already in use\u{201d}), and close them."),
             )
             .build();
 
-        let choose_file = gtk::Button::builder().label("File…").valign(gtk::Align::Center).build();
-        let choose_folder = gtk::Button::builder().label("Folder…").valign(gtk::Align::Center).build();
-        let place = adw::ActionRow::builder().title("File or folder").subtitle("Or drop one on this window").build();
+        let choose_file = gtk::Button::builder().label(tr("File…")).valign(gtk::Align::Center).build();
+        let choose_folder = gtk::Button::builder().label(tr("Folder…")).valign(gtk::Align::Center).build();
+        let place = adw::ActionRow::builder().title(tr("File or folder")).subtitle(tr("Or drop one on this window")).build();
         place.add_suffix(&choose_file);
         place.add_suffix(&choose_folder);
         for (button, folder) in [(&choose_file, false), (&choose_folder, true)] {
@@ -146,7 +147,7 @@ impl Usage {
             button.connect_clicked(move |b| {
                 let usage = usage.clone();
                 let window = b.root().and_downcast::<gtk::Window>();
-                let dialog = gtk::FileDialog::builder().title(if folder { "Choose a Folder" } else { "Choose a File" }).build();
+                let dialog = gtk::FileDialog::builder().title(if folder { tr("Choose a Folder") } else { tr("Choose a File") }).build();
                 let done = move |res: Result<gio::File, glib::Error>| {
                     let (Some(usage), Some(path)) = (usage.upgrade(), res.ok().and_then(|f| f.path())) else { return };
                     usage.check_path(&path.to_string_lossy());
@@ -160,7 +161,7 @@ impl Usage {
         }
 
         let port = adw::EntryRow::builder()
-            .title("Network port, such as 3000")
+            .title(tr("Network port, such as 3000"))
             .show_apply_button(true)
             .input_purpose(gtk::InputPurpose::Digits)
             .build();
@@ -170,7 +171,7 @@ impl Usage {
                 let Some(usage) = usage.upgrade() else { return };
                 match Target::parse(&entry.text()) {
                     Ok(target @ Target::Port(_)) => usage.check(target, None),
-                    _ => toast(&usage.toasts, "Enter a port number from 1 to 65535"),
+                    _ => toast(&usage.toasts, tr("Enter a port number from 1 to 65535")),
                 }
             });
         }
@@ -187,7 +188,7 @@ impl Usage {
         if self.demo.get() {
             let row = adw::ActionRow::builder().title("USB DRIVE").subtitle(DEMO_DRIVE).build();
             row.add_prefix(&gtk::Image::from_icon_name("media-removable-symbolic"));
-            row.add_suffix(&gtk::Button::builder().label("Check").valign(gtk::Align::Center).build());
+            row.add_suffix(&gtk::Button::builder().label(tr("Check")).valign(gtk::Align::Center).build());
             self.drives.add(&row);
             *self.drive_rows.borrow_mut() = vec![row.upcast()];
             return;
@@ -198,7 +199,7 @@ impl Usage {
             if !removable || mount.is_shadowed() {
                 continue;
             }
-            let check = gtk::Button::builder().label("Check").valign(gtk::Align::Center).build();
+            let check = gtk::Button::builder().label(tr("Check")).valign(gtk::Align::Center).build();
             let row = adw::ActionRow::builder()
                 .title(glib::markup_escape_text(&mount.name()))
                 .subtitle(glib::markup_escape_text(&path.to_string_lossy()))
@@ -215,7 +216,7 @@ impl Usage {
             rows.push(row.upcast::<gtk::Widget>());
         }
         if rows.is_empty() {
-            let row = adw::ActionRow::builder().title("No drives to eject are connected").css_classes(["dim-label"]).build();
+            let row = adw::ActionRow::builder().title(tr("No drives to eject are connected")).css_classes(["dim-label"]).build();
             rows.push(row.upcast());
         }
         for row in &rows {
@@ -250,7 +251,7 @@ impl Usage {
         match (&*self.mount.borrow(), &*self.target.borrow()) {
             (Some(mount), _) => mount.name().to_string(),
             (None, Some(Target::Path(p))) => p.file_name().map_or_else(|| p.display().to_string(), |n| n.to_string_lossy().into_owned()),
-            (None, Some(Target::Port(p))) => format!("Port {p}"),
+            (None, Some(Target::Port(p))) => trf!("Port {}", p),
             (None, None) => String::new(),
         }
     }
@@ -261,7 +262,7 @@ impl Usage {
             self.results.remove(&row);
         }
         let is_drive = self.mount.borrow().is_some() || self.demo.get();
-        self.results.set_title(&glib::markup_escape_text(&format!("Using \u{201c}{}\u{201d}", self.title())));
+        self.results.set_title(&glib::markup_escape_text(&trf!("Using “{}”", self.title())));
         self.results.set_description(
             self.target.borrow().as_ref().filter(|t| matches!(t, Target::Path(_))).map(|t| glib::markup_escape_text(&t.describe()).to_string()).as_deref(),
         );
@@ -271,8 +272,8 @@ impl Usage {
         let mut rows: Vec<gtk::Widget> = Vec::new();
         if scan.holders.is_empty() {
             let row = adw::ActionRow::builder()
-                .title("Nothing is using it")
-                .subtitle(if is_drive { "You can eject it now." } else { "No app has it open." })
+                .title(tr("Nothing is using it"))
+                .subtitle(if is_drive { tr("You can eject it now.") } else { tr("No app has it open.") })
                 .build();
             row.add_prefix(&gtk::Image::from_icon_name("emblem-ok-symbolic"));
             rows.push(row.upcast());
@@ -281,14 +282,14 @@ impl Usage {
             rows.push(self.holder_row(holder).upcast());
         }
         if scan.unreadable > 0 && !complete {
-            let button = gtk::Button::builder().label("Check with Password").valign(gtk::Align::Center).build();
+            let button = gtk::Button::builder().label(tr("Check with Password")).valign(gtk::Align::Center).build();
             let row = adw::ActionRow::builder()
-                .title(format!(
-                    "{} {} of other users or the system weren't checked",
-                    scan.unreadable,
-                    if scan.unreadable == 1 { "program" } else { "programs" }
+                .title(trnf!(
+                    "{} program of other users or the system wasn't checked",
+                    "{} programs of other users or the system weren't checked",
+                    scan.unreadable
                 ))
-                .subtitle("Servers and system services often run that way")
+                .subtitle(tr("Servers and system services often run that way"))
                 .build();
             row.add_prefix(&gtk::Image::from_icon_name("dialog-password-symbolic"));
             row.add_suffix(&button);
@@ -302,7 +303,7 @@ impl Usage {
                     match gio::spawn_blocking(move || usage::scan_as_root(&target)).await {
                         Ok(Ok(scan)) => usage.show(scan, true),
                         Ok(Err(e)) => {
-                            toast(&usage.toasts, format!("Not checked: {e}"));
+                            toast(&usage.toasts, trf!("Not checked: {}", e));
                             b.set_sensitive(true);
                         }
                         Err(_) => b.set_sensitive(true),
@@ -320,18 +321,18 @@ impl Usage {
     fn holder_row(self: &Rc<Self>, holder: Holder) -> adw::ActionRow {
         let (name, icon, app) = describe(&holder);
         let mut lines = vec![match &app {
-            Some(app) if *app != name => format!("in {app} · PID {}", holder.pid),
-            _ => format!("{} · PID {}", holder.command, holder.pid),
+            Some(app) if *app != name => trf!("in {} · PID {}", app, holder.pid),
+            _ => trf!("{} · PID {}", holder.command, holder.pid),
         }];
         if holder.uid != usage::current_uid() {
             lines[0].push_str(&format!(" · {}", usage::user_name(holder.uid)));
         }
         lines.extend(holder.uses.iter().take(SHOWN_USES).cloned());
         if holder.uses.len() > SHOWN_USES {
-            lines.push(format!("and {} more", holder.uses.len() - SHOWN_USES));
+            lines.push(trf!("and {} more", holder.uses.len() - SHOWN_USES));
         }
         if let Some(what) = holder.protected() {
-            lines.push(format!("This is {what}, so Voltkit won't close it."));
+            lines.push(trf!("This is {}, so Voltkit won't close it.", what));
         }
         let row = adw::ActionRow::builder()
             .title(glib::markup_escape_text(&name))
@@ -340,7 +341,7 @@ impl Usage {
             .build();
         row.add_prefix(&gtk::Image::builder().gicon(&icon).pixel_size(32).build());
         if holder.protected().is_none() {
-            let button = gtk::Button::builder().label("Close").valign(gtk::Align::Center).build();
+            let button = gtk::Button::builder().label(tr("Close")).valign(gtk::Align::Center).build();
             let forced = Rc::new(Cell::new(false));
             let usage = Rc::downgrade(self);
             button.connect_clicked(move |b| {
@@ -357,15 +358,15 @@ impl Usage {
         let force = forced.get();
         let (heading, body, action) = if force {
             (
-                format!("Force Quit {name}?"),
-                "It stops immediately, without a chance to save. Anything unsaved in it is lost.".to_owned(),
-                "Force Quit",
+                trf!("Force Quit {}?", name),
+                tr("It stops immediately, without a chance to save. Anything unsaved in it is lost.").to_owned(),
+                tr("Force Quit"),
             )
         } else {
             (
-                format!("Close {name}?"),
-                format!("Voltkit asks {name} to quit, like closing its window. Unsaved work in it may be lost."),
-                "Close",
+                trf!("Close {}?", name),
+                trf!("Voltkit asks {} to quit, like closing its window. Unsaved work in it may be lost.", name),
+                tr("Close"),
             )
         };
         if !confirm(&button, &heading, &body, action).await {
@@ -385,14 +386,14 @@ impl Usage {
                 return;
             }
         }
-        button.set_label(if force { "Stopping…" } else { "Closing…" });
+        button.set_label(if force { tr("Stopping…") } else { tr("Closing…") });
         if wait_until_gone(std::slice::from_ref(&holder), GRACE).await {
-            toast(&self.toasts, format!("{name} closed"));
+            toast(&self.toasts, trf!("{} closed", name));
             self.rescan();
         } else {
             // Still running: offer the stronger option.
             forced.set(true);
-            button.set_label("Force Quit");
+            button.set_label(tr("Force Quit"));
             button.add_css_class("destructive-action");
             button.set_sensitive(true);
         }
@@ -404,13 +405,8 @@ impl Usage {
         let closable: Vec<Holder> = scan.holders.into_iter().filter(|h| h.protected().is_none()).collect();
         if !closable.is_empty() {
             let names: Vec<String> = closable.iter().map(|h| describe(h).0).collect();
-            let body = format!(
-                "These apps are using {}: {}. Voltkit asks them to quit, like closing their windows, then ejects. \
-                 Unsaved work in them may be lost.",
-                mount.name(),
-                names.join(", ")
-            );
-            if !confirm(&self.eject, &format!("Close {} and Eject?", plural_apps(closable.len())), &body, "Close and Eject").await {
+            let body = trf!("These apps are using {}: {}. Voltkit asks them to quit, like closing their windows, then ejects. Unsaved work in them may be lost.", mount.name(), names.join(", "));
+            if !confirm(&self.eject, &trf!("Close {} and Eject?", plural_apps(closable.len())), &body, tr("Close and Eject")).await {
                 return;
             }
             for holder in &closable {
@@ -420,7 +416,7 @@ impl Usage {
                 }
             }
             if !wait_until_gone(&closable, EJECT_GRACE).await {
-                toast(&self.toasts, "Some apps didn't close. Use Force Quit on them, then eject.");
+                toast(&self.toasts, tr("Some apps didn't close. Use Force Quit on them, then eject."));
                 self.rescan();
                 return;
             }
@@ -434,14 +430,14 @@ impl Usage {
         };
         match result {
             Ok(()) => {
-                toast(&self.toasts, format!("{} ejected: you can unplug it", mount.name()));
+                toast(&self.toasts, trf!("{} ejected: you can unplug it", mount.name()));
                 *self.mount.borrow_mut() = None;
                 *self.target.borrow_mut() = None;
                 self.results.set_visible(false);
                 self.refresh_drives();
             }
             Err(e) => {
-                toast(&self.toasts, format!("Could not eject: {}", e.message()));
+                toast(&self.toasts, trf!("Could not eject: {}", e.message()));
                 self.rescan();
             }
         }
@@ -465,7 +461,7 @@ fn describe(holder: &Holder) -> (String, gio::Icon, Option<String>) {
 }
 
 fn plural_apps(n: usize) -> String {
-    if n == 1 { "1 App".into() } else { format!("{n} Apps") }
+    trnf!("{} App", "{} Apps", n)
 }
 
 /// Waits until none of `holders` is running, for at most `limit`.
@@ -484,7 +480,7 @@ async fn wait_until_gone(holders: &[Holder], limit: Duration) -> bool {
 
 async fn confirm(parent: &impl IsA<gtk::Widget>, heading: &str, body: &str, action: &str) -> bool {
     let dialog = adw::AlertDialog::new(Some(heading), Some(body));
-    dialog.add_responses(&[("cancel", "Cancel"), ("ok", action)]);
+    dialog.add_responses(&[("cancel", tr("Cancel")), ("ok", action)]);
     dialog.set_response_appearance("ok", adw::ResponseAppearance::Destructive);
     dialog.set_default_response(Some("cancel"));
     dialog.set_close_response("cancel");

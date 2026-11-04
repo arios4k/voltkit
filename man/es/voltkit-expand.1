@@ -1,0 +1,81 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expand 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-expand \- Expande una plantilla de fragmento, p. ej. "Enviado {date:%A}: {clipboard}"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit expand\fR [\fB\-\-arg\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fITEMPLATE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Expande una plantilla de fragmento, p. ej. "Enviado {date:%A}: {clipboard}"
+.PP
+Muestra TEMPLATE con sus {variables} reemplazadas. Falla si una variable es desconocida o si un {arg:NAME} no tiene su \-\-arg.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+<\fITEMPLATE\fR>
+Texto con {variables} para expandir; ponlo entre comillas para que el shell no toque las llaves
+.SH OPCIONES
+.TP
+\fB\-\-arg\fR \fI<NAME=VALUE>\fR
+Un valor para {arg:NAME}; repítelo para varios parámetros
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH VARIABLES
+.TP
+\fB{date}\fR
+La fecha de hoy como AAAA\-MM\-DD.
+.TP
+\fB{date:FORMAT}\fR
+La hora actual en cualquier FORMATO de strftime(3), por ejemplo {date:%A %d %B}.
+.TP
+\fB{time}\fR
+La hora actual como HH:MM.
+.TP
+\fB{clipboard}\fR
+El texto del portapapeles, o nada si está vacío.
+.TP
+\fB{arg:NAME}\fR
+El valor dado con \-\-arg NAME=VALUE.
+.TP
+\fB{{ and }}\fR
+Una { o } literal.
+.SH EJEMPLOS
+.PP
+Completa parámetros:
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}, re: {arg:topic}\*(Aq \-\-arg name=Sam \-\-arg topic=Invoices\fR
+.fi
+.RE
+.PP
+Los valores con espacios necesitan comillas:
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}\*(Aq \-\-arg \*(Aqname=Sam Lee\*(Aq\fR
+.fi
+.RE
+.PP
+Cita el portapapeles con fecha y hora:
+.RS 4
+.nf
+\fBvoltkit expand \*(Aq> {clipboard} ({date} {time})\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1), \fBstrftime\fR(3)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

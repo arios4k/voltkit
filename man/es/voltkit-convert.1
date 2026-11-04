@@ -1,0 +1,66 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-convert 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-convert \- Convierte texto de la entrada estándar con una de las conversiones de Pegado inteligente
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit convert\fR [\fB\-h\fR|\fB\-\-help\fR] [\fICONVERSION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Convierte texto de la entrada estándar con una de las conversiones de Pegado inteligente
+.PP
+Sin CONVERSION, las muestra.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+[\fICONVERSION\fR]
+Una conversión como json, markdown\-table, clean\-link o snake
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EJEMPLOS
+.PP
+Muestra las conversiones:
+.RS 4
+.nf
+\fBvoltkit convert\fR
+.fi
+.RE
+.PP
+Ordena el JSON de un archivo:
+.RS 4
+.nf
+\fBvoltkit convert json < data.json\fR
+.fi
+.RE
+.PP
+Convierte un rango copiado de una hoja de cálculo en una tabla Markdown:
+.RS 4
+.nf
+\fBwl\-paste | voltkit convert markdown\-table\fR
+.fi
+.RE
+.PP
+Quita el rastreo de un enlace:
+.RS 4
+.nf
+\fBecho \*(Aqhttps://example.com/?utm_source=x\*(Aq | voltkit convert clean\-link\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

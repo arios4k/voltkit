@@ -1,0 +1,67 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-using 1  "Voltkit 0.8.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-using \- Muestra qué programas mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit using\fR [\fB\-h\fR|\fB\-\-help\fR] <\fITARGET\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Muestra qué programas mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red
+.PP
+TARGET es una ruta, o un número de puerto como 3000. Muestra cada programa con su PID y cómo usa el objetivo. Como usuario normal solo se pueden revisar tus propios programas; ejecútalo con sudo para incluir los programas de otros usuarios y los servicios del sistema.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+<\fITARGET\fR>
+Un archivo, una carpeta o un punto de montaje, o un número de puerto
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EJEMPLOS
+.PP
+Averigua qué mantiene ocupada una memoria USB:
+.RS 4
+.nf
+\fBvoltkit using /media/$USER/USB\fR
+.fi
+.RE
+.PP
+Encuentra el programa en el puerto 3000:
+.RS 4
+.nf
+\fBvoltkit using 3000\fR
+.fi
+.RE
+.PP
+Incluye los servicios del sistema:
+.RS 4
+.nf
+\fBsudo voltkit using 80\fR
+.fi
+.RE
+.PP
+Pide a un programa que se cierre y luego fuérzalo si no lo hace:
+.RS 4
+.nf
+\fBkill PID
+kill \-KILL PID\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

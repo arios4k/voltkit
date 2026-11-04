@@ -1,6 +1,6 @@
 [package]
 name = "voltkit"
-version = "0.7.0"
+version = "0.8.0"
 authors = ["Alexis Rios-Negron"]
 edition = "2024"
 description = "A unified suite of desktop micro-utilities for Linux"
@@ -60,7 +60,11 @@ assets = [
     ["data/icons/io.github.arios4k.Voltkit.svg", "usr/share/icons/hicolor/scalable/apps/", "644"],
     ["data/icons/io.github.arios4k.Voltkit-symbolic.svg", "usr/share/icons/hicolor/symbolic/apps/", "644"],
     ["man/*.1", "usr/share/man/man1/", "644"],
+    ["man/es/*.1", "usr/share/man/es/man1/", "644"],
+    ["man/de/*.1", "usr/share/man/de/man1/", "644"],
     ["README.md", "usr/share/doc/voltkit/", "644"],
+    ["README.es.md", "usr/share/doc/voltkit/", "644"],
+    ["README.de.md", "usr/share/doc/voltkit/", "644"],
     ["data/config.example.toml", "usr/share/doc/voltkit/examples/", "644"],
 ]
 

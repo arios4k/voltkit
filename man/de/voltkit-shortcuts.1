@@ -1,0 +1,86 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-shortcuts 1  "Voltkit 0.8.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-shortcuts \- GNOME\-Tastenkürzel für Desktops ohne GlobalShortcuts\-Portal verwalten
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit shortcuts\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIbefehle\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+GNOME\-Tastenkürzel für Desktops ohne GlobalShortcuts\-Portal verwalten
+.PP
+Fügt in den GNOME\-Einstellungen (über gsettings) eigene Tastenkürzel hinzu oder entfernt sie, die `voltkit trigger` ausführen. Andere eigene Tastenkürzel bleiben unberührt.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEFEHLE
+.TP
+\fBvoltkit shortcuts install [\-\-dry\-run]\fR
+Super+Umschalt+T, C und E (oder Ihre eingestellten Tasten) zu den GNOME\-Einstellungen hinzufügen
+.RS
+\fB\-\-dry\-run\fR: Die gsettings\-Befehle ausgeben, statt sie auszuführen
+.RE
+.TP
+\fBvoltkit shortcuts remove [\-\-dry\-run]\fR
+Die mit `install` hinzugefügten Tastenkürzel entfernen
+.RS
+\fB\-\-dry\-run\fR: Die gsettings\-Befehle ausgeben, statt sie auszuführen
+.RE
+.TP
+\fBvoltkit shortcuts list\fR
+Alle systemweiten Tastenkürzel auflisten, gruppiert nach Besitzer
+.TP
+\fBvoltkit shortcuts who\fR
+Anzeigen, was ein Tastenkürzel tut, etwa `voltkit shortcuts who super+shift+s`
+.TP
+\fBvoltkit shortcuts clashes\fR
+Tastenkürzel anzeigen, die von mehreren Aktionen verwendet werden
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEISPIELE
+.PP
+Was macht Super+V?
+.RS 4
+.nf
+\fBvoltkit shortcuts who super+v\fR
+.fi
+.RE
+.PP
+Tastenkürzel finden, die mehrere Aktionen verwenden:
+.RS 4
+.nf
+\fBvoltkit shortcuts clashes\fR
+.fi
+.RE
+.PP
+Die gsettings\-Befehle vorab ansehen:
+.RS 4
+.nf
+\fBvoltkit shortcuts install \-\-dry\-run\fR
+.fi
+.RE
+.PP
+Die Tastenkürzel wieder entfernen:
+.RS 4
+.nf
+\fBvoltkit shortcuts remove\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1), \fBgsettings\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron
