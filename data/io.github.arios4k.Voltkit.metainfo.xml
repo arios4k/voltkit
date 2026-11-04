@@ -107,6 +107,21 @@
     <lang percentage="100">de</lang>
   </languages>
   <releases>
+    <release version="0.8.0" date="2026-11-03">
+      <description>
+        <p>Voltkit now speaks Spanish and German.</p>
+        <p xml:lang="es">Voltkit ahora habla español y alemán.</p>
+        <p xml:lang="de">Voltkit spricht jetzt Spanisch und Deutsch.</p>
+        <ul>
+          <li>Every tool, the command line, its help and the man pages are translated</li>
+          <li xml:lang="es">Todas las herramientas, la línea de comandos, su ayuda y las páginas del manual están traducidas</li>
+          <li xml:lang="de">Alle Werkzeuge, die Befehlszeile, ihre Hilfe und die Handbuchseiten sind übersetzt</li>
+          <li>Voltkit follows your system language and falls back to English</li>
+          <li xml:lang="es">Voltkit sigue el idioma de tu sistema y usa inglés si no está disponible</li>
+          <li xml:lang="de">Voltkit folgt der Systemsprache und verwendet sonst Englisch</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.7.0" date="2026-11-02">
       <description>
         <p>A refreshed interface across all fourteen tools.</p>
