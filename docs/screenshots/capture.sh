@@ -23,7 +23,9 @@ case $lang in
     en) out="$repo/docs/screenshots"; locale=en_US ;;
     es) out="$repo/docs/screenshots/es"; locale=es_MX ;;
     de) out="$repo/docs/screenshots/de"; locale=de_DE ;;
-    *) echo "unknown language $lang (en, es or de)" >&2; exit 2 ;;
+    fr) out="$repo/docs/screenshots/fr"; locale=fr_FR ;;
+    zh_CN) out="$repo/docs/screenshots/zh_CN"; locale=zh_CN ;;
+    *) echo "unknown language $lang (en, es, de, fr or zh_CN)" >&2; exit 2 ;;
 esac
 mkdir -p "$out"
 demo=$(mktemp -d)

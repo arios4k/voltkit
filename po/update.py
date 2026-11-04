@@ -18,7 +18,8 @@ from collections import OrderedDict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PO_DIR = os.path.join(ROOT, 'po')
-LANGUAGES = {'es': 'Spanish', 'de': 'German'}
+LANGUAGES = {'es': 'Spanish', 'de': 'German', 'fr': 'French', 'zh_CN': 'Simplified Chinese'}
+PLURAL_FORMS = {'fr': 'nplurals=2; plural=(n > 1);', 'zh_CN': 'nplurals=1; plural=0;'}
 
 
 # ------------------------------------------------------------- Rust sources
@@ -214,7 +215,7 @@ def read_po(path):
     return entries
 
 
-def write_po(path, messages, translations, header):
+def write_po(path, messages, translations, header, nplurals=2):
     out = [header.rstrip('\n'), '']
     for msgid, info in messages.items():
         for c in info['comments']:
@@ -233,9 +234,9 @@ def write_po(path, messages, translations, header):
         out.append('msgid ' + po_quote(msgid))
         if info['plural']:
             out.append('msgid_plural ' + po_quote(info['plural']))
-            forms = (forms + ['', ''])[:2]
-            out.append('msgstr[0] ' + po_quote(forms[0]))
-            out.append('msgstr[1] ' + po_quote(forms[1]))
+            forms = (forms + [''] * nplurals)[:nplurals]
+            for i, form in enumerate(forms):
+                out.append(f'msgstr[{i}] ' + po_quote(form))
         else:
             out.append('msgstr ' + po_quote(forms[0] if forms else ''))
         out.append('')
@@ -261,7 +262,7 @@ def header(language=None, name=None):
         '"MIME-Version: 1.0\\n"',
         '"Content-Type: text/plain; charset=UTF-8\\n"',
         '"Content-Transfer-Encoding: 8bit\\n"',
-        '"Plural-Forms: nplurals=2; plural=(n != 1);\\n"',
+        '"Plural-Forms: %s\\n"' % PLURAL_FORMS.get(language, 'nplurals=2; plural=(n != 1);'),
     ]
     return '\n'.join(lines) + '\n'
 
@@ -283,7 +284,7 @@ def main():
         path = os.path.join(PO_DIR, f'{code}.po')
         old = read_po(path)
         old.pop('', None)
-        text = write_po(None, messages, old, header(code, name))
+        text = write_po(None, messages, old, header(code, name), 1 if code == 'zh_CN' else 2)
         missing = [m for m in messages if not all(old.get(m, ([''], False))[0]) or old.get(m, ([], True))[1]]
         if check:
             if open(path, encoding='utf-8').read() != text:

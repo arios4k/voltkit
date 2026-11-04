@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.8.0
+Version:        0.9.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -53,13 +53,15 @@ install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg -t %{buildroot}
 install -Dm644 man/*.1 -t %{buildroot}%{_mandir}/man1/
 install -Dm644 man/es/*.1 -t %{buildroot}%{_mandir}/es/man1/
 install -Dm644 man/de/*.1 -t %{buildroot}%{_mandir}/de/man1/
+install -Dm644 man/fr/*.1 -t %{buildroot}%{_mandir}/fr/man1/
+install -Dm644 man/zh_CN/*.1 -t %{buildroot}%{_mandir}/zh_CN/man1/
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.arios4k.Voltkit.metainfo.xml
 
 %files
 %license LICENSE
-%doc README.md README.es.md README.de.md data/config.example.toml
+%doc README.md README.es.md README.de.md README.fr.md README.zh-CN.md data/config.example.toml
 %{_bindir}/voltkit
 %{_datadir}/applications/io.github.arios4k.Voltkit.desktop
 %{_metainfodir}/io.github.arios4k.Voltkit.metainfo.xml
@@ -69,8 +71,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %{_mandir}/man1/voltkit*.1*
 %lang(es) %{_mandir}/es/man1/voltkit*.1*
 %lang(de) %{_mandir}/de/man1/voltkit*.1*
+%lang(fr) %{_mandir}/fr/man1/voltkit*.1*
+%lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Wed Nov 04 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.0-1
+- Translate the app, command line, help and man pages into French and Simplified Chinese
+
 * Tue Nov 03 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.8.0-1
 - Translate the app, command line, help and man pages into Spanish and German
 - Follow the system language, falling back to English

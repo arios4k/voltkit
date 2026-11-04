@@ -1,0 +1,48 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-doctor 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-doctor \- Vérifier que tout ce dont Voltkit a besoin est installé et configuré
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit doctor\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Vérifier que tout ce dont Voltkit a besoin est installé et configuré
+.PP
+Vérifie les programmes auxiliaires, les données de langue de l’OCR, les portails du bureau, les outils de presse\-papiers, le service en arrière\-plan et les raccourcis, puis affiche la commande d’installation de tout ce qui manque sur cette distribution.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SORTIE
+.TP
+\fB✓\fR
+En place.
+.TP
+\fB✗\fR
+Manquant, et la fonctionnalité ne marche pas sans.
+.TP
+\fB–\fR
+Manquant ou désactivé, mais la fonctionnalité marche de façon limitée.
+.PP
+Les commandes d’installation utilisent le gestionnaire de paquets de la distribution en cours (apt, dnf, pacman ou zypper), détectée depuis /etc/os\-release.
+.SH "CODE DE SORTIE"
+.PP
+0 quand rien d’obligatoire ne manque, 1 sinon, ce qui permet de l’utiliser dans des scripts.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

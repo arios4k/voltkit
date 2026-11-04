@@ -1,0 +1,81 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expand 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-expand \- Développer un modèle d’extrait, par ex. « Envoyé {date:%A} : {clipboard} »
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit expand\fR [\fB\-\-arg\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fITEMPLATE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Développer un modèle d’extrait, par ex. « Envoyé {date:%A} : {clipboard} »
+.PP
+Affiche TEMPLATE avec ses {variables} remplacées. Échoue si une variable est inconnue ou si un {arg:NOM} n’a pas de \-\-arg correspondant.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+<\fITEMPLATE\fR>
+Texte avec des {variables} à développer ; mettez\-le entre guillemets pour que le shell n’interprète pas les accolades
+.SH OPTIONS
+.TP
+\fB\-\-arg\fR \fI<NAME=VALUE>\fR
+Une valeur pour {arg:NOM} ; répétez pour plusieurs paramètres
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH VARIABLES
+.TP
+\fB{date}\fR
+La date du jour au format AAAA\-MM\-JJ.
+.TP
+\fB{date:FORMAT}\fR
+L’heure actuelle dans n’importe quel FORMAT strftime(3), par exemple {date:%A %d %B}.
+.TP
+\fB{time}\fR
+L’heure actuelle au format HH:MM.
+.TP
+\fB{clipboard}\fR
+Le texte du presse\-papiers, ou rien s’il est vide.
+.TP
+\fB{arg:NAME}\fR
+La valeur donnée avec \-\-arg NOM=VALEUR.
+.TP
+\fB{{ and }}\fR
+Un { ou un } littéral.
+.SH EXEMPLES
+.PP
+Remplir des paramètres :
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}, re: {arg:topic}\*(Aq \-\-arg name=Sam \-\-arg topic=Invoices\fR
+.fi
+.RE
+.PP
+Les valeurs contenant des espaces doivent être entre guillemets :
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}\*(Aq \-\-arg \*(Aqname=Sam Lee\*(Aq\fR
+.fi
+.RE
+.PP
+Citer le presse\-papiers avec un horodatage :
+.RS 4
+.nf
+\fBvoltkit expand \*(Aq> {clipboard} ({date} {time})\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1), \fBstrftime\fR(3)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

@@ -1,0 +1,63 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-awake 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-awake \- Empêcher l’ordinateur de se mettre en veille ou de verrouiller son écran
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit awake\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIDURATION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Empêcher l’ordinateur de se mettre en veille ou de verrouiller son écran
+.PP
+Maintenu par le service en arrière\-plan, il continue après la fin de cette commande ou la fermeture de la fenêtre. Sans DURATION, indique si Rester éveillé est activé.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+[\fIDURATION\fR]
+30m, 1h, 1h30m ou un nombre de minutes ; `on` jusqu’à désactivation ; `off` pour arrêter
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOTES
+.PP
+Le service en arrière\-plan conserve la demande via le portail Inhibit du bureau, donc `voltkit daemon` doit tourner. Quand le temps est écoulé, Rester éveillé s’arrête tout seul et affiche une notification.
+.SH EXEMPLES
+.PP
+Rester éveillé pendant un film de 90 minutes :
+.RS 4
+.nf
+\fBvoltkit awake 1h30m\fR
+.fi
+.RE
+.PP
+Rester éveillé jusqu’à nouvel ordre :
+.RS 4
+.nf
+\fBvoltkit awake on\fR
+.fi
+.RE
+.PP
+Vérifier, puis arrêter :
+.RS 4
+.nf
+\fBvoltkit awake
+voltkit awake off\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

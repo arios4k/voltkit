@@ -1,0 +1,63 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-awake 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-awake \- 阻止电脑休眠或锁定屏幕
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit awake\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIDURATION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+阻止电脑休眠或锁定屏幕
+.PP
+由后台服务维持，因此在此命令结束或窗口关闭后仍会继续。不带 DURATION 时，显示“保持唤醒”是否已开启。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+[\fIDURATION\fR]
+30m、1h、1h30m 或分钟数；`on` 表示直到关闭；`off` 表示停止
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 备注
+.PP
+后台服务通过桌面的 Inhibit 门户保持该请求，因此需要运行 `voltkit daemon`。时间到后，“保持唤醒”会自动结束并显示通知。
+.SH 示例
+.PP
+为一部 90 分钟的电影保持唤醒：
+.RS 4
+.nf
+\fBvoltkit awake 1h30m\fR
+.fi
+.RE
+.PP
+保持唤醒，直到另行通知：
+.RS 4
+.nf
+\fBvoltkit awake on\fR
+.fi
+.RE
+.PP
+检查，然后停止：
+.RS 4
+.nf
+\fBvoltkit awake
+voltkit awake off\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

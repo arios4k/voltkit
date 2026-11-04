@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="alternate" hreflang="en" href="index.html">
+<link rel="alternate" hreflang="es" href="index.es.html">
+<link rel="alternate" hreflang="de" href="index.de.html">
+<link rel="alternate" hreflang="fr" href="index.fr.html">
+<link rel="alternate" hreflang="zh-CN" href="index.zh-CN.html">
+<title>Voltkit APT 软件源</title>
+<style>
+  :root { --bg: #fafafa; --fg: #1f2328; --muted: #59636e; --card: #fff; --border: #d1d9e0; --accent: #5b3fd6; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0f1117; --fg: #e6edf3; --muted: #9198a1; --card: #161b22; --border: #30363d; --accent: #a78bfa; }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { margin: 0 0 4px; font-size: 2rem; }
+  h2 { margin-top: 2rem; font-size: 1.15rem; }
+  p.lead { color: var(--muted); margin-top: 0; }
+  pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+        overflow-x: auto; font: 14px/1.5 ui-monospace, monospace; }
+  code { font-family: ui-monospace, monospace; }
+  a { color: var(--accent); }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  .langs { float: right; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <nav class="langs"><a href="index.html" hreflang="en" lang="en">English</a> · <a href="index.es.html" hreflang="es" lang="es">Español</a> · <a href="index.de.html" hreflang="de" lang="de">Deutsch</a> · <a href="index.fr.html" hreflang="fr" lang="fr">Français</a> · <strong>简体中文</strong></nav>
+  <h1>⚡ Voltkit</h1>
+  <p class="lead">为你的 Linux 桌面带来强大工具：屏幕 OCR、二维码扫描与生成、取色器、屏幕标尺、图片和视频压缩器、文本扩展、保持唤醒、hosts 与环境变量编辑器、智能粘贴、找出占用者的“是什么在占用它？”、应用权限管理器、休眠问题排查、系统报告和快捷键侦探，集于一个原生 GTK4 应用。支持简体中文、英语、西班牙语、德语和法语。</p>
+
+  <h2>安装</h2>
+  <p>适用于 Ubuntu 24.04+、Debian 13+ 及其衍生版（Linux Mint 22、Zorin OS 18、Pop!_OS 24.04），64 位 Intel/AMD：</p>
+  <pre><code>sudo curl -fsSLo /usr/share/keyrings/voltkit-archive-keyring.gpg \
+  https://arios4k.github.io/voltkit/voltkit-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://arios4k.github.io/voltkit stable main" \
+  | sudo tee /etc/apt/sources.list.d/voltkit.list
+
+sudo apt update
+sudo apt install voltkit</code></pre>
+
+  <p>更新会随 <code>sudo apt upgrade</code> 一并到来。</p>
+
+  <h2>在 Fedora 上安装</h2>
+  <p>适用于 64 位 Intel/AMD 的 Fedora 43 及更高版本，来自 <a href="https://copr.fedorainfracloud.org/coprs/arios/voltkit/">COPR 软件源</a>：</p>
+  <pre><code>sudo dnf copr enable arios/voltkit
+sudo dnf install voltkit</code></pre>
+
+  <h2>设置</h2>
+  <p>从应用列表中打开 Voltkit 即可。就这样：它会启动自己的后台服务（每次登录时也会启动），并在 GNOME 上添加键盘快捷键。<code>voltkit doctor</code> 会检查一切是否就绪。</p>
+
+  <h2>卸载</h2>
+  <pre><code>sudo apt remove voltkit
+sudo rm /etc/apt/sources.list.d/voltkit.list /usr/share/keyrings/voltkit-archive-keyring.gpg</code></pre>
+
+  <p class="muted">源代码、文档和问题反馈：<a href="https://github.com/arios4k/voltkit/blob/main/README.zh-CN.md">github.com/arios4k/voltkit</a>。
+  软件包均已签名；密钥为 <a href="voltkit-archive-keyring.gpg">voltkit-archive-keyring.gpg</a>。</p>
+</main>
+</body>
+</html>

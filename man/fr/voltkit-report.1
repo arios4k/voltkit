@@ -1,0 +1,54 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-report 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-report \- Décrire cet ordinateur : matériel, pilotes, santé et changements récents
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit report\fR [\fB\-\-memory\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Décrire cet ordinateur : matériel, pilotes, santé et changements récents
+.PP
+Affiche un rapport qu’on peut partager sans risque sur un forum ou dans un rapport de bogue (ni numéros de série, ni noms, ni adresses réseau), avec des vérifications et des correctifs pour les pilotes, la santé des disques, l’espace disque, les températures et les mises à jour du micrologiciel. Enregistre aussi l’instantané du jour, pour que les rapports suivants montrent ce qui a changé.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-\-memory\fR
+Afficher aussi les emplacements mémoire et les options d’extension (demande le mot de passe administrateur)
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOTES
+.PP
+Le rapport omet les numéros de série, les noms d’utilisateur et d’ordinateur et les adresses réseau, de sorte qu’il peut être publié sur un forum ou dans un rapport de bogue. La santé des disques vient d’UDisks2 et les mises à jour du micrologiciel de fwupd. Chaque exécution (et le service en arrière\-plan, une fois par jour) enregistre un instantané du matériel, des pilotes, du noyau et du micrologiciel dans ~/.local/share/voltkit/snapshots, que les rapports suivants comparent pour montrer ce qui a changé. \-\-memory lit les emplacements mémoire dans les tables SMBIOS, ce qui demande le mot de passe administrateur.
+.SH EXEMPLES
+.PP
+Copier le rapport à coller dans un message de forum :
+.RS 4
+.nf
+\fBvoltkit report | wl\-copy\fR
+.fi
+.RE
+.PP
+Inclure les emplacements mémoire et les options d’extension :
+.RS 4
+.nf
+\fBvoltkit report \-\-memory\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

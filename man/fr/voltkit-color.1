@@ -1,0 +1,67 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-color 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-color \- Convertir une couleur (#hex ou rgb(...)) et indiquer le contraste WCAG
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit color\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIVALUE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Convertir une couleur (#hex ou rgb(...)) et indiquer le contraste WCAG
+.PP
+Affiche la couleur en HEX, RGB et HSL, ainsi que son rapport de contraste WCAG 2.x pour du texte sur blanc et sur noir.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+<\fIVALUE\fR>
+#rgb, #rrggbb (le # est facultatif) ou rgb(r, g, b)
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "NIVEAUX DE CONTRASTE"
+.PP
+Les notes valent pour du texte de taille normale selon WCAG 2.x :
+.TP
+\fBAAA\fR
+7:1 ou plus.
+.TP
+\fBAA\fR
+4,5:1 ou plus.
+.TP
+\fBAA grand texte\fR
+3:1 ou plus ; valable uniquement pour le grand texte (18 pt, ou 14 pt en gras).
+.TP
+\fBÉchec\fR
+Moins de 3:1.
+.SH EXEMPLES
+.PP
+Hexadécimal avec ou sans #, forme courte ou longue :
+.RS 4
+.nf
+\fBvoltkit color f80\fR
+.fi
+.RE
+.PP
+Notation fonctionnelle :
+.RS 4
+.nf
+\fBvoltkit color \*(Aqrgb(51, 130, 202)\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

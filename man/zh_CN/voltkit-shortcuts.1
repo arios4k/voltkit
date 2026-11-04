@@ -1,0 +1,86 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-shortcuts 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-shortcuts \- 为没有 GlobalShortcuts 门户的桌面管理 GNOME 快捷键
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit shortcuts\fR [\fB\-h\fR|\fB\-\-help\fR] <\fI命令\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+为没有 GlobalShortcuts 门户的桌面管理 GNOME 快捷键
+.PP
+在 GNOME 设置中添加或移除运行 `voltkit trigger` 的自定义快捷键（通过 gsettings）。其他自定义快捷键不受影响。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 命令
+.TP
+\fBvoltkit shortcuts install [\-\-dry\-run]\fR
+将 Super+Shift+T、C 和 E（或你配置的按键）添加到 GNOME 设置
+.RS
+\fB\-\-dry\-run\fR: 打印 gsettings 命令，而不是运行它们
+.RE
+.TP
+\fBvoltkit shortcuts remove [\-\-dry\-run]\fR
+移除由 `install` 添加的快捷键
+.RS
+\fB\-\-dry\-run\fR: 打印 gsettings 命令，而不是运行它们
+.RE
+.TP
+\fBvoltkit shortcuts list\fR
+列出所有系统级快捷键，按所有者分组
+.TP
+\fBvoltkit shortcuts who\fR
+显示某个快捷键的作用，如 `voltkit shortcuts who super+shift+s`
+.TP
+\fBvoltkit shortcuts clashes\fR
+显示被多个操作使用的快捷键
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 示例
+.PP
+Super+V 有什么作用？
+.RS 4
+.nf
+\fBvoltkit shortcuts who super+v\fR
+.fi
+.RE
+.PP
+找出被多个操作使用的快捷键：
+.RS 4
+.nf
+\fBvoltkit shortcuts clashes\fR
+.fi
+.RE
+.PP
+预览 gsettings 命令：
+.RS 4
+.nf
+\fBvoltkit shortcuts install \-\-dry\-run\fR
+.fi
+.RE
+.PP
+再次移除这些快捷键：
+.RS 4
+.nf
+\fBvoltkit shortcuts remove\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1), \fBgsettings\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

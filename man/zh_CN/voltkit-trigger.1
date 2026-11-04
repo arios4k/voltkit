@@ -1,0 +1,61 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-trigger 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-trigger \- 通过守护进程运行某个快捷键操作；如果它没有运行，则直接运行
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit trigger\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIACTION\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+通过守护进程运行某个快捷键操作；如果它没有运行，则直接运行
+.PP
+用于绑定到桌面键盘设置或合成器配置中的某个按键。结果和错误会以桌面通知的形式显示。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+<\fIACTION\fR>
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+ocr: Extract text from a screen region
+.IP \(bu 2
+color: Pick a color from the screen
+.IP \(bu 2
+snippets: Open the snippet picker
+.IP \(bu 2
+qr: Read a QR code on screen
+.IP \(bu 2
+ruler: Measure distances on screen
+.IP \(bu 2
+smart\-paste: Paste the clipboard converted
+.RE
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 示例
+.PP
+Sway 或 i3 的绑定：
+.RS 4
+.nf
+\fBbindsym $mod+Shift+t exec voltkit trigger ocr\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

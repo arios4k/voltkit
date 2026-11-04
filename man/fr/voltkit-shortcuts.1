@@ -1,0 +1,86 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-shortcuts 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-shortcuts \- Gérer les raccourcis GNOME pour les bureaux sans le portail GlobalShortcuts
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit shortcuts\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIcommandes\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Gérer les raccourcis GNOME pour les bureaux sans le portail GlobalShortcuts
+.PP
+Ajoute ou retire des raccourcis personnalisés dans les paramètres de GNOME (via gsettings) qui exécutent `voltkit trigger`. Les autres raccourcis personnalisés ne sont pas touchés.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMMANDES
+.TP
+\fBvoltkit shortcuts install [\-\-dry\-run]\fR
+Ajouter Super+Maj+T, C et E (ou vos touches configurées) aux paramètres de GNOME
+.RS
+\fB\-\-dry\-run\fR: Afficher les commandes gsettings au lieu de les exécuter
+.RE
+.TP
+\fBvoltkit shortcuts remove [\-\-dry\-run]\fR
+Retirer les raccourcis ajoutés par `install`
+.RS
+\fB\-\-dry\-run\fR: Afficher les commandes gsettings au lieu de les exécuter
+.RE
+.TP
+\fBvoltkit shortcuts list\fR
+Lister tous les raccourcis système, groupés par propriétaire
+.TP
+\fBvoltkit shortcuts who\fR
+Montrer ce que fait un raccourci, comme `voltkit shortcuts who super+shift+s`
+.TP
+\fBvoltkit shortcuts clashes\fR
+Afficher les raccourcis utilisés par plus d’une action
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXEMPLES
+.PP
+Que fait Super+V ?
+.RS 4
+.nf
+\fBvoltkit shortcuts who super+v\fR
+.fi
+.RE
+.PP
+Trouver les raccourcis utilisés par plus d’une action :
+.RS 4
+.nf
+\fBvoltkit shortcuts clashes\fR
+.fi
+.RE
+.PP
+Prévisualiser les commandes gsettings :
+.RS 4
+.nf
+\fBvoltkit shortcuts install \-\-dry\-run\fR
+.fi
+.RE
+.PP
+Retirer à nouveau les raccourcis :
+.RS 4
+.nf
+\fBvoltkit shortcuts remove\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1), \fBgsettings\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

@@ -4,7 +4,7 @@
 
 # Voltkit
 
-**English** · [Español](README.es.md) · [Deutsch](README.de.md)
+**English** · [Español](README.es.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
 **Power tools for your Linux desktop.**
 Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
@@ -239,7 +239,7 @@ waking it up.
   `voltkit compress *.jpg`), with man pages for all of them.
 - **Self-checking.** `voltkit doctor` tells you exactly what's missing and the command to install it.
 - **Signed packages.** Install and update through apt from a GPG-signed repository.
-- **In your language.** English, Spanish and German, following your system language.
+- **In your language.** English, Spanish, German, French and Simplified Chinese, following your system language.
 
 ## FAQ
 
@@ -259,11 +259,11 @@ It's on the roadmap. For now there's the apt repository for Ubuntu/Debian-based 
 from source works anywhere with GTK 4.14+.
 
 **How do I change the language?**
-Voltkit follows your session's language (English, Spanish or German). To try another one for Voltkit only,
-start it from a terminal with `LANGUAGE=es voltkit` (or `de`, `en`).
+Voltkit follows your session's language (English, Spanish, German, French or Simplified Chinese). To try another
+one for Voltkit only, start it from a terminal with `LANGUAGE=fr voltkit` (or `es`, `de`, `zh_CN`, `en`).
 
 <sub>Screenshots taken on Zorin OS 18 with Voltkit’s light and dark palettes. Regenerate them with
-`docs/screenshots/capture.sh` (pass `es` or `de` to capture the translated app).</sub>
+`docs/screenshots/capture.sh` (pass `es`, `de`, `fr` or `zh_CN` to capture the translated app).</sub>
 
 ## Install (Ubuntu, Debian and derivatives)
 
@@ -416,7 +416,8 @@ Full documentation is in the man pages: `man voltkit`, `man voltkit-expand`, and
 ### Man pages
 
 The pages in [`man/`](man/) are generated from the CLI definitions, so they always match
-`--help`; the translations are in `man/es/` and `man/de/`. Install them next to the binary, where `man` finds them automatically:
+`--help`; the translations are in `man/es/`, `man/de/`, `man/fr/` and `man/zh_CN/`. Install them next to
+the binary, where `man` finds them automatically:
 
 ```bash
 mkdir -p ~/.cargo/share/man/man1 && cp man/*.1 ~/.cargo/share/man/man1/
@@ -435,7 +436,7 @@ cargo run -- manpages man
 
 ## Translations
 
-Voltkit is translated into Spanish and German. The text lives in ordinary gettext files in [`po/`](po/), which
+Voltkit is translated into Spanish, German, French and Simplified Chinese. The text lives in ordinary gettext files in [`po/`](po/), which
 are built into the binary, so there's nothing extra to install. To add a language or fix a translation, see
 [`po/README.md`](po/README.md).
 
@@ -483,8 +484,8 @@ src/
     smartpaste.rs    Smart Paste's text conversions
   manpages.rs        man page generator (clap_mangen + hand-written sections)
   screenshots.rs     renders the README screenshots (hidden `screenshots` command)
-po/                  translations (Spanish, German) and update.py to refresh them
-man/                 generated man pages (man/es, man/de: translated)
+po/                  translations (Spanish, German, French, Simplified Chinese) and update.py to refresh them
+man/                 generated man pages (man/es, man/de, man/fr, man/zh_CN: translated)
 packaging/apt/        APT repository builder and its landing page
 docs/screenshots/    README screenshots and capture.sh to regenerate them
 docs/ARCHITECTURE.md design notes and roadmap

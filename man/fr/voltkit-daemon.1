@@ -1,0 +1,110 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-daemon 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-daemon \- Lancer le service en arrière\-plan qui écoute les raccourcis globaux
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit daemon\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIcommandes\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Lancer le service en arrière\-plan qui écoute les raccourcis globaux
+.PP
+Sans sous\-commande, exécute le service au premier plan jusqu’à interruption. Il possède io.github.arios4k.Voltkit.Daemon sur le bus de session, donc une seule instance tourne, et associe les raccourcis configurés via le portail XDG GlobalShortcuts quand le bureau le fournit.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMMANDES
+.TP
+\fBvoltkit daemon status\fR
+Indiquer si le démon tourne et comment les raccourcis sont associés
+.TP
+\fBvoltkit daemon stop\fR
+Arrêter le démon en cours d’exécution
+.TP
+\fBvoltkit daemon reload\fR
+Faire relire les extraits du fichier de configuration par le démon en cours d’exécution
+.TP
+\fBvoltkit daemon enable\-autostart\fR
+Démarrer le démon automatiquement à l’ouverture de session
+.TP
+\fBvoltkit daemon disable\-autostart\fR
+Ne plus démarrer le démon à l’ouverture de session
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "MÉTHODES DE RACCOURCIS"
+.TP
+\fBportal\fR
+Le portail GlobalShortcuts (GNOME 48+, KDE Plasma 5.27+, Hyprland). Le bureau demande une approbation une seule fois.
+.TP
+\fBgnome\-keybindings\fR
+Raccourcis personnalisés ajoutés par voltkit shortcuts install.
+.TP
+\fBnone\fR
+Associez voltkit trigger ACTION dans les réglages du bureau ou du compositeur.
+.SH "INTERFACE D-BUS"
+.PP
+Nom de bus io.github.arios4k.Voltkit.Daemon, objet /io/github/arios4k/Voltkit/Daemon, interface io.github.arios4k.Voltkit.Daemon1 :
+.TP
+\fBTrigger(s action)\fR
+Lancer « ocr », « color » ou « snippets » et rendre la main immédiatement. Ignoré tant qu’un autre est ouvert.
+.TP
+\fBStatus() → (sss)\fR
+La version, la méthode de raccourcis, et si les déclencheurs saisis sont activés, désactivés ou indisponibles.
+.TP
+\fBKeepAwake(u minutes)\fR
+Empêcher l’ordinateur de se mettre en veille ou de se verrouiller, pendant MINUTES ou, avec 0, jusqu’à l’arrêt.
+.TP
+\fBStopAwake()\fR
+Terminer Rester éveillé.
+.TP
+\fBAwakeStatus() → (bx)\fR
+Si Rester éveillé est activé, et quand il se termine, en temps Unix (0 : jusqu’à l’arrêt).
+.TP
+\fBReload()\fR
+Relire les extraits depuis le fichier de configuration, pour que les déclencheurs saisis utilisent les modifications tout de suite. Le centre de contrôle l’appelle après chaque changement.
+.TP
+\fBQuit()\fR
+Arrêter le démon.
+.SH EXEMPLES
+.PP
+Vérifier s’il tourne :
+.RS 4
+.nf
+\fBvoltkit daemon status\fR
+.fi
+.RE
+.PP
+Déclencher l’OCR depuis un autre programme :
+.RS 4
+.nf
+\fBbusctl \-\-user call io.github.arios4k.Voltkit.Daemon /io/github/arios4k/Voltkit/Daemon io.github.arios4k.Voltkit.Daemon1 Trigger s ocr\fR
+.fi
+.RE
+.SH FICHIERS
+.TP
+\fB~/.config/voltkit/config.toml\fR
+Configuration : raccourcis, langue de l’OCR, qualité de compression et extraits. Chaque clé est facultative.
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+Historique des couleurs, de la plus récente à la plus ancienne, partagé par pick\-color, le démon et le centre de contrôle.
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+Créé par voltkit daemon enable\-autostart.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1), \fBbusctl\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

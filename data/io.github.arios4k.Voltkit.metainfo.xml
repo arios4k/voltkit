@@ -7,6 +7,8 @@
   <summary>Power tools for your Linux desktop in one app</summary>
   <summary xml:lang="es">Herramientas potentes para tu escritorio Linux en una sola app</summary>
   <summary xml:lang="de">Praktische Werkzeuge für Ihren Linux-Desktop in einer App</summary>
+  <summary xml:lang="fr">Des outils puissants pour votre bureau Linux en une seule application</summary>
+  <summary xml:lang="zh_CN">一个应用，为你的 Linux 桌面带来强大工具</summary>
   <developer id="io.github.arios4k">
     <name>Alexis Rios-Negron</name>
   </developer>
@@ -17,37 +19,59 @@
     </p>
     <p xml:lang="es">Voltkit lleva herramientas de escritorio para el día a día a Linux en una sola app GTK4 y libadwaita y un solo comando, hecha para Wayland con atajos globales.</p>
     <p xml:lang="de">Voltkit bringt alltägliche Desktop-Werkzeuge in einer GTK4- und libadwaita-App und einem einzigen Befehl auf Linux, gemacht für Wayland mit globalen Tastenkürzeln.</p>
+    <p xml:lang="fr">Voltkit apporte des outils de bureau du quotidien à Linux dans une seule application GTK4 et libadwaita et une seule commande, conçus pour Wayland avec des raccourcis globaux.</p>
+    <p xml:lang="zh_CN">Voltkit 将日常桌面工具集于一个 GTK4 和 libadwaita 应用及一条命令之中，专为 Wayland 打造，支持全局快捷键。</p>
     <ul>
       <li>Screen OCR: copy the text from any part of the screen</li>
       <li xml:lang="es">OCR de pantalla: copia el texto de cualquier parte de la pantalla</li>
       <li xml:lang="de">Texterkennung: Text aus jedem Teil des Bildschirms kopieren</li>
+      <li xml:lang="fr">OCR d’écran : copiez le texte de n’importe quelle partie de l’écran</li>
+      <li xml:lang="zh_CN">屏幕 OCR：复制屏幕上任意位置的文字</li>
       <li>A QR code scanner and maker</li>
       <li xml:lang="es">Un lector y creador de códigos QR</li>
       <li xml:lang="de">Ein QR-Code-Scanner und -Generator</li>
+      <li xml:lang="fr">Un lecteur et créateur de codes QR</li>
+      <li xml:lang="zh_CN">二维码扫描与生成器</li>
       <li>A screen color picker with contrast checking, and a screen ruler</li>
       <li xml:lang="es">Un selector de color de pantalla con revisión de contraste, y una regla de pantalla</li>
       <li xml:lang="de">Ein Farbwähler mit Kontrastprüfung und ein Bildschirmlineal</li>
+      <li xml:lang="fr">Un sélecteur de couleur d’écran avec vérification du contraste, et une règle d’écran</li>
+      <li xml:lang="zh_CN">带对比度检查的屏幕取色器，以及屏幕标尺</li>
       <li>An image and video compressor that strips metadata</li>
       <li xml:lang="es">Un compresor de imágenes y videos que quita los metadatos</li>
       <li xml:lang="de">Ein Bild- und Videokompressor, der Metadaten entfernt</li>
+      <li xml:lang="fr">Un compresseur d’images et de vidéos qui supprime les métadonnées</li>
+      <li xml:lang="zh_CN">可删除元数据的图片和视频压缩器</li>
       <li>A text expander with a snippet picker, and Smart Paste for pasting the clipboard converted</li>
       <li xml:lang="es">Un expansor de texto con selector de fragmentos, y Pegado inteligente para pegar el portapapeles convertido</li>
       <li xml:lang="de">Textbausteine mit Bausteinauswahl und „Intelligentes Einfügen“, um die Zwischenablage umgewandelt einzufügen</li>
+      <li xml:lang="fr">Un expanseur de texte avec sélecteur d’extraits, et le collage intelligent pour coller le presse-papiers converti</li>
+      <li xml:lang="zh_CN">带片段选择器的文本扩展工具，以及可粘贴转换后剪贴板内容的智能粘贴</li>
       <li>Keep Awake, and a hosts and environment variable editor</li>
       <li xml:lang="es">Mantener activo, y un editor de hosts y variables de entorno</li>
       <li xml:lang="de">„Wach halten“ sowie ein Editor für hosts und Umgebungsvariablen</li>
+      <li xml:lang="fr">Rester éveillé, et un éditeur de hosts et de variables d’environnement</li>
+      <li xml:lang="zh_CN">保持唤醒，以及 hosts 和环境变量编辑器</li>
       <li>A finder for the apps keeping a drive, file or port busy</li>
       <li xml:lang="es">Un buscador de las apps que mantienen ocupada una unidad, un archivo o un puerto</li>
       <li xml:lang="de">Eine Suche nach Apps, die ein Laufwerk, eine Datei oder einen Port belegen</li>
+      <li xml:lang="fr">Un détecteur des applications qui occupent un disque, un fichier ou un port</li>
+      <li xml:lang="zh_CN">找出占用磁盘、文件或端口的应用的工具</li>
       <li>An app permissions manager and a troubleshooter for sleep and wake-ups</li>
       <li xml:lang="es">Un administrador de permisos de apps y un diagnóstico de suspensión y despertares</li>
       <li xml:lang="de">Eine Verwaltung für App-Berechtigungen und eine Fehlersuche für Bereitschaft und Aufwachen</li>
+      <li xml:lang="fr">Un gestionnaire d’autorisations des applications et un outil de diagnostic de la veille et des réveils</li>
+      <li xml:lang="zh_CN">应用权限管理器，以及休眠与唤醒问题排查工具</li>
       <li>A system report: drivers, drive health, temperatures, firmware updates, memory upgrades and what changed after updates</li>
       <li xml:lang="es">Un informe del sistema: drivers, salud de las unidades, temperaturas, actualizaciones de firmware, ampliaciones de memoria y qué cambió tras las actualizaciones</li>
       <li xml:lang="de">Ein Systembericht: Treiber, Laufwerkszustand, Temperaturen, Firmware-Aktualisierungen, Speicheraufrüstung und was sich nach Aktualisierungen geändert hat</li>
+      <li xml:lang="fr">Un rapport système : pilotes, santé des disques, températures, mises à jour du micrologiciel, extensions de mémoire et ce qui a changé après les mises à jour</li>
+      <li xml:lang="zh_CN">系统报告：驱动、磁盘健康、温度、固件更新、内存升级，以及更新后有什么变化</li>
       <li>A shortcut detective: see what owns a keyboard shortcut, find clashes and change them</li>
       <li xml:lang="es">Un detective de atajos: mira a quién pertenece un atajo de teclado, encuentra conflictos y cámbialos</li>
       <li xml:lang="de">Ein Tastenkürzel-Detektiv: sehen, wem ein Tastenkürzel gehört, Konflikte finden und ändern</li>
+      <li xml:lang="fr">Un détective de raccourcis : voyez à qui appartient un raccourci clavier, trouvez les conflits et modifiez-les</li>
+      <li xml:lang="zh_CN">快捷键侦探：查看某个键盘快捷键归谁所有，找出冲突并加以更改</li>
     </ul>
   </description>
   <screenshots>
@@ -56,30 +80,40 @@
       <caption>Screen OCR</caption>
       <caption xml:lang="es">OCR de pantalla</caption>
       <caption xml:lang="de">Texterkennung</caption>
+      <caption xml:lang="fr">OCR d’écran</caption>
+      <caption xml:lang="zh_CN">屏幕 OCR</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/color-light.png</image>
       <caption>Color picker with contrast checking</caption>
       <caption xml:lang="es">Selector de color con revisión de contraste</caption>
       <caption xml:lang="de">Farbwähler mit Kontrastprüfung</caption>
+      <caption xml:lang="fr">Sélecteur de couleur avec vérification du contraste</caption>
+      <caption xml:lang="zh_CN">带对比度检查的取色器</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/compress-light.png</image>
       <caption>Image and video compressor</caption>
       <caption xml:lang="es">Compresor de imágenes y videos</caption>
       <caption xml:lang="de">Bild- und Videokompressor</caption>
+      <caption xml:lang="fr">Compresseur d’images et de vidéos</caption>
+      <caption xml:lang="zh_CN">图片和视频压缩器</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/sleep-light.png</image>
       <caption>Sleep and wake-up troubleshooter</caption>
       <caption xml:lang="es">Diagnóstico de suspensión y despertares</caption>
       <caption xml:lang="de">Fehlersuche für Bereitschaft und Aufwachen</caption>
+      <caption xml:lang="fr">Diagnostic de la veille et des réveils</caption>
+      <caption xml:lang="zh_CN">休眠与唤醒问题排查工具</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/arios4k/voltkit/main/docs/screenshots/sysreport-light.png</image>
       <caption>System report with checks and recent changes</caption>
       <caption xml:lang="es">Informe del sistema con revisiones y cambios recientes</caption>
       <caption xml:lang="de">Systembericht mit Prüfungen und letzten Änderungen</caption>
+      <caption xml:lang="fr">Rapport système avec vérifications et changements récents</caption>
+      <caption xml:lang="zh_CN">带检查项和最近变化的系统报告</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/arios4k/voltkit</url>
@@ -105,8 +139,19 @@
     <lang>en</lang>
     <lang percentage="100">es</lang>
     <lang percentage="100">de</lang>
+    <lang percentage="100">fr</lang>
+    <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.9.0" date="2026-11-04">
+      <description>
+        <p>Voltkit now speaks French and Simplified Chinese.</p>
+        <p xml:lang="es">Voltkit ahora habla francés y chino simplificado.</p>
+        <p xml:lang="de">Voltkit spricht jetzt Französisch und vereinfachtes Chinesisch.</p>
+        <p xml:lang="fr">Voltkit parle maintenant français et chinois simplifié.</p>
+        <p xml:lang="zh_CN">Voltkit 现在支持法语和简体中文。</p>
+      </description>
+    </release>
     <release version="0.8.0" date="2026-11-03">
       <description>
         <p>Voltkit now speaks Spanish and German.</p>

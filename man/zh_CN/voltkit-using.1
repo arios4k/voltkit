@@ -1,0 +1,67 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-using 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-using \- 显示哪些程序占用了文件、文件夹、磁盘或网络端口
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit using\fR [\fB\-h\fR|\fB\-\-help\fR] <\fITARGET\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+显示哪些程序占用了文件、文件夹、磁盘或网络端口
+.PP
+TARGET 是路径，或像 3000 这样的端口号。列出每个程序及其 PID，以及它如何使用该目标。普通用户只能检查自己的程序；请用 sudo 运行以包含其他用户的程序和系统服务。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+<\fITARGET\fR>
+文件、文件夹或挂载点，或端口号
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 示例
+.PP
+找出是什么让 U 盘处于占用状态：
+.RS 4
+.nf
+\fBvoltkit using /media/$USER/USB\fR
+.fi
+.RE
+.PP
+找出占用 3000 端口的程序：
+.RS 4
+.nf
+\fBvoltkit using 3000\fR
+.fi
+.RE
+.PP
+包含系统服务：
+.RS 4
+.nf
+\fBsudo voltkit using 80\fR
+.fi
+.RE
+.PP
+请求程序退出，如果它不退出再强制结束：
+.RS 4
+.nf
+\fBkill PID
+kill \-KILL PID\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

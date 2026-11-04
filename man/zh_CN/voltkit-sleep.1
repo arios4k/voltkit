@@ -1,0 +1,36 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-sleep 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-sleep \- 说明电脑为什么没有休眠，或为什么被唤醒
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit sleep\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+说明电脑为什么没有休眠，或为什么被唤醒
+.PP
+显示此刻是什么让电脑保持唤醒（应用和设置）、最近一周的每次休眠及其开始和结束的原因与耗电量，以及允许唤醒电脑的 USB 设备。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 备注
+.PP
+休眠历史来自系统日志，adm 或 systemd\-journal 组的成员可以读取。Linux 只在唤醒原因是合上盖子或按下电源键时才会记录；其他唤醒则按可能的原因来描述。允许唤醒电脑的 USB 设备可以在应用中更改（需要管理员密码）；这个选择保存在 /etc/udev/rules.d/90\-voltkit\-wakeup.rules 中。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

@@ -1,0 +1,57 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-picker 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-picker \- 打开片段选择器，并将所选片段粘贴到当前焦点所在的应用
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit picker\fR [\fB\-\-snippet\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+打开片段选择器，并将所选片段粘贴到当前焦点所在的应用
+.PP
+用键盘搜索，按 Enter，并填写所有 {arg:NAME} 参数。展开的内容会通过 RemoteDesktop 门户粘贴到原先有焦点的应用（桌面只会请求一次权限），之前的剪贴板内容会被恢复。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-\-snippet\fR \fI<TRIGGER>\fR
+直接打开具有此触发词的片段
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 按键
+.TP
+\fB上、下\fR
+在搜索框中输入时选择片段。
+.TP
+\fBEnter\fR
+插入片段，或跳到下一个参数字段。
+.TP
+\fBEsc\fR
+从参数表单返回，或关闭选择器。
+.SH 备注
+.PP
+第一次粘贴时会请求远程桌面权限；授权会记录在 ~/.local/state/voltkit/remote\-desktop\-token 中。如果粘贴被拒绝或不可用，展开的内容会保留在剪贴板中，并通过通知提示按 Ctrl+V。使用其他粘贴快捷键的应用（如终端）需要在配置的 [expander] 部分设置 paste_shortcut。
+.SH 示例
+.PP
+在某个片段的表单上打开选择器：
+.RS 4
+.nf
+\fBvoltkit picker \-\-snippet \*(Aq;quote\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

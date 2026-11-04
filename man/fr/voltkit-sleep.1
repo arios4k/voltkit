@@ -1,0 +1,36 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-sleep 1  "Voltkit 0.9.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-sleep \- Expliquer pourquoi l’ordinateur ne se met pas en veille, ou pourquoi il s’est réveillé
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit sleep\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Expliquer pourquoi l’ordinateur ne se met pas en veille, ou pourquoi il s’est réveillé
+.PP
+Montre ce qui maintient l’ordinateur éveillé en ce moment (applications et réglages), les mises en veille de la dernière semaine avec ce qui a démarré et terminé chacune et la batterie utilisée, et les appareils USB autorisés à le réveiller.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOTES
+.PP
+L’historique de veille provient du journal système, que peuvent lire les membres des groupes adm ou systemd\-journal. Linux n’enregistre ce qui a réveillé l’ordinateur que lorsqu’il s’agit du capot ou du bouton d’alimentation ; les autres réveils sont décrits par leurs causes probables. Les appareils USB autorisés à réveiller l’ordinateur peuvent être changés dans l’application (avec le mot de passe administrateur) ; le choix est conservé dans /etc/udev/rules.d/90\-voltkit\-wakeup.rules.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

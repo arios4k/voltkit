@@ -1103,39 +1103,39 @@ msgid ""
 msgstr ""
 "activa Disparadores al escribir en la página Expansión de texto de Voltkit (pide tu contraseña una vez), o ejecuta `voltkit expander setup --apply`"
 
-#: src/i18n.rs:379
+#: src/i18n.rs:402
 msgid "Commands"
 msgstr "Comandos"
 
-#: src/i18n.rs:382
+#: src/i18n.rs:405
 msgid "Usage"
 msgstr "Uso"
 
-#: src/i18n.rs:390
+#: src/i18n.rs:413
 msgid "Options"
 msgstr "Opciones"
 
-#: src/i18n.rs:391
+#: src/i18n.rs:414
 msgid "Arguments"
 msgstr "Argumentos"
 
-#: src/i18n.rs:409
+#: src/i18n.rs:432
 msgid "Print help (see more with '--help')"
 msgstr "Muestra la ayuda (ve más con '--help')"
 
-#: src/i18n.rs:409
+#: src/i18n.rs:432
 msgid "Print help (see a summary with '-h')"
 msgstr "Muestra la ayuda (ve un resumen con '-h')"
 
-#: src/i18n.rs:411
+#: src/i18n.rs:434
 msgid "Print help"
 msgstr "Muestra la ayuda"
 
-#: src/i18n.rs:420
+#: src/i18n.rs:443
 msgid "Print version"
 msgstr "Muestra la versión"
 
-#: src/i18n.rs:434
+#: src/i18n.rs:457
 msgid "Print this message or the help of the given subcommand(s)"
 msgstr "Muestra este mensaje o la ayuda de los subcomandos indicados"
 

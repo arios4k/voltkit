@@ -1,0 +1,67 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-color 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-color \- 转换颜色（#hex 或 rgb(...)）并报告 WCAG 对比度
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit color\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIVALUE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+转换颜色（#hex 或 rgb(...)）并报告 WCAG 对比度
+.PP
+以 HEX、RGB 和 HSL 打印该颜色，并给出它作为文字分别放在白底和黑底上的 WCAG 2.x 对比度。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+<\fIVALUE\fR>
+#rgb、#rrggbb（# 可省略）或 rgb(r, g, b)
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 对比度等级
+.PP
+评级针对 WCAG 2.x 下的常规大小文字：
+.TP
+\fBAAA\fR
+7:1 或更高。
+.TP
+\fBAA\fR
+4.5:1 或更高。
+.TP
+\fBAA 大字\fR
+3:1 或更高；仅适用于大字（18 磅，或 14 磅粗体）。
+.TP
+\fB不合格\fR
+低于 3:1。
+.SH 示例
+.PP
+带或不带 # 的十六进制，短格式或长格式：
+.RS 4
+.nf
+\fBvoltkit color f80\fR
+.fi
+.RE
+.PP
+函数表示法：
+.RS 4
+.nf
+\fBvoltkit color \*(Aqrgb(51, 130, 202)\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

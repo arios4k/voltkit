@@ -8,11 +8,13 @@ ordinary gettext catalogs:
 | `voltkit.pot` | the template: every message in English |
 | `es.po` | Spanish (neutral Latin American, *tú*) |
 | `de.po` | German (*Sie*, following GNOME's German conventions) |
+| `fr.po` | French (*vous*, following GNOME's French conventions) |
+| `zh_CN.po` | Simplified Chinese (used for every Chinese locale except `zh_TW`, `zh_HK` and `zh_MO`) |
 
 The catalogs are compiled into the binary (see `src/i18n.rs`), so there are no
 `.mo` files to build or install. Voltkit picks the language from `LANGUAGE`,
 `LC_ALL`, `LC_MESSAGES` or `LANG`, like any gettext program; anything without a
-catalog shows in English. Try a language with `LANGUAGE=de voltkit`.
+catalog shows in English. Try a language with `LANGUAGE=de voltkit` or `LANGUAGE=zh_CN voltkit`.
 
 ## Fixing a translation
 

@@ -1,0 +1,54 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-report 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-report \- 描述这台电脑：硬件、驱动、健康状况和最近的变化
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit report\fR [\fB\-\-memory\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+描述这台电脑：硬件、驱动、健康状况和最近的变化
+.PP
+打印一份可以放心分享到论坛或错误报告的报告（不含序列号、名称或网络地址），其中包含对驱动、硬盘健康、磁盘空间、温度和固件更新的检查与修复建议。同时会保存今天的快照，以便之后的报告显示有什么变化。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-\-memory\fR
+同时显示内存插槽和升级选项（需要管理员密码）
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 备注
+.PP
+报告会去掉序列号、用户名和计算机名以及网络地址，因此可以发布到论坛或错误报告中。硬盘健康信息来自 UDisks2，固件更新来自 fwupd。每次运行（以及后台服务每天一次）都会在 ~/.local/share/voltkit/snapshots 中保存一份硬件、驱动、内核和固件的快照，之后的报告会与之对比，以显示有什么变化。\-\-memory 从 SMBIOS 表读取内存插槽信息，这需要管理员密码。
+.SH 示例
+.PP
+复制报告，以便粘贴到论坛帖子中：
+.RS 4
+.nf
+\fBvoltkit report | wl\-copy\fR
+.fi
+.RE
+.PP
+包含内存插槽和升级选项：
+.RS 4
+.nf
+\fBvoltkit report \-\-memory\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

@@ -1,0 +1,110 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-daemon 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-daemon \- 运行监听全局快捷键的后台服务
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit daemon\fR [\fB\-h\fR|\fB\-\-help\fR] [\fI命令\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+运行监听全局快捷键的后台服务
+.PP
+不带子命令时，在前台运行该服务直到被中断。它在会话总线上拥有 io.github.arios4k.Voltkit.Daemon，因此只会运行一个实例；当桌面提供 XDG GlobalShortcuts 门户时，通过它绑定已配置的快捷键。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 命令
+.TP
+\fBvoltkit daemon status\fR
+显示守护进程是否在运行，以及快捷键是如何绑定的
+.TP
+\fBvoltkit daemon stop\fR
+停止正在运行的守护进程
+.TP
+\fBvoltkit daemon reload\fR
+让正在运行的守护进程重新读取配置文件中的片段
+.TP
+\fBvoltkit daemon enable\-autostart\fR
+登录时自动启动守护进程
+.TP
+\fBvoltkit daemon disable\-autostart\fR
+不再在登录时启动守护进程
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 快捷键后端
+.TP
+\fBportal\fR
+GlobalShortcuts 门户（GNOME 48+、KDE Plasma 5.27+、Hyprland）。桌面只会请求一次批准。
+.TP
+\fBgnome\-keybindings\fR
+由 voltkit shortcuts install 添加的自定义快捷键。
+.TP
+\fBnone\fR
+在桌面或合成器的设置中绑定 voltkit trigger ACTION。
+.SH "D-BUS 接口"
+.PP
+总线名称 io.github.arios4k.Voltkit.Daemon，对象 /io/github/arios4k/Voltkit/Daemon，接口 io.github.arios4k.Voltkit.Daemon1：
+.TP
+\fBTrigger(s action)\fR
+启动 “ocr”、“color” 或 “snippets” 并立即返回。若另一个仍处于打开状态则忽略。
+.TP
+\fBStatus() → (sss)\fR
+版本、快捷键后端，以及键入触发词是开启、关闭还是不可用。
+.TP
+\fBKeepAwake(u minutes)\fR
+阻止电脑休眠或锁屏，持续 MINUTES 分钟；为 0 时持续到被停止为止。
+.TP
+\fBStopAwake()\fR
+结束“保持唤醒”。
+.TP
+\fBAwakeStatus() → (bx)\fR
+“保持唤醒”是否开启，以及它何时结束（Unix 时间；0 表示直到被停止）。
+.TP
+\fBReload()\fR
+从配置文件重新读取片段，使键入触发词立即采用修改。控制中心在每次更改后都会调用它。
+.TP
+\fBQuit()\fR
+停止守护进程。
+.SH 示例
+.PP
+检查它是否在运行：
+.RS 4
+.nf
+\fBvoltkit daemon status\fR
+.fi
+.RE
+.PP
+从其他程序触发 OCR：
+.RS 4
+.nf
+\fBbusctl \-\-user call io.github.arios4k.Voltkit.Daemon /io/github/arios4k/Voltkit/Daemon io.github.arios4k.Voltkit.Daemon1 Trigger s ocr\fR
+.fi
+.RE
+.SH 文件
+.TP
+\fB~/.config/voltkit/config.toml\fR
+配置：快捷键、OCR 语言、压缩质量和片段。所有键都是可选的。
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+颜色历史，最新的在前，由 pick\-color、守护进程和控制中心共用。
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+由 voltkit daemon enable\-autostart 创建。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1), \fBbusctl\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

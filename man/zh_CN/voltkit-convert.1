@@ -1,0 +1,66 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-convert 1  "Voltkit 0.9.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-convert \- 用智能粘贴的某种转换方式转换标准输入中的文本
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit convert\fR [\fB\-h\fR|\fB\-\-help\fR] [\fICONVERSION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+用智能粘贴的某种转换方式转换标准输入中的文本
+.PP
+不带 CONVERSION 时，列出所有转换方式。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+[\fICONVERSION\fR]
+某种转换，如 json、markdown\-table、clean\-link 或 snake
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 示例
+.PP
+列出所有转换：
+.RS 4
+.nf
+\fBvoltkit convert\fR
+.fi
+.RE
+.PP
+整理文件中的 JSON：
+.RS 4
+.nf
+\fBvoltkit convert json < data.json\fR
+.fi
+.RE
+.PP
+将复制的表格区域转换为 Markdown 表格：
+.RS 4
+.nf
+\fBwl\-paste | voltkit convert markdown\-table\fR
+.fi
+.RE
+.PP
+去除链接中的跟踪参数：
+.RS 4
+.nf
+\fBecho \*(Aqhttps://example.com/?utm_source=x\*(Aq | voltkit convert clean\-link\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron
