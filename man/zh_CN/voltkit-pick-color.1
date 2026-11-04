@@ -1,0 +1,41 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-pick-color 1  "Voltkit 0.8.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-pick\-color \- 从屏幕取色并复制其 HEX 值
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit pick\-color\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+从屏幕取色并复制其 HEX 值
+.PP
+使用 XDG Screenshot 门户的取色器。该值会被打印出来、复制到剪贴板，并加入控制中心中显示的颜色历史。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 示例
+.PP
+取色并显示它的所有格式：
+.RS 4
+.nf
+\fBvoltkit color "$(voltkit pick\-color)"\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

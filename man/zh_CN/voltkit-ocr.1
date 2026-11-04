@@ -1,0 +1,61 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-ocr 1  "Voltkit 0.8.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-ocr \- 选取屏幕区域，并将识别出的文字复制到剪贴板
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit ocr\fR [\fB\-\-lang\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+选取屏幕区域，并将识别出的文字复制到剪贴板
+.PP
+通过 XDG Screenshot 门户打开桌面的交互式截图工具，然后对所选区域运行 Tesseract。没有该门户时，会改用 grim+slurp、gnome\-screenshot、spectacle 或 maim。文字会被打印出来并复制到剪贴板。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-\-lang\fR \fI<LANG>\fR [default: eng]
+Tesseract 语言代码，例如 "eng" 或 "eng+deu"
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 示例
+.PP
+识别英文文字：
+.RS 4
+.nf
+\fBvoltkit ocr\fR
+.fi
+.RE
+.PP
+识别英文和德文：
+.RS 4
+.nf
+\fBvoltkit ocr \-\-lang eng+deu\fR
+.fi
+.RE
+.PP
+保存文字，而不只是复制：
+.RS 4
+.nf
+\fBvoltkit ocr > notes.txt\fR
+.fi
+.RE
+.SH 备注
+.PP
+每种语言都需要对应的 Tesseract 数据包，例如 Debian 和 Ubuntu 上的 tesseract\-ocr\-deu。用 tesseract \-\-list\-langs 列出已安装的语言。选取时请在文字周围留一点边距：被选区边缘截断的字符会被误识别。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1), \fBtesseract\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

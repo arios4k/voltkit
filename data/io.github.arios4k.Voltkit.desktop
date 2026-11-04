@@ -3,6 +3,8 @@ Name=Voltkit
 Comment=OCR, color picker, asset compressor and text expansion in one app
 Comment[es]=OCR, selector de color, compresor de archivos y expansión de texto en una sola app
 Comment[de]=Texterkennung, Farbwähler, Dateikompressor und Textbausteine in einer App
+Comment[fr]=OCR, sélecteur de couleur, compresseur de fichiers et expansion de texte dans une seule application
+Comment[zh_CN]=OCR、取色器、文件压缩器和文本扩展，集于一个应用
 Exec=voltkit
 Icon=io.github.arios4k.Voltkit
 Terminal=false
@@ -18,10 +20,14 @@ Actions=ocr;color;
 Name=Extract Text from Screen
 Name[es]=Extraer texto de la pantalla
 Name[de]=Text vom Bildschirm erkennen
+Name[fr]=Extraire le texte de l’écran
+Name[zh_CN]=提取屏幕上的文字
 Exec=voltkit trigger ocr
 
 [Desktop Action color]
 Name=Pick a Color from Screen
 Name[es]=Tomar un color de la pantalla
 Name[de]=Farbe vom Bildschirm aufnehmen
+Name[fr]=Choisir une couleur à l’écran
+Name[zh_CN]=从屏幕取色
 Exec=voltkit trigger color

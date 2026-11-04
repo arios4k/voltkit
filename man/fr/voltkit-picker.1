@@ -1,0 +1,57 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-picker 1  "Voltkit 0.8.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-picker \- Ouvrir le sélecteur d’extraits et coller l’extrait choisi dans l’application active
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit picker\fR [\fB\-\-snippet\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Ouvrir le sélecteur d’extraits et coller l’extrait choisi dans l’application active
+.PP
+Recherchez au clavier, appuyez sur Entrée et remplissez les éventuels paramètres {arg:NOM}. Le développement est collé dans l’application qui avait le focus, via le portail RemoteDesktop (le bureau demande l’autorisation une fois), et le presse\-papiers précédent est restauré.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-\-snippet\fR \fI<TRIGGER>\fR
+Ouvrir directement sur l’extrait ayant ce déclencheur
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH TOUCHES
+.TP
+\fBHaut, Bas\fR
+Choisir un extrait pendant la saisie dans la zone de recherche.
+.TP
+\fBEntrée\fR
+Insérer l’extrait, ou passer au champ de paramètre suivant.
+.TP
+\fBÉchap\fR
+Revenir en arrière depuis le formulaire de paramètres, ou fermer le sélecteur.
+.SH NOTES
+.PP
+Le premier collage demande l’autorisation de bureau à distance ; l’autorisation est mémorisée dans ~/.local/state/voltkit/remote\-desktop\-token. Si le collage est refusé ou indisponible, le développement reste dans le presse\-papiers et une notification indique d’appuyer sur Ctrl+V. Les applications qui collent avec un autre raccourci, comme les terminaux, nécessitent que paste_shortcut soit défini dans la section [expander] de la configuration.
+.SH EXEMPLES
+.PP
+Ouvrir le sélecteur sur le formulaire d’un extrait :
+.RS 4
+.nf
+\fBvoltkit picker \-\-snippet \*(Aq;quote\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

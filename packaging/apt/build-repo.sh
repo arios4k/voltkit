@@ -37,6 +37,6 @@ gpg --batch --yes --local-user "$key" --armor --detach-sign -o dists/stable/Rele
 gpg --batch --yes --local-user "$key" --clearsign -o dists/stable/InRelease dists/stable/Release
 gpg --batch --yes --export "$key" > voltkit-archive-keyring.gpg
 
-cp "$here/index.html" "$here/index.es.html" "$here/index.de.html" .
+cp "$here/index.html" "$here/index.es.html" "$here/index.de.html" "$here/index.fr.html" "$here/index.zh-CN.html" .
 touch .nojekyll   # serve files as-is; Jekyll would skip some of them
 echo "APT repository written to $out"

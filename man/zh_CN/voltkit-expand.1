@@ -1,0 +1,81 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expand 1  "Voltkit 0.8.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-expand \- 展开片段模板，例如 "Sent {date:%A}: {clipboard}"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit expand\fR [\fB\-\-arg\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fITEMPLATE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+展开片段模板，例如 "Sent {date:%A}: {clipboard}"
+.PP
+打印 TEMPLATE，并将其中的 {variables} 替换掉。如果有未知变量，或某个 {arg:NAME} 没有对应的 \-\-arg，则会失败。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+<\fITEMPLATE\fR>
+包含要展开的 {variables} 的文本；请加引号，避免 shell 处理花括号
+.SH 选项
+.TP
+\fB\-\-arg\fR \fI<NAME=VALUE>\fR
+{arg:NAME} 的值；有多个参数时重复使用
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 变量
+.TP
+\fB{date}\fR
+今天的日期，格式为 YYYY\-MM\-DD。
+.TP
+\fB{date:FORMAT}\fR
+以任意 strftime(3) FORMAT 表示的当前时间，例如 {date:%A %d %B}。
+.TP
+\fB{time}\fR
+当前时间，格式为 HH:MM。
+.TP
+\fB{clipboard}\fR
+剪贴板中的文字；如果为空则不插入任何内容。
+.TP
+\fB{arg:NAME}\fR
+通过 \-\-arg NAME=VALUE 给出的值。
+.TP
+\fB{{ and }}\fR
+字面的 { 或 }。
+.SH 示例
+.PP
+填写参数：
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}, re: {arg:topic}\*(Aq \-\-arg name=Sam \-\-arg topic=Invoices\fR
+.fi
+.RE
+.PP
+含空格的值需要加引号：
+.RS 4
+.nf
+\fBvoltkit expand \*(AqHi {arg:name}\*(Aq \-\-arg \*(Aqname=Sam Lee\*(Aq\fR
+.fi
+.RE
+.PP
+带时间戳引用剪贴板内容：
+.RS 4
+.nf
+\fBvoltkit expand \*(Aq> {clipboard} ({date} {time})\*(Aq\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1), \fBstrftime\fR(3)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

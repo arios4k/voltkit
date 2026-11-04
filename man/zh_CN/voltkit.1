@@ -1,0 +1,145 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit 1  "Voltkit 0.8.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit \- 适用于 Linux 的桌面小工具合集
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit\fR [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fI命令\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+适用于 Linux 的日常桌面小工具，集于一个程序。
+.PP
+不带子命令运行即可打开 GTK 控制中心。每个子命令可在终端、脚本或键盘快捷键中运行一个工具。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+显示版本
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 命令
+.TP
+voltkit\-ocr(1)
+选取屏幕区域，并将识别出的文字复制到剪贴板
+.TP
+voltkit\-pick\-color(1)
+从屏幕取色并复制其 HEX 值
+.TP
+voltkit\-color(1)
+转换颜色（#hex 或 rgb(...)）并报告 WCAG 对比度
+.TP
+voltkit\-compress(1)
+删除元数据并压缩 PNG、JPEG、WebP 或 MP4 文件
+.TP
+voltkit\-expand(1)
+展开片段模板，例如 "Sent {date:%A}: {clipboard}"
+.TP
+voltkit\-picker(1)
+打开片段选择器，并将所选片段粘贴到当前焦点所在的应用
+.TP
+voltkit\-expander(1)
+设置并切换键入触发词（在任何地方键入 ;date 即可展开）
+.TP
+voltkit\-ruler(1)
+以像素为单位测量屏幕上的距离
+.TP
+voltkit\-awake(1)
+阻止电脑休眠或锁定屏幕
+.TP
+voltkit\-using(1)
+显示哪些程序占用了文件、文件夹、磁盘或网络端口
+.TP
+voltkit\-smart\-paste(1)
+粘贴转换后的剪贴板内容：整理 JSON、将表格转为 Markdown、清理链接……
+.TP
+voltkit\-convert(1)
+用智能粘贴的某种转换方式转换标准输入中的文本
+.TP
+voltkit\-report(1)
+描述这台电脑：硬件、驱动、健康状况和最近的变化
+.TP
+voltkit\-sleep(1)
+说明电脑为什么没有休眠，或为什么被唤醒
+.TP
+voltkit\-qr(1)
+从屏幕或图片文件读取二维码，或由文字生成二维码
+.TP
+voltkit\-daemon(1)
+运行监听全局快捷键的后台服务
+.TP
+voltkit\-doctor(1)
+检查 Voltkit 所需的一切是否已安装并配置好
+.TP
+voltkit\-trigger(1)
+通过守护进程运行某个快捷键操作；如果它没有运行，则直接运行
+.TP
+voltkit\-shortcuts(1)
+为没有 GlobalShortcuts 门户的桌面管理 GNOME 快捷键
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 示例
+.PP
+打开控制中心：
+.RS 4
+.nf
+\fBvoltkit\fR
+.fi
+.RE
+.PP
+复制屏幕某一部分的文字：
+.RS 4
+.nf
+\fBvoltkit ocr\fR
+.fi
+.RE
+.PP
+检查某个颜色的对比度：
+.RS 4
+.nf
+\fBvoltkit color \*(Aq#3584e4\*(Aq\fR
+.fi
+.RE
+.PP
+每次登录时启动后台服务：
+.RS 4
+.nf
+\fBvoltkit daemon enable\-autostart\fR
+.fi
+.RE
+.SH 文件
+.TP
+\fB~/.config/voltkit/config.toml\fR
+配置：快捷键、OCR 语言、压缩质量和片段。所有键都是可选的。
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+颜色历史，最新的在前，由 pick\-color、守护进程和控制中心共用。
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+由 voltkit daemon enable\-autostart 创建。
+.SH 环境变量
+.TP
+\fBWAYLAND_DISPLAY\fR
+设置后，通过 wl\-copy 和 wl\-paste 访问剪贴板；否则使用 xclip。
+.TP
+\fBXDG_CONFIG_HOME, XDG_DATA_HOME\fR
+覆盖上面所列文件的基础目录。
+.SH 退出状态
+.PP
+成功时为 0，出现任何错误时为 1。错误信息输出到标准错误。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\-ocr\fR(1), \fBvoltkit\-pick\-color\fR(1), \fBvoltkit\-color\fR(1), \fBvoltkit\-compress\fR(1), \fBvoltkit\-expand\fR(1), \fBvoltkit\-picker\fR(1), \fBvoltkit\-expander\fR(1), \fBvoltkit\-ruler\fR(1), \fBvoltkit\-awake\fR(1), \fBvoltkit\-using\fR(1), \fBvoltkit\-smart\-paste\fR(1), \fBvoltkit\-convert\fR(1), \fBvoltkit\-report\fR(1), \fBvoltkit\-sleep\fR(1), \fBvoltkit\-qr\fR(1), \fBvoltkit\-daemon\fR(1), \fBvoltkit\-doctor\fR(1), \fBvoltkit\-trigger\fR(1), \fBvoltkit\-shortcuts\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

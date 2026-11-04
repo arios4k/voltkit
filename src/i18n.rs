@@ -25,6 +25,8 @@ struct Language {
 const LANGUAGES: &[Language] = &[
     Language { code: "es", po: include_str!("../po/es.po") },
     Language { code: "de", po: include_str!("../po/de.po") },
+    Language { code: "fr", po: include_str!("../po/fr.po") },
+    Language { code: "zh_CN", po: include_str!("../po/zh_CN.po") },
 ];
 
 /// One translated message: a single form, or the singular and plural forms.
@@ -84,15 +86,26 @@ fn detect() -> u8 {
         if w.starts_with("en") || is_c(w) {
             return 0;
         }
-        let base = w.split(['_', '.', '@', '-']).next().unwrap_or("");
-        if let Some(i) = LANGUAGES.iter().position(|l| l.code == base) {
+        if let Some(i) = LANGUAGES.iter().position(|l| l.code == catalog_code(w)) {
             return i as u8 + 1;
         }
     }
     0
 }
 
-/// Uses `code` ("es", "de", or "en" for the original English) from now on,
+/// The catalog code for a locale such as `fr_CA.UTF-8` or `zh_SG`: its language,
+/// except that every Chinese locale except Traditional Chinese (`zh_TW`, `zh_HK`,
+/// `zh_MO`, `zh-Hant`) maps to the Simplified Chinese catalog, `zh_CN`.
+fn catalog_code(locale: &str) -> &str {
+    let mut parts = locale.split(['.', '@']).next().unwrap_or("").split(['_', '-']);
+    let language = parts.next().unwrap_or("");
+    if language != "zh" {
+        return language;
+    }
+    if parts.any(|p| matches!(p, "TW" | "HK" | "MO" | "Hant")) { "zh_Hant" } else { "zh_CN" }
+}
+
+/// Uses `code` ("es", "de", "fr", "zh_CN", or "en" for the original English) from now on,
 /// whatever the environment says. Returns false if there's no such catalog.
 pub fn set_language(code: &str) -> bool {
     let Some(index) = index_of(code) else { return false };
@@ -200,13 +213,23 @@ pub fn tr(text: &str) -> &str {
 }
 
 /// The form of `singular`/`plural` that fits `n`, in the user's language.
-/// Spanish and German, like English, use the singular for exactly one.
+/// Spanish and German, like English, use the singular for exactly one; French
+/// also for zero; Chinese has a single form.
 pub fn trn<'a>(singular: &'a str, plural: &'a str, n: u64) -> &'a str {
-    let index = usize::from(n != 1);
-    match current().and_then(|c| c.get(singular)).and_then(|forms| forms.get(index)) {
+    match current().and_then(|c| c.get(singular)).and_then(|forms| forms.get(tr_form_index(n))) {
         Some(t) if !t.is_empty() => t,
         _ if n == 1 => singular,
         _ => plural,
+    }
+}
+
+/// The index of the plural form for `n` in the language in use, following the
+/// `Plural-Forms` line of its catalog.
+fn tr_form_index(n: u64) -> usize {
+    match language() {
+        "fr" => usize::from(n > 1),
+        "zh_CN" => 0,
+        _ => usize::from(n != 1),
     }
 }
 
@@ -464,6 +487,28 @@ pub fn command_strings(cmd: &clap::Command) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn maps_locales_to_catalog_codes() {
+        assert_eq!(catalog_code("fr_CA.UTF-8"), "fr");
+        assert_eq!(catalog_code("zh_CN.UTF-8"), "zh_CN");
+        assert_eq!(catalog_code("zh_SG"), "zh_CN");
+        assert_eq!(catalog_code("zh"), "zh_CN");
+        assert_eq!(catalog_code("zh-Hans"), "zh_CN");
+        assert_eq!(catalog_code("zh_TW.UTF-8"), "zh_Hant");
+        assert_eq!(catalog_code("zh_HK"), "zh_Hant");
+        assert_eq!(catalog_code("de_DE@euro"), "de");
+    }
+
+    #[test]
+    fn picks_plural_forms_by_language() {
+        for (code, zero, one, many) in [("fr", "a", "a", "b"), ("es", "b", "a", "b"), ("zh_CN", "a", "a", "a")] {
+            with_language(code, || {
+                let pick = |n| if tr_form_index(n) == 0 { "a" } else { "b" };
+                assert_eq!((pick(0), pick(1), pick(2)), (zero, one, many), "{code}");
+            });
+        }
+    }
 
     #[test]
     fn fills_placeholders_in_order_and_by_position() {

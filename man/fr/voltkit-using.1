@@ -1,0 +1,67 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-using 1  "Voltkit 0.8.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-using \- Afficher quels programmes gardent un fichier, un dossier, un disque ou un port réseau occupé
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit using\fR [\fB\-h\fR|\fB\-\-help\fR] <\fITARGET\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Afficher quels programmes gardent un fichier, un dossier, un disque ou un port réseau occupé
+.PP
+TARGET est un chemin, ou un numéro de port comme 3000. Liste chaque programme avec son PID et la façon dont il utilise la cible. En tant qu’utilisateur normal, seuls vos propres programmes peuvent être vérifiés ; exécutez avec sudo pour inclure les programmes des autres utilisateurs et les services système.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+<\fITARGET\fR>
+Un fichier, un dossier ou un point de montage, ou un numéro de port
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXEMPLES
+.PP
+Trouver ce qui garde une clé USB occupée :
+.RS 4
+.nf
+\fBvoltkit using /media/$USER/USB\fR
+.fi
+.RE
+.PP
+Trouver le programme sur le port 3000 :
+.RS 4
+.nf
+\fBvoltkit using 3000\fR
+.fi
+.RE
+.PP
+Inclure les services système :
+.RS 4
+.nf
+\fBsudo voltkit using 80\fR
+.fi
+.RE
+.PP
+Demander à un programme de quitter, puis le forcer s’il refuse :
+.RS 4
+.nf
+\fBkill PID
+kill \-KILL PID\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

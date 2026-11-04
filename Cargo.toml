@@ -62,9 +62,13 @@ assets = [
     ["man/*.1", "usr/share/man/man1/", "644"],
     ["man/es/*.1", "usr/share/man/es/man1/", "644"],
     ["man/de/*.1", "usr/share/man/de/man1/", "644"],
+    ["man/fr/*.1", "usr/share/man/fr/man1/", "644"],
+    ["man/zh_CN/*.1", "usr/share/man/zh_CN/man1/", "644"],
     ["README.md", "usr/share/doc/voltkit/", "644"],
     ["README.es.md", "usr/share/doc/voltkit/", "644"],
     ["README.de.md", "usr/share/doc/voltkit/", "644"],
+    ["README.fr.md", "usr/share/doc/voltkit/", "644"],
+    ["README.zh-CN.md", "usr/share/doc/voltkit/", "644"],
     ["data/config.example.toml", "usr/share/doc/voltkit/examples/", "644"],
 ]
 

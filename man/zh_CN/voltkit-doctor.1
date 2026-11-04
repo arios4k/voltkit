@@ -1,0 +1,48 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-doctor 1  "Voltkit 0.8.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-doctor \- 检查 Voltkit 所需的一切是否已安装并配置好
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit doctor\fR [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+检查 Voltkit 所需的一切是否已安装并配置好
+.PP
+检查辅助程序、OCR 语言数据、桌面门户、剪贴板工具、后台服务和快捷键，然后打印在此发行版上安装缺失项的命令。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 输出
+.TP
+\fB✓\fR
+已就绪。
+.TP
+\fB✗\fR
+缺失，没有它该功能无法使用。
+.TP
+\fB–\fR
+缺失或已关闭，但该功能仍可有限使用。
+.PP
+安装命令使用当前发行版的包管理器（apt、dnf、pacman 或 zypper），通过 /etc/os\-release 检测。
+.SH 退出状态
+.PP
+没有缺少必需项时为 0，否则为 1，因此可用于脚本。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

@@ -1,0 +1,80 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expander 1  "Voltkit 0.8.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-expander \- 设置并切换键入触发词（在任何地方键入 ;date 即可展开）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit expander\fR [\fB\-h\fR|\fB\-\-help\fR] <\fI命令\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+设置并切换键入触发词（在任何地方键入 ;date 即可展开）
+.PP
+键入触发词通过 evdev 读取键盘输入，并通过 uinput 虚拟键盘粘贴，这需要用 root 权限进行一次性设置。内存中只保留最近键入的几个字符；不会记录或存储任何内容。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 命令
+.TP
+\fBvoltkit expander status\fR
+显示键入触发词是否已开启并能正常运行
+.TP
+\fBvoltkit expander setup [\-\-apply]\fR
+授予键盘访问权限并立即开启键入触发词（无需注销）
+.RS
+\fB\-\-apply\fR: 运行这些命令（会要求输入管理员密码），而不只是打印它们
+.RE
+.TP
+\fBvoltkit expander enable\fR
+开启键入触发词
+.TP
+\fBvoltkit expander disable\fR
+关闭键入触发词
+.TP
+\fBvoltkit expander remove\-access\fR
+关闭键入触发词并移除 Voltkit 的键盘访问权限
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 工作原理
+.PP
+守护进程从 /dev/input 读取按键，并在内存中保留最近键入的 64 个字符。当这些字符以某个片段的触发词结尾时，它通过 uinput 虚拟键盘用退格键删除触发词，粘贴展开后的内容，然后恢复剪贴板。带有 {arg:NAME} 参数的片段则会改为打开选择器的表单。
+.PP
+设置过程会安装一条 udev 规则，用 uaccess 标记键盘和 /dev/uinput（桌面环境就是这样把设备授权给坐在电脑前的用户的），并立即应用：无需加入任何用户组，也无需注销。守护进程会在键入触发词开启和关闭时相应地启动和停止它，并会识别之后插入的键盘。
+.PP
+按键按美式键盘布局解码，因此由字母、数字和 ; 组成的触发词在大多数布局下都能使用，而标点可能不同。如果一个触发词是另一个的前缀（;d 和 ;date），前者会先触发，导致较长的那个无法触发。
+.SH 安全
+.PP
+键盘访问权限适用于坐在电脑前的用户运行的所有程序，而不仅仅是 Voltkit。键入的文字绝不会被记录、写入磁盘或发送到任何地方。`voltkit expander remove\-access`（或在应用中关闭键入触发词并选择移除访问权限）会删除 /etc/udev/rules.d/70\-voltkit\-typed\-triggers.rules 和 /etc/modules\-load.d/voltkit\-uinput.conf；已授予的访问权限会在下次重启时结束。0.6 版之前的设置还会把你加入 input 组，可用 `gpasswd \-d $USER input` 撤销。
+.SH 示例
+.PP
+检查设置命令，然后运行它们：
+.RS 4
+.nf
+\fBvoltkit expander setup
+voltkit expander setup \-\-apply\fR
+.fi
+.RE
+.PP
+关闭键入触发词并移除键盘访问权限：
+.RS 4
+.nf
+\fBvoltkit expander remove\-access\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1), \fBudev\fR(7), \fBusermod\fR(8)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

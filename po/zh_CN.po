@@ -1,0 +1,4925 @@
+# Simplified Chinese translation of Voltkit.
+# This file is distributed under the same license as Voltkit (MIT).
+# Update it with po/update.py; see po/README.md.
+msgid ""
+msgstr ""
+"Project-Id-Version: voltkit\n"
+"Report-Msgid-Bugs-To: https://github.com/arios4k/voltkit/issues\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/about_ui.rs:15
+msgid "Power tools for your Linux desktop."
+msgstr "为你的 Linux 桌面带来强大工具。"
+
+#: src/about_ui.rs:18
+msgid "Copy version information"
+msgstr "复制版本信息"
+
+#: src/about_ui.rs:20
+#, rust-format
+msgid "Version {}"
+msgstr "版本 {}"
+
+#: src/about_ui.rs:25
+msgid "Version information copied"
+msgstr "版本信息已复制"
+
+#: src/about_ui.rs:33
+#, rust-format
+msgid "{} everyday tools"
+msgstr "{} 个日常工具"
+
+#: src/about_ui.rs:34
+msgid "Native Linux app"
+msgstr "原生 Linux 应用"
+
+#: src/about_ui.rs:34
+msgid "Open source"
+msgstr "开源"
+
+#: src/about_ui.rs:42
+msgid "Explore Voltkit"
+msgstr "探索 Voltkit"
+
+#: src/about_ui.rs:43
+msgid "Project & source code"
+msgstr "项目与源代码"
+
+#: src/about_ui.rs:43
+msgid "Documentation, releases, and the code behind Voltkit"
+msgstr "文档、发行版本以及 Voltkit 的代码"
+
+#: src/about_ui.rs:45
+msgid "Report an issue"
+msgstr "报告问题"
+
+#: src/about_ui.rs:45
+msgid "Share a bug or suggest an improvement"
+msgstr "反馈错误或提出改进建议"
+
+#: src/about_ui.rs:49
+msgid "Credits and license"
+msgstr "致谢与许可证"
+
+#: src/about_ui.rs:50
+msgid "Created by"
+msgstr "作者"
+
+#: src/about_ui.rs:52 src/about_ui.rs:96
+msgid "MIT License"
+msgstr "MIT 许可证"
+
+#: src/about_ui.rs:52
+msgid "Free to use, modify, and share"
+msgstr "可自由使用、修改和分享"
+
+#: src/about_ui.rs:67 src/app.rs:111
+msgid "About Voltkit"
+msgstr "关于 Voltkit"
+
+#: src/about_ui.rs:74
+msgid "Open in browser"
+msgstr "在浏览器中打开"
+
+#: src/about_ui.rs:81
+#, rust-format
+msgid "Could not open link: {}"
+msgstr "无法打开链接：{}"
+
+#: src/actions.rs:50
+msgid "Extract text from screen"
+msgstr "提取屏幕上的文字"
+
+#: src/actions.rs:51
+msgid "Pick a color from screen"
+msgstr "从屏幕取色"
+
+#: src/actions.rs:52
+msgid "Insert a snippet"
+msgstr "插入片段"
+
+#: src/actions.rs:53
+msgid "Scan a QR code on screen"
+msgstr "扫描屏幕上的二维码"
+
+#: src/actions.rs:54
+msgid "Measure on screen"
+msgstr "测量屏幕"
+
+#: src/actions.rs:55
+msgid "Paste the clipboard converted"
+msgstr "粘贴转换后的剪贴板内容"
+
+#: src/actions.rs:85
+#, rust-format
+msgid ""
+"\n"
+"\n"
+"Not copied: {}"
+msgstr ""
+"\n"
+"\n"
+"未能复制：{}"
+
+#: src/actions.rs:96
+msgid "Text copied"
+msgstr "文字已复制"
+
+#: src/actions.rs:96
+msgid "Text extracted"
+msgstr "文字已提取"
+
+#: src/actions.rs:106
+#, rust-format
+msgid "{} copied"
+msgstr "{} 已复制"
+
+#: src/actions.rs:117
+msgid "QR code copied"
+msgstr "二维码已复制"
+
+#: src/actions.rs:117
+msgid "QR code read"
+msgstr "二维码已读取"
+
+#: src/actions.rs:128
+msgid "snippet picker"
+msgstr "片段选择器"
+
+#: src/actions.rs:136
+#, rust-format
+msgid "{} exited with {}"
+msgstr "{} 已退出，状态为 {}"
+
+#: src/actions.rs:148
+msgid "screen ruler"
+msgstr "屏幕标尺"
+
+#: src/actions.rs:149 src/modules/mod.rs:110 src/smartpaste_ui.rs:100
+msgid "Smart Paste"
+msgstr "智能粘贴"
+
+#: src/app.rs:113
+msgid "Quit"
+msgstr "退出"
+
+#: src/app.rs:117
+msgid "Main Menu"
+msgstr "主菜单"
+
+#: src/app.rs:194
+#, rust-format
+msgid "could not start {}: {}"
+msgstr "无法启动 {}：{}"
+
+#: src/app.rs:277
+msgid "Details"
+msgstr "详细信息"
+
+#: src/app.rs:292
+#, rust-format
+msgid "{} feature needs attention"
+msgid_plural "{} features need attention"
+msgstr[0] "有 {} 项功能需要注意"
+
+#: src/app.rs:304
+#, rust-format
+msgid ""
+"{}\n"
+"\n"
+"Run `voltkit doctor` for the full report."
+msgstr ""
+"{}\n"
+"\n"
+"运行 `voltkit doctor` 查看完整报告。"
+
+#: src/app.rs:305
+msgid "Needs Attention"
+msgstr "需要注意"
+
+#: src/app.rs:316
+msgid "Copy Command"
+msgstr "复制命令"
+
+#: src/app.rs:319 src/usage_ui.rs:344 src/usage_ui.rs:369
+msgid "Close"
+msgstr "关闭"
+
+#: src/app.rs:332
+msgid "The background service is off, so keyboard shortcuts won't work"
+msgstr "后台服务已关闭，因此键盘快捷键无法使用"
+
+#: src/app.rs:333
+msgid "Start"
+msgstr "启动"
+
+#: src/app.rs:350
+msgid "The background service failed to start"
+msgstr "后台服务启动失败"
+
+#: src/app.rs:354
+#, rust-format
+msgid "Could not start the service: {}"
+msgstr "无法启动服务：{}"
+
+#: src/app.rs:364
+msgid "Capture Region"
+msgstr "截取区域"
+
+#: src/app.rs:384
+msgid "Capture text"
+msgstr "捕获文字"
+
+#: src/app.rs:385
+#, rust-format
+msgid ""
+"Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
+msgstr "在屏幕上任意位置选取文字。识别语言：{}。快捷键：{}"
+
+#: src/app.rs:390
+msgid "Copy Text"
+msgstr "复制文字"
+
+#: src/app.rs:391
+msgid "Extracted text"
+msgstr "提取的文字"
+
+#: src/app.rs:391 src/app.rs:407
+msgid "Capture a region to see and copy its text here."
+msgstr "捕获一个区域，即可在此查看并复制其中的文字。"
+
+#: src/app.rs:395
+msgid "No text captured yet"
+msgstr "尚未捕获任何文字"
+
+#: src/app.rs:406
+#, rust-format
+msgid "{} character"
+msgid_plural "{} characters"
+msgstr[0] "{} 个字符"
+
+#: src/app.rs:407
+msgid "Text is also copied automatically after capture."
+msgstr "捕获后文字也会自动复制。"
+
+#: src/app.rs:409
+msgid "Capture from anything"
+msgstr "从任何内容中捕获"
+
+#: src/app.rs:409
+msgid ""
+"Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
+msgstr "选取一段文字、一条错误信息或图片中的文字。桌面会请你选择屏幕区域；识别过程在你的电脑本地完成。"
+
+#: src/app.rs:416
+msgid "Text from the shortcut, copied to the clipboard"
+msgstr "来自快捷键的文字，已复制到剪贴板"
+
+#: src/app.rs:437
+msgid "Text copied to clipboard"
+msgstr "文字已复制到剪贴板"
+
+#: src/app.rs:439 src/qr_ui.rs:101
+msgid "No screenshot was taken"
+msgstr "未截取屏幕"
+
+#: src/app.rs:441
+msgid "OCR worker crashed"
+msgstr "OCR 进程崩溃了"
+
+#: src/app.rs:456 src/qr_ui.rs:49 src/smartpaste_ui.rs:329 src/sysreport_ui.rs:382
+msgid "Copy"
+msgstr "复制"
+
+#: src/app.rs:464 src/app.rs:584
+#, rust-format
+msgid "Copied {}"
+msgstr "已复制 {}"
+
+#: src/app.rs:490
+msgid "HEX or rgb()"
+msgstr "HEX 或 rgb()"
+
+#: src/app.rs:495
+msgid "Pick from Screen"
+msgstr "从屏幕取色"
+
+#: src/app.rs:496
+msgid "Pick a color anywhere on screen"
+msgstr "在屏幕上任意位置取色"
+
+#: src/app.rs:501
+msgid "Color"
+msgstr "颜色"
+
+#: src/app.rs:502
+#, rust-format
+msgid ""
+"Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
+msgstr "输入颜色，或从屏幕上取色。按 Enter 将其保存到历史记录。在任何应用中按 {} 即可取色：其 HEX 值会被复制并保存在这里。"
+
+#: src/app.rs:510
+msgid "Formats"
+msgstr "格式"
+
+#: src/app.rs:515
+msgid "Text on white"
+msgstr "白底文字"
+
+#: src/app.rs:516
+msgid "Text on black"
+msgstr "黑底文字"
+
+#: src/app.rs:517
+msgid "WCAG Contrast"
+msgstr "WCAG 对比度"
+
+#: src/app.rs:521
+msgid "History"
+msgstr "历史记录"
+
+#: src/app.rs:521
+msgid ""
+"Select a saved color to reuse it. Colors picked from your screen appear here."
+msgstr "选择已保存的颜色即可再次使用。从屏幕取的颜色会显示在这里。"
+
+#: src/app.rs:563
+#, rust-format
+msgid "Could not save history: {}"
+msgstr "无法保存历史记录：{}"
+
+#: src/app.rs:587
+#, rust-format
+msgid "Color picker unavailable: {}"
+msgstr "取色器不可用：{}"
+
+#: src/app.rs:588
+msgid "Color picker crashed"
+msgstr "取色器崩溃了"
+
+#: src/app.rs:597
+msgid "Live color preview"
+msgstr "实时颜色预览"
+
+#: src/app.rs:612
+#, rust-format
+msgid "Picked {} with the shortcut, copied"
+msgstr "已通过快捷键取色 {}，并已复制"
+
+#: src/app.rs:658
+msgid "Open Ruler"
+msgstr "打开标尺"
+
+#: src/app.rs:671
+msgid "Measure in real pixels"
+msgstr "按真实像素测量"
+
+#: src/app.rs:671
+msgid ""
+"Freeze your screen, then drag a line or a rectangle over anything you want to measure."
+msgstr "冻结屏幕，然后在要测量的内容上拖出一条线或一个矩形。"
+
+#: src/app.rs:690
+msgid "Drag to measure width × height"
+msgstr "拖动以测量 宽 × 高"
+
+#: src/app.rs:695
+msgid "Measurement controls"
+msgstr "测量控制"
+
+#: src/app.rs:696
+msgid "Drag"
+msgstr "拖动"
+
+#: src/app.rs:696
+msgid "Measure a rectangle"
+msgstr "测量矩形"
+
+#: src/app.rs:696
+msgid "Shift + drag"
+msgstr "Shift + 拖动"
+
+#: src/app.rs:696
+msgid "Measure a straight line"
+msgstr "测量直线"
+
+#: src/app.rs:696
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: src/app.rs:696
+msgid "Copy the measured size"
+msgstr "复制测得的尺寸"
+
+#: src/app.rs:696
+msgid "Esc"
+msgstr "Esc"
+
+#: src/app.rs:696
+msgid "Close the ruler"
+msgstr "关闭标尺"
+
+#: src/app.rs:700
+msgid "Ready when you need it"
+msgstr "随时待命"
+
+#: src/app.rs:700
+#, rust-format
+msgid ""
+"Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
+msgstr "全局快捷键：{}。测量基于截图像素，高分屏上也一样。"
+
+#: src/app.rs:708
+msgid "Quality"
+msgstr "质量"
+
+#: src/app.rs:709
+msgid "Lower is smaller. PNG is always lossless."
+msgstr "数值越低文件越小。PNG 始终无损。"
+
+#: src/app.rs:713
+msgid "Choose Files…"
+msgstr "选择文件…"
+
+#: src/app.rs:730
+msgid "Drop Files Here"
+msgstr "将文件拖放到此处"
+
+#: src/app.rs:732
+msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
+msgstr "支持 PNG、JPEG、WebP 和 MP4。元数据会被删除；原文件会保留。"
+
+#: src/app.rs:748 src/usage_ui.rs:95
+msgid "Results"
+msgstr "结果"
+
+#: src/app.rs:754
+msgid "Compressing…"
+msgstr "正在压缩…"
+
+#: src/app.rs:771 src/app.rs:774
+msgid "Failed"
+msgstr "失败"
+
+#: src/app.rs:796
+msgid "Compress Files"
+msgstr "压缩文件"
+
+#: src/app.rs:812
+msgid "Compression settings"
+msgstr "压缩设置"
+
+#: src/app.rs:814
+msgid "Your originals stay intact"
+msgstr "原文件保持不变"
+
+#: src/app.rs:814
+msgid ""
+"Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
+msgstr ""
+"压缩后的副本会以 name.min.ext 的名称保存在每个源文件旁边。副本中的元数据会被删除。PNG 压缩是无损的；质量设置适用于 JPEG、WebP 和视频。"
+
+#: src/app.rs:815
+msgid "Choose or drop files to see progress and size savings here."
+msgstr "选择或拖入文件，即可在此查看进度和节省的空间。"
+
+#: src/awake.rs:69
+msgid "Keep Awake ended"
+msgstr "保持唤醒已结束"
+
+#: src/awake.rs:69
+msgid "Your computer can sleep again."
+msgstr "你的电脑现在可以再次休眠了。"
+
+#: src/awake.rs:113
+#, rust-format
+msgid "can't read the duration {}; try 30m, 1h, 1h30m, on or off"
+msgstr "无法识别时长 {}；请尝试 30m、1h、1h30m、on 或 off"
+
+#: src/awake.rs:117
+#, rust-format
+msgid "can't read the duration {}; add m or h, like 30m or 2h"
+msgstr "无法识别时长 {}；请加上 m 或 h，如 30m 或 2h"
+
+#: src/awake.rs:124
+#, rust-format
+msgid "the duration {} is zero; use off to turn Keep Awake off"
+msgstr "时长 {} 为零；请使用 off 关闭保持唤醒"
+
+#: src/awake.rs:132 src/awake_ui.rs:22 src/sysreport_ui.rs:224 src/system_ui.rs:135
+msgid "Off"
+msgstr "关闭"
+
+#: src/awake.rs:133
+msgid "On until turned off"
+msgstr "已开启，直到手动关闭"
+
+#: src/awake.rs:134
+#, rust-format
+msgid "On until {}"
+msgstr "已开启，直到 {}"
+
+#: src/awake.rs:135 src/system_ui.rs:135
+msgid "On"
+msgstr "开"
+
+#: src/awake_ui.rs:17
+msgid "30 minutes"
+msgstr "30 分钟"
+
+#: src/awake_ui.rs:17
+msgid "1 hour"
+msgstr "1 小时"
+
+#: src/awake_ui.rs:17
+msgid "2 hours"
+msgstr "2 小时"
+
+#: src/awake_ui.rs:17
+msgid "4 hours"
+msgstr "4 小时"
+
+#: src/awake_ui.rs:17
+msgid "Until turned off"
+msgstr "直到关闭"
+
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:86
+msgid "Keep Awake"
+msgstr "保持唤醒"
+
+#: src/awake_ui.rs:24
+msgid "For"
+msgstr "持续"
+
+#: src/awake_ui.rs:31
+msgid ""
+"Stops your computer from sleeping or locking the screen while you watch, present, read or download. It keeps going after you close this window, and switches itself off when the time is up."
+msgstr "在你观看、演示、阅读或下载时，阻止电脑休眠或锁屏。关闭此窗口后仍会继续，时间到后会自动关闭。"
+
+#: src/awake_ui.rs:56
+msgid "Needs the background service: start it with the banner above"
+msgstr "需要后台服务：请使用上方的横幅启动它"
+
+#: src/awake_ui.rs:94 src/main.rs:579 src/main.rs:590
+#, rust-format
+msgid "Keep Awake: {}"
+msgstr "保持唤醒：{}"
+
+#: src/awake_ui.rs:111 src/modules/sleep.rs:248
+msgid "Keep Awake is on"
+msgstr "保持唤醒已开启"
+
+#: src/awake_ui.rs:111 src/sleep_ui.rs:188
+msgid "Keep Awake is off"
+msgstr "“保持唤醒”已关闭"
+
+#: src/awake_ui.rs:119
+msgid "Set it and carry on"
+msgstr "设好就不用管"
+
+#: src/awake_ui.rs:119
+msgid ""
+"Choose a duration before turning Keep Awake on. It continues after you close this window and ends automatically when the timer expires. Turn it off here whenever you are done."
+msgstr "开启保持唤醒前请先选择时长。关闭此窗口后它仍会继续，计时结束时自动停止。用完后可随时在这里关闭。"
+
+#: src/config.rs:118
+#, rust-format
+msgid "invalid config at {}"
+msgstr "{} 中的配置无效"
+
+#: src/config.rs:122 src/daemon.rs:352 src/modules/envvars.rs:69
+msgid "no config directory"
+msgstr "没有配置目录"
+
+#: src/daemon.rs:47
+#, rust-format
+msgid "{}: skipped, another action is still open"
+msgstr "{}：已跳过，另一个操作仍处于打开状态"
+
+#: src/daemon.rs:54
+#, rust-format
+msgid "{}: started"
+msgstr "{}：已开始"
+
+#: src/daemon.rs:56
+#, rust-format
+msgid "{}: finished"
+msgstr "{}：已完成"
+
+#: src/daemon.rs:76
+#, rust-format
+msgid "unknown action {}"
+msgstr "未知操作 {}"
+
+#: src/daemon.rs:144
+msgid "cannot connect to the session bus"
+msgstr "无法连接到会话总线"
+
+#: src/daemon.rs:148
+msgid "the Voltkit daemon is already running"
+msgstr "Voltkit 守护进程已在运行"
+
+#: src/daemon.rs:150
+#, rust-format
+msgid "Voltkit daemon {} started"
+msgstr "Voltkit 守护进程 {} 已启动"
+
+#: src/daemon.rs:164
+msgid "Added Voltkit's keyboard shortcuts to GNOME"
+msgstr "已将 Voltkit 的键盘快捷键添加到 GNOME"
+
+#: src/daemon.rs:165
+#, rust-format
+msgid "Could not add the keyboard shortcuts: {}"
+msgstr "无法添加键盘快捷键：{}"
+
+#: src/daemon.rs:170
+#, rust-format
+msgid "Global shortcuts portal unavailable: {}"
+msgstr "全局快捷键门户不可用：{}"
+
+#: src/daemon.rs:172
+msgid ""
+"Bind `voltkit trigger ocr` / `voltkit trigger color` in your desktop's keyboard settings, or on GNOME run `voltkit shortcuts install`."
+msgstr ""
+"请在桌面的键盘设置中绑定 `voltkit trigger ocr` / `voltkit trigger color`，或在 GNOME 上运行 `voltkit shortcuts install`。"
+
+#: src/daemon.rs:175
+msgid "Using GNOME custom keybindings"
+msgstr "正在使用 GNOME 自定义快捷键"
+
+#: src/daemon.rs:179
+msgid "Added the shortcuts of new tools"
+msgstr "已添加新工具的快捷键"
+
+#: src/daemon.rs:180
+#, rust-format
+msgid "Could not add the new shortcuts: {}"
+msgstr "无法添加新的快捷键：{}"
+
+#: src/daemon.rs:193
+#, rust-format
+msgid "system snapshot: {}"
+msgstr "系统快照：{}"
+
+#: src/daemon.rs:209
+msgid "Voltkit daemon stopped"
+msgstr "Voltkit 守护进程已停止"
+
+#: src/daemon.rs:223 src/main.rs:350
+msgid "Typed triggers off"
+msgstr "键入触发词已关闭"
+
+#: src/daemon.rs:238
+#, rust-format
+msgid "Typed triggers are waiting for keyboard access: {}"
+msgstr "键入触发词正在等待键盘访问权限：{}"
+
+#: src/daemon.rs:247
+#, rust-format
+msgid "Typed triggers unavailable: {}"
+msgstr "键入触发词不可用：{}"
+
+#: src/daemon.rs:271
+#, rust-format
+msgid "Shortcut {} {}"
+msgstr "快捷键 {} {}"
+
+#: src/daemon.rs:307
+msgid "off"
+msgstr "关"
+
+#: src/daemon.rs:308
+msgid "on"
+msgstr "开"
+
+#: src/daemon.rs:309
+msgid "needs keyboard access"
+msgstr "需要键盘访问权限"
+
+#: src/daemon.rs:310
+msgid "unavailable"
+msgstr "不可用"
+
+#: src/daemon.rs:321
+msgid "the background service isn't running; start it with `voltkit daemon`"
+msgstr "后台服务没有运行；请用 `voltkit daemon` 启动"
+
+#: src/daemon.rs:342 src/daemon.rs:346
+msgid "the daemon is not running"
+msgstr "守护进程没有运行"
+
+#: src/detective_ui.rs:22
+msgid "Shortcuts aren't available on this desktop"
+msgstr "此桌面不提供快捷键功能"
+
+#: src/detective_ui.rs:23
+msgid ""
+"Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On KDE Plasma, open System Settings → Shortcuts."
+msgstr "快捷键侦探支持 GNOME、Cinnamon、Budgie 和 MATE。在 KDE Plasma 上，请打开“系统设置 → 快捷键”。"
+
+#: src/detective_ui.rs:68
+msgid "Press a shortcut to investigate"
+msgstr "按下一个快捷键进行查看"
+
+#: src/detective_ui.rs:70
+msgid "Choose Record Shortcut to inspect a key combination"
+msgstr "选择“录制快捷键”来查看某个组合键"
+
+#: src/detective_ui.rs:72
+msgid "Record Shortcut"
+msgstr "录制快捷键"
+
+#: src/detective_ui.rs:79
+msgid "All Shortcuts"
+msgstr "所有快捷键"
+
+#: src/detective_ui.rs:80
+msgid "Conflicts"
+msgstr "冲突"
+
+#: src/detective_ui.rs:81
+msgid "Refresh shortcuts"
+msgstr "刷新快捷键"
+
+#: src/detective_ui.rs:86
+msgid "Filter shortcuts by action, owner, or keys…"
+msgstr "按操作、所有者或按键筛选快捷键…"
+
+#: src/detective_ui.rs:91
+msgid "Registered shortcuts"
+msgstr "已注册的快捷键"
+
+#: src/detective_ui.rs:106
+msgid "System-wide shortcuts · Select an action to inspect or change it"
+msgstr "系统级快捷键 · 选择一个操作即可查看或更改"
+
+#: src/detective_ui.rs:116
+msgid "Press the keys now · Esc to cancel"
+msgstr "现在请按下按键 · 按 Esc 取消"
+
+#: src/detective_ui.rs:124
+msgid "Recording cancelled. Choose Record Shortcut to try again."
+msgstr "录制已取消。选择“录制快捷键”可重试。"
+
+#: src/detective_ui.rs:145
+msgid "No shortcut assigned"
+msgstr "未分配快捷键"
+
+#: src/detective_ui.rs:163
+#, rust-format
+msgid "Conflicts · {}"
+msgstr "冲突 · {}"
+
+#: src/detective_ui.rs:170
+#, rust-format
+msgid "Registered shortcuts · {} of {}"
+msgstr "已注册的快捷键 · {} / {}"
+
+#: src/detective_ui.rs:177 src/detective_ui.rs:246
+msgid "Not set"
+msgstr "未设置"
+
+#: src/detective_ui.rs:181
+msgid "Conflict"
+msgstr "冲突"
+
+#: src/detective_ui.rs:190
+msgid "No shortcuts match these filters"
+msgstr "没有符合这些筛选条件的快捷键"
+
+#: src/detective_ui.rs:211
+msgid "Shortcut details"
+msgstr "快捷键详情"
+
+#: src/detective_ui.rs:217
+msgid ""
+"Available as a system-wide shortcut. Apps may still use it within their windows."
+msgstr "可用作系统级快捷键。应用仍可能在自己的窗口内使用它。"
+
+#: src/detective_ui.rs:218
+msgid "1 action uses this shortcut"
+msgstr "有 1 个操作使用此快捷键"
+
+#: src/detective_ui.rs:219
+#, rust-format
+msgid ""
+"{} actions share this shortcut. Change an action to resolve the conflict."
+msgstr "有 {} 个操作共用此快捷键。更改其中一个操作即可解决冲突。"
+
+#: src/detective_ui.rs:227
+msgid "Free combinations to try"
+msgstr "可以尝试的空闲组合"
+
+#: src/detective_ui.rs:233
+msgid ""
+"Choose Change to record a new combination, turn a shortcut off, or reset its default."
+msgstr "选择“更改”即可录制新的组合键、关闭快捷键或恢复其默认值。"
+
+#: src/detective_ui.rs:239
+msgid ""
+"Select a shortcut or record a key combination to see its owners and available alternatives."
+msgstr "选择一个快捷键或录制一个组合键，即可查看它的所有者和可用的替代组合。"
+
+#: src/detective_ui.rs:246
+msgid "  or  "
+msgstr "  或  "
+
+#: src/detective_ui.rs:252
+msgid "Change…"
+msgstr "更改…"
+
+#: src/detective_ui.rs:261
+msgid "Locked by the system administrator"
+msgstr "已被系统管理员锁定"
+
+#: src/detective_ui.rs:272
+#, rust-format
+msgid "{} · now {}"
+msgstr "{} · 当前为 {}"
+
+#: src/detective_ui.rs:272
+msgid "not set"
+msgstr "未设置"
+
+#: src/detective_ui.rs:274 src/detective_ui.rs:310
+msgid "Press the New Shortcut…"
+msgstr "请按下新的快捷键…"
+
+#: src/detective_ui.rs:277 src/snippets_ui.rs:406 src/system_ui.rs:484
+msgid "Save"
+msgstr "保存"
+
+#: src/detective_ui.rs:286
+#, rust-format
+msgid "{} is free"
+msgstr "{} 是空闲的"
+
+#: src/detective_ui.rs:290
+#, rust-format
+msgid "{} is already used by {}. Pick another, or change that one first."
+msgstr "{} 已被 {} 使用。请换一个，或先修改那个。"
+
+#: src/detective_ui.rs:307
+msgid "Press the keys now (Esc to cancel)"
+msgstr "现在请按下按键（按 Esc 取消）"
+
+#: src/detective_ui.rs:324
+msgid "Free combinations"
+msgstr "空闲的组合"
+
+#: src/detective_ui.rs:327 src/sleep_ui.rs:181
+msgid "Turn Off"
+msgstr "关闭"
+
+#: src/detective_ui.rs:328
+msgid "Reset to Default"
+msgstr "恢复默认"
+
+#: src/detective_ui.rs:338
+msgid "Change Shortcut"
+msgstr "更改快捷键"
+
+#: src/detective_ui.rs:350 src/permissions_ui.rs:170
+#, rust-format
+msgid "Not changed: {}"
+msgstr "未更改：{}"
+
+#: src/detective_ui.rs:358
+#, rust-format
+msgid "“{}” is now {}"
+msgstr "“{}”现在是 {}"
+
+#: src/detective_ui.rs:363
+#, rust-format
+msgid "“{}” has no shortcut now"
+msgstr "“{}”现在没有快捷键"
+
+#: src/detective_ui.rs:367
+#, rust-format
+msgid "“{}” is back to its default"
+msgstr "“{}”已恢复默认"
+
+#: src/doctor.rs:76
+#, rust-format
+msgid "tesseract language data for \"{}\""
+msgstr "“{}”的 Tesseract 语言数据"
+
+#: src/doctor.rs:131
+#, rust-format
+msgid "install {} with your package manager"
+msgstr "请用包管理器安装 {}"
+
+#: src/doctor.rs:167
+msgid "Everything is in place."
+msgstr "一切就绪。"
+
+#: src/doctor.rs:170
+#, rust-format
+msgid ""
+"{} required and {} optional item(s) missing (✗ breaks a feature, – limits it)."
+msgstr "缺少 {} 个必需项和 {} 个可选项（✗ 会导致功能无法使用，– 会限制功能）。"
+
+#: src/doctor.rs:174
+msgid "To install them:"
+msgstr "安装方法："
+
+#: src/doctor.rs:227
+msgid "Text Extractor (OCR)"
+msgstr "文字提取器（OCR）"
+
+#: src/doctor.rs:235
+#, rust-format
+msgid "language data: {}"
+msgstr "语言数据：{}"
+
+#: src/doctor.rs:244
+msgid "region capture: Screenshot portal"
+msgstr "区域截取：截图门户"
+
+#: src/doctor.rs:245
+#, rust-format
+msgid "region capture: {}"
+msgstr "区域截取：{}"
+
+#: src/doctor.rs:246
+msgid "region capture"
+msgstr "区域截取"
+
+#: src/doctor.rs:253 src/doctor.rs:263 src/doctor.rs:318
+msgid "install xdg-desktop-portal and your desktop's portal backend"
+msgstr "请安装 xdg-desktop-portal 以及适合你桌面的门户后端"
+
+#: src/doctor.rs:257 src/modules/mod.rs:74
+msgid "Color Picker"
+msgstr "取色器"
+
+#: src/doctor.rs:260
+msgid "screen eyedropper: Screenshot portal"
+msgstr "屏幕取色：截图门户"
+
+#: src/doctor.rs:267
+msgid "Clipboard (hotkeys and command line)"
+msgstr "剪贴板（快捷键和命令行）"
+
+#: src/doctor.rs:272 src/modules/mod.rs:68
+msgid "Asset Compressor"
+msgstr "资源压缩器"
+
+#: src/doctor.rs:283 src/modules/mod.rs:122
+msgid "Text Expansion"
+msgstr "文本扩展"
+
+#: src/doctor.rs:286
+msgid "picker pastes for you: RemoteDesktop portal"
+msgstr "选择器代你粘贴：RemoteDesktop 门户"
+
+#: src/doctor.rs:289
+msgid "without it the snippet is copied and you press Ctrl+V"
+msgstr "没有它时，片段只会被复制，需要你自己按 Ctrl+V"
+
+#: src/doctor.rs:295
+msgid "typed triggers: keyboard access"
+msgstr "键入触发词：键盘访问权限"
+
+#: src/doctor.rs:303
+msgid "typed triggers (off)"
+msgstr "键入触发词（已关闭）"
+
+#: src/doctor.rs:306
+msgid "turn on with `voltkit expander setup`, then `voltkit expander enable`"
+msgstr "先运行 `voltkit expander setup`，再运行 `voltkit expander enable` 开启"
+
+#: src/doctor.rs:315
+msgid "stop sleeping and locking: Inhibit portal"
+msgstr "阻止休眠和锁屏：Inhibit 门户"
+
+#: src/doctor.rs:320 src/modules/mod.rs:80
+msgid "Hosts & Environment"
+msgstr "Hosts 与环境变量"
+
+#: src/doctor.rs:323
+msgid "saving /etc/hosts: pkexec"
+msgstr "保存 /etc/hosts：pkexec"
+
+#: src/doctor.rs:326
+msgid ""
+"install polkit (pkexec) to save the hosts file; environment variables work without it"
+msgstr "请安装 polkit (pkexec) 以保存 hosts 文件；环境变量无需它也能使用"
+
+#: src/doctor.rs:329
+msgid "Background Service"
+msgstr "后台服务"
+
+#: src/doctor.rs:333
+msgid "daemon running"
+msgstr "守护进程正在运行"
+
+#: src/doctor.rs:336
+msgid ""
+"start it with `voltkit daemon enable-autostart`, then log in again or run `voltkit daemon`"
+msgstr "请运行 `voltkit daemon enable-autostart` 启动，然后重新登录或运行 `voltkit daemon`"
+
+#: src/doctor.rs:339
+msgid "hotkeys: GlobalShortcuts portal"
+msgstr "快捷键：GlobalShortcuts 门户"
+
+#: src/doctor.rs:341
+msgid "hotkeys: GNOME custom shortcuts"
+msgstr "快捷键：GNOME 自定义快捷键"
+
+#: src/doctor.rs:351
+msgid ""
+"on GNOME run `voltkit shortcuts install`; elsewhere bind `voltkit trigger ocr|color|snippets`"
+msgstr ""
+"在 GNOME 上运行 `voltkit shortcuts install`；其他桌面请绑定 `voltkit trigger ocr|color|snippets`"
+
+#: src/expander.rs:73 src/modules/sleep.rs:558 src/modules/sysreport.rs:855 src/modules/usage.rs:395
+msgid "pkexec is needed"
+msgstr "需要 pkexec"
+
+#: src/expander.rs:76 src/modules/sysreport.rs:858 src/modules/usage.rs:398
+msgid "permission was not granted"
+msgstr "未获得授权"
+
+#: src/expander.rs:90
+#, rust-format
+msgid "access was granted, but this session doesn't have it yet: {}"
+msgstr "已授予访问权限，但当前会话尚未生效：{}"
+
+#: src/expander.rs:106
+msgid "no access to the virtual keyboard (/dev/uinput)"
+msgstr "无法访问虚拟键盘 (/dev/uinput)"
+
+#: src/expander.rs:109
+msgid "no access to the keyboards"
+msgstr "无法访问键盘"
+
+#: src/expander.rs:280
+msgid "cannot open /dev/uinput: keyboard access is needed"
+msgstr "无法打开 /dev/uinput：需要键盘访问权限"
+
+#: src/expander.rs:284
+msgid "cannot create the virtual keyboard"
+msgstr "无法创建虚拟键盘"
+
+#: src/expander.rs:357
+#, rust-format
+msgid "Typed triggers on ({} keyboard(s))"
+msgstr "键入触发词已开启（{} 个键盘）"
+
+#: src/expander.rs:379
+msgid ""
+"turn on Typed triggers on Voltkit's Text Expansion page (it asks for your password once), or run `voltkit expander setup --apply`"
+msgstr ""
+"请在 Voltkit 的“文本扩展”页面开启键入触发词（只需输入一次密码），或运行 `voltkit expander setup --apply`"
+
+#: src/i18n.rs:402
+msgid "Commands"
+msgstr "命令"
+
+#: src/i18n.rs:405
+msgid "Usage"
+msgstr "用法"
+
+#: src/i18n.rs:413
+msgid "Options"
+msgstr "选项"
+
+#: src/i18n.rs:414
+msgid "Arguments"
+msgstr "参数"
+
+#: src/i18n.rs:432
+msgid "Print help (see more with '--help')"
+msgstr "显示帮助（用 '--help' 查看更多）"
+
+#: src/i18n.rs:432
+msgid "Print help (see a summary with '-h')"
+msgstr "显示帮助（用 '-h' 查看摘要）"
+
+#: src/i18n.rs:434
+msgid "Print help"
+msgstr "显示帮助"
+
+#: src/i18n.rs:443
+msgid "Print version"
+msgstr "显示版本"
+
+#: src/i18n.rs:457
+msgid "Print this message or the help of the given subcommand(s)"
+msgstr "显示此消息或指定子命令的帮助"
+
+#: src/main.rs:308
+#, rust-format
+msgid "expected name=value, got {}"
+msgstr "应为 name=value，实际为 {}"
+
+#: src/main.rs:314
+msgid "typed triggers: enabled"
+msgstr "键入触发词：已开启"
+
+#: src/main.rs:314
+msgid "typed triggers: disabled"
+msgstr "键入触发词：已关闭"
+
+#: src/main.rs:317
+msgid "permissions: ok"
+msgstr "权限：正常"
+
+#: src/main.rs:320
+#, rust-format
+msgid "permissions: {}"
+msgstr "权限：{}"
+
+#: src/main.rs:322
+#, rust-format
+msgid "next step: {}"
+msgstr "下一步：{}"
+
+#: src/main.rs:331
+msgid "Done: typed triggers can read the keyboard now, no need to log out."
+msgstr "完成：键入触发词现在即可读取键盘，无需注销。"
+
+#: src/main.rs:333
+msgid ""
+"# Typed triggers need these commands to run as root. They let the person at the"
+msgstr "# 键入触发词需要以 root 身份运行这些命令。它们让坐在"
+
+#: src/main.rs:334
+msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
+msgstr "# 电脑前的用户立即读取键盘并使用虚拟键盘。运行"
+
+#: src/main.rs:335
+msgid ""
+"# `voltkit expander setup --apply` to run them (it asks for your password).\n"
+msgstr ""
+"# `voltkit expander setup --apply` 来执行它们（会要求输入密码）。\n"
+
+#: src/main.rs:344
+msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
+msgstr "键入触发词已关闭，Voltkit 的键盘访问权限已移除。"
+
+#: src/main.rs:350
+msgid "Typed triggers on"
+msgstr "键入触发词已开启"
+
+#: src/main.rs:352
+#, rust-format
+msgid "They need keyboard access first: {}"
+msgstr "它们需要先获得键盘访问权限：{}"
+
+#: src/main.rs:355
+msgid "Takes effect when the background service starts"
+msgstr "后台服务启动后生效"
+
+#: src/main.rs:364
+msgid "Error"
+msgstr "错误"
+
+#: src/main.rs:411
+msgid "on white"
+msgstr "白底"
+
+#: src/main.rs:411
+msgid "on black"
+msgstr "黑底"
+
+#: src/main.rs:441
+#, rust-format
+msgid "running (v{}), shortcuts: {}, typed triggers: {}"
+msgstr "正在运行 (v{})，快捷键：{}，键入触发词：{}"
+
+#: src/main.rs:443 src/main.rs:447 src/main.rs:451
+msgid "not running"
+msgstr "未运行"
+
+#: src/main.rs:446
+msgid "Reloaded snippets"
+msgstr "已重新加载片段"
+
+#: src/main.rs:457
+#, rust-format
+msgid "Starts at login through {}, installed with Voltkit"
+msgstr "通过 {} 在登录时启动，随 Voltkit 一并安装"
+
+#: src/main.rs:459
+#, rust-format
+msgid "Created {}"
+msgstr "已创建 {}"
+
+#: src/main.rs:463
+#, rust-format
+msgid "Removed {}"
+msgstr "已删除 {}"
+
+#: src/main.rs:481
+#, rust-format
+msgid "no QR code found in {}"
+msgstr "在 {} 中未找到二维码"
+
+#: src/main.rs:492
+msgid "the code doesn't scan with this logo; shorten the text"
+msgstr "此二维码加上这个标志后无法扫描；请缩短文字"
+
+#: src/main.rs:498 src/qr_ui.rs:364 src/snippets_ui.rs:347
+#, rust-format
+msgid "Saved {}"
+msgstr "已保存 {}"
+
+#: src/main.rs:517
+#, rust-format
+msgid "no conversion called {}; run `voltkit convert` for the list"
+msgstr "没有名为 {} 的转换；运行 `voltkit convert` 查看列表"
+
+#: src/main.rs:520
+#, rust-format
+msgid "{} doesn't fit this text"
+msgstr "{} 不适用于此文本"
+
+#: src/main.rs:531
+msgid "Fixes:"
+msgstr "修复方法："
+
+#: src/main.rs:537
+msgid "Memory:"
+msgstr "内存："
+
+#: src/main.rs:555
+#, rust-format
+msgid "Nothing is using {}"
+msgstr "没有东西在使用 {}"
+
+#: src/main.rs:564
+#, rust-format
+msgid "this is {}"
+msgstr "这是{}"
+
+#: src/main.rs:571
+#, rust-format
+msgid ""
+"{} program of other users or the system wasn't checked; run with sudo to include it"
+msgid_plural ""
+"{} programs of other users or the system weren't checked; run with sudo to include them"
+msgstr[0] "有 {} 个其他用户或系统的程序未被检查；请用 sudo 运行以包含它们"
+
+#: src/main.rs:580
+msgid "Keep Awake: off (the background service isn't running)"
+msgstr "保持唤醒：关闭（后台服务没有运行）"
+
+#: src/main.rs:585
+msgid "Keep Awake: Off"
+msgstr "保持唤醒：关闭"
+
+#: src/main.rs:612
+msgid "Added to GNOME keyboard shortcuts"
+msgstr "已添加到 GNOME 键盘快捷键"
+
+#: src/main.rs:629
+#, rust-format
+msgid "{} isn't a shortcut"
+msgstr "{} 不是快捷键"
+
+#: src/main.rs:634
+#, rust-format
+msgid "{} is free. Nearby free combinations:"
+msgstr "{} 是空闲的。附近的空闲组合："
+
+#: src/main.rs:639
+msgid "Free combinations nearby:"
+msgstr "附近的空闲组合："
+
+#: src/main.rs:649
+msgid "No clashes: no two actions share a shortcut."
+msgstr "没有冲突：没有两个操作共用同一个快捷键。"
+
+#: src/manpages.rs:31
+msgid "FILES"
+msgstr "文件"
+
+#: src/manpages.rs:33
+msgid ""
+"Configuration: hotkeys, OCR language, compression quality and snippets. Every key is optional."
+msgstr "配置：快捷键、OCR 语言、压缩质量和片段。所有键都是可选的。"
+
+#: src/manpages.rs:34
+msgid ""
+"Color history, newest first, shared by pick-color, the daemon and the control center."
+msgstr "颜色历史，最新的在前，由 pick-color、守护进程和控制中心共用。"
+
+#: src/manpages.rs:35
+msgid "Created by voltkit daemon enable-autostart."
+msgstr "由 voltkit daemon enable-autostart 创建。"
+
+#: src/manpages.rs:44 src/manpages.rs:67 src/manpages.rs:84 src/manpages.rs:101
+msgid "EXAMPLES"
+msgstr "示例"
+
+#: src/manpages.rs:46
+msgid "Open the control center:"
+msgstr "打开控制中心："
+
+#: src/manpages.rs:47
+msgid "Copy text from part of the screen:"
+msgstr "复制屏幕某一部分的文字："
+
+#: src/manpages.rs:48
+msgid "Check a color's contrast:"
+msgstr "检查某个颜色的对比度："
+
+#: src/manpages.rs:49
+msgid "Start the background service at every login:"
+msgstr "每次登录时启动后台服务："
+
+#: src/manpages.rs:54
+msgid "ENVIRONMENT"
+msgstr "环境变量"
+
+#: src/manpages.rs:56
+msgid ""
+"When set, the clipboard is accessed with wl-copy and wl-paste; otherwise with xclip."
+msgstr "设置后，通过 wl-copy 和 wl-paste 访问剪贴板；否则使用 xclip。"
+
+#: src/manpages.rs:57
+msgid "Override the base directories of the files listed above."
+msgstr "覆盖上面所列文件的基础目录。"
+
+#: src/manpages.rs:61 src/manpages.rs:257
+msgid "EXIT STATUS"
+msgstr "退出状态"
+
+#: src/manpages.rs:62
+msgid "0 on success, 1 on any error. Errors are printed to standard error."
+msgstr "成功时为 0，出现任何错误时为 1。错误信息输出到标准错误。"
+
+#: src/manpages.rs:69
+msgid "Recognize English text:"
+msgstr "识别英文文字："
+
+#: src/manpages.rs:70
+msgid "Recognize English and German:"
+msgstr "识别英文和德文："
+
+#: src/manpages.rs:71
+msgid "Save the text instead of only copying it:"
+msgstr "保存文字，而不只是复制："
+
+#: src/manpages.rs:75 src/manpages.rs:189 src/manpages.rs:263 src/manpages.rs:298
+msgid "NOTES"
+msgstr "备注"
+
+#: src/manpages.rs:77
+msgid ""
+"Each language needs its Tesseract data package, for example tesseract-ocr-deu on Debian and Ubuntu. List the installed ones with tesseract --list-langs. Leave a small margin around the text when selecting: letters cut by the selection edge are misread."
+msgstr ""
+"每种语言都需要对应的 Tesseract 数据包，例如 Debian 和 Ubuntu 上的 tesseract-ocr-deu。用 tesseract --list-langs 列出已安装的语言。选取时请在文字周围留一点边距：被选区边缘截断的字符会被误识别。"
+
+#: src/manpages.rs:86
+msgid "Pick a color and show all its formats:"
+msgstr "取色并显示它的所有格式："
+
+#: src/manpages.rs:91
+msgid "CONTRAST LEVELS"
+msgstr "对比度等级"
+
+#: src/manpages.rs:93
+msgid "Ratings are for normal-size text under WCAG 2.x:"
+msgstr "评级针对 WCAG 2.x 下的常规大小文字："
+
+#: src/manpages.rs:94
+msgid "7:1 or higher."
+msgstr "7:1 或更高。"
+
+#: src/manpages.rs:95
+msgid "4.5:1 or higher."
+msgstr "4.5:1 或更高。"
+
+#: src/manpages.rs:96 src/modules/color.rs:93
+msgid "AA Large"
+msgstr "AA 大字"
+
+#: src/manpages.rs:96
+msgid "3:1 or higher; passes only for large text (18pt, or 14pt bold)."
+msgstr "3:1 或更高；仅适用于大字（18 磅，或 14 磅粗体）。"
+
+#: src/manpages.rs:97 src/modules/color.rs:94
+msgid "Fail"
+msgstr "不合格"
+
+#: src/manpages.rs:97
+msgid "Below 3:1."
+msgstr "低于 3:1。"
+
+#: src/manpages.rs:103
+msgid "Hex with or without #, short or long form:"
+msgstr "带或不带 # 的十六进制，短格式或长格式："
+
+#: src/manpages.rs:104
+msgid "Functional notation:"
+msgstr "函数表示法："
+
+#: src/manpages.rs:110
+msgid "TOOLS"
+msgstr "工具"
+
+#: src/manpages.rs:112
+msgid "Compression runs these programs, which must be installed:"
+msgstr "压缩会运行以下程序，它们必须已安装："
+
+#: src/manpages.rs:113
+msgid "built in (oxipng), lossless, all metadata stripped."
+msgstr "内置 (oxipng)，无损，删除所有元数据。"
+
+#: src/manpages.rs:114
+msgid "jpegoptim, recompressed down to --quality, all metadata stripped."
+msgstr "jpegoptim，重新压缩到 --quality 指定的质量，删除所有元数据。"
+
+#: src/manpages.rs:115
+msgid "cwebp, at --quality, metadata dropped."
+msgstr "cwebp，按 --quality 指定的质量，丢弃元数据。"
+
+#: src/manpages.rs:116
+msgid ""
+"ffmpeg, H.264 with a CRF derived from --quality, AAC audio, metadata removed, fast-start enabled."
+msgstr "ffmpeg，H.264，CRF 由 --quality 推算，AAC 音频，删除元数据，启用快速启动。"
+
+#: src/manpages.rs:122
+msgid "Compress every PNG in a folder:"
+msgstr "压缩文件夹中的所有 PNG："
+
+#: src/manpages.rs:123
+msgid "Shrink a video harder:"
+msgstr "更大幅度地压缩视频："
+
+#: src/manpages.rs:129
+msgid "VARIABLES"
+msgstr "变量"
+
+#: src/manpages.rs:131
+msgid "Today's date as YYYY-MM-DD."
+msgstr "今天的日期，格式为 YYYY-MM-DD。"
+
+#: src/manpages.rs:132
+msgid ""
+"The current time in any strftime(3) FORMAT, for example {date:%A %d %B}."
+msgstr "以任意 strftime(3) FORMAT 表示的当前时间，例如 {date:%A %d %B}。"
+
+#: src/manpages.rs:133
+msgid "The current time as HH:MM."
+msgstr "当前时间，格式为 HH:MM。"
+
+#: src/manpages.rs:134
+msgid "The clipboard's text, or nothing if it is empty."
+msgstr "剪贴板中的文字；如果为空则不插入任何内容。"
+
+#: src/manpages.rs:135
+msgid "The value given with --arg NAME=VALUE."
+msgstr "通过 --arg NAME=VALUE 给出的值。"
+
+#: src/manpages.rs:136
+msgid "A literal { or }."
+msgstr "字面的 { 或 }。"
+
+#: src/manpages.rs:142
+msgid "Fill in parameters:"
+msgstr "填写参数："
+
+#: src/manpages.rs:143
+msgid "Values with spaces need quotes:"
+msgstr "含空格的值需要加引号："
+
+#: src/manpages.rs:144
+msgid "Quote the clipboard with a timestamp:"
+msgstr "带时间戳引用剪贴板内容："
+
+#: src/manpages.rs:150
+msgid "SHORTCUT BACKENDS"
+msgstr "快捷键后端"
+
+#: src/manpages.rs:152
+msgid ""
+"The GlobalShortcuts portal (GNOME 48+, KDE Plasma 5.27+, Hyprland). The desktop asks once for approval."
+msgstr "GlobalShortcuts 门户（GNOME 48+、KDE Plasma 5.27+、Hyprland）。桌面只会请求一次批准。"
+
+#: src/manpages.rs:153
+msgid "Custom shortcuts added by voltkit shortcuts install."
+msgstr "由 voltkit shortcuts install 添加的自定义快捷键。"
+
+#: src/manpages.rs:154
+msgid "Bind voltkit trigger ACTION in the desktop or compositor settings."
+msgstr "在桌面或合成器的设置中绑定 voltkit trigger ACTION。"
+
+#: src/manpages.rs:158
+msgid "D-BUS INTERFACE"
+msgstr "D-BUS 接口"
+
+#: src/manpages.rs:160
+msgid ""
+"Bus name io.github.arios4k.Voltkit.Daemon, object /io/github/arios4k/Voltkit/Daemon, interface io.github.arios4k.Voltkit.Daemon1:"
+msgstr ""
+"总线名称 io.github.arios4k.Voltkit.Daemon，对象 /io/github/arios4k/Voltkit/Daemon，接口 io.github.arios4k.Voltkit.Daemon1："
+
+#: src/manpages.rs:161
+msgid ""
+"Start \"ocr\", \"color\" or \"snippets\" and return immediately. Ignored while another one is open."
+msgstr "启动 “ocr”、“color” 或 “snippets” 并立即返回。若另一个仍处于打开状态则忽略。"
+
+#: src/manpages.rs:162
+msgid ""
+"The version, the shortcut backend, and whether typed triggers are on, off or unavailable."
+msgstr "版本、快捷键后端，以及键入触发词是开启、关闭还是不可用。"
+
+#: src/manpages.rs:163
+msgid ""
+"Keep the computer from sleeping or locking, for MINUTES or, with 0, until stopped."
+msgstr "阻止电脑休眠或锁屏，持续 MINUTES 分钟；为 0 时持续到被停止为止。"
+
+#: src/manpages.rs:164
+msgid "End Keep Awake."
+msgstr "结束“保持唤醒”。"
+
+#: src/manpages.rs:165
+msgid ""
+"Whether Keep Awake is on, and when it ends as a Unix time (0: until stopped)."
+msgstr "“保持唤醒”是否开启，以及它何时结束（Unix 时间；0 表示直到被停止）。"
+
+#: src/manpages.rs:166
+msgid ""
+"Re-read snippets from the configuration file, so typed triggers use edits right away. The control center calls this after every change."
+msgstr "从配置文件重新读取片段，使键入触发词立即采用修改。控制中心在每次更改后都会调用它。"
+
+#: src/manpages.rs:167
+msgid "Stop the daemon."
+msgstr "停止守护进程。"
+
+#: src/manpages.rs:173
+msgid "Check whether it is running:"
+msgstr "检查它是否在运行："
+
+#: src/manpages.rs:174
+msgid "Trigger OCR from another program:"
+msgstr "从其他程序触发 OCR："
+
+#: src/manpages.rs:181
+msgid "KEYS"
+msgstr "按键"
+
+#: src/manpages.rs:183
+msgid "Up, Down"
+msgstr "上、下"
+
+#: src/manpages.rs:183
+msgid "Choose a snippet while typing in the search box."
+msgstr "在搜索框中输入时选择片段。"
+
+#: src/manpages.rs:184
+msgid "Enter"
+msgstr "Enter"
+
+#: src/manpages.rs:184
+msgid "Insert the snippet, or move to the next parameter field."
+msgstr "插入片段，或跳到下一个参数字段。"
+
+#: src/manpages.rs:185
+msgid "Escape"
+msgstr "Esc"
+
+#: src/manpages.rs:185
+msgid "Go back from the parameter form, or close the picker."
+msgstr "从参数表单返回，或关闭选择器。"
+
+#: src/manpages.rs:191
+msgid ""
+"The first paste asks for remote-desktop permission; the grant is remembered in ~/.local/state/voltkit/remote-desktop-token. If pasting is refused or unavailable, the expansion stays on the clipboard and a notification says to press Ctrl+V. Apps that paste with another shortcut, such as terminals, need paste_shortcut set in the [expander] section of the configuration."
+msgstr ""
+"第一次粘贴时会请求远程桌面权限；授权会记录在 ~/.local/state/voltkit/remote-desktop-token 中。如果粘贴被拒绝或不可用，展开的内容会保留在剪贴板中，并通过通知提示按 Ctrl+V。使用其他粘贴快捷键的应用（如终端）需要在配置的 [expander] 部分设置 paste_shortcut。"
+
+#: src/manpages.rs:200
+msgid "Open the picker on one snippet's form:"
+msgstr "在某个片段的表单上打开选择器："
+
+#: src/manpages.rs:205
+msgid "HOW IT WORKS"
+msgstr "工作原理"
+
+#: src/manpages.rs:208
+msgid ""
+"The daemon reads key presses from /dev/input and keeps the last 64 typed characters in memory. When they end with a snippet's trigger, it erases the trigger with Backspace through a uinput virtual keyboard and pastes the expansion, restoring the clipboard afterwards. Snippets with {arg:NAME} parameters open the picker's form instead."
+msgstr ""
+"守护进程从 /dev/input 读取按键，并在内存中保留最近键入的 64 个字符。当这些字符以某个片段的触发词结尾时，它通过 uinput 虚拟键盘用退格键删除触发词，粘贴展开后的内容，然后恢复剪贴板。带有 {arg:NAME} 参数的片段则会改为打开选择器的表单。"
+
+#: src/manpages.rs:214
+msgid ""
+"Setup installs a udev rule that tags keyboards and /dev/uinput with uaccess, the way desktops grant devices to the person at the computer, and applies it at once: no group to join and no need to log out. The daemon starts and stops typed triggers as they are turned on and off, and picks up keyboards plugged in later."
+msgstr ""
+"设置过程会安装一条 udev 规则，用 uaccess 标记键盘和 /dev/uinput（桌面环境就是这样把设备授权给坐在电脑前的用户的），并立即应用：无需加入任何用户组，也无需注销。守护进程会在键入触发词开启和关闭时相应地启动和停止它，并会识别之后插入的键盘。"
+
+#: src/manpages.rs:220
+msgid ""
+"Keys are decoded with a US layout, so triggers made of letters, digits and ; work on most layouts while punctuation may differ. A trigger that is a prefix of another (;d and ;date) fires first, so the longer one is unreachable."
+msgstr ""
+"按键按美式键盘布局解码，因此由字母、数字和 ; 组成的触发词在大多数布局下都能使用，而标点可能不同。如果一个触发词是另一个的前缀（;d 和 ;date），前者会先触发，导致较长的那个无法触发。"
+
+#: src/manpages.rs:227
+msgid "SECURITY"
+msgstr "安全"
+
+#: src/manpages.rs:229
+msgid ""
+"Keyboard access applies to every program the person at the computer runs, not only Voltkit. Typed text is never logged, written to disk or sent anywhere. `voltkit expander remove-access` (or turning typed triggers off in the app and choosing to remove access) deletes /etc/udev/rules.d/70-voltkit-typed-triggers.rules and /etc/modules-load.d/voltkit-uinput.conf; the access already granted ends at the next restart. Setups from before version 0.6 also added you to the input group, which `gpasswd -d $USER input` undoes."
+msgstr ""
+"键盘访问权限适用于坐在电脑前的用户运行的所有程序，而不仅仅是 Voltkit。键入的文字绝不会被记录、写入磁盘或发送到任何地方。`voltkit expander remove-access`（或在应用中关闭键入触发词并选择移除访问权限）会删除 /etc/udev/rules.d/70-voltkit-typed-triggers.rules 和 /etc/modules-load.d/voltkit-uinput.conf；已授予的访问权限会在下次重启时结束。0.6 版之前的设置还会把你加入 input 组，可用 `gpasswd -d $USER input` 撤销。"
+
+#: src/manpages.rs:241
+msgid "Review the setup commands, then run them:"
+msgstr "检查设置命令，然后运行它们："
+
+#: src/manpages.rs:242
+msgid "Turn typed triggers off, and remove the keyboard access:"
+msgstr "关闭键入触发词并移除键盘访问权限："
+
+#: src/manpages.rs:248
+msgid "OUTPUT"
+msgstr "输出"
+
+#: src/manpages.rs:250
+msgid "In place."
+msgstr "已就绪。"
+
+#: src/manpages.rs:251
+msgid "Missing, and the feature does not work without it."
+msgstr "缺失，没有它该功能无法使用。"
+
+#: src/manpages.rs:252
+msgid "Missing or off, but the feature still works in a limited way."
+msgstr "缺失或已关闭，但该功能仍可有限使用。"
+
+#: src/manpages.rs:253
+msgid ""
+"Install commands use the package manager of the running distribution (apt, dnf, pacman or zypper), detected from /etc/os-release."
+msgstr "安装命令使用当前发行版的包管理器（apt、dnf、pacman 或 zypper），通过 /etc/os-release 检测。"
+
+#: src/manpages.rs:258
+msgid ""
+"0 when nothing required is missing, 1 otherwise, so it can be used in scripts."
+msgstr "没有缺少必需项时为 0，否则为 1，因此可用于脚本。"
+
+#: src/manpages.rs:265
+msgid ""
+"The background service holds the request through the desktop's Inhibit portal, so it needs `voltkit daemon` running. When the time is up, Keep Awake ends by itself and shows a notification."
+msgstr ""
+"后台服务通过桌面的 Inhibit 门户保持该请求，因此需要运行 `voltkit daemon`。时间到后，“保持唤醒”会自动结束并显示通知。"
+
+#: src/manpages.rs:273
+msgid "Stay awake for a 90-minute movie:"
+msgstr "为一部 90 分钟的电影保持唤醒："
+
+#: src/manpages.rs:274
+msgid "Stay awake until told otherwise:"
+msgstr "保持唤醒，直到另行通知："
+
+#: src/manpages.rs:275
+msgid "Check, then stop:"
+msgstr "检查，然后停止："
+
+#: src/manpages.rs:282
+msgid "Copy the link from a QR code on screen:"
+msgstr "复制屏幕上二维码中的链接："
+
+#: src/manpages.rs:283
+msgid "Read the codes in a photo:"
+msgstr "读取照片中的二维码："
+
+#: src/manpages.rs:284
+msgid "Show a link as a QR code in the terminal:"
+msgstr "在终端中把链接显示为二维码："
+
+#: src/manpages.rs:285
+msgid "Save a Wi-Fi code to print:"
+msgstr "保存 Wi-Fi 二维码以便打印："
+
+#: src/manpages.rs:291
+msgid "Find what keeps a USB drive busy:"
+msgstr "找出是什么让 U 盘处于占用状态："
+
+#: src/manpages.rs:292
+msgid "Find the program on port 3000:"
+msgstr "找出占用 3000 端口的程序："
+
+#: src/manpages.rs:293
+msgid "Include system services:"
+msgstr "包含系统服务："
+
+#: src/manpages.rs:294
+msgid "Ask a program to quit, then force it if it won't:"
+msgstr "请求程序退出，如果它不退出再强制结束："
+
+#: src/manpages.rs:300
+msgid ""
+"The sleep history comes from the system journal, which members of the adm or systemd-journal groups can read. Linux records what woke the computer only when it was the lid or the power button; other wakes are described by their likely causes. Which USB devices may wake the computer can be changed in the app (with the administrator password); the choice is kept in /etc/udev/rules.d/90-voltkit-wakeup.rules."
+msgstr ""
+"休眠历史来自系统日志，adm 或 systemd-journal 组的成员可以读取。Linux 只在唤醒原因是合上盖子或按下电源键时才会记录；其他唤醒则按可能的原因来描述。允许唤醒电脑的 USB 设备可以在应用中更改（需要管理员密码）；这个选择保存在 /etc/udev/rules.d/90-voltkit-wakeup.rules 中。"
+
+#: src/manpages.rs:311
+msgid ""
+"The report leaves out serial numbers, user and computer names, and network addresses, so it can be posted in a forum or bug report. Drive health comes from UDisks2 and firmware updates from fwupd. Each run (and the background service, once a day) saves a snapshot of the hardware, drivers, kernel and firmware in ~/.local/share/voltkit/snapshots, which later reports compare to show what changed. --memory reads the memory slots from the SMBIOS tables, which needs the administrator password."
+msgstr ""
+"报告会去掉序列号、用户名和计算机名以及网络地址，因此可以发布到论坛或错误报告中。硬盘健康信息来自 UDisks2，固件更新来自 fwupd。每次运行（以及后台服务每天一次）都会在 ~/.local/share/voltkit/snapshots 中保存一份硬件、驱动、内核和固件的快照，之后的报告会与之对比，以显示有什么变化。--memory 从 SMBIOS 表读取内存插槽信息，这需要管理员密码。"
+
+#: src/manpages.rs:322
+msgid "Copy the report to paste in a forum post:"
+msgstr "复制报告，以便粘贴到论坛帖子中："
+
+#: src/manpages.rs:323
+msgid "Include memory slots and upgrade options:"
+msgstr "包含内存插槽和升级选项："
+
+#: src/manpages.rs:330
+msgid "List the conversions:"
+msgstr "列出所有转换："
+
+#: src/manpages.rs:331
+msgid "Tidy JSON from a file:"
+msgstr "整理文件中的 JSON："
+
+#: src/manpages.rs:332
+msgid "Turn a copied spreadsheet range into a Markdown table:"
+msgstr "将复制的表格区域转换为 Markdown 表格："
+
+#: src/manpages.rs:333
+msgid "Remove tracking from a link:"
+msgstr "去除链接中的跟踪参数："
+
+#: src/manpages.rs:338
+msgid "A Sway or i3 binding:"
+msgstr "Sway 或 i3 的绑定："
+
+#: src/manpages.rs:343
+msgid "What does Super+V do?"
+msgstr "Super+V 有什么作用？"
+
+#: src/manpages.rs:344
+msgid "Find shortcuts used by more than one action:"
+msgstr "找出被多个操作使用的快捷键："
+
+#: src/manpages.rs:345
+msgid "Preview the gsettings commands:"
+msgstr "预览 gsettings 命令："
+
+#: src/manpages.rs:346
+msgid "Remove the shortcuts again:"
+msgstr "再次移除这些快捷键："
+
+#: src/manpages.rs:397
+msgid "SEE ALSO"
+msgstr "另请参阅"
+
+#: src/manpages.rs:414
+msgid "COMMANDS"
+msgstr "命令"
+
+#: src/manpages.rs:445
+msgid "Voltkit Manual"
+msgstr "Voltkit 手册"
+
+#: src/manpages.rs:471
+msgid "AUTHOR"
+msgstr "作者"
+
+#: src/manpages.rs:479
+msgid "NAME"
+msgstr "名称"
+
+#: src/manpages.rs:479
+msgid "SYNOPSIS"
+msgstr "概要"
+
+#: src/manpages.rs:479
+msgid "DESCRIPTION"
+msgstr "描述"
+
+#: src/manpages.rs:479
+msgid "OPTIONS"
+msgstr "选项"
+
+#: src/manpages.rs:479
+msgid "SUBCOMMANDS"
+msgstr "子命令"
+
+#: src/modules/color.rs:24
+#, rust-format
+msgid "expected rgb(0-255, 0-255, 0-255), got {}"
+msgstr "应为 rgb(0-255, 0-255, 0-255)，实际为 {}"
+
+#: src/modules/color.rs:31
+#, rust-format
+msgid "unrecognized color {}"
+msgstr "无法识别的颜色 {}"
+
+#: src/modules/color.rs:34
+#, rust-format
+msgid "invalid hex color {}"
+msgstr "无效的十六进制颜色 {}"
+
+#: src/modules/compress.rs:70
+#, rust-format
+msgid "cannot compress {}: {}"
+msgstr "无法压缩 {}：{}"
+
+#: src/modules/compress.rs:113
+#, rust-format
+msgid "unsupported file type: {}"
+msgstr "不支持的文件类型：{}"
+
+#: src/modules/compress.rs:116 src/modules/envvars.rs:65 src/modules/hosts.rs:109 src/modules/qr.rs:138
+#, rust-format
+msgid "cannot read {}"
+msgstr "无法读取 {}"
+
+#: src/modules/hosts.rs:183
+msgid "pkexec is needed to save /etc/hosts"
+msgstr "保存 /etc/hosts 需要 pkexec"
+
+#: src/modules/hosts.rs:189
+msgid "not saved: permission was not granted"
+msgstr "未保存：未获得授权"
+
+#: src/modules/hosts.rs:190
+#, rust-format
+msgid "could not save {}: {}"
+msgstr "无法保存 {}：{}"
+
+#: src/modules/keybindings.rs:61
+msgid "Shift"
+msgstr "Shift"
+
+#: src/modules/keybindings.rs:62
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: src/modules/keybindings.rs:63
+msgid "Alt"
+msgstr "Alt"
+
+#: src/modules/keybindings.rs:200 src/modules/keybindings.rs:216
+#, rust-format
+msgid "Extension: {}"
+msgstr "扩展：{}"
+
+#: src/modules/keybindings.rs:315
+msgid "Windows"
+msgstr "窗口"
+
+#: src/modules/keybindings.rs:316
+msgid "Sessions"
+msgstr "会话"
+
+#: src/modules/keybindings.rs:318 src/modules/sysreport.rs:177
+msgid "System"
+msgstr "系统"
+
+#: src/modules/keybindings.rs:342
+msgid "Custom shortcuts"
+msgstr "自定义快捷键"
+
+#: src/modules/keybindings.rs:442
+msgid "the extension's settings are gone"
+msgstr "该扩展的设置已不存在"
+
+#: src/modules/keybindings.rs:455 src/modules/keybindings.rs:500
+msgid "this shortcut is locked by the system administrator"
+msgstr "此快捷键已被系统管理员锁定"
+
+#: src/modules/keybindings.rs:460
+#, rust-format
+msgid "{} isn't a valid shortcut"
+msgstr "{} 不是有效的快捷键"
+
+#: src/modules/keybindings.rs:489
+msgid "could not save the shortcut"
+msgstr "无法保存快捷键"
+
+#: src/modules/keybindings.rs:503
+msgid "custom shortcuts have no default"
+msgstr "自定义快捷键没有默认值"
+
+#: src/modules/mod.rs:62
+msgid "App Permissions"
+msgstr "应用权限"
+
+#: src/modules/mod.rs:64
+msgid ""
+"Change or forget the answers you gave when apps asked for screenshots, the camera and more."
+msgstr "更改或遗忘你在应用请求截屏、摄像头等时给出的回答。"
+
+#: src/modules/mod.rs:70
+msgid "Drop images or videos to strip metadata and shrink them."
+msgstr "拖入图片或视频，即可删除元数据并缩小体积。"
+
+#: src/modules/mod.rs:76
+msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
+msgstr "HEX / RGB / HSL 转换、WCAG 对比度检查和历史记录。"
+
+#: src/modules/mod.rs:82
+msgid ""
+"Edit /etc/hosts and your session's environment variables without a text editor."
+msgstr "无需文本编辑器，即可编辑 /etc/hosts 和会话的环境变量。"
+
+#: src/modules/mod.rs:88
+msgid "Stop your computer from sleeping or locking for a while."
+msgstr "让电脑在一段时间内不休眠、不锁屏。"
+
+#: src/modules/mod.rs:92
+msgid "QR Code"
+msgstr "二维码"
+
+#: src/modules/mod.rs:94
+msgid ""
+"Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
+msgstr "读取屏幕上任何位置的二维码，或将文字、链接和 Wi-Fi 信息生成二维码。"
+
+#: src/modules/mod.rs:98 src/ruler.rs:79 src/ruler.rs:125 src/ruler.rs:176
+msgid "Screen Ruler"
+msgstr "屏幕标尺"
+
+#: src/modules/mod.rs:100
+msgid "Measure distances and sizes on screen in pixels."
+msgstr "以像素为单位测量屏幕上的距离和大小。"
+
+#: src/modules/mod.rs:104
+msgid "Shortcut Detective"
+msgstr "快捷键侦探"
+
+#: src/modules/mod.rs:106
+msgid ""
+"Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
+msgstr "找出哪个应用占用了某个键盘快捷键，修复冲突，并挑选空闲的组合。"
+
+#: src/modules/mod.rs:112
+msgid ""
+"Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
+msgstr "粘贴转换后的复制内容：整理 JSON、将表格转为 Markdown、清理链接、改变大小写。"
+
+#: src/modules/mod.rs:116
+msgid "System Report"
+msgstr "系统报告"
+
+#: src/modules/mod.rs:118
+msgid ""
+"What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
+msgstr "这台电脑里有什么，一目了然：驱动、硬盘健康、温度、固件更新以及有什么变化。"
+
+#: src/modules/mod.rs:124
+msgid "Snippets with dynamic variables: dates, clipboard, parameters."
+msgstr "带动态变量的片段：日期、剪贴板、参数。"
+
+#: src/modules/mod.rs:128
+msgid "Text Extractor"
+msgstr "文字提取器"
+
+#: src/modules/mod.rs:130
+msgid "Drag a box around any text on screen and copy it to the clipboard."
+msgstr "在屏幕上的任意文字周围拖出一个方框，并将其复制到剪贴板。"
+
+#: src/modules/mod.rs:134
+msgid "What's Using This?"
+msgstr "是什么在占用它？"
+
+#: src/modules/mod.rs:136
+msgid ""
+"See which apps keep a file, folder, drive or network port busy, and close them."
+msgstr "查看哪些应用占用了文件、文件夹、磁盘或网络端口，并将其关闭。"
+
+#: src/modules/mod.rs:140
+msgid "Why Didn't It Sleep?"
+msgstr "为什么没有休眠？"
+
+#: src/modules/mod.rs:142
+msgid ""
+"What keeps the computer awake, what woke it up, and how much battery it used asleep."
+msgstr "是什么让电脑保持唤醒，是什么把它唤醒，以及休眠时用了多少电量。"
+
+#: src/modules/ocr.rs:48
+#, rust-format
+msgid "screenshot portal failed ({}) and so did the fallback"
+msgstr "截图门户失败 ({})，备用方案也失败了"
+
+#: src/modules/ocr.rs:55
+msgid ""
+"no region screenshot tool found (install grim+slurp, gnome-screenshot, spectacle or maim)"
+msgstr "未找到区域截图工具（请安装 grim+slurp、gnome-screenshot、spectacle 或 maim）"
+
+#: src/modules/ocr.rs:59
+msgid "capture cancelled"
+msgstr "已取消捕获"
+
+#: src/modules/ocr.rs:77
+msgid "no text found in the selected region"
+msgstr "所选区域中没有找到文字"
+
+#: src/modules/permissions.rs:53
+msgid "Take screenshots"
+msgstr "截屏"
+
+#: src/modules/permissions.rs:54
+msgid "Use the camera"
+msgstr "使用摄像头"
+
+#: src/modules/permissions.rs:55
+msgid "Use the microphone"
+msgstr "使用麦克风"
+
+#: src/modules/permissions.rs:56
+msgid "Play sound"
+msgstr "播放声音"
+
+#: src/modules/permissions.rs:57
+msgid "See your location"
+msgstr "查看你的位置"
+
+#: src/modules/permissions.rs:58
+msgid "Run in the background"
+msgstr "在后台运行"
+
+#: src/modules/permissions.rs:59
+msgid "Show notifications"
+msgstr "显示通知"
+
+#: src/modules/permissions.rs:60
+msgid "Keep the computer awake"
+msgstr "让电脑保持唤醒"
+
+#: src/modules/permissions.rs:61
+msgid "Control your computer remotely"
+msgstr "远程控制你的电脑"
+
+#: src/modules/permissions.rs:62
+msgid "Record or share your screen"
+msgstr "录制或共享你的屏幕"
+
+#: src/modules/permissions.rs:63
+msgid "Change the wallpaper"
+msgstr "更改壁纸"
+
+#: src/modules/permissions.rs:64
+msgid "Run with real-time priority"
+msgstr "以实时优先级运行"
+
+#: src/modules/permissions.rs:65
+msgid "Look at the windows on screen"
+msgstr "查看屏幕上的窗口"
+
+#: src/modules/permissions.rs:66
+msgid "Use desktop services"
+msgstr "使用桌面服务"
+
+#: src/modules/permissions.rs:74 src/permissions_ui.rs:159 src/permissions_ui.rs:168
+msgid "Allowed"
+msgstr "已允许"
+
+#: src/modules/permissions.rs:75 src/permissions_ui.rs:168
+msgid "Denied"
+msgstr "已拒绝"
+
+#: src/modules/permissions.rs:77
+msgid "Allowed: exact location"
+msgstr "已允许：精确位置"
+
+#: src/modules/permissions.rs:78
+msgid "Allowed: approximate location"
+msgstr "已允许：大致位置"
+
+#: src/modules/permissions.rs:79 src/modules/permissions.rs:81
+msgid "Remembered"
+msgstr "已记住"
+
+#: src/modules/permissions.rs:120
+msgid "no session bus"
+msgstr "没有会话总线"
+
+#: src/modules/qr.rs:13 src/modules/qr.rs:117
+#, rust-format
+msgid "cannot open {}"
+msgstr "无法打开 {}"
+
+#: src/modules/qr.rs:39
+msgid "no QR code found in the selected area"
+msgstr "所选区域中没有找到二维码"
+
+#: src/modules/qr.rs:64
+msgid "nothing to encode"
+msgstr "没有可编码的内容"
+
+#: src/modules/qr.rs:68
+msgid "text is too long for a QR code"
+msgstr "文字太长，二维码放不下"
+
+#: src/modules/qr.rs:119
+#, rust-format
+msgid "the image is too large ({} MB); use one under 5 MB"
+msgstr "图片太大（{} MB）；请使用小于 5 MB 的图片"
+
+#: src/modules/qr.rs:122
+msgid "not an image Voltkit can read; use a PNG, JPEG, WebP or SVG"
+msgstr "这不是 Voltkit 能读取的图片；请使用 PNG、JPEG、WebP 或 SVG"
+
+#: src/modules/qr.rs:126
+#, rust-format
+msgid "{} images can't be used as a logo; use a PNG, JPEG, WebP or SVG"
+msgstr "{} 图片不能用作标志；请使用 PNG、JPEG、WebP 或 SVG"
+
+#: src/modules/qr.rs:129
+#, rust-format
+msgid "the image is too small ({}×{}); use one at least {}×{} pixels"
+msgstr "图片太小（{}×{}）；请使用至少 {}×{} 像素的图片"
+
+#: src/modules/qr.rs:132
+#, rust-format
+msgid "the image is too large ({}×{}); use one under {}×{} pixels"
+msgstr "图片太大（{}×{}）；请使用小于 {}×{} 像素的图片"
+
+#: src/modules/qr.rs:135
+#, rust-format
+msgid "the image is too wide or tall ({}×{}); use a square-ish logo"
+msgstr "图片过宽或过高（{}×{}）；请使用接近正方形的标志"
+
+#: src/modules/sleep.rs:44
+msgid "Stops the computer from sleeping"
+msgstr "阻止电脑休眠"
+
+#: src/modules/sleep.rs:45
+msgid "Keeps the screen on and stops automatic sleep"
+msgstr "保持屏幕常亮并阻止自动休眠"
+
+#: src/modules/sleep.rs:46
+msgid "Stops closing the lid from putting it to sleep"
+msgstr "阻止合上盖子时进入休眠"
+
+#: src/modules/sleep.rs:199
+msgid "An external monitor is connected (or was just changed)"
+msgstr "已连接外接显示器（或刚刚发生变化）"
+
+#: src/modules/sleep.rs:246
+msgid "A window"
+msgstr "某个窗口"
+
+#: src/modules/sleep.rs:246
+msgid "Asked to keep the screen on, usually for a playing video"
+msgstr "请求保持屏幕常亮，通常是因为正在播放视频"
+
+#: src/modules/sleep.rs:254
+msgid "Asked the computer to stay awake"
+msgstr "请求电脑保持唤醒"
+
+#: src/modules/sleep.rs:284 src/modules/sleep.rs:288
+msgid "Never sleeps by itself when plugged in"
+msgstr "接通电源时永不自动休眠"
+
+#: src/modules/sleep.rs:285
+msgid ""
+"Automatic sleep is turned off for when the computer is plugged in, which it is now. Turn it on under Power Saving in the power settings."
+msgstr "电脑接通电源时已关闭自动休眠，而现在正是这种情况。请在电源设置的“节能”下开启。"
+
+#: src/modules/sleep.rs:289
+msgid ""
+"Automatic sleep is turned off for when the computer is plugged in. Turn it on under Power Saving in the power settings."
+msgstr "电脑接通电源时已关闭自动休眠。请在电源设置的“节能”下开启。"
+
+#: src/modules/sleep.rs:292 src/modules/sleep.rs:296
+msgid "Never sleeps by itself when on battery"
+msgstr "使用电池时永不自动休眠"
+
+#: src/modules/sleep.rs:293
+msgid ""
+"Automatic sleep is turned off for when the computer is on battery, which it is now. Turn it on under Power Saving in the power settings."
+msgstr "电脑使用电池时已关闭自动休眠，而现在正是这种情况。请在电源设置的“节能”下开启。"
+
+#: src/modules/sleep.rs:297
+msgid ""
+"Automatic sleep is turned off for when the computer is on battery. Turn it on under Power Saving in the power settings."
+msgstr "电脑使用电池时已关闭自动休眠。请在电源设置的“节能”下开启。"
+
+#: src/modules/sleep.rs:323
+msgid "This is set in /etc/systemd/logind.conf."
+msgstr "这是在 /etc/systemd/logind.conf 中设置的。"
+
+#: src/modules/sleep.rs:326
+msgid "Closing the lid never puts it to sleep"
+msgstr "合上盖子永远不会让电脑休眠"
+
+#: src/modules/sleep.rs:327
+#, rust-format
+msgid "The lid is set to “{}”. {}"
+msgstr "盖子的设置为“{}”。{}"
+
+#: src/modules/sleep.rs:333
+msgid "Closing the lid doesn't sleep while a monitor or dock is connected"
+msgstr "连接了显示器或扩展坞时，合上盖子不会休眠"
+
+#: src/modules/sleep.rs:334
+#, rust-format
+msgid ""
+"An external monitor or dock is connected now, so closing the lid keeps the computer running (so you can keep using the big screen). Disconnect it to sleep. {}"
+msgstr "当前连接了外接显示器或扩展坞，因此合上盖子后电脑会继续运行（这样你就可以继续使用大屏幕）。断开它即可休眠。{}"
+
+#: src/modules/sleep.rs:340
+msgid "Closing the lid doesn't sleep while plugged in"
+msgstr "接通电源时，合上盖子不会休眠"
+
+#: src/modules/sleep.rs:341
+#, rust-format
+msgid "The lid is set to “{}” on power. {}"
+msgstr "接通电源时，盖子的设置为“{}”。{}"
+
+#: src/modules/sleep.rs:352
+msgid "Uses light sleep (s2idle)"
+msgstr "使用浅度休眠 (s2idle)"
+
+#: src/modules/sleep.rs:354
+msgid ""
+"Light sleep wakes up instantly but uses more battery than deep sleep, which this computer also supports. Deep sleep can be chosen with the kernel option mem_sleep_default=deep."
+msgstr ""
+"浅度休眠能瞬间唤醒，但比深度休眠更耗电，而这台电脑也支持深度休眠。可以通过内核选项 mem_sleep_default=deep 选择深度休眠。"
+
+#: src/modules/sleep.rs:358
+msgid ""
+"Light sleep wakes up instantly but uses more battery than deep sleep. Some apps and devices can also wake it more easily."
+msgstr "浅度休眠能瞬间唤醒，但比深度休眠更耗电。某些应用和设备也更容易把它唤醒。"
+
+#: src/modules/sleep.rs:374
+msgid "journalctl isn't available"
+msgstr "journalctl 不可用"
+
+#: src/modules/sleep.rs:378
+msgid ""
+"Your account can't read the system log. Being in the “adm” group allows it."
+msgstr "你的账户无法读取系统日志。加入“adm”组即可读取。"
+
+#: src/modules/sleep.rs:437
+msgid "you closed the lid"
+msgstr "你合上了盖子"
+
+#: src/modules/sleep.rs:439
+msgid "you pressed the power button"
+msgstr "你按下了电源键"
+
+#: src/modules/sleep.rs:444
+msgid "it was idle, or you chose Suspend"
+msgstr "电脑处于空闲状态，或你选择了“挂起”"
+
+#: src/modules/sleep.rs:455
+msgid "you opening the lid"
+msgstr "你打开了盖子"
+
+#: src/modules/sleep.rs:457
+msgid "the power button"
+msgstr "电源键"
+
+#: src/modules/sleep.rs:459
+msgid "something right away: often a USB device, the network or a driver"
+msgstr "某些原因，而且立刻发生：通常是 USB 设备、网络或驱动"
+
+#: src/modules/sleep.rs:461
+msgid ""
+"something while the lid was still closed: often a USB device or the network"
+msgstr "盖子仍合着时发生的某些原因：通常是 USB 设备或网络"
+
+#: src/modules/sleep.rs:463
+msgid "a key, the touchpad, a USB device or a timer"
+msgstr "按键、触摸板、USB 设备或定时器"
+
+#: src/modules/sleep.rs:529
+#, rust-format
+msgid "USB device {}:{}"
+msgstr "USB 设备 {}:{}"
+
+#: src/modules/sleep.rs:550 src/modules/sleep.rs:555
+msgid "this device can't be changed"
+msgstr "无法更改此设备"
+
+#: src/modules/sleep.rs:552
+msgid "the device was unplugged"
+msgstr "设备已被拔出"
+
+#: src/modules/sleep.rs:561
+msgid "not changed: permission was not granted"
+msgstr "未更改：未获得授权"
+
+#: src/modules/sleep.rs:562
+#, rust-format
+msgid "could not change it: {}"
+msgstr "无法更改：{}"
+
+#: src/modules/sleep.rs:587
+msgid "Mon"
+msgstr "周一"
+
+#: src/modules/sleep.rs:587
+msgid "Tue"
+msgstr "周二"
+
+#: src/modules/sleep.rs:587
+msgid "Wed"
+msgstr "周三"
+
+#: src/modules/sleep.rs:587
+msgid "Thu"
+msgstr "周四"
+
+#: src/modules/sleep.rs:587
+msgid "Fri"
+msgstr "周五"
+
+#: src/modules/sleep.rs:587
+msgid "Sat"
+msgstr "周六"
+
+#: src/modules/sleep.rs:587
+msgid "Sun"
+msgstr "周日"
+
+#. TRANSLATORS: a weekday and a time; {} is the weekday, the rest is a chrono time format (%H:%M for 24-hour time).
+#: src/modules/sleep.rs:592
+#, rust-format
+msgid "{} %-I:%M %p"
+msgstr "{} %H:%M"
+
+#: src/modules/sleep.rs:611
+#, rust-format
+msgid "Went to sleep because {}"
+msgstr "进入休眠的原因：{}"
+
+#: src/modules/sleep.rs:611
+#, rust-format
+msgid "Woken by {}"
+msgstr "唤醒原因：{}"
+
+#: src/modules/sleep.rs:613
+#, rust-format
+msgid "Battery {}% → {}%"
+msgstr "电池 {}% → {}%"
+
+#: src/modules/sleep.rs:615
+#, rust-format
+msgid " ({}% an hour{})"
+msgstr " ({}%/小时{})"
+
+#: src/modules/sleep.rs:615
+msgid ", more than usual"
+msgstr "，比平时多"
+
+#: src/modules/sleep.rs:619
+#, rust-format
+msgid "Slept {} → {} · {}"
+msgstr "休眠 {} → {} · {}"
+
+#: src/modules/sleep.rs:623
+#, rust-format
+msgid "Lid closed {} but stayed awake for {}"
+msgstr "{} 合上盖子，但电脑保持唤醒了 {}"
+
+#: src/modules/sleep.rs:624
+#, rust-format
+msgid "Lid closed {} but it stayed awake"
+msgstr "{} 合上盖子，但电脑仍保持唤醒"
+
+#: src/modules/sleep.rs:626
+msgid ""
+"Usually because a monitor or dock was connected, it was plugged in, or an app kept it awake"
+msgstr "通常是因为连接了显示器或扩展坞、接通了电源，或是某个应用让它保持唤醒"
+
+#: src/modules/sleep.rs:632
+msgid "Right now"
+msgstr "当前情况"
+
+#: src/modules/sleep.rs:634
+msgid "Nothing is keeping the computer awake."
+msgstr "没有任何东西让电脑保持唤醒。"
+
+#: src/modules/sleep.rs:642
+msgid "Recent sleeps"
+msgstr "最近的休眠"
+
+#: src/modules/sleep.rs:646
+msgid "No sleeps in the last week."
+msgstr "最近一周没有休眠。"
+
+#: src/modules/sleep.rs:655
+msgid "USB devices that can wake it"
+msgstr "可唤醒电脑的 USB 设备"
+
+#: src/modules/sleep.rs:658
+msgid "None."
+msgstr "无。"
+
+#: src/modules/sleep.rs:661
+#, rust-format
+msgid "woke it {} time"
+msgid_plural "woke it {} times"
+msgstr[0] "唤醒过 {} 次"
+
+#: src/modules/smartpaste.rs:13
+msgid "Plain text"
+msgstr "纯文本"
+
+#: src/modules/smartpaste.rs:14
+msgid "Formatted JSON"
+msgstr "格式化的 JSON"
+
+#: src/modules/smartpaste.rs:15
+msgid "Compact JSON"
+msgstr "紧凑的 JSON"
+
+#: src/modules/smartpaste.rs:16
+msgid "Markdown table"
+msgstr "Markdown 表格"
+
+#: src/modules/smartpaste.rs:18
+msgid "Link without tracking"
+msgstr "去除跟踪参数的链接"
+
+#: src/modules/smartpaste.rs:19
+msgid "Readable link"
+msgstr "易读的链接"
+
+#: src/modules/smartpaste.rs:20
+msgid "Decoded Base64"
+msgstr "解码后的 Base64"
+
+#: src/modules/smartpaste.rs:21
+msgid "Join broken lines"
+msgstr "合并断行"
+
+#: src/modules/smartpaste.rs:22
+msgid "One line"
+msgstr "单行"
+
+#: src/modules/smartpaste.rs:23
+msgid "Tidy spaces"
+msgstr "整理空白"
+
+#: src/modules/smartpaste.rs:24
+msgid "Bulleted list"
+msgstr "项目符号列表"
+
+#: src/modules/smartpaste.rs:25
+msgid "Numbered list"
+msgstr "编号列表"
+
+#: src/modules/smartpaste.rs:26
+msgid "Quote"
+msgstr "引用"
+
+#: src/modules/smartpaste.rs:27
+msgid "UPPERCASE"
+msgstr "大写"
+
+#: src/modules/smartpaste.rs:28
+msgid "lowercase"
+msgstr "小写"
+
+#: src/modules/smartpaste.rs:29
+msgid "Title Case"
+msgstr "标题式大小写"
+
+#: src/modules/smartpaste.rs:30
+msgid "Sentence case"
+msgstr "句首大写"
+
+#: src/modules/snippets.rs:48
+#, rust-format
+msgid "unmatched '}}' at byte {}"
+msgstr "第 {} 字节处的 '}}' 没有匹配项"
+
+#: src/modules/snippets.rs:51
+#, rust-format
+msgid "unclosed '{{' at byte {}"
+msgstr "第 {} 字节处的 '{{' 没有闭合"
+
+#: src/modules/snippets.rs:72
+#, rust-format
+msgid "invalid date format {}"
+msgstr "无效的日期格式 {}"
+
+#: src/modules/snippets.rs:79
+#, rust-format
+msgid "missing parameter {}"
+msgstr "缺少参数 {}"
+
+#: src/modules/snippets.rs:81
+#, rust-format
+msgid "unknown variable {{{}}}"
+msgstr "未知变量 {{{}}}"
+
+#: src/modules/snippets.rs:90
+msgid "‹clipboard›"
+msgstr "‹剪贴板›"
+
+#: src/modules/sysreport.rs:176
+msgid "Computer"
+msgstr "电脑"
+
+#: src/modules/sysreport.rs:178
+msgid "Kernel"
+msgstr "内核"
+
+#: src/modules/sysreport.rs:179
+msgid "Desktop"
+msgstr "桌面"
+
+#: src/modules/sysreport.rs:180 src/modules/sysreport.rs:556 src/modules/sysreport.rs:557
+msgid "Processor"
+msgstr "处理器"
+
+#: src/modules/sysreport.rs:181 src/modules/sysreport.rs:934
+msgid "Memory"
+msgstr "内存"
+
+#: src/modules/sysreport.rs:183 src/modules/sysreport.rs:558
+msgid "Graphics"
+msgstr "显卡"
+
+#: src/modules/sysreport.rs:184
+msgid "Storage"
+msgstr "存储"
+
+#: src/modules/sysreport.rs:185
+msgid "Network"
+msgstr "网络"
+
+#: src/modules/sysreport.rs:186
+msgid "Audio"
+msgstr "音频"
+
+#: src/modules/sysreport.rs:187
+msgid "Bluetooth"
+msgstr "蓝牙"
+
+#: src/modules/sysreport.rs:188
+msgid "Camera"
+msgstr "摄像头"
+
+#: src/modules/sysreport.rs:330 src/modules/sysreport.rs:1053
+#, rust-format
+msgid "{} cores, {} threads"
+msgstr "{} 核 {} 线程"
+
+#: src/modules/sysreport.rs:332 src/modules/sysreport.rs:1054
+#, rust-format
+msgid "{} cores"
+msgstr "{} 核"
+
+#: src/modules/sysreport.rs:335 src/modules/sysreport.rs:1055
+#, rust-format
+msgid "up to {} GHz"
+msgstr "最高 {} GHz"
+
+#: src/modules/sysreport.rs:367 src/modules/sysreport.rs:1056
+#, rust-format
+msgid "{} GB usable"
+msgstr "{} GB 可用"
+
+#: src/modules/sysreport.rs:369 src/modules/sysreport.rs:1057
+#, rust-format
+msgid " · {} GB swap"
+msgstr " · {} GB 交换空间"
+
+#: src/modules/sysreport.rs:401
+#, rust-format
+msgid "{} (no driver)"
+msgstr "{}（无驱动）"
+
+#: src/modules/sysreport.rs:411 src/modules/sysreport.rs:1052
+msgid "no driver"
+msgstr "无驱动"
+
+#: src/modules/sysreport.rs:423
+#, rust-format
+msgid "Available ({})"
+msgstr "可用（{}）"
+
+#: src/modules/sysreport.rs:424
+msgid "Available"
+msgstr "可用"
+
+#: src/modules/sysreport.rs:463
+msgid " · failing"
+msgstr " · 故障"
+
+#: src/modules/sysreport.rs:465 src/modules/sysreport.rs:1058
+#, rust-format
+msgid " · {}% worn"
+msgstr " · 已磨损 {}%"
+
+#: src/modules/sysreport.rs:504
+msgid "NVMe SSD"
+msgstr "NVMe 固态硬盘"
+
+#: src/modules/sysreport.rs:506
+msgid "USB drive"
+msgstr "USB 磁盘"
+
+#: src/modules/sysreport.rs:508
+msgid "hard disk"
+msgstr "机械硬盘"
+
+#: src/modules/sysreport.rs:559
+msgid "Drive"
+msgstr "磁盘"
+
+#: src/modules/sysreport.rs:560 src/modules/sysreport.rs:738
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/modules/sysreport.rs:573
+msgid "Fan"
+msgstr "风扇"
+
+#: src/modules/sysreport.rs:573
+#, rust-format
+msgid "Fan {}"
+msgstr "风扇 {}"
+
+#: src/modules/sysreport.rs:663
+msgid "fwupd isn't installed"
+msgstr "未安装 fwupd"
+
+#: src/modules/sysreport.rs:699 src/modules/sysreport.rs:730 src/modules/sysreport.rs:745
+#, rust-format
+msgid "{} has no driver"
+msgstr "{} 没有驱动"
+
+#: src/modules/sysreport.rs:699
+msgid ""
+"The screen works with a basic fallback, but video, games and external monitors may be slow or not work."
+msgstr "屏幕靠基础的备用驱动运行，但视频、游戏和外接显示器可能会卡顿或无法使用。"
+
+#: src/modules/sysreport.rs:704
+#, rust-format
+msgid "{} uses a basic fallback driver"
+msgstr "{} 使用的是基础备用驱动"
+
+#: src/modules/sysreport.rs:704
+msgid ""
+"Video and games are slow, and the computer may use more power than it should."
+msgstr "视频和游戏会很卡，电脑的耗电量也可能比应有的更高。"
+
+#: src/modules/sysreport.rs:711
+#, rust-format
+msgid "{} uses the open-source driver (nouveau)"
+msgstr "{} 使用的是开源驱动 (nouveau)"
+
+#: src/modules/sysreport.rs:712
+msgid ""
+"It works for everyday use, but NVIDIA's own driver is much faster for games and graphics work, and on laptops it can switch the card off to save battery."
+msgstr "日常使用没有问题，但对于游戏和图形工作，NVIDIA 自家的驱动要快得多；在笔记本上它还能关闭显卡以节省电量。"
+
+#: src/modules/sysreport.rs:717 src/modules/sysreport.rs:738
+#, rust-format
+msgid "{} works"
+msgstr "{} 工作正常"
+
+#: src/modules/sysreport.rs:717
+#, rust-format
+msgid "Driver: {}"
+msgstr "驱动：{}"
+
+#: src/modules/sysreport.rs:731
+msgid ""
+"Wi-Fi won't work until a driver is installed. Connect with a cable or a USB Wi-Fi adapter to install one."
+msgstr "在安装驱动之前，Wi-Fi 无法使用。请通过网线或 USB 无线网卡联网来安装驱动。"
+
+#: src/modules/sysreport.rs:731
+msgid "This network connection won't work until a driver is installed."
+msgstr "在安装驱动之前，此网络连接无法使用。"
+
+#: src/modules/sysreport.rs:738
+msgid "Wired network"
+msgstr "有线网络"
+
+#: src/modules/sysreport.rs:739
+#, rust-format
+msgid "{}, driver: {}"
+msgstr "{}，驱动：{}"
+
+#: src/modules/sysreport.rs:745
+#, rust-format
+msgid "This device ({}) may not work."
+msgstr "此设备（{}）可能无法使用。"
+
+#: src/modules/sysreport.rs:752
+#, rust-format
+msgid "{} may fail soon"
+msgstr "{} 可能很快出现故障"
+
+#: src/modules/sysreport.rs:753
+msgid ""
+"The drive reports a problem with its health. Back up your files now, and plan to replace it."
+msgstr "这块磁盘报告了健康问题。请立即备份文件，并准备更换。"
+
+#: src/modules/sysreport.rs:756
+#, rust-format
+msgid "{} has {} damaged sectors"
+msgstr "{} 有 {} 个坏扇区"
+
+#: src/modules/sysreport.rs:756
+msgid "Damaged sectors often grow over time. Keep a backup of your files."
+msgstr "坏扇区往往会随时间增多。请保留文件备份。"
+
+#: src/modules/sysreport.rs:758
+#, rust-format
+msgid "{} is {}% worn"
+msgstr "{} 已磨损 {}%"
+
+#: src/modules/sysreport.rs:758
+msgid ""
+"SSDs wear out with writes. It still works, but plan to replace it and keep a backup."
+msgstr "固态硬盘会随着写入而磨损。它仍能使用，但请准备更换并保留备份。"
+
+#: src/modules/sysreport.rs:760
+msgid "No problems reported"
+msgstr "未报告任何问题"
+
+#: src/modules/sysreport.rs:762
+#, rust-format
+msgid ", {}% worn"
+msgstr "，已磨损 {}%"
+
+#: src/modules/sysreport.rs:765
+#, rust-format
+msgid ", {} hours of use"
+msgstr "，已使用 {} 小时"
+
+#: src/modules/sysreport.rs:767
+#, rust-format
+msgid "{} is healthy"
+msgstr "{} 状态良好"
+
+#: src/modules/sysreport.rs:771
+msgid "The system drive"
+msgstr "系统磁盘"
+
+#: src/modules/sysreport.rs:771
+msgid "Your home folder"
+msgstr "你的主文件夹"
+
+#: src/modules/sysreport.rs:778
+#, rust-format
+msgid "{} free of {}"
+msgstr "共 {}，空闲 {}"
+
+#: src/modules/sysreport.rs:780
+#, rust-format
+msgid "{} is almost full"
+msgstr "{} 快满了"
+
+#: src/modules/sysreport.rs:780
+#, rust-format
+msgid "{}. Apps and updates can fail; delete or move some files."
+msgstr "{}。应用和更新可能会失败；请删除或移动一些文件。"
+
+#: src/modules/sysreport.rs:782
+#, rust-format
+msgid "{} is getting full"
+msgstr "{} 空间越来越少"
+
+#: src/modules/sysreport.rs:790
+#, rust-format
+msgid "{} is running hot ({} °C)"
+msgstr "{} 温度过高（{} °C）"
+
+#: src/modules/sysreport.rs:791
+msgid ""
+"Check that the air vents aren't blocked or dusty, and that it isn't on a soft surface."
+msgstr "请检查通风口是否被堵塞或积灰，并确认电脑没有放在柔软的表面上。"
+
+#: src/modules/sysreport.rs:798
+msgid "The processor has slowed down because of heat"
+msgstr "处理器因过热而降速"
+
+#: src/modules/sysreport.rs:800
+#, rust-format
+msgid ""
+"{} time since the computer started. A few is normal under heavy work; many means it's overheating (dust, blocked vents, or old thermal paste)."
+msgid_plural ""
+"{} times since the computer started. A few is normal under heavy work; many means it's overheating (dust, blocked vents, or old thermal paste)."
+msgstr[0] "自电脑启动以来 {} 次。高负载下偶尔几次是正常的；次数很多则说明在过热（灰尘、通风口堵塞或导热硅脂老化）。"
+
+#: src/modules/sysreport.rs:808
+msgid "Restart to finish installing updates"
+msgstr "重启以完成更新安装"
+
+#: src/modules/sysreport.rs:808
+msgid "Some updates only take effect after a restart."
+msgstr "有些更新要重启后才会生效。"
+
+#: src/modules/sysreport.rs:812
+msgid "A newer Linux kernel is installed"
+msgstr "已安装更新的 Linux 内核"
+
+#: src/modules/sysreport.rs:812
+#, rust-format
+msgid "Restart to start using {}."
+msgstr "重启后即可使用 {}。"
+
+#: src/modules/sysreport.rs:820
+#, rust-format
+msgid "Firmware update for {}"
+msgstr "{} 的固件更新"
+
+#: src/modules/sysreport.rs:848
+msgid "can't read the SMBIOS table"
+msgstr "无法读取 SMBIOS 表"
+
+#: src/modules/sysreport.rs:934
+msgid "This computer doesn't describe its memory slots"
+msgstr "这台电脑没有提供内存插槽信息"
+
+#: src/modules/sysreport.rs:947
+msgid "Installed"
+msgstr "已安装"
+
+#: src/modules/sysreport.rs:949
+msgid "All memory is soldered to the board: it can't be upgraded"
+msgstr "所有内存都焊接在主板上：无法升级"
+
+#: src/modules/sysreport.rs:951
+#, rust-format
+msgid "{} slot, {} free"
+msgid_plural "{} slots, {} free"
+msgstr[0] "{} 个插槽，{} 个空闲"
+
+#: src/modules/sysreport.rs:953
+#, rust-format
+msgid ", plus {} GB soldered to the board"
+msgstr "，另有 {} GB 焊接在主板上"
+
+#: src/modules/sysreport.rs:957
+msgid "Slots"
+msgstr "插槽"
+
+#: src/modules/sysreport.rs:960
+msgid ", soldered"
+msgstr "，已焊接"
+
+#: src/modules/sysreport.rs:961
+msgid "empty"
+msgstr "空"
+
+#: src/modules/sysreport.rs:963
+msgid "Slot"
+msgstr "插槽"
+
+#: src/modules/sysreport.rs:968
+msgid "Maximum"
+msgstr "最大容量"
+
+#: src/modules/sysreport.rs:968
+#, rust-format
+msgid "Up to {} GB{} (as the computer reports it)"
+msgstr "最高 {} GB{}（以电脑上报的为准）"
+
+#: src/modules/sysreport.rs:978
+#, rust-format
+msgid "System report (Voltkit {})"
+msgstr "系统报告 (Voltkit {})"
+
+#: src/modules/sysreport.rs:988
+msgid "Checks:"
+msgstr "检查项："
+
+#: src/modules/sysreport.rs:999
+msgid "Recent changes:"
+msgstr "最近的变化："
+
+#: src/modules/sysreport.rs:1028
+#, rust-format
+msgid "{}: added ({})"
+msgstr "{}：已添加（{}）"
+
+#: src/modules/sysreport.rs:1029
+#, rust-format
+msgid "{}: removed (was {})"
+msgstr "{}：已移除（原为 {}）"
+
+#: src/modules/sysreport.rs:1038
+#, rust-format
+msgid "Driver for {}"
+msgstr "{} 的驱动"
+
+#: src/modules/sysreport.rs:1040
+#, rust-format
+msgid "Firmware of {}"
+msgstr "{} 的固件"
+
+#: src/modules/sysreport.rs:1042
+#, rust-format
+msgid "Drive {}"
+msgstr "磁盘 {}"
+
+#: src/modules/sysreport.rs:1072 src/modules/sysreport.rs:1085
+msgid "no data folder"
+msgstr "没有数据文件夹"
+
+#: src/modules/sysreport.rs:1137
+msgid "Jan"
+msgstr "1月"
+
+#: src/modules/sysreport.rs:1137
+msgid "Feb"
+msgstr "2月"
+
+#: src/modules/sysreport.rs:1137
+msgid "Mar"
+msgstr "3月"
+
+#: src/modules/sysreport.rs:1137
+msgid "Apr"
+msgstr "4月"
+
+#: src/modules/sysreport.rs:1137
+msgid "May"
+msgstr "5月"
+
+#: src/modules/sysreport.rs:1137
+msgid "Jun"
+msgstr "6月"
+
+#: src/modules/sysreport.rs:1138
+msgid "Jul"
+msgstr "7月"
+
+#: src/modules/sysreport.rs:1138
+msgid "Aug"
+msgstr "8月"
+
+#: src/modules/sysreport.rs:1138
+msgid "Sep"
+msgstr "9月"
+
+#: src/modules/sysreport.rs:1138
+msgid "Oct"
+msgstr "10月"
+
+#: src/modules/sysreport.rs:1138
+msgid "Nov"
+msgstr "11月"
+
+#: src/modules/sysreport.rs:1138
+msgid "Dec"
+msgstr "12月"
+
+#. TRANSLATORS: a short date; {} is the month's abbreviation, the rest is a chrono date format (%-d is the day of the month).
+#: src/modules/sysreport.rs:1145
+#, rust-format
+msgid "{} %-d"
+msgstr "{}%-d日"
+
+#: src/modules/usage.rs:26
+msgid "ports go from 1 to 65535"
+msgstr "端口范围是 1 到 65535"
+
+#: src/modules/usage.rs:30
+#, rust-format
+msgid "{} doesn't exist"
+msgstr "{} 不存在"
+
+#: src/modules/usage.rs:37
+#, rust-format
+msgid "port {}"
+msgstr "端口 {}"
+
+#: src/modules/usage.rs:142
+#, rust-format
+msgid "has {} open"
+msgstr "打开了 {}"
+
+#: src/modules/usage.rs:149
+#, rust-format
+msgid "is working in {}"
+msgstr "正在 {} 中工作"
+
+#: src/modules/usage.rs:154
+#, rust-format
+msgid "is running from {}"
+msgstr "运行自 {}"
+
+#: src/modules/usage.rs:164
+#, rust-format
+msgid "has {} loaded"
+msgstr "已加载 {}"
+
+#: src/modules/usage.rs:203
+#, rust-format
+msgid "is listening on TCP port {}"
+msgstr "正在监听 TCP 端口 {}"
+
+#: src/modules/usage.rs:204
+#, rust-format
+msgid "has a TCP connection on port {}"
+msgstr "在端口 {} 上有一个 TCP 连接"
+
+#: src/modules/usage.rs:205
+#, rust-format
+msgid "is using UDP port {}"
+msgstr "正在使用 UDP 端口 {}"
+
+#: src/modules/usage.rs:250
+msgid "the system's service manager"
+msgstr "系统的服务管理器"
+
+#: src/modules/usage.rs:253 src/modules/usage.rs:254
+msgid "the desktop itself"
+msgstr "桌面本身"
+
+#: src/modules/usage.rs:255
+msgid "the window manager"
+msgstr "窗口管理器"
+
+#: src/modules/usage.rs:256 src/modules/usage.rs:257
+msgid "the display server"
+msgstr "显示服务器"
+
+#: src/modules/usage.rs:258 src/modules/usage.rs:263
+msgid "your login session"
+msgstr "你的登录会话"
+
+#: src/modules/usage.rs:259
+msgid "a system service manager"
+msgstr "一个系统服务管理器"
+
+#: src/modules/usage.rs:260
+msgid "the message bus apps use to talk to each other"
+msgstr "应用之间用来相互通信的消息总线"
+
+#: src/modules/usage.rs:261
+msgid "the login screen"
+msgstr "登录界面"
+
+#: src/modules/usage.rs:262
+msgid "the remote login service"
+msgstr "远程登录服务"
+
+#: src/modules/usage.rs:264
+msgid "the system's permission service"
+msgstr "系统的权限服务"
+
+#: src/modules/usage.rs:265
+msgid "the drive manager"
+msgstr "磁盘管理器"
+
+#: src/modules/usage.rs:266
+msgid "the desktop's file system service"
+msgstr "桌面的文件系统服务"
+
+#: src/modules/usage.rs:267
+msgid "a desktop portal service"
+msgstr "一个桌面门户服务"
+
+#: src/modules/usage.rs:268 src/modules/usage.rs:269
+msgid "the sound and video service"
+msgstr "音视频服务"
+
+#: src/modules/usage.rs:270
+msgid "the sound service"
+msgstr "音频服务"
+
+#: src/modules/usage.rs:271
+msgid "the network service"
+msgstr "网络服务"
+
+#: src/modules/usage.rs:272
+msgid "Voltkit itself"
+msgstr "Voltkit 本身"
+
+#: src/modules/usage.rs:290
+#, rust-format
+msgid "{} is part of the system, so Voltkit won't close it"
+msgstr "{} 是系统的一部分，因此 Voltkit 不会关闭它"
+
+#: src/modules/usage.rs:303
+msgid "could not run kill"
+msgstr "无法运行 kill"
+
+#: src/modules/usage.rs:306
+msgid "not closed: permission was not granted"
+msgstr "未关闭：未获得授权"
+
+#: src/modules/usage.rs:308
+#, rust-format
+msgid "could not close {}: {}"
+msgstr "无法关闭 {}：{}"
+
+#: src/paste.rs:40
+#, rust-format
+msgid "unknown paste_shortcut {} (use ctrl+v, ctrl+shift+v or shift+insert)"
+msgstr "未知的 paste_shortcut {}（请使用 ctrl+v、ctrl+shift+v 或 shift+insert）"
+
+#: src/permissions_ui.rs:19
+msgid "Find an app or permission…"
+msgstr "查找应用或权限…"
+
+#: src/permissions_ui.rs:28
+msgid "Choose what apps can access"
+msgstr "选择应用可以访问什么"
+
+#: src/permissions_ui.rs:28
+msgid ""
+"Expand an app to review its remembered permissions. A switch changes the saved answer; Forget removes that answer so the app can ask again."
+msgstr "展开某个应用即可查看它被记住的权限。开关会更改已保存的回答；“遗忘”会删除该回答，让应用可以再次询问。"
+
+#: src/permissions_ui.rs:29
+msgid "Desktop permission history"
+msgstr "桌面权限历史"
+
+#: src/permissions_ui.rs:29
+msgid ""
+"These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have."
+msgstr ""
+"这些是桌面门户保存的回答，也包括 Flatpak 之外安装的应用。应用在请求访问之后才会出现在这里。这不是某个应用可能拥有的所有能力的清单。"
+
+#: src/permissions_ui.rs:49
+msgid "Refresh"
+msgstr "刷新"
+
+#: src/permissions_ui.rs:54
+msgid "Applications"
+msgstr "应用"
+
+#: src/permissions_ui.rs:56
+msgid ""
+"Answers you gave when apps asked to take screenshots, use the camera, see your location and more. Change an answer, or forget it so the app asks again next time."
+msgstr "你在应用请求截屏、使用摄像头、获取位置等时给出的回答。你可以更改某个回答，或让它被遗忘，这样应用下次会再次询问。"
+
+#: src/permissions_ui.rs:78
+#, rust-format
+msgid "Could not read permissions: {}"
+msgstr "无法读取权限：{}"
+
+#: src/permissions_ui.rs:92
+msgid "No app has asked for anything yet"
+msgstr "还没有应用提出任何请求"
+
+#: src/permissions_ui.rs:93
+msgid ""
+"Answers appear here after an app asks, for example to take a screenshot"
+msgstr "应用提出请求后，回答会显示在这里，例如截屏请求"
+
+#: src/permissions_ui.rs:147
+msgid ""
+"No apps match this search. Try an app name or a permission such as camera."
+msgstr "没有应用符合此搜索。请尝试应用名称或“摄像头”之类的权限。"
+
+#: src/permissions_ui.rs:149
+msgid "Expand an app to review its saved answers."
+msgstr "展开某个应用即可查看它已保存的回答。"
+
+#: src/permissions_ui.rs:182
+msgid "Forget, so the app asks again"
+msgstr "遗忘，让应用再次询问"
+
+#: src/permissions_ui.rs:193
+#, rust-format
+msgid "{} will ask again: {}"
+msgstr "{} 将再次询问：{}"
+
+#: src/permissions_ui.rs:194
+#, rust-format
+msgid "Not forgotten: {}"
+msgstr "未能遗忘：{}"
+
+#: src/permissions_ui.rs:209
+#, rust-format
+msgid "{} allowed"
+msgstr "{} 项已允许"
+
+#: src/permissions_ui.rs:209
+#, rust-format
+msgid "{} denied"
+msgstr "{} 项已拒绝"
+
+#: src/permissions_ui.rs:209
+#, rust-format
+msgid "{} remembered"
+msgstr "{} 项已记住"
+
+#: src/permissions_ui.rs:222
+msgid "Apps without an ID"
+msgstr "没有标识的应用"
+
+#: src/picker.rs:53
+msgid "Search snippets"
+msgstr "搜索片段"
+
+#: src/picker.rs:66
+msgid "Insert"
+msgstr "插入"
+
+#: src/picker.rs:80
+msgid "↑↓ choose · Enter insert · Esc cancel"
+msgstr "↑↓ 选择 · Enter 插入 · Esc 取消"
+
+#: src/picker.rs:102
+msgid "Insert Snippet"
+msgstr "插入片段"
+
+#: src/picker.rs:175 src/snippets_ui.rs:277
+msgid "No matching snippets"
+msgstr "没有匹配的片段"
+
+#: src/picker.rs:279 src/smartpaste_ui.rs:230
+#, rust-format
+msgid "paste failed: {}"
+msgstr "粘贴失败：{}"
+
+#: src/picker.rs:282
+msgid "Snippet copied"
+msgstr "片段已复制"
+
+#: src/picker.rs:282 src/smartpaste_ui.rs:232
+msgid "Press Ctrl+V to paste it."
+msgstr "按 Ctrl+V 粘贴。"
+
+#: src/picker.rs:286 src/smartpaste_ui.rs:234
+msgid "paste worker crashed"
+msgstr "粘贴进程崩溃了"
+
+#: src/portal.rs:133
+msgid "failed to show notification"
+msgstr "无法显示通知"
+
+#: src/portal.rs:143
+#, rust-format
+msgid "portal returned a non-file URI: {}"
+msgstr "门户返回了一个不是文件的 URI：{}"
+
+#: src/qr_ui.rs:33
+msgid "Scan from Screen"
+msgstr "从屏幕扫描"
+
+#: src/qr_ui.rs:38
+msgid "Scan"
+msgstr "扫描"
+
+#: src/qr_ui.rs:39
+#, rust-format
+msgid ""
+"Drag a box around a QR code anywhere on your screen: a video, a slide, a web page. Shortcut: {}"
+msgstr "在屏幕上的任意位置，在二维码周围拖出一个方框：视频、幻灯片、网页都可以。快捷键：{}"
+
+#: src/qr_ui.rs:44
+msgid "Result"
+msgstr "结果"
+
+#: src/qr_ui.rs:50
+msgid "Open Link"
+msgstr "打开链接"
+
+#: src/qr_ui.rs:60 src/smartpaste_ui.rs:336
+msgid "Copied"
+msgstr "已复制"
+
+#: src/qr_ui.rs:77
+msgid "QR code from the shortcut, copied to the clipboard"
+msgstr "来自快捷键的二维码，已复制到剪贴板"
+
+#: src/qr_ui.rs:99
+msgid "QR code copied to clipboard"
+msgstr "二维码已复制到剪贴板"
+
+#: src/qr_ui.rs:103
+msgid "QR scanner crashed"
+msgstr "二维码扫描器崩溃了"
+
+#: src/qr_ui.rs:118
+msgid "Create"
+msgstr "创建"
+
+#: src/qr_ui.rs:119
+msgid ""
+"Type text or a link, or describe a Wi-Fi network, then scan the code with your phone."
+msgstr "输入文字或链接，或描述一个 Wi-Fi 网络，然后用手机扫描二维码。"
+
+#: src/qr_ui.rs:123
+msgid "Content"
+msgstr "内容"
+
+#: src/qr_ui.rs:124 src/qr_ui.rs:126
+msgid "Text or link"
+msgstr "文字或链接"
+
+#: src/qr_ui.rs:124
+msgid "Wi-Fi network"
+msgstr "Wi-Fi 网络"
+
+#: src/qr_ui.rs:127
+msgid "Network name"
+msgstr "网络名称"
+
+#: src/qr_ui.rs:128
+msgid "Password"
+msgstr "密码"
+
+#: src/qr_ui.rs:130
+msgid "Security"
+msgstr "安全性"
+
+#: src/qr_ui.rs:131
+msgid "WPA / WPA2 / WPA3"
+msgstr "WPA / WPA2 / WPA3"
+
+#: src/qr_ui.rs:131
+msgid "None (open network)"
+msgstr "无（开放网络）"
+
+#: src/qr_ui.rs:136
+msgid "Choose…"
+msgstr "选择…"
+
+#: src/qr_ui.rs:137
+msgid "Remove Logo"
+msgstr "移除标志"
+
+#: src/qr_ui.rs:140
+msgid "Logo"
+msgstr "标志"
+
+#: src/qr_ui.rs:141
+msgid "Optional: a small PNG, JPEG, WebP or SVG in the middle of the code"
+msgstr "可选：在二维码中间放置一个小型 PNG、JPEG、WebP 或 SVG 图片"
+
+#: src/qr_ui.rs:147
+msgid "Logo size"
+msgstr "标志大小"
+
+#: src/qr_ui.rs:148
+msgid "Small"
+msgstr "小"
+
+#: src/qr_ui.rs:148
+msgid "Medium"
+msgstr "中"
+
+#: src/qr_ui.rs:148
+msgid "Large"
+msgstr "大"
+
+#: src/qr_ui.rs:171 src/qr_ui.rs:272
+msgid "Your QR code appears here"
+msgstr "你的二维码会显示在这里"
+
+#: src/qr_ui.rs:176
+msgid "Copy Image"
+msgstr "复制图像"
+
+#: src/qr_ui.rs:180
+msgid "Save as PNG…"
+msgstr "另存为 PNG…"
+
+#: src/qr_ui.rs:199
+msgid "QR preview"
+msgstr "二维码预览"
+
+#: src/qr_ui.rs:199
+msgid "Ready to scan, copy, or save as a PNG."
+msgstr "可以扫描、复制或另存为 PNG。"
+
+#: src/qr_ui.rs:243
+msgid "✓ Scans correctly (logo made smaller so it fits)"
+msgstr "✓ 可正常扫描（已缩小标志以便容纳）"
+
+#: src/qr_ui.rs:245
+msgid "✓ Checked: scans correctly with the logo"
+msgstr "✓ 已检查：带标志也可正常扫描"
+
+#: src/qr_ui.rs:250
+msgid ""
+"This code doesn't scan with a logo. Shorten the text or remove the logo."
+msgstr "此二维码加上标志后无法扫描。请缩短文字或移除标志。"
+
+#: src/qr_ui.rs:270
+msgid "That's too much text for a QR code."
+msgstr "文字太多，二维码放不下。"
+
+#: src/qr_ui.rs:271
+msgid "Enter the network name to create a code"
+msgstr "输入网络名称以生成二维码"
+
+#: src/qr_ui.rs:313
+msgid "PNG, JPEG, WebP or SVG"
+msgstr "PNG、JPEG、WebP 或 SVG"
+
+#: src/qr_ui.rs:320
+msgid "Choose a Logo"
+msgstr "选择标志"
+
+#: src/qr_ui.rs:327
+#, rust-format
+msgid "Can't use this logo: {}"
+msgstr "无法使用此标志：{}"
+
+#: src/qr_ui.rs:348
+msgid "QR code image copied"
+msgstr "二维码图像已复制"
+
+#: src/qr_ui.rs:365 src/system_ui.rs:370
+#, rust-format
+msgid "Could not save: {}"
+msgstr "无法保存：{}"
+
+#: src/ruler.rs:17
+msgid ""
+"Drag to measure  ·  Shift: straight line  ·  Ctrl+C: copy size  ·  Right-click: clear  ·  Esc: close"
+msgstr "拖动测量  ·  Shift：直线  ·  Ctrl+C：复制尺寸  ·  右键：清除  ·  Esc：关闭"
+
+#: src/ruler.rs:51
+msgid "screenshot worker crashed"
+msgstr "截图进程崩溃了"
+
+#: src/ruler.rs:61
+msgid "Continue"
+msgstr "继续"
+
+#: src/ruler.rs:67
+msgid "Allow Screen Ruler to See Your Screen"
+msgstr "允许屏幕标尺查看你的屏幕"
+
+#: src/ruler.rs:69
+msgid ""
+"The ruler measures a snapshot of your screen. Your desktop will ask once whether Voltkit may take screenshots; choose Allow. This window closes before the snapshot."
+msgstr "标尺会测量屏幕的一张快照。桌面会询问一次是否允许 Voltkit 截屏，请选择“允许”。此窗口会在截图前关闭。"
+
+#: src/ruler.rs:107
+msgid ""
+"Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then Allow when your desktop asks. If you chose Deny before, forget that answer in Voltkit's App Permissions page first."
+msgstr ""
+"截屏未被允许，因此标尺无法打开。请选择“重试”，并在桌面询问时选择“允许”。如果你之前选择过“拒绝”，请先在 Voltkit 的“应用权限”页面中遗忘该回答。"
+
+#: src/ruler.rs:114
+msgid "Try Again"
+msgstr "重试"
+
+#: src/ruler.rs:258
+#, rust-format
+msgid "Copied {}  ·  Esc: close"
+msgstr "已复制 {}  ·  Esc：关闭"
+
+#: src/ruler.rs:259
+#, rust-format
+msgid "Could not copy: {}"
+msgstr "无法复制：{}"
+
+#: src/shortcuts.rs:23
+#, rust-format
+msgid "invalid accelerator {}"
+msgstr "无效的快捷键 {}"
+
+#: src/shortcuts.rs:29
+#, rust-format
+msgid "unknown modifier <{}> in {}"
+msgstr "{1} 中有未知的修饰键 <{0}>"
+
+#: src/shortcuts.rs:34
+#, rust-format
+msgid "accelerator {} has no key"
+msgstr "快捷键 {} 没有按键"
+
+#: src/shortcuts.rs:88
+#, rust-format
+msgid "Voltkit: {}"
+msgstr "Voltkit：{}"
+
+#: src/shortcuts.rs:113
+msgid "gsettings not found; this fallback is for GNOME-based desktops"
+msgstr "找不到 gsettings；此备用方案适用于基于 GNOME 的桌面"
+
+#: src/sleep_ui.rs:54 src/sysreport_ui.rs:53 src/usage_ui.rs:83
+msgid "Check Again"
+msgstr "重新检查"
+
+#: src/sleep_ui.rs:59
+msgid "Right Now"
+msgstr "当前情况"
+
+#: src/sleep_ui.rs:60
+msgid "Apps and settings that keep the computer awake at the moment."
+msgstr "此刻让电脑保持唤醒的应用和设置。"
+
+#: src/sleep_ui.rs:64
+msgid "Recent Sleeps"
+msgstr "最近的休眠"
+
+#: src/sleep_ui.rs:66
+msgid ""
+"The last week, newest first. Linux only records what woke the computer when it was the lid or the power button."
+msgstr "最近一周，最新的在前。Linux 只在唤醒原因是合上盖子或按下电源键时才会记录。"
+
+#: src/sleep_ui.rs:71
+msgid "Devices That Can Wake It"
+msgstr "可唤醒电脑的设备"
+
+#: src/sleep_ui.rs:73
+msgid ""
+"USB devices allowed to wake the computer from sleep. A mouse or receiver that wakes it in your bag can be stopped here. Changing it asks for your password and lasts after restarts."
+msgstr "允许从休眠中唤醒电脑的 USB 设备。在包里会唤醒电脑的鼠标或接收器可以在这里停用。更改需要输入密码，重启后仍然有效。"
+
+#: src/sleep_ui.rs:77
+msgid "Sleep Mode"
+msgstr "休眠模式"
+
+#: src/sleep_ui.rs:118
+msgid "Nothing is keeping it awake"
+msgstr "没有任何东西让它保持唤醒"
+
+#: src/sleep_ui.rs:119
+msgid "It sleeps when you close the lid, choose Suspend, or leave it idle."
+msgstr "合上盖子、选择“挂起”或闲置时，它就会休眠。"
+
+#: src/sleep_ui.rs:131
+msgid "Power Settings"
+msgstr "电源设置"
+
+#: src/sleep_ui.rs:139
+msgid "The sleep history isn't available"
+msgstr "无法获取休眠历史"
+
+#: src/sleep_ui.rs:143
+msgid "No sleeps in the last week"
+msgstr "最近一周没有休眠"
+
+#: src/sleep_ui.rs:151
+msgid "No USB devices that could wake it are connected"
+msgstr "没有连接可唤醒电脑的 USB 设备"
+
+#: src/sleep_ui.rs:204 src/sleep_ui.rs:232
+msgid "Can wake the computer"
+msgstr "可以唤醒电脑"
+
+#: src/sleep_ui.rs:205
+msgid "Woke the computer once since it started"
+msgstr "自启动以来唤醒过电脑 1 次"
+
+#: src/sleep_ui.rs:206
+#, rust-format
+msgid "Woke the computer {} times since it started"
+msgstr "自启动以来唤醒过电脑 {} 次"
+
+#: src/sleep_ui.rs:211 src/sleep_ui.rs:232
+msgid "Can't wake the computer"
+msgstr "不能唤醒电脑"
+
+#: src/sleep_ui.rs:233
+#, rust-format
+msgid "{} can wake the computer"
+msgstr "{} 可以唤醒电脑"
+
+#: src/sleep_ui.rs:233
+#, rust-format
+msgid "{} won't wake the computer"
+msgstr "{} 不会唤醒电脑"
+
+#: src/sleep_ui.rs:281
+msgid "Settings"
+msgstr "设置"
+
+#: src/smartpaste_ui.rs:72
+msgid ""
+"Choose how to paste what you copied, then press Enter. The preview shows exactly what will be pasted."
+msgstr "选择如何粘贴你复制的内容，然后按 Enter。预览会准确显示将要粘贴的内容。"
+
+#: src/smartpaste_ui.rs:79
+msgid "Reading the Clipboard…"
+msgstr "正在读取剪贴板…"
+
+#: src/smartpaste_ui.rs:84
+msgid "↑↓ choose · Enter paste · Esc cancel"
+msgstr "↑↓ 选择 · Enter 粘贴 · Esc 取消"
+
+#: src/smartpaste_ui.rs:163
+msgid "Reading the Text in the Image…"
+msgstr "正在读取图片中的文字…"
+
+#: src/smartpaste_ui.rs:178
+msgid "Text in the image"
+msgstr "图片中的文字"
+
+#: src/smartpaste_ui.rs:184
+msgid "No Text in the Image"
+msgstr "图片中没有文字"
+
+#: src/smartpaste_ui.rs:184
+msgid "The image on the clipboard has no text Voltkit can read."
+msgstr "剪贴板中的图片没有 Voltkit 能读取的文字。"
+
+#: src/smartpaste_ui.rs:188
+msgid "Nothing to Paste"
+msgstr "没有可粘贴的内容"
+
+#: src/smartpaste_ui.rs:188
+msgid "Copy some text or an image first, then press the shortcut again."
+msgstr "请先复制一些文字或一张图片，然后再次按下快捷键。"
+
+#: src/smartpaste_ui.rs:232
+msgid "Converted text copied"
+msgstr "转换后的文字已复制"
+
+#: src/smartpaste_ui.rs:259
+msgid "Use it in any app"
+msgstr "在任何应用中使用"
+
+#: src/smartpaste_ui.rs:261
+msgid ""
+"Like Ctrl+V, but you choose how it's pasted: tidy JSON, a spreadsheet table as Markdown or CSV, a link without tracking, text from a PDF without broken lines, a new letter case, or the text in a screenshot."
+msgstr ""
+"类似 Ctrl+V，但由你选择粘贴方式：整理好的 JSON、将表格转为 Markdown 或 CSV、去除跟踪参数的链接、去掉断行的 PDF 文字、改变大小写，或截图中的文字。"
+
+#: src/smartpaste_ui.rs:266
+msgid "Copy something"
+msgstr "复制一些内容"
+
+#: src/smartpaste_ui.rs:266
+msgid "Text, cells from a spreadsheet, JSON, a link, or a screenshot."
+msgstr "文字、表格单元格、JSON、链接或截图。"
+
+#: src/smartpaste_ui.rs:267
+msgid "Click where it should go"
+msgstr "点击要粘贴的位置"
+
+#: src/smartpaste_ui.rs:267
+msgid "In any app: an email, a document, a chat, a terminal."
+msgstr "在任何应用中：电子邮件、文档、聊天、终端。"
+
+#: src/smartpaste_ui.rs:269
+msgid "Press the Smart Paste shortcut"
+msgstr "按下智能粘贴快捷键"
+
+#: src/smartpaste_ui.rs:270
+#, rust-format
+msgid ""
+"{} instead of Ctrl+V. A small window lists the ways it can be pasted, each with a preview."
+msgstr "用 {} 代替 Ctrl+V。弹出的小窗口会列出可用的粘贴方式，每种都带预览。"
+
+#: src/smartpaste_ui.rs:273
+msgid "Choose one and press Enter"
+msgstr "选择一种并按 Enter"
+
+#: src/smartpaste_ui.rs:274
+msgid ""
+"It's pasted where you clicked, and your clipboard is left as it was. The first time, your desktop asks to let Voltkit type for you."
+msgstr "内容会粘贴到你点击的位置，剪贴板保持原样。第一次使用时，桌面会询问是否允许 Voltkit 代你输入。"
+
+#: src/smartpaste_ui.rs:307
+msgid "Source text"
+msgstr "源文本"
+
+#: src/smartpaste_ui.rs:308
+msgid ""
+"See what Smart Paste can do without leaving this window: type or paste text here, then copy a converted result."
+msgstr "无需离开此窗口，即可体验智能粘贴：在这里输入或粘贴文字，然后复制转换后的结果。"
+
+#: src/smartpaste_ui.rs:311
+msgid "Conversions"
+msgstr "转换"
+
+#: src/smartpaste_ui.rs:342
+msgid "Only plain text fits this"
+msgstr "只适用于纯文本"
+
+#: src/snippets_ui.rs:21
+msgid "Find a snippet by trigger or content…"
+msgstr "按触发词或内容查找片段…"
+
+#: src/snippets_ui.rs:38
+msgid "Insert Snippets"
+msgstr "插入片段"
+
+#: src/snippets_ui.rs:39
+msgid "Open Picker"
+msgstr "打开选择器"
+
+#: src/snippets_ui.rs:42
+msgid "Snippet picker"
+msgstr "片段选择器"
+
+#: src/snippets_ui.rs:43
+#, rust-format
+msgid "Search and paste into any app. Shortcut: {}"
+msgstr "搜索并粘贴到任何应用。快捷键：{}"
+
+#: src/snippets_ui.rs:59
+msgid "Typed triggers"
+msgstr "键入触发词"
+
+#: src/snippets_ui.rs:76
+msgid ""
+"Off. Turn on to type a snippet's trigger, like ;date, in any app and have it replaced"
+msgstr "已关闭。开启后，在任何应用中键入片段的触发词（如 ;date）即可将其替换"
+
+#: src/snippets_ui.rs:78
+msgid "Needs keyboard access: turn it off and on again to allow it"
+msgstr "需要键盘访问权限：请关闭后再开启以授予权限"
+
+#: src/snippets_ui.rs:81
+msgid ""
+"On, but the background service isn't running: start it with the banner above"
+msgstr "已开启，但后台服务没有运行：请使用上方的横幅启动它"
+
+#: src/snippets_ui.rs:83
+#, rust-format
+msgid "On: type a snippet's trigger in any app ({} keyboard)"
+msgid_plural "On: type a snippet's trigger in any app ({} keyboards)"
+msgstr[0] "已开启：在任何应用中键入片段的触发词（{} 个键盘）"
+
+#: src/snippets_ui.rs:87
+msgid "On, but not working right now: `voltkit expander status` says why"
+msgstr "已开启，但目前无法工作：`voltkit expander status` 会说明原因"
+
+#: src/snippets_ui.rs:88
+msgid "Starting…"
+msgstr "正在启动…"
+
+#: src/snippets_ui.rs:124
+msgid "Allow Typed Triggers?"
+msgstr "允许键入触发词？"
+
+#: src/snippets_ui.rs:125
+msgid ""
+"To notice when you type a trigger like ;date, Voltkit reads the keyboard in every app. It keeps only the last few characters in memory, and never saves or sends what you type.\n"
+"\n"
+"Your password is needed once. It works right away: no need to log out."
+msgstr ""
+"为了发现你键入了 ;date 之类的触发词，Voltkit 会读取所有应用中的键盘输入。它只在内存中保留最后几个字符，绝不会保存或发送你输入的内容。\n"
+"\n"
+"只需输入一次密码。立即生效，无需注销。"
+
+#: src/snippets_ui.rs:128
+msgid "Allow"
+msgstr "允许"
+
+#: src/snippets_ui.rs:137
+#, rust-format
+msgid "Typed triggers not turned on: {}"
+msgstr "未能开启键入触发词：{}"
+
+#: src/snippets_ui.rs:143
+msgid "Typed triggers are on"
+msgstr "键入触发词已开启"
+
+#: src/snippets_ui.rs:149
+msgid "Also Remove Keyboard Access?"
+msgstr "同时移除键盘访问权限？"
+
+#: src/snippets_ui.rs:150
+msgid ""
+"Typed triggers are off, so Voltkit no longer reads the keyboard. Removing the access as well means turning them on again asks for your password; the access ends fully at the next restart."
+msgstr "键入触发词已关闭，Voltkit 不再读取键盘。同时移除访问权限意味着再次开启时需要重新输入密码；该权限会在下次重启时彻底结束。"
+
+#: src/snippets_ui.rs:152
+msgid "Remove"
+msgstr "移除"
+
+#: src/snippets_ui.rs:158
+msgid "Keyboard access removed"
+msgstr "键盘访问权限已移除"
+
+#: src/snippets_ui.rs:159
+#, rust-format
+msgid "Not removed: {}"
+msgstr "未能移除：{}"
+
+#: src/snippets_ui.rs:181
+#, rust-format
+msgid "Could not save the setting: {}"
+msgstr "无法保存设置：{}"
+
+#: src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382 src/system_ui.rs:483
+msgid "Cancel"
+msgstr "取消"
+
+#: src/snippets_ui.rs:206
+msgid "Add Snippet"
+msgstr "添加片段"
+
+#: src/snippets_ui.rs:211
+msgid "Your Snippets"
+msgstr "你的片段"
+
+#: src/snippets_ui.rs:212
+msgid "Click a snippet to edit it."
+msgstr "点击片段即可编辑。"
+
+#: src/snippets_ui.rs:239
+msgid "Your Snippets · 0"
+msgstr "你的片段 · 0"
+
+#: src/snippets_ui.rs:241
+msgid "No snippets yet"
+msgstr "还没有片段"
+
+#: src/snippets_ui.rs:242
+msgid "Click Add Snippet to create your first one."
+msgstr "点击“添加片段”创建第一个。"
+
+#: src/snippets_ui.rs:260 src/system_ui.rs:148 src/system_ui.rs:353
+msgid "Edit"
+msgstr "编辑"
+
+#: src/snippets_ui.rs:261 src/system_ui.rs:149 src/system_ui.rs:354
+msgid "Delete"
+msgstr "删除"
+
+#: src/snippets_ui.rs:275
+#, rust-format
+msgid "Your Snippets · {} of {}"
+msgstr "你的片段 · {} / {}"
+
+#: src/snippets_ui.rs:277
+msgid "Try another trigger or a word from the snippet text."
+msgstr "试试其他触发词，或片段文字中的某个词。"
+
+#: src/snippets_ui.rs:293
+#, rust-format
+msgid "Could not save snippets: {}"
+msgstr "无法保存片段：{}"
+
+#: src/snippets_ui.rs:311 src/system_ui.rs:383
+#, rust-format
+msgid "Deleted {}"
+msgstr "已删除 {}"
+
+#: src/snippets_ui.rs:312 src/system_ui.rs:383
+msgid "Undo"
+msgstr "撤销"
+
+#: src/snippets_ui.rs:372
+msgid "Enter a trigger, such as ;sig."
+msgstr "请输入触发词，如 ;sig。"
+
+#: src/snippets_ui.rs:374
+msgid "Triggers can't contain spaces."
+msgstr "触发词不能包含空格。"
+
+#: src/snippets_ui.rs:376
+#, rust-format
+msgid "Another snippet already uses {}."
+msgstr "另一个片段已使用 {}。"
+
+#: src/snippets_ui.rs:387
+#, rust-format
+msgid ""
+"When typing, {} expands before you can finish {}. They still work from the picker."
+msgstr "键入时，{} 会在你输完 {} 之前就展开。它们仍可通过选择器使用。"
+
+#: src/snippets_ui.rs:400
+msgid "New Snippet"
+msgstr "新建片段"
+
+#: src/snippets_ui.rs:400
+msgid "Edit Snippet"
+msgstr "编辑片段"
+
+#: src/snippets_ui.rs:406
+msgid "Add"
+msgstr "添加"
+
+#: src/snippets_ui.rs:415 src/snippets_ui.rs:418
+msgid "Trigger"
+msgstr "触发词"
+
+#: src/snippets_ui.rs:419
+msgid ""
+"A short code that names the snippet. Find it by this name in the picker, or type it in any app when typed triggers are on. Starting with ; avoids clashes with normal words."
+msgstr "为片段命名的简短代码。可在选择器中按此名称查找，开启键入触发词后也可在任何应用中键入。以 ; 开头可避免与普通单词冲突。"
+
+#: src/snippets_ui.rs:443
+msgid "Insert:"
+msgstr "插入："
+
+#: src/snippets_ui.rs:444
+msgid "Date"
+msgstr "日期"
+
+#: src/snippets_ui.rs:445
+msgid "Time"
+msgstr "时间"
+
+#: src/snippets_ui.rs:446
+msgid "Clipboard"
+msgstr "剪贴板"
+
+#: src/snippets_ui.rs:446
+msgid "Whatever you copied last"
+msgstr "你最后复制的内容"
+
+#: src/snippets_ui.rs:447
+msgid "Fill-in Field"
+msgstr "填空字段"
+
+#: src/snippets_ui.rs:447
+msgid "A blank you fill in each time you use the snippet"
+msgstr "每次使用片段时需要填写的空白"
+
+#: src/snippets_ui.rs:472
+msgid "Text"
+msgstr "文本"
+
+#: src/snippets_ui.rs:473
+msgid ""
+"What gets pasted. Use Insert to add values that are filled in when you use the snippet."
+msgstr "将要粘贴的内容。使用“插入”添加在使用片段时填写的值。"
+
+#: src/snippets_ui.rs:491
+msgid "Preview"
+msgstr "预览"
+
+#: src/snippets_ui.rs:492
+msgid ""
+"Exactly what will be pasted right now. ‹Fill-in› fields are asked for when you use the snippet, and ‹clipboard› becomes whatever you copied last."
+msgstr "此刻将要粘贴的确切内容。使用片段时会询问‹填空›字段，‹剪贴板›会变成你最后复制的内容。"
+
+#: src/snippets_ui.rs:536
+msgid "Type the text to paste above."
+msgstr "请在上方输入要粘贴的文字。"
+
+#: src/snippets_ui.rs:537
+#, rust-format
+msgid "This text can't be expanded: {}."
+msgstr "此文本无法展开：{}。"
+
+#: src/sysreport_ui.rs:55
+msgid "Copy Report"
+msgstr "复制报告"
+
+#: src/sysreport_ui.rs:63
+msgid "Overview"
+msgstr "概览"
+
+#: src/sysreport_ui.rs:65
+msgid ""
+"What's in this computer and how it's doing, in plain words. Copy the report when asking for help in a forum or bug report: it has no serial numbers, names or network addresses."
+msgstr "这台电脑里有什么、状态如何，用通俗的话说明。在论坛或错误报告中求助时可复制此报告：其中不包含序列号、名称或网络地址。"
+
+#: src/sysreport_ui.rs:70
+msgid "Checks"
+msgstr "检查"
+
+#: src/sysreport_ui.rs:72
+msgid "What Changed"
+msgstr "有什么变化"
+
+#: src/sysreport_ui.rs:73
+msgid ""
+"Hardware, drivers, kernel and firmware, compared day by day: handy when something stops working after an update."
+msgstr "硬件、驱动、内核和固件，逐日对比：在更新后出现问题时很有用。"
+
+#: src/sysreport_ui.rs:75
+msgid "This Computer"
+msgstr "这台电脑"
+
+#: src/sysreport_ui.rs:76
+msgid "Temperatures"
+msgstr "温度"
+
+#: src/sysreport_ui.rs:77
+msgid "Check Online"
+msgstr "联网检查"
+
+#: src/sysreport_ui.rs:79
+msgid "Firmware Updates"
+msgstr "固件更新"
+
+#: src/sysreport_ui.rs:80
+msgid ""
+"Updates for the BIOS, drives, docks and other devices, from the makers through the Linux Vendor Firmware Service. They often fix battery, sleep and stability problems."
+msgstr ""
+"来自制造商的 BIOS、硬盘、扩展坞和其他设备更新，通过 Linux Vendor Firmware Service 提供。它们经常能修复电池、休眠和稳定性问题。"
+
+#: src/sysreport_ui.rs:83
+msgid "Show…"
+msgstr "显示…"
+
+#: src/sysreport_ui.rs:85
+msgid "Memory and Upgrades"
+msgstr "内存与升级"
+
+#: src/sysreport_ui.rs:86
+msgid ""
+"Memory slots, what's in them, and how much this computer can take. Reading them needs the administrator password."
+msgstr "内存插槽、其中的内存条，以及这台电脑最多能支持多少。读取这些信息需要管理员密码。"
+
+#: src/sysreport_ui.rs:124
+#, rust-format
+msgid "Could not check online: {}"
+msgstr "无法联网检查：{}"
+
+#: src/sysreport_ui.rs:141
+#, rust-format
+msgid "Not shown: {}"
+msgstr "未显示：{}"
+
+#: src/sysreport_ui.rs:167
+msgid "Checking this computer…"
+msgstr "正在检查这台电脑…"
+
+#: src/sysreport_ui.rs:209
+msgid "hot"
+msgstr "过热"
+
+#: src/sysreport_ui.rs:209
+msgid "warm"
+msgstr "偏热"
+
+#: src/sysreport_ui.rs:209
+msgid "normal"
+msgstr "正常"
+
+#: src/sysreport_ui.rs:230
+msgid "Slowed down because of heat"
+msgstr "因过热而降速"
+
+#: src/sysreport_ui.rs:231
+#, rust-format
+msgid "{} time since the computer started"
+msgid_plural "{} times since the computer started"
+msgstr[0] "自电脑启动以来 {} 次"
+
+#: src/sysreport_ui.rs:240
+msgid "Firmware updates aren't available"
+msgstr "固件更新不可用"
+
+#: src/sysreport_ui.rs:241
+msgid ""
+"Install fwupd to get firmware updates from the makers of your hardware."
+msgstr "安装 fwupd，即可从硬件制造商获取固件更新。"
+
+#: src/sysreport_ui.rs:247
+msgid "Up to date"
+msgstr "已是最新"
+
+#: src/sysreport_ui.rs:248
+msgid "As of the last check. Check Online downloads the latest list."
+msgstr "截至上次检查。“联网检查”会下载最新列表。"
+
+#: src/sysreport_ui.rs:261
+msgid "Install…"
+msgstr "安装…"
+
+#: src/sysreport_ui.rs:273
+#, rust-format
+msgid ""
+"\n"
+"Fix: <tt>{}</tt>"
+msgstr ""
+"\n"
+"修复方法：<tt>{}</tt>"
+
+#: src/sysreport_ui.rs:291
+msgid "Copy the command, to paste in a terminal"
+msgstr "复制命令，以便粘贴到终端"
+
+#: src/sysreport_ui.rs:295
+msgid "Command copied: paste it in a terminal"
+msgstr "命令已复制：请粘贴到终端中"
+
+#: src/sysreport_ui.rs:300
+msgid "Open Guide"
+msgstr "打开指南"
+
+#: src/sysreport_ui.rs:312
+msgid "Nothing to compare yet"
+msgstr "暂无可比较的内容"
+
+#: src/sysreport_ui.rs:313
+msgid ""
+"Voltkit saves a snapshot each day while it runs, so changes show up here from tomorrow on."
+msgstr "Voltkit 运行时每天保存一份快照，因此从明天起这里才会显示变化。"
+
+#: src/sysreport_ui.rs:330 src/usage_ui.rs:332
+#, rust-format
+msgid "and {} more"
+msgstr "另有 {} 项"
+
+#: src/sysreport_ui.rs:378
+msgid "Copy System Report"
+msgstr "复制系统报告"
+
+#: src/sysreport_ui.rs:379
+msgid ""
+"This is what will be copied. It has no serial numbers, user or computer names, or network addresses."
+msgstr "这是将要复制的内容。其中不包含序列号、用户名或计算机名，也不包含网络地址。"
+
+#: src/sysreport_ui.rs:390
+msgid "Report copied: paste it where you're asking for help"
+msgstr "报告已复制：请粘贴到你求助的地方"
+
+#: src/sysreport_ui.rs:400
+msgid "Software"
+msgstr "软件"
+
+#: src/sysreport_ui.rs:405
+msgid "Command copied: paste “fwupdmgr update” in a terminal"
+msgstr "命令已复制：请在终端中粘贴“fwupdmgr update”"
+
+#: src/system.rs:27
+#, rust-format
+msgid "`{}` is not installed; `voltkit doctor` shows how to install it"
+msgstr "未安装 `{}`；`voltkit doctor` 会说明如何安装"
+
+#: src/system.rs:29
+#, rust-format
+msgid "`{}` failed: {}"
+msgstr "`{}` 失败：{}"
+
+#: src/system.rs:48
+#, rust-format
+msgid "timed out after {}s"
+msgstr "{} 秒后超时"
+
+#: src/system.rs:69 src/system.rs:92
+msgid "no clipboard tool found; `voltkit doctor` shows how to install one"
+msgstr "未找到剪贴板工具；`voltkit doctor` 会说明如何安装"
+
+#: src/system.rs:71
+msgid "could not set the clipboard"
+msgstr "无法设置剪贴板"
+
+#: src/system.rs:73
+#, rust-format
+msgid "could not set the clipboard ({})"
+msgstr "无法设置剪贴板（{}）"
+
+#: src/system.rs:99
+msgid "could not read the clipboard"
+msgstr "无法读取剪贴板"
+
+#: src/system.rs:100
+msgid "clipboard reader crashed"
+msgstr "剪贴板读取进程崩溃了"
+
+#: src/system.rs:103
+msgid "clipboard has no text"
+msgstr "剪贴板中没有文字"
+
+#: src/system_ui.rs:47
+msgid "Add Entry"
+msgstr "添加条目"
+
+#: src/system_ui.rs:49
+msgid "Hosts File"
+msgstr "Hosts 文件"
+
+#: src/system_ui.rs:51
+msgid ""
+"Point names at addresses on this computer, such as myapp.test → 127.0.0.1. Turn entries off instead of deleting them to keep them for later. Saving asks for your password and keeps a backup in /etc/hosts.voltkit-backup."
+msgstr ""
+"将名称指向这台电脑上的地址，例如 myapp.test → 127.0.0.1。可以停用条目而不是删除，以便日后使用。保存时需要输入密码，并会在 /etc/hosts.voltkit-backup 保留备份。"
+
+#: src/system_ui.rs:57
+msgid "Save Changes"
+msgstr "保存更改"
+
+#: src/system_ui.rs:58
+msgid "Discard"
+msgstr "放弃"
+
+#: src/system_ui.rs:70
+msgid "Allow editing system entries"
+msgstr "允许编辑系统条目"
+
+#: src/system_ui.rs:71
+msgid ""
+"Changing localhost or your computer's name can break networking and sudo. A backup is kept either way."
+msgstr "更改 localhost 或计算机名可能会破坏网络和 sudo。无论如何都会保留备份。"
+
+#: src/system_ui.rs:142
+msgid "System entry, kept as it is"
+msgstr "系统条目，保持原样"
+
+#: src/system_ui.rs:185
+msgid "IP address"
+msgstr "IP 地址"
+
+#: src/system_ui.rs:186
+msgid "Host names, separated by spaces"
+msgstr "主机名，用空格分隔"
+
+#: src/system_ui.rs:187
+msgid "Note (optional)"
+msgstr "备注（可选）"
+
+#: src/system_ui.rs:192
+msgid "Edit Host Entry"
+msgstr "编辑主机条目"
+
+#: src/system_ui.rs:192
+msgid "New Host Entry"
+msgstr "新建主机条目"
+
+#: src/system_ui.rs:196
+msgid "Enter an IP address, such as 127.0.0.1 or ::1."
+msgstr "请输入 IP 地址，如 127.0.0.1 或 ::1。"
+
+#: src/system_ui.rs:200
+msgid "Enter at least one host name, such as myapp.test."
+msgstr "请至少输入一个主机名，如 myapp.test。"
+
+#: src/system_ui.rs:203
+#, rust-format
+msgid "“{}” isn't a valid host name (letters, digits, dots and dashes)."
+msgstr "“{}”不是有效的主机名（只能使用字母、数字、点和连字符）。"
+
+#: src/system_ui.rs:235
+#, rust-format
+msgid "Saved {}. The previous version is in {}."
+msgstr "已保存 {}。之前的版本在 {}。"
+
+#: src/system_ui.rs:263
+msgid "Add Variable"
+msgstr "添加变量"
+
+#: src/system_ui.rs:265
+msgid "Environment Variables"
+msgstr "环境变量"
+
+#: src/system_ui.rs:267
+msgid ""
+"Set for every app in your desktop session. They apply the next time you log in (restart if logging out isn't enough). To add to a list like PATH, use ${PATH}:/new/folder."
+msgstr ""
+"对桌面会话中的每个应用生效。下次登录时应用（如果注销不够，请重启）。要在 PATH 之类的列表中追加内容，请使用 ${PATH}:/new/folder。"
+
+#: src/system_ui.rs:276
+msgid "Filter variables"
+msgstr "筛选变量"
+
+#: src/system_ui.rs:278
+msgid "Already in Your Session"
+msgstr "已在你的会话中"
+
+#: src/system_ui.rs:280
+msgid ""
+"Set by the system or your shell. Override one to give it a new value from Voltkit. A value set in ~/.bashrc still wins in terminals."
+msgstr "由系统或 shell 设置。可以覆盖其中一个，从 Voltkit 给它设置新值。在终端中，~/.bashrc 里设置的值仍然优先。"
+
+#: src/system_ui.rs:321
+msgid "Override"
+msgstr "覆盖"
+
+#: src/system_ui.rs:340
+msgid "No variables yet"
+msgstr "还没有变量"
+
+#: src/system_ui.rs:341
+msgid "Click Add Variable to set one, such as EDITOR=nano."
+msgstr "点击“添加变量”来设置一个，如 EDITOR=nano。"
+
+#: src/system_ui.rs:403
+msgid "Name"
+msgstr "名称"
+
+#: src/system_ui.rs:404
+msgid "Value"
+msgstr "值"
+
+#: src/system_ui.rs:409
+msgid "Edit Variable"
+msgstr "编辑变量"
+
+#: src/system_ui.rs:409
+msgid "Override Variable"
+msgstr "覆盖变量"
+
+#: src/system_ui.rs:409
+msgid "New Variable"
+msgstr "新建变量"
+
+#: src/system_ui.rs:414
+msgid ""
+"Names use letters, digits and underscores, and don't start with a digit."
+msgstr "名称由字母、数字和下划线组成，且不能以数字开头。"
+
+#: src/system_ui.rs:417
+#, rust-format
+msgid "{} is already set; edit that one instead."
+msgstr "{} 已设置；请改为编辑那一个。"
+
+#: src/system_ui.rs:420
+msgid "Values must fit on one line."
+msgstr "值必须在同一行内。"
+
+#: src/system_ui.rs:434
+#, rust-format
+msgid "Saved {}. Log out and back in to apply it."
+msgstr "已保存 {}。请注销后重新登录以生效。"
+
+#: src/usage_ui.rs:88
+msgid "Eject"
+msgstr "弹出"
+
+#: src/usage_ui.rs:98
+msgid "Drives"
+msgstr "磁盘"
+
+#: src/usage_ui.rs:99
+msgid "USB sticks, memory cards and other disks you can eject"
+msgstr "可以弹出的 U 盘、存储卡和其他磁盘"
+
+#: src/usage_ui.rs:133
+msgid "Choose what to inspect"
+msgstr "选择要检查的对象"
+
+#: src/usage_ui.rs:135
+msgid ""
+"Find the apps that keep a file, folder or drive busy (“target is busy”), or that use a network port (“address already in use”), and close them."
+msgstr "找出占用文件、文件夹或磁盘（“目标正忙”），或占用网络端口（“地址已被使用”）的应用，并关闭它们。"
+
+#: src/usage_ui.rs:140
+msgid "File…"
+msgstr "文件…"
+
+#: src/usage_ui.rs:141
+msgid "Folder…"
+msgstr "文件夹…"
+
+#: src/usage_ui.rs:142
+msgid "File or folder"
+msgstr "文件或文件夹"
+
+#: src/usage_ui.rs:142
+msgid "Or drop one on this window"
+msgstr "或将其拖到此窗口上"
+
+#: src/usage_ui.rs:150
+msgid "Choose a Folder"
+msgstr "选择文件夹"
+
+#: src/usage_ui.rs:150
+msgid "Choose a File"
+msgstr "选择文件"
+
+#: src/usage_ui.rs:164
+msgid "Network port, such as 3000"
+msgstr "网络端口，如 3000"
+
+#: src/usage_ui.rs:174
+msgid "Enter a port number from 1 to 65535"
+msgstr "请输入 1 到 65535 之间的端口号"
+
+#: src/usage_ui.rs:191 src/usage_ui.rs:202
+msgid "Check"
+msgstr "检查"
+
+#: src/usage_ui.rs:219
+msgid "No drives to eject are connected"
+msgstr "没有连接可弹出的磁盘"
+
+#: src/usage_ui.rs:254
+#, rust-format
+msgid "Port {}"
+msgstr "端口 {}"
+
+#: src/usage_ui.rs:265
+#, rust-format
+msgid "Using “{}”"
+msgstr "使用“{}”的程序"
+
+#: src/usage_ui.rs:275
+msgid "Nothing is using it"
+msgstr "没有东西在使用它"
+
+#: src/usage_ui.rs:276
+msgid "You can eject it now."
+msgstr "现在可以弹出了。"
+
+#: src/usage_ui.rs:276
+msgid "No app has it open."
+msgstr "没有应用打开它。"
+
+#: src/usage_ui.rs:285
+msgid "Check with Password"
+msgstr "使用密码检查"
+
+#: src/usage_ui.rs:288
+#, rust-format
+msgid "{} program of other users or the system wasn't checked"
+msgid_plural "{} programs of other users or the system weren't checked"
+msgstr[0] "有 {} 个其他用户或系统的程序未被检查"
+
+#: src/usage_ui.rs:292
+msgid "Servers and system services often run that way"
+msgstr "服务器和系统服务通常以这种方式运行"
+
+#: src/usage_ui.rs:306
+#, rust-format
+msgid "Not checked: {}"
+msgstr "未检查：{}"
+
+#: src/usage_ui.rs:324
+#, rust-format
+msgid "in {} · PID {}"
+msgstr "在 {} 中 · PID {}"
+
+#: src/usage_ui.rs:325
+#, rust-format
+msgid "{} · PID {}"
+msgstr "{} · PID {}"
+
+#: src/usage_ui.rs:335
+#, rust-format
+msgid "This is {}, so Voltkit won't close it."
+msgstr "这是{}，因此 Voltkit 不会关闭它。"
+
+#: src/usage_ui.rs:361
+#, rust-format
+msgid "Force Quit {}?"
+msgstr "强制退出 {}？"
+
+#: src/usage_ui.rs:362
+msgid ""
+"It stops immediately, without a chance to save. Anything unsaved in it is lost."
+msgstr "它会立即停止，没有机会保存。其中未保存的内容将会丢失。"
+
+#: src/usage_ui.rs:363 src/usage_ui.rs:396
+msgid "Force Quit"
+msgstr "强制退出"
+
+#: src/usage_ui.rs:367
+#, rust-format
+msgid "Close {}?"
+msgstr "关闭 {}？"
+
+#: src/usage_ui.rs:368
+#, rust-format
+msgid ""
+"Voltkit asks {} to quit, like closing its window. Unsaved work in it may be lost."
+msgstr "Voltkit 会请求 {} 退出，就像关闭它的窗口一样。其中未保存的工作可能会丢失。"
+
+#: src/usage_ui.rs:389
+msgid "Stopping…"
+msgstr "正在停止…"
+
+#: src/usage_ui.rs:389
+msgid "Closing…"
+msgstr "正在关闭…"
+
+#: src/usage_ui.rs:391
+#, rust-format
+msgid "{} closed"
+msgstr "{} 已关闭"
+
+#: src/usage_ui.rs:408
+#, rust-format
+msgid ""
+"These apps are using {}: {}. Voltkit asks them to quit, like closing their windows, then ejects. Unsaved work in them may be lost."
+msgstr "这些应用正在使用 {}：{}。Voltkit 会请求它们退出，就像关闭它们的窗口一样，然后弹出。其中未保存的工作可能会丢失。"
+
+#: src/usage_ui.rs:409
+#, rust-format
+msgid "Close {} and Eject?"
+msgstr "关闭 {} 并弹出？"
+
+#: src/usage_ui.rs:409
+msgid "Close and Eject"
+msgstr "关闭并弹出"
+
+#: src/usage_ui.rs:419
+msgid "Some apps didn't close. Use Force Quit on them, then eject."
+msgstr "有些应用没有关闭。请对它们使用“强制退出”，然后再弹出。"
+
+#: src/usage_ui.rs:433
+#, rust-format
+msgid "{} ejected: you can unplug it"
+msgstr "{} 已弹出：可以拔下了"
+
+#: src/usage_ui.rs:440
+#, rust-format
+msgid "Could not eject: {}"
+msgstr "无法弹出：{}"
+
+#: src/usage_ui.rs:464
+#, rust-format
+msgid "{} App"
+msgid_plural "{} Apps"
+msgstr[0] "{} 个应用"
+
+#: src/main.rs (command-line help)
+msgid "A unified suite of desktop micro-utilities for Linux"
+msgstr "适用于 Linux 的桌面小工具合集"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Everyday desktop micro-utilities for Linux, in one binary.\n"
+"\n"
+"Run without a subcommand to open the GTK control center. Each subcommand runs one utility from the terminal, a script or a keyboard shortcut."
+msgstr ""
+"适用于 Linux 的日常桌面小工具，集于一个程序。\n"
+"\n"
+"不带子命令运行即可打开 GTK 控制中心。每个子命令可在终端、脚本或键盘快捷键中运行一个工具。"
+
+#: src/main.rs (command-line help)
+msgid "Select a screen region and copy the recognized text to the clipboard"
+msgstr "选取屏幕区域，并将识别出的文字复制到剪贴板"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Select a screen region and copy the recognized text to the clipboard\n"
+"\n"
+"Opens the desktop's interactive screenshot tool through the XDG Screenshot portal, then runs Tesseract on the selected region. Without the portal it falls back to grim+slurp, gnome-screenshot, spectacle or maim. The text is printed and copied to the clipboard."
+msgstr ""
+"选取屏幕区域，并将识别出的文字复制到剪贴板\n"
+"\n"
+"通过 XDG Screenshot 门户打开桌面的交互式截图工具，然后对所选区域运行 Tesseract。没有该门户时，会改用 grim+slurp、gnome-screenshot、spectacle 或 maim。文字会被打印出来并复制到剪贴板。"
+
+#: src/main.rs (command-line help)
+msgid "Tesseract language code(s), e.g. \"eng\" or \"eng+deu\""
+msgstr "Tesseract 语言代码，例如 \"eng\" 或 \"eng+deu\""
+
+#: src/main.rs (command-line help)
+msgid "Pick a color from the screen and copy its HEX value"
+msgstr "从屏幕取色并复制其 HEX 值"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Pick a color from the screen and copy its HEX value\n"
+"\n"
+"Uses the XDG Screenshot portal's color picker. The value is printed, copied to the clipboard and added to the color history shown in the control center."
+msgstr ""
+"从屏幕取色并复制其 HEX 值\n"
+"\n"
+"使用 XDG Screenshot 门户的取色器。该值会被打印出来、复制到剪贴板，并加入控制中心中显示的颜色历史。"
+
+#: src/main.rs (command-line help)
+msgid "Convert a color (#hex or rgb(...)) and report WCAG contrast"
+msgstr "转换颜色（#hex 或 rgb(...)）并报告 WCAG 对比度"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Convert a color (#hex or rgb(...)) and report WCAG contrast\n"
+"\n"
+"Prints the color as HEX, RGB and HSL, and its WCAG 2.x contrast ratio as text on white and on black."
+msgstr ""
+"转换颜色（#hex 或 rgb(...)）并报告 WCAG 对比度\n"
+"\n"
+"以 HEX、RGB 和 HSL 打印该颜色，并给出它作为文字分别放在白底和黑底上的 WCAG 2.x 对比度。"
+
+#: src/main.rs (command-line help)
+msgid "#rgb, #rrggbb (the # is optional) or rgb(r, g, b)"
+msgstr "#rgb、#rrggbb（# 可省略）或 rgb(r, g, b)"
+
+#: src/main.rs (command-line help)
+msgid "Strip metadata and compress PNG, JPEG, WebP or MP4 files"
+msgstr "删除元数据并压缩 PNG、JPEG、WebP 或 MP4 文件"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Strip metadata and compress PNG, JPEG, WebP or MP4 files\n"
+"\n"
+"Each FILE is written to NAME.min.EXT beside it; originals are never modified."
+msgstr ""
+"删除元数据并压缩 PNG、JPEG、WebP 或 MP4 文件\n"
+"\n"
+"每个 FILE 都会写入它旁边的 NAME.min.EXT；原文件绝不会被修改。"
+
+#: src/main.rs (command-line help)
+msgid "Files to compress (.png, .jpg/.jpeg, .webp, .mp4/.m4v/.mov)"
+msgstr "要压缩的文件（.png、.jpg/.jpeg、.webp、.mp4/.m4v/.mov）"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Quality from 1 (smallest) to 100 (best); ignored for PNG, which is always lossless"
+msgstr "质量，从 1（最小）到 100（最佳）；对始终无损的 PNG 无效"
+
+#: src/main.rs (command-line help)
+msgid "Expand a snippet template, e.g. \"Sent {date:%A}: {clipboard}\""
+msgstr "展开片段模板，例如 \"Sent {date:%A}: {clipboard}\""
+
+#: src/main.rs (command-line help)
+msgid ""
+"Expand a snippet template, e.g. \"Sent {date:%A}: {clipboard}\"\n"
+"\n"
+"Prints TEMPLATE with its {variables} replaced. Fails if a variable is unknown or an {arg:NAME} has no matching --arg."
+msgstr ""
+"展开片段模板，例如 \"Sent {date:%A}: {clipboard}\"\n"
+"\n"
+"打印 TEMPLATE，并将其中的 {variables} 替换掉。如果有未知变量，或某个 {arg:NAME} 没有对应的 --arg，则会失败。"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Text with {variables} to expand; quote it to keep the braces from the shell"
+msgstr "包含要展开的 {variables} 的文本；请加引号，避免 shell 处理花括号"
+
+#: src/main.rs (command-line help)
+msgid "A value for {arg:NAME}; repeat for several parameters"
+msgstr "{arg:NAME} 的值；有多个参数时重复使用"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Open the snippet picker and paste the chosen snippet into the focused app"
+msgstr "打开片段选择器，并将所选片段粘贴到当前焦点所在的应用"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Open the snippet picker and paste the chosen snippet into the focused app\n"
+"\n"
+"Search with the keyboard, press Enter, and fill in any {arg:NAME} parameters. The expansion is pasted into the app that had focus, through the RemoteDesktop portal (the desktop asks for permission once), and the previous clipboard is restored."
+msgstr ""
+"打开片段选择器，并将所选片段粘贴到当前焦点所在的应用\n"
+"\n"
+"用键盘搜索，按 Enter，并填写所有 {arg:NAME} 参数。展开的内容会通过 RemoteDesktop 门户粘贴到原先有焦点的应用（桌面只会请求一次权限），之前的剪贴板内容会被恢复。"
+
+#: src/main.rs (command-line help)
+msgid "Open directly on the snippet with this trigger"
+msgstr "直接打开具有此触发词的片段"
+
+#: src/main.rs (command-line help)
+msgid "Set up and toggle typed triggers (type ;date anywhere to expand it)"
+msgstr "设置并切换键入触发词（在任何地方键入 ;date 即可展开）"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Set up and toggle typed triggers (type ;date anywhere to expand it)\n"
+"\n"
+"Typed triggers read keyboard input through evdev and paste through a uinput virtual keyboard, which needs a one-time setup with root rights. Only the last few typed characters are kept in memory; nothing is logged or stored."
+msgstr ""
+"设置并切换键入触发词（在任何地方键入 ;date 即可展开）\n"
+"\n"
+"键入触发词通过 evdev 读取键盘输入，并通过 uinput 虚拟键盘粘贴，这需要用 root 权限进行一次性设置。内存中只保留最近键入的几个字符；不会记录或存储任何内容。"
+
+#: src/main.rs (command-line help)
+msgid "Show whether typed triggers are enabled and can run"
+msgstr "显示键入触发词是否已开启并能正常运行"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Grant keyboard access and turn typed triggers on, right away (no logout needed)"
+msgstr "授予键盘访问权限并立即开启键入触发词（无需注销）"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Run the commands (asks for the administrator password) instead of only printing them"
+msgstr "运行这些命令（会要求输入管理员密码），而不只是打印它们"
+
+#: src/main.rs (command-line help)
+msgid "Turn typed triggers on"
+msgstr "开启键入触发词"
+
+#: src/main.rs (command-line help)
+msgid "Turn typed triggers off"
+msgstr "关闭键入触发词"
+
+#: src/main.rs (command-line help)
+msgid "Turn typed triggers off and remove Voltkit's keyboard access"
+msgstr "关闭键入触发词并移除 Voltkit 的键盘访问权限"
+
+#: src/main.rs (command-line help)
+msgid "Measure distances on screen in pixels"
+msgstr "以像素为单位测量屏幕上的距离"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Measure distances on screen in pixels\n"
+"\n"
+"Freezes the screen and shows it full screen. Drag to measure a width and height; hold Shift for a straight line. Ctrl+C copies the size, right-click clears, Esc closes."
+msgstr ""
+"以像素为单位测量屏幕上的距离\n"
+"\n"
+"冻结屏幕并全屏显示。拖动可测量宽度和高度；按住 Shift 可画直线。Ctrl+C 复制尺寸，右键清除，Esc 关闭。"
+
+#: src/main.rs (command-line help)
+msgid "Keep the computer from sleeping or locking its screen"
+msgstr "阻止电脑休眠或锁定屏幕"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Keep the computer from sleeping or locking its screen\n"
+"\n"
+"Held by the background service, so it continues after this command or the window closes. Without DURATION, shows whether Keep Awake is on."
+msgstr ""
+"阻止电脑休眠或锁定屏幕\n"
+"\n"
+"由后台服务维持，因此在此命令结束或窗口关闭后仍会继续。不带 DURATION 时，显示“保持唤醒”是否已开启。"
+
+#: src/main.rs (command-line help)
+msgid ""
+"30m, 1h, 1h30m or a number of minutes; `on` until turned off; `off` to stop"
+msgstr "30m、1h、1h30m 或分钟数；`on` 表示直到关闭；`off` 表示停止"
+
+#: src/main.rs (command-line help)
+msgid "Show which programs keep a file, folder, drive or network port busy"
+msgstr "显示哪些程序占用了文件、文件夹、磁盘或网络端口"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Show which programs keep a file, folder, drive or network port busy\n"
+"\n"
+"TARGET is a path, or a port number such as 3000. Lists each program with its PID and how it uses the target. Only your own programs can be checked as a normal user; run it with sudo to include other users' programs and system services."
+msgstr ""
+"显示哪些程序占用了文件、文件夹、磁盘或网络端口\n"
+"\n"
+"TARGET 是路径，或像 3000 这样的端口号。列出每个程序及其 PID，以及它如何使用该目标。普通用户只能检查自己的程序；请用 sudo 运行以包含其他用户的程序和系统服务。"
+
+#: src/main.rs (command-line help)
+msgid "A file, folder or mount point, or a port number"
+msgstr "文件、文件夹或挂载点，或端口号"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Paste the clipboard converted: tidy JSON, a table as Markdown, a cleaned link…"
+msgstr "粘贴转换后的剪贴板内容：整理 JSON、将表格转为 Markdown、清理链接……"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Paste the clipboard converted: tidy JSON, a table as Markdown, a cleaned link…\n"
+"\n"
+"Opens a small window listing the conversions that fit what's on the clipboard, with a preview of each. Enter pastes the chosen one into the app that had focus and restores the clipboard. An image on the clipboard can be pasted as its text (OCR)."
+msgstr ""
+"粘贴转换后的剪贴板内容：整理 JSON、将表格转为 Markdown、清理链接……\n"
+"\n"
+"打开一个小窗口，列出适合剪贴板内容的转换方式，并为每种提供预览。按 Enter 会将所选内容粘贴到原先有焦点的应用并恢复剪贴板。剪贴板中的图片可以以其中的文字形式粘贴（OCR）。"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Convert text from standard input with one of Smart Paste's conversions"
+msgstr "用智能粘贴的某种转换方式转换标准输入中的文本"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Convert text from standard input with one of Smart Paste's conversions\n"
+"\n"
+"Without CONVERSION, lists them."
+msgstr ""
+"用智能粘贴的某种转换方式转换标准输入中的文本\n"
+"\n"
+"不带 CONVERSION 时，列出所有转换方式。"
+
+#: src/main.rs (command-line help)
+msgid "A conversion such as json, markdown-table, clean-link or snake"
+msgstr "某种转换，如 json、markdown-table、clean-link 或 snake"
+
+#: src/main.rs (command-line help)
+msgid "Describe this computer: hardware, drivers, health and recent changes"
+msgstr "描述这台电脑：硬件、驱动、健康状况和最近的变化"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Describe this computer: hardware, drivers, health and recent changes\n"
+"\n"
+"Prints a report that's safe to share in a forum or bug report (no serial numbers, names or network addresses), with checks and fixes for drivers, drive health, disk space, temperatures and firmware updates. Also saves today's snapshot, so later reports can show what changed."
+msgstr ""
+"描述这台电脑：硬件、驱动、健康状况和最近的变化\n"
+"\n"
+"打印一份可以放心分享到论坛或错误报告的报告（不含序列号、名称或网络地址），其中包含对驱动、硬盘健康、磁盘空间、温度和固件更新的检查与修复建议。同时会保存今天的快照，以便之后的报告显示有什么变化。"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Also show memory slots and upgrade options (asks for the administrator password)"
+msgstr "同时显示内存插槽和升级选项（需要管理员密码）"
+
+#: src/main.rs (command-line help)
+msgid "Explain why the computer doesn't sleep, or why it woke up"
+msgstr "说明电脑为什么没有休眠，或为什么被唤醒"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Explain why the computer doesn't sleep, or why it woke up\n"
+"\n"
+"Shows what keeps the computer awake right now (apps and settings), the sleeps of the last week with what started and ended each one and the battery used, and the USB devices allowed to wake it."
+msgstr ""
+"说明电脑为什么没有休眠，或为什么被唤醒\n"
+"\n"
+"显示此刻是什么让电脑保持唤醒（应用和设置）、最近一周的每次休眠及其开始和结束的原因与耗电量，以及允许唤醒电脑的 USB 设备。"
+
+#: src/main.rs (command-line help)
+msgid "Read QR codes from the screen or image files, or make them from text"
+msgstr "从屏幕或图片文件读取二维码，或由文字生成二维码"
+
+#: src/main.rs (command-line help)
+msgid "Select a screen region and copy the text of the QR code in it"
+msgstr "选取屏幕区域，并复制其中二维码的文字"
+
+#: src/main.rs (command-line help)
+msgid "Print the text of every QR code in an image file"
+msgstr "打印图片文件中每个二维码的文字"
+
+#: src/main.rs (command-line help)
+msgid "Show TEXT as a QR code in the terminal, or save it as a PNG image"
+msgstr "在终端中将 TEXT 显示为二维码，或将其保存为 PNG 图片"
+
+#: src/main.rs (command-line help)
+msgid "Save a PNG image instead of printing to the terminal"
+msgstr "保存为 PNG 图片，而不是在终端中打印"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Put a small logo (PNG, JPEG, WebP or SVG) in the middle of the code (PNG output only). The code is read back to make sure it still scans"
+msgstr "在二维码中间放置一个小标志（PNG、JPEG、WebP 或 SVG）（仅限 PNG 输出）。生成后会回读二维码，确保仍可扫描"
+
+#: src/main.rs (command-line help)
+msgid "Run the background service that listens for global shortcuts"
+msgstr "运行监听全局快捷键的后台服务"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Run the background service that listens for global shortcuts\n"
+"\n"
+"Without a subcommand, runs the service in the foreground until interrupted. It owns io.github.arios4k.Voltkit.Daemon on the session bus, so only one instance runs, and binds the configured hotkeys through the XDG GlobalShortcuts portal when the desktop provides it."
+msgstr ""
+"运行监听全局快捷键的后台服务\n"
+"\n"
+"不带子命令时，在前台运行该服务直到被中断。它在会话总线上拥有 io.github.arios4k.Voltkit.Daemon，因此只会运行一个实例；当桌面提供 XDG GlobalShortcuts 门户时，通过它绑定已配置的快捷键。"
+
+#: src/main.rs (command-line help)
+msgid "Show whether the daemon is running and how shortcuts are bound"
+msgstr "显示守护进程是否在运行，以及快捷键是如何绑定的"
+
+#: src/main.rs (command-line help)
+msgid "Stop the running daemon"
+msgstr "停止正在运行的守护进程"
+
+#: src/main.rs (command-line help)
+msgid "Make the running daemon re-read snippets from the config file"
+msgstr "让正在运行的守护进程重新读取配置文件中的片段"
+
+#: src/main.rs (command-line help)
+msgid "Start the daemon automatically at login"
+msgstr "登录时自动启动守护进程"
+
+#: src/main.rs (command-line help)
+msgid "Stop starting the daemon at login"
+msgstr "不再在登录时启动守护进程"
+
+#: src/main.rs (command-line help)
+msgid "Check that everything Voltkit needs is installed and set up"
+msgstr "检查 Voltkit 所需的一切是否已安装并配置好"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Check that everything Voltkit needs is installed and set up\n"
+"\n"
+"Checks the helper programs, OCR language data, desktop portals, clipboard tools, the background service and hotkeys, then prints the install command for anything missing on this distro."
+msgstr ""
+"检查 Voltkit 所需的一切是否已安装并配置好\n"
+"\n"
+"检查辅助程序、OCR 语言数据、桌面门户、剪贴板工具、后台服务和快捷键，然后打印在此发行版上安装缺失项的命令。"
+
+#: src/main.rs (command-line help)
+msgid "Run a hotkey action via the daemon, or directly if it isn't running"
+msgstr "通过守护进程运行某个快捷键操作；如果它没有运行，则直接运行"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Run a hotkey action via the daemon, or directly if it isn't running\n"
+"\n"
+"Meant to be bound to a key in the desktop's keyboard settings or a compositor config. Results and errors are shown as desktop notifications."
+msgstr ""
+"通过守护进程运行某个快捷键操作；如果它没有运行，则直接运行\n"
+"\n"
+"用于绑定到桌面键盘设置或合成器配置中的某个按键。结果和错误会以桌面通知的形式显示。"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Manage GNOME keybindings for desktops without the GlobalShortcuts portal"
+msgstr "为没有 GlobalShortcuts 门户的桌面管理 GNOME 快捷键"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Manage GNOME keybindings for desktops without the GlobalShortcuts portal\n"
+"\n"
+"Adds or removes custom shortcuts in GNOME Settings (via gsettings) that run `voltkit trigger`. Other custom shortcuts are left untouched."
+msgstr ""
+"为没有 GlobalShortcuts 门户的桌面管理 GNOME 快捷键\n"
+"\n"
+"在 GNOME 设置中添加或移除运行 `voltkit trigger` 的自定义快捷键（通过 gsettings）。其他自定义快捷键不受影响。"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Add Super+Shift+T, C and E (or your configured keys) to GNOME Settings"
+msgstr "将 Super+Shift+T、C 和 E（或你配置的按键）添加到 GNOME 设置"
+
+#: src/main.rs (command-line help)
+msgid "Print the gsettings commands instead of running them"
+msgstr "打印 gsettings 命令，而不是运行它们"
+
+#: src/main.rs (command-line help)
+msgid "Remove the keybindings added by `install`"
+msgstr "移除由 `install` 添加的快捷键"
+
+#: src/main.rs (command-line help)
+msgid "List every system-wide shortcut, grouped by who owns it"
+msgstr "列出所有系统级快捷键，按所有者分组"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Show what a shortcut does, such as `voltkit shortcuts who super+shift+s`"
+msgstr "显示某个快捷键的作用，如 `voltkit shortcuts who super+shift+s`"
+
+#: src/main.rs (command-line help)
+msgid "The keys, like super+shift+s, ctrl+alt+t or print"
+msgstr "按键，如 super+shift+s、ctrl+alt+t 或 print"
+
+#: src/main.rs (command-line help)
+msgid "Show shortcuts used by more than one action"
+msgstr "显示被多个操作使用的快捷键"

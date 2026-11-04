@@ -1,0 +1,145 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit 1  "Voltkit 0.8.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit \- Une suite unifiée de micro\-utilitaires de bureau pour Linux
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit\fR [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fIcommandes\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Des micro\-utilitaires de bureau du quotidien pour Linux, dans un seul binaire.
+.PP
+Exécutez sans sous\-commande pour ouvrir le centre de contrôle GTK. Chaque sous\-commande lance un utilitaire depuis le terminal, un script ou un raccourci clavier.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Afficher la version
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH Commandes
+.TP
+voltkit\-ocr(1)
+Sélectionner une zone de l’écran et copier le texte reconnu dans le presse\-papiers
+.TP
+voltkit\-pick\-color(1)
+Choisir une couleur à l’écran et copier sa valeur HEX
+.TP
+voltkit\-color(1)
+Convertir une couleur (#hex ou rgb(...)) et indiquer le contraste WCAG
+.TP
+voltkit\-compress(1)
+Supprimer les métadonnées et compresser des fichiers PNG, JPEG, WebP ou MP4
+.TP
+voltkit\-expand(1)
+Développer un modèle d’extrait, par ex. « Envoyé {date:%A} : {clipboard} »
+.TP
+voltkit\-picker(1)
+Ouvrir le sélecteur d’extraits et coller l’extrait choisi dans l’application active
+.TP
+voltkit\-expander(1)
+Configurer et activer les déclencheurs saisis (tapez ;date n’importe où pour le développer)
+.TP
+voltkit\-ruler(1)
+Mesurer des distances à l’écran en pixels
+.TP
+voltkit\-awake(1)
+Empêcher l’ordinateur de se mettre en veille ou de verrouiller son écran
+.TP
+voltkit\-using(1)
+Afficher quels programmes gardent un fichier, un dossier, un disque ou un port réseau occupé
+.TP
+voltkit\-smart\-paste(1)
+Coller le presse\-papiers converti : JSON mis en forme, un tableau en Markdown, un lien nettoyé…
+.TP
+voltkit\-convert(1)
+Convertir du texte depuis l’entrée standard avec l’une des conversions du collage intelligent
+.TP
+voltkit\-report(1)
+Décrire cet ordinateur : matériel, pilotes, santé et changements récents
+.TP
+voltkit\-sleep(1)
+Expliquer pourquoi l’ordinateur ne se met pas en veille, ou pourquoi il s’est réveillé
+.TP
+voltkit\-qr(1)
+Lire des codes QR depuis l’écran ou des fichiers image, ou en créer à partir de texte
+.TP
+voltkit\-daemon(1)
+Lancer le service en arrière\-plan qui écoute les raccourcis globaux
+.TP
+voltkit\-doctor(1)
+Vérifier que tout ce dont Voltkit a besoin est installé et configuré
+.TP
+voltkit\-trigger(1)
+Exécuter une action de raccourci via le démon, ou directement s’il ne tourne pas
+.TP
+voltkit\-shortcuts(1)
+Gérer les raccourcis GNOME pour les bureaux sans le portail GlobalShortcuts
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXEMPLES
+.PP
+Ouvrir le centre de contrôle :
+.RS 4
+.nf
+\fBvoltkit\fR
+.fi
+.RE
+.PP
+Copier le texte d’une partie de l’écran :
+.RS 4
+.nf
+\fBvoltkit ocr\fR
+.fi
+.RE
+.PP
+Vérifier le contraste d’une couleur :
+.RS 4
+.nf
+\fBvoltkit color \*(Aq#3584e4\*(Aq\fR
+.fi
+.RE
+.PP
+Démarrer le service en arrière\-plan à chaque ouverture de session :
+.RS 4
+.nf
+\fBvoltkit daemon enable\-autostart\fR
+.fi
+.RE
+.SH FICHIERS
+.TP
+\fB~/.config/voltkit/config.toml\fR
+Configuration : raccourcis, langue de l’OCR, qualité de compression et extraits. Chaque clé est facultative.
+.TP
+\fB~/.local/share/voltkit/colors.txt\fR
+Historique des couleurs, de la plus récente à la plus ancienne, partagé par pick\-color, le démon et le centre de contrôle.
+.TP
+\fB~/.config/autostart/io.github.arios4k.Voltkit.Daemon.desktop\fR
+Créé par voltkit daemon enable\-autostart.
+.SH ENVIRONNEMENT
+.TP
+\fBWAYLAND_DISPLAY\fR
+Si défini, le presse\-papiers est accessible avec wl\-copy et wl\-paste ; sinon avec xclip.
+.TP
+\fBXDG_CONFIG_HOME, XDG_DATA_HOME\fR
+Remplacent les dossiers de base des fichiers listés ci\-dessus.
+.SH "CODE DE SORTIE"
+.PP
+0 en cas de succès, 1 pour toute erreur. Les erreurs sont écrites sur la sortie d’erreur standard.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\-ocr\fR(1), \fBvoltkit\-pick\-color\fR(1), \fBvoltkit\-color\fR(1), \fBvoltkit\-compress\fR(1), \fBvoltkit\-expand\fR(1), \fBvoltkit\-picker\fR(1), \fBvoltkit\-expander\fR(1), \fBvoltkit\-ruler\fR(1), \fBvoltkit\-awake\fR(1), \fBvoltkit\-using\fR(1), \fBvoltkit\-smart\-paste\fR(1), \fBvoltkit\-convert\fR(1), \fBvoltkit\-report\fR(1), \fBvoltkit\-sleep\fR(1), \fBvoltkit\-qr\fR(1), \fBvoltkit\-daemon\fR(1), \fBvoltkit\-doctor\fR(1), \fBvoltkit\-trigger\fR(1), \fBvoltkit\-shortcuts\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

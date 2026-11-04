@@ -4,7 +4,7 @@
 
 # Voltkit
 
-[English](README.md) · **Español** · [Deutsch](README.de.md)
+[English](README.md) · **Español** · [Deutsch](README.de.md) · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
 **Herramientas potentes para tu escritorio Linux.**
 OCR de pantalla, un lector de códigos QR, un selector de color, una regla de pantalla, un compresor de imágenes y
@@ -26,7 +26,7 @@ y un detective de atajos, en una sola app.
 
 </div>
 
-> Voltkit está disponible en español, inglés y alemán, y usa el idioma de tu sistema automáticamente: la app,
+> Voltkit está disponible en español, inglés, alemán, francés y chino simplificado, y usa el idioma de tu sistema automáticamente: la app,
 > la línea de comandos y las páginas del manual (`man voltkit`). Las capturas de esta página son de la versión
 > en inglés.
 
@@ -247,7 +247,7 @@ con un interruptor para frenar el que la sigue despertando.
   `voltkit compress *.jpg`), con páginas del manual para todos.
 - **Se revisa solo.** `voltkit doctor` te dice exactamente qué falta y el comando para instalarlo.
 - **Paquetes firmados.** Instala y actualiza con apt desde un repositorio firmado con GPG.
-- **En tu idioma.** Español, inglés y alemán, según el idioma de tu sistema.
+- **En tu idioma.** Español, inglés, alemán, francés y chino simplificado, según el idioma de tu sistema.
 
 ## Preguntas frecuentes
 
@@ -267,10 +267,10 @@ código fuente funciona en cualquier lado con GTK 4.14+.
 
 **¿Cómo cambio el idioma?**
 Voltkit sigue el idioma de tu sesión. Para probar otro solo para Voltkit, ábrelo desde una terminal con
-`LANGUAGE=en voltkit` (o `es`, `de`).
+`LANGUAGE=en voltkit` (o `es`, `de`, `fr`, `zh_CN`).
 
 <sub>Capturas tomadas en Zorin OS 18 con las paletas clara y oscura de Voltkit. Se regeneran con
-`docs/screenshots/capture.sh` (o `docs/screenshots/capture.sh es` para la app en español).</sub>
+`docs/screenshots/capture.sh` (o `docs/screenshots/capture.sh es` para la app en español; también `de`, `fr` y `zh_CN`).</sub>
 
 ## Instalación (Ubuntu, Debian y derivadas)
 
@@ -426,7 +426,7 @@ La documentación completa está en las páginas del manual: `man voltkit`, `man
 ### Páginas del manual
 
 Las páginas de [`man/`](man/) se generan a partir de las definiciones de la CLI, así que siempre coinciden con
-`--help`; las traducciones están en `man/es/` y `man/de/`. Instálalas junto al binario, donde `man` las encuentra
+`--help`; las traducciones están en `man/es/`, `man/de/`, `man/fr/` y `man/zh_CN/`. Instálalas junto al binario, donde `man` las encuentra
 automáticamente:
 
 ```bash
@@ -447,7 +447,7 @@ cargo run -- manpages man
 
 ## Traducciones
 
-Voltkit está traducido al español y al alemán. Los textos están en archivos gettext normales en [`po/`](po/),
+Voltkit está traducido al español, al alemán, al francés y al chino simplificado. Los textos están en archivos gettext normales en [`po/`](po/),
 que se incluyen en el binario, así que no hay nada extra que instalar. Para agregar o corregir una traducción,
 consulta [`po/README.md`](po/README.md).
 
@@ -495,8 +495,8 @@ src/
     smartpaste.rs    las conversiones de texto de Pegado inteligente
   manpages.rs        generador de páginas del manual (clap_mangen + secciones escritas a mano)
   screenshots.rs     genera las capturas del README (comando oculto `screenshots`)
-po/                  traducciones (español, alemán) y update.py para actualizarlas
-man/                 páginas del manual generadas (man/es, man/de: traducidas)
+po/                  traducciones (español, alemán, francés, chino simplificado) y update.py para actualizarlas
+man/                 páginas del manual generadas (man/es, man/de, man/fr, man/zh_CN: traducidas)
 packaging/apt/       constructor del repositorio APT y su página de inicio
 docs/screenshots/    capturas del README y capture.sh para regenerarlas
 docs/ARCHITECTURE.md notas de diseño y planes

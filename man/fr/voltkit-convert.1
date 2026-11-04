@@ -1,0 +1,66 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-convert 1  "Voltkit 0.8.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-convert \- Convertir du texte depuis l’entrée standard avec l’une des conversions du collage intelligent
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit convert\fR [\fB\-h\fR|\fB\-\-help\fR] [\fICONVERSION\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Convertir du texte depuis l’entrée standard avec l’une des conversions du collage intelligent
+.PP
+Sans CONVERSION, les liste.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+[\fICONVERSION\fR]
+Une conversion comme json, markdown\-table, clean\-link ou snake
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXEMPLES
+.PP
+Lister les conversions :
+.RS 4
+.nf
+\fBvoltkit convert\fR
+.fi
+.RE
+.PP
+Mettre en forme du JSON depuis un fichier :
+.RS 4
+.nf
+\fBvoltkit convert json < data.json\fR
+.fi
+.RE
+.PP
+Transformer une plage de tableur copiée en tableau Markdown :
+.RS 4
+.nf
+\fBwl\-paste | voltkit convert markdown\-table\fR
+.fi
+.RE
+.PP
+Retirer le suivi d’un lien :
+.RS 4
+.nf
+\fBecho \*(Aqhttps://example.com/?utm_source=x\*(Aq | voltkit convert clean\-link\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

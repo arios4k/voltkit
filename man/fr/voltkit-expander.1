@@ -1,0 +1,80 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-expander 1  "Voltkit 0.8.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-expander \- Configurer et activer les déclencheurs saisis (tapez ;date n’importe où pour le développer)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit expander\fR [\fB\-h\fR|\fB\-\-help\fR] <\fIcommandes\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Configurer et activer les déclencheurs saisis (tapez ;date n’importe où pour le développer)
+.PP
+Les déclencheurs saisis lisent la saisie clavier via evdev et collent via un clavier virtuel uinput, ce qui demande une configuration unique avec les droits root. Seuls les derniers caractères saisis sont gardés en mémoire ; rien n’est journalisé ni stocké.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMMANDES
+.TP
+\fBvoltkit expander status\fR
+Indiquer si les déclencheurs saisis sont activés et peuvent fonctionner
+.TP
+\fBvoltkit expander setup [\-\-apply]\fR
+Accorder l’accès au clavier et activer les déclencheurs saisis, tout de suite (sans déconnexion)
+.RS
+\fB\-\-apply\fR: Exécuter les commandes (demande le mot de passe administrateur) au lieu de seulement les afficher
+.RE
+.TP
+\fBvoltkit expander enable\fR
+Activer les déclencheurs saisis
+.TP
+\fBvoltkit expander disable\fR
+Désactiver les déclencheurs saisis
+.TP
+\fBvoltkit expander remove\-access\fR
+Désactiver les déclencheurs saisis et retirer l’accès au clavier de Voltkit
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH FONCTIONNEMENT
+.PP
+Le démon lit les frappes depuis /dev/input et garde en mémoire les 64 derniers caractères saisis. Quand ils se terminent par le déclencheur d’un extrait, il efface le déclencheur avec Retour arrière via un clavier virtuel uinput et colle le développement, puis restaure le presse\-papiers. Les extraits avec des paramètres {arg:NOM} ouvrent à la place le formulaire du sélecteur.
+.PP
+La configuration installe une règle udev qui marque les claviers et /dev/uinput avec uaccess, la façon dont les bureaux accordent les périphériques à la personne devant l’ordinateur, et l’applique aussitôt : aucun groupe à rejoindre et pas besoin de vous déconnecter. Le démon démarre et arrête les déclencheurs saisis quand on les active et désactive, et prend en compte les claviers branchés plus tard.
+.PP
+Les touches sont décodées avec une disposition US, donc les déclencheurs composés de lettres, de chiffres et de ; fonctionnent sur la plupart des dispositions, tandis que la ponctuation peut différer. Un déclencheur qui est le préfixe d’un autre (;d et ;date) se déclenche en premier, si bien que le plus long est inaccessible.
+.SH SÉCURITÉ
+.PP
+L’accès au clavier s’applique à tous les programmes que lance la personne devant l’ordinateur, pas seulement Voltkit. Le texte saisi n’est jamais journalisé, écrit sur le disque ni envoyé nulle part. `voltkit expander remove\-access` (ou désactiver les déclencheurs saisis dans l’application et choisir de retirer l’accès) supprime /etc/udev/rules.d/70\-voltkit\-typed\-triggers.rules et /etc/modules\-load.d/voltkit\-uinput.conf ; l’accès déjà accordé prend fin au prochain redémarrage. Les configurations antérieures à la version 0.6 vous ajoutaient aussi au groupe input, ce qu’annule `gpasswd \-d $USER input`.
+.SH EXEMPLES
+.PP
+Examiner les commandes de configuration, puis les exécuter :
+.RS 4
+.nf
+\fBvoltkit expander setup
+voltkit expander setup \-\-apply\fR
+.fi
+.RE
+.PP
+Désactiver les déclencheurs saisis et retirer l’accès au clavier :
+.RS 4
+.nf
+\fBvoltkit expander remove\-access\fR
+.fi
+.RE
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1), \fBudev\fR(7), \fBusermod\fR(8)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

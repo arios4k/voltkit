@@ -1,0 +1,61 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-ocr 1  "Voltkit 0.8.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-ocr \- Sélectionner une zone de l’écran et copier le texte reconnu dans le presse\-papiers
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit ocr\fR [\fB\-\-lang\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Sélectionner une zone de l’écran et copier le texte reconnu dans le presse\-papiers
+.PP
+Ouvre l’outil interactif de capture d’écran du bureau via le portail XDG Screenshot, puis exécute Tesseract sur la zone sélectionnée. Sans le portail, il se rabat sur grim+slurp, gnome\-screenshot, spectacle ou maim. Le texte est affiché et copié dans le presse\-papiers.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-\-lang\fR \fI<LANG>\fR [default: eng]
+Code(s) de langue Tesseract, par ex. « eng » ou « eng+deu »
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH EXEMPLES
+.PP
+Reconnaître du texte anglais :
+.RS 4
+.nf
+\fBvoltkit ocr\fR
+.fi
+.RE
+.PP
+Reconnaître l’anglais et l’allemand :
+.RS 4
+.nf
+\fBvoltkit ocr \-\-lang eng+deu\fR
+.fi
+.RE
+.PP
+Enregistrer le texte au lieu de seulement le copier :
+.RS 4
+.nf
+\fBvoltkit ocr > notes.txt\fR
+.fi
+.RE
+.SH NOTES
+.PP
+Chaque langue nécessite son paquet de données Tesseract, par exemple tesseract\-ocr\-deu sous Debian et Ubuntu. Listez ceux installés avec tesseract \-\-list\-langs. Laissez une petite marge autour du texte lors de la sélection : les lettres coupées par le bord de la sélection sont mal lues.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1), \fBtesseract\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron
