@@ -18,6 +18,7 @@ veille, un rapport système et un détective de raccourcis, dans une seule appli
 [![Installer avec apt](https://img.shields.io/badge/installer-apt-orange)](#install-apt)
 [![Installer sous Fedora](https://img.shields.io/badge/installer-Fedora-51a2da)](#install-fedora)
 [![Fait avec Rust](https://img.shields.io/badge/fait%20avec-Rust-dea584?logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![Soutenir sur PayPal](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">

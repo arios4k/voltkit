@@ -18,6 +18,7 @@ Systembericht und ein Tastenkürzel-Detektiv – in einer App.
 [![Mit apt installieren](https://img.shields.io/badge/installieren-apt-orange)](#installation-ubuntu-debian-und-abkömmlinge)
 [![Unter Fedora installieren](https://img.shields.io/badge/installieren-Fedora-51a2da)](#installation-fedora)
 [![Mit Rust gebaut](https://img.shields.io/badge/gebaut%20mit-Rust-dea584?logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![Auf PayPal unterstützen](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">

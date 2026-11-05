@@ -18,6 +18,7 @@ y un detective de atajos, en una sola app.
 [![Instalar con apt](https://img.shields.io/badge/instalar-apt-orange)](#instalación-ubuntu-debian-y-derivadas)
 [![Instalar en Fedora](https://img.shields.io/badge/instalar-Fedora-51a2da)](#instalación-fedora)
 [![Hecho con Rust](https://img.shields.io/badge/hecho%20con-Rust-dea584?logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![Apoyar en PayPal](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">

@@ -16,6 +16,7 @@
 [![使用 apt 安装](https://img.shields.io/badge/%E5%AE%89%E8%A3%85-apt-orange)](#install-apt)
 [![在 Fedora 上安装](https://img.shields.io/badge/%E5%AE%89%E8%A3%85-Fedora-51a2da)](#install-fedora)
 [![使用 Rust 构建](https://img.shields.io/badge/%E4%BD%BF%E7%94%A8-Rust-dea584?logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![通过 PayPal 支持](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
