@@ -495,6 +495,12 @@ APT 软件源。它使用 `APT_SIGNING_KEY` 机密变量中的密钥签名（指
   <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="Voltkit 的“关于”窗口，显示应用图标、版本和作者 Alexis Rios-Negron">
 </picture>
 
+## 支持 Voltkit
+
+如果 Voltkit 对你有帮助，欢迎[捐赠任意金额](https://paypal.me/AlexisRios)，帮助项目持续运行和开发。每一份支持都值得感谢。
+
+我们希望 Voltkit 始终免费，让每个人都能使用。感谢你的使用，也感谢你给予的任何支持！
+
 ## 许可证
 
 MIT © Alexis Rios-Negron

@@ -523,6 +523,12 @@ Created by **Alexis Rios-Negron**.
   <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
 </picture>
 
+## Support Voltkit
+
+If Voltkit has been useful to you, please consider [making a donation of any amount](https://paypal.me/AlexisRios) to help keep the project running and support its continued development. Every contribution is appreciated.
+
+The intention is to keep Voltkit free and available to everyone. Thank you for using it and for any support you can offer!
+
 ## License
 
 MIT © Alexis Rios-Negron

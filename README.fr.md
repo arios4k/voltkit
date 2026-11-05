@@ -546,6 +546,12 @@ Créé par **Alexis Rios-Negron**.
   <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="La fenêtre À propos de Voltkit montrant l’icône de l’application, la version et l’auteur Alexis Rios-Negron">
 </picture>
 
+## Soutenir Voltkit
+
+Si Voltkit vous a été utile, pensez à [faire un don du montant de votre choix](https://paypal.me/AlexisRios) pour aider à faire vivre le projet et à poursuivre son développement. Chaque contribution est sincèrement appréciée.
+
+L’objectif est que Voltkit reste gratuit et accessible à tout le monde. Merci de l’utiliser et pour tout le soutien que vous pouvez apporter !
+
 ## Licence
 
 MIT © Alexis Rios-Negron

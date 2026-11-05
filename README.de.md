@@ -544,6 +544,12 @@ Erstellt von **Alexis Rios-Negron**.
   <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="Das Über-Fenster von Voltkit mit App-Symbol, Version und Autor Alexis Rios-Negron">
 </picture>
 
+## Voltkit unterstützen
+
+Wenn Voltkit für dich hilfreich war, freue ich mich über eine [Spende in beliebiger Höhe](https://paypal.me/AlexisRios). Sie hilft dabei, das Projekt am Laufen zu halten und weiterzuentwickeln. Jeder Beitrag wird dankbar angenommen.
+
+Voltkit soll auch in Zukunft kostenlos und für alle zugänglich sein. Vielen Dank fürs Nutzen und für jede Unterstützung!
+
 ## Lizenz
 
 MIT © Alexis Rios-Negron
