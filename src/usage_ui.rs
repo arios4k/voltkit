@@ -139,7 +139,9 @@ impl Usage {
 
         let choose_file = gtk::Button::builder().label(tr("File…")).valign(gtk::Align::Center).build();
         let choose_folder = gtk::Button::builder().label(tr("Folder…")).valign(gtk::Align::Center).build();
-        let place = adw::ActionRow::builder().title(tr("File or folder")).subtitle(tr("Or drop one on this window")).build();
+        let place = adw::ActionRow::builder().title(tr("File or folder"))
+            .subtitle(tr("Choose a document that will not delete, or a folder reported as busy. You can also drop it on this window."))
+            .subtitle_lines(0).build();
         place.add_suffix(&choose_file);
         place.add_suffix(&choose_folder);
         for (button, folder) in [(&choose_file, false), (&choose_folder, true)] {
@@ -177,6 +179,14 @@ impl Usage {
         }
         group.add(&place);
         group.add(&port);
+        let port_help = gtk::Label::builder()
+            .label(tr("Port example: if your development server says ‘address already in use’ on localhost:3000, enter 3000 above and press Enter or the checkmark."))
+            .wrap(true).xalign(0.0).css_classes(["dim-label"]).build();
+        group.add(&port_help);
+        let drive_help = gtk::Label::builder()
+            .label(tr("For a USB drive that will not eject, select it in Drives to find the apps using it. Review the results before closing an app, and save any work first."))
+            .wrap(true).xalign(0.0).css_classes(["dim-label"]).build();
+        group.add(&drive_help);
         group
     }
 

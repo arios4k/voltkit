@@ -205,7 +205,7 @@ msgstr "需要注意"
 msgid "Copy Command"
 msgstr "复制命令"
 
-#: src/app.rs:319 src/usage_ui.rs:344 src/usage_ui.rs:369
+#: src/app.rs:319 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr "关闭"
 
@@ -4097,7 +4097,7 @@ msgid ""
 "Voltkit saves a snapshot each day while it runs, so changes show up here from tomorrow on."
 msgstr "Voltkit 运行时每天保存一份快照，因此从明天起这里才会显示变化。"
 
-#: src/sysreport_ui.rs:330 src/usage_ui.rs:332
+#: src/sysreport_ui.rs:330 src/usage_ui.rs:342
 #, rust-format
 msgid "and {} more"
 msgstr "另有 {} 项"
@@ -4347,158 +4347,169 @@ msgstr "文件夹…"
 msgid "File or folder"
 msgstr "文件或文件夹"
 
-#: src/usage_ui.rs:142
-msgid "Or drop one on this window"
-msgstr "或将其拖到此窗口上"
+#: src/usage_ui.rs:143
+msgid ""
+"Choose a document that will not delete, or a folder reported as busy. You can also drop it on this window."
+msgstr "选择无法删除的文档或提示正在使用的文件夹，也可以将其拖入此窗口。"
 
-#: src/usage_ui.rs:150
+#: src/usage_ui.rs:152
 msgid "Choose a Folder"
 msgstr "选择文件夹"
 
-#: src/usage_ui.rs:150
+#: src/usage_ui.rs:152
 msgid "Choose a File"
 msgstr "选择文件"
 
-#: src/usage_ui.rs:164
+#: src/usage_ui.rs:166
 msgid "Network port, such as 3000"
 msgstr "网络端口，如 3000"
 
-#: src/usage_ui.rs:174
+#: src/usage_ui.rs:176
 msgid "Enter a port number from 1 to 65535"
 msgstr "请输入 1 到 65535 之间的端口号"
 
-#: src/usage_ui.rs:191 src/usage_ui.rs:202
+#: src/usage_ui.rs:183
+msgid ""
+"Port example: if your development server says ‘address already in use’ on localhost:3000, enter 3000 above and press Enter or the checkmark."
+msgstr "端口示例：如果开发服务器提示 localhost:3000 的地址已被占用，请在上方输入 3000，然后按回车键或点击对勾。"
+
+#: src/usage_ui.rs:187
+msgid ""
+"For a USB drive that will not eject, select it in Drives to find the apps using it. Review the results before closing an app, and save any work first."
+msgstr "如果 USB 驱动器无法弹出，请在“驱动器”中选择它，查看哪些应用正在使用。关闭应用前请检查结果并保存工作。"
+
+#: src/usage_ui.rs:201 src/usage_ui.rs:212
 msgid "Check"
 msgstr "检查"
 
-#: src/usage_ui.rs:219
+#: src/usage_ui.rs:229
 msgid "No drives to eject are connected"
 msgstr "没有连接可弹出的磁盘"
 
-#: src/usage_ui.rs:254
+#: src/usage_ui.rs:264
 #, rust-format
 msgid "Port {}"
 msgstr "端口 {}"
 
-#: src/usage_ui.rs:265
+#: src/usage_ui.rs:275
 #, rust-format
 msgid "Using “{}”"
 msgstr "使用“{}”的程序"
 
-#: src/usage_ui.rs:275
+#: src/usage_ui.rs:285
 msgid "Nothing is using it"
 msgstr "没有东西在使用它"
 
-#: src/usage_ui.rs:276
+#: src/usage_ui.rs:286
 msgid "You can eject it now."
 msgstr "现在可以弹出了。"
 
-#: src/usage_ui.rs:276
+#: src/usage_ui.rs:286
 msgid "No app has it open."
 msgstr "没有应用打开它。"
 
-#: src/usage_ui.rs:285
+#: src/usage_ui.rs:295
 msgid "Check with Password"
 msgstr "使用密码检查"
 
-#: src/usage_ui.rs:288
+#: src/usage_ui.rs:298
 #, rust-format
 msgid "{} program of other users or the system wasn't checked"
 msgid_plural "{} programs of other users or the system weren't checked"
 msgstr[0] "有 {} 个其他用户或系统的程序未被检查"
 
-#: src/usage_ui.rs:292
+#: src/usage_ui.rs:302
 msgid "Servers and system services often run that way"
 msgstr "服务器和系统服务通常以这种方式运行"
 
-#: src/usage_ui.rs:306
+#: src/usage_ui.rs:316
 #, rust-format
 msgid "Not checked: {}"
 msgstr "未检查：{}"
 
-#: src/usage_ui.rs:324
+#: src/usage_ui.rs:334
 #, rust-format
 msgid "in {} · PID {}"
 msgstr "在 {} 中 · PID {}"
 
-#: src/usage_ui.rs:325
+#: src/usage_ui.rs:335
 #, rust-format
 msgid "{} · PID {}"
 msgstr "{} · PID {}"
 
-#: src/usage_ui.rs:335
+#: src/usage_ui.rs:345
 #, rust-format
 msgid "This is {}, so Voltkit won't close it."
 msgstr "这是{}，因此 Voltkit 不会关闭它。"
 
-#: src/usage_ui.rs:361
+#: src/usage_ui.rs:371
 #, rust-format
 msgid "Force Quit {}?"
 msgstr "强制退出 {}？"
 
-#: src/usage_ui.rs:362
+#: src/usage_ui.rs:372
 msgid ""
 "It stops immediately, without a chance to save. Anything unsaved in it is lost."
 msgstr "它会立即停止，没有机会保存。其中未保存的内容将会丢失。"
 
-#: src/usage_ui.rs:363 src/usage_ui.rs:396
+#: src/usage_ui.rs:373 src/usage_ui.rs:406
 msgid "Force Quit"
 msgstr "强制退出"
 
-#: src/usage_ui.rs:367
+#: src/usage_ui.rs:377
 #, rust-format
 msgid "Close {}?"
 msgstr "关闭 {}？"
 
-#: src/usage_ui.rs:368
+#: src/usage_ui.rs:378
 #, rust-format
 msgid ""
 "Voltkit asks {} to quit, like closing its window. Unsaved work in it may be lost."
 msgstr "Voltkit 会请求 {} 退出，就像关闭它的窗口一样。其中未保存的工作可能会丢失。"
 
-#: src/usage_ui.rs:389
+#: src/usage_ui.rs:399
 msgid "Stopping…"
 msgstr "正在停止…"
 
-#: src/usage_ui.rs:389
+#: src/usage_ui.rs:399
 msgid "Closing…"
 msgstr "正在关闭…"
 
-#: src/usage_ui.rs:391
+#: src/usage_ui.rs:401
 #, rust-format
 msgid "{} closed"
 msgstr "{} 已关闭"
 
-#: src/usage_ui.rs:408
+#: src/usage_ui.rs:418
 #, rust-format
 msgid ""
 "These apps are using {}: {}. Voltkit asks them to quit, like closing their windows, then ejects. Unsaved work in them may be lost."
 msgstr "这些应用正在使用 {}：{}。Voltkit 会请求它们退出，就像关闭它们的窗口一样，然后弹出。其中未保存的工作可能会丢失。"
 
-#: src/usage_ui.rs:409
+#: src/usage_ui.rs:419
 #, rust-format
 msgid "Close {} and Eject?"
 msgstr "关闭 {} 并弹出？"
 
-#: src/usage_ui.rs:409
+#: src/usage_ui.rs:419
 msgid "Close and Eject"
 msgstr "关闭并弹出"
 
-#: src/usage_ui.rs:419
+#: src/usage_ui.rs:429
 msgid "Some apps didn't close. Use Force Quit on them, then eject."
 msgstr "有些应用没有关闭。请对它们使用“强制退出”，然后再弹出。"
 
-#: src/usage_ui.rs:433
+#: src/usage_ui.rs:443
 #, rust-format
 msgid "{} ejected: you can unplug it"
 msgstr "{} 已弹出：可以拔下了"
 
-#: src/usage_ui.rs:440
+#: src/usage_ui.rs:450
 #, rust-format
 msgid "Could not eject: {}"
 msgstr "无法弹出：{}"
 
-#: src/usage_ui.rs:464
+#: src/usage_ui.rs:474
 #, rust-format
 msgid "{} App"
 msgid_plural "{} Apps"

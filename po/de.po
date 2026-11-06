@@ -206,7 +206,7 @@ msgstr "Aufmerksamkeit nötig"
 msgid "Copy Command"
 msgstr "Befehl kopieren"
 
-#: src/app.rs:319 src/usage_ui.rs:344 src/usage_ui.rs:369
+#: src/app.rs:319 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr "Schließen"
 
@@ -4239,7 +4239,7 @@ msgid ""
 msgstr ""
 "Voltkit speichert jeden Tag, an dem es läuft, eine Aufnahme; Änderungen erscheinen hier also ab morgen."
 
-#: src/sysreport_ui.rs:330 src/usage_ui.rs:332
+#: src/sysreport_ui.rs:330 src/usage_ui.rs:342
 #, rust-format
 msgid "and {} more"
 msgstr "und {} weitere"
@@ -4499,163 +4499,177 @@ msgstr "Ordner …"
 msgid "File or folder"
 msgstr "Datei oder Ordner"
 
-#: src/usage_ui.rs:142
-msgid "Or drop one on this window"
-msgstr "Oder einen auf dieses Fenster ziehen"
+#: src/usage_ui.rs:143
+msgid ""
+"Choose a document that will not delete, or a folder reported as busy. You can also drop it on this window."
+msgstr ""
+"Wählen Sie ein Dokument, das sich nicht löschen lässt, oder einen als belegt gemeldeten Ordner. Sie können es auch in dieses Fenster ziehen."
 
-#: src/usage_ui.rs:150
+#: src/usage_ui.rs:152
 msgid "Choose a Folder"
 msgstr "Ordner auswählen"
 
-#: src/usage_ui.rs:150
+#: src/usage_ui.rs:152
 msgid "Choose a File"
 msgstr "Datei auswählen"
 
-#: src/usage_ui.rs:164
+#: src/usage_ui.rs:166
 msgid "Network port, such as 3000"
 msgstr "Netzwerkport, etwa 3000"
 
-#: src/usage_ui.rs:174
+#: src/usage_ui.rs:176
 msgid "Enter a port number from 1 to 65535"
 msgstr "Geben Sie eine Portnummer von 1 bis 65535 ein"
 
-#: src/usage_ui.rs:191 src/usage_ui.rs:202
+#: src/usage_ui.rs:183
+msgid ""
+"Port example: if your development server says ‘address already in use’ on localhost:3000, enter 3000 above and press Enter or the checkmark."
+msgstr ""
+"Port-Beispiel: Meldet Ihr Entwicklungsserver für localhost:3000 eine bereits belegte Adresse, geben Sie oben 3000 ein und drücken Sie die Eingabetaste oder das Häkchen."
+
+#: src/usage_ui.rs:187
+msgid ""
+"For a USB drive that will not eject, select it in Drives to find the apps using it. Review the results before closing an app, and save any work first."
+msgstr ""
+"Wenn sich ein USB-Laufwerk nicht auswerfen lässt, wählen Sie es unter Laufwerke aus, um die zugreifenden Apps zu finden. Prüfen Sie die Ergebnisse und speichern Sie Ihre Arbeit, bevor Sie eine App schließen."
+
+#: src/usage_ui.rs:201 src/usage_ui.rs:212
 msgid "Check"
 msgstr "Prüfen"
 
-#: src/usage_ui.rs:219
+#: src/usage_ui.rs:229
 msgid "No drives to eject are connected"
 msgstr "Keine auswerfbaren Laufwerke angeschlossen"
 
-#: src/usage_ui.rs:254
+#: src/usage_ui.rs:264
 #, rust-format
 msgid "Port {}"
 msgstr "Port {}"
 
-#: src/usage_ui.rs:265
+#: src/usage_ui.rs:275
 #, rust-format
 msgid "Using “{}”"
 msgstr "Was „{}“ belegt"
 
-#: src/usage_ui.rs:275
+#: src/usage_ui.rs:285
 msgid "Nothing is using it"
 msgstr "Nichts belegt es"
 
-#: src/usage_ui.rs:276
+#: src/usage_ui.rs:286
 msgid "You can eject it now."
 msgstr "Sie können es jetzt auswerfen."
 
-#: src/usage_ui.rs:276
+#: src/usage_ui.rs:286
 msgid "No app has it open."
 msgstr "Keine App hat es geöffnet."
 
-#: src/usage_ui.rs:285
+#: src/usage_ui.rs:295
 msgid "Check with Password"
 msgstr "Mit Passwort prüfen"
 
-#: src/usage_ui.rs:288
+#: src/usage_ui.rs:298
 #, rust-format
 msgid "{} program of other users or the system wasn't checked"
 msgid_plural "{} programs of other users or the system weren't checked"
 msgstr[0] "{} Programm anderer Benutzer oder des Systems wurde nicht geprüft"
 msgstr[1] "{} Programme anderer Benutzer oder des Systems wurden nicht geprüft"
 
-#: src/usage_ui.rs:292
+#: src/usage_ui.rs:302
 msgid "Servers and system services often run that way"
 msgstr "Server und Systemdienste laufen oft so"
 
-#: src/usage_ui.rs:306
+#: src/usage_ui.rs:316
 #, rust-format
 msgid "Not checked: {}"
 msgstr "Nicht geprüft: {}"
 
-#: src/usage_ui.rs:324
+#: src/usage_ui.rs:334
 #, rust-format
 msgid "in {} · PID {}"
 msgstr "in {} · PID {}"
 
-#: src/usage_ui.rs:325
+#: src/usage_ui.rs:335
 #, rust-format
 msgid "{} · PID {}"
 msgstr "{} · PID {}"
 
-#: src/usage_ui.rs:335
+#: src/usage_ui.rs:345
 #, rust-format
 msgid "This is {}, so Voltkit won't close it."
 msgstr "Das ist {}, daher schließt Voltkit es nicht."
 
-#: src/usage_ui.rs:361
+#: src/usage_ui.rs:371
 #, rust-format
 msgid "Force Quit {}?"
 msgstr "{} sofort beenden?"
 
-#: src/usage_ui.rs:362
+#: src/usage_ui.rs:372
 msgid ""
 "It stops immediately, without a chance to save. Anything unsaved in it is lost."
 msgstr ""
 "Es stoppt sofort, ohne Gelegenheit zum Speichern. Alles Ungespeicherte darin geht verloren."
 
-#: src/usage_ui.rs:363 src/usage_ui.rs:396
+#: src/usage_ui.rs:373 src/usage_ui.rs:406
 msgid "Force Quit"
 msgstr "Sofort beenden"
 
-#: src/usage_ui.rs:367
+#: src/usage_ui.rs:377
 #, rust-format
 msgid "Close {}?"
 msgstr "{} schließen?"
 
-#: src/usage_ui.rs:368
+#: src/usage_ui.rs:378
 #, rust-format
 msgid ""
 "Voltkit asks {} to quit, like closing its window. Unsaved work in it may be lost."
 msgstr ""
 "Voltkit bittet {}, sich zu beenden, wie beim Schließen des Fensters. Ungespeicherte Arbeit darin kann verloren gehen."
 
-#: src/usage_ui.rs:389
+#: src/usage_ui.rs:399
 msgid "Stopping…"
 msgstr "Wird gestoppt …"
 
-#: src/usage_ui.rs:389
+#: src/usage_ui.rs:399
 msgid "Closing…"
 msgstr "Wird geschlossen …"
 
-#: src/usage_ui.rs:391
+#: src/usage_ui.rs:401
 #, rust-format
 msgid "{} closed"
 msgstr "{} geschlossen"
 
-#: src/usage_ui.rs:408
+#: src/usage_ui.rs:418
 #, rust-format
 msgid ""
 "These apps are using {}: {}. Voltkit asks them to quit, like closing their windows, then ejects. Unsaved work in them may be lost."
 msgstr ""
 "Diese Apps verwenden {}: {}. Voltkit bittet sie, sich zu beenden, wie beim Schließen ihrer Fenster, und wirft dann aus. Ungespeicherte Arbeit darin kann verloren gehen."
 
-#: src/usage_ui.rs:409
+#: src/usage_ui.rs:419
 #, rust-format
 msgid "Close {} and Eject?"
 msgstr "{} schließen und auswerfen?"
 
-#: src/usage_ui.rs:409
+#: src/usage_ui.rs:419
 msgid "Close and Eject"
 msgstr "Schließen und auswerfen"
 
-#: src/usage_ui.rs:419
+#: src/usage_ui.rs:429
 msgid "Some apps didn't close. Use Force Quit on them, then eject."
 msgstr ""
 "Einige Apps wurden nicht geschlossen. Beenden Sie sie mit „Sofort beenden“ und werfen Sie dann aus."
 
-#: src/usage_ui.rs:433
+#: src/usage_ui.rs:443
 #, rust-format
 msgid "{} ejected: you can unplug it"
 msgstr "{} ausgeworfen: Sie können es jetzt abziehen"
 
-#: src/usage_ui.rs:440
+#: src/usage_ui.rs:450
 #, rust-format
 msgid "Could not eject: {}"
 msgstr "Auswerfen fehlgeschlagen: {}"
 
-#: src/usage_ui.rs:464
+#: src/usage_ui.rs:474
 #, rust-format
 msgid "{} App"
 msgid_plural "{} Apps"

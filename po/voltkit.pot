@@ -199,7 +199,7 @@ msgstr ""
 msgid "Copy Command"
 msgstr ""
 
-#: src/app.rs:319 src/usage_ui.rs:344 src/usage_ui.rs:369
+#: src/app.rs:319 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr ""
 
@@ -4074,7 +4074,7 @@ msgid ""
 "Voltkit saves a snapshot each day while it runs, so changes show up here from tomorrow on."
 msgstr ""
 
-#: src/sysreport_ui.rs:330 src/usage_ui.rs:332
+#: src/sysreport_ui.rs:330 src/usage_ui.rs:342
 #, rust-format
 msgid "and {} more"
 msgstr ""
@@ -4322,159 +4322,170 @@ msgstr ""
 msgid "File or folder"
 msgstr ""
 
-#: src/usage_ui.rs:142
-msgid "Or drop one on this window"
+#: src/usage_ui.rs:143
+msgid ""
+"Choose a document that will not delete, or a folder reported as busy. You can also drop it on this window."
 msgstr ""
 
-#: src/usage_ui.rs:150
+#: src/usage_ui.rs:152
 msgid "Choose a Folder"
 msgstr ""
 
-#: src/usage_ui.rs:150
+#: src/usage_ui.rs:152
 msgid "Choose a File"
 msgstr ""
 
-#: src/usage_ui.rs:164
+#: src/usage_ui.rs:166
 msgid "Network port, such as 3000"
 msgstr ""
 
-#: src/usage_ui.rs:174
+#: src/usage_ui.rs:176
 msgid "Enter a port number from 1 to 65535"
 msgstr ""
 
-#: src/usage_ui.rs:191 src/usage_ui.rs:202
+#: src/usage_ui.rs:183
+msgid ""
+"Port example: if your development server says ‘address already in use’ on localhost:3000, enter 3000 above and press Enter or the checkmark."
+msgstr ""
+
+#: src/usage_ui.rs:187
+msgid ""
+"For a USB drive that will not eject, select it in Drives to find the apps using it. Review the results before closing an app, and save any work first."
+msgstr ""
+
+#: src/usage_ui.rs:201 src/usage_ui.rs:212
 msgid "Check"
 msgstr ""
 
-#: src/usage_ui.rs:219
+#: src/usage_ui.rs:229
 msgid "No drives to eject are connected"
 msgstr ""
 
-#: src/usage_ui.rs:254
+#: src/usage_ui.rs:264
 #, rust-format
 msgid "Port {}"
 msgstr ""
 
-#: src/usage_ui.rs:265
+#: src/usage_ui.rs:275
 #, rust-format
 msgid "Using “{}”"
 msgstr ""
 
-#: src/usage_ui.rs:275
+#: src/usage_ui.rs:285
 msgid "Nothing is using it"
 msgstr ""
 
-#: src/usage_ui.rs:276
+#: src/usage_ui.rs:286
 msgid "You can eject it now."
 msgstr ""
 
-#: src/usage_ui.rs:276
+#: src/usage_ui.rs:286
 msgid "No app has it open."
 msgstr ""
 
-#: src/usage_ui.rs:285
+#: src/usage_ui.rs:295
 msgid "Check with Password"
 msgstr ""
 
-#: src/usage_ui.rs:288
+#: src/usage_ui.rs:298
 #, rust-format
 msgid "{} program of other users or the system wasn't checked"
 msgid_plural "{} programs of other users or the system weren't checked"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/usage_ui.rs:292
+#: src/usage_ui.rs:302
 msgid "Servers and system services often run that way"
 msgstr ""
 
-#: src/usage_ui.rs:306
+#: src/usage_ui.rs:316
 #, rust-format
 msgid "Not checked: {}"
 msgstr ""
 
-#: src/usage_ui.rs:324
+#: src/usage_ui.rs:334
 #, rust-format
 msgid "in {} · PID {}"
 msgstr ""
 
-#: src/usage_ui.rs:325
+#: src/usage_ui.rs:335
 #, rust-format
 msgid "{} · PID {}"
 msgstr ""
 
-#: src/usage_ui.rs:335
+#: src/usage_ui.rs:345
 #, rust-format
 msgid "This is {}, so Voltkit won't close it."
 msgstr ""
 
-#: src/usage_ui.rs:361
+#: src/usage_ui.rs:371
 #, rust-format
 msgid "Force Quit {}?"
 msgstr ""
 
-#: src/usage_ui.rs:362
+#: src/usage_ui.rs:372
 msgid ""
 "It stops immediately, without a chance to save. Anything unsaved in it is lost."
 msgstr ""
 
-#: src/usage_ui.rs:363 src/usage_ui.rs:396
+#: src/usage_ui.rs:373 src/usage_ui.rs:406
 msgid "Force Quit"
 msgstr ""
 
-#: src/usage_ui.rs:367
+#: src/usage_ui.rs:377
 #, rust-format
 msgid "Close {}?"
 msgstr ""
 
-#: src/usage_ui.rs:368
+#: src/usage_ui.rs:378
 #, rust-format
 msgid ""
 "Voltkit asks {} to quit, like closing its window. Unsaved work in it may be lost."
 msgstr ""
 
-#: src/usage_ui.rs:389
+#: src/usage_ui.rs:399
 msgid "Stopping…"
 msgstr ""
 
-#: src/usage_ui.rs:389
+#: src/usage_ui.rs:399
 msgid "Closing…"
 msgstr ""
 
-#: src/usage_ui.rs:391
+#: src/usage_ui.rs:401
 #, rust-format
 msgid "{} closed"
 msgstr ""
 
-#: src/usage_ui.rs:408
+#: src/usage_ui.rs:418
 #, rust-format
 msgid ""
 "These apps are using {}: {}. Voltkit asks them to quit, like closing their windows, then ejects. Unsaved work in them may be lost."
 msgstr ""
 
-#: src/usage_ui.rs:409
+#: src/usage_ui.rs:419
 #, rust-format
 msgid "Close {} and Eject?"
 msgstr ""
 
-#: src/usage_ui.rs:409
+#: src/usage_ui.rs:419
 msgid "Close and Eject"
 msgstr ""
 
-#: src/usage_ui.rs:419
+#: src/usage_ui.rs:429
 msgid "Some apps didn't close. Use Force Quit on them, then eject."
 msgstr ""
 
-#: src/usage_ui.rs:433
+#: src/usage_ui.rs:443
 #, rust-format
 msgid "{} ejected: you can unplug it"
 msgstr ""
 
-#: src/usage_ui.rs:440
+#: src/usage_ui.rs:450
 #, rust-format
 msgid "Could not eject: {}"
 msgstr ""
 
-#: src/usage_ui.rs:464
+#: src/usage_ui.rs:474
 #, rust-format
 msgid "{} App"
 msgid_plural "{} Apps"
