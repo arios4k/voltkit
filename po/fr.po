@@ -2090,83 +2090,83 @@ msgstr "capture annulée"
 msgid "no text found in the selected region"
 msgstr "aucun texte trouvé dans la zone sélectionnée"
 
-#: src/modules/permissions.rs:53
+#: src/modules/permissions.rs:52
 msgid "Take screenshots"
 msgstr "Faire des captures d’écran"
 
-#: src/modules/permissions.rs:54
+#: src/modules/permissions.rs:53
 msgid "Use the camera"
 msgstr "Utiliser la caméra"
 
-#: src/modules/permissions.rs:55
+#: src/modules/permissions.rs:54
 msgid "Use the microphone"
 msgstr "Utiliser le microphone"
 
-#: src/modules/permissions.rs:56
+#: src/modules/permissions.rs:55
 msgid "Play sound"
 msgstr "Jouer du son"
 
-#: src/modules/permissions.rs:57
+#: src/modules/permissions.rs:56
 msgid "See your location"
 msgstr "Voir votre position"
 
-#: src/modules/permissions.rs:58
+#: src/modules/permissions.rs:57
 msgid "Run in the background"
 msgstr "S’exécuter en arrière-plan"
 
-#: src/modules/permissions.rs:59
+#: src/modules/permissions.rs:58
 msgid "Show notifications"
 msgstr "Afficher des notifications"
 
-#: src/modules/permissions.rs:60
+#: src/modules/permissions.rs:59
 msgid "Keep the computer awake"
 msgstr "Garder l’ordinateur éveillé"
 
-#: src/modules/permissions.rs:61
+#: src/modules/permissions.rs:60
 msgid "Control your computer remotely"
 msgstr "Contrôler votre ordinateur à distance"
 
-#: src/modules/permissions.rs:62
+#: src/modules/permissions.rs:61
 msgid "Record or share your screen"
 msgstr "Enregistrer ou partager votre écran"
 
-#: src/modules/permissions.rs:63
+#: src/modules/permissions.rs:62
 msgid "Change the wallpaper"
 msgstr "Changer le fond d’écran"
 
-#: src/modules/permissions.rs:64
+#: src/modules/permissions.rs:63
 msgid "Run with real-time priority"
 msgstr "S’exécuter avec une priorité temps réel"
 
-#: src/modules/permissions.rs:65
+#: src/modules/permissions.rs:64
 msgid "Look at the windows on screen"
 msgstr "Voir les fenêtres à l’écran"
 
-#: src/modules/permissions.rs:66
+#: src/modules/permissions.rs:65
 msgid "Use desktop services"
 msgstr "Utiliser les services du bureau"
 
-#: src/modules/permissions.rs:74 src/permissions_ui.rs:159 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:73 src/permissions_ui.rs:159 src/permissions_ui.rs:168
 msgid "Allowed"
 msgstr "Autorisé"
 
-#: src/modules/permissions.rs:75 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:74 src/permissions_ui.rs:168
 msgid "Denied"
 msgstr "Refusé"
 
-#: src/modules/permissions.rs:77
+#: src/modules/permissions.rs:76
 msgid "Allowed: exact location"
 msgstr "Autorisé : position exacte"
 
-#: src/modules/permissions.rs:78
+#: src/modules/permissions.rs:77
 msgid "Allowed: approximate location"
 msgstr "Autorisé : position approximative"
 
-#: src/modules/permissions.rs:79 src/modules/permissions.rs:81
+#: src/modules/permissions.rs:78 src/modules/permissions.rs:80
 msgid "Remembered"
 msgstr "Mémorisé"
 
-#: src/modules/permissions.rs:120
+#: src/modules/permissions.rs:119
 msgid "no session bus"
 msgstr "pas de bus de session"
 

@@ -2021,83 +2021,83 @@ msgstr "已取消捕获"
 msgid "no text found in the selected region"
 msgstr "所选区域中没有找到文字"
 
-#: src/modules/permissions.rs:53
+#: src/modules/permissions.rs:52
 msgid "Take screenshots"
 msgstr "截屏"
 
-#: src/modules/permissions.rs:54
+#: src/modules/permissions.rs:53
 msgid "Use the camera"
 msgstr "使用摄像头"
 
-#: src/modules/permissions.rs:55
+#: src/modules/permissions.rs:54
 msgid "Use the microphone"
 msgstr "使用麦克风"
 
-#: src/modules/permissions.rs:56
+#: src/modules/permissions.rs:55
 msgid "Play sound"
 msgstr "播放声音"
 
-#: src/modules/permissions.rs:57
+#: src/modules/permissions.rs:56
 msgid "See your location"
 msgstr "查看你的位置"
 
-#: src/modules/permissions.rs:58
+#: src/modules/permissions.rs:57
 msgid "Run in the background"
 msgstr "在后台运行"
 
-#: src/modules/permissions.rs:59
+#: src/modules/permissions.rs:58
 msgid "Show notifications"
 msgstr "显示通知"
 
-#: src/modules/permissions.rs:60
+#: src/modules/permissions.rs:59
 msgid "Keep the computer awake"
 msgstr "让电脑保持唤醒"
 
-#: src/modules/permissions.rs:61
+#: src/modules/permissions.rs:60
 msgid "Control your computer remotely"
 msgstr "远程控制你的电脑"
 
-#: src/modules/permissions.rs:62
+#: src/modules/permissions.rs:61
 msgid "Record or share your screen"
 msgstr "录制或共享你的屏幕"
 
-#: src/modules/permissions.rs:63
+#: src/modules/permissions.rs:62
 msgid "Change the wallpaper"
 msgstr "更改壁纸"
 
-#: src/modules/permissions.rs:64
+#: src/modules/permissions.rs:63
 msgid "Run with real-time priority"
 msgstr "以实时优先级运行"
 
-#: src/modules/permissions.rs:65
+#: src/modules/permissions.rs:64
 msgid "Look at the windows on screen"
 msgstr "查看屏幕上的窗口"
 
-#: src/modules/permissions.rs:66
+#: src/modules/permissions.rs:65
 msgid "Use desktop services"
 msgstr "使用桌面服务"
 
-#: src/modules/permissions.rs:74 src/permissions_ui.rs:159 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:73 src/permissions_ui.rs:159 src/permissions_ui.rs:168
 msgid "Allowed"
 msgstr "已允许"
 
-#: src/modules/permissions.rs:75 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:74 src/permissions_ui.rs:168
 msgid "Denied"
 msgstr "已拒绝"
 
-#: src/modules/permissions.rs:77
+#: src/modules/permissions.rs:76
 msgid "Allowed: exact location"
 msgstr "已允许：精确位置"
 
-#: src/modules/permissions.rs:78
+#: src/modules/permissions.rs:77
 msgid "Allowed: approximate location"
 msgstr "已允许：大致位置"
 
-#: src/modules/permissions.rs:79 src/modules/permissions.rs:81
+#: src/modules/permissions.rs:78 src/modules/permissions.rs:80
 msgid "Remembered"
 msgstr "已记住"
 
-#: src/modules/permissions.rs:120
+#: src/modules/permissions.rs:119
 msgid "no session bus"
 msgstr "没有会话总线"
 
@@ -3139,8 +3139,7 @@ msgstr "桌面权限历史"
 #: src/permissions_ui.rs:29
 msgid ""
 "These are answers stored by the desktop portal. An app appears after it has requested access. This is not a list of every capability an app may have."
-msgstr ""
-"这些是桌面门户保存的回答。应用在请求访问之后才会出现在这里。这不是某个应用可能拥有的所有能力的清单。"
+msgstr "这些是桌面门户保存的回答。应用在请求访问之后才会出现在这里。这不是某个应用可能拥有的所有能力的清单。"
 
 #: src/permissions_ui.rs:49
 msgid "Refresh"

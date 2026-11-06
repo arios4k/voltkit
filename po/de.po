@@ -2092,83 +2092,83 @@ msgstr "Aufnahme abgebrochen"
 msgid "no text found in the selected region"
 msgstr "Im ausgewählten Bereich wurde kein Text gefunden"
 
-#: src/modules/permissions.rs:53
+#: src/modules/permissions.rs:52
 msgid "Take screenshots"
 msgstr "Bildschirmfotos aufnehmen"
 
-#: src/modules/permissions.rs:54
+#: src/modules/permissions.rs:53
 msgid "Use the camera"
 msgstr "Die Kamera verwenden"
 
-#: src/modules/permissions.rs:55
+#: src/modules/permissions.rs:54
 msgid "Use the microphone"
 msgstr "Das Mikrofon verwenden"
 
-#: src/modules/permissions.rs:56
+#: src/modules/permissions.rs:55
 msgid "Play sound"
 msgstr "Ton abspielen"
 
-#: src/modules/permissions.rs:57
+#: src/modules/permissions.rs:56
 msgid "See your location"
 msgstr "Ihren Standort sehen"
 
-#: src/modules/permissions.rs:58
+#: src/modules/permissions.rs:57
 msgid "Run in the background"
 msgstr "Im Hintergrund laufen"
 
-#: src/modules/permissions.rs:59
+#: src/modules/permissions.rs:58
 msgid "Show notifications"
 msgstr "Benachrichtigungen anzeigen"
 
-#: src/modules/permissions.rs:60
+#: src/modules/permissions.rs:59
 msgid "Keep the computer awake"
 msgstr "Den Computer wach halten"
 
-#: src/modules/permissions.rs:61
+#: src/modules/permissions.rs:60
 msgid "Control your computer remotely"
 msgstr "Ihren Computer fernsteuern"
 
-#: src/modules/permissions.rs:62
+#: src/modules/permissions.rs:61
 msgid "Record or share your screen"
 msgstr "Ihren Bildschirm aufnehmen oder teilen"
 
-#: src/modules/permissions.rs:63
+#: src/modules/permissions.rs:62
 msgid "Change the wallpaper"
 msgstr "Das Hintergrundbild ändern"
 
-#: src/modules/permissions.rs:64
+#: src/modules/permissions.rs:63
 msgid "Run with real-time priority"
 msgstr "Mit Echtzeitpriorität laufen"
 
-#: src/modules/permissions.rs:65
+#: src/modules/permissions.rs:64
 msgid "Look at the windows on screen"
 msgstr "Die Fenster auf dem Bildschirm sehen"
 
-#: src/modules/permissions.rs:66
+#: src/modules/permissions.rs:65
 msgid "Use desktop services"
 msgstr "Desktop-Dienste verwenden"
 
-#: src/modules/permissions.rs:74 src/permissions_ui.rs:159 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:73 src/permissions_ui.rs:159 src/permissions_ui.rs:168
 msgid "Allowed"
 msgstr "Erlaubt"
 
-#: src/modules/permissions.rs:75 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:74 src/permissions_ui.rs:168
 msgid "Denied"
 msgstr "Verweigert"
 
-#: src/modules/permissions.rs:77
+#: src/modules/permissions.rs:76
 msgid "Allowed: exact location"
 msgstr "Erlaubt: genauer Standort"
 
-#: src/modules/permissions.rs:78
+#: src/modules/permissions.rs:77
 msgid "Allowed: approximate location"
 msgstr "Erlaubt: ungefährer Standort"
 
-#: src/modules/permissions.rs:79 src/modules/permissions.rs:81
+#: src/modules/permissions.rs:78 src/modules/permissions.rs:80
 msgid "Remembered"
 msgstr "Gespeichert"
 
-#: src/modules/permissions.rs:120
+#: src/modules/permissions.rs:119
 msgid "no session bus"
 msgstr "Kein Sitzungsbus vorhanden"
 

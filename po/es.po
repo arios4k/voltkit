@@ -2084,83 +2084,83 @@ msgstr "captura cancelada"
 msgid "no text found in the selected region"
 msgstr "no se encontró texto en la región seleccionada"
 
-#: src/modules/permissions.rs:53
+#: src/modules/permissions.rs:52
 msgid "Take screenshots"
 msgstr "Tomar capturas de pantalla"
 
-#: src/modules/permissions.rs:54
+#: src/modules/permissions.rs:53
 msgid "Use the camera"
 msgstr "Usar la cámara"
 
-#: src/modules/permissions.rs:55
+#: src/modules/permissions.rs:54
 msgid "Use the microphone"
 msgstr "Usar el micrófono"
 
-#: src/modules/permissions.rs:56
+#: src/modules/permissions.rs:55
 msgid "Play sound"
 msgstr "Reproducir sonido"
 
-#: src/modules/permissions.rs:57
+#: src/modules/permissions.rs:56
 msgid "See your location"
 msgstr "Ver tu ubicación"
 
-#: src/modules/permissions.rs:58
+#: src/modules/permissions.rs:57
 msgid "Run in the background"
 msgstr "Ejecutarse en segundo plano"
 
-#: src/modules/permissions.rs:59
+#: src/modules/permissions.rs:58
 msgid "Show notifications"
 msgstr "Mostrar notificaciones"
 
-#: src/modules/permissions.rs:60
+#: src/modules/permissions.rs:59
 msgid "Keep the computer awake"
 msgstr "Mantener la computadora activa"
 
-#: src/modules/permissions.rs:61
+#: src/modules/permissions.rs:60
 msgid "Control your computer remotely"
 msgstr "Controlar tu computadora a distancia"
 
-#: src/modules/permissions.rs:62
+#: src/modules/permissions.rs:61
 msgid "Record or share your screen"
 msgstr "Grabar o compartir tu pantalla"
 
-#: src/modules/permissions.rs:63
+#: src/modules/permissions.rs:62
 msgid "Change the wallpaper"
 msgstr "Cambiar el fondo de pantalla"
 
-#: src/modules/permissions.rs:64
+#: src/modules/permissions.rs:63
 msgid "Run with real-time priority"
 msgstr "Ejecutarse con prioridad de tiempo real"
 
-#: src/modules/permissions.rs:65
+#: src/modules/permissions.rs:64
 msgid "Look at the windows on screen"
 msgstr "Ver las ventanas en pantalla"
 
-#: src/modules/permissions.rs:66
+#: src/modules/permissions.rs:65
 msgid "Use desktop services"
 msgstr "Usar servicios del escritorio"
 
-#: src/modules/permissions.rs:74 src/permissions_ui.rs:159 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:73 src/permissions_ui.rs:159 src/permissions_ui.rs:168
 msgid "Allowed"
 msgstr "Permitido"
 
-#: src/modules/permissions.rs:75 src/permissions_ui.rs:168
+#: src/modules/permissions.rs:74 src/permissions_ui.rs:168
 msgid "Denied"
 msgstr "Denegado"
 
-#: src/modules/permissions.rs:77
+#: src/modules/permissions.rs:76
 msgid "Allowed: exact location"
 msgstr "Permitido: ubicación exacta"
 
-#: src/modules/permissions.rs:78
+#: src/modules/permissions.rs:77
 msgid "Allowed: approximate location"
 msgstr "Permitido: ubicación aproximada"
 
-#: src/modules/permissions.rs:79 src/modules/permissions.rs:81
+#: src/modules/permissions.rs:78 src/modules/permissions.rs:80
 msgid "Remembered"
 msgstr "Recordado"
 
-#: src/modules/permissions.rs:120
+#: src/modules/permissions.rs:119
 msgid "no session bus"
 msgstr "no hay bus de sesión"
 
