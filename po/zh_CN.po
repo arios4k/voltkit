@@ -205,7 +205,7 @@ msgstr "需要注意"
 msgid "Copy Command"
 msgstr "复制命令"
 
-#: src/app.rs:320 src/gpu_ui.rs:555 src/usage_ui.rs:354 src/usage_ui.rs:379
+#: src/app.rs:320 src/gpu_ui.rs:570 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr "关闭"
 
@@ -1108,7 +1108,7 @@ msgstr "已应用。请在 {} 秒内输入 keep 并按 Enter 以保留；否则�
 msgid "Kept."
 msgstr "已保留。"
 
-#: src/gpu_cli.rs:122 src/gpu_ui.rs:658
+#: src/gpu_cli.rs:122 src/gpu_ui.rs:673
 msgid "Not confirmed, so the change was undone."
 msgstr "未确认，因此已撤销更改。"
 
@@ -1158,7 +1158,7 @@ msgstr "核心频率"
 msgid "Memory clock"
 msgstr "显存频率"
 
-#: src/gpu_ui.rs:165 src/gpu_ui.rs:288 src/modules/gpu.rs:758 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:165 src/gpu_ui.rs:289 src/modules/gpu.rs:758 src/modules/sysreport.rs:573
 msgid "Fan"
 msgstr "风扇"
 
@@ -1196,209 +1196,209 @@ msgstr "这块显卡上没有可更改的项目"
 msgid "See what this card supports for the reasons."
 msgstr "请查看“这块显卡支持什么”了解原因。"
 
-#: src/gpu_ui.rs:277 src/modules/gpu.rs:110
+#: src/gpu_ui.rs:278 src/modules/gpu.rs:110
 msgid "Power limit"
 msgstr "功耗上限"
 
-#: src/gpu_ui.rs:277
+#: src/gpu_ui.rs:278
 #, rust-format
 msgid "Between {} W and {} W."
 msgstr "介于 {} W 和 {} W 之间。"
 
-#: src/gpu_ui.rs:278
+#: src/gpu_ui.rs:279
 msgid "Watts"
 msgstr "瓦特"
 
-#: src/gpu_ui.rs:288
+#: src/gpu_ui.rs:289
 msgid "Fixed speed, or a curve that follows the temperature."
 msgstr "固定转速，或随温度变化的曲线。"
 
-#: src/gpu_ui.rs:289
+#: src/gpu_ui.rs:290
 msgid "The card's own control"
 msgstr "显卡自带的控制"
 
-#: src/gpu_ui.rs:289
+#: src/gpu_ui.rs:290
 msgid "Fixed speed"
 msgstr "固定转速"
 
-#: src/gpu_ui.rs:289
+#: src/gpu_ui.rs:290
 msgid "Curve"
 msgstr "曲线"
 
-#: src/gpu_ui.rs:290
+#: src/gpu_ui.rs:291
 msgid "Mode"
 msgstr "模式"
 
-#: src/gpu_ui.rs:291
+#: src/gpu_ui.rs:292
 msgid "Speed (%)"
 msgstr "转速 (%)"
 
-#: src/gpu_ui.rs:305
+#: src/gpu_ui.rs:306
 msgid "Curve points"
 msgstr "曲线点"
 
-#: src/gpu_ui.rs:305
+#: src/gpu_ui.rs:306
 msgid "Temperature in °C, fan speed in %."
 msgstr "温度单位为 °C，风扇转速单位为 %。"
 
-#: src/gpu_ui.rs:316
+#: src/gpu_ui.rs:330
 #, rust-format
 msgid "Point {}"
 msgstr "点 {}"
 
-#: src/gpu_ui.rs:323 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:337 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "移除"
 
-#: src/gpu_ui.rs:363
+#: src/gpu_ui.rs:377
 msgid "Edit curve"
 msgstr "编辑曲线"
 
-#: src/gpu_ui.rs:366
+#: src/gpu_ui.rs:380
 msgid "Add point"
 msgstr "添加点"
 
-#: src/gpu_ui.rs:367 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:381 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr "撤销"
 
-#: src/gpu_ui.rs:368
+#: src/gpu_ui.rs:382
 msgid "Redo"
 msgstr "重做"
 
-#: src/gpu_ui.rs:369
+#: src/gpu_ui.rs:383
 msgid "Copy curve"
 msgstr "复制曲线"
 
-#: src/gpu_ui.rs:370
+#: src/gpu_ui.rs:384
 msgid "Paste curve"
 msgstr "粘贴曲线"
 
-#: src/gpu_ui.rs:417
+#: src/gpu_ui.rs:431
 msgid "Curve copied"
 msgstr "曲线已复制"
 
-#: src/gpu_ui.rs:452 src/modules/gpu.rs:111
+#: src/gpu_ui.rs:467 src/modules/gpu.rs:111
 msgid "Temperature target"
 msgstr "目标温度"
 
-#: src/gpu_ui.rs:452
+#: src/gpu_ui.rs:467
 msgid "The temperature the card's fan control aims for."
 msgstr "显卡风扇控制所要维持的温度。"
 
-#: src/gpu_ui.rs:453
+#: src/gpu_ui.rs:468
 msgid "Degrees (°C)"
 msgstr "度 (°C)"
 
-#: src/gpu_ui.rs:460 src/modules/gpu.rs:112
+#: src/gpu_ui.rs:475 src/modules/gpu.rs:112
 msgid "Clock offsets"
 msgstr "频率偏移"
 
-#: src/gpu_ui.rs:460
+#: src/gpu_ui.rs:475
 msgid "Raise or lower the clocks from their defaults."
 msgstr "相对默认值提高或降低频率。"
 
-#: src/gpu_ui.rs:461
+#: src/gpu_ui.rs:476
 msgid "Core (MHz)"
 msgstr "核心 (MHz)"
 
-#: src/gpu_ui.rs:461
+#: src/gpu_ui.rs:476
 msgid "Memory (MHz)"
 msgstr "显存 (MHz)"
 
-#: src/gpu_ui.rs:473 src/modules/gpu.rs:113
+#: src/gpu_ui.rs:488 src/modules/gpu.rs:113
 msgid "Clock limits"
 msgstr "频率上限与下限"
 
-#: src/gpu_ui.rs:473
+#: src/gpu_ui.rs:488
 #, rust-format
 msgid "Keep the clock between a minimum and a maximum, from {} to {} MHz."
 msgstr "将频率保持在最小值与最大值之间，范围为 {} 到 {} MHz。"
 
-#: src/gpu_ui.rs:474
+#: src/gpu_ui.rs:489
 msgid "Minimum (MHz)"
 msgstr "最小值 (MHz)"
 
-#: src/gpu_ui.rs:474
+#: src/gpu_ui.rs:489
 msgid "Maximum (MHz)"
 msgstr "最大值 (MHz)"
 
-#: src/gpu_ui.rs:482
+#: src/gpu_ui.rs:497
 msgid "Voltage offset"
 msgstr "电压偏移"
 
-#: src/gpu_ui.rs:482
+#: src/gpu_ui.rs:497
 msgid "Lower the voltage for less heat, or raise it for stability."
 msgstr "降低电压可减少发热，提高电压可增强稳定性。"
 
-#: src/gpu_ui.rs:483
+#: src/gpu_ui.rs:498
 msgid "Millivolts (mV)"
 msgstr "毫伏 (mV)"
 
-#: src/gpu_ui.rs:489
+#: src/gpu_ui.rs:504
 msgid "Keep after restart"
 msgstr "重启后保留"
 
-#: src/gpu_ui.rs:489
+#: src/gpu_ui.rs:504
 msgid ""
 "Saves these settings and applies them at startup. Fan curves need this."
 msgstr "保存这些设置并在启动时应用。风扇曲线需要开启此项。"
 
-#: src/gpu_ui.rs:537 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:552 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr "预览"
 
-#: src/gpu_ui.rs:538
+#: src/gpu_ui.rs:553
 msgid "Apply"
 msgstr "应用"
 
-#: src/gpu_ui.rs:550
+#: src/gpu_ui.rs:565
 msgid "Nothing to change"
 msgstr "没有要更改的内容"
 
-#: src/gpu_ui.rs:550 src/gpu_ui.rs:564
+#: src/gpu_ui.rs:565 src/gpu_ui.rs:579
 msgid "Turn on at least one control."
 msgstr "请至少开启一个控制项。"
 
-#: src/gpu_ui.rs:551
+#: src/gpu_ui.rs:566
 msgid "What will change"
 msgstr "将要更改的内容"
 
-#: src/gpu_ui.rs:552
+#: src/gpu_ui.rs:567
 msgid "This can't be applied"
 msgstr "无法应用"
 
-#: src/gpu_ui.rs:566
+#: src/gpu_ui.rs:581
 msgid ""
 "This card has no built-in fan curve, so Voltkit's background service follows it. Turn on Keep after restart."
 msgstr "这块显卡没有内置风扇曲线，因此由 Voltkit 的后台服务来执行。请开启“重启后保留”。"
 
-#: src/gpu_ui.rs:593
+#: src/gpu_ui.rs:608
 msgid "pkexec is needed to change GPU settings."
 msgstr "更改 GPU 设置需要 pkexec。"
 
-#: src/gpu_ui.rs:626
+#: src/gpu_ui.rs:641
 msgid "Keep these settings?"
 msgstr "保留这些设置吗？"
 
-#: src/gpu_ui.rs:627
+#: src/gpu_ui.rs:642
 msgid "Revert"
 msgstr "还原"
 
-#: src/gpu_ui.rs:627
+#: src/gpu_ui.rs:642
 msgid "Keep"
 msgstr "保留"
 
-#: src/gpu_ui.rs:632 src/gpu_ui.rs:641
+#: src/gpu_ui.rs:647 src/gpu_ui.rs:656
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr "如果不确认，显卡将在 {} 秒后恢复原状。"
 
-#: src/gpu_ui.rs:657
+#: src/gpu_ui.rs:672
 msgid "Settings applied and kept."
 msgstr "设置已应用并保留。"
 
-#: src/gpu_ui.rs:664
+#: src/gpu_ui.rs:679
 msgid "Cancelled, nothing was changed."
 msgstr "已取消，未做任何更改。"
 
