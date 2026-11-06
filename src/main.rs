@@ -87,6 +87,36 @@ enum GpuCommand {
     },
     /// Run the background service that applies saved GPU settings and follows fan curves
     Service,
+    /// Record the readings of a card for a while, to compare profiles later
+    ///
+    /// Writes a CSV file you can open in a spreadsheet, and prints a summary with the energy used
+    /// and the clock-work each watt bought ("active MHz per watt"). Run it while a game or a
+    /// benchmark is going, once per profile, then compare the sessions.
+    Record {
+        /// How many seconds to record
+        #[arg(long, default_value_t = 60)]
+        seconds: u64,
+        /// What is being tried, such as the profile name
+        #[arg(long, default_value = "session")]
+        label: String,
+        /// The card's PCI address (the first NVIDIA or AMD card by default)
+        #[arg(long)]
+        gpu: Option<String>,
+    },
+    /// List the recorded sessions, newest first
+    Sessions,
+    /// Compare two recorded sessions side by side
+    ///
+    /// Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power,
+    /// energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency
+    /// is "active MHz per watt", a proxy for work per watt; add an fps column from a tool such as
+    /// MangoHud to a session file to get frames per second per watt too.
+    Compare {
+        /// The first session
+        first: String,
+        /// The second session
+        second: String,
+    },
     /// Named profiles that switch automatically by power source, running app, load or temperature
     Profiles {
         #[command(subcommand)]
@@ -617,6 +647,9 @@ fn run() -> Result<()> {
             GpuCommand::Apply { file, save, yes, confirm, session } => gpu_cli::apply(&file, session, save, yes, confirm)?,
             GpuCommand::Forget { address } => gpu_cli::forget(&address)?,
             GpuCommand::Service => portal::block_on(gpu_cli::service())?,
+            GpuCommand::Record { seconds, label, gpu } => gpu_cli::record(seconds, &label, gpu.as_deref())?,
+            GpuCommand::Sessions => gpu_cli::sessions(),
+            GpuCommand::Compare { first, second } => gpu_cli::compare(&first, &second)?,
             GpuCommand::Profiles { command } => match command {
                 ProfilesCommand::List => gpu_cli::profiles_list(),
                 ProfilesCommand::Active => gpu_cli::profiles_active(),

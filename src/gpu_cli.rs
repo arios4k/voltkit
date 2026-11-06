@@ -10,6 +10,7 @@ use anyhow::{Context, Result, bail};
 
 use crate::i18n::tr;
 use crate::modules::gpu::{self, Card, Vendor};
+use crate::modules::gpu_session;
 use crate::modules::gpu_profiles::{self, CardProfiles, Context as SwitchContext, Profile, Switcher};
 use crate::modules::gpu_tune::{self, Governor, Hardware, NvmlOp, Op, Real, Sensor, Settings, Step};
 use crate::modules::nvml::Nvml;
@@ -448,5 +449,105 @@ pub fn profiles_install(file: &str) -> Result<()> {
     gpu_tune::BootGuard::new(STATE_DIR).enable();
     let _ = std::process::Command::new("systemctl").args(["enable", "--now", UNIT]).status();
     println!("{}", tr("Profiles installed."));
+    Ok(())
+}
+
+// ---------------------------------------------------------------- Sessions
+
+pub fn sessions_dir() -> Option<PathBuf> {
+    dirs::data_dir().map(|d| d.join("voltkit/gpu-sessions"))
+}
+
+fn now_stamp() -> String {
+    chrono::Local::now().format("%Y-%m-%dT%H:%M:%S").to_string()
+}
+
+fn describe(stats: &gpu_session::Stats) -> Vec<String> {
+    let f = |v: Option<f64>, unit: &str| v.map_or_else(|| "—".to_owned(), |v| format!("{v:.1} {unit}"));
+    vec![
+        format!("{}: {:.0} s", tr("Duration"), stats.seconds),
+        format!("{}: {} / {}", tr("Temperature (average / highest)"), f(stats.avg_temp_c, "°C"), f(stats.max_temp_c, "°C")),
+        format!("{}: {} / {}", tr("Power (average / highest)"), f(stats.avg_power_w, "W"), f(stats.max_power_w, "W")),
+        format!("{}: {}", tr("Energy used"), f(stats.energy_wh, "Wh")),
+        format!("{}: {}", tr("Active clock per watt"), f(stats.active_mhz_per_w, "MHz/W")),
+    ]
+}
+
+/// Records one card's readings and saves them as a session.
+pub fn record(seconds: u64, label: &str, gpu: Option<&str>) -> Result<()> {
+    let gpus: Vec<gpu::Gpu> = gpu::detect();
+    let picked = match gpu {
+        Some(address) => gpus.iter().position(|g| g.address.eq_ignore_ascii_case(address)),
+        None => gpus.iter().position(|g| matches!(g.vendor, Vendor::Nvidia | Vendor::Amd)).or(if gpus.is_empty() { None } else { Some(0) }),
+    }
+    .with_context(|| tr("That graphics card wasn't found.").to_owned())?;
+    let address = gpus[picked].address.clone();
+    let monitor = gpu::Monitor::new(gpus);
+    let mut recorder = gpu_session::Recorder::new(label, &address, &now_stamp());
+    let began = Instant::now();
+    println!("{}", crate::i18n::fill(tr("Recording {} for {} seconds…"), &[&address, &seconds]));
+    while began.elapsed() < Duration::from_secs(seconds) {
+        if let Some(sample) = monitor.sample().into_iter().nth(picked) {
+            recorder.push(began.elapsed().as_secs_f64(), sample);
+        }
+        std::thread::sleep(Duration::from_secs(1));
+    }
+    let session = recorder.finish();
+    let dir = sessions_dir().context(tr("No data folder").to_owned())?;
+    let path = gpu_session::save(&dir, &session)?;
+    for line in describe(&gpu_session::stats(&session)) {
+        println!("  {line}");
+    }
+    println!("{} {}", tr("Saved"), path.display());
+    Ok(())
+}
+
+pub fn sessions() {
+    let dir = sessions_dir();
+    let files = dir.as_deref().map(gpu_session::list).unwrap_or_default();
+    if files.is_empty() {
+        println!("{}", tr("No sessions are recorded yet. Run `voltkit gpu record`."));
+    }
+    for (i, path) in files.iter().enumerate() {
+        match gpu_session::load(path) {
+            Ok(s) => {
+                let st = gpu_session::stats(&s);
+                println!("{:>3}  {}  {}  {:.0} s  {}", i + 1, s.started, s.label, st.seconds, path.display());
+            }
+            Err(_) => println!("{:>3}  {}", i + 1, path.display()),
+        }
+    }
+}
+
+fn resolve(arg: &str) -> Result<PathBuf> {
+    if let Ok(n) = arg.parse::<usize>()
+        && n >= 1
+        && let Some(path) = sessions_dir().as_deref().map(gpu_session::list).and_then(|f| f.into_iter().nth(n - 1))
+    {
+        return Ok(path);
+    }
+    Ok(PathBuf::from(arg))
+}
+
+/// The comparison as lines of text.
+pub fn render_comparison(a: &gpu_session::Session, b: &gpu_session::Session) -> String {
+    let (sa, sb) = (gpu_session::stats(a), gpu_session::stats(b));
+    let mut out = format!("{} → {}\n", a.label, b.label);
+    for l in gpu_session::compare(&sa, &sb) {
+        let change = l.change_pct().map_or_else(String::new, |c| format!(" ({c:+.0} %)"));
+        let mark = match l.b_wins() {
+            Some(true) => "▶",
+            Some(false) => "◀",
+            None => " ",
+        };
+        out.push_str(&format!("  {mark} {} ({}): {:.1} → {:.1}{change}\n", tr(l.label), l.unit, l.a, l.b));
+    }
+    out.push_str(&format!("{}\n", tr("◀ and ▶ mark the better session; active MHz per watt is a proxy for work per watt, not frames.")));
+    out
+}
+
+pub fn compare(first: &str, second: &str) -> Result<()> {
+    let (a, b) = (gpu_session::load(&resolve(first)?)?, gpu_session::load(&resolve(second)?)?);
+    print!("{}", render_comparison(&a, &b));
     Ok(())
 }

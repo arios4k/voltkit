@@ -21,6 +21,7 @@ fn tr(text: &str) -> String {
 }
 use crate::modules::gpu::{self, Card, Control, Monitor, Sample, Support};
 use crate::modules::gpu_profiles::{Auto, CardProfiles};
+use crate::modules::gpu_session::{self, Recorder, Session};
 use crate::modules::gpu_tune::{self, CurvePoint, FanMode, Sensor, Settings};
 use crate::curve_chart::CurveChart;
 use crate::workspace::Workspace;
@@ -153,6 +154,7 @@ struct CardView {
     readings: Vec<Reading>,
     chart: Option<CurveChart>,
     profiles: Option<ProfilesView>,
+    sessions: SessionsView,
 }
 
 #[allow(clippy::type_complexity)]
@@ -229,15 +231,18 @@ impl CardView {
             page.aside(&view.group);
             view
         });
+        let sessions = sessions_group(card, toasts);
+        page.aside(&sessions.group);
 
         stack.add_named(&*page, Some(&index.to_string()));
         if let Some(chart) = &chart {
             chart.set_marker(card.sample.temp_c.zip(card.sample.fan_pct));
         }
-        Rc::new(CardView { readings, chart, profiles })
+        Rc::new(CardView { readings, chart, profiles, sessions })
     }
 
     fn update(&self, sample: &Sample) {
+        self.sessions.push(sample);
         if let Some(p) = &self.profiles {
             p.refresh_active();
         }
@@ -1039,4 +1044,171 @@ fn install_profiles(all: &[CardProfiles]) -> Result<(), String> {
         let text = String::from_utf8_lossy(&out.stderr);
         Err(text.trim().lines().last().map_or_else(|| tr("Cancelled, nothing was changed."), str::to_owned))
     }
+}
+
+// ---------------------------------------------------------------- Sessions
+
+type Recording = Rc<RefCell<Option<(Recorder, std::time::Instant)>>>;
+
+struct SessionsView {
+    group: adw::PreferencesGroup,
+    recording: Recording,
+}
+
+impl SessionsView {
+    /// Adds a reading to the session being recorded, if one is.
+    fn push(&self, sample: &Sample) {
+        if let Some((recorder, began)) = self.recording.borrow_mut().as_mut() {
+            recorder.push(began.elapsed().as_secs_f64(), sample.clone());
+        }
+    }
+}
+
+/// Two made-up sessions for the screenshots: stock settings and an undervolt.
+fn demo_sessions() -> Vec<Session> {
+    let make = |label: &str, power: f64, clock: f64, temp: f64| {
+        let mut r = Recorder::new(label, "0000:03:00.0", "2026-11-06T20:00:00");
+        for t in 0..=120 {
+            let wobble = (f64::from(t) / 7.0).sin();
+            let s = Sample {
+                temp_c: Some(temp + wobble * 2.0),
+                util_pct: Some(97.0),
+                core_mhz: Some(clock + wobble * 20.0),
+                power_w: Some(power + wobble * 6.0),
+                fan_pct: Some(temp - 18.0),
+                ..Sample::default()
+            };
+            r.push(f64::from(t), s);
+        }
+        r.finish()
+    };
+    vec![make("Stock", 258.0, 2480.0, 76.0), make("Undervolted", 206.0, 2440.0, 68.0)]
+}
+
+fn show_comparison(anchor: &impl IsA<gtk::Widget>, a: &Session, b: &Session) {
+    let lines = gpu_session::compare(&gpu_session::stats(a), &gpu_session::stats(b));
+    let group = adw::PreferencesGroup::builder()
+        .title(trf!("{} compared with {}", a.label.clone(), b.label.clone()))
+        .description(tr("The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames."))
+        .build();
+    for l in &lines {
+        let change = l.change_pct().map_or_else(String::new, |c| format!("  ({c:+.0} %)"));
+        let row = adw::ActionRow::builder().title(tr(l.label)).subtitle(format!("{:.1} → {:.1} {}{change}", l.a, l.b, l.unit)).build();
+        let mark = match l.b_wins() {
+            Some(true) => Some((format!("{} ▶", b.label), "success")),
+            Some(false) => Some((format!("◀ {}", a.label), "success")),
+            None => None,
+        };
+        if let Some((text, css)) = mark {
+            row.add_suffix(&gtk::Label::builder().label(text).css_classes([css]).valign(gtk::Align::Center).build());
+        }
+        group.add(&row);
+    }
+    if lines.is_empty() {
+        group.add(&adw::ActionRow::builder().title(tr("These sessions have no readings in common.")).build());
+    }
+    let scroll = gtk::ScrolledWindow::builder().child(&group).min_content_height(360).hscrollbar_policy(gtk::PolicyType::Never).build();
+    let dialog = adw::Dialog::builder().title(tr("Compare sessions")).content_width(520).child(&scroll).build();
+    dialog.present(Some(anchor));
+}
+
+fn sessions_group(card: &Card, toasts: &adw::ToastOverlay) -> SessionsView {
+    let group = adw::PreferencesGroup::builder()
+        .title(tr("Sessions"))
+        .description(tr("Record how a profile behaves, then compare two sessions side by side: temperature, power, energy and efficiency."))
+        .build();
+    let recording: Recording = Rc::new(RefCell::new(None));
+    let label = adw::EntryRow::builder().title(tr("Label")).text(tr("Session")).build();
+    let record = gtk::Button::builder().label(tr("Start recording")).valign(gtk::Align::Center).build();
+    label.add_suffix(&record);
+    group.add(&label);
+
+    let rows: Rc<RefCell<Vec<(adw::ActionRow, gtk::CheckButton, Session)>>> = Rc::new(RefCell::new(Vec::new()));
+    let shown: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::new(RefCell::new(Vec::new()));
+    let compare = gtk::Button::builder().label(tr("Compare the two ticked")).halign(gtk::Align::End).margin_top(8).sensitive(false).build();
+    let refresh: Rebuild = Rc::new(RefCell::new(None));
+    let rebuild = {
+        let (group, rows, shown, compare, refresh) = (group.clone(), rows.clone(), shown.clone(), compare.clone(), refresh.clone());
+        Rc::new(move || {
+            for r in shown.borrow_mut().drain(..) {
+                group.remove(&r);
+            }
+            rows.borrow_mut().clear();
+            let sessions: Vec<Session> = if gpu::demo() {
+                demo_sessions()
+            } else {
+                crate::gpu_cli::sessions_dir()
+                    .as_deref()
+                    .map(gpu_session::list)
+                    .unwrap_or_default()
+                    .iter()
+                    .take(8)
+                    .filter_map(|p| gpu_session::load(p).ok())
+                    .collect()
+            };
+            for s in sessions {
+                let st = gpu_session::stats(&s);
+                let power = st.avg_power_w.map_or_else(String::new, |p| format!(" · {p:.0} W"));
+                let row = adw::ActionRow::builder().title(glib::markup_escape_text(&s.label)).subtitle(format!("{} · {:.0} s{power}", s.started.replace('T', " "), st.seconds)).build();
+                let check = gtk::CheckButton::builder().valign(gtk::Align::Center).build();
+                row.add_prefix(&check);
+                row.set_activatable_widget(Some(&check));
+                {
+                    let (rows, compare) = (rows.clone(), compare.clone());
+                    check.connect_toggled(move |_| {
+                        let ticked = rows.borrow().iter().filter(|(_, c, _)| c.is_active()).count();
+                        compare.set_sensitive(ticked == 2);
+                    });
+                }
+                group.add(&row);
+                shown.borrow_mut().push(row.clone());
+                rows.borrow_mut().push((row, check, s));
+            }
+            let _ = &refresh;
+        })
+    };
+    *refresh.borrow_mut() = Some(rebuild.clone() as Rc<dyn Fn()>);
+    rebuild();
+    group.add(&compare);
+    {
+        let rows = rows.clone();
+        compare.connect_clicked(move |b| {
+            let picked: Vec<Session> = rows.borrow().iter().filter(|(_, c, _)| c.is_active()).map(|(_, _, s)| s.clone()).collect();
+            if let [a, c] = picked.as_slice() {
+                // Older first, so "after" is the newer try.
+                let (a, c) = if a.started <= c.started { (a, c) } else { (c, a) };
+                show_comparison(b, a, c);
+            }
+        });
+    }
+    {
+        let (recording, toasts, label, rebuild) = (recording.clone(), toasts.clone(), label.clone(), rebuild.clone());
+        let address = card.gpu.address.clone();
+        record.connect_clicked(move |b| {
+            let finished = recording.borrow_mut().take();
+            match finished {
+                None => {
+                    let started = chrono::Local::now().format("%Y-%m-%dT%H:%M:%S").to_string();
+                    let name = label.text().trim().to_owned();
+                    *recording.borrow_mut() = Some((Recorder::new(if name.is_empty() { "session" } else { &name }, &address, &started), std::time::Instant::now()));
+                    b.set_label(&tr("Stop and save"));
+                    b.add_css_class("destructive-action");
+                }
+                Some((recorder, _)) => {
+                    b.set_label(&tr("Start recording"));
+                    b.remove_css_class("destructive-action");
+                    let session = recorder.finish();
+                    match crate::gpu_cli::sessions_dir().map(|d| gpu_session::save(&d, &session)) {
+                        Some(Ok(_)) if !gpu::demo() => {
+                            toast(&toasts, tr("Session saved."));
+                            rebuild();
+                        }
+                        Some(Err(e)) => toast(&toasts, e.to_string()),
+                        _ => {}
+                    }
+                }
+            }
+        });
+    }
+    SessionsView { group, recording }
 }

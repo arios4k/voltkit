@@ -78,7 +78,7 @@ impl CurveChart {
     pub fn new(points: Vec<CurvePoint>) -> Self {
         let area = gtk::DrawingArea::builder().content_height(230).hexpand(true).focusable(true).can_focus(true).build();
         area.set_tooltip_text(Some(tr("Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it.")));
-        area.update_property(&[gtk::accessible::Property::Label(&tr("Fan curve chart"))]);
+        area.update_property(&[gtk::accessible::Property::Label(tr("Fan curve chart"))]);
         let chart = CurveChart {
             area,
             state: Rc::new(RefCell::new(State { points, selected: BTreeSet::new(), hover: None, marker: None, drag: None })),

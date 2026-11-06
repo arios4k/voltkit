@@ -48,6 +48,28 @@ Remove a card\*(Aqs saved settings and give its fans back to the card
 \fBvoltkit gpu service\fR
 Run the background service that applies saved GPU settings and follows fan curves
 .TP
+\fBvoltkit gpu record [\-\-seconds] [\-\-label] [\-\-gpu]\fR
+Record the readings of a card for a while, to compare profiles later
+
+Writes a CSV file you can open in a spreadsheet, and prints a summary with the energy used and the clock\-work each watt bought ("active MHz per watt"). Run it while a game or a benchmark is going, once per profile, then compare the sessions.
+.RS
+\fB\-\-seconds\fR: How many seconds to record
+.RE
+.RS
+\fB\-\-label\fR: What is being tried, such as the profile name
+.RE
+.RS
+\fB\-\-gpu\fR: The card\*(Aqs PCI address (the first NVIDIA or AMD card by default)
+.RE
+.TP
+\fBvoltkit gpu sessions\fR
+List the recorded sessions, newest first
+.TP
+\fBvoltkit gpu compare\fR
+Compare two recorded sessions side by side
+
+Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power, energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency is "active MHz per watt", a proxy for work per watt; add an fps column from a tool such as MangoHud to a session file to get frames per second per watt too.
+.TP
 \fBvoltkit gpu profiles\fR
 Named profiles that switch automatically by power source, running app, load or temperature
 .ie \n(.g .ds Aq \(aq
