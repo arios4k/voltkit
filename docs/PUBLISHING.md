@@ -43,5 +43,20 @@ launch, so users only install and open it.
    pushed. Without the `COPR_WEBHOOK_URL` secret, press **Rebuild** on the `voltkit` package (or run
    `copr-cli build-package voltkit --name voltkit`).
 
+### If the release workflow fails at "Deploy to GitHub Pages"
+
+GitHub's Pages deployment can time out (`Current status: updating_pages`, then `Timeout reached`).
+The GitHub Release and its `.deb` are already published by then, but the apt index isn't updated and
+the COPR job is skipped, because it waits for the release job. A Pages deployment is tied to the
+commit, so re-running the same tag (or running the workflow again on the same commit) fails at once
+with `Deployment cancelled`. To recover:
+
+1. Put any small commit on `main` (a docs fix is enough), so Pages has a fresh commit to deploy.
+2. Run the workflow by hand (*Actions → Release → Run workflow* on `main`, or
+   `gh workflow run release.yml --ref main`). It rebuilds the apt repository from the existing
+   releases and doesn't touch them.
+3. Ask COPR for the build yourself, since the tag run skipped it: press **Rebuild** on the `voltkit`
+   package, or run `copr-cli build-package voltkit --name voltkit`.
+
 CI builds the Fedora package in a container on every push, so problems show up before a
 release.
