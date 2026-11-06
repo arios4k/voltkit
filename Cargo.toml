@@ -21,6 +21,7 @@ dirs = "7.0.0"
 evdev = { version = "0.13.2", features = ["tokio"] }
 futures-util = "0.3.34"
 gtk = { version = "0.11.5", package = "gtk4", features = ["v4_14"] }
+libloading = "0.8"
 oxipng = { version = "10.2.1", default-features = false, features = ["parallel"] }
 qrcode = { version = "0.14.1", default-features = false }
 roff = "1.1.1"

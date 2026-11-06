@@ -1,0 +1,833 @@
+//! GPU Tuner foundation: finds the graphics cards, reads their sensors and says,
+//! for each card, which controls its hardware and driver expose and why the
+//! others aren't available. Nothing here changes a setting.
+//!
+//! AMD cards are read from the amdgpu driver's sysfs files; NVIDIA cards from
+//! `nvidia-smi`, one call for all cards. The sysfs root is a parameter so the
+//! logic can be tested against a fake tree.
+
+use std::collections::HashMap;
+use std::path::{Path, PathBuf};
+use std::process::Command;
+
+use super::nvml::{Nvml, NvmlError, Threshold};
+
+use crate::i18n::tr;
+
+/// A translated message as an owned string.
+fn t(text: &str) -> String {
+    tr(text).to_owned()
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Vendor {
+    Nvidia,
+    Amd,
+    Intel,
+    Other,
+}
+
+impl Vendor {
+    fn from_pci(id: &str) -> Self {
+        match id.trim().to_ascii_lowercase().as_str() {
+            "0x10de" => Vendor::Nvidia,
+            "0x1002" => Vendor::Amd,
+            "0x8086" => Vendor::Intel,
+            _ => Vendor::Other,
+        }
+    }
+
+    pub fn name(self) -> &'static str {
+        match self {
+            Vendor::Nvidia => "NVIDIA",
+            Vendor::Amd => "AMD",
+            Vendor::Intel => "Intel",
+            Vendor::Other => "GPU",
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct Gpu {
+    /// PCI address such as `0000:2d:00.0`, the same for sysfs and nvidia-smi.
+    pub address: String,
+    pub vendor: Vendor,
+    pub name: String,
+    /// The kernel driver in use: `amdgpu`, `nvidia`, `nouveau`, `i915`...
+    pub driver: Option<String>,
+    /// The `device` directory in sysfs.
+    pub device: PathBuf,
+}
+
+/// One reading of a card's sensors. A missing value means the card or its
+/// driver doesn't report it, never zero.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct Sample {
+    pub temp_c: Option<f64>,
+    pub hotspot_c: Option<f64>,
+    pub util_pct: Option<f64>,
+    pub core_mhz: Option<f64>,
+    pub mem_mhz: Option<f64>,
+    pub power_w: Option<f64>,
+    pub limit_w: Option<f64>,
+    pub limit_min_w: Option<f64>,
+    pub limit_max_w: Option<f64>,
+    pub fan_pct: Option<f64>,
+    pub fan_rpm: Option<f64>,
+    pub vram_used_mb: Option<f64>,
+    pub vram_total_mb: Option<f64>,
+}
+
+/// What a card might let the user adjust.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Control {
+    Monitoring,
+    FanSpeed,
+    FanCurve,
+    PowerLimit,
+    TemperatureTarget,
+    ClockOffsets,
+    VoltageCurve,
+}
+
+impl Control {
+    pub const ALL: [Control; 7] = [
+        Control::Monitoring,
+        Control::FanSpeed,
+        Control::FanCurve,
+        Control::PowerLimit,
+        Control::TemperatureTarget,
+        Control::ClockOffsets,
+        Control::VoltageCurve,
+    ];
+
+    pub fn title(self) -> String {
+        t(match self {
+            Control::Monitoring => "Monitoring",
+            Control::FanSpeed => "Fan speed",
+            Control::FanCurve => "Fan curve",
+            Control::PowerLimit => "Power limit",
+            Control::TemperatureTarget => "Temperature target",
+            Control::ClockOffsets => "Clock offsets",
+            Control::VoltageCurve => "Voltage and frequency curve",
+        })
+    }
+}
+
+#[derive(Clone, PartialEq, Eq, Debug)]
+pub enum Support {
+    /// The hardware and driver expose it, so Voltkit can read or drive it.
+    Detected(String),
+    /// Depends on the GPU generation or driver in a way Voltkit can't read
+    /// beforehand; it will test it safely before offering it.
+    Unverified(String),
+    /// Not available, with the reason and, when there is one, what to do.
+    Unavailable { reason: String, how_to: Option<String> },
+}
+
+#[derive(Clone, Debug)]
+pub struct Capability {
+    pub control: Control,
+    pub support: Support,
+}
+
+#[derive(Clone, Debug)]
+pub struct Card {
+    pub gpu: Gpu,
+    pub sample: Sample,
+    pub capabilities: Vec<Capability>,
+    /// What NVML said about an NVIDIA card: current values to restore, and fans.
+    pub probe: Option<NvidiaProbe>,
+}
+
+// ---------------------------------------------------------------- Detection
+
+pub fn detect() -> Vec<Gpu> {
+    detect_in(Path::new("/sys"))
+}
+
+pub fn detect_in(sys: &Path) -> Vec<Gpu> {
+    let Ok(entries) = std::fs::read_dir(sys.join("class/drm")) else { return Vec::new() };
+    let mut cards: Vec<(u32, Gpu)> = Vec::new();
+    for entry in entries.flatten() {
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(number) = name.strip_prefix("card").and_then(|n| n.parse::<u32>().ok()) else { continue };
+        let device = entry.path().join("device");
+        let Some(vendor_id) = read(&device.join("vendor")) else { continue };
+        let vendor = Vendor::from_pci(&vendor_id);
+        let address = device
+            .canonicalize()
+            .ok()
+            .and_then(|p| p.file_name().map(|n| n.to_string_lossy().into_owned()))
+            .filter(|a| a.contains(':'))
+            .unwrap_or_else(|| name.clone());
+        let driver = std::fs::read_link(device.join("driver")).ok().and_then(|p| p.file_name().map(|n| n.to_string_lossy().into_owned()));
+        let device_id = read(&device.join("device")).unwrap_or_default();
+        let gpu_name = read(&device.join("product_name"))
+            .or_else(|| lspci_name(&address))
+            .unwrap_or_else(|| format!("{} {}", vendor.name(), device_id));
+        cards.push((number, Gpu { address, vendor, name: gpu_name, driver, device }));
+    }
+    cards.sort_by_key(|(n, _)| *n);
+    cards.into_iter().map(|(_, g)| g).collect()
+}
+
+/// The card's marketing name from `lspci`, when it's installed.
+fn lspci_name(address: &str) -> Option<String> {
+    let out = Command::new("lspci").args(["-mm", "-s", address]).output().ok()?;
+    let line = String::from_utf8_lossy(&out.stdout).into_owned();
+    // 2d:00.0 "3D controller" "NVIDIA Corporation" "GP108GLM [Quadro P520]" ...
+    let fields: Vec<&str> = line.split('"').skip(1).step_by(2).collect();
+    let device = fields.get(2)?;
+    Some(match (device.find('['), device.rfind(']')) {
+        (Some(a), Some(b)) if a < b => device[a + 1..b].to_owned(),
+        _ => (*device).to_owned(),
+    })
+}
+
+fn read(path: &Path) -> Option<String> {
+    std::fs::read_to_string(path).ok().map(|s| s.trim().to_owned()).filter(|s| !s.is_empty())
+}
+
+fn read_num(path: &Path) -> Option<f64> {
+    read(path)?.parse().ok()
+}
+
+// ---------------------------------------------------------------- NVIDIA
+
+const NVIDIA_FIELDS: &str = "pci.bus_id,name,temperature.gpu,utilization.gpu,clocks.gr,clocks.mem,power.draw,power.limit,\
+                             power.min_limit,power.max_limit,fan.speed,memory.used,memory.total";
+
+/// Readings from one `nvidia-smi` call for every NVIDIA card, by PCI address.
+pub fn nvidia_query() -> HashMap<String, (String, Sample)> {
+    if !crate::system::has("nvidia-smi") {
+        return HashMap::new();
+    }
+    let mut cmd = Command::new("nvidia-smi");
+    cmd.args(["--query-gpu", NVIDIA_FIELDS, "--format=csv,noheader,nounits"]);
+    match crate::system::run(&mut cmd) {
+        Ok(out) => parse_nvidia(&String::from_utf8_lossy(&out)),
+        Err(_) => HashMap::new(),
+    }
+}
+
+/// Parses `nvidia-smi --format=csv,noheader,nounits`. Values the card doesn't
+/// report come as `[N/A]` or `[Not Supported]` and become `None`.
+pub fn parse_nvidia(csv: &str) -> HashMap<String, (String, Sample)> {
+    let mut out = HashMap::new();
+    for line in csv.lines() {
+        let f: Vec<&str> = line.split(',').map(str::trim).collect();
+        if f.len() < 13 {
+            continue;
+        }
+        let n = |i: usize| f[i].parse::<f64>().ok();
+        // "00000000:2D:00.0" in nvidia-smi is "0000:2d:00.0" in sysfs.
+        let id = f[0];
+        let address = id[id.len().saturating_sub(12)..].to_ascii_lowercase();
+        let sample = Sample {
+            temp_c: n(2),
+            util_pct: n(3),
+            core_mhz: n(4),
+            mem_mhz: n(5),
+            power_w: n(6),
+            limit_w: n(7),
+            limit_min_w: n(8),
+            limit_max_w: n(9),
+            fan_pct: n(10),
+            vram_used_mb: n(11),
+            vram_total_mb: n(12),
+            ..Sample::default()
+        };
+        out.insert(address, (f[1].to_owned(), sample));
+    }
+    out
+}
+
+// ---------------------------------------------------------------- AMD
+
+fn amd_hwmon(device: &Path) -> Option<PathBuf> {
+    std::fs::read_dir(device.join("hwmon")).ok()?.flatten().map(|e| e.path()).min()
+}
+
+fn amd_sample(device: &Path) -> Sample {
+    let mut s = Sample::default();
+    if let Some(hw) = amd_hwmon(device) {
+        let milli = |name: &str| read_num(&hw.join(name)).map(|v| v / 1000.0);
+        let micro = |name: &str| read_num(&hw.join(name)).map(|v| v / 1e6);
+        s.temp_c = milli("temp1_input").or_else(|| milli("temp2_input"));
+        s.hotspot_c = milli("temp2_input").filter(|_| hw.join("temp1_input").exists());
+        s.power_w = micro("power1_average").or_else(|| micro("power1_input"));
+        s.limit_w = micro("power1_cap");
+        s.limit_min_w = micro("power1_cap_min");
+        s.limit_max_w = micro("power1_cap_max");
+        s.fan_rpm = read_num(&hw.join("fan1_input"));
+        s.fan_pct = read_num(&hw.join("pwm1")).map(|v| v / 255.0 * 100.0);
+        s.core_mhz = micro("freq1_input");
+        s.mem_mhz = micro("freq2_input");
+    }
+    s.util_pct = read_num(&device.join("gpu_busy_percent"));
+    let mib = |name: &str| read_num(&device.join(name)).map(|v| v / (1024.0 * 1024.0));
+    s.vram_used_mb = mib("mem_info_vram_used");
+    s.vram_total_mb = mib("mem_info_vram_total");
+    s
+}
+
+fn amd_capabilities(gpu: &Gpu, sample: &Sample, sys: &Path) -> Vec<Capability> {
+    let device = &gpu.device;
+    let hw = amd_hwmon(device);
+    let in_hw = |name: &str| hw.as_ref().is_some_and(|h| h.join(name).exists());
+    let od_table = read(&device.join("pp_od_clk_voltage")).unwrap_or_default();
+    let od_present = device.join("pp_od_clk_voltage").exists();
+    let mask = read(&sys.join("module/amdgpu/parameters/ppfeaturemask"))
+        .and_then(|m| u64::from_str_radix(m.trim_start_matches("0x"), if m.starts_with("0x") { 16 } else { 10 }).ok());
+    let overdrive_off = !od_present && mask.is_some_and(|m| m & 0x4000 == 0);
+    let overdrive_missing = |what: &str| {
+        if overdrive_off {
+            Support::Unavailable {
+                reason: trf!("Overdrive is turned off in the amdgpu driver, so {} can't be changed.", what),
+                how_to: Some(t("Add amdgpu.ppfeaturemask=0xffffffff to the kernel command line and restart.")),
+            }
+        } else {
+            Support::Unavailable {
+                reason: trf!("The amdgpu driver doesn't expose {} for this card.", what),
+                how_to: None,
+            }
+        }
+    };
+
+    let mut out = Vec::new();
+    for control in Control::ALL {
+        let support = match control {
+            Control::Monitoring if hw.is_some() => Support::Detected(t("Temperature, power, clocks, fan and memory are readable.")),
+            Control::Monitoring => Support::Unavailable { reason: t("The driver exposes no hardware sensors for this card."), how_to: None },
+            Control::FanSpeed if in_hw("pwm1") && in_hw("pwm1_enable") => Support::Detected(t("The driver accepts a manual fan speed.")),
+            Control::FanSpeed | Control::FanCurve if !in_hw("fan1_input") && !in_hw("pwm1") => Support::Unavailable {
+                reason: t("No fan is visible to the driver. Laptop and integrated GPUs usually share the system fan, which firmware controls."),
+                how_to: None,
+            },
+            Control::FanSpeed => Support::Unavailable { reason: t("The driver shows the fan speed but doesn't allow setting it."), how_to: None },
+            Control::FanCurve if device.join("gpu_od/fan_ctrl/fan_curve").exists() => {
+                Support::Detected(t("The driver has a built-in fan curve."))
+            }
+            Control::FanCurve if in_hw("pwm1") && in_hw("pwm1_enable") => {
+                Support::Detected(t("Voltkit can follow a curve by adjusting the fan speed itself."))
+            }
+            Control::FanCurve => Support::Unavailable { reason: t("The driver doesn't allow setting the fan speed."), how_to: None },
+            Control::PowerLimit => match (sample.limit_min_w, sample.limit_max_w) {
+                (Some(min), Some(max)) if max > min && in_hw("power1_cap") => {
+                    Support::Detected(trf!("Adjustable from {} W to {} W.", format!("{min:.0}"), format!("{max:.0}")))
+                }
+                _ => Support::Unavailable { reason: t("The driver doesn't report an adjustable power limit."), how_to: None },
+            },
+            Control::TemperatureTarget if device.join("gpu_od/fan_ctrl/fan_target_temperature").exists() => {
+                Support::Detected(t("The driver lets you set the temperature the card's fan control aims for."))
+            }
+            Control::TemperatureTarget if overdrive_off => overdrive_missing(&t("the temperature target")),
+            Control::TemperatureTarget => Support::Unavailable {
+                reason: t("The driver doesn't expose a temperature target for this card. It needs a recent card (RDNA 3 or newer) and Linux 6.7 or newer."),
+                how_to: None,
+            },
+            Control::ClockOffsets if od_present && od_table.contains("OD_") => {
+                Support::Detected(t("The driver's overdrive table is available."))
+            }
+            Control::ClockOffsets => overdrive_missing(&t("clock offsets")),
+            Control::VoltageCurve if od_table.contains("OD_VDDC_CURVE") => {
+                Support::Detected(t("The card exposes a voltage and frequency curve."))
+            }
+            Control::VoltageCurve if od_table.contains("OD_VDDGFX_OFFSET") => {
+                Support::Detected(t("The card allows a voltage offset, not a full curve."))
+            }
+            Control::VoltageCurve if od_present => {
+                Support::Unavailable { reason: t("This card's driver exposes clocks but no voltage controls."), how_to: None }
+            }
+            Control::VoltageCurve => overdrive_missing(&t("the voltage curve")),
+        };
+        out.push(Capability { control, support });
+    }
+    out
+}
+
+// ---------------------------------------------------------------- NVIDIA and others
+
+/// What NVML says a card allows. Each answer is the driver's own, so a missing
+/// control comes with its real reason.
+#[derive(Clone, Debug)]
+pub struct NvidiaProbe {
+    pub power: Result<(f64, f64), NvmlError>,
+    pub fans: Result<(u32, (u32, u32)), NvmlError>,
+    pub core_offset: Result<i32, NvmlError>,
+    pub mem_offset: Result<i32, NvmlError>,
+    pub target: Result<u32, NvmlError>,
+}
+
+pub fn probe_nvidia(nvml: &Nvml, address: &str) -> NvidiaProbe {
+    NvidiaProbe {
+        power: nvml.power_limit_range(address),
+        fans: nvml.fan_count(address).and_then(|n| if n == 0 { Err(NvmlError::Unsupported) } else { nvml.fan_range(address).map(|r| (n, r)) }),
+        core_offset: nvml.clock_offset(address, false),
+        mem_offset: nvml.clock_offset(address, true),
+        target: nvml.threshold(address, Threshold::AcousticTarget),
+    }
+}
+
+fn nvidia_capabilities(gpu: &Gpu, reported: bool, probe: Option<&NvidiaProbe>) -> Vec<Capability> {
+    let proprietary = gpu.driver.as_deref() == Some("nvidia");
+    let wrong_driver = |what: &str| Support::Unavailable {
+        reason: trf!("The open-source nouveau driver doesn't allow changing {} on most cards.", what),
+        how_to: Some(t("Install NVIDIA's proprietary driver.")),
+    };
+    let why = |e: &NvmlError, what: &str, laptop_note: bool| match e {
+        NvmlError::Unsupported => Support::Unavailable {
+            reason: if laptop_note {
+                trf!("The driver doesn't allow changing {} on this card. This is common on laptop GPUs.", what)
+            } else {
+                trf!("The driver doesn't allow changing {} on this card.", what)
+            },
+            how_to: None,
+        },
+        NvmlError::TooOld => Support::Unavailable {
+            reason: trf!("The installed NVIDIA driver is too old to change {}.", what),
+            how_to: Some(t("Update the NVIDIA driver.")),
+        },
+        other => Support::Unavailable { reason: other.to_string(), how_to: None },
+    };
+    let mut out = Vec::new();
+    for control in Control::ALL {
+        let support = match control {
+            Control::Monitoring if reported => Support::Detected(t("Temperature, power, clocks, fan and memory are readable.")),
+            Control::Monitoring if !proprietary => Support::Unavailable {
+                reason: t("Without NVIDIA's proprietary driver, only basic sensors are available."),
+                how_to: Some(t("Install NVIDIA's proprietary driver.")),
+            },
+            Control::Monitoring => Support::Unavailable {
+                reason: t("nvidia-smi isn't available, so the card can't be read."),
+                how_to: Some(t("Install the NVIDIA driver's utilities (nvidia-utils).")),
+            },
+            _ if !proprietary => wrong_driver(&control.title().to_lowercase()),
+            _ if probe.is_none() => Support::Unavailable {
+                reason: NvmlError::Missing.to_string(),
+                how_to: Some(t("Install the NVIDIA driver's utilities (nvidia-utils).")),
+            },
+            _ => {
+                let probe = probe.unwrap();
+                match control {
+                    Control::FanSpeed | Control::FanCurve => match &probe.fans {
+                        Ok((n, (min, max))) => Support::Detected(trf!("{} fan(s), adjustable from {} % to {} %.", n, min, max)),
+                        Err(e) => why(e, &t("the fan"), true),
+                    },
+                    Control::PowerLimit => match &probe.power {
+                        Ok((min, max)) if max > min => {
+                            Support::Detected(trf!("Adjustable from {} W to {} W.", format!("{min:.0}"), format!("{max:.0}")))
+                        }
+                        Ok(_) => Support::Unavailable { reason: t("The card's power limit is fixed."), how_to: None },
+                        Err(e) => why(e, &t("the power limit"), true),
+                    },
+                    Control::TemperatureTarget => match &probe.target {
+                        Ok(c) => Support::Detected(trf!("The card's fan control aims for {} °C.", c)),
+                        Err(e) => why(e, &t("the temperature target"), true),
+                    },
+                    Control::ClockOffsets => match (&probe.core_offset, &probe.mem_offset) {
+                        (Ok(_), _) | (_, Ok(_)) => Support::Detected(t("The driver accepts core and memory clock offsets.")),
+                        (Err(e), _) => why(e, &t("clock offsets"), true),
+                    },
+                    Control::VoltageCurve => Support::Unavailable {
+                        reason: t("NVIDIA's driver offers clock offsets, not a voltage and frequency curve."),
+                        how_to: None,
+                    },
+                    Control::Monitoring => unreachable!(),
+                }
+            }
+        };
+        out.push(Capability { control, support });
+    }
+    out
+}
+
+fn unsupported_capabilities(gpu: &Gpu) -> Vec<Capability> {
+    Control::ALL
+        .into_iter()
+        .map(|control| Capability {
+            control,
+            support: Support::Unavailable {
+                reason: trf!("GPU Tuner covers NVIDIA and AMD cards; this is an {} card.", gpu.vendor.name()),
+                how_to: None,
+            },
+        })
+        .collect()
+}
+
+// ---------------------------------------------------------------- Putting it together
+
+/// Every card with its current reading and what it lets Voltkit control.
+pub fn inspect() -> Vec<Card> {
+    let nvml = Nvml::open().ok();
+    inspect_in(Path::new("/sys"), &nvidia_query(), nvml.as_ref())
+}
+
+pub fn inspect_in(sys: &Path, smi: &HashMap<String, (String, Sample)>, nvml: Option<&Nvml>) -> Vec<Card> {
+    inspect_with(sys, smi, &|address| nvml.map(|n| probe_nvidia(n, address)), &|address| nvml.and_then(|n| n.sample(address).ok()))
+}
+
+/// [`inspect_in`] with the NVML answers supplied, so tests can make them up.
+pub fn inspect_with(
+    sys: &Path,
+    smi: &HashMap<String, (String, Sample)>,
+    probe: &dyn Fn(&str) -> Option<NvidiaProbe>,
+    nvml_sample: &dyn Fn(&str) -> Option<Sample>,
+) -> Vec<Card> {
+    detect_in(sys)
+        .into_iter()
+        .map(|mut gpu| {
+            let mut probe_out = None;
+            let (sample, capabilities) = match gpu.vendor {
+                Vendor::Amd => {
+                    let sample = amd_sample(&gpu.device);
+                    let capabilities = amd_capabilities(&gpu, &sample, sys);
+                    (sample, capabilities)
+                }
+                Vendor::Nvidia => {
+                    let reading = smi.get(&gpu.address);
+                    if let Some((name, _)) = reading {
+                        gpu.name = name.clone();
+                    }
+                    let sample = nvml_sample(&gpu.address).or_else(|| reading.map(|(_, s)| s.clone())).unwrap_or_default();
+                    probe_out = probe(&gpu.address);
+                    let capabilities = nvidia_capabilities(&gpu, reading.is_some() || sample != Sample::default(), probe_out.as_ref());
+                    (sample, capabilities)
+                }
+                _ => (Sample::default(), unsupported_capabilities(&gpu)),
+            };
+            Card { gpu, sample, capabilities, probe: probe_out }
+        })
+        .collect()
+}
+
+/// Reads every card repeatedly without reopening anything: NVML when it's
+/// there (no process to start), `nvidia-smi` otherwise.
+pub struct Monitor {
+    gpus: Vec<Gpu>,
+    nvml: Option<Nvml>,
+}
+
+impl Monitor {
+    pub fn new(gpus: Vec<Gpu>) -> Self {
+        Monitor { gpus, nvml: Nvml::open().ok() }
+    }
+
+    pub fn sample(&self) -> Vec<Sample> {
+        let need_smi = self.nvml.is_none() && self.gpus.iter().any(|g| g.vendor == Vendor::Nvidia);
+        let smi = if need_smi { nvidia_query() } else { HashMap::new() };
+        self.gpus
+            .iter()
+            .map(|g| match g.vendor {
+                Vendor::Amd => amd_sample(&g.device),
+                Vendor::Nvidia => self
+                    .nvml
+                    .as_ref()
+                    .and_then(|n| n.sample(&g.address).ok())
+                    .or_else(|| smi.get(&g.address).map(|(_, s)| s.clone()))
+                    .unwrap_or_default(),
+                _ => Sample::default(),
+            })
+            .collect()
+    }
+}
+
+// ---------------------------------------------------------------- Text
+
+fn value(v: Option<f64>, unit: &str, digits: usize) -> String {
+    v.map_or_else(|| "—".to_owned(), |v| format!("{v:.digits$} {unit}"))
+}
+
+/// The readings as label and text pairs, for the command line and the app.
+pub fn readings(s: &Sample) -> Vec<(String, String)> {
+    let mut out = vec![
+        (t("Temperature"), value(s.temp_c, "°C", 0)),
+        (t("Utilization"), value(s.util_pct, "%", 0)),
+        (t("Power"), value(s.power_w, "W", 0)),
+        (t("Core clock"), value(s.core_mhz, "MHz", 0)),
+        (t("Memory clock"), value(s.mem_mhz, "MHz", 0)),
+    ];
+    let fan = match (s.fan_pct, s.fan_rpm) {
+        (Some(p), Some(r)) => format!("{p:.0} % · {r:.0} RPM"),
+        (Some(p), None) => format!("{p:.0} %"),
+        (None, Some(r)) => format!("{r:.0} RPM"),
+        (None, None) => "—".to_owned(),
+    };
+    out.push((t("Fan"), fan));
+    let memory = match (s.vram_used_mb, s.vram_total_mb) {
+        (Some(u), Some(t)) => format!("{u:.0} / {t:.0} MB"),
+        _ => "—".to_owned(),
+    };
+    out.push((t("Video memory"), memory));
+    out
+}
+
+pub fn render_text(cards: &[Card]) -> String {
+    if cards.is_empty() {
+        return format!("{}\n", t("No graphics cards were found."));
+    }
+    let mut out = String::new();
+    for (i, card) in cards.iter().enumerate() {
+        let driver = card.gpu.driver.as_deref().unwrap_or("—");
+        out.push_str(&format!("{} {}: {} ({}, {})\n", t("GPU"), i + 1, card.gpu.name, card.gpu.vendor.name(), driver));
+        for (label, v) in readings(&card.sample) {
+            out.push_str(&format!("  {label}: {v}\n"));
+        }
+        out.push_str(&format!("  {}\n", t("Controls:")));
+        for c in &card.capabilities {
+            let (mark, text) = match &c.support {
+                Support::Detected(note) => ("✓", note.clone()),
+                Support::Unverified(note) => ("?", note.clone()),
+                Support::Unavailable { reason, how_to: Some(how) } => ("✗", format!("{reason} {how}")),
+                Support::Unavailable { reason, how_to: None } => ("✗", reason.clone()),
+            };
+            out.push_str(&format!("    {mark} {}: {text}\n", c.control.title()));
+        }
+    }
+    out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::fs;
+
+    /// A fake `/sys` with one amdgpu card; `files` are paths under the card's
+    /// `device` directory.
+    fn amd_tree(files: &[(&str, &str)], mask: Option<&str>) -> tempdir::Tree {
+        let tree = tempdir::Tree::new();
+        let device = tree.path().join("class/drm/card0/device");
+        fs::create_dir_all(device.join("hwmon/hwmon3")).unwrap();
+        fs::write(device.join("vendor"), "0x1002\n").unwrap();
+        fs::write(device.join("device"), "0x73bf\n").unwrap();
+        fs::write(device.join("product_name"), "Radeon RX 6800 XT\n").unwrap();
+        for (path, content) in files {
+            let p = device.join(path);
+            fs::create_dir_all(p.parent().unwrap()).unwrap();
+            fs::write(p, content).unwrap();
+        }
+        if let Some(mask) = mask {
+            let p = tree.path().join("module/amdgpu/parameters/ppfeaturemask");
+            fs::create_dir_all(p.parent().unwrap()).unwrap();
+            fs::write(p, mask).unwrap();
+        }
+        tree
+    }
+
+    mod tempdir {
+        use std::path::{Path, PathBuf};
+
+        pub struct Tree(PathBuf);
+
+        impl Tree {
+            pub fn new() -> Self {
+                static NEXT: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(0);
+                let n = NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                let dir = std::env::temp_dir().join(format!("voltkit-gpu-test-{}-{n}", std::process::id()));
+                std::fs::create_dir_all(&dir).unwrap();
+                Tree(dir)
+            }
+
+            pub fn path(&self) -> &Path {
+                &self.0
+            }
+        }
+
+        impl Drop for Tree {
+            fn drop(&mut self) {
+                let _ = std::fs::remove_dir_all(&self.0);
+            }
+        }
+    }
+
+    fn support(card: &Card, control: Control) -> &Support {
+        &card.capabilities.iter().find(|c| c.control == control).unwrap().support
+    }
+
+    const FULL_AMD: &[(&str, &str)] = &[
+        ("hwmon/hwmon3/temp1_input", "54000\n"),
+        ("hwmon/hwmon3/temp2_input", "61000\n"),
+        ("hwmon/hwmon3/power1_average", "92000000\n"),
+        ("hwmon/hwmon3/power1_cap", "255000000\n"),
+        ("hwmon/hwmon3/power1_cap_min", "0\n"),
+        ("hwmon/hwmon3/power1_cap_max", "300000000\n"),
+        ("hwmon/hwmon3/fan1_input", "1200\n"),
+        ("hwmon/hwmon3/pwm1", "128\n"),
+        ("hwmon/hwmon3/pwm1_enable", "2\n"),
+        ("hwmon/hwmon3/freq1_input", "1500000000\n"),
+        ("hwmon/hwmon3/freq2_input", "1000000000\n"),
+        ("gpu_busy_percent", "37\n"),
+        ("mem_info_vram_used", "1073741824\n"),
+        ("mem_info_vram_total", "17179869184\n"),
+        ("pp_od_clk_voltage", "OD_SCLK:\n0: 500Mhz\nOD_VDDC_CURVE:\n0: 500Mhz 700mV\n"),
+        ("gpu_od/fan_ctrl/fan_target_temperature", "OD_FAN_TARGET_TEMPERATURE:\n75\n"),
+    ];
+
+    #[test]
+    fn reads_an_amd_card() {
+        let tree = amd_tree(FULL_AMD, Some("0xffffffff"));
+        let cards = inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None);
+        assert_eq!(cards.len(), 1);
+        let card = &cards[0];
+        assert_eq!(card.gpu.vendor, Vendor::Amd);
+        assert_eq!(card.gpu.name, "Radeon RX 6800 XT");
+        let s = &card.sample;
+        assert_eq!((s.temp_c, s.hotspot_c, s.power_w, s.limit_max_w), (Some(54.0), Some(61.0), Some(92.0), Some(300.0)));
+        assert_eq!((s.core_mhz, s.mem_mhz, s.util_pct, s.fan_rpm), (Some(1500.0), Some(1000.0), Some(37.0), Some(1200.0)));
+        assert_eq!((s.vram_used_mb, s.vram_total_mb), (Some(1024.0), Some(16384.0)));
+        assert!((s.fan_pct.unwrap() - 50.2).abs() < 0.1);
+    }
+
+    #[test]
+    fn a_full_amd_card_offers_every_control() {
+        let tree = amd_tree(FULL_AMD, Some("0xffffffff"));
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        for c in Control::ALL {
+            assert!(matches!(support(card, c), Support::Detected(_)), "{c:?}: {:?}", support(card, c));
+        }
+    }
+
+    #[test]
+    fn explains_how_to_turn_on_amd_overdrive() {
+        let tree = amd_tree(&FULL_AMD[..14], Some("0xfff7bfff"));
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        match support(card, Control::ClockOffsets) {
+            Support::Unavailable { reason, how_to: Some(how) } => {
+                assert!(reason.contains("Overdrive"));
+                assert!(how.contains("ppfeaturemask"));
+            }
+            other => panic!("{other:?}"),
+        }
+        assert!(matches!(support(card, Control::PowerLimit), Support::Detected(_)));
+    }
+
+    #[test]
+    fn an_amd_card_without_a_fan_says_why() {
+        let files: Vec<_> = FULL_AMD.iter().filter(|(p, _)| !p.contains("fan1") && !p.contains("pwm1")).copied().collect();
+        let tree = amd_tree(&files, Some("0xffffffff"));
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        for c in [Control::FanSpeed, Control::FanCurve] {
+            match support(card, c) {
+                Support::Unavailable { reason, .. } => assert!(reason.contains("No fan"), "{reason}"),
+                other => panic!("{other:?}"),
+            }
+        }
+    }
+
+    #[test]
+    fn a_voltage_offset_card_isnt_called_a_curve() {
+        let mut files = FULL_AMD[..14].to_vec();
+        files.push(("pp_od_clk_voltage", "OD_SCLK:\nOD_VDDGFX_OFFSET:\n0mV\n"));
+        let tree = amd_tree(&files, Some("0xffffffff"));
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        match support(card, Control::VoltageCurve) {
+            Support::Detected(note) => assert!(note.contains("offset")),
+            other => panic!("{other:?}"),
+        }
+    }
+
+    fn laptop_probe() -> NvidiaProbe {
+        NvidiaProbe {
+            power: Err(NvmlError::Unsupported),
+            fans: Err(NvmlError::Unsupported),
+            core_offset: Err(NvmlError::Unsupported),
+            mem_offset: Err(NvmlError::Unsupported),
+            target: Err(NvmlError::Unsupported),
+        }
+    }
+
+    fn desktop_probe() -> NvidiaProbe {
+        NvidiaProbe {
+            power: Ok((100.0, 240.0)),
+            fans: Ok((2, (30, 100))),
+            core_offset: Ok(0),
+            mem_offset: Ok(0),
+            target: Ok(83),
+        }
+    }
+
+    const SMI_LAPTOP: &str = "00000000:2D:00.0, Quadro P520, 39, 4, 139, 405, [N/A], [N/A], [N/A], [N/A], [N/A], 5, 2048\n";
+    const SMI_DESKTOP: &str = "00000000:01:00.0, NVIDIA GeForce RTX 3070, 61, 23, 1725, 7000, 104.20, 220.00, 100.00, 240.00, 45, 1021, 8192\n";
+
+    fn nvidia_tree(address: &str, driver: &str) -> tempdir::Tree {
+        let tree = tempdir::Tree::new();
+        let pci = tree.path().join("devices").join(address);
+        fs::create_dir_all(pci.join("hwmon")).unwrap();
+        fs::write(pci.join("vendor"), "0x10de\n").unwrap();
+        fs::write(pci.join("device"), "0x1d34\n").unwrap();
+        fs::create_dir_all(tree.path().join("drivers").join(driver)).unwrap();
+        std::os::unix::fs::symlink(tree.path().join("drivers").join(driver), pci.join("driver")).unwrap();
+        fs::create_dir_all(tree.path().join("class/drm/card0")).unwrap();
+        std::os::unix::fs::symlink(&pci, tree.path().join("class/drm/card0/device")).unwrap();
+        tree
+    }
+
+    #[test]
+    fn parses_nvidia_smi_and_matches_the_pci_address() {
+        let parsed = parse_nvidia(SMI_LAPTOP);
+        let (name, s) = &parsed["0000:2d:00.0"];
+        assert_eq!(name, "Quadro P520");
+        assert_eq!((s.temp_c, s.util_pct, s.core_mhz, s.power_w, s.fan_pct), (Some(39.0), Some(4.0), Some(139.0), None, None));
+        assert_eq!((s.vram_used_mb, s.vram_total_mb), (Some(5.0), Some(2048.0)));
+    }
+
+    #[test]
+    fn a_laptop_nvidia_card_explains_what_its_driver_hides() {
+        let tree = nvidia_tree("0000:2d:00.0", "nvidia");
+        let cards = inspect_with(tree.path(), &parse_nvidia(SMI_LAPTOP), &|_| Some(laptop_probe()), &|_| None);
+        let card = &cards[0];
+        assert_eq!(card.gpu.name, "Quadro P520");
+        assert!(matches!(support(card, Control::Monitoring), Support::Detected(_)));
+        for c in [Control::FanSpeed, Control::FanCurve, Control::PowerLimit, Control::TemperatureTarget, Control::ClockOffsets] {
+            match support(card, c) {
+                Support::Unavailable { reason, .. } => assert!(reason.contains("laptop"), "{c:?}: {reason}"),
+                other => panic!("{c:?}: {other:?}"),
+            }
+        }
+    }
+
+    #[test]
+    fn a_desktop_nvidia_card_offers_fans_and_power() {
+        let tree = nvidia_tree("0000:01:00.0", "nvidia");
+        let card = &inspect_with(tree.path(), &parse_nvidia(SMI_DESKTOP), &|_| Some(desktop_probe()), &|_| None)[0];
+        for c in [Control::FanSpeed, Control::FanCurve, Control::TemperatureTarget, Control::ClockOffsets] {
+            assert!(matches!(support(card, c), Support::Detected(_)), "{c:?}");
+        }
+        match support(card, Control::PowerLimit) {
+            Support::Detected(note) => assert!(note.contains("100") && note.contains("240")),
+            other => panic!("{other:?}"),
+        }
+        assert!(matches!(support(card, Control::VoltageCurve), Support::Unavailable { .. }));
+    }
+
+    #[test]
+    fn nouveau_points_to_the_proprietary_driver() {
+        let tree = nvidia_tree("0000:2d:00.0", "nouveau");
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        match support(card, Control::PowerLimit) {
+            Support::Unavailable { how_to: Some(how), .. } => assert!(how.contains("proprietary")),
+            other => panic!("{other:?}"),
+        }
+    }
+
+    #[test]
+    fn other_vendors_are_listed_but_not_tuned() {
+        let tree = tempdir::Tree::new();
+        let device = tree.path().join("class/drm/card0/device");
+        fs::create_dir_all(&device).unwrap();
+        fs::write(device.join("vendor"), "0x8086\n").unwrap();
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        assert_eq!(card.gpu.vendor, Vendor::Intel);
+        assert!(card.capabilities.iter().all(|c| matches!(c.support, Support::Unavailable { .. })));
+    }
+
+    #[test]
+    fn text_report_marks_each_control() {
+        let tree = amd_tree(FULL_AMD, Some("0xffffffff"));
+        let text = render_text(&inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None));
+        assert!(text.contains("Radeon RX 6800 XT"));
+        assert!(text.contains("Temperature: 54 °C"));
+        assert!(text.contains("✓ Power limit: Adjustable from 0 W to 300 W."));
+    }
+}
