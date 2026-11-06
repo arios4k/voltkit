@@ -12,8 +12,47 @@ pub const TEMP_MIN: f64 = 0.0;
 pub const TEMP_MAX: f64 = 110.0;
 pub const SPEED_MIN: f64 = 0.0;
 pub const SPEED_MAX: f64 = 100.0;
-/// Points are at least this many degrees apart.
+/// Fan curve points are at least this many degrees apart.
 pub const MIN_GAP_C: f64 = 1.0;
+
+/// One point's own allowed range: `(x range, y range)`.
+pub type PointLimits = ((f64, f64), (f64, f64));
+
+/// What a curve may look like: the range of each axis, the least distance
+/// between points along x, and optionally what each point may do on its own.
+/// The fan curve and the voltage and frequency curve share the editing code and
+/// differ only in these.
+#[derive(Clone, Debug)]
+pub struct Rules {
+    pub x: (f64, f64),
+    pub y: (f64, f64),
+    pub gap: f64,
+    /// Each point's own allowed `(x range, y range)`, when the card states it.
+    pub limits: Option<Vec<PointLimits>>,
+    /// Whether points can be added and removed (a card's curve has a fixed count).
+    pub resizable: bool,
+}
+
+impl Rules {
+    /// Fan curves: temperature against speed.
+    pub fn fan() -> Self {
+        Rules { x: (TEMP_MIN, TEMP_MAX), y: (SPEED_MIN, SPEED_MAX), gap: MIN_GAP_C, limits: None, resizable: true }
+    }
+
+    /// A card's voltage and frequency curve: clock against voltage, a fixed number of
+    /// points, each with the range the card allows.
+    pub fn voltage(limits: Vec<PointLimits>) -> Self {
+        let lo = |f: fn(&PointLimits) -> f64| limits.iter().map(f).fold(f64::MAX, f64::min);
+        let hi = |f: fn(&PointLimits) -> f64| limits.iter().map(f).fold(f64::MIN, f64::max);
+        Rules {
+            x: (lo(|l| l.0.0), hi(|l| l.0.1)),
+            y: (lo(|l| l.1.0), hi(|l| l.1.1)),
+            gap: 1.0,
+            limits: Some(limits),
+            resizable: false,
+        }
+    }
+}
 
 /// Maximal runs of consecutive selected indices, as `(first, last)`.
 fn runs(selected: &BTreeSet<usize>) -> Vec<(usize, usize)> {
@@ -30,7 +69,7 @@ fn runs(selected: &BTreeSet<usize>) -> Vec<(usize, usize)> {
 /// Moves the selected points by `dt` degrees and `ds` percent, as far as the
 /// curve stays valid: the whole selection stops when any point reaches a
 /// neighbour or the edge of the chart. With `snap`, results are whole numbers.
-pub fn move_points(points: &[CurvePoint], selected: &BTreeSet<usize>, dt: f64, ds: f64, snap: bool) -> Vec<CurvePoint> {
+pub fn move_points(points: &[CurvePoint], selected: &BTreeSet<usize>, dt: f64, ds: f64, snap: bool, rules: &Rules) -> Vec<CurvePoint> {
     let selected: BTreeSet<usize> = selected.iter().copied().filter(|i| *i < points.len()).collect();
     if selected.is_empty() {
         return points.to_vec();
@@ -41,13 +80,24 @@ pub fn move_points(points: &[CurvePoint], selected: &BTreeSet<usize>, dt: f64, d
         let (t_first, t_last) = (points[first].temp_c, points[last].temp_c);
         let (s_first, s_last) = (points[first].speed_pct, points[last].speed_pct);
         // Neighbours outside the run, or the edges of the chart.
-        let (before_t, before_s) = if first > 0 { (points[first - 1].temp_c + MIN_GAP_C, points[first - 1].speed_pct) } else { (TEMP_MIN, SPEED_MIN) };
+        let (before_t, before_s) = if first > 0 { (points[first - 1].temp_c + rules.gap, points[first - 1].speed_pct) } else { (rules.x.0, rules.y.0) };
         let (after_t, after_s) =
-            if last + 1 < points.len() { (points[last + 1].temp_c - MIN_GAP_C, points[last + 1].speed_pct) } else { (TEMP_MAX, SPEED_MAX) };
+            if last + 1 < points.len() { (points[last + 1].temp_c - rules.gap, points[last + 1].speed_pct) } else { (rules.x.1, rules.y.1) };
         dt_lo = dt_lo.max(before_t - t_first);
         dt_hi = dt_hi.min(after_t - t_last);
         ds_lo = ds_lo.max(before_s - s_first);
         ds_hi = ds_hi.min(after_s - s_last);
+    }
+    // The card may allow each point only so much of its own.
+    if let Some(limits) = &rules.limits {
+        for &i in &selected {
+            if let Some(((x_lo, x_hi), (y_lo, y_hi))) = limits.get(i) {
+                dt_lo = dt_lo.max(x_lo - points[i].temp_c);
+                dt_hi = dt_hi.min(x_hi - points[i].temp_c);
+                ds_lo = ds_lo.max(y_lo - points[i].speed_pct);
+                ds_hi = ds_hi.min(y_hi - points[i].speed_pct);
+            }
+        }
     }
     let (dt, ds) = (dt.clamp(dt_lo.min(0.0), dt_hi.max(0.0)), ds.clamp(ds_lo.min(0.0), ds_hi.max(0.0)));
     let mut out = points.to_vec();
@@ -61,8 +111,8 @@ pub fn move_points(points: &[CurvePoint], selected: &BTreeSet<usize>, dt: f64, d
     }
     // Rounding can close a gap by a fraction; give the neighbours back their space.
     for i in 1..out.len() {
-        if out[i].temp_c < out[i - 1].temp_c + MIN_GAP_C {
-            out[i].temp_c = out[i - 1].temp_c + MIN_GAP_C;
+        if out[i].temp_c < out[i - 1].temp_c + rules.gap {
+            out[i].temp_c = out[i - 1].temp_c + rules.gap;
         }
         if out[i].speed_pct < out[i - 1].speed_pct {
             out[i].speed_pct = out[i - 1].speed_pct;
@@ -74,9 +124,9 @@ pub fn move_points(points: &[CurvePoint], selected: &BTreeSet<usize>, dt: f64, d
 /// Adds a point on the curve at `temp`. Returns the new points and the index of
 /// the new point, or `None` if it would sit within a degree of another point or
 /// outside the chart.
-pub fn add_point(points: &[CurvePoint], temp: f64) -> Option<(Vec<CurvePoint>, usize)> {
+pub fn add_point(points: &[CurvePoint], temp: f64, rules: &Rules) -> Option<(Vec<CurvePoint>, usize)> {
     let temp = temp.round();
-    if !(TEMP_MIN..=TEMP_MAX).contains(&temp) || points.iter().any(|p| (p.temp_c - temp).abs() < MIN_GAP_C) {
+    if !rules.resizable || !(rules.x.0..=rules.x.1).contains(&temp) || points.iter().any(|p| (p.temp_c - temp).abs() < rules.gap) {
         return None;
     }
     let at = points.iter().position(|p| p.temp_c > temp).unwrap_or(points.len());
@@ -86,7 +136,10 @@ pub fn add_point(points: &[CurvePoint], temp: f64) -> Option<(Vec<CurvePoint>, u
 }
 
 /// Removes the selected points, always leaving at least two.
-pub fn remove_points(points: &[CurvePoint], selected: &BTreeSet<usize>) -> Vec<CurvePoint> {
+pub fn remove_points(points: &[CurvePoint], selected: &BTreeSet<usize>, rules: &Rules) -> Vec<CurvePoint> {
+    if !rules.resizable {
+        return points.to_vec();
+    }
     let kept: Vec<CurvePoint> = points.iter().enumerate().filter(|(i, _)| !selected.contains(i)).map(|(_, p)| p.clone()).collect();
     if kept.len() < 2 { points.to_vec() } else { kept }
 }
@@ -128,46 +181,46 @@ mod tests {
 
     #[test]
     fn a_point_moves_freely_between_its_neighbours() {
-        let moved = move_points(&curve(), &sel(&[1]), 5.0, 10.0, true);
+        let moved = move_points(&curve(), &sel(&[1]), 5.0, 10.0, true, &Rules::fan());
         assert_eq!(moved[1], pt(55.0, 50.0));
         assert_eq!(moved[0], curve()[0]);
     }
 
     #[test]
     fn a_point_stops_at_its_neighbours() {
-        let right = move_points(&curve(), &sel(&[1]), 100.0, 0.0, true);
+        let right = move_points(&curve(), &sel(&[1]), 100.0, 0.0, true, &Rules::fan());
         assert_eq!(right[1].temp_c, 69.0, "one degree short of the next point");
-        let left = move_points(&curve(), &sel(&[1]), -100.0, 0.0, true);
+        let left = move_points(&curve(), &sel(&[1]), -100.0, 0.0, true, &Rules::fan());
         assert_eq!(left[1].temp_c, 31.0);
         // The speed can't pass the cooler or the hotter neighbour either.
-        let up = move_points(&curve(), &sel(&[1]), 0.0, 100.0, true);
+        let up = move_points(&curve(), &sel(&[1]), 0.0, 100.0, true, &Rules::fan());
         assert_eq!(up[1].speed_pct, 65.0);
-        let down = move_points(&curve(), &sel(&[1]), 0.0, -100.0, true);
+        let down = move_points(&curve(), &sel(&[1]), 0.0, -100.0, true, &Rules::fan());
         assert_eq!(down[1].speed_pct, 20.0);
     }
 
     #[test]
     fn the_ends_stop_at_the_edges_of_the_chart() {
-        let m = move_points(&curve(), &sel(&[3]), 100.0, 100.0, true);
+        let m = move_points(&curve(), &sel(&[3]), 100.0, 100.0, true, &Rules::fan());
         assert_eq!((m[3].temp_c, m[3].speed_pct), (110.0, 100.0));
-        let m = move_points(&curve(), &sel(&[0]), -100.0, -100.0, true);
+        let m = move_points(&curve(), &sel(&[0]), -100.0, -100.0, true, &Rules::fan());
         assert_eq!((m[0].temp_c, m[0].speed_pct), (0.0, 0.0));
     }
 
     #[test]
     fn several_points_move_together_and_stop_together() {
-        let m = move_points(&curve(), &sel(&[1, 2]), 10.0, 0.0, true);
+        let m = move_points(&curve(), &sel(&[1, 2]), 10.0, 0.0, true, &Rules::fan());
         assert_eq!((m[1].temp_c, m[2].temp_c), (60.0, 80.0));
         // The run stops when its first point to reach a neighbour does.
-        let m = move_points(&curve(), &sel(&[1, 2]), 100.0, 0.0, true);
+        let m = move_points(&curve(), &sel(&[1, 2]), 100.0, 0.0, true, &Rules::fan());
         assert_eq!((m[1].temp_c, m[2].temp_c), (64.0, 84.0), "the gap between them is kept");
     }
 
     #[test]
     fn separate_selections_move_by_the_same_amount() {
-        let m = move_points(&curve(), &sel(&[0, 2]), 6.0, 0.0, true);
+        let m = move_points(&curve(), &sel(&[0, 2]), 6.0, 0.0, true, &Rules::fan());
         assert_eq!((m[0].temp_c, m[2].temp_c), (36.0, 76.0));
-        let m = move_points(&curve(), &sel(&[0, 2]), 100.0, 0.0, true);
+        let m = move_points(&curve(), &sel(&[0, 2]), 100.0, 0.0, true, &Rules::fan());
         assert_eq!((m[0].temp_c, m[2].temp_c), (44.0, 84.0), "limited by the nearer wall, here the 85 °C point");
     }
 
@@ -178,31 +231,48 @@ mod tests {
         for i in 0..4 {
             for dt in [-200.0, -7.0, 0.0, 3.5, 200.0] {
                 for ds in [-200.0, -9.0, 0.0, 4.5, 200.0] {
-                    let m = move_points(&curve(), &sel(&[i]), dt, ds, true);
+                    let m = move_points(&curve(), &sel(&[i]), dt, ds, true, &Rules::fan());
                     assert!(m.windows(2).all(|w| w[1].temp_c >= w[0].temp_c + MIN_GAP_C && w[1].speed_pct >= w[0].speed_pct), "{i} {dt} {ds}: {m:?}");
                     assert!(m.iter().all(|p| (TEMP_MIN..=TEMP_MAX).contains(&p.temp_c) && (SPEED_MIN..=SPEED_MAX).contains(&p.speed_pct)));
                 }
             }
         }
-        assert!(validate_curve(&move_points(&curve(), &sel(&[1]), 4.0, 3.0, true)).is_ok());
+        assert!(validate_curve(&move_points(&curve(), &sel(&[1]), 4.0, 3.0, true, &Rules::fan())).is_ok());
     }
 
     #[test]
     fn adding_a_point_sits_on_the_curve() {
-        let (c, at) = add_point(&curve(), 60.0).unwrap();
+        let (c, at) = add_point(&curve(), 60.0, &Rules::fan()).unwrap();
         assert_eq!(at, 2);
         assert_eq!(c[2], pt(60.0, 53.0));
-        assert!(add_point(&curve(), 50.4).is_none(), "too close to an existing point");
-        assert!(add_point(&curve(), 120.0).is_none());
-        let (c, at) = add_point(&curve(), 95.0).unwrap();
+        assert!(add_point(&curve(), 50.4, &Rules::fan()).is_none(), "too close to an existing point");
+        assert!(add_point(&curve(), 120.0, &Rules::fan()).is_none());
+        let (c, at) = add_point(&curve(), 95.0, &Rules::fan()).unwrap();
         assert_eq!((at, c[4].speed_pct), (4, 100.0));
     }
 
     #[test]
     fn removing_keeps_at_least_two_points() {
-        assert_eq!(remove_points(&curve(), &sel(&[1])).len(), 3);
-        assert_eq!(remove_points(&curve(), &sel(&[0, 1, 2])).len(), 4, "refused: only one would be left");
-        assert_eq!(remove_points(&curve(), &sel(&[0, 1])).len(), 2);
+        assert_eq!(remove_points(&curve(), &sel(&[1]), &Rules::fan()).len(), 3);
+        assert_eq!(remove_points(&curve(), &sel(&[0, 1, 2]), &Rules::fan()).len(), 4, "refused: only one would be left");
+        assert_eq!(remove_points(&curve(), &sel(&[0, 1]), &Rules::fan()).len(), 2);
+    }
+
+    #[test]
+    fn a_voltage_curve_keeps_each_point_inside_its_own_range() {
+        let pts = vec![pt(800.0, 700.0), pt(1450.0, 800.0), pt(2100.0, 1050.0)];
+        let rules = Rules::voltage(vec![((800.0, 1000.0), (650.0, 900.0)), ((1000.0, 1800.0), (750.0, 1000.0)), ((1800.0, 2150.0), (900.0, 1200.0))]);
+        assert_eq!((rules.x, rules.y), ((800.0, 2150.0), (650.0, 1200.0)));
+        // Dragging far is limited by the point's own range, not just the chart's.
+        let m = move_points(&pts, &sel(&[0]), 500.0, 500.0, true, &rules);
+        assert_eq!((m[0].temp_c, m[0].speed_pct), (1000.0, 800.0), "stops at its neighbour, and at its own voltage ceiling");
+        let m = move_points(&pts, &sel(&[1]), -900.0, -900.0, true, &rules);
+        assert_eq!((m[1].temp_c, m[1].speed_pct), (1000.0, 750.0), "this point may not go below 1000 MHz or 750 mV");
+        let m = move_points(&pts, &sel(&[2]), 900.0, 900.0, true, &rules);
+        assert_eq!((m[2].temp_c, m[2].speed_pct), (2150.0, 1200.0));
+        // A card's curve has a fixed number of points.
+        assert!(add_point(&pts, 1200.0, &rules).is_none());
+        assert_eq!(remove_points(&pts, &sel(&[1]), &rules).len(), 3);
     }
 
     #[test]

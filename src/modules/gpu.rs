@@ -599,6 +599,9 @@ pub fn demo_sample(card: usize, tick: u32) -> Sample {
     }
 }
 
+/// A made-up voltage and frequency table, as an AMD card with a full curve shows it.
+pub const DEMO_VF: &str = "OD_SCLK:\n0: 800Mhz\n1: 2100Mhz\nOD_VDDC_CURVE:\n0: 800MHz 700mV\n1: 1450MHz 790mV\n2: 2100MHz 1010mV\nOD_RANGE:\nSCLK: 800MHz 2150MHz\nVDDC_CURVE_SCLK[0]: 800MHz 1100MHz\nVDDC_CURVE_VOLT[0]: 650mV 900mV\nVDDC_CURVE_SCLK[1]: 1100MHz 1800MHz\nVDDC_CURVE_VOLT[1]: 700mV 1000mV\nVDDC_CURVE_SCLK[2]: 1800MHz 2150MHz\nVDDC_CURVE_VOLT[2]: 800mV 1200mV\n";
+
 /// Two made-up cards: an AMD card with every control and an NVIDIA desktop card.
 pub fn demo_cards() -> Vec<Card> {
     let gpu = |address: &str, vendor, name: &str, driver: &str| Gpu {

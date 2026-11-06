@@ -148,6 +148,27 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.10.1" date="2026-11-07">
+      <description>
+        <p>GPU Tuner gets a graphics-card icon and a chart for the voltage and frequency curve.</p>
+        <p xml:lang="es">Ajuste de GPU recibe un icono de tarjeta gráfica y un gráfico para la curva de voltaje y frecuencia.</p>
+        <p xml:lang="de">Der GPU-Tuner erhält ein Grafikkarten-Symbol und ein Diagramm für die Spannungs-/Frequenzkurve.</p>
+        <p xml:lang="fr">Le Réglage du GPU reçoit une icône de carte graphique et un graphique pour la courbe tension-fréquence.</p>
+        <p xml:lang="zh_CN">GPU 调节器新增显卡图标，以及用于电压与频率曲线的图表。</p>
+        <ul>
+          <li>A new graphics-card icon</li>
+          <li xml:lang="es">Un nuevo icono de tarjeta gráfica</li>
+          <li xml:lang="de">Ein neues Grafikkarten-Symbol</li>
+          <li xml:lang="fr">Une nouvelle icône de carte graphique</li>
+          <li xml:lang="zh_CN">全新的显卡图标</li>
+          <li>Edit the voltage and frequency curve by dragging points on a chart, with each point kept inside the range the card allows</li>
+          <li xml:lang="es">Edita la curva de voltaje y frecuencia arrastrando puntos en un gráfico, con cada punto dentro del rango que permite la tarjeta</li>
+          <li xml:lang="de">Die Spannungs-/Frequenzkurve durch Ziehen von Punkten in einem Diagramm bearbeiten, wobei jeder Punkt im erlaubten Bereich der Karte bleibt</li>
+          <li xml:lang="fr">Modifiez la courbe tension-fréquence en faisant glisser des points sur un graphique, chaque point restant dans la plage qu’autorise la carte</li>
+          <li xml:lang="zh_CN">在图表上拖动点来编辑电压与频率曲线，每个点都保持在显卡允许的范围内</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.0" date="2026-11-07">
       <description>
         <p>GPU Tuner grows up: curves on a graph, profiles that switch by themselves, and recorded sessions.</p>

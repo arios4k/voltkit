@@ -12,7 +12,7 @@ use gtk::prelude::*;
 use gtk::{gdk, glib};
 
 use crate::i18n::tr;
-use crate::modules::gpu_curve::{self as rules, SPEED_MAX, SPEED_MIN, TEMP_MAX, TEMP_MIN};
+use crate::modules::gpu_curve::{self as rules, Rules};
 use crate::modules::gpu_tune::{CurvePoint, SAFE_FAN_PCT, SAFE_TEMP_C};
 
 const LEFT: f64 = 42.0;
@@ -36,11 +36,78 @@ struct State {
 
 type Changed = Rc<RefCell<Option<Box<dyn Fn(Vec<CurvePoint>, Vec<CurvePoint>)>>>>;
 
+/// What the axes mean and how the curve may be edited: a fan curve (temperature
+/// against speed) and a voltage and frequency curve use the same chart.
+#[derive(Clone)]
+pub struct Axes {
+    pub rules: Rules,
+    /// Printed after the numbers on the axes ("°", "%"), empty to leave bare.
+    pub x_suffix: &'static str,
+    pub y_suffix: &'static str,
+    /// Named in tooltips, and drawn in the corners when `captions` is on.
+    pub x_unit: &'static str,
+    pub y_unit: &'static str,
+    pub captions: bool,
+    pub x_grid: f64,
+    pub y_grid: f64,
+    /// `(from x, below y)`: the corner no safe curve may enter, if any.
+    pub unsafe_zone: Option<(f64, f64)>,
+    pub help: String,
+    pub name: String,
+}
+
+/// A round step that gives about `lines` grid lines over `span`.
+fn nice_step(span: f64, lines: f64) -> f64 {
+    let raw = (span / lines).max(f64::EPSILON);
+    let magnitude = 10f64.powf(raw.log10().floor());
+    [1.0, 2.0, 5.0, 10.0].iter().map(|m| m * magnitude).find(|s| *s >= raw).unwrap_or(raw)
+}
+
+impl Axes {
+    /// Fan curves: temperature against speed, with the zone a safe curve avoids.
+    pub fn fan() -> Self {
+        Axes {
+            rules: Rules::fan(),
+            x_suffix: "°",
+            y_suffix: "%",
+            x_unit: "°C",
+            y_unit: "%",
+            captions: false,
+            x_grid: 10.0,
+            y_grid: 20.0,
+            unsafe_zone: Some((SAFE_TEMP_C, SAFE_FAN_PCT)),
+            help: tr("Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it.").to_owned(),
+            name: tr("Fan curve chart").to_owned(),
+        }
+    }
+
+    /// A card's voltage and frequency curve: clock against voltage, a fixed number
+    /// of points, each kept inside the range the card allows.
+    pub fn voltage(limits: Vec<rules::PointLimits>) -> Self {
+        let rules = Rules::voltage(limits);
+        let (x_grid, y_grid) = (nice_step(rules.x.1 - rules.x.0, 6.0), nice_step(rules.y.1 - rules.y.0, 4.0));
+        Axes {
+            rules,
+            x_suffix: "",
+            y_suffix: "",
+            x_unit: "MHz",
+            y_unit: "mV",
+            captions: true,
+            x_grid,
+            y_grid,
+            unsafe_zone: None,
+            help: tr("Drag points to set the voltage for each clock. Each point stays inside the range the card allows.").to_owned(),
+            name: tr("Voltage and frequency curve chart").to_owned(),
+        }
+    }
+}
+
 #[derive(Clone)]
 pub struct CurveChart {
     pub area: gtk::DrawingArea,
     state: Rc<RefCell<State>>,
     changed: Changed,
+    axes: Rc<Axes>,
 }
 
 /// Where chart coordinates land on screen for a drawing area of this size.
@@ -49,40 +116,45 @@ struct Plot {
     y0: f64,
     x1: f64,
     y1: f64,
+    x: (f64, f64),
+    y: (f64, f64),
 }
 
 impl Plot {
-    fn new(w: f64, h: f64) -> Self {
-        Plot { x0: LEFT, y0: TOP, x1: (w - RIGHT).max(LEFT + 1.0), y1: (h - BOTTOM).max(TOP + 1.0) }
+    fn new(w: f64, h: f64, axes: &Axes) -> Self {
+        // Room above and below the plot for the units when they are written out.
+        let (top, bottom) = if axes.captions { (TOP + 14.0, BOTTOM + 14.0) } else { (TOP, BOTTOM) };
+        Plot { x0: LEFT, y0: top, x1: (w - RIGHT).max(LEFT + 1.0), y1: (h - bottom).max(top + 1.0), x: axes.rules.x, y: axes.rules.y }
     }
 
     fn px(&self, t: f64, s: f64) -> (f64, f64) {
         (
-            self.x0 + (t - TEMP_MIN) / (TEMP_MAX - TEMP_MIN) * (self.x1 - self.x0),
-            self.y1 - (s - SPEED_MIN) / (SPEED_MAX - SPEED_MIN) * (self.y1 - self.y0),
+            self.x0 + (t - self.x.0) / (self.x.1 - self.x.0) * (self.x1 - self.x0),
+            self.y1 - (s - self.y.0) / (self.y.1 - self.y.0) * (self.y1 - self.y0),
         )
     }
 
-    /// Degrees and percent per pixel.
+    /// Chart units per pixel along each axis.
     fn per_pixel(&self) -> (f64, f64) {
-        ((TEMP_MAX - TEMP_MIN) / (self.x1 - self.x0), (SPEED_MAX - SPEED_MIN) / (self.y1 - self.y0))
+        ((self.x.1 - self.x.0) / (self.x1 - self.x0), (self.y.1 - self.y.0) / (self.y1 - self.y0))
     }
 
     fn value(&self, x: f64, y: f64) -> (f64, f64) {
         let (kt, ks) = self.per_pixel();
-        (TEMP_MIN + (x - self.x0) * kt, SPEED_MIN + (self.y1 - y) * ks)
+        (self.x.0 + (x - self.x0) * kt, self.y.0 + (self.y1 - y) * ks)
     }
 }
 
 impl CurveChart {
-    pub fn new(points: Vec<CurvePoint>) -> Self {
+    pub fn new(points: Vec<CurvePoint>, axes: Axes) -> Self {
         let area = gtk::DrawingArea::builder().content_height(230).hexpand(true).focusable(true).can_focus(true).build();
-        area.set_tooltip_text(Some(tr("Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it.")));
-        area.update_property(&[gtk::accessible::Property::Label(tr("Fan curve chart"))]);
+        area.set_tooltip_text(Some(&axes.help));
+        area.update_property(&[gtk::accessible::Property::Label(&axes.name)]);
         let chart = CurveChart {
             area,
             state: Rc::new(RefCell::new(State { points, selected: BTreeSet::new(), hover: None, marker: None, drag: None })),
             changed: Rc::new(RefCell::new(None)),
+            axes: Rc::new(axes),
         };
         chart.install_drawing();
         chart.install_mouse();
@@ -119,7 +191,7 @@ impl CurveChart {
     }
 
     fn plot(&self) -> Plot {
-        Plot::new(f64::from(self.area.width()), f64::from(self.area.height()))
+        Plot::new(f64::from(self.area.width()), f64::from(self.area.height()), &self.axes)
     }
 
     fn pixels(&self) -> Vec<(f64, f64)> {
@@ -130,9 +202,9 @@ impl CurveChart {
     // ---- Drawing
 
     fn install_drawing(&self) {
-        let state = self.state.clone();
+        let (state, axes) = (self.state.clone(), self.axes.clone());
         self.area.set_draw_func(move |area, cr, w, h| {
-            let plot = Plot::new(f64::from(w), f64::from(h));
+            let plot = Plot::new(f64::from(w), f64::from(h), &axes);
             let fg = area.color();
             let ink = |cr: &gtk::cairo::Context, alpha: f64| cr.set_source_rgba(f64::from(fg.red()), f64::from(fg.green()), f64::from(fg.blue()), alpha);
             #[allow(deprecated)]
@@ -143,35 +215,60 @@ impl CurveChart {
             let accent_rgb = (f64::from(accent.red()), f64::from(accent.green()), f64::from(accent.blue()));
 
             // The region no safe curve may enter: too slow while already hot.
-            let (sx, sy) = plot.px(SAFE_TEMP_C, SAFE_FAN_PCT);
-            cr.set_source_rgba(0.88, 0.22, 0.2, 0.12);
-            cr.rectangle(sx, sy, plot.x1 - sx, plot.y1 - sy);
-            let _ = cr.fill();
+            if let Some((from_x, below_y)) = axes.unsafe_zone {
+                let (sx, sy) = plot.px(from_x, below_y);
+                cr.set_source_rgba(0.88, 0.22, 0.2, 0.12);
+                cr.rectangle(sx, sy, plot.x1 - sx, plot.y1 - sy);
+                let _ = cr.fill();
+            }
+            // What each point may do on its own, when the card says.
+            if let Some(limits) = &axes.rules.limits {
+                cr.set_source_rgba(0.21, 0.52, 0.89, 0.08);
+                for ((x_lo, x_hi), (y_lo, y_hi)) in limits {
+                    let ((ax, ay), (bx, by)) = (plot.px(*x_lo, *y_hi), plot.px(*x_hi, *y_lo));
+                    cr.rectangle(ax, ay, bx - ax, by - ay);
+                    let _ = cr.fill();
+                }
+            }
 
             // Grid and labels.
             cr.set_font_size(11.0);
             cr.set_line_width(1.0);
-            for t in (0..=110).step_by(10) {
-                let (x, _) = plot.px(f64::from(t), 0.0);
+            let mut x = (plot.x.0 / axes.x_grid).ceil() * axes.x_grid;
+            let mut n = 0;
+            while x <= plot.x.1 + 1e-6 {
+                let (px, _) = plot.px(x, plot.y.0);
                 ink(cr, 0.12);
-                cr.move_to(x, plot.y0);
-                cr.line_to(x, plot.y1);
+                cr.move_to(px, plot.y0);
+                cr.line_to(px, plot.y1);
                 let _ = cr.stroke();
-                if t % 20 == 0 {
+                // Label every other line when they are close.
+                if n % 2 == 0 || axes.x_suffix.is_empty() {
                     ink(cr, 0.6);
-                    cr.move_to(x - 8.0, plot.y1 + 16.0);
-                    let _ = cr.show_text(&format!("{t}°"));
+                    cr.move_to(px - 8.0, plot.y1 + 16.0);
+                    let _ = cr.show_text(&format!("{x:.0}{}", axes.x_suffix));
                 }
+                x += axes.x_grid;
+                n += 1;
             }
-            for s in (0..=100).step_by(20) {
-                let (_, y) = plot.px(0.0, f64::from(s));
+            let mut y = (plot.y.0 / axes.y_grid).ceil() * axes.y_grid;
+            while y <= plot.y.1 + 1e-6 {
+                let (_, py) = plot.px(plot.x.0, y);
                 ink(cr, 0.12);
-                cr.move_to(plot.x0, y);
-                cr.line_to(plot.x1, y);
+                cr.move_to(plot.x0, py);
+                cr.line_to(plot.x1, py);
                 let _ = cr.stroke();
                 ink(cr, 0.6);
-                cr.move_to(6.0, y + 4.0);
-                let _ = cr.show_text(&format!("{s}%"));
+                cr.move_to(4.0, py + 4.0);
+                let _ = cr.show_text(&format!("{y:.0}{}", axes.y_suffix));
+                y += axes.y_grid;
+            }
+            if axes.captions {
+                ink(cr, 0.6);
+                cr.move_to(plot.x1 - 24.0, plot.y1 + 32.0);
+                let _ = cr.show_text(axes.x_unit);
+                cr.move_to(4.0, plot.y0 - 10.0);
+                let _ = cr.show_text(axes.y_unit);
             }
 
             let st = state.borrow();
@@ -200,7 +297,7 @@ impl CurveChart {
 
             // Where the card is now.
             if let Some((t, s)) = st.marker {
-                let (x, y) = plot.px(t.clamp(TEMP_MIN, TEMP_MAX), s.clamp(SPEED_MIN, SPEED_MAX));
+                let (x, y) = plot.px(t.clamp(plot.x.0, plot.x.1), s.clamp(plot.y.0, plot.y.1));
                 ink(cr, 0.55);
                 cr.set_line_width(1.0);
                 cr.set_dash(&[3.0, 3.0], 0.0);
@@ -291,7 +388,7 @@ impl CurveChart {
                 let selected = s.selected.clone();
                 match &mut s.drag {
                     Some(Drag::Move { start }) => {
-                        let moved = rules::move_points(start, &selected, dx * kt, -dy * ks, true);
+                        let moved = rules::move_points(start, &selected, dx * kt, -dy * ks, true, &chart.axes.rules);
                         s.points = moved;
                     }
                     Some(Drag::Band { to, from, add, before }) => {
@@ -330,13 +427,13 @@ impl CurveChart {
                     // Right-click removes the point under the pointer.
                     if let Some(i) = hit {
                         let before = chart.state.borrow().points.clone();
-                        let after = rules::remove_points(&before, &BTreeSet::from([i]));
+                        let after = rules::remove_points(&before, &BTreeSet::from([i]), &chart.axes.rules);
                         chart.apply(before, after);
                     }
                 } else if g.current_button() == 1 && presses == 2 && hit.is_none() {
                     let (t, _) = chart.plot().value(x, y);
                     let before = chart.state.borrow().points.clone();
-                    if let Some((after, at)) = rules::add_point(&before, t) {
+                    if let Some((after, at)) = rules::add_point(&before, t, &chart.axes.rules) {
                         chart.state.borrow_mut().selected = BTreeSet::from([at]);
                         chart.apply(before, after);
                     }
@@ -352,7 +449,7 @@ impl CurveChart {
                 let hit = rules::nearest(&chart.pixels(), x, y, HIT_RADIUS);
                 let tooltip = hit.map(|i| {
                     let p = &chart.state.borrow().points[i];
-                    format!("{:.0} °C · {:.0} %", p.temp_c, p.speed_pct)
+                    format!("{:.0} {} · {:.0} {}", p.temp_c, chart.axes.x_unit, p.speed_pct, chart.axes.y_unit)
                 });
                 let mut s = chart.state.borrow_mut();
                 if s.hover != hit {
@@ -397,7 +494,7 @@ impl CurveChart {
                 gdk::Key::Delete | gdk::Key::BackSpace => {
                     let before = chart.state.borrow().points.clone();
                     let selected = chart.state.borrow().selected.clone();
-                    let after = rules::remove_points(&before, &selected);
+                    let after = rules::remove_points(&before, &selected, &chart.axes.rules);
                     chart.state.borrow_mut().selected.clear();
                     chart.apply(before, after);
                     return glib::Propagation::Stop;
@@ -420,7 +517,7 @@ impl CurveChart {
             if selected.is_empty() {
                 return glib::Propagation::Proceed;
             }
-            let after = rules::move_points(&before, &selected, dt, ds, true);
+            let after = rules::move_points(&before, &selected, dt, ds, true, &chart.axes.rules);
             chart.apply(before, after);
             glib::Propagation::Stop
         });

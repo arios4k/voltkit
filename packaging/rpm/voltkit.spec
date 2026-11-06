@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.10.0
+Version:        0.10.1
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -78,6 +78,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.1-1
+- GPU Tuner: a new graphics-card icon
+- GPU Tuner: edit the voltage and frequency curve by dragging points on a chart
+
 * Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.0-1
 - GPU Tuner: edit fan curves by dragging points on a graph, and choose the temperature and fans they follow
 - GPU Tuner: profiles that switch automatically by power source, running program, load or temperature
