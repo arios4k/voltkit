@@ -296,6 +296,11 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         group.add(&adw::ActionRow::builder().title(tr("Nothing on this card can be changed")).subtitle(tr("See what this card supports for the reasons.")).build());
         return (group, None, None);
     }
+    let experimental = adw::ActionRow::builder().title(tr("Experimental")).subtitle(tr("Changing GPU settings hasn't been confirmed on real hardware for every card yet. Everything you don't confirm is undone, but a wrong voltage can still crash the computer.")).subtitle_lines(6).build();
+    let warning = gtk::Image::from_icon_name("dialog-warning-symbolic");
+    warning.add_css_class("warning");
+    experimental.add_prefix(&warning);
+    group.add(&experimental);
     let s = &card.sample;
 
     let power = supported(card, Control::PowerLimit).then(|| {

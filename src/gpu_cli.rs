@@ -84,6 +84,7 @@ pub fn apply(file: &str, session: bool, save: bool, yes: bool, confirm_secs: u64
     }
 
     let plan = gpu_tune::plan(card, &settings)?;
+    eprintln!("{}: {}", tr("Experimental"), tr("Changing GPU settings hasn't been confirmed on real hardware for every card yet. Everything you don't confirm is undone, but a wrong voltage can still crash the computer."));
     for line in plan.preview() {
         println!("  {line}");
     }

@@ -103,6 +103,8 @@ mismo informe en una terminal.
 
 Edita las curvas de ventilador arrastrando puntos en un gráfico y elige qué temperatura siguen y qué ventiladores controlan. Guarda ajustes como **perfiles** que cambian solos: con batería, mientras se ejecuta una app, bajo una carga sostenida o cuando la tarjeta se calienta. **Graba una sesión** mientras corre un juego o una prueba de rendimiento y compara dos perfiles lado a lado: temperatura, potencia, energía y eficiencia (frecuencia activa por vatio, o fotogramas por vatio si se registraron). `voltkit gpu check` compara las lecturas de Voltkit con `nvidia-smi` y mide cuánto cuesta monitorear.
 
+¿Lo probaste en tu tarjeta? Un [reporte de hardware](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) con lo que funcionó y lo que no es la ayuda más útil por ahora.
+
 Aplicar cambios es nuevo y hasta ahora solo se ha probado con hardware simulado; consulta
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) para saber qué funciona, cómo se mantiene seguro y qué falta por construir.
 

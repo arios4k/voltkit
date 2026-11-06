@@ -126,6 +126,14 @@ comparison with other tuning tools. Accuracy has not been measured on AMD or
 Intel, where no second source is installed here. Power, which the Quadro doesn't
 report, is untested.
 
+## Reporting hardware results
+
+Real results are the most useful contribution right now. Open a
+[GPU Tuner hardware report](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml)
+with the output of `voltkit gpu`, your distribution, kernel and driver, what you
+tried and what happened. Try one setting at a time and start with small steps; the
+page marks the controls **Experimental** until they are confirmed on real hardware.
+
 ## Not yet built
 
 Comparative testing against other tools (LACT, CoreCtrl, amdgpu_top, radeontop) on

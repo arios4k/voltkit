@@ -103,6 +103,8 @@ Sie nicht in einer Schleife festhält. `voltkit gpu` gibt denselben Bericht im T
 
 Bearbeiten Sie Lüfterkurven, indem Sie Punkte in einem Diagramm ziehen, und wählen Sie, welcher Temperatur sie folgen und welche Lüfter sie steuern. Speichern Sie Einstellungen als **Profile**, die von selbst wechseln: im Akkubetrieb, solange eine App läuft, unter anhaltender Last oder wenn die Karte heiß wird. **Zeichnen Sie eine Sitzung auf**, während ein Spiel oder Benchmark läuft, und vergleichen Sie zwei Profile nebeneinander: Temperatur, Leistung, Energie und Effizienz (aktiver Takt pro Watt oder Bilder pro Watt, wenn Bilder aufgezeichnet wurden). `voltkit gpu check` vergleicht die Messwerte von Voltkit mit `nvidia-smi` und misst, was die Überwachung kostet.
 
+Haben Sie es auf Ihrer Karte ausprobiert? Ein [Hardware-Bericht](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) darüber, was funktioniert hat und was nicht, hilft derzeit am meisten.
+
 Das Anwenden von Änderungen ist neu und wurde bisher nur mit simulierter Hardware getestet; was funktioniert, wie es
 sicher bleibt und was noch fehlt, steht in [docs/GPU_TUNER.md](docs/GPU_TUNER.md).
 

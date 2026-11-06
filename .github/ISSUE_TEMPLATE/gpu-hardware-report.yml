@@ -1,0 +1,57 @@
+name: GPU Tuner hardware report
+description: Tell us how GPU Tuner behaved on your graphics card
+title: "GPU Tuner: <card name>"
+labels: ["gpu-tuner", "hardware-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        GPU Tuner's controls have been tested against simulated hardware only, so every real result helps, good or bad. Changes are undone unless you confirm them, but please try one setting at a time and start with small steps.
+  - type: textarea
+    id: report
+    attributes:
+      label: Output of `voltkit gpu`
+      description: Paste it as it is. It lists your cards and which controls the driver reports.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Distribution, kernel and driver
+      description: For example "Fedora 43, kernel 6.18, amdgpu" or "Ubuntu 24.04, NVIDIA 580.126".
+    validations:
+      required: true
+  - type: checkboxes
+    id: tried
+    attributes:
+      label: What you tried
+      options:
+        - label: Monitoring (readings looked right)
+        - label: Power limit
+        - label: Fixed fan speed
+        - label: Fan curve (on the chart or in the rows)
+        - label: Temperature target
+        - label: Clock offsets or limits
+        - label: Voltage offset or curve
+        - label: Profiles that switch automatically
+        - label: Recording and comparing sessions
+  - type: dropdown
+    id: result
+    attributes:
+      label: Overall result
+      options:
+        - Everything I tried worked
+        - Some things worked, some didn't
+        - It refused or reported an error
+        - A change took effect but the computer misbehaved
+        - It crashed or froze the computer
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What happened
+      description: Which control, which value, what you saw (the preview, the message, whether the setting took effect). If you can, include `voltkit gpu check` output for readings that looked wrong.
+    validations:
+      required: true
