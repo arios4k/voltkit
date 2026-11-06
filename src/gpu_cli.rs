@@ -10,7 +10,7 @@ use anyhow::{Context, Result, bail};
 
 use crate::i18n::tr;
 use crate::modules::gpu::{self, Card, Vendor};
-use crate::modules::gpu_tune::{self, Governor, Hardware, NvmlOp, Op, Real, Settings, Step};
+use crate::modules::gpu_tune::{self, Governor, Hardware, NvmlOp, Op, Real, Sensor, Settings, Step};
 use crate::modules::nvml::Nvml;
 
 pub const PROFILE_PATH: &str = "/etc/voltkit/gpu.json";
@@ -152,6 +152,7 @@ pub fn forget(address: &str) -> Result<()> {
 
 struct Running {
     address: String,
+    sensor: Sensor,
     governor: Governor,
     fan: FanTarget,
     last: f64,
@@ -159,14 +160,16 @@ struct Running {
 
 enum FanTarget {
     Amd { enable: PathBuf, pwm: PathBuf },
-    Nvidia { address: String, fans: u32 },
+    Nvidia { address: String, fans: Vec<u32> },
 }
 
 impl FanTarget {
     fn set(&self, hw: &mut dyn Hardware, percent: f64) -> Result<()> {
         match self {
             FanTarget::Amd { pwm, .. } => hw.run(&Op::Write { path: pwm.clone(), value: format!("{}", (percent / 100.0 * 255.0).round() as u32) }),
-            FanTarget::Nvidia { address, fans } => hw.run(&Op::Nvml(NvmlOp::FanSpeed { address: address.clone(), fans: *fans, percent: percent.round() as u32 })),
+            FanTarget::Nvidia { address, fans } => {
+                hw.run(&Op::Nvml(NvmlOp::FanSpeed { address: address.clone(), fans: fans.clone(), percent: percent.round() as u32 }))
+            }
         }
     }
 
@@ -180,7 +183,7 @@ impl FanTarget {
     fn auto(&self, hw: &mut dyn Hardware) {
         let _ = match self {
             FanTarget::Amd { enable, .. } => hw.run(&Op::Write { path: enable.clone(), value: "2".into() }),
-            FanTarget::Nvidia { address, fans } => hw.run(&Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans: *fans })),
+            FanTarget::Nvidia { address, fans } => hw.run(&Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans: fans.clone() })),
         };
     }
 }
@@ -208,14 +211,15 @@ fn start(profile: &[Settings], hw: &mut dyn Hardware) -> Applied {
         match gpu_tune::execute(&plan.steps, hw) {
             gpu_tune::Outcome::Applied => {
                 applied.steps.extend(plan.steps);
-                if let Some(points) = plan.software_curve {
+                if let Some(curve) = plan.software_curve {
                     let fan = match card.gpu.vendor {
                         Vendor::Amd => {
                             let hwmon = std::fs::read_dir(card.gpu.device.join("hwmon")).ok().and_then(|d| d.flatten().map(|e| e.path()).min());
                             hwmon.map(|h| FanTarget::Amd { enable: h.join("pwm1_enable"), pwm: h.join("pwm1") })
                         }
                         Vendor::Nvidia => {
-                            let fans = card.probe.as_ref().and_then(|p| p.fans.as_ref().ok().map(|f| f.0)).unwrap_or(1);
+                            let count = card.probe.as_ref().and_then(|p| p.fans.as_ref().ok().map(|f| f.0)).unwrap_or(1);
+                            let fans = if curve.fans.is_empty() { (0..count).collect() } else { curve.fans.clone() };
                             Some(FanTarget::Nvidia { address: card.gpu.address.clone(), fans })
                         }
                         _ => None,
@@ -224,7 +228,7 @@ fn start(profile: &[Settings], hw: &mut dyn Hardware) -> Applied {
                         && fan.manual(hw).is_ok()
                     {
                         let start = card.sample.fan_pct.unwrap_or(50.0);
-                        applied.running.push(Running { address: card.gpu.address.clone(), governor: Governor::new(points, start), fan, last: -1.0 });
+                        applied.running.push(Running { address: card.gpu.address.clone(), governor: Governor::new(curve.points.clone(), start), sensor: curve.sensor, fan, last: -1.0 });
                     }
                 }
             }
@@ -281,7 +285,7 @@ pub async fn service() -> Result<()> {
                 }
                 let samples = monitor.sample();
                 for r in &mut applied.running {
-                    let temp = gpus.iter().position(|g| g.address == r.address).and_then(|i| samples.get(i)).and_then(gpu_tune::loop_temperature);
+                    let temp = gpus.iter().position(|g| g.address == r.address).and_then(|i| samples.get(i)).and_then(|s| r.sensor.read(s));
                     let speed = r.governor.update(temp);
                     if (speed - r.last).abs() >= 1.0 && r.fan.set(&mut hw, speed).is_ok() {
                         r.last = speed;

@@ -20,7 +20,7 @@ fn tr(text: &str) -> String {
     crate::i18n::tr(text).to_owned()
 }
 use crate::modules::gpu::{self, Card, Control, Monitor, Sample, Support};
-use crate::modules::gpu_tune::{self, CurvePoint, FanMode, Settings};
+use crate::modules::gpu_tune::{self, CurvePoint, FanMode, Sensor, Settings};
 use crate::curve_chart::CurveChart;
 use crate::workspace::Workspace;
 
@@ -301,6 +301,27 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         let fixed = spin(tr("Speed (%)"), None, s.fan_pct.unwrap_or(50.0).max(gpu_tune::MIN_FIXED_FAN_PCT), gpu_tune::MIN_FIXED_FAN_PCT, 100.0, 5.0);
         row.add_row(&mode);
         row.add_row(&fixed);
+        // Which temperature the curve follows and which fans it drives, when there's a choice.
+        let sensors = Sensor::available(s);
+        let sensor_names: Vec<String> = sensors.iter().map(|x| x.title()).collect();
+        let sensor_row = adw::ComboRow::builder()
+            .title(tr("Temperature source"))
+            .subtitle(tr("The reading the curve follows."))
+            .model(&gtk::StringList::new(&sensor_names.iter().map(String::as_str).collect::<Vec<_>>()))
+            .build();
+        row.add_row(&sensor_row);
+        let fan_count = card.probe.as_ref().and_then(|p| p.fans.as_ref().ok().map(|f| f.0)).unwrap_or(1);
+        let fans_row = adw::ExpanderRow::builder().title(tr("Fans")).subtitle(tr("The fans the curve drives.")).build();
+        let fan_checks: Vec<gtk::CheckButton> = (0..fan_count)
+            .map(|i| {
+                let check = gtk::CheckButton::builder().active(true).valign(gtk::Align::Center).build();
+                let r = adw::ActionRow::builder().title(trf!("Fan {}", i + 1)).activatable_widget(&check).build();
+                r.add_prefix(&check);
+                fans_row.add_row(&r);
+                check
+            })
+            .collect();
+        row.add_row(&fans_row);
         let edit = Rc::new(RefCell::new(CurveEdit {
             points: vec![
                 CurvePoint { temp_c: 30.0, speed_pct: 25.0 },
@@ -321,10 +342,13 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         // Show only the controls of the chosen mode.
         let sync = {
             let (mode, fixed, curve_box, chart_row) = (mode.clone(), fixed.clone(), curve_box.clone(), chart_row.clone());
+            let (sensor_row, fans_row, many_sensors, many_fans) = (sensor_row.clone(), fans_row.clone(), sensors.len() > 1, fan_count > 1);
             Rc::new(move || {
                 fixed.set_visible(mode.selected() == 1);
                 curve_box.set_visible(mode.selected() == 2);
                 chart_row.set_visible(mode.selected() == 2);
+                sensor_row.set_visible(mode.selected() == 2 && many_sensors);
+                fans_row.set_visible(mode.selected() == 2 && many_fans);
             })
         };
         sync();
@@ -488,7 +512,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
             sync();
         }
         group.add(&row);
-        (row, mode, fixed, edit, chart)
+        (row, mode, fixed, edit, chart, sensor_row, sensors, fan_checks)
     });
 
     let target = supported(card, Control::TemperatureTarget).then(|| {
@@ -542,13 +566,19 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
             {
                 s.power_limit_w = Some(v.value());
             }
-            if let Some((row, mode, fixed, edit, _)) = &fan
+            if let Some((row, mode, fixed, edit, _, sensor_row, sensors, fan_checks)) = &fan
                 && row.enables_expansion()
             {
                 s.fan = Some(match mode.selected() {
                     0 => FanMode::Auto,
                     1 => FanMode::Fixed { speed_pct: fixed.value() },
-                    _ => FanMode::Curve { points: edit.borrow().points.clone() },
+                    _ => {
+                        let sensor = sensors.get(sensor_row.selected() as usize).copied().unwrap_or_default();
+                        let chosen: Vec<u32> = fan_checks.iter().enumerate().filter(|(_, c)| c.is_active()).map(|(i, _)| i as u32).collect();
+                        // All fans, or none ticked, mean every fan.
+                        let fans = if chosen.len() == fan_checks.len() { Vec::new() } else { chosen };
+                        FanMode::Curve { points: edit.borrow().points.clone(), sensor, fans }
+                    }
                 });
             }
             if let Some((row, v)) = &target

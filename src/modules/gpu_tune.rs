@@ -29,13 +29,71 @@ pub struct CurvePoint {
     pub speed_pct: f64,
 }
 
+/// Which temperature a fan curve follows.
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, Default, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum Sensor {
+    /// The hottest reading the card gives.
+    #[default]
+    Hottest,
+    /// The GPU temperature (edge on AMD).
+    Edge,
+    Hotspot,
+    Memory,
+}
+
+impl Sensor {
+    pub const ALL: [Sensor; 4] = [Sensor::Hottest, Sensor::Edge, Sensor::Hotspot, Sensor::Memory];
+
+    pub fn title(self) -> String {
+        tr(match self {
+            Sensor::Hottest => N_!("Hottest sensor"),
+            Sensor::Edge => N_!("GPU"),
+            Sensor::Hotspot => N_!("Hotspot"),
+            Sensor::Memory => N_!("Video memory"),
+        })
+    }
+
+    /// The reading of this sensor, if the card reports it.
+    pub fn read(self, s: &Sample) -> Option<f64> {
+        match self {
+            Sensor::Edge => s.temp_c,
+            Sensor::Hotspot => s.hotspot_c,
+            Sensor::Memory => s.mem_temp_c,
+            Sensor::Hottest => [s.temp_c, s.hotspot_c, s.mem_temp_c].into_iter().flatten().reduce(f64::max),
+        }
+    }
+
+    /// The sensors this card reports.
+    pub fn available(s: &Sample) -> Vec<Sensor> {
+        Sensor::ALL.into_iter().filter(|x| x.read(s).is_some()).collect()
+    }
+}
+
+/// A fan curve Voltkit follows itself: which temperature drives which fans.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct SoftCurve {
+    pub points: Vec<CurvePoint>,
+    pub sensor: Sensor,
+    /// The fans that follow it; empty means all of them.
+    pub fans: Vec<u32>,
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(tag = "mode", rename_all = "snake_case")]
 pub enum FanMode {
     /// The card's own fan control.
     Auto,
     Fixed { speed_pct: f64 },
-    Curve { points: Vec<CurvePoint> },
+    Curve {
+        points: Vec<CurvePoint>,
+        /// The temperature to follow (the hottest reading by default).
+        #[serde(default)]
+        sensor: Sensor,
+        /// The fans to drive; empty means all.
+        #[serde(default)]
+        fans: Vec<u32>,
+    },
 }
 
 /// What to apply to one card. A field left out isn't touched.
@@ -176,8 +234,8 @@ impl Governor {
 #[derive(Clone, Debug, PartialEq)]
 pub enum NvmlOp {
     PowerLimit { address: String, watts: f64 },
-    FanSpeed { address: String, fans: u32, percent: u32 },
-    FanAuto { address: String, fans: u32 },
+    FanSpeed { address: String, fans: Vec<u32>, percent: u32 },
+    FanAuto { address: String, fans: Vec<u32> },
     ClockOffset { address: String, memory: bool, mhz: i32 },
     Threshold { address: String, celsius: i32 },
 }
@@ -200,15 +258,15 @@ pub struct Step {
 pub struct Plan {
     pub steps: Vec<Step>,
     /// A fan curve Voltkit has to run itself, because the card has no built-in one.
-    pub software_curve: Option<Vec<CurvePoint>>,
+    pub software_curve: Option<SoftCurve>,
 }
 
 impl Plan {
     /// The preview: what will change.
     pub fn preview(&self) -> Vec<String> {
         let mut lines: Vec<String> = self.steps.iter().map(|s| s.label.clone()).collect();
-        if self.software_curve.is_some() {
-            lines.push(tr("Voltkit's GPU service will follow the fan curve."));
+        if let Some(c) = &self.software_curve {
+            lines.push(trf!("Voltkit's GPU service will follow the fan curve by the {} temperature.", c.sensor.title().to_lowercase()));
         }
         lines
     }
@@ -311,11 +369,11 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
                     let was = read(&enable).unwrap_or_else(|| "2".into());
                     plan.steps.push(write_step(label, enable, "2".into(), was));
                 } else {
-                    let fans = fan_count.max(1);
+                    let fans: Vec<u32> = (0..fan_count.max(1)).collect();
                     plan.steps.push(Step {
                         label,
-                        op: Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans }),
-                        undo: Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans }),
+                        op: Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans: fans.clone() }),
+                        undo: Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans: fans.clone() }),
                     });
                 }
             }
@@ -332,19 +390,27 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
                     plan.steps.push(write_step(tr("Fan: manual control"), enable, "1".into(), was_enable));
                     plan.steps.push(write_step(label, pwm, format!("{}", (speed_pct / 100.0 * 255.0).round() as u32), was_pwm));
                 } else {
-                    let fans = fan_count.max(1);
+                    let fans: Vec<u32> = (0..fan_count.max(1)).collect();
                     plan.steps.push(Step {
                         label,
-                        op: Op::Nvml(NvmlOp::FanSpeed { address: address.clone(), fans, percent: speed_pct.round() as u32 }),
-                        undo: Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans }),
+                        op: Op::Nvml(NvmlOp::FanSpeed { address: address.clone(), fans: fans.clone(), percent: speed_pct.round() as u32 }),
+                        undo: Op::Nvml(NvmlOp::FanAuto { address: address.clone(), fans: fans.clone() }),
                     });
                 }
             }
-            FanMode::Curve { points } => {
+            FanMode::Curve { points, sensor, fans } => {
                 require(card, Control::FanCurve)?;
                 validate_curve(points)?;
+                if sensor.read(&card.sample).is_none() {
+                    bail!("{}", trf!("This card doesn't report the {} temperature.", sensor.title().to_lowercase()));
+                }
+                let known = if nvidia { fan_count.max(1) } else { 1 };
+                if let Some(bad) = fans.iter().find(|f| **f >= known) {
+                    bail!("{}", trf!("This card has no fan {}.", bad + 1));
+                }
                 let native = dev.join("gpu_od/fan_ctrl/fan_curve");
-                if amd && native.exists() {
+                // The driver's own curve follows its own sensor and drives every fan.
+                if amd && native.exists() && *sensor == Sensor::Hottest && fans.is_empty() {
                     // The driver's own curve: a fixed number of points, committed with "c".
                     let count = read(&native).map(|t| t.lines().filter(|l| l.contains('%') && l.contains(':') && l.contains('C')).count()).unwrap_or(5).max(2);
                     for (i, p) in resample(points, count).iter().enumerate() {
@@ -357,7 +423,7 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
                     }
                     plan.steps.push(write_step(tr("Fan curve: apply"), native.clone(), "c".into(), "c".into()));
                 } else {
-                    plan.software_curve = Some(points.clone());
+                    plan.software_curve = Some(SoftCurve { points: points.clone(), sensor: *sensor, fans: fans.clone() });
                 }
             }
         }
@@ -498,8 +564,8 @@ impl Hardware for Real {
                 let nvml = self.nvml.as_ref().ok_or_else(|| anyhow::anyhow!("{}", super::nvml::NvmlError::Missing))?;
                 match call {
                     NvmlOp::PowerLimit { address, watts } => nvml.set_power_limit(address, *watts),
-                    NvmlOp::FanSpeed { address, fans, percent } => (0..*fans).try_for_each(|f| nvml.set_fan_speed(address, f, *percent)),
-                    NvmlOp::FanAuto { address, fans } => (0..*fans).try_for_each(|f| nvml.set_fan_auto(address, f)),
+                    NvmlOp::FanSpeed { address, fans, percent } => fans.iter().try_for_each(|f| nvml.set_fan_speed(address, *f, *percent)),
+                    NvmlOp::FanAuto { address, fans } => fans.iter().try_for_each(|f| nvml.set_fan_auto(address, *f)),
                     NvmlOp::ClockOffset { address, memory, mhz } => nvml.set_clock_offset(address, *memory, *mhz),
                     NvmlOp::Threshold { address, celsius } => nvml.set_threshold(address, Threshold::AcousticTarget, *celsius),
                 }
@@ -615,14 +681,6 @@ impl BootGuard {
     pub fn enable(&self) {
         let _ = std::fs::remove_file(self.disabled_marker());
         let _ = std::fs::remove_file(self.marker());
-    }
-}
-
-/// Sensor values for the software fan loop; `None` runs the fan at full speed.
-pub fn loop_temperature(s: &Sample) -> Option<f64> {
-    match (s.temp_c, s.hotspot_c) {
-        (Some(a), Some(b)) => Some(a.max(b)),
-        (a, b) => a.or(b),
     }
 }
 
@@ -956,6 +1014,77 @@ mod tests {
         assert!(!guard.begin());
         guard.enable();
         assert!(guard.begin());
+    }
+
+    fn curve_mode(sensor: Sensor, fans: Vec<u32>) -> Settings {
+        Settings { fan: Some(FanMode::Curve { points: curve(), sensor, fans }), ..settings() }
+    }
+
+    #[test]
+    fn sensors_read_the_right_temperature() {
+        let s = Sample { temp_c: Some(60.0), hotspot_c: Some(75.0), mem_temp_c: Some(68.0), ..Sample::default() };
+        assert_eq!(Sensor::Edge.read(&s), Some(60.0));
+        assert_eq!(Sensor::Hotspot.read(&s), Some(75.0));
+        assert_eq!(Sensor::Memory.read(&s), Some(68.0));
+        assert_eq!(Sensor::Hottest.read(&s), Some(75.0));
+        let basic = Sample { temp_c: Some(50.0), ..Sample::default() };
+        assert_eq!(Sensor::available(&basic), [Sensor::Hottest, Sensor::Edge]);
+        assert_eq!(Sensor::Hotspot.read(&basic), None);
+    }
+
+    #[test]
+    fn old_curve_settings_still_load() {
+        let json = r#"{"gpu":"0000:03:00.0","fan":{"mode":"curve","points":[{"temp_c":30,"speed_pct":20},{"temp_c":85,"speed_pct":100}]}}"#;
+        let s: Settings = serde_json::from_str(json).unwrap();
+        match s.fan {
+            Some(FanMode::Curve { sensor, fans, .. }) => assert_eq!((sensor, fans), (Sensor::Hottest, Vec::new())),
+            other => panic!("{other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_chosen_sensor_or_fan_subset_uses_the_software_curve() {
+        let tree = Tree::new("sensors");
+        let mut card = amd_card(&tree);
+        tree.put("gpu_od/fan_ctrl/fan_curve", "OD_FAN_CURVE:\n0: 25C 25%\n1: 40C 40%\n2: 55C 55%\n3: 70C 70%\n4: 85C 100%\n");
+        card.sample.temp_c = Some(60.0);
+        card.sample.hotspot_c = Some(72.0);
+        // The driver's own curve when nothing special is asked for.
+        let native = plan(&card, &curve_mode(Sensor::Hottest, vec![])).unwrap();
+        assert!(native.software_curve.is_none() && !native.steps.is_empty());
+        // The driver can't follow a chosen sensor, so Voltkit does.
+        let soft = plan(&card, &curve_mode(Sensor::Hotspot, vec![])).unwrap();
+        assert!(soft.steps.is_empty());
+        assert_eq!(soft.software_curve.as_ref().map(|c| c.sensor), Some(Sensor::Hotspot));
+        assert!(soft.preview().iter().any(|l| l.contains("hotspot")), "{:?}", soft.preview());
+    }
+
+    #[test]
+    fn refuses_a_sensor_or_fan_the_card_doesnt_have() {
+        let tree = Tree::new("sensors-bad");
+        let mut card = amd_card(&tree);
+        card.sample.temp_c = Some(60.0);
+        assert!(plan(&card, &curve_mode(Sensor::Memory, vec![])).is_err(), "no memory sensor");
+        assert!(plan(&card, &curve_mode(Sensor::Edge, vec![1])).is_err(), "AMD has one fan");
+        assert!(plan(&card, &curve_mode(Sensor::Edge, vec![0])).is_ok());
+    }
+
+    #[test]
+    fn an_nvidia_curve_can_drive_some_of_the_fans() {
+        let tree = Tree::new("nvidia-fans");
+        let mut card = amd_card(&tree);
+        card.gpu.vendor = Vendor::Nvidia;
+        card.sample.temp_c = Some(60.0);
+        card.probe = Some(crate::modules::gpu::NvidiaProbe {
+            power: Ok((100.0, 240.0)),
+            fans: Ok((3, (30, 100))),
+            core_offset: Ok(0),
+            mem_offset: Ok(0),
+            target: Ok(83),
+        });
+        let p = plan(&card, &curve_mode(Sensor::Edge, vec![0, 2])).unwrap();
+        assert_eq!(p.software_curve.map(|c| c.fans), Some(vec![0, 2]));
+        assert!(plan(&card, &curve_mode(Sensor::Edge, vec![3])).is_err(), "only three fans");
     }
 
     #[test]
