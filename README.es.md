@@ -107,8 +107,8 @@ Aplicar cambios es nuevo y hasta ahora solo se ha probado con hardware simulado;
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) para saber qué funciona, cómo se mantiene seguro y qué falta por construir.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
-  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="Ajuste de GPU con lecturas en vivo con historial y los controles de límite de potencia y curva de ventilador de una tarjeta AMD Radeon (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.0" alt="Ajuste de GPU con lecturas en vivo con historial y los controles de límite de potencia y curva de ventilador de una tarjeta AMD Radeon (datos simulados)">
 </picture>
 
 <sub>La captura usa datos simulados de tarjetas inventadas.</sub>

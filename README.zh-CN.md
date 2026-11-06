@@ -97,8 +97,8 @@ WebP 减小 60%，MP4 减小 77%。
 应用更改是新功能，目前只用模拟硬件测试过；哪些可用、如何保证安全以及还有什么没做，请参阅 [docs/GPU_TUNER.md](docs/GPU_TUNER.md)。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
-  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="GPU 调节器显示带历史曲线的实时读数，以及一块 AMD Radeon 显卡的功耗上限和风扇曲线控制项（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.0" alt="GPU 调节器显示带历史曲线的实时读数，以及一块 AMD Radeon 显卡的功耗上限和风扇曲线控制项（模拟数据）">
 </picture>
 
 <sub>此截图使用的是虚构显卡的模拟数据。</sub>
