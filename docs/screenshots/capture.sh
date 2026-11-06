@@ -32,6 +32,12 @@ demo=$(mktemp -d)
 trap 'rm -rf "$demo"' EXIT
 
 mkdir -p "$demo/config/voltkit" "$demo/data/voltkit"
+# Demo data lives in a throwaway XDG_DATA_HOME, which would hide the installed
+# launcher and icons; link them back so the desktop shows the real app icon.
+real_data=${XDG_DATA_HOME:-$HOME/.local/share}
+for d in applications icons; do
+    [ -d "$real_data/$d" ] && ln -s "$real_data/$d" "$demo/data/$d"
+done
 cat > "$demo/config/voltkit/config.toml" <<'TOML'
 [[snippets]]
 trigger = ";date"
@@ -86,16 +92,33 @@ printf '%s\t%s\t%s\t%s\n' \
 
 cargo build --quiet --manifest-path "$repo/Cargo.toml"
 # A clean environment, so the "Already in Your Session" list shows typical
-# values instead of the real ones (which can include secrets).
-env -i \
-    HOME="$HOME" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-}" DISPLAY="${DISPLAY:-}" \
-    XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
-    XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-GNOME}" XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" \
-    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-    LANG=$locale.UTF-8 LANGUAGE=$locale:$lang LC_TIME=$locale.UTF-8 \
-    BROWSER=firefox JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 \
-    ${VOLTKIT_LIGHT_THEME:+VOLTKIT_LIGHT_THEME="$VOLTKIT_LIGHT_THEME"} \
-    ${VOLTKIT_DARK_THEME:+VOLTKIT_DARK_THEME="$VOLTKIT_DARK_THEME"} \
-    XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
-    VOLTKIT_PERMISSIONS_FILE="$demo/permissions" VOLTKIT_USAGE_DEMO=1 VOLTKIT_SLEEP_DEMO=1 VOLTKIT_REPORT_DEMO=1 VOLTKIT_SHORTCUTS_DEMO=1 VOLTKIT_GPU_DEMO=curve \
-    "$repo/target/debug/voltkit" screenshots "$out"
+# values instead of the real ones (which can include secrets). Extra
+# KEY=VALUE arguments go to the app.
+shoot() {
+    local dir=$1; shift
+    env -i \
+        HOME="$HOME" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-}" DISPLAY="${DISPLAY:-}" \
+        XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+        XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-GNOME}" XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" \
+        PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+        LANG=$locale.UTF-8 LANGUAGE=$locale:$lang LC_TIME=$locale.UTF-8 \
+        BROWSER=firefox JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 \
+        ${VOLTKIT_LIGHT_THEME:+VOLTKIT_LIGHT_THEME="$VOLTKIT_LIGHT_THEME"} \
+        ${VOLTKIT_DARK_THEME:+VOLTKIT_DARK_THEME="$VOLTKIT_DARK_THEME"} \
+        XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
+        VOLTKIT_PERMISSIONS_FILE="$demo/permissions" VOLTKIT_USAGE_DEMO=1 VOLTKIT_SLEEP_DEMO=1 VOLTKIT_REPORT_DEMO=1 VOLTKIT_SHORTCUTS_DEMO=1 \
+        "$@" "$repo/target/debug/voltkit" screenshots "$dir"
+}
+
+# Every page. The GPU Tuner page is long, so it gets one picture per screenful
+# (gpu-light.png, gpu-2-light.png, ...), here with the fan curve editor open.
+shoot "$out" VOLTKIT_GPU_DEMO=curve
+
+# The voltage and frequency curve editor, from its own pass; only its first
+# picture is kept.
+gpu=$(mktemp -d)
+trap 'rm -rf "$demo" "$gpu"' EXIT
+shoot "$gpu" VOLTKIT_GPU_DEMO=vf
+for theme in light dark; do
+    cp "$gpu/gpu-$theme.png" "$out/gpu-vf-$theme.png"
+done

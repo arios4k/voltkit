@@ -96,6 +96,10 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
             hide_banners(&window);
             glib::timeout_future(SETTLE).await;
             save(&window, &dir.join(format!("{}-{theme}.png", module.id)), theme == "dark")?;
+            // A long page gets one picture per screenful, named page-2, page-3…
+            if module.id == "gpu" {
+                scroll_through(&window, dir, "gpu", theme).await?;
+            }
         }
 
         // The snippet editor, opened on a snippet with fill-in fields.
@@ -135,6 +139,39 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         popup.close();
     }
     window.close();
+    Ok(())
+}
+
+/// Scrolls the page on screen a screenful at a time, saving each stop as
+/// `NAME-2-THEME.png`, `NAME-3-THEME.png`… (the first, unscrolled picture is
+/// saved by the caller), then scrolls back to the top.
+async fn scroll_through(window: &gtk::Window, dir: &Path, name: &str, theme: &str) -> Result<()> {
+    const MAX_PICTURES: usize = 6;
+    // The page's scroller is the visible one that holds the workspace cards.
+    let Some(scroller) = descendants(window)
+        .into_iter()
+        .filter(|w| w.is_mapped() && w.has_css_class("workspace-body"))
+        .find_map(|body| body.ancestor(gtk::ScrolledWindow::static_type()).and_then(|a| a.downcast::<gtk::ScrolledWindow>().ok()))
+    else {
+        return Ok(());
+    };
+    let adjustment = scroller.vadjustment();
+    let (page, last) = (adjustment.page_size(), adjustment.upper() - adjustment.page_size());
+    // Overlap a little, so what was at the bottom of one picture is at the top of the next.
+    let step = (page * 0.82).max(1.0);
+    let mut position = 0.0;
+    for n in 2..=MAX_PICTURES {
+        if position >= last - 1.0 {
+            break;
+        }
+        position = (position + step).min(last);
+        adjustment.set_value(position);
+        hide_banners(window);
+        glib::timeout_future(SETTLE).await;
+        save(window, &dir.join(format!("{name}-{n}-{theme}.png")), theme == "dark")?;
+    }
+    adjustment.set_value(0.0);
+    glib::timeout_future(SETTLE).await;
     Ok(())
 }
 
