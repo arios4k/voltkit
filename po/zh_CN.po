@@ -3138,9 +3138,9 @@ msgstr "桌面权限历史"
 
 #: src/permissions_ui.rs:29
 msgid ""
-"These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have."
+"These are answers stored by the desktop portal. An app appears after it has requested access. This is not a list of every capability an app may have."
 msgstr ""
-"这些是桌面门户保存的回答，也包括 Flatpak 之外安装的应用。应用在请求访问之后才会出现在这里。这不是某个应用可能拥有的所有能力的清单。"
+"这些是桌面门户保存的回答。应用在请求访问之后才会出现在这里。这不是某个应用可能拥有的所有能力的清单。"
 
 #: src/permissions_ui.rs:49
 msgid "Refresh"

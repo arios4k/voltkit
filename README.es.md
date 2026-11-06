@@ -58,8 +58,7 @@ su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa c
 ### 🛡️ Permisos de apps
 
 Cuando una app pide tomar capturas de pantalla, usar la cámara o el micrófono, o ver tu ubicación, el escritorio
-recuerda tu respuesta. Hasta ahora no había dónde ver ni cambiar esas respuestas para las apps instaladas fuera
-de Flatpak, así que un “Denegar” equivocado se quedaba para siempre. Permisos de apps las muestra por app: mueve
+recuerda tu respuesta. Permisos de apps las muestra por app: mueve
 un interruptor para cambiar una, u olvídala para que la app vuelva a preguntar.
 
 <picture>
@@ -261,10 +260,6 @@ el portal GlobalShortcuts, asigna tú mismo `voltkit trigger ocr|color|snippets`
 Vienen apagados. Wayland oculta las pulsaciones de teclas entre apps, así que los disparadores al escribir
 necesitan acceso al teclado, que permites una vez con tu contraseña al encenderlos. Voltkit solo guarda en memoria
 los últimos caracteres y nunca guarda ni envía lo que escribes. El selector de fragmentos funciona sin nada de eso.
-
-**¿Por qué no hay un Flatpak?**
-Está en los planes. Por ahora está el repositorio apt para sistemas basados en Ubuntu/Debian, y compilar desde el
-código fuente funciona en cualquier lado con GTK 4.14+.
 
 **¿Cómo cambio el idioma?**
 Voltkit sigue el idioma de tu sesión. Para probar otro solo para Voltkit, ábrelo desde una terminal con
@@ -511,8 +506,7 @@ cargo clippy
 python3 po/update.py --check   # las traducciones están al día y completas
 ```
 
-Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para la API D-Bus y los planes. Las próximas piezas grandes
-son un Flatpak y una pantalla de ajustes. Los reportes de errores y las pruebas en otros escritorios son
+Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para la API D-Bus y los planes. Está prevista una pantalla de ajustes. Los reportes de errores y las pruebas en otros escritorios son
 especialmente bienvenidos.
 
 ## Publicar una versión

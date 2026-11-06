@@ -59,8 +59,7 @@ einem gemeinsamen Satz Tastenkürzel:
 ### 🛡️ App-Berechtigungen
 
 Wenn eine App Bildschirmfotos aufnehmen, Kamera oder Mikrofon verwenden oder Ihren Standort sehen möchte, merkt
-sich der Desktop Ihre Antwort. Bisher gab es für Apps außerhalb von Flatpak keinen Ort, diese Antworten zu sehen
-oder zu ändern, sodass ein versehentliches „Verweigern“ für immer blieb. App-Berechtigungen listet sie nach App
+sich der Desktop Ihre Antwort. App-Berechtigungen listet sie nach App
 auf: Legen Sie einen Schalter um, um eine zu ändern, oder vergessen Sie sie, damit die App erneut fragt.
 
 <picture>
@@ -267,10 +266,6 @@ Sie sind standardmäßig aus. Wayland verbirgt Tastendrücke zwischen Apps, dahe
 Tastaturzugriff, den Sie beim Einschalten einmal mit Ihrem Passwort erlauben. Voltkit behält nur die letzten
 paar Zeichen im Speicher und speichert oder sendet nie, was Sie tippen. Die Bausteinauswahl funktioniert ganz
 ohne das.
-
-**Warum gibt es kein Flatpak?**
-Es ist geplant. Bis dahin gibt es das apt-Repository für Systeme auf Ubuntu-/Debian-Basis, und das Bauen aus dem
-Quellcode funktioniert überall mit GTK 4.14+.
 
 **Wie ändere ich die Sprache?**
 Voltkit folgt der Sprache Ihrer Sitzung. Um eine andere nur für Voltkit auszuprobieren, starten Sie es im
@@ -521,8 +516,7 @@ cargo clippy
 python3 po/update.py --check   # Übersetzungen aktuell und vollständig?
 ```
 
-Die D-Bus-API und die Pläne stehen in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Die nächsten großen Schritte
-sind ein Flatpak und ein Einstellungsfenster. Fehlerberichte und Tests auf anderen Desktops sind besonders
+Die D-Bus-API und die Pläne stehen in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Ein Einstellungsfenster ist geplant. Fehlerberichte und Tests auf anderen Desktops sind besonders
 willkommen.
 
 ## Veröffentlichen

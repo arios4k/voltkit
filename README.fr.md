@@ -59,9 +59,7 @@ jeu de raccourcis :
 ### 🛡️ Autorisations des applications
 
 Quand une application demande à faire des captures d’écran, à utiliser la caméra ou le microphone, ou à voir votre
-position, le bureau se souvient de votre réponse. Jusqu’ici, il n’existait aucun endroit pour voir ou modifier ces
-réponses pour les applications installées hors Flatpak : un « Refuser » donné par erreur restait donc pour toujours.
-Autorisations des applications les liste par application : actionnez un interrupteur pour en modifier une, ou oubliez-la
+position, le bureau se souvient de votre réponse. Autorisations des applications les liste par application : actionnez un interrupteur pour en modifier une, ou oubliez-la
 pour que l’application redemande.
 
 <picture>
@@ -268,10 +266,6 @@ Ils sont désactivés par défaut. Wayland cache les frappes entre les applicati
 besoin d’un accès au clavier, que vous autorisez une fois avec votre mot de passe quand vous les activez. Voltkit ne
 garde en mémoire que les derniers caractères et n’enregistre ni n’envoie jamais ce que vous tapez. Le sélecteur
 d’extraits fonctionne sans rien de tout cela.
-
-**Pourquoi n’y a-t-il pas de Flatpak ?**
-C’est dans la feuille de route. Pour l’instant, il y a le dépôt apt pour les systèmes basés sur Ubuntu/Debian, et la
-compilation depuis les sources fonctionne partout avec GTK 4.14+.
 
 **Comment changer la langue ?**
 Voltkit suit la langue de votre session (français, anglais, espagnol, allemand ou chinois simplifié). Pour en essayer
@@ -523,8 +517,7 @@ cargo clippy
 python3 po/update.py --check   # traductions à jour et complètes
 ```
 
-Voir [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) pour l’API D-Bus et la feuille de route. Les prochains grands
-chantiers sont un Flatpak et un écran de réglages. Les rapports de bogues et les tests sur d’autres bureaux sont
+Voir [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) pour l’API D-Bus et la feuille de route. Un écran de réglages est prévu. Les rapports de bogues et les tests sur d’autres bureaux sont
 particulièrement bienvenus.
 
 ## Publier une version

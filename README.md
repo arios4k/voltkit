@@ -54,8 +54,7 @@ hotkeys:
 ### 🛡️ App Permissions
 
 When an app asks to take screenshots, use the camera or microphone, or see your location, the desktop
-remembers your answer. Until now there was nowhere to see or change those answers for apps installed
-outside Flatpak, so one wrong “Deny” stuck for good. App Permissions lists them by app: flip a switch to
+remembers your answer. App Permissions lists them by app: flip a switch to
 change one, or forget it so the app asks again.
 
 <picture>
@@ -254,10 +253,6 @@ They're off by default. Wayland hides keystrokes between apps, so typed triggers
 keyboard, which you allow once with your password when you turn them on. Voltkit keeps only the last
 few characters in memory and never saves or sends what you type. The snippet picker works without any
 of that.
-
-**Why isn't there a Flatpak?**
-It's on the roadmap. For now there's the apt repository for Ubuntu/Debian-based systems, and building
-from source works anywhere with GTK 4.14+.
 
 **How do I change the language?**
 Voltkit follows your session's language (English, Spanish, German, French or Simplified Chinese). To try another
@@ -500,8 +495,7 @@ cargo clippy
 python3 po/update.py --check   # translations up to date and complete
 ```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. The
-next big pieces are a Flatpak and a settings screen. Bug reports and testing on other desktops are
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the D-Bus API and the roadmap. A settings screen is planned. Bug reports and testing on other desktops are
 especially welcome.
 
 ## Releasing

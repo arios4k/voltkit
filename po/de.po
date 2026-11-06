@@ -3242,9 +3242,9 @@ msgstr "Berechtigungsverlauf des Desktops"
 
 #: src/permissions_ui.rs:29
 msgid ""
-"These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have."
+"These are answers stored by the desktop portal. An app appears after it has requested access. This is not a list of every capability an app may have."
 msgstr ""
-"Das sind vom Desktop-Portal gespeicherte Antworten, auch für Apps außerhalb von Flatpak. Eine App erscheint, nachdem sie Zugriff angefordert hat. Es ist keine Liste aller Fähigkeiten, die eine App haben kann."
+"Das sind vom Desktop-Portal gespeicherte Antworten. Eine App erscheint, nachdem sie Zugriff angefordert hat. Es ist keine Liste aller Fähigkeiten, die eine App haben kann."
 
 #: src/permissions_ui.rs:49
 msgid "Refresh"

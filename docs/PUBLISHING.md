@@ -1,6 +1,6 @@
 # Publishing Voltkit
 
-Voltkit ships as native packages (no Snap or Flatpak sandbox, which would break several tools):
+Voltkit ships as native packages:
 
 | Where | For | Built by |
 |---|---|---|

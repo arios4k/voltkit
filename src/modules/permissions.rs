@@ -2,8 +2,7 @@
 //! screenshots, use the camera, see your location and so on.
 //!
 //! They live in xdg-desktop-portal's permission store, one table per kind of
-//! request. The desktop has no settings page for apps that aren't Flatpaks,
-//! so a wrong "Deny" there otherwise sticks for good.
+//! request. Voltkit lets users review and change those stored answers.
 
 use std::collections::HashMap;
 use std::path::PathBuf;

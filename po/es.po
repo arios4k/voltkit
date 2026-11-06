@@ -3232,9 +3232,9 @@ msgstr "Historial de permisos del escritorio"
 
 #: src/permissions_ui.rs:29
 msgid ""
-"These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have."
+"These are answers stored by the desktop portal. An app appears after it has requested access. This is not a list of every capability an app may have."
 msgstr ""
-"Son respuestas guardadas por el portal del escritorio, incluso para apps instaladas fuera de Flatpak. Una app aparece después de pedir acceso. No es una lista de todo lo que una app puede hacer."
+"Son respuestas guardadas por el portal del escritorio. Una app aparece después de pedir acceso. No es una lista de todo lo que una app puede hacer."
 
 #: src/permissions_ui.rs:49
 msgid "Refresh"

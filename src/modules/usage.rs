@@ -225,7 +225,7 @@ fn socket_uses(proc_dir: &Path, sockets: &HashMap<u64, String>) -> Option<Vec<St
 
 /// The desktop app ID from the process's systemd scope, which the desktop
 /// names after the app it launched: `app-gnome-org.gnome.Nautilus-1234.scope`,
-/// `app-flatpak-org.gimp.GIMP-5678.scope` or `app-org.gnome.Terminal.slice`.
+/// `app-org.gnome.Terminal.slice`.
 fn app_id(proc_dir: &Path) -> Option<String> {
     let cgroup = std::fs::read_to_string(proc_dir.join("cgroup")).ok()?;
     let path = cgroup.lines().find_map(|l| l.strip_prefix("0::"))?;
@@ -237,7 +237,7 @@ fn app_id_from_unit(unit: &str) -> Option<String> {
     let name = name.strip_suffix(".scope").or_else(|| name.strip_suffix(".service")).or_else(|| name.strip_suffix(".slice"))?;
     let name = name.replace("\\x2d", "-");
     let name = name.split('@').next()?;
-    // A launcher prefix ("gnome-", "flatpak-", "kde-"), then the ID, then "-<number>".
+    // A launcher prefix, then the application ID, then "-<number>".
     let name = name.rsplit_once('-').filter(|(_, n)| n.chars().all(|c| c.is_ascii_digit())).map_or(name, |(id, _)| id);
     let name = ["gnome-", "flatpak-", "kde-", "dbus-", "snap-"].iter().find_map(|p| name.strip_prefix(p)).unwrap_or(name);
     // Real app IDs are reverse-DNS names; anything else is a plain command.

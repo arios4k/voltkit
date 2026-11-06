@@ -58,7 +58,6 @@ Picked colors go to `~/.local/share/voltkit/colors.txt`, which the GUI's history
 - [x] Signed APT repository on GitHub Pages (`.deb` built by cargo-deb on each tag)
 - [x] QR Code, Screen Ruler, Keep Awake, Hosts & Environment
 - [ ] Screen Ruler: multiple monitors with different sizes
-- [ ] Flatpak manifest and Flathub submission
 - [ ] arm64 packages
 - [x] App icon (full-color and symbolic, `data/icons/`)
 - [ ] Screenshots, AppStream metainfo

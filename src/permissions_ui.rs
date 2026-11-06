@@ -26,7 +26,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
         }
     });
     page.aside(&crate::workspace::note(tr("Choose what apps can access"), tr("Expand an app to review its remembered permissions. A switch changes the saved answer; Forget removes that answer so the app can ask again."), "security-high-symbolic"));
-    page.aside(&crate::workspace::note(tr("Desktop permission history"), tr("These are answers stored by the desktop portal, including for apps installed outside Flatpak. An app appears after it has requested access. This is not a list of every capability an app may have."), "dialog-information-symbolic"));
+    page.aside(&crate::workspace::note(tr("Desktop permission history"), tr("These are answers stored by the desktop portal. An app appears after it has requested access. This is not a list of every capability an app may have."), "dialog-information-symbolic"));
     view.reload();
     // Rows only hold weak references; the page keeps the state alive.
     page.connect_destroy(move |_| {
