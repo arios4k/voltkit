@@ -598,11 +598,11 @@ msgstr "没有配置目录"
 #: src/curve_chart.rs:80
 msgid ""
 "Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it."
-msgstr ""
+msgstr "拖动点来调整曲线。双击曲线可添加点；右键单击某个点或按 Delete 可删除它。"
 
 #: src/curve_chart.rs:81
 msgid "Fan curve chart"
-msgstr ""
+msgstr "风扇曲线图"
 
 #: src/daemon.rs:47
 #, rust-format
@@ -1140,92 +1140,92 @@ msgstr "GPU"
 
 #: src/gpu_cli.rs:394
 msgid "on battery"
-msgstr ""
+msgstr "使用电池时"
 
 #: src/gpu_cli.rs:395
 msgid "on mains power"
-msgstr ""
+msgstr "接通电源时"
 
 #: src/gpu_cli.rs:396
 #, rust-format
 msgid "while {} is running"
-msgstr ""
+msgstr "当 {} 正在运行时"
 
 #: src/gpu_cli.rs:397
 #, rust-format
 msgid "when busier than {} % for {} s"
-msgstr ""
+msgstr "当占用率超过 {} % 并持续 {} 秒时"
 
 #: src/gpu_cli.rs:398
 #, rust-format
 msgid "when hotter than {} °C"
-msgstr ""
+msgstr "当温度超过 {} °C 时"
 
 #: src/gpu_cli.rs:405
 msgid "No profiles are saved."
-msgstr ""
+msgstr "没有已保存的配置文件。"
 
 #: src/gpu_cli.rs:410
 msgid "default"
-msgstr ""
+msgstr "默认"
 
 #: src/gpu_cli.rs:415
 msgid "and"
-msgstr ""
+msgstr "且"
 
 #: src/gpu_cli.rs:424
 msgid "No profile is active. The service may not be running."
-msgstr ""
+msgstr "没有生效的配置文件。后台服务可能没有运行。"
 
 #: src/gpu_cli.rs:441
 msgid "Can't read the profiles."
-msgstr ""
+msgstr "无法读取配置文件。"
 
 #: src/gpu_cli.rs:451 src/gpu_ui.rs:1048
 msgid "Profiles installed."
-msgstr ""
+msgstr "配置文件已安装。"
 
 #: src/gpu_cli.rs:468
 msgid "Duration"
-msgstr ""
+msgstr "时长"
 
 #: src/gpu_cli.rs:469
 msgid "Temperature (average / highest)"
-msgstr ""
+msgstr "温度（平均 / 最高）"
 
 #: src/gpu_cli.rs:470
 msgid "Power (average / highest)"
-msgstr ""
+msgstr "功耗（平均 / 最高）"
 
 #: src/gpu_cli.rs:471
 msgid "Energy used"
-msgstr ""
+msgstr "耗电量"
 
 #: src/gpu_cli.rs:472
 msgid "Active clock per watt"
-msgstr ""
+msgstr "每瓦有效频率"
 
 #: src/gpu_cli.rs:488
 #, rust-format
 msgid "Recording {} for {} seconds…"
-msgstr ""
+msgstr "正在录制 {}，共 {} 秒…"
 
 #: src/gpu_cli.rs:496
 msgid "No data folder"
-msgstr ""
+msgstr "没有数据文件夹"
 
 #: src/gpu_cli.rs:501
 msgid "Saved"
-msgstr ""
+msgstr "已保存"
 
 #: src/gpu_cli.rs:509
 msgid "No sessions are recorded yet. Run `voltkit gpu record`."
-msgstr ""
+msgstr "还没有录制任何会话。请运行 `voltkit gpu record`。"
 
 #: src/gpu_cli.rs:545
 msgid ""
 "◀ and ▶ mark the better session; active MHz per watt is a proxy for work per watt, not frames."
-msgstr ""
+msgstr "◀ 和 ▶ 标出更好的一次会话；每瓦有效频率只是每瓦工作量的近似指标，并不是帧数。"
 
 #: src/gpu_cli.rs:560 src/gpu_ui.rs:39 src/modules/gpu.rs:772
 msgid "No graphics cards were found."
@@ -1233,62 +1233,62 @@ msgstr "未找到显卡。"
 
 #: src/gpu_cli.rs:579
 msgid "The two sources report no metric in common."
-msgstr ""
+msgstr "两个数据源没有共同的指标。"
 
 #: src/gpu_cli.rs:581
 #, rust-format
 msgid "Voltkit (NVML) against nvidia-smi, {} readings:"
-msgstr ""
+msgstr "Voltkit (NVML) 与 nvidia-smi 的对比，共 {} 次读数："
 
 #: src/gpu_cli.rs:583
 msgid "within target"
-msgstr ""
+msgstr "在目标范围内"
 
 #: src/gpu_cli.rs:583
 msgid "outside target"
-msgstr ""
+msgstr "超出目标范围"
 
 #: src/gpu_cli.rs:587
 msgid "average difference"
-msgstr ""
+msgstr "平均差异"
+
+#: src/gpu_cli.rs:589
+msgid "largest"
+msgstr "最大"
 
 #: src/gpu_cli.rs:591
-msgid "largest"
-msgstr ""
-
-#: src/gpu_cli.rs:593
 msgid "target"
-msgstr ""
+msgstr "目标"
 
-#: src/gpu_cli.rs:599
+#: src/gpu_cli.rs:597
 msgid ""
 "No second source to compare with on this computer; only the cost is measured."
-msgstr ""
+msgstr "这台电脑上没有可供对比的第二个数据源，只测量开销。"
+
+#: src/gpu_cli.rs:612
+msgid "Cost of monitoring:"
+msgstr "监控的开销："
+
+#: src/gpu_cli.rs:613
+#, rust-format
+msgid "{} ms of CPU per reading of every card, {} ms of wall time"
+msgstr "每次读取所有显卡用时 CPU {} 毫秒，实际耗时 {} 毫秒"
 
 #: src/gpu_cli.rs:614
-msgid "Cost of monitoring:"
-msgstr ""
+#, rust-format
+msgid "{} % of one core at one reading every 2 seconds"
+msgstr "每 2 秒读取一次时占用单个核心的 {} %"
 
 #: src/gpu_cli.rs:615
 #, rust-format
-msgid "{} ms of CPU per reading of every card, {} ms of wall time"
-msgstr ""
-
-#: src/gpu_cli.rs:616
-#, rust-format
-msgid "{} % of one core at one reading every 2 seconds"
-msgstr ""
-
-#: src/gpu_cli.rs:617
-#, rust-format
 msgid "{} MB of memory in this process"
-msgstr ""
+msgstr "此进程占用 {} MB 内存"
 
-#: src/gpu_cli.rs:624
+#: src/gpu_cli.rs:622
 #, rust-format
 msgid ""
 "The nvidia-smi fallback takes {} ms per reading, in a separate process"
-msgstr ""
+msgstr "使用 nvidia-smi 作为备用方案时，每次读取需要 {} 毫秒，在单独的进程中进行"
 
 #: src/gpu_ui.rs:40
 msgid ""
@@ -1396,19 +1396,19 @@ msgstr "转速 (%)"
 
 #: src/gpu_ui.rs:325
 msgid "Temperature source"
-msgstr ""
+msgstr "温度来源"
 
 #: src/gpu_ui.rs:326
 msgid "The reading the curve follows."
-msgstr ""
+msgstr "曲线所依据的读数。"
 
 #: src/gpu_ui.rs:331
 msgid "Fans"
-msgstr ""
+msgstr "风扇"
 
 #: src/gpu_ui.rs:331
 msgid "The fans the curve drives."
-msgstr ""
+msgstr "曲线所控制的风扇。"
 
 #: src/gpu_ui.rs:335 src/modules/sysreport.rs:573
 #, rust-format
@@ -1512,11 +1512,11 @@ msgstr "电压与频率曲线"
 #: src/gpu_ui.rs:568
 msgid ""
 "Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."
-msgstr ""
+msgstr "为显卡运行的每个频率设置电压。电压越低发热越少，但过低会导致显卡崩溃。"
 
 #: src/gpu_ui.rs:575
 msgid "MHz · mV"
-msgstr ""
+msgstr "MHz · mV"
 
 #: src/gpu_ui.rs:594
 msgid "Voltage offset"
@@ -1600,7 +1600,7 @@ msgstr "已取消，未做任何更改。"
 #: src/gpu_ui.rs:823
 #, rust-format
 msgid "Power limit {} W"
-msgstr ""
+msgstr "功耗上限 {} W"
 
 #: src/gpu_ui.rs:826 src/modules/gpu_tune.rs:440
 msgid "Fan: the card's own control"
@@ -1609,7 +1609,7 @@ msgstr "风扇：显卡自带的控制"
 #: src/gpu_ui.rs:827
 #, rust-format
 msgid "Fan {} %"
-msgstr ""
+msgstr "风扇 {} %"
 
 #: src/gpu_ui.rs:828 src/modules/gpu.rs:110
 msgid "Fan curve"
@@ -1618,113 +1618,113 @@ msgstr "风扇曲线"
 #: src/gpu_ui.rs:832
 #, rust-format
 msgid "Target {} °C"
-msgstr ""
+msgstr "目标 {} °C"
 
 #: src/gpu_ui.rs:835
 #, rust-format
 msgid "Core {} MHz"
-msgstr ""
+msgstr "核心 {} MHz"
 
 #: src/gpu_ui.rs:838
 #, rust-format
 msgid "Memory {} MHz"
-msgstr ""
+msgstr "显存 {} MHz"
 
 #: src/gpu_ui.rs:841
 #, rust-format
 msgid "Clock {}–{} MHz"
-msgstr ""
+msgstr "频率 {}–{} MHz"
 
 #: src/gpu_ui.rs:843
 msgid "No changes"
-msgstr ""
+msgstr "没有更改"
 
 #: src/gpu_ui.rs:858
 #, rust-format
 msgid "In use now: {}"
-msgstr ""
+msgstr "当前使用：{}"
 
 #: src/gpu_ui.rs:865
 msgid ""
 "Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot."
-msgstr ""
+msgstr "把设置保存为命名的配置文件，并让 Voltkit 自动在它们之间切换：使用电池时、某个应用运行时、负载较高时，或显卡过热时。"
 
 #: src/gpu_ui.rs:866
 msgid "Profiles"
-msgstr ""
+msgstr "配置文件"
 
 #: src/gpu_ui.rs:895
 msgid "Not automatic"
-msgstr ""
+msgstr "不自动切换"
 
 #: src/gpu_ui.rs:896
 msgid "On battery"
-msgstr ""
+msgstr "使用电池时"
 
 #: src/gpu_ui.rs:897
 msgid "On mains power"
-msgstr ""
+msgstr "接通电源时"
 
 #: src/gpu_ui.rs:898
 msgid "While an app runs"
-msgstr ""
+msgstr "某个应用运行时"
 
 #: src/gpu_ui.rs:899
 msgid "When the GPU is busy"
-msgstr ""
+msgstr "GPU 繁忙时"
 
 #: src/gpu_ui.rs:900
 msgid "When the GPU runs hot"
-msgstr ""
+msgstr "GPU 过热时"
 
 #: src/gpu_ui.rs:904
 msgid "Switch to it"
-msgstr ""
+msgstr "切换到它"
 
 #: src/gpu_ui.rs:915
 msgid "Programs, separated by commas"
-msgstr ""
+msgstr "程序，用逗号分隔"
 
 #: src/gpu_ui.rs:916
 msgid "Busier than (%)"
-msgstr ""
+msgstr "占用率超过 (%)"
 
 #: src/gpu_ui.rs:917
 msgid "Hotter than (°C)"
-msgstr ""
+msgstr "温度超过 (°C)"
 
 #: src/gpu_ui.rs:961
 msgid "Use when no rule applies"
-msgstr ""
+msgstr "没有规则适用时使用"
 
 #: src/gpu_ui.rs:983
 msgid "Delete this profile"
-msgstr ""
+msgstr "删除此配置文件"
 
 #: src/gpu_ui.rs:1006
 msgid "Save current settings as a profile…"
-msgstr ""
+msgstr "将当前设置保存为配置文件…"
 
 #: src/gpu_ui.rs:1007
 msgid "Apply profiles"
-msgstr ""
+msgstr "应用配置文件"
 
 #: src/gpu_ui.rs:1007
 msgid ""
 "Installs the profiles in Voltkit's background service, which switches between them."
-msgstr ""
+msgstr "把配置文件安装到 Voltkit 的后台服务中，由它在各配置之间切换。"
 
 #: src/gpu_ui.rs:1014
 msgid "Name, for example Quiet"
-msgstr ""
+msgstr "名称，例如“安静”"
 
 #: src/gpu_ui.rs:1015
 msgid "Save as a profile"
-msgstr ""
+msgstr "保存为配置文件"
 
 #: src/gpu_ui.rs:1015
 msgid "The settings now turned on in Tune are stored under this name."
-msgstr ""
+msgstr "“调节”中当前开启的设置会以此名称保存。"
 
 #: src/gpu_ui.rs:1017 src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382
 msgid "Cancel"
@@ -1733,20 +1733,20 @@ msgstr "取消"
 #: src/gpu_ui.rs:1124
 #, rust-format
 msgid "{} compared with {}"
-msgstr ""
+msgstr "{} 与 {} 的对比"
 
 #: src/gpu_ui.rs:1125
 msgid ""
 "The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames."
-msgstr ""
+msgstr "▶ 标出更好的会话。每瓦有效频率只是每瓦工作量的近似指标，并不是帧数。"
 
 #: src/gpu_ui.rs:1141
 msgid "These sessions have no readings in common."
-msgstr ""
+msgstr "这些会话没有共同的读数。"
 
 #: src/gpu_ui.rs:1144
 msgid "Compare sessions"
-msgstr ""
+msgstr "比较会话"
 
 #: src/gpu_ui.rs:1150 src/modules/keybindings.rs:316
 msgid "Sessions"
@@ -1755,31 +1755,31 @@ msgstr "会话"
 #: src/gpu_ui.rs:1151
 msgid ""
 "Record how a profile behaves, then compare two sessions side by side: temperature, power, energy and efficiency."
-msgstr ""
+msgstr "录制某个配置文件的表现，然后并排比较两次会话：温度、功耗、耗电量和效率。"
 
 #: src/gpu_ui.rs:1154
 msgid "Label"
-msgstr ""
+msgstr "标签"
 
 #: src/gpu_ui.rs:1154
 msgid "Session"
-msgstr ""
+msgstr "会话"
 
 #: src/gpu_ui.rs:1155 src/gpu_ui.rs:1231
 msgid "Start recording"
-msgstr ""
+msgstr "开始录制"
 
 #: src/gpu_ui.rs:1161
 msgid "Compare the two ticked"
-msgstr ""
+msgstr "比较勾选的两个"
 
 #: src/gpu_ui.rs:1227
 msgid "Stop and save"
-msgstr ""
+msgstr "停止并保存"
 
 #: src/gpu_ui.rs:1236
 msgid "Session saved."
-msgstr ""
+msgstr "会话已保存。"
 
 #: src/i18n.rs:402
 msgid "Commands"
@@ -2779,30 +2779,30 @@ msgstr "控制项："
 
 #: src/modules/gpu_tune.rs:50
 msgid "Hottest sensor"
-msgstr ""
+msgstr "最热的传感器"
 
 #: src/modules/gpu_tune.rs:52
 msgid "Hotspot"
-msgstr ""
+msgstr "热点"
 
 #: src/modules/gpu_tune.rs:173
 #, rust-format
 msgid "This card's curve has {} points."
-msgstr ""
+msgstr "这块显卡的曲线有 {} 个点。"
 
 #: src/modules/gpu_tune.rs:177
 #, rust-format
 msgid "Point {}: the clock must be between {} and {} MHz."
-msgstr ""
+msgstr "第 {} 点：频率必须在 {} 到 {} MHz 之间。"
 
 #: src/modules/gpu_tune.rs:180
 #, rust-format
 msgid "Point {}: the voltage must be between {} and {} mV."
-msgstr ""
+msgstr "第 {} 点：电压必须在 {} 到 {} mV 之间。"
 
 #: src/modules/gpu_tune.rs:184
 msgid "A higher point can't have a lower clock or voltage than a lower one."
-msgstr ""
+msgstr "更高的点，频率和电压都不能比更低的点更低。"
 
 #: src/modules/gpu_tune.rs:201
 msgid "A fan curve needs at least two points."
@@ -2834,7 +2834,7 @@ msgstr "无法读取曲线行“{}”。"
 #, rust-format
 msgid ""
 "Voltkit's GPU service will follow the fan curve by the {} temperature."
-msgstr ""
+msgstr "Voltkit 的 GPU 服务将按{}温度执行风扇曲线。"
 
 #: src/modules/gpu_tune.rs:392
 msgid "this card doesn't offer it"
@@ -2875,12 +2875,12 @@ msgstr "风扇：手动控制"
 #: src/modules/gpu_tune.rs:479
 #, rust-format
 msgid "This card doesn't report the {} temperature."
-msgstr ""
+msgstr "这块显卡没有报告{}温度。"
 
 #: src/modules/gpu_tune.rs:483
 #, rust-format
 msgid "This card has no fan {}."
-msgstr ""
+msgstr "这块显卡没有风扇 {}。"
 
 #: src/modules/gpu_tune.rs:492
 #, rust-format
@@ -2986,12 +2986,12 @@ msgstr "最大频率：{} MHz"
 
 #: src/modules/gpu_tune.rs:614
 msgid "This card allows a voltage offset, not a full curve."
-msgstr ""
+msgstr "这块显卡只允许电压偏移，不提供完整曲线。"
 
 #: src/modules/gpu_tune.rs:620
 #, rust-format
 msgid "Curve point {}: {} MHz at {} mV"
-msgstr ""
+msgstr "曲线第 {} 点：{} MHz，{} mV"
 
 #: src/modules/gpu_tune.rs:632
 msgid "Clocks and voltage: apply"
@@ -5992,6 +5992,9 @@ msgid ""
 "\n"
 "The file holds the settings for one card: its PCI address as \"gpu\", and any of \"power_limit_w\", \"fan\" ({\"mode\":\"auto\"}, {\"mode\":\"fixed\",\"speed_pct\":50} or {\"mode\":\"curve\",\"points\":[...]}), \"temperature_target_c\", \"core_offset_mhz\", \"mem_offset_mhz\", \"voltage_offset_mv\", for AMD cards with a full curve \"voltage_curve\" (a list of {\"mhz\":1450,\"mv\":800} points, all of them), and for Intel \"core_clock_min_mhz\" and \"core_clock_max_mhz\". Values the card doesn't allow are refused."
 msgstr ""
+"从 JSON 文件应用 GPU 设置，未经确认则撤销\n"
+"\n"
+"文件包含一块显卡的设置：以 \"gpu\" 给出它的 PCI 地址，以及下列任意字段：\"power_limit_w\"、\"fan\"（{\"mode\":\"auto\"}、{\"mode\":\"fixed\",\"speed_pct\":50} 或 {\"mode\":\"curve\",\"points\":[...]}）、\"temperature_target_c\"、\"core_offset_mhz\"、\"mem_offset_mhz\"、\"voltage_offset_mv\"，对有完整曲线的 AMD 显卡还有 \"voltage_curve\"（由 {\"mhz\":1450,\"mv\":800} 这样的点组成的列表，需包含所有点），对 Intel 显卡还有 \"core_clock_min_mhz\" 和 \"core_clock_max_mhz\"。显卡不允许的值会被拒绝。"
 
 #: src/main.rs (command-line help)
 msgid "The settings file, or - to read it from standard input"
@@ -6025,7 +6028,7 @@ msgstr "运行后台服务，应用已保存的 GPU 设置并执行风扇曲线"
 
 #: src/main.rs (command-line help)
 msgid "Record the readings of a card for a while, to compare profiles later"
-msgstr ""
+msgstr "录制一块显卡一段时间的读数，以便之后比较配置文件"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6033,23 +6036,26 @@ msgid ""
 "\n"
 "Writes a CSV file you can open in a spreadsheet, and prints a summary with the energy used and the clock-work each watt bought (\"active MHz per watt\"). Run it while a game or a benchmark is going, once per profile, then compare the sessions."
 msgstr ""
+"录制一块显卡一段时间的读数，以便之后比较配置文件\n"
+"\n"
+"写出一个可在电子表格中打开的 CSV 文件，并输出摘要，包含耗电量以及每瓦换来的频率工作量（“每瓦有效频率”）。请在游戏或基准测试运行时，为每个配置文件各运行一次，然后比较这些会话。"
 
 #: src/main.rs (command-line help)
 msgid "How many seconds to record"
-msgstr ""
+msgstr "录制多少秒"
 
 #: src/main.rs (command-line help)
 msgid "What is being tried, such as the profile name"
-msgstr ""
+msgstr "正在测试什么，例如配置文件的名称"
 
 #: src/main.rs (command-line help)
 msgid "The card's PCI address (the first NVIDIA or AMD card by default)"
-msgstr ""
+msgstr "显卡的 PCI 地址（默认是第一块 NVIDIA 或 AMD 显卡）"
 
 #: src/main.rs (command-line help)
 msgid ""
 "Check Voltkit's readings against a second source and measure what monitoring costs"
-msgstr ""
+msgstr "用第二个数据源核对 Voltkit 的读数，并测量监控的开销"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6057,18 +6063,21 @@ msgid ""
 "\n"
 "On NVIDIA cards it compares NVML, which Voltkit reads, with `nvidia-smi` taken at the same moments, and reports how far apart they are against the accuracy targets. It also measures the CPU time and memory monitoring uses. Cards from other makers have no second source on most computers; the command says so."
 msgstr ""
+"用第二个数据源核对 Voltkit 的读数，并测量监控的开销\n"
+"\n"
+"对 NVIDIA 显卡，它会把 Voltkit 所读取的 NVML 与同一时刻的 `nvidia-smi` 进行对比，并对照精度目标报告两者的差距。它还会测量监控所用的 CPU 时间和内存。在大多数电脑上，其他厂商的显卡没有第二个数据源，命令会说明这一点。"
 
 #: src/main.rs (command-line help)
 msgid "How many seconds to compare for"
-msgstr ""
+msgstr "对比多少秒"
 
 #: src/main.rs (command-line help)
 msgid "List the recorded sessions, newest first"
-msgstr ""
+msgstr "列出已录制的会话，最新的在前"
 
 #: src/main.rs (command-line help)
 msgid "Compare two recorded sessions side by side"
-msgstr ""
+msgstr "并排比较两次已录制的会话"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6076,31 +6085,34 @@ msgid ""
 "\n"
 "Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power, energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency is \"active MHz per watt\", a proxy for work per watt; add an fps column from a tool such as MangoHud to a session file to get frames per second per watt too."
 msgstr ""
+"并排比较两次已录制的会话\n"
+"\n"
+"每个会话是一个文件，或是 `voltkit gpu sessions` 列出的编号。会显示温度、功耗、耗电量、风扇转速、频率和效率，以及每一项中哪次会话更好。效率是“每瓦有效频率”，是每瓦工作量的近似指标；把 MangoHud 等工具得到的 fps 列添加到会话文件中，还能得到每瓦帧数。"
 
 #: src/main.rs (command-line help)
 msgid "The first session"
-msgstr ""
+msgstr "第一次会话"
 
 #: src/main.rs (command-line help)
 msgid "The second session"
-msgstr ""
+msgstr "第二次会话"
 
 #: src/main.rs (command-line help)
 msgid ""
 "Named profiles that switch automatically by power source, running app, load or temperature"
-msgstr ""
+msgstr "按电源、运行的应用、负载或温度自动切换的命名配置文件"
 
 #: src/main.rs (command-line help)
 msgid "List the saved profiles and the rules that switch between them"
-msgstr ""
+msgstr "列出已保存的配置文件以及在它们之间切换的规则"
 
 #: src/main.rs (command-line help)
 msgid "Show which profile each card is using now"
-msgstr ""
+msgstr "显示每块显卡当前使用的配置文件"
 
 #: src/main.rs (command-line help)
 msgid "Install profiles and rules from a JSON file, replacing the saved ones"
-msgstr ""
+msgstr "从 JSON 文件安装配置文件和规则，替换已保存的内容"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6108,10 +6120,13 @@ msgid ""
 "\n"
 "The file is a list with one entry per card: its PCI address as \"gpu\", its \"profiles\" (each a \"name\" and the same \"settings\" `voltkit gpu apply` takes), its \"rules\" (a \"profile\" and \"conditions\" such as {\"when\":\"power_source\",\"on_battery\":true}, {\"when\":\"app\",\"names\":[\"steam\"]}, {\"when\":\"workload\",\"util_above_pct\":80,\"for_secs\":30} or {\"when\":\"temperature\",\"above_c\":85}) and a \"default\" profile. Rules are tried in order."
 msgstr ""
+"从 JSON 文件安装配置文件和规则，替换已保存的内容\n"
+"\n"
+"文件是一个列表，每块显卡一项：以 \"gpu\" 给出它的 PCI 地址，其 \"profiles\"（每个包含 \"name\" 以及与 `voltkit gpu apply` 相同的 \"settings\"），其 \"rules\"（一个 \"profile\" 和 \"conditions\"，如 {\"when\":\"power_source\",\"on_battery\":true}、{\"when\":\"app\",\"names\":[\"steam\"]}、{\"when\":\"workload\",\"util_above_pct\":80,\"for_secs\":30} 或 {\"when\":\"temperature\",\"above_c\":85}），以及一个 \"default\" 配置文件。规则会按顺序逐条尝试。"
 
 #: src/main.rs (command-line help)
 msgid "The profiles file, or - to read it from standard input"
-msgstr ""
+msgstr "配置文件，或用 - 从标准输入读取"
 
 #: src/main.rs (command-line help)
 msgid "Read QR codes from the screen or image files, or make them from text"

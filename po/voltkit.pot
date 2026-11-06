@@ -1243,39 +1243,39 @@ msgstr ""
 msgid "average difference"
 msgstr ""
 
-#: src/gpu_cli.rs:591
+#: src/gpu_cli.rs:589
 msgid "largest"
 msgstr ""
 
-#: src/gpu_cli.rs:593
+#: src/gpu_cli.rs:591
 msgid "target"
 msgstr ""
 
-#: src/gpu_cli.rs:599
+#: src/gpu_cli.rs:597
 msgid ""
 "No second source to compare with on this computer; only the cost is measured."
 msgstr ""
 
-#: src/gpu_cli.rs:614
+#: src/gpu_cli.rs:612
 msgid "Cost of monitoring:"
 msgstr ""
 
-#: src/gpu_cli.rs:615
+#: src/gpu_cli.rs:613
 #, rust-format
 msgid "{} ms of CPU per reading of every card, {} ms of wall time"
 msgstr ""
 
-#: src/gpu_cli.rs:616
+#: src/gpu_cli.rs:614
 #, rust-format
 msgid "{} % of one core at one reading every 2 seconds"
 msgstr ""
 
-#: src/gpu_cli.rs:617
+#: src/gpu_cli.rs:615
 #, rust-format
 msgid "{} MB of memory in this process"
 msgstr ""
 
-#: src/gpu_cli.rs:624
+#: src/gpu_cli.rs:622
 #, rust-format
 msgid ""
 "The nvidia-smi fallback takes {} ms per reading, in a separate process"

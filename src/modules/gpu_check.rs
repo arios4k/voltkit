@@ -71,11 +71,6 @@ pub fn read_usage() -> Option<(f64, f64)> {
     process_usage(&stat, &statm, 100.0, 4096.0)
 }
 
-/// CPU use in percent of one core over a stretch of wall-clock time.
-pub fn cpu_percent(cpu_before: f64, cpu_after: f64, wall_seconds: f64) -> f64 {
-    if wall_seconds <= 0.0 { 0.0 } else { (cpu_after - cpu_before) / wall_seconds * 100.0 }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -117,9 +112,4 @@ mod tests {
         assert!(read_usage().is_some(), "this process can read its own numbers");
     }
 
-    #[test]
-    fn cpu_percent_is_a_share_of_one_core() {
-        assert_eq!(cpu_percent(1.0, 1.5, 10.0), 5.0);
-        assert_eq!(cpu_percent(0.0, 1.0, 0.0), 0.0);
-    }
 }

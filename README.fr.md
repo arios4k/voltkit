@@ -102,6 +102,8 @@ confirmation** : fermer l’application ou un plantage les annule aussi. Les ré
 démarrage par un service en arrière-plan, qui ignore un profil dont le démarrage ne s’est jamais terminé, pour qu’un
 mauvais profil ne vous enferme pas dans une boucle. `voltkit gpu` affiche le même rapport dans un terminal.
 
+Modifiez les courbes de ventilateur en faisant glisser des points sur un graphique, et choisissez la température qu’elles suivent et les ventilateurs qu’elles pilotent. Enregistrez des réglages sous forme de **profils** qui changent tout seuls : sur batterie, pendant qu’une application tourne, sous une charge soutenue ou quand la carte chauffe. **Enregistrez une session** pendant qu’un jeu ou un test de performance tourne et comparez deux profils côte à côte : température, puissance, énergie et efficacité (fréquence active par watt, ou images par watt quand les images sont enregistrées). `voltkit gpu check` compare les mesures de Voltkit avec `nvidia-smi` et mesure le coût de la surveillance.
+
 L’application des modifications est nouvelle et n’a été testée jusqu’ici que sur du matériel simulé ; voir
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) pour ce qui fonctionne, comment la sécurité est assurée et ce qui reste à faire.
 

@@ -613,10 +613,11 @@ msgstr "aucun dossier de configuration"
 msgid ""
 "Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it."
 msgstr ""
+"Faites glisser les points pour façonner la courbe. Double-cliquez sur la ligne pour ajouter un point ; clic droit sur un point ou Suppr pour le retirer."
 
 #: src/curve_chart.rs:81
 msgid "Fan curve chart"
-msgstr ""
+msgstr "Graphique de la courbe du ventilateur"
 
 #: src/daemon.rs:47
 #, rust-format
@@ -1170,92 +1171,94 @@ msgstr "GPU"
 
 #: src/gpu_cli.rs:394
 msgid "on battery"
-msgstr ""
+msgstr "sur batterie"
 
 #: src/gpu_cli.rs:395
 msgid "on mains power"
-msgstr ""
+msgstr "sur secteur"
 
 #: src/gpu_cli.rs:396
 #, rust-format
 msgid "while {} is running"
-msgstr ""
+msgstr "pendant que {} s’exécute"
 
 #: src/gpu_cli.rs:397
 #, rust-format
 msgid "when busier than {} % for {} s"
-msgstr ""
+msgstr "quand elle est occupée à plus de {} % pendant {} s"
 
 #: src/gpu_cli.rs:398
 #, rust-format
 msgid "when hotter than {} °C"
-msgstr ""
+msgstr "quand elle dépasse {} °C"
 
 #: src/gpu_cli.rs:405
 msgid "No profiles are saved."
-msgstr ""
+msgstr "Aucun profil n’est enregistré."
 
 #: src/gpu_cli.rs:410
 msgid "default"
-msgstr ""
+msgstr "par défaut"
 
 #: src/gpu_cli.rs:415
 msgid "and"
-msgstr ""
+msgstr "et"
 
 #: src/gpu_cli.rs:424
 msgid "No profile is active. The service may not be running."
-msgstr ""
+msgstr "Aucun profil n’est actif. Le service ne tourne peut-être pas."
 
 #: src/gpu_cli.rs:441
 msgid "Can't read the profiles."
-msgstr ""
+msgstr "Impossible de lire les profils."
 
 #: src/gpu_cli.rs:451 src/gpu_ui.rs:1048
 msgid "Profiles installed."
-msgstr ""
+msgstr "Profils installés."
 
 #: src/gpu_cli.rs:468
 msgid "Duration"
-msgstr ""
+msgstr "Durée"
 
 #: src/gpu_cli.rs:469
 msgid "Temperature (average / highest)"
-msgstr ""
+msgstr "Température (moyenne / maximale)"
 
 #: src/gpu_cli.rs:470
 msgid "Power (average / highest)"
-msgstr ""
+msgstr "Puissance (moyenne / maximale)"
 
 #: src/gpu_cli.rs:471
 msgid "Energy used"
-msgstr ""
+msgstr "Énergie consommée"
 
 #: src/gpu_cli.rs:472
 msgid "Active clock per watt"
-msgstr ""
+msgstr "Fréquence active par watt"
 
 #: src/gpu_cli.rs:488
 #, rust-format
 msgid "Recording {} for {} seconds…"
-msgstr ""
+msgstr "Enregistrement de {} pendant {} secondes…"
 
 #: src/gpu_cli.rs:496
 msgid "No data folder"
-msgstr ""
+msgstr "pas de dossier de données"
 
 #: src/gpu_cli.rs:501
 msgid "Saved"
-msgstr ""
+msgstr "Enregistré"
 
 #: src/gpu_cli.rs:509
 msgid "No sessions are recorded yet. Run `voltkit gpu record`."
 msgstr ""
+"Aucune session n’est encore enregistrée. Exécutez `voltkit gpu record`."
 
 #: src/gpu_cli.rs:545
 msgid ""
 "◀ and ▶ mark the better session; active MHz per watt is a proxy for work per watt, not frames."
 msgstr ""
+"◀ et ▶ marquent la meilleure session ; la fréquence active par watt est un indicateur approché du travail par watt, pas des images."
 
 #: src/gpu_cli.rs:560 src/gpu_ui.rs:39 src/modules/gpu.rs:772
 msgid "No graphics cards were found."
@@ -1263,62 +1266,64 @@ msgstr "Aucune carte graphique n’a été trouvée."
 
 #: src/gpu_cli.rs:579
 msgid "The two sources report no metric in common."
-msgstr ""
+msgstr "Les deux sources n’ont aucune mesure en commun."
 
 #: src/gpu_cli.rs:581
 #, rust-format
 msgid "Voltkit (NVML) against nvidia-smi, {} readings:"
-msgstr ""
+msgstr "Voltkit (NVML) face à nvidia-smi, {} mesures :"
 
 #: src/gpu_cli.rs:583
 msgid "within target"
-msgstr ""
+msgstr "dans l’objectif"
 
 #: src/gpu_cli.rs:583
 msgid "outside target"
-msgstr ""
+msgstr "hors de l’objectif"
 
 #: src/gpu_cli.rs:587
 msgid "average difference"
-msgstr ""
+msgstr "écart moyen"
+
+#: src/gpu_cli.rs:589
+msgid "largest"
+msgstr "maximal"
 
 #: src/gpu_cli.rs:591
-msgid "largest"
-msgstr ""
-
-#: src/gpu_cli.rs:593
 msgid "target"
-msgstr ""
+msgstr "objectif"
 
-#: src/gpu_cli.rs:599
+#: src/gpu_cli.rs:597
 msgid ""
 "No second source to compare with on this computer; only the cost is measured."
 msgstr ""
+"Aucune seconde source de comparaison sur cet ordinateur ; seul le coût est mesuré."
+
+#: src/gpu_cli.rs:612
+msgid "Cost of monitoring:"
+msgstr "Coût de la surveillance :"
+
+#: src/gpu_cli.rs:613
+#, rust-format
+msgid "{} ms of CPU per reading of every card, {} ms of wall time"
+msgstr "{} ms de CPU par mesure de toutes les cartes, {} ms de temps réel"
 
 #: src/gpu_cli.rs:614
-msgid "Cost of monitoring:"
-msgstr ""
+#, rust-format
+msgid "{} % of one core at one reading every 2 seconds"
+msgstr "{} % d’un cœur avec une mesure toutes les 2 secondes"
 
 #: src/gpu_cli.rs:615
 #, rust-format
-msgid "{} ms of CPU per reading of every card, {} ms of wall time"
-msgstr ""
-
-#: src/gpu_cli.rs:616
-#, rust-format
-msgid "{} % of one core at one reading every 2 seconds"
-msgstr ""
-
-#: src/gpu_cli.rs:617
-#, rust-format
 msgid "{} MB of memory in this process"
-msgstr ""
+msgstr "{} Mo de mémoire dans ce processus"
 
-#: src/gpu_cli.rs:624
+#: src/gpu_cli.rs:622
 #, rust-format
 msgid ""
 "The nvidia-smi fallback takes {} ms per reading, in a separate process"
 msgstr ""
+"Le repli sur nvidia-smi prend {} ms par mesure, dans un processus séparé"
 
 #: src/gpu_ui.rs:40
 msgid ""
@@ -1429,19 +1434,19 @@ msgstr "Vitesse (%)"
 
 #: src/gpu_ui.rs:325
 msgid "Temperature source"
-msgstr ""
+msgstr "Source de température"
 
 #: src/gpu_ui.rs:326
 msgid "The reading the curve follows."
-msgstr ""
+msgstr "La mesure que suit la courbe."
 
 #: src/gpu_ui.rs:331
 msgid "Fans"
-msgstr ""
+msgstr "Ventilateurs"
 
 #: src/gpu_ui.rs:331
 msgid "The fans the curve drives."
-msgstr ""
+msgstr "Les ventilateurs que pilote la courbe."
 
 #: src/gpu_ui.rs:335 src/modules/sysreport.rs:573
 #, rust-format
@@ -1547,10 +1552,11 @@ msgstr "Courbe tension-fréquence"
 msgid ""
 "Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."
 msgstr ""
+"Réglez la tension pour chaque fréquence à laquelle la carte fonctionne. Les tensions plus basses chauffent moins mais peuvent faire planter la carte si elles sont trop basses."
 
 #: src/gpu_ui.rs:575
 msgid "MHz · mV"
-msgstr ""
+msgstr "MHz · mV"
 
 #: src/gpu_ui.rs:594
 msgid "Voltage offset"
@@ -1638,7 +1644,7 @@ msgstr "Annulé, rien n’a été modifié."
 #: src/gpu_ui.rs:823
 #, rust-format
 msgid "Power limit {} W"
-msgstr ""
+msgstr "Limite de puissance {} W"
 
 #: src/gpu_ui.rs:826 src/modules/gpu_tune.rs:440
 msgid "Fan: the card's own control"
@@ -1647,7 +1653,7 @@ msgstr "Ventilateur : le contrôle propre de la carte"
 #: src/gpu_ui.rs:827
 #, rust-format
 msgid "Fan {} %"
-msgstr ""
+msgstr "Ventilateur {} %"
 
 #: src/gpu_ui.rs:828 src/modules/gpu.rs:110
 msgid "Fan curve"
@@ -1656,113 +1662,116 @@ msgstr "Courbe du ventilateur"
 #: src/gpu_ui.rs:832
 #, rust-format
 msgid "Target {} °C"
-msgstr ""
+msgstr "Cible {} °C"
 
 #: src/gpu_ui.rs:835
 #, rust-format
 msgid "Core {} MHz"
-msgstr ""
+msgstr "Cœur {} MHz"
 
 #: src/gpu_ui.rs:838
 #, rust-format
 msgid "Memory {} MHz"
-msgstr ""
+msgstr "Mémoire {} MHz"
 
 #: src/gpu_ui.rs:841
 #, rust-format
 msgid "Clock {}–{} MHz"
-msgstr ""
+msgstr "Fréquence {}–{} MHz"
 
 #: src/gpu_ui.rs:843
 msgid "No changes"
-msgstr ""
+msgstr "Aucune modification"
 
 #: src/gpu_ui.rs:858
 #, rust-format
 msgid "In use now: {}"
-msgstr ""
+msgstr "En cours d’utilisation : {}"
 
 #: src/gpu_ui.rs:865
 msgid ""
 "Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot."
 msgstr ""
+"Enregistrez des réglages sous forme de profils nommés et laissez Voltkit passer de l’un à l’autre : sur batterie, pendant qu’une application tourne, sous charge ou quand la carte chauffe."
 
 #: src/gpu_ui.rs:866
 msgid "Profiles"
-msgstr ""
+msgstr "Profils"
 
 #: src/gpu_ui.rs:895
 msgid "Not automatic"
-msgstr ""
+msgstr "Pas automatique"
 
 #: src/gpu_ui.rs:896
 msgid "On battery"
-msgstr ""
+msgstr "Sur batterie"
 
 #: src/gpu_ui.rs:897
 msgid "On mains power"
-msgstr ""
+msgstr "Sur secteur"
 
 #: src/gpu_ui.rs:898
 msgid "While an app runs"
-msgstr ""
+msgstr "Pendant qu’une application tourne"
 
 #: src/gpu_ui.rs:899
 msgid "When the GPU is busy"
-msgstr ""
+msgstr "Quand le GPU est occupé"
 
 #: src/gpu_ui.rs:900
 msgid "When the GPU runs hot"
-msgstr ""
+msgstr "Quand le GPU chauffe"
 
 #: src/gpu_ui.rs:904
 msgid "Switch to it"
-msgstr ""
+msgstr "Passer à ce profil"
 
 #: src/gpu_ui.rs:915
 msgid "Programs, separated by commas"
-msgstr ""
+msgstr "Programmes, séparés par des virgules"
 
 #: src/gpu_ui.rs:916
 msgid "Busier than (%)"
-msgstr ""
+msgstr "Plus occupé que (%)"
 
 #: src/gpu_ui.rs:917
 msgid "Hotter than (°C)"
-msgstr ""
+msgstr "Plus chaud que (°C)"
 
 #: src/gpu_ui.rs:961
 msgid "Use when no rule applies"
-msgstr ""
+msgstr "Utiliser quand aucune règle ne s’applique"
 
 #: src/gpu_ui.rs:983
 msgid "Delete this profile"
-msgstr ""
+msgstr "Supprimer ce profil"
 
 #: src/gpu_ui.rs:1006
 msgid "Save current settings as a profile…"
-msgstr ""
+msgstr "Enregistrer les réglages actuels comme profil…"
 
 #: src/gpu_ui.rs:1007
 msgid "Apply profiles"
-msgstr ""
+msgstr "Appliquer les profils"
 
 #: src/gpu_ui.rs:1007
 msgid ""
 "Installs the profiles in Voltkit's background service, which switches between them."
 msgstr ""
+"Installe les profils dans le service en arrière-plan de Voltkit, qui passe de l’un à l’autre."
 
 #: src/gpu_ui.rs:1014
 msgid "Name, for example Quiet"
-msgstr ""
+msgstr "Nom, par exemple Silencieux"
 
 #: src/gpu_ui.rs:1015
 msgid "Save as a profile"
-msgstr ""
+msgstr "Enregistrer comme profil"
 
 #: src/gpu_ui.rs:1015
 msgid "The settings now turned on in Tune are stored under this name."
 msgstr ""
+"Les réglages activés actuellement dans Régler sont enregistrés sous ce nom."
 
 #: src/gpu_ui.rs:1017 src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382
 msgid "Cancel"
@@ -1771,20 +1780,21 @@ msgstr "Annuler"
 #: src/gpu_ui.rs:1124
 #, rust-format
 msgid "{} compared with {}"
-msgstr ""
+msgstr "{} comparée à {}"
 
 #: src/gpu_ui.rs:1125
 msgid ""
 "The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames."
 msgstr ""
+"Le ▶ marque la meilleure session. La fréquence active par watt est un indicateur approché du travail par watt, pas des images."
 
 #: src/gpu_ui.rs:1141
 msgid "These sessions have no readings in common."
-msgstr ""
+msgstr "Ces sessions n’ont aucune mesure en commun."
 
 #: src/gpu_ui.rs:1144
 msgid "Compare sessions"
-msgstr ""
+msgstr "Comparer les sessions"
 
 #: src/gpu_ui.rs:1150 src/modules/keybindings.rs:316
 msgid "Sessions"
@@ -1794,30 +1804,31 @@ msgstr "Sessions"
 msgid ""
 "Record how a profile behaves, then compare two sessions side by side: temperature, power, energy and efficiency."
 msgstr ""
+"Enregistrez le comportement d’un profil, puis comparez deux sessions côte à côte : température, puissance, énergie et efficacité."
 
 #: src/gpu_ui.rs:1154
 msgid "Label"
-msgstr ""
+msgstr "Libellé"
 
 #: src/gpu_ui.rs:1154
 msgid "Session"
-msgstr ""
+msgstr "Session"
 
 #: src/gpu_ui.rs:1155 src/gpu_ui.rs:1231
 msgid "Start recording"
-msgstr ""
+msgstr "Démarrer l’enregistrement"
 
 #: src/gpu_ui.rs:1161
 msgid "Compare the two ticked"
-msgstr ""
+msgstr "Comparer les deux cochées"
 
 #: src/gpu_ui.rs:1227
 msgid "Stop and save"
-msgstr ""
+msgstr "Arrêter et enregistrer"
 
 #: src/gpu_ui.rs:1236
 msgid "Session saved."
-msgstr ""
+msgstr "Session enregistrée."
 
 #: src/i18n.rs:402
 msgid "Commands"
@@ -2863,30 +2874,31 @@ msgstr "Contrôles :"
 
 #: src/modules/gpu_tune.rs:50
 msgid "Hottest sensor"
-msgstr ""
+msgstr "Capteur le plus chaud"
 
 #: src/modules/gpu_tune.rs:52
 msgid "Hotspot"
-msgstr ""
+msgstr "Point chaud"
 
 #: src/modules/gpu_tune.rs:173
 #, rust-format
 msgid "This card's curve has {} points."
-msgstr ""
+msgstr "La courbe de cette carte a {} points."
 
 #: src/modules/gpu_tune.rs:177
 #, rust-format
 msgid "Point {}: the clock must be between {} and {} MHz."
-msgstr ""
+msgstr "Point {} : la fréquence doit être entre {} et {} MHz."
 
 #: src/modules/gpu_tune.rs:180
 #, rust-format
 msgid "Point {}: the voltage must be between {} and {} mV."
-msgstr ""
+msgstr "Point {} : la tension doit être entre {} et {} mV."
 
 #: src/modules/gpu_tune.rs:184
 msgid "A higher point can't have a lower clock or voltage than a lower one."
 msgstr ""
+"Un point plus haut ne peut pas avoir une fréquence ou une tension plus basse qu’un point plus bas."
 
 #: src/modules/gpu_tune.rs:201
 msgid "A fan curve needs at least two points."
@@ -2922,6 +2934,7 @@ msgstr "Impossible de lire la ligne de courbe « {} »."
 msgid ""
 "Voltkit's GPU service will follow the fan curve by the {} temperature."
 msgstr ""
+"Le service GPU de Voltkit suivra la courbe du ventilateur selon la température {}."
 
 #: src/modules/gpu_tune.rs:392
 msgid "this card doesn't offer it"
@@ -2962,12 +2975,12 @@ msgstr "Ventilateur : contrôle manuel"
 #: src/modules/gpu_tune.rs:479
 #, rust-format
 msgid "This card doesn't report the {} temperature."
-msgstr ""
+msgstr "Cette carte ne signale pas la température {}."
 
 #: src/modules/gpu_tune.rs:483
 #, rust-format
 msgid "This card has no fan {}."
-msgstr ""
+msgstr "Cette carte n’a pas de ventilateur {}."
 
 #: src/modules/gpu_tune.rs:492
 #, rust-format
@@ -3077,12 +3090,12 @@ msgstr "Fréquence maximale : {} MHz"
 
 #: src/modules/gpu_tune.rs:614
 msgid "This card allows a voltage offset, not a full curve."
-msgstr ""
+msgstr "Cette carte autorise un décalage de tension, pas une courbe complète."
 
 #: src/modules/gpu_tune.rs:620
 #, rust-format
 msgid "Curve point {}: {} MHz at {} mV"
-msgstr ""
+msgstr "Point {} de la courbe : {} MHz à {} mV"
 
 #: src/modules/gpu_tune.rs:632
 msgid "Clocks and voltage: apply"
@@ -6220,6 +6233,9 @@ msgid ""
 "\n"
 "The file holds the settings for one card: its PCI address as \"gpu\", and any of \"power_limit_w\", \"fan\" ({\"mode\":\"auto\"}, {\"mode\":\"fixed\",\"speed_pct\":50} or {\"mode\":\"curve\",\"points\":[...]}), \"temperature_target_c\", \"core_offset_mhz\", \"mem_offset_mhz\", \"voltage_offset_mv\", for AMD cards with a full curve \"voltage_curve\" (a list of {\"mhz\":1450,\"mv\":800} points, all of them), and for Intel \"core_clock_min_mhz\" and \"core_clock_max_mhz\". Values the card doesn't allow are refused."
 msgstr ""
+"Appliquer des réglages GPU depuis un fichier JSON, en les annulant sans confirmation\n"
+"\n"
+"Le fichier contient les réglages d’une carte : son adresse PCI comme \"gpu\", et n’importe lequel des champs \"power_limit_w\", \"fan\" ({\"mode\":\"auto\"}, {\"mode\":\"fixed\",\"speed_pct\":50} ou {\"mode\":\"curve\",\"points\":[...]}), \"temperature_target_c\", \"core_offset_mhz\", \"mem_offset_mhz\", \"voltage_offset_mv\", pour les cartes AMD à courbe complète \"voltage_curve\" (une liste de points {\"mhz\":1450,\"mv\":800}, tous) et, pour Intel, \"core_clock_min_mhz\" et \"core_clock_max_mhz\". Les valeurs que la carte n’autorise pas sont refusées."
 
 #: src/main.rs (command-line help)
 msgid "The settings file, or - to read it from standard input"
@@ -6257,6 +6273,7 @@ msgstr ""
 #: src/main.rs (command-line help)
 msgid "Record the readings of a card for a while, to compare profiles later"
 msgstr ""
+"Enregistrer les mesures d’une carte pendant un moment, pour comparer des profils ensuite"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6264,23 +6281,28 @@ msgid ""
 "\n"
 "Writes a CSV file you can open in a spreadsheet, and prints a summary with the energy used and the clock-work each watt bought (\"active MHz per watt\"). Run it while a game or a benchmark is going, once per profile, then compare the sessions."
 msgstr ""
+"Enregistrer les mesures d’une carte pendant un moment, pour comparer des profils ensuite\n"
+"\n"
+"Écrit un fichier CSV ouvrable dans un tableur et affiche un résumé avec l’énergie consommée et le travail de fréquence obtenu par watt (« fréquence active par watt »). Lancez-le pendant qu’un jeu ou un test de performance tourne, une fois par profil, puis comparez les sessions."
 
 #: src/main.rs (command-line help)
 msgid "How many seconds to record"
-msgstr ""
+msgstr "Combien de secondes enregistrer"
 
 #: src/main.rs (command-line help)
 msgid "What is being tried, such as the profile name"
-msgstr ""
+msgstr "Ce qui est testé, comme le nom du profil"
 
 #: src/main.rs (command-line help)
 msgid "The card's PCI address (the first NVIDIA or AMD card by default)"
 msgstr ""
+"L’adresse PCI de la carte (par défaut, la première carte NVIDIA ou AMD)"
 
 #: src/main.rs (command-line help)
 msgid ""
 "Check Voltkit's readings against a second source and measure what monitoring costs"
 msgstr ""
+"Vérifier les mesures de Voltkit avec une seconde source et mesurer le coût de la surveillance"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6288,18 +6310,21 @@ msgid ""
 "\n"
 "On NVIDIA cards it compares NVML, which Voltkit reads, with `nvidia-smi` taken at the same moments, and reports how far apart they are against the accuracy targets. It also measures the CPU time and memory monitoring uses. Cards from other makers have no second source on most computers; the command says so."
 msgstr ""
+"Vérifier les mesures de Voltkit avec une seconde source et mesurer le coût de la surveillance\n"
+"\n"
+"Sur les cartes NVIDIA, il compare NVML, que lit Voltkit, avec `nvidia-smi` pris aux mêmes instants, et indique l’écart par rapport aux objectifs de précision. Il mesure aussi le temps de CPU et la mémoire qu’utilise la surveillance. Les cartes d’autres fabricants n’ont pas de seconde source sur la plupart des ordinateurs ; la commande le précise."
 
 #: src/main.rs (command-line help)
 msgid "How many seconds to compare for"
-msgstr ""
+msgstr "Combien de secondes comparer"
 
 #: src/main.rs (command-line help)
 msgid "List the recorded sessions, newest first"
-msgstr ""
+msgstr "Lister les sessions enregistrées, les plus récentes d’abord"
 
 #: src/main.rs (command-line help)
 msgid "Compare two recorded sessions side by side"
-msgstr ""
+msgstr "Comparer deux sessions enregistrées côte à côte"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6307,31 +6332,37 @@ msgid ""
 "\n"
 "Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power, energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency is \"active MHz per watt\", a proxy for work per watt; add an fps column from a tool such as MangoHud to a session file to get frames per second per watt too."
 msgstr ""
+"Comparer deux sessions enregistrées côte à côte\n"
+"\n"
+"Chaque session est un fichier, ou un numéro de `voltkit gpu sessions`. Affiche température, puissance, énergie, vitesse du ventilateur, fréquences et efficacité, et quelle session est la meilleure pour chacune. L’efficacité est la « fréquence active par watt », un indicateur approché du travail par watt ; ajoutez une colonne fps issue d’un outil comme MangoHud à un fichier de session pour obtenir aussi les images par seconde par watt."
 
 #: src/main.rs (command-line help)
 msgid "The first session"
-msgstr ""
+msgstr "La première session"
 
 #: src/main.rs (command-line help)
 msgid "The second session"
-msgstr ""
+msgstr "La deuxième session"
 
 #: src/main.rs (command-line help)
 msgid ""
 "Named profiles that switch automatically by power source, running app, load or temperature"
 msgstr ""
+"Profils nommés qui changent automatiquement selon la source d’alimentation, l’application en cours, la charge ou la température"
 
 #: src/main.rs (command-line help)
 msgid "List the saved profiles and the rules that switch between them"
 msgstr ""
+"Lister les profils enregistrés et les règles qui passent de l’un à l’autre"
 
 #: src/main.rs (command-line help)
 msgid "Show which profile each card is using now"
-msgstr ""
+msgstr "Afficher quel profil chaque carte utilise actuellement"
 
 #: src/main.rs (command-line help)
 msgid "Install profiles and rules from a JSON file, replacing the saved ones"
 msgstr ""
+"Installer des profils et des règles depuis un fichier JSON, en remplaçant ceux qui sont enregistrés"
 
 #: src/main.rs (command-line help)
 msgid ""
@@ -6339,10 +6370,13 @@ msgid ""
 "\n"
 "The file is a list with one entry per card: its PCI address as \"gpu\", its \"profiles\" (each a \"name\" and the same \"settings\" `voltkit gpu apply` takes), its \"rules\" (a \"profile\" and \"conditions\" such as {\"when\":\"power_source\",\"on_battery\":true}, {\"when\":\"app\",\"names\":[\"steam\"]}, {\"when\":\"workload\",\"util_above_pct\":80,\"for_secs\":30} or {\"when\":\"temperature\",\"above_c\":85}) and a \"default\" profile. Rules are tried in order."
 msgstr ""
+"Installer des profils et des règles depuis un fichier JSON, en remplaçant ceux qui sont enregistrés\n"
+"\n"
+"Le fichier est une liste avec une entrée par carte : son adresse PCI comme \"gpu\", ses \"profiles\" (chacun avec un \"name\" et les mêmes \"settings\" que prend `voltkit gpu apply`), ses \"rules\" (un \"profile\" et des \"conditions\" comme {\"when\":\"power_source\",\"on_battery\":true}, {\"when\":\"app\",\"names\":[\"steam\"]}, {\"when\":\"workload\",\"util_above_pct\":80,\"for_secs\":30} ou {\"when\":\"temperature\",\"above_c\":85}) et un profil \"default\". Les règles sont essayées dans l’ordre."
 
 #: src/main.rs (command-line help)
 msgid "The profiles file, or - to read it from standard input"
-msgstr ""
+msgstr "Le fichier de profils, ou - pour le lire sur l’entrée standard"
 
 #: src/main.rs (command-line help)
 msgid "Read QR codes from the screen or image files, or make them from text"

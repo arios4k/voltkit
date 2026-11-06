@@ -101,6 +101,8 @@ Auch das Schließen der App oder ein Absturz macht sie rückgängig. Gespeichert
 Hintergrunddienst beim Start an; er überspringt ein Profil, dessen Start nie abgeschlossen wurde, damit ein fehlerhaftes
 Sie nicht in einer Schleife festhält. `voltkit gpu` gibt denselben Bericht im Terminal aus.
 
+Bearbeiten Sie Lüfterkurven, indem Sie Punkte in einem Diagramm ziehen, und wählen Sie, welcher Temperatur sie folgen und welche Lüfter sie steuern. Speichern Sie Einstellungen als **Profile**, die von selbst wechseln: im Akkubetrieb, solange eine App läuft, unter anhaltender Last oder wenn die Karte heiß wird. **Zeichnen Sie eine Sitzung auf**, während ein Spiel oder Benchmark läuft, und vergleichen Sie zwei Profile nebeneinander: Temperatur, Leistung, Energie und Effizienz (aktiver Takt pro Watt oder Bilder pro Watt, wenn Bilder aufgezeichnet wurden). `voltkit gpu check` vergleicht die Messwerte von Voltkit mit `nvidia-smi` und misst, was die Überwachung kostet.
+
 Das Anwenden von Änderungen ist neu und wurde bisher nur mit simulierter Hardware getestet; was funktioniert, wie es
 sicher bleibt und was noch fehlt, steht in [docs/GPU_TUNER.md](docs/GPU_TUNER.md).
 

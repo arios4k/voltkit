@@ -582,11 +582,9 @@ pub fn check(seconds: u64) {
                 for a in results {
                     let verdict = if a.within_target() { tr("within target") } else { tr("outside target") };
                     println!(
-                        "    {}: {} {} {} {:.1} {u}, {} {:.1} {u}, {} {} {u} ({verdict})",
+                        "    {}: {} {:.1} {u}, {} {:.1} {u}, {} {} {u} ({verdict})",
                         tr(a.metric),
                         tr("average difference"),
-                        "",
-                        "",
                         a.mean_abs,
                         tr("largest"),
                         a.max_abs,

@@ -29,9 +29,9 @@ Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
 Mostrar las tarjetas gráficas, sus lecturas y lo que cada una permite controlar
 .TP
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
-Apply GPU settings from a JSON file, undoing them unless you confirm
+Aplicar ajustes de GPU desde un archivo JSON, deshaciéndolos si no confirmas
 
-The file holds the settings for one card: its PCI address as "gpu", and any of "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", for AMD cards with a full curve "voltage_curve" (a list of {"mhz":1450,"mv":800} points, all of them), and for Intel "core_clock_min_mhz" and "core_clock_max_mhz". Values the card doesn\*(Aqt allow are refused.
+El archivo contiene los ajustes de una tarjeta: su dirección PCI como "gpu" y cualquiera de "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} o {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", para las tarjetas AMD con curva completa "voltage_curve" (una lista de puntos {"mhz":1450,"mv":800}, todos) y, para Intel, "core_clock_min_mhz" y "core_clock_max_mhz". Se rechazan los valores que la tarjeta no permite.
 .RS
 \fB\-\-save\fR: Conservar los ajustes tras reiniciar y ejecutar las curvas de ventilador en el servicio en segundo plano
 .RE
@@ -49,37 +49,37 @@ Quitar los ajustes guardados de una tarjeta y devolverle el control de sus venti
 Ejecutar el servicio en segundo plano que aplica los ajustes de GPU guardados y sigue las curvas de ventilador
 .TP
 \fBvoltkit gpu record [\-\-seconds] [\-\-label] [\-\-gpu]\fR
-Record the readings of a card for a while, to compare profiles later
+Grabar las lecturas de una tarjeta durante un rato, para comparar perfiles después
 
-Writes a CSV file you can open in a spreadsheet, and prints a summary with the energy used and the clock\-work each watt bought ("active MHz per watt"). Run it while a game or a benchmark is going, once per profile, then compare the sessions.
+Escribe un archivo CSV que puedes abrir en una hoja de cálculo e imprime un resumen con la energía consumida y el trabajo de reloj que rindió cada vatio («frecuencia activa por vatio»). Ejecútalo mientras corre un juego o una prueba de rendimiento, una vez por perfil, y luego compara las sesiones.
 .RS
-\fB\-\-seconds\fR: How many seconds to record
+\fB\-\-seconds\fR: Cuántos segundos grabar
 .RE
 .RS
-\fB\-\-label\fR: What is being tried, such as the profile name
+\fB\-\-label\fR: Qué se está probando, como el nombre del perfil
 .RE
 .RS
-\fB\-\-gpu\fR: The card\*(Aqs PCI address (the first NVIDIA or AMD card by default)
+\fB\-\-gpu\fR: La dirección PCI de la tarjeta (por defecto, la primera tarjeta NVIDIA o AMD)
 .RE
 .TP
 \fBvoltkit gpu check [\-\-seconds]\fR
-Check Voltkit\*(Aqs readings against a second source and measure what monitoring costs
+Comprobar las lecturas de Voltkit con una segunda fuente y medir cuánto cuesta monitorear
 
-On NVIDIA cards it compares NVML, which Voltkit reads, with `nvidia\-smi` taken at the same moments, and reports how far apart they are against the accuracy targets. It also measures the CPU time and memory monitoring uses. Cards from other makers have no second source on most computers; the command says so.
+En las tarjetas NVIDIA compara NVML, que es lo que lee Voltkit, con `nvidia\-smi` tomado en los mismos momentos, e informa de cuánto difieren frente a los objetivos de precisión. También mide el tiempo de CPU y la memoria que usa el monitoreo. Las tarjetas de otros fabricantes no tienen una segunda fuente en la mayoría de los equipos; el comando lo indica.
 .RS
-\fB\-\-seconds\fR: How many seconds to compare for
+\fB\-\-seconds\fR: Cuántos segundos comparar
 .RE
 .TP
 \fBvoltkit gpu sessions\fR
-List the recorded sessions, newest first
+Listar las sesiones grabadas, las más recientes primero
 .TP
 \fBvoltkit gpu compare\fR
-Compare two recorded sessions side by side
+Comparar dos sesiones grabadas lado a lado
 
-Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power, energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency is "active MHz per watt", a proxy for work per watt; add an fps column from a tool such as MangoHud to a session file to get frames per second per watt too.
+Cada sesión es un archivo, o un número de `voltkit gpu sessions`. Muestra temperatura, potencia, energía, velocidad del ventilador, frecuencias y eficiencia, y qué sesión es mejor en cada una. La eficiencia es la «frecuencia activa por vatio», un indicador aproximado del trabajo por vatio; añade una columna fps de una herramienta como MangoHud a un archivo de sesión para obtener también fotogramas por segundo por vatio.
 .TP
 \fBvoltkit gpu profiles\fR
-Named profiles that switch automatically by power source, running app, load or temperature
+Perfiles con nombre que cambian solos según la fuente de energía, la app en ejecución, la carga o la temperatura
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .ie \n(.g .ds Aq \(aq
