@@ -61,7 +61,8 @@ enum GpuCommand {
     /// The file holds the settings for one card: its PCI address as "gpu", and any of
     /// "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or
     /// {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz",
-    /// "mem_offset_mhz" and "voltage_offset_mv". Values the card doesn't allow are refused.
+    /// "mem_offset_mhz", "voltage_offset_mv", and for Intel "core_clock_min_mhz" and
+    /// "core_clock_max_mhz". Values the card doesn't allow are refused.
     Apply {
         /// The settings file, or - to read it from standard input
         file: String,
@@ -214,7 +215,7 @@ enum Command {
     /// last week with what started and ended each one and the battery used, and the USB devices
     /// allowed to wake it.
     Sleep,
-    /// Monitor NVIDIA and AMD graphics cards and tune their power, fans, clocks and temperature
+    /// Monitor NVIDIA, AMD and Intel graphics cards and tune their power, fans, clocks and temperature
     ///
     /// Without a subcommand, shows each card with its readings and which controls it supports,
     /// with the reason for any it doesn't. Changing settings needs administrator rights, and

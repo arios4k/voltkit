@@ -34,7 +34,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
         let status = adw::StatusPage::builder()
             .icon_name("applications-graphics-symbolic")
             .title(tr("No graphics cards were found."))
-            .description(tr("Voltkit looks for NVIDIA and AMD cards through the kernel's graphics devices."))
+            .description(tr("Voltkit looks for NVIDIA, AMD and Intel cards through the kernel's graphics devices."))
             .vexpand(true)
             .build();
         outer.append(&status);
@@ -256,8 +256,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
         .title(tr("Tune"))
         .description(tr("Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."))
         .build();
-    let any = Control::ALL.iter().any(|c| *c != Control::Monitoring && *c != Control::VoltageCurve && supported(card, *c))
-        || supported(card, Control::VoltageCurve);
+    let any = Control::ALL.iter().any(|c| *c != Control::Monitoring && supported(card, *c));
     if !any {
         group.add(&adw::ActionRow::builder().title(tr("Nothing on this card can be changed")).subtitle(tr("See what this card supports for the reasons.")).build());
         return group;
@@ -451,6 +450,19 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
         (row, core, mem)
     });
 
+    let limits = supported(card, Control::ClockLimits).then(|| {
+        let (lo, hi) = crate::modules::gpu::intel_freq(&card.gpu).map_or((0.0, 4000.0), |f| {
+            let num = |p: &Option<std::path::PathBuf>| p.as_deref().and_then(|p| std::fs::read_to_string(p).ok()).and_then(|v| v.trim().parse::<f64>().ok());
+            (num(&f.rpn).unwrap_or(0.0), num(&f.rp0).unwrap_or(4000.0))
+        });
+        let row = expander(tr("Clock limits"), trf!("Keep the clock between a minimum and a maximum, from {} to {} MHz.", format!("{lo:.0}"), format!("{hi:.0}")));
+        let (min, max) = (spin(tr("Minimum (MHz)"), None, lo, lo, hi, 50.0), spin(tr("Maximum (MHz)"), None, hi, lo, hi, 50.0));
+        row.add_row(&min);
+        row.add_row(&max);
+        group.add(&row);
+        (row, min, max)
+    });
+
     let voltage = supported(card, Control::VoltageCurve).then(|| {
         let row = expander(tr("Voltage offset"), tr("Lower the voltage for less heat, or raise it for stability."));
         let value = spin(tr("Millivolts (mV)"), None, 0.0, -200.0, 0.0, 5.0);
@@ -490,6 +502,12 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
             {
                 s.core_offset_mhz = Some(core.value() as i32);
                 s.mem_offset_mhz = Some(mem.value() as i32);
+            }
+            if let Some((row, min, max)) = &limits
+                && row.enables_expansion()
+            {
+                s.core_clock_min_mhz = Some(min.value() as u32);
+                s.core_clock_max_mhz = Some(max.value() as u32);
             }
             if let Some((row, v)) = &voltage
                 && row.enables_expansion()

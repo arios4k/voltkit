@@ -86,17 +86,19 @@ pub enum Control {
     PowerLimit,
     TemperatureTarget,
     ClockOffsets,
+    ClockLimits,
     VoltageCurve,
 }
 
 impl Control {
-    pub const ALL: [Control; 7] = [
+    pub const ALL: [Control; 8] = [
         Control::Monitoring,
         Control::FanSpeed,
         Control::FanCurve,
         Control::PowerLimit,
         Control::TemperatureTarget,
         Control::ClockOffsets,
+        Control::ClockLimits,
         Control::VoltageCurve,
     ];
 
@@ -108,6 +110,7 @@ impl Control {
             Control::PowerLimit => N_!("Power limit"),
             Control::TemperatureTarget => N_!("Temperature target"),
             Control::ClockOffsets => N_!("Clock offsets"),
+            Control::ClockLimits => N_!("Clock limits"),
             Control::VoltageCurve => N_!("Voltage and frequency curve"),
         })
     }
@@ -327,6 +330,7 @@ fn amd_capabilities(gpu: &Gpu, sample: &Sample, sys: &Path) -> Vec<Capability> {
                 Support::Detected(tr("The driver's overdrive table is available."))
             }
             Control::ClockOffsets => overdrive_missing(&tr("clock offsets")),
+            Control::ClockLimits => Support::Unavailable { reason: tr("This driver offers clock offsets, not clock limits."), how_to: None },
             Control::VoltageCurve if od_table.contains("OD_VDDC_CURVE") => {
                 Support::Detected(tr("The card exposes a voltage and frequency curve."))
             }
@@ -431,6 +435,9 @@ fn nvidia_capabilities(gpu: &Gpu, reported: bool, probe: Option<&NvidiaProbe>) -
                         (Ok(_), _) | (_, Ok(_)) => Support::Detected(tr("The driver reports core and memory clock offsets.")),
                         (Err(e), _) => why(e, &tr("clock offsets"), true),
                     },
+                    Control::ClockLimits => {
+                        Support::Unavailable { reason: tr("This driver offers clock offsets, not clock limits."), how_to: None }
+                    }
                     Control::VoltageCurve => Support::Unavailable {
                         reason: tr("NVIDIA's driver offers clock offsets, not a voltage and frequency curve."),
                         how_to: None,
@@ -444,13 +451,114 @@ fn nvidia_capabilities(gpu: &Gpu, reported: bool, probe: Option<&NvidiaProbe>) -
     out
 }
 
-fn unsupported_capabilities(gpu: &Gpu) -> Vec<Capability> {
+// ---------------------------------------------------------------- Intel
+
+/// The frequency files of an Intel card. Different driver generations put them
+/// in different places, so the first set that has a minimum and a maximum wins.
+#[derive(Clone, Debug)]
+pub struct IntelFreq {
+    pub min: PathBuf,
+    pub max: PathBuf,
+    pub cur: Option<PathBuf>,
+    pub act: Option<PathBuf>,
+    pub rp0: Option<PathBuf>,
+    pub rpn: Option<PathBuf>,
+}
+
+pub fn intel_freq(gpu: &Gpu) -> Option<IntelFreq> {
+    let card = gpu.device.parent()?;
+    let set = |dir: PathBuf, names: [&str; 6]| {
+        let [min, max, cur, act, rp0, rpn] = names.map(|n| dir.join(n));
+        (min.exists() && max.exists()).then(|| {
+            let some = |p: PathBuf| p.exists().then_some(p);
+            IntelFreq { min, max, cur: some(cur), act: some(act), rp0: some(rp0), rpn: some(rpn) }
+        })
+    };
+    set(card.to_path_buf(), ["gt_min_freq_mhz", "gt_max_freq_mhz", "gt_cur_freq_mhz", "gt_act_freq_mhz", "gt_RP0_freq_mhz", "gt_RPn_freq_mhz"])
+        .or_else(|| {
+            set(card.join("gt/gt0"), ["rps_min_freq_mhz", "rps_max_freq_mhz", "rps_cur_freq_mhz", "rps_act_freq_mhz", "rps_RP0_freq_mhz", "rps_RPn_freq_mhz"])
+        })
+        .or_else(|| {
+            set(gpu.device.join("tile0/gt0/freq0"), ["min_freq", "max_freq", "cur_freq", "act_freq", "rp0_freq", "rpn_freq"])
+        })
+}
+
+/// How long the card has spent idle, in milliseconds, for working out utilization.
+fn intel_idle_ms(gpu: &Gpu) -> Option<f64> {
+    let card = gpu.device.parent()?;
+    [card.join("gt/gt0/rc6_residency_ms"), card.join("power/rc6_residency_ms"), gpu.device.join("tile0/gt0/gtidle/idle_residency_ms")]
+        .iter()
+        .find_map(|p| read_num(p))
+}
+
+fn intel_sample(gpu: &Gpu) -> Sample {
+    let mut s = Sample::default();
+    if let Some(f) = intel_freq(gpu) {
+        s.core_mhz = f.act.as_deref().and_then(read_num).or_else(|| f.cur.as_deref().and_then(read_num));
+    }
+    if let Some(hw) = amd_hwmon(&gpu.device) {
+        let micro = |name: &str| read_num(&hw.join(name)).map(|v| v / 1e6);
+        s.temp_c = read_num(&hw.join("temp1_input")).map(|v| v / 1000.0);
+        s.fan_rpm = read_num(&hw.join("fan1_input"));
+        // 0 means no limit is set.
+        s.limit_w = micro("power1_max").filter(|w| *w > 0.0);
+        s.limit_max_w = micro("power1_rated_max").filter(|w| *w > 0.0);
+        s.limit_min_w = s.limit_max_w.map(|_| 1.0);
+    }
+    s
+}
+
+fn intel_capabilities(gpu: &Gpu, sample: &Sample) -> Vec<Capability> {
+    let freq = intel_freq(gpu);
+    let hw = amd_hwmon(&gpu.device);
+    let in_hw = |name: &str| hw.as_ref().is_some_and(|h| h.join(name).exists());
+    let mut out = Vec::new();
+    for control in Control::ALL {
+        let support = match control {
+            Control::Monitoring if freq.is_some() => Support::Detected(tr("Clocks and utilization are readable; discrete cards also report temperature and fan.")),
+            Control::Monitoring => Support::Unavailable { reason: tr("The driver exposes no frequency information for this card."), how_to: None },
+            Control::ClockLimits => match &freq {
+                Some(f) => {
+                    let n = |p: &Option<PathBuf>| p.as_deref().and_then(read_num);
+                    match (n(&f.rpn), n(&f.rp0)) {
+                        (Some(lo), Some(hi)) => Support::Detected(trf!("Minimum and maximum clock, between {} MHz and {} MHz.", format!("{lo:.0}"), format!("{hi:.0}"))),
+                        _ => Support::Detected(tr("Minimum and maximum clock.")),
+                    }
+                }
+                None => Support::Unavailable { reason: tr("The driver doesn't expose clock limits for this card."), how_to: None },
+            },
+            Control::PowerLimit if in_hw("power1_max") && sample.limit_max_w.is_some() => {
+                Support::Detected(trf!("Adjustable up to {} W.", format!("{:.0}", sample.limit_max_w.unwrap_or_default())))
+            }
+            Control::PowerLimit => Support::Unavailable {
+                reason: tr("Integrated Intel graphics share the processor's power budget, which firmware sets. Only discrete Arc cards have their own limit."),
+                how_to: None,
+            },
+            Control::FanSpeed | Control::FanCurve => Support::Unavailable {
+                reason: if in_hw("fan1_input") {
+                    tr("The card's fan is controlled by its firmware.")
+                } else {
+                    tr("No fan is visible to the driver. Integrated graphics use the system fan, which firmware controls.")
+                },
+                how_to: None,
+            },
+            Control::TemperatureTarget | Control::ClockOffsets | Control::VoltageCurve => Support::Unavailable {
+                reason: tr("Intel's driver doesn't allow changing this."),
+                how_to: None,
+            },
+        };
+        out.push(Capability { control, support });
+    }
+    out
+}
+
+fn unsupported_capabilities() -> Vec<Capability> {
     Control::ALL
         .into_iter()
         .map(|control| Capability {
             control,
             support: Support::Unavailable {
-                reason: trf!("GPU Tuner covers NVIDIA and AMD cards; this is an {} card.", gpu.vendor.name()),
+                reason: tr("GPU Tuner covers NVIDIA, AMD and Intel cards; this one isn't."),
                 how_to: None,
             },
         })
@@ -496,7 +604,12 @@ pub fn inspect_with(
                     let capabilities = nvidia_capabilities(&gpu, reading.is_some() || sample != Sample::default(), probe_out.as_ref());
                     (sample, capabilities)
                 }
-                _ => (Sample::default(), unsupported_capabilities(&gpu)),
+                Vendor::Intel => {
+                    let sample = intel_sample(&gpu);
+                    let capabilities = intel_capabilities(&gpu, &sample);
+                    (sample, capabilities)
+                }
+                Vendor::Other => (Sample::default(), unsupported_capabilities()),
             };
             Card { gpu, sample, capabilities, probe: probe_out }
         })
@@ -508,11 +621,13 @@ pub fn inspect_with(
 pub struct Monitor {
     gpus: Vec<Gpu>,
     nvml: Option<Nvml>,
+    /// The last idle time of each Intel card, to work out utilization.
+    idle: std::sync::Mutex<HashMap<String, (std::time::Instant, f64)>>,
 }
 
 impl Monitor {
     pub fn new(gpus: Vec<Gpu>) -> Self {
-        Monitor { gpus, nvml: Nvml::open().ok() }
+        Monitor { gpus, nvml: Nvml::open().ok(), idle: std::sync::Mutex::new(HashMap::new()) }
     }
 
     pub fn sample(&self) -> Vec<Sample> {
@@ -528,7 +643,21 @@ impl Monitor {
                     .and_then(|n| n.sample(&g.address).ok())
                     .or_else(|| smi.get(&g.address).map(|(_, s)| s.clone()))
                     .unwrap_or_default(),
-                _ => Sample::default(),
+                Vendor::Intel => {
+                    let mut s = intel_sample(g);
+                    if let Some(idle) = intel_idle_ms(g) {
+                        let now = std::time::Instant::now();
+                        let mut last = self.idle.lock().unwrap_or_else(|e| e.into_inner());
+                        if let Some((then, was)) = last.insert(g.address.clone(), (now, idle)) {
+                            let elapsed = now.duration_since(then).as_secs_f64() * 1000.0;
+                            if elapsed > 0.0 {
+                                s.util_pct = Some((100.0 * (1.0 - (idle - was) / elapsed)).clamp(0.0, 100.0));
+                            }
+                        }
+                    }
+                    s
+                }
+                Vendor::Other => Sample::default(),
             })
             .collect()
     }
@@ -683,7 +812,8 @@ mod tests {
     fn a_full_amd_card_offers_every_control() {
         let tree = amd_tree(FULL_AMD, Some("0xffffffff"));
         let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
-        for c in Control::ALL {
+        // Clock limits are an Intel control; AMD cards take offsets.
+        for c in Control::ALL.into_iter().filter(|c| *c != Control::ClockLimits) {
             assert!(matches!(support(card, c), Support::Detected(_)), "{c:?}: {:?}", support(card, c));
         }
     }
@@ -811,14 +941,80 @@ mod tests {
         }
     }
 
+    fn intel_tree(files: &[(&str, &str)]) -> tempdir::Tree {
+        let tree = tempdir::Tree::new();
+        let card = tree.path().join("class/drm/card0");
+        fs::create_dir_all(card.join("device")).unwrap();
+        fs::write(card.join("device/vendor"), "0x8086\n").unwrap();
+        for (path, content) in files {
+            let p = card.join(path);
+            fs::create_dir_all(p.parent().unwrap()).unwrap();
+            fs::write(p, content).unwrap();
+        }
+        tree
+    }
+
+    const IGPU: &[(&str, &str)] = &[
+        ("gt_min_freq_mhz", "300\n"),
+        ("gt_max_freq_mhz", "1150\n"),
+        ("gt_cur_freq_mhz", "350\n"),
+        ("gt_act_freq_mhz", "300\n"),
+        ("gt_RP0_freq_mhz", "1150\n"),
+        ("gt_RPn_freq_mhz", "300\n"),
+    ];
+
+    #[test]
+    fn reads_and_describes_an_integrated_intel_card() {
+        let tree = intel_tree(IGPU);
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        assert_eq!(card.gpu.vendor, Vendor::Intel);
+        assert_eq!(card.sample.core_mhz, Some(300.0));
+        assert!(matches!(support(card, Control::Monitoring), Support::Detected(_)));
+        match support(card, Control::ClockLimits) {
+            Support::Detected(note) => assert!(note.contains("300") && note.contains("1150"), "{note}"),
+            other => panic!("{other:?}"),
+        }
+        match support(card, Control::PowerLimit) {
+            Support::Unavailable { reason, .. } => assert!(reason.contains("Integrated")),
+            other => panic!("{other:?}"),
+        }
+        for c in [Control::FanSpeed, Control::TemperatureTarget, Control::ClockOffsets, Control::VoltageCurve] {
+            assert!(matches!(support(card, c), Support::Unavailable { .. }), "{c:?}");
+        }
+    }
+
+    #[test]
+    fn finds_frequency_files_in_newer_driver_layouts() {
+        let gt0 = intel_tree(&[("gt/gt0/rps_min_freq_mhz", "300"), ("gt/gt0/rps_max_freq_mhz", "1100"), ("gt/gt0/rps_act_freq_mhz", "450")]);
+        assert_eq!(inspect_with(gt0.path(), &HashMap::new(), &|_| None, &|_| None)[0].sample.core_mhz, Some(450.0));
+        let xe = tempdir::Tree::new();
+        let device = xe.path().join("class/drm/card0/device");
+        fs::create_dir_all(device.join("tile0/gt0/freq0")).unwrap();
+        fs::write(device.join("vendor"), "0x8086").unwrap();
+        for (n, v) in [("min_freq", "400"), ("max_freq", "2400"), ("act_freq", "800")] {
+            fs::write(device.join("tile0/gt0/freq0").join(n), v).unwrap();
+        }
+        assert_eq!(inspect_with(xe.path(), &HashMap::new(), &|_| None, &|_| None)[0].sample.core_mhz, Some(800.0));
+    }
+
+    #[test]
+    fn a_discrete_arc_card_offers_a_power_limit() {
+        let mut files = IGPU.to_vec();
+        files.extend([("device/hwmon/hwmon2/power1_max", "120000000"), ("device/hwmon/hwmon2/power1_rated_max", "190000000"), ("device/hwmon/hwmon2/temp1_input", "58000")]);
+        let tree = intel_tree(&files);
+        let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
+        assert_eq!((card.sample.limit_w, card.sample.limit_max_w, card.sample.temp_c), (Some(120.0), Some(190.0), Some(58.0)));
+        assert!(matches!(support(card, Control::PowerLimit), Support::Detected(_)));
+    }
+
     #[test]
     fn other_vendors_are_listed_but_not_tuned() {
         let tree = tempdir::Tree::new();
         let device = tree.path().join("class/drm/card0/device");
         fs::create_dir_all(&device).unwrap();
-        fs::write(device.join("vendor"), "0x8086\n").unwrap();
+        fs::write(device.join("vendor"), "0x1234\n").unwrap();
         let card = &inspect_with(tree.path(), &HashMap::new(), &|_| None, &|_| None)[0];
-        assert_eq!(card.gpu.vendor, Vendor::Intel);
+        assert_eq!(card.gpu.vendor, Vendor::Other);
         assert!(card.capabilities.iter().all(|c| matches!(c.support, Support::Unavailable { .. })));
     }
 

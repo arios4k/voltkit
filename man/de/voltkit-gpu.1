@@ -4,7 +4,7 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
-voltkit\-gpu \- Monitor NVIDIA and AMD graphics cards and tune their power, fans, clocks and temperature
+voltkit\-gpu \- NVIDIA\-, AMD\- und Intel\-Grafikkarten überwachen und Leistung, Lüfter, Takte und Temperatur einstellen
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH ÜBERSICHT
@@ -12,9 +12,9 @@ voltkit\-gpu \- Monitor NVIDIA and AMD graphics cards and tune their power, fans
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH BESCHREIBUNG
-Monitor NVIDIA and AMD graphics cards and tune their power, fans, clocks and temperature
+NVIDIA\-, AMD\- und Intel\-Grafikkarten überwachen und Leistung, Lüfter, Takte und Temperatur einstellen
 .PP
-Without a subcommand, shows each card with its readings and which controls it supports, with the reason for any it doesn\*(Aqt. Changing settings needs administrator rights, and anything you don\*(Aqt confirm is undone.
+Ohne Unterbefehl zeigt es jede Karte mit ihren Messwerten und den unterstützten Steuerungen an, bei den nicht unterstützten mit dem Grund. Das Ändern von Einstellungen erfordert Administratorrechte, und alles, was Sie nicht bestätigen, wird rückgängig gemacht.
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH OPTIONEN
@@ -26,27 +26,27 @@ Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
 .SH BEFEHLE
 .TP
 \fBvoltkit gpu show\fR
-Show the graphics cards, their readings and what each lets you control
+Die Grafikkarten, ihre Messwerte und die jeweils möglichen Steuerungen anzeigen
 .TP
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
-Apply GPU settings from a JSON file, undoing them unless you confirm
+GPU\-Einstellungen aus einer JSON\-Datei anwenden und rückgängig machen, wenn Sie nicht bestätigen
 
-The file holds the settings for one card: its PCI address as "gpu", and any of "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz" and "voltage_offset_mv". Values the card doesn\*(Aqt allow are refused.
+Die Datei enthält die Einstellungen für eine Karte: ihre PCI\-Adresse als "gpu" und beliebige der Felder "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} oder {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv" und für Intel "core_clock_min_mhz" und "core_clock_max_mhz". Werte, die die Karte nicht erlaubt, werden abgelehnt.
 .RS
-\fB\-\-save\fR: Keep the settings after a restart, and run fan curves in the background service
+\fB\-\-save\fR: Die Einstellungen nach einem Neustart beibehalten und Lüfterkurven im Hintergrunddienst ausführen
 .RE
 .RS
-\fB\-\-yes\fR: Keep the settings without asking for confirmation
+\fB\-\-yes\fR: Die Einstellungen ohne Rückfrage beibehalten
 .RE
 .RS
-\fB\-\-confirm\fR: Seconds to wait for confirmation before undoing the change
+\fB\-\-confirm\fR: Sekunden, die auf die Bestätigung gewartet wird, bevor die Änderung rückgängig gemacht wird
 .RE
 .TP
 \fBvoltkit gpu forget\fR
-Remove a card\*(Aqs saved settings and give its fans back to the card
+Gespeicherte Einstellungen einer Karte entfernen und ihre Lüfter an die Karte zurückgeben
 .TP
 \fBvoltkit gpu service\fR
-Run the background service that applies saved GPU settings and follows fan curves
+Den Hintergrunddienst ausführen, der gespeicherte GPU\-Einstellungen anwendet und Lüfterkurven folgt
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .ie \n(.g .ds Aq \(aq

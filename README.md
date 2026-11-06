@@ -9,7 +9,7 @@
 **Power tools for your Linux desktop.**
 Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
 Smart Paste, Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
-manager, a sleep troubleshooter, a system report and a shortcut detective, in one app.
+manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU tuner, in one app.
 
 [![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -26,7 +26,7 @@ manager, a sleep troubleshooter, a system report and a shortcut detective, in on
 
 </div>
 
-## One app instead of fourteen
+## One app instead of fifteen
 
 Getting these basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
@@ -37,6 +37,7 @@ hotkeys:
 | nothing: there was no screen for it | **App Permissions**: change or forget the answers you gave apps asking for screenshots, the camera, your location and more | — |
 | a separate image compressor, plus ffmpeg incantations | **Asset Compressor**: drop PNG, JPEG, WebP or MP4 files to strip metadata and shrink them | drag &amp; drop |
 | a separate color picker | **Color Picker**: an eyedropper for any pixel, HEX/RGB/HSL, WCAG contrast check and history | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| a separate GPU tuning tool, plus vendor utilities | **GPU Tuner**: monitor NVIDIA, AMD and Intel graphics cards and change power limits, fans and fan curves, temperature targets, clocks and voltage, with every change previewed and undone unless you confirm it | — |
 | editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
 | a shell extension to keep the screen on | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
 | a QR scanner on your phone or a QR website | **QR Code**: read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> |
@@ -83,6 +84,20 @@ WCAG standards (AA / AAA), and remembers your recent colors.
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
   <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Color Picker with a live preview, HEX/RGB/HSL formats, contrast ratings, and saved colors">
 </picture>
+
+### 🎛️ GPU Tuner
+
+Watch your NVIDIA, AMD and Intel graphics cards live, with history, and change what the hardware allows: the power
+limit, a fixed fan speed or a fan curve, the temperature a card aims for, clock offsets or limits, and voltage.
+**What this card supports** lists every control the way the driver reports it, and says why one is missing and what
+could enable it (a laptop GPU that hides its fan, or an AMD card that needs `amdgpu.ppfeaturemask`). Changes are
+checked against the card's own limits, previewed, applied through a root helper, and **undone unless you confirm
+them**: closing the app or a crash reverts them too. Saved settings are applied at startup by a background service,
+which skips a profile that never finished starting, so a bad one can't lock you in a loop. `voltkit gpu` prints the same
+report in a terminal.
+
+Applying changes is new and has so far been tested against simulated hardware only; see
+[docs/GPU_TUNER.md](docs/GPU_TUNER.md) for what works, how it stays safe, and what isn't built yet.
 
 ### 📝 Hosts & Environment
 
@@ -456,6 +471,8 @@ src/
   usage_ui.rs        What's Using This? page
   permissions_ui.rs  App Permissions page
   sleep_ui.rs        Why Didn't It Sleep? page
+  gpu_ui.rs          GPU Tuner page: readings, support report, controls
+  gpu_cli.rs         `voltkit gpu`, the root helper and the background service
   sysreport_ui.rs    System Report page
   detective_ui.rs    Shortcut Detective page
   smartpaste_ui.rs   Smart Paste window and page
@@ -475,6 +492,9 @@ src/
     usage.rs         finds and closes the processes using a path or port (/proc)
     permissions.rs   the desktop portal's permission store
     sleep.rs         sleep blockers, sleep history (journal, UPower) and wake devices
+    gpu.rs           GPU detection, sensors and what each card supports (NVIDIA, AMD, Intel)
+    gpu_tune.rs      validated, transactional GPU changes, fan curves, startup guard
+    nvml.rs          NVIDIA management library binding
     sysreport.rs     hardware, checks, drive health, sensors, firmware, snapshots, SMBIOS memory
     keybindings.rs   every GSettings shortcut: owners, clashes, free combinations, changes
     smartpaste.rs    Smart Paste's text conversions

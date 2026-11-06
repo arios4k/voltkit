@@ -8,7 +8,7 @@
 
 **为你的 Linux 桌面带来强大工具。**
 屏幕 OCR、二维码扫描、取色器、屏幕标尺、图片和视频压缩器、文本扩展、智能粘贴、保持唤醒、hosts 与环境变量编辑器、
-“是什么在占用它？”查找工具、应用权限管理器、休眠问题排查、系统报告和快捷键侦探，集于一个应用。
+“是什么在占用它？”查找工具、应用权限管理器、休眠问题排查、系统报告、快捷键侦探和 GPU 调节器，集于一个应用。
 
 [![最新版本](https://img.shields.io/github/v/release/arios4k/voltkit?label=%E7%89%88%E6%9C%AC&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -28,7 +28,7 @@
 > Voltkit 提供简体中文、英语、西班牙语、德语和法语，并会自动使用你系统的语言：应用、命令行和手册页（`man voltkit`）
 > 都是如此。本页的截图为英文版。
 
-## 一个应用，取代十四个
+## 一个应用，取代十五个
 
 在 Linux 上要凑齐这些基础功能，往往得为每件事各找一个小工具，每个都有自己的外观、设置和快捷键。Voltkit 把它们
 放进一个原生 GTK4 应用，共用一套快捷键：
@@ -38,6 +38,7 @@
 | 没有：根本没有对应的界面 | **应用权限**：更改或遗忘你对应用的截屏、摄像头、位置等请求所给出的回答 | — |
 | 单独的图片压缩器，再加一堆 ffmpeg 咒语 | **资源压缩器**：拖入 PNG、JPEG、WebP 或 MP4 文件，即可删除元数据并缩小体积 | 拖放 |
 | 单独的取色器 | **取色器**：可吸取任意像素，支持 HEX/RGB/HSL、WCAG 对比度检查和历史记录 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| 单独的 GPU 调节工具，外加各厂商的实用程序 | **GPU 调节器**：监控 NVIDIA、AMD 和 Intel 显卡，并更改功耗上限、风扇与风扇曲线、目标温度、频率和电压，每次更改都会先预览，未经确认即撤销 | — |
 | 在终端里编辑 `/etc/hosts` 和 `~/.profile` | **Hosts 与环境变量**：开关 hosts 条目，并管理会话的环境变量 | — |
 | 用来保持屏幕常亮的 shell 扩展 | **保持唤醒**：让电脑在 30 分钟到 4 小时内，或直到你关闭为止，不休眠、不锁屏 | — |
 | 手机上的扫码工具或二维码网站 | **二维码**：读取屏幕上任意位置的二维码，或把文字、链接和 Wi-Fi 信息生成二维码 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> |
@@ -82,6 +83,16 @@ WebP 减小 60%，MP4 减小 77%。
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
   <img src="docs/screenshots/color-light.png?v=0.7.0" alt="取色器，带实时预览、HEX/RGB/HSL 格式、对比度评级和已保存的颜色">
 </picture>
+
+### 🎛️ GPU 调节器
+
+实时查看你的 NVIDIA、AMD 和 Intel 显卡及其历史曲线，并更改硬件允许的内容：功耗上限、固定风扇转速或风扇曲线、显卡要维持的温度、
+频率偏移或频率上下限，以及电压。**这块显卡支持什么**会按驱动报告的情况列出每个控制项，并说明缺少某一项的原因以及怎样可能开启它
+（比如隐藏了风扇的笔记本 GPU，或需要 `amdgpu.ppfeaturemask` 的 AMD 显卡）。更改会对照显卡自身的限制进行检查、先预览，再通过 root
+辅助程序应用，并且**未经确认就会撤销**：关闭应用或应用崩溃同样会撤销。已保存的设置由后台服务在启动时应用，它会跳过一个始终没能启动完成的
+配置，因此有问题的配置不会让你陷入循环。`voltkit gpu` 会在终端中输出同样的报告。
+
+应用更改是新功能，目前只用模拟硬件测试过；哪些可用、如何保证安全以及还有什么没做，请参阅 [docs/GPU_TUNER.md](docs/GPU_TUNER.md)。
 
 ### 📝 Hosts 与环境变量
 
@@ -431,6 +442,8 @@ src/
   usage_ui.rs        “是什么在占用它？”页面
   permissions_ui.rs  应用权限页面
   sleep_ui.rs        “为什么没有休眠？”页面
+  gpu_ui.rs          GPU 调节器页面：读数、支持情况报告、控制项
+  gpu_cli.rs         `voltkit gpu`、root 辅助程序和后台服务
   sysreport_ui.rs    系统报告页面
   detective_ui.rs    快捷键侦探页面
   smartpaste_ui.rs   智能粘贴窗口和页面
@@ -450,6 +463,9 @@ src/
     usage.rs         查找并关闭占用某个路径或端口的进程 (/proc)
     permissions.rs   桌面门户的权限存储
     sleep.rs         休眠阻止项、休眠历史（日志、UPower）和唤醒设备
+    gpu.rs           GPU 检测、传感器以及每块显卡支持什么（NVIDIA、AMD、Intel）
+    gpu_tune.rs      经过验证、具事务性的 GPU 更改、风扇曲线、启动保护
+    nvml.rs          NVIDIA 管理库的绑定
     sysreport.rs     硬件、检查项、磁盘健康、传感器、固件、快照、SMBIOS 内存
     keybindings.rs   所有 GSettings 快捷键：所有者、冲突、空闲组合、更改
     smartpaste.rs    智能粘贴的文本转换

@@ -1,7 +1,8 @@
 # GPU Tuner
 
-GPU Tuner monitors NVIDIA and AMD graphics cards and changes their power limit,
-fans and fan curves, temperature target, clock offsets and voltage offset. It
+GPU Tuner monitors NVIDIA, AMD and Intel graphics cards and changes their power
+limit, fans and fan curves, temperature target, clock offsets or limits and
+voltage offset. It
 works from what each card's driver reports, and says so when a control isn't
 available, why, and what (if anything) enables it.
 
@@ -12,17 +13,18 @@ never implies that software can get past hardware, firmware or driver limits.
 
 ## What works today
 
-| Control | AMD (amdgpu sysfs) | NVIDIA (NVML) |
-|---|---|---|
-| Monitoring | temperature, hotspot, power, clocks, fan, utilization, memory | the same, through NVML (`nvidia-smi` if NVML is missing) |
-| Power limit | `hwmon/power1_cap`, within the card's range | `nvmlDeviceSetPowerManagementLimit`, within the reported range |
-| Fixed fan speed | `pwm1` with `pwm1_enable` | `nvmlDeviceSetFanSpeed_v2`, every fan |
-| Fan curve | the driver's `gpu_od/fan_ctrl/fan_curve` when it exists, otherwise followed by the service | followed by the service |
-| Temperature target | `gpu_od/fan_ctrl/fan_target_temperature` (RDNA 3 and newer) | the acoustic temperature threshold |
-| Clock offsets | `pp_od_clk_voltage` (maximum clock or offset style) | `nvmlDeviceSet{Gpc,Mem}ClkVfOffset` |
-| Voltage | voltage offset (`vo`) where the table has `OD_VDDGFX_OFFSET`; full curve tables are read but not yet edited | not offered: NVIDIA's driver exposes offsets, not a curve |
+| Control | AMD (amdgpu sysfs) | NVIDIA (NVML) | Intel (i915 / xe sysfs) |
+|---|---|---|---|
+| Monitoring | temperature, hotspot, power, clocks, fan, utilization, memory | the same, through NVML (`nvidia-smi` if NVML is missing) | clocks, utilization (from idle time); temperature and fan on discrete Arc cards |
+| Power limit | `hwmon/power1_cap`, within the card's range | `nvmlDeviceSetPowerManagementLimit`, within the reported range | `hwmon/power1_max` on discrete Arc cards; integrated graphics share the CPU budget and are read-only |
+| Fixed fan speed | `pwm1` with `pwm1_enable` | `nvmlDeviceSetFanSpeed_v2`, every fan | not offered: fans are firmware-controlled |
+| Fan curve | the driver's `gpu_od/fan_ctrl/fan_curve` when it exists, otherwise followed by the service | followed by the service | not offered |
+| Temperature target | `gpu_od/fan_ctrl/fan_target_temperature` (RDNA 3 and newer) | the acoustic temperature threshold | not offered |
+| Clock offsets | `pp_od_clk_voltage` (maximum clock or offset style) | `nvmlDeviceSet{Gpc,Mem}ClkVfOffset` | not offered; clock limits instead |
+| Voltage | voltage offset (`vo`) where the table has `OD_VDDGFX_OFFSET`; full curve tables are read but not yet edited | not offered: NVIDIA's driver exposes offsets, not a curve | not offered |
 
-Intel and other cards are listed but not tuned.
+Intel also has **clock limits** (minimum and maximum clock, within the card's RPn to RP0 range), written
+in a safe order. Cards from other vendors are listed but not tuned.
 
 ## Safety model
 

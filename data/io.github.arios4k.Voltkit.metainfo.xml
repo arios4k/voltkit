@@ -72,6 +72,11 @@
       <li xml:lang="de">Ein Tastenkürzel-Detektiv: sehen, wem ein Tastenkürzel gehört, Konflikte finden und ändern</li>
       <li xml:lang="fr">Un détective de raccourcis : voyez à qui appartient un raccourci clavier, trouvez les conflits et modifiez-les</li>
       <li xml:lang="zh_CN">快捷键侦探：查看某个键盘快捷键归谁所有，找出冲突并加以更改</li>
+      <li>A GPU tuner: monitor NVIDIA, AMD and Intel graphics cards and change power limits, fans, temperature targets and clocks, with every change undone unless you confirm it</li>
+      <li xml:lang="es">Un ajuste de GPU: monitorea tarjetas gráficas NVIDIA, AMD e Intel y cambia límites de potencia, ventiladores, temperaturas objetivo y frecuencias, con cada cambio deshecho si no lo confirmas</li>
+      <li xml:lang="de">Ein GPU-Tuner: NVIDIA-, AMD- und Intel-Grafikkarten überwachen und Leistungsgrenzen, Lüfter, Zieltemperaturen und Takte ändern, jede Änderung wird ohne Ihre Bestätigung rückgängig gemacht</li>
+      <li xml:lang="fr">Un réglage du GPU : surveillez les cartes graphiques NVIDIA, AMD et Intel et modifiez limites de puissance, ventilateurs, températures cibles et fréquences, chaque modification étant annulée sans votre confirmation</li>
+      <li xml:lang="zh_CN">GPU 调节器：监控 NVIDIA、AMD 和 Intel 显卡，并更改功耗上限、风扇、目标温度和频率，未经确认的更改都会被撤销</li>
     </ul>
   </description>
   <screenshots>

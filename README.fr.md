@@ -10,7 +10,7 @@
 OCR d’écran, un lecteur de codes QR, un sélecteur de couleur, une règle d’écran, un compresseur d’images et de
 vidéos, un expanseur de texte, le collage intelligent, Rester éveillé, un éditeur de hosts et d’environnement, un
 détecteur de « qu’est-ce qui l’utilise ? », un gestionnaire d’autorisations des applications, un diagnostic de la
-veille, un rapport système et un détective de raccourcis, dans une seule application.
+veille, un rapport système, un détective de raccourcis et un réglage du GPU, dans une seule application.
 
 [![Dernière version](https://img.shields.io/github/v/release/arios4k/voltkit?label=version&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -31,7 +31,7 @@ veille, un rapport système et un détective de raccourcis, dans une seule appli
 > langue de votre système : l’application, la ligne de commande et les pages de manuel (`man voltkit`). Les captures
 > d’écran de cette page montrent la version anglaise.
 
-## Une application au lieu de quatorze
+## Une application au lieu de quinze
 
 Obtenir ces outils de base sous Linux oblige souvent à chercher une petite application pour chaque besoin, chacune avec
 son apparence, ses réglages et ses raccourcis. Voltkit les réunit dans une seule application GTK4 native, avec un seul
@@ -42,6 +42,7 @@ jeu de raccourcis :
 | rien : il n’existait aucun écran pour cela | **Autorisations des applications** : modifiez ou oubliez les réponses données aux applications qui demandaient des captures d’écran, la caméra, votre position, etc. | — |
 | un compresseur d’images à part, plus des formules ffmpeg obscures | **Compresseur de fichiers** : déposez des fichiers PNG, JPEG, WebP ou MP4 pour supprimer leurs métadonnées et les alléger | glisser-déposer |
 | un sélecteur de couleur à part | **Sélecteur de couleur** : une pipette pour n’importe quel pixel, HEX/RGB/HSL, vérification du contraste WCAG et historique | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>C</kbd> |
+| un outil de réglage du GPU à part, plus les utilitaires des fabricants | **Réglage du GPU** : surveillez les cartes graphiques NVIDIA, AMD et Intel et modifiez limites de puissance, ventilateurs et courbes de ventilateur, températures cibles, fréquences et tension, chaque modification étant prévisualisée et annulée sans votre confirmation | — |
 | modifier `/etc/hosts` et `~/.profile` dans un terminal | **Hôtes et environnement** : activez et désactivez des entrées hosts, et gérez les variables d’environnement de votre session | — |
 | une extension du shell pour garder l’écran allumé | **Rester éveillé** : empêchez votre ordinateur de se mettre en veille ou de se verrouiller de 30 minutes à 4 heures, ou jusqu’à ce que vous le désactiviez | — |
 | un lecteur de QR sur votre téléphone ou un site web de QR | **Code QR** : lisez un code QR n’importe où à l’écran, ou transformez du texte, des liens et des informations Wi-Fi en code QR | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>Q</kbd> |
@@ -88,6 +89,21 @@ selon les normes WCAG (AA / AAA), et garde en mémoire vos couleurs récentes.
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
   <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Le sélecteur de couleur avec un aperçu en direct, les formats HEX/RGB/HSL, les notes de contraste et les couleurs enregistrées">
 </picture>
+
+### 🎛️ Réglage du GPU
+
+Surveillez en direct vos cartes graphiques NVIDIA, AMD et Intel, avec l’historique, et modifiez ce que le matériel
+permet : la limite de puissance, une vitesse de ventilateur fixe ou une courbe, la température visée par la carte, des
+décalages ou des limites de fréquence, et la tension. **Ce que cette carte prend en charge** liste chaque contrôle tel
+que le pilote le signale, et explique pourquoi l’un manque et ce qui pourrait l’activer (un GPU de portable qui cache son
+ventilateur, ou une carte AMD qui a besoin de `amdgpu.ppfeaturemask`). Les modifications sont vérifiées par rapport aux
+limites de la carte elle-même, prévisualisées, appliquées par un assistant avec les droits root, et **annulées sans votre
+confirmation** : fermer l’application ou un plantage les annule aussi. Les réglages enregistrés sont appliqués au
+démarrage par un service en arrière-plan, qui ignore un profil dont le démarrage ne s’est jamais terminé, pour qu’un
+mauvais profil ne vous enferme pas dans une boucle. `voltkit gpu` affiche le même rapport dans un terminal.
+
+L’application des modifications est nouvelle et n’a été testée jusqu’ici que sur du matériel simulé ; voir
+[docs/GPU_TUNER.md](docs/GPU_TUNER.md) pour ce qui fonctionne, comment la sécurité est assurée et ce qui reste à faire.
 
 ### 📝 Hôtes et environnement
 
@@ -478,6 +494,8 @@ src/
   usage_ui.rs        page Qu’est-ce qui l’utilise ?
   permissions_ui.rs  page Autorisations des applications
   sleep_ui.rs        page Pourquoi ne s’est-il pas mis en veille ?
+  gpu_ui.rs          page Réglage du GPU : mesures, rapport de compatibilité, contrôles
+  gpu_cli.rs         `voltkit gpu`, l’assistant root et le service en arrière-plan
   sysreport_ui.rs    page Rapport système
   detective_ui.rs    page Détective de raccourcis
   smartpaste_ui.rs   fenêtre et page du collage intelligent
@@ -497,6 +515,9 @@ src/
     usage.rs         trouve et ferme les processus qui utilisent un chemin ou un port (/proc)
     permissions.rs   le magasin d’autorisations du portail du bureau
     sleep.rs         blocages de la veille, historique de veille (journal, UPower) et appareils de réveil
+    gpu.rs           détection des GPU, capteurs et ce que chaque carte prend en charge (NVIDIA, AMD, Intel)
+    gpu_tune.rs      modifications GPU validées et transactionnelles, courbes de ventilateur, protection au démarrage
+    nvml.rs          liaison avec la bibliothèque de gestion de NVIDIA
     sysreport.rs     matériel, vérifications, santé des disques, capteurs, micrologiciel, instantanés, mémoire SMBIOS
     keybindings.rs   tous les raccourcis GSettings : propriétaires, conflits, combinaisons libres, modifications
     smartpaste.rs    conversions de texte du collage intelligent

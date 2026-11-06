@@ -9,8 +9,7 @@
 **Praktische Werkzeuge für Ihren Linux-Desktop.**
 Texterkennung, ein QR-Code-Scanner, ein Farbwähler, ein Bildschirmlineal, ein Bild- und Videokompressor,
 Textbausteine, „Intelligentes Einfügen“, „Wach halten“, ein Editor für hosts und Umgebungsvariablen, eine Suche
-nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehlersuche für die Bereitschaft, ein
-Systembericht und ein Tastenkürzel-Detektiv – in einer App.
+nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehlersuche für die Bereitschaft, ein Systembericht, ein Tastenkürzel-Detektiv und ein GPU-Tuner – in einer App.
 
 [![Neueste Version](https://img.shields.io/github/v/release/arios4k/voltkit?label=version&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -31,7 +30,7 @@ Systembericht und ein Tastenkürzel-Detektiv – in einer App.
 > App, auf der Befehlszeile und in den Handbuchseiten (`man voltkit`). Die Bildschirmfotos auf dieser Seite zeigen
 > die englische Version.
 
-## Eine App statt vierzehn
+## Eine App statt fünfzehn
 
 Diese Grundfunktionen unter Linux zu bekommen, heißt meist, für jede Aufgabe ein eigenes Applet zu suchen, jedes
 mit eigenem Aussehen, eigenen Einstellungen und Tastenkürzeln. Voltkit vereint sie in einer nativen GTK4-App mit
@@ -42,6 +41,7 @@ einem gemeinsamen Satz Tastenkürzel:
 | nichts: dafür gab es keine Oberfläche | **App-Berechtigungen**: Antworten ändern oder vergessen, die Sie Apps auf Anfragen nach Bildschirmfotos, Kamera, Standort und mehr gegeben haben | — |
 | eines eigenen Bildkompressors plus ffmpeg-Beschwörungen | **Dateikompressor**: PNG-, JPEG-, WebP- oder MP4-Dateien ablegen, um Metadaten zu entfernen und sie zu verkleinern | Ziehen &amp; Ablegen |
 | eines eigenen Farbwählers | **Farbwähler**: eine Pipette für jedes Pixel, HEX/RGB/HSL, WCAG-Kontrastprüfung und Verlauf | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>C</kbd> |
+| ein eigenes GPU-Tuning-Programm plus Herstellertools | **GPU-Tuner**: NVIDIA-, AMD- und Intel-Grafikkarten überwachen und Leistungsgrenzen, Lüfter und Lüfterkurven, Zieltemperaturen, Takte und Spannung ändern, jede Änderung mit Vorschau und rückgängig gemacht, wenn Sie sie nicht bestätigen | — |
 | `/etc/hosts` und `~/.profile` im Terminal zu bearbeiten | **Hosts &amp; Umgebung**: hosts-Einträge ein- und ausschalten und die Umgebungsvariablen Ihrer Sitzung verwalten | — |
 | einer Shell-Erweiterung, die den Bildschirm anlässt | **Wach halten**: Bereitschaft und Sperre für 30 Minuten bis 4 Stunden verhindern oder bis Sie es ausschalten | — |
 | eines QR-Scanners auf dem Telefon oder einer QR-Webseite | **QR-Code**: einen QR-Code irgendwo auf dem Bildschirm lesen oder Text, Links und WLAN-Daten in einen umwandeln | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>Q</kbd> |
@@ -88,6 +88,21 @@ und Schwarz nach WCAG (AA / AAA) und merkt sich Ihre letzten Farben.
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
   <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Der Farbwähler mit Vorschau, HEX/RGB/HSL-Formaten, Kontrastbewertungen und gespeicherten Farben">
 </picture>
+
+### 🎛️ GPU-Tuner
+
+Beobachten Sie Ihre NVIDIA-, AMD- und Intel-Grafikkarten live und mit Verlauf und ändern Sie, was die Hardware erlaubt:
+die Leistungsgrenze, eine feste Lüfterdrehzahl oder eine Lüfterkurve, die Temperatur, auf die eine Karte abzielt,
+Taktversatz oder Taktgrenzen und die Spannung. **Was diese Karte unterstützt** listet jede Steuerung so auf, wie der
+Treiber sie meldet, und erklärt, warum eine fehlt und was sie freischalten könnte (eine Laptop-GPU, die ihren Lüfter
+verbirgt, oder eine AMD-Karte, die `amdgpu.ppfeaturemask` braucht). Änderungen werden an den Grenzen der Karte selbst
+geprüft, vorab angezeigt, über einen Root-Helfer angewendet und **rückgängig gemacht, wenn Sie sie nicht bestätigen**:
+Auch das Schließen der App oder ein Absturz macht sie rückgängig. Gespeicherte Einstellungen wendet ein
+Hintergrunddienst beim Start an; er überspringt ein Profil, dessen Start nie abgeschlossen wurde, damit ein fehlerhaftes
+Sie nicht in einer Schleife festhält. `voltkit gpu` gibt denselben Bericht im Terminal aus.
+
+Das Anwenden von Änderungen ist neu und wurde bisher nur mit simulierter Hardware getestet; was funktioniert, wie es
+sicher bleibt und was noch fehlt, steht in [docs/GPU_TUNER.md](docs/GPU_TUNER.md).
 
 ### 📝 Hosts &amp; Umgebung
 
@@ -477,6 +492,8 @@ src/
   usage_ui.rs        Seite Was belegt das?
   permissions_ui.rs  Seite App-Berechtigungen
   sleep_ui.rs        Seite Warum keine Bereitschaft?
+  gpu_ui.rs          Seite GPU-Tuner: Messwerte, Unterstützungsbericht, Steuerungen
+  gpu_cli.rs         `voltkit gpu`, der Root-Helfer und der Hintergrunddienst
   sysreport_ui.rs    Seite Systembericht
   detective_ui.rs    Seite Tastenkürzel-Detektiv
   smartpaste_ui.rs   Fenster und Seite Intelligentes Einfügen
@@ -496,6 +513,9 @@ src/
     usage.rs         findet und beendet Prozesse, die einen Pfad oder Port belegen (/proc)
     permissions.rs   der Berechtigungsspeicher des Desktop-Portals
     sleep.rs         Bereitschaftsblocker, Verlauf (Journal, UPower) und Weckgeräte
+    gpu.rs           GPU-Erkennung, Sensoren und was jede Karte unterstützt (NVIDIA, AMD, Intel)
+    gpu_tune.rs      geprüfte, transaktionale GPU-Änderungen, Lüfterkurven, Startschutz
+    nvml.rs          Anbindung an NVIDIAs Verwaltungsbibliothek
     sysreport.rs     Hardware, Prüfungen, Laufwerkszustand, Sensoren, Firmware, Aufnahmen, SMBIOS-Speicher
     keybindings.rs   alle GSettings-Tastenkürzel: Besitzer, Konflikte, freie Kombinationen, Änderungen
     smartpaste.rs    die Textumwandlungen von Intelligentes Einfügen

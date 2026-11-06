@@ -36,7 +36,7 @@ finder for the apps keeping a drive, file or port busy, an app permissions
 manager, a troubleshooter for sleep and wake-ups, and a system report with
 driver and drive-health checks, firmware updates and what changed after
 updates, and a shortcut detective that finds what owns a keyboard shortcut,
-lists clashes and changes them. Built for Wayland, with global hotkeys.
+lists clashes and changes them, plus a GPU tuner for NVIDIA, AMD and Intel cards. Built for Wayland, with global hotkeys.
 
 %prep
 %autosetup -n %{name}-%{version}

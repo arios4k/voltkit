@@ -49,6 +49,9 @@ pub struct Settings {
     pub core_offset_mhz: Option<i32>,
     pub mem_offset_mhz: Option<i32>,
     pub voltage_offset_mv: Option<i32>,
+    /// Intel: the lowest and highest clock the card may use.
+    pub core_clock_min_mhz: Option<u32>,
+    pub core_clock_max_mhz: Option<u32>,
 }
 
 // ---------------------------------------------------------------- Curves
@@ -265,10 +268,12 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
     let fan_count = probe.and_then(|p| p.fans.as_ref().ok().map(|f| f.0)).unwrap_or(0);
     let mut plan = Plan::default();
     let s = &card.sample;
-    let amd = card.gpu.vendor == Vendor::Amd;
     let nvidia = card.gpu.vendor == Vendor::Nvidia;
-    if !amd && !nvidia {
-        bail!("{}", tr("GPU Tuner covers NVIDIA and AMD cards."));
+    let intel = card.gpu.vendor == Vendor::Intel;
+    // AMD and Intel cards are changed through files; NVIDIA cards through NVML.
+    let amd = !nvidia;
+    if card.gpu.vendor == Vendor::Other {
+        bail!("{}", tr("GPU Tuner covers NVIDIA, AMD and Intel cards."));
     }
     let address = card.gpu.address.clone();
     let dev = &card.gpu.device;
@@ -284,7 +289,8 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
         let old = s.limit_w.unwrap_or(max);
         let label = trf!("Power limit: {} W (now {} W)", format!("{watts:.0}"), format!("{old:.0}"));
         if amd {
-            let path = hwmon.clone().map(|h| h.join("power1_cap")).unwrap_or_default();
+            let file = if intel { "power1_max" } else { "power1_cap" };
+            let path = hwmon.clone().map(|h| h.join(file)).unwrap_or_default();
             plan.steps.push(write_step(label, path, format!("{}", (watts * 1e6).round() as u64), format!("{}", (old * 1e6).round() as u64)));
         } else {
             plan.steps.push(Step {
@@ -440,6 +446,27 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
         }
         let was = od_value(&od, "OD_VDDGFX_OFFSET:").unwrap_or(0.0);
         plan.steps.push(write_step(trf!("Voltage offset: {} mV", mv), file, format!("vo {mv}"), format!("vo {was:.0}")));
+    }
+
+    if settings.core_clock_min_mhz.is_some() || settings.core_clock_max_mhz.is_some() {
+        require(card, Control::ClockLimits)?;
+        let Some(freq) = super::gpu::intel_freq(&card.gpu) else { bail!("{}", tr("The driver doesn't expose clock limits for this card.")) };
+        let num = |p: &Path| read(p).and_then(|v| v.parse::<u32>().ok());
+        let (Some(cur_min), Some(cur_max)) = (num(&freq.min), num(&freq.max)) else { bail!("{}", tr("Can't read the card's clock limits.")) };
+        let lo = freq.rpn.as_deref().and_then(num).unwrap_or(0);
+        let hi = freq.rp0.as_deref().and_then(num).unwrap_or(u32::MAX);
+        let (new_min, new_max) = (settings.core_clock_min_mhz.unwrap_or(cur_min), settings.core_clock_max_mhz.unwrap_or(cur_max));
+        if new_min < lo || new_max > hi || new_min > new_max {
+            bail!("{}", trf!("Clock limits must be between {} and {} MHz, with the minimum not above the maximum.", lo, hi));
+        }
+        let min_step = write_step(trf!("Minimum clock: {} MHz", new_min), freq.min.clone(), new_min.to_string(), cur_min.to_string());
+        let max_step = write_step(trf!("Maximum clock: {} MHz", new_max), freq.max.clone(), new_max.to_string(), cur_max.to_string());
+        // The driver refuses a maximum below the current minimum and the reverse, so go in the safe order.
+        if new_max >= cur_min {
+            plan.steps.extend([max_step, min_step]);
+        } else {
+            plan.steps.extend([min_step, max_step]);
+        }
     }
 
     // Overdrive tables take their values only after a commit.
@@ -763,6 +790,62 @@ mod tests {
         assert!(writes.contains(&"s 1 2700".to_owned()), "{writes:?}");
         assert!(writes.contains(&"m 1 1100".to_owned()), "{writes:?}");
         assert!(plan(&card, &Settings { core_offset_mhz: Some(400), ..settings() }).is_err());
+    }
+
+    fn intel_card(tree: &Tree, min: u32, max: u32) -> Card {
+        for (name, v) in [("gt_min_freq_mhz", min), ("gt_max_freq_mhz", max), ("gt_RP0_freq_mhz", 1150), ("gt_RPn_freq_mhz", 300)] {
+            tree.put(&format!("card/{name}"), &v.to_string());
+        }
+        tree.put("card/device/vendor", "0x8086");
+        Card {
+            gpu: Gpu { address: "0000:00:02.0".into(), vendor: Vendor::Intel, name: "UHD".into(), driver: Some("i915".into()), device: tree.0.join("card/device") },
+            sample: Sample::default(),
+            capabilities: Control::ALL
+                .into_iter()
+                .map(|control| Capability {
+                    control,
+                    support: if control == Control::ClockLimits { Support::Detected("ok".into()) } else { Support::Unavailable { reason: "no".into(), how_to: None } },
+                })
+                .collect(),
+            probe: None,
+        }
+    }
+
+    fn written(plan: &Plan) -> Vec<String> {
+        plan.steps.iter().filter_map(|s| if let Op::Write { path, value } = &s.op { Some(format!("{}={value}", path.file_name().unwrap().to_string_lossy())) } else { None }).collect()
+    }
+
+    #[test]
+    fn intel_clock_limits_are_written_in_a_safe_order_and_undone() {
+        let tree = Tree::new("intel");
+        let card = intel_card(&tree, 300, 1150);
+        let s = Settings { core_clock_min_mhz: Some(400), core_clock_max_mhz: Some(800), ..settings() };
+        let p = plan(&card, &s).unwrap();
+        assert_eq!(written(&p), ["gt_max_freq_mhz=800", "gt_min_freq_mhz=400"]);
+        let mut hw = Real { nvml: None };
+        assert_eq!(execute(&p.steps, &mut hw), Outcome::Applied);
+        assert_eq!((tree.get("card/gt_min_freq_mhz"), tree.get("card/gt_max_freq_mhz")), ("400".into(), "800".into()));
+        assert!(undo(&p.steps, &mut hw).is_empty());
+        assert_eq!((tree.get("card/gt_min_freq_mhz"), tree.get("card/gt_max_freq_mhz")), ("300".into(), "1150".into()));
+
+        // Lowering the maximum below the current minimum has to move the minimum first.
+        let card = intel_card(&tree, 600, 1150);
+        let p = plan(&card, &Settings { core_clock_min_mhz: Some(300), core_clock_max_mhz: Some(500), ..settings() }).unwrap();
+        assert_eq!(written(&p), ["gt_min_freq_mhz=300", "gt_max_freq_mhz=500"]);
+    }
+
+    #[test]
+    fn intel_clock_limits_stay_inside_the_cards_range() {
+        let tree = Tree::new("intel-range");
+        let card = intel_card(&tree, 300, 1150);
+        for s in [
+            Settings { core_clock_max_mhz: Some(1300), ..settings() },
+            Settings { core_clock_min_mhz: Some(100), ..settings() },
+            Settings { core_clock_min_mhz: Some(900), core_clock_max_mhz: Some(500), ..settings() },
+            Settings { fan: Some(FanMode::Fixed { speed_pct: 50.0 }), ..settings() },
+        ] {
+            assert!(plan(&card, &s).is_err(), "{s:?}");
+        }
     }
 
     #[test]
