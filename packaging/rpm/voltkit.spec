@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.9.1
+Version:        0.9.2
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -78,6 +78,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Fri Nov 06 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.2-1
+- Add GPU Tuner: monitor NVIDIA, AMD and Intel graphics cards and change power limits, fans and fan curves, temperature targets, clocks and voltage, with every change previewed and undone unless confirmed
+- Fix unreadable number fields in the light theme
+
 * Thu Nov 05 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.1-1
 - Add translated guidance for inspecting busy files, drives and network ports
 - Refresh documentation and project funding links

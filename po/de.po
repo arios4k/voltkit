@@ -206,7 +206,7 @@ msgstr "Aufmerksamkeit nötig"
 msgid "Copy Command"
 msgstr "Befehl kopieren"
 
-#: src/app.rs:320 src/gpu_ui.rs:540 src/usage_ui.rs:354 src/usage_ui.rs:379
+#: src/app.rs:320 src/gpu_ui.rs:555 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr "Schließen"
 
@@ -1142,7 +1142,7 @@ msgstr ""
 msgid "Kept."
 msgstr "Beibehalten."
 
-#: src/gpu_cli.rs:122 src/gpu_ui.rs:643
+#: src/gpu_cli.rs:122 src/gpu_ui.rs:658
 msgid "Not confirmed, so the change was undone."
 msgstr "Nicht bestätigt, daher wurde die Änderung rückgängig gemacht."
 
@@ -1160,7 +1160,7 @@ msgid ""
 msgstr ""
 "Das letzte Anwenden beim Start wurde nicht abgeschlossen, daher sind die gespeicherten GPU-Einstellungen aus. Öffnen Sie GPU-Tuner, um sie wieder einzuschalten."
 
-#: src/gpu_ui.rs:36 src/modules/gpu.rs:698
+#: src/gpu_ui.rs:36 src/modules/gpu.rs:769
 msgid "No graphics cards were found."
 msgstr "Es wurden keine Grafikkarten gefunden."
 
@@ -1174,274 +1174,274 @@ msgstr ""
 msgid "Graphics card"
 msgstr "Grafikkarte"
 
-#: src/gpu_ui.rs:157 src/modules/gpu.rs:675
+#: src/gpu_ui.rs:160 src/modules/gpu.rs:746
 msgid "Temperature"
 msgstr "Temperatur"
 
-#: src/gpu_ui.rs:158 src/modules/gpu.rs:676
+#: src/gpu_ui.rs:161 src/modules/gpu.rs:747
 msgid "Utilization"
 msgstr "Auslastung"
 
-#: src/gpu_ui.rs:159 src/modules/gpu.rs:677
+#: src/gpu_ui.rs:162 src/modules/gpu.rs:748
 msgid "Power"
 msgstr "Leistung"
 
-#: src/gpu_ui.rs:160 src/modules/gpu.rs:678
+#: src/gpu_ui.rs:163 src/modules/gpu.rs:749
 msgid "Core clock"
 msgstr "Kerntakt"
 
-#: src/gpu_ui.rs:161 src/modules/gpu.rs:679
+#: src/gpu_ui.rs:164 src/modules/gpu.rs:750
 msgid "Memory clock"
 msgstr "Speichertakt"
 
-#: src/gpu_ui.rs:162 src/gpu_ui.rs:276 src/modules/gpu.rs:687 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:165 src/gpu_ui.rs:288 src/modules/gpu.rs:758 src/modules/sysreport.rs:573
 msgid "Fan"
 msgstr "Lüfter"
 
-#: src/gpu_ui.rs:168 src/modules/gpu.rs:692
+#: src/gpu_ui.rs:171 src/modules/gpu.rs:763
 msgid "Video memory"
 msgstr "Grafikspeicher"
 
-#: src/gpu_ui.rs:179 src/modules/sleep.rs:632
+#: src/gpu_ui.rs:182 src/modules/sleep.rs:632
 msgid "Right now"
 msgstr "Gerade jetzt"
 
-#: src/gpu_ui.rs:195
+#: src/gpu_ui.rs:204
 msgid "What this card supports"
 msgstr "Was diese Karte unterstützt"
 
-#: src/gpu_ui.rs:196
+#: src/gpu_ui.rs:205
 msgid ""
 "Each control is shown as the driver reports it. Voltkit can't go beyond what the hardware, firmware and driver allow."
 msgstr ""
 "Jede Steuerung wird so angezeigt, wie der Treiber sie meldet. Voltkit kann nicht über das hinausgehen, was Hardware, Firmware und Treiber erlauben."
 
-#: src/gpu_ui.rs:256
+#: src/gpu_ui.rs:265
 msgid "Tune"
 msgstr "Einstellen"
 
-#: src/gpu_ui.rs:257
+#: src/gpu_ui.rs:266
 msgid ""
 "Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."
 msgstr ""
 "Schalten Sie die Steuerungen ein, die Sie ändern möchten. Die Vorschau zeigt genau, was passiert. Nichts bleibt, wenn Sie es nicht bestätigen."
 
-#: src/gpu_ui.rs:261
+#: src/gpu_ui.rs:270
 msgid "Nothing on this card can be changed"
 msgstr "Auf dieser Karte lässt sich nichts ändern"
 
-#: src/gpu_ui.rs:261
+#: src/gpu_ui.rs:270
 msgid "See what this card supports for the reasons."
 msgstr "Sehen Sie unter „Was diese Karte unterstützt“ nach den Gründen."
 
-#: src/gpu_ui.rs:268 src/modules/gpu.rs:110
+#: src/gpu_ui.rs:277 src/modules/gpu.rs:110
 msgid "Power limit"
 msgstr "Leistungsgrenze"
 
-#: src/gpu_ui.rs:268
+#: src/gpu_ui.rs:277
 #, rust-format
 msgid "Between {} W and {} W."
 msgstr "Zwischen {} W und {} W."
 
-#: src/gpu_ui.rs:269
+#: src/gpu_ui.rs:278
 msgid "Watts"
 msgstr "Watt"
 
-#: src/gpu_ui.rs:276
+#: src/gpu_ui.rs:288
 msgid "Fixed speed, or a curve that follows the temperature."
 msgstr "Feste Drehzahl oder eine Kurve, die der Temperatur folgt."
 
-#: src/gpu_ui.rs:277
+#: src/gpu_ui.rs:289
 msgid "The card's own control"
 msgstr "Die eigene Steuerung der Karte"
 
-#: src/gpu_ui.rs:277
+#: src/gpu_ui.rs:289
 msgid "Fixed speed"
 msgstr "Feste Drehzahl"
 
-#: src/gpu_ui.rs:277
+#: src/gpu_ui.rs:289
 msgid "Curve"
 msgstr "Kurve"
 
-#: src/gpu_ui.rs:278
+#: src/gpu_ui.rs:290
 msgid "Mode"
 msgstr "Modus"
 
-#: src/gpu_ui.rs:279
+#: src/gpu_ui.rs:291
 msgid "Speed (%)"
 msgstr "Drehzahl (%)"
 
-#: src/gpu_ui.rs:293
+#: src/gpu_ui.rs:305
 msgid "Curve points"
 msgstr "Kurvenpunkte"
 
-#: src/gpu_ui.rs:293
+#: src/gpu_ui.rs:305
 msgid "Temperature in °C, fan speed in %."
 msgstr "Temperatur in °C, Lüfterdrehzahl in %."
 
-#: src/gpu_ui.rs:304
+#: src/gpu_ui.rs:316
 #, rust-format
 msgid "Point {}"
 msgstr "Punkt {}"
 
-#: src/gpu_ui.rs:311 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:323 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "Entfernen"
 
-#: src/gpu_ui.rs:351
+#: src/gpu_ui.rs:363
 msgid "Edit curve"
 msgstr "Kurve bearbeiten"
 
-#: src/gpu_ui.rs:354
+#: src/gpu_ui.rs:366
 msgid "Add point"
 msgstr "Punkt hinzufügen"
 
-#: src/gpu_ui.rs:355 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:367 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: src/gpu_ui.rs:356
+#: src/gpu_ui.rs:368
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: src/gpu_ui.rs:357
+#: src/gpu_ui.rs:369
 msgid "Copy curve"
 msgstr "Kurve kopieren"
 
-#: src/gpu_ui.rs:358
+#: src/gpu_ui.rs:370
 msgid "Paste curve"
 msgstr "Kurve einfügen"
 
-#: src/gpu_ui.rs:405
+#: src/gpu_ui.rs:417
 msgid "Curve copied"
 msgstr "Kurve kopiert"
 
-#: src/gpu_ui.rs:437 src/modules/gpu.rs:111
+#: src/gpu_ui.rs:452 src/modules/gpu.rs:111
 msgid "Temperature target"
 msgstr "Zieltemperatur"
 
-#: src/gpu_ui.rs:437
+#: src/gpu_ui.rs:452
 msgid "The temperature the card's fan control aims for."
 msgstr "Die Temperatur, auf die die Lüftersteuerung der Karte abzielt."
 
-#: src/gpu_ui.rs:438
+#: src/gpu_ui.rs:453
 msgid "Degrees (°C)"
 msgstr "Grad (°C)"
 
-#: src/gpu_ui.rs:445 src/modules/gpu.rs:112
+#: src/gpu_ui.rs:460 src/modules/gpu.rs:112
 msgid "Clock offsets"
 msgstr "Taktversatz"
 
-#: src/gpu_ui.rs:445
+#: src/gpu_ui.rs:460
 msgid "Raise or lower the clocks from their defaults."
 msgstr "Takte gegenüber den Standardwerten erhöhen oder senken."
 
-#: src/gpu_ui.rs:446
+#: src/gpu_ui.rs:461
 msgid "Core (MHz)"
 msgstr "Kern (MHz)"
 
-#: src/gpu_ui.rs:446
+#: src/gpu_ui.rs:461
 msgid "Memory (MHz)"
 msgstr "Speicher (MHz)"
 
-#: src/gpu_ui.rs:458 src/modules/gpu.rs:113
+#: src/gpu_ui.rs:473 src/modules/gpu.rs:113
 msgid "Clock limits"
 msgstr "Taktgrenzen"
 
-#: src/gpu_ui.rs:458
+#: src/gpu_ui.rs:473
 #, rust-format
 msgid "Keep the clock between a minimum and a maximum, from {} to {} MHz."
 msgstr ""
 "Halten Sie den Takt zwischen einem Minimum und einem Maximum, von {} bis {} MHz."
 
-#: src/gpu_ui.rs:459
+#: src/gpu_ui.rs:474
 msgid "Minimum (MHz)"
 msgstr "Minimum (MHz)"
 
-#: src/gpu_ui.rs:459
+#: src/gpu_ui.rs:474
 msgid "Maximum (MHz)"
 msgstr "Maximum (MHz)"
 
-#: src/gpu_ui.rs:467
+#: src/gpu_ui.rs:482
 msgid "Voltage offset"
 msgstr "Spannungsversatz"
 
-#: src/gpu_ui.rs:467
+#: src/gpu_ui.rs:482
 msgid "Lower the voltage for less heat, or raise it for stability."
 msgstr ""
 "Senken Sie die Spannung für weniger Wärme oder erhöhen Sie sie für mehr Stabilität."
 
-#: src/gpu_ui.rs:468
+#: src/gpu_ui.rs:483
 msgid "Millivolts (mV)"
 msgstr "Millivolt (mV)"
 
-#: src/gpu_ui.rs:474
+#: src/gpu_ui.rs:489
 msgid "Keep after restart"
 msgstr "Nach Neustart beibehalten"
 
-#: src/gpu_ui.rs:474
+#: src/gpu_ui.rs:489
 msgid ""
 "Saves these settings and applies them at startup. Fan curves need this."
 msgstr ""
 "Speichert diese Einstellungen und wendet sie beim Start an. Lüfterkurven benötigen dies."
 
-#: src/gpu_ui.rs:522 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:537 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr "Vorschau"
 
-#: src/gpu_ui.rs:523
+#: src/gpu_ui.rs:538
 msgid "Apply"
 msgstr "Anwenden"
 
-#: src/gpu_ui.rs:535
+#: src/gpu_ui.rs:550
 msgid "Nothing to change"
 msgstr "Nichts zu ändern"
 
-#: src/gpu_ui.rs:535 src/gpu_ui.rs:549
+#: src/gpu_ui.rs:550 src/gpu_ui.rs:564
 msgid "Turn on at least one control."
 msgstr "Schalten Sie mindestens eine Steuerung ein."
 
-#: src/gpu_ui.rs:536
+#: src/gpu_ui.rs:551
 msgid "What will change"
 msgstr "Was sich ändert"
 
-#: src/gpu_ui.rs:537
+#: src/gpu_ui.rs:552
 msgid "This can't be applied"
 msgstr "Das kann nicht angewendet werden"
 
-#: src/gpu_ui.rs:551
+#: src/gpu_ui.rs:566
 msgid ""
 "This card has no built-in fan curve, so Voltkit's background service follows it. Turn on Keep after restart."
 msgstr ""
 "Diese Karte hat keine integrierte Lüfterkurve, daher folgt der Hintergrunddienst von Voltkit ihr. Schalten Sie „Nach Neustart beibehalten“ ein."
 
-#: src/gpu_ui.rs:578
+#: src/gpu_ui.rs:593
 msgid "pkexec is needed to change GPU settings."
 msgstr "Zum Ändern der GPU-Einstellungen wird pkexec benötigt."
 
-#: src/gpu_ui.rs:611
+#: src/gpu_ui.rs:626
 msgid "Keep these settings?"
 msgstr "Diese Einstellungen beibehalten?"
 
-#: src/gpu_ui.rs:612
+#: src/gpu_ui.rs:627
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: src/gpu_ui.rs:612
+#: src/gpu_ui.rs:627
 msgid "Keep"
 msgstr "Beibehalten"
 
-#: src/gpu_ui.rs:617 src/gpu_ui.rs:626
+#: src/gpu_ui.rs:632 src/gpu_ui.rs:641
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr ""
 "Wenn Sie nicht bestätigen, kehrt die Karte in {} Sekunden zum vorherigen Zustand zurück."
 
-#: src/gpu_ui.rs:642
+#: src/gpu_ui.rs:657
 msgid "Settings applied and kept."
 msgstr "Einstellungen angewendet und beibehalten."
 
-#: src/gpu_ui.rs:649
+#: src/gpu_ui.rs:664
 msgid "Cancelled, nothing was changed."
 msgstr "Abgebrochen, es wurde nichts geändert."
 
@@ -2265,7 +2265,7 @@ msgstr ""
 msgid "The amdgpu driver doesn't expose {} for this card."
 msgstr "Der amdgpu-Treiber stellt {} für diese Karte nicht bereit."
 
-#: src/modules/gpu.rs:300 src/modules/gpu.rs:402
+#: src/modules/gpu.rs:300 src/modules/gpu.rs:402 src/modules/gpu.rs:612
 msgid "Temperature, power, clocks, fan and memory are readable."
 msgstr "Temperatur, Leistung, Takte, Lüfter und Speicher sind lesbar."
 
@@ -2273,7 +2273,7 @@ msgstr "Temperatur, Leistung, Takte, Lüfter und Speicher sind lesbar."
 msgid "The driver exposes no hardware sensors for this card."
 msgstr "Der Treiber stellt für diese Karte keine Hardwaresensoren bereit."
 
-#: src/modules/gpu.rs:302
+#: src/modules/gpu.rs:302 src/modules/gpu.rs:613
 msgid "The driver accepts a manual fan speed."
 msgstr "Der Treiber akzeptiert eine manuelle Lüfterdrehzahl."
 
@@ -2288,7 +2288,7 @@ msgid "The driver shows the fan speed but doesn't allow setting it."
 msgstr ""
 "Der Treiber zeigt die Lüfterdrehzahl an, erlaubt aber nicht, sie zu setzen."
 
-#: src/modules/gpu.rs:309
+#: src/modules/gpu.rs:309 src/modules/gpu.rs:614
 msgid "The driver has a built-in fan curve."
 msgstr "Der Treiber hat eine integrierte Lüfterkurve."
 
@@ -2301,7 +2301,7 @@ msgstr ""
 msgid "The driver doesn't allow setting the fan speed."
 msgstr "Der Treiber erlaubt nicht, die Lüfterdrehzahl zu setzen."
 
-#: src/modules/gpu.rs:317 src/modules/gpu.rs:425
+#: src/modules/gpu.rs:317 src/modules/gpu.rs:425 src/modules/gpu.rs:615
 #, rust-format
 msgid "Adjustable from {} W to {} W."
 msgstr "Einstellbar von {} W bis {} W."
@@ -2310,7 +2310,7 @@ msgstr "Einstellbar von {} W bis {} W."
 msgid "The driver doesn't report an adjustable power limit."
 msgstr "Der Treiber meldet keine einstellbare Leistungsgrenze."
 
-#: src/modules/gpu.rs:322
+#: src/modules/gpu.rs:322 src/modules/gpu.rs:616
 msgid ""
 "The driver lets you set the temperature the card's fan control aims for."
 msgstr ""
@@ -2326,7 +2326,7 @@ msgid ""
 msgstr ""
 "Der Treiber stellt für diese Karte keine Zieltemperatur bereit. Dafür ist eine aktuelle Karte (RDNA 3 oder neuer) und Linux 6.7 oder neuer nötig."
 
-#: src/modules/gpu.rs:330
+#: src/modules/gpu.rs:330 src/modules/gpu.rs:617
 msgid "The driver's overdrive table is available."
 msgstr "Die Overdrive-Tabelle des Treibers ist verfügbar."
 
@@ -2334,7 +2334,7 @@ msgstr "Die Overdrive-Tabelle des Treibers ist verfügbar."
 msgid "clock offsets"
 msgstr "der Taktversatz"
 
-#: src/modules/gpu.rs:333 src/modules/gpu.rs:439
+#: src/modules/gpu.rs:333 src/modules/gpu.rs:439 src/modules/gpu.rs:620
 msgid "This driver offers clock offsets, not clock limits."
 msgstr "Dieser Treiber bietet Taktversatz, keine Taktgrenzen."
 
@@ -2342,7 +2342,7 @@ msgstr "Dieser Treiber bietet Taktversatz, keine Taktgrenzen."
 msgid "The card exposes a voltage and frequency curve."
 msgstr "Die Karte stellt eine Spannungs-/Frequenzkurve bereit."
 
-#: src/modules/gpu.rs:338
+#: src/modules/gpu.rs:338 src/modules/gpu.rs:622
 msgid "The card allows a voltage offset, not a full curve."
 msgstr "Die Karte erlaubt einen Spannungsversatz, keine vollständige Kurve."
 
@@ -2487,11 +2487,11 @@ msgid "GPU Tuner covers NVIDIA, AMD and Intel cards; this one isn't."
 msgstr ""
 "GPU-Tuner deckt NVIDIA-, AMD- und Intel-Karten ab; diese gehört nicht dazu."
 
-#: src/modules/gpu.rs:703
+#: src/modules/gpu.rs:774
 msgid "GPU"
 msgstr "GPU"
 
-#: src/modules/gpu.rs:707
+#: src/modules/gpu.rs:778
 msgid "Controls:"
 msgstr "Steuerungen:"
 

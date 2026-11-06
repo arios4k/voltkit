@@ -104,6 +104,13 @@ Sie nicht in einer Schleife festhält. `voltkit gpu` gibt denselben Bericht im T
 Das Anwenden von Änderungen ist neu und wurde bisher nur mit simulierter Hardware getestet; was funktioniert, wie es
 sicher bleibt und was noch fehlt, steht in [docs/GPU_TUNER.md](docs/GPU_TUNER.md).
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
+  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="GPU-Tuner mit Live-Messwerten samt Verlauf und den Steuerungen für Leistungsgrenze und Lüfterkurve einer AMD-Radeon-Karte (simulierte Daten)">
+</picture>
+
+<sub>Der Screenshot zeigt simulierte Daten erfundener Karten.</sub>
+
 ### 📝 Hosts &amp; Umgebung
 
 Schalten Sie Einträge in `/etc/hosts` ein und aus, fügen Sie `myapp.test → 127.0.0.1` für die lokale Entwicklung

@@ -567,8 +567,74 @@ fn unsupported_capabilities() -> Vec<Capability> {
 
 // ---------------------------------------------------------------- Putting it together
 
+/// Set `VOLTKIT_GPU_DEMO` to show made-up cards and readings, for the README
+/// screenshots on a computer without the right hardware.
+pub fn demo() -> bool {
+    std::env::var_os("VOLTKIT_GPU_DEMO").is_some()
+}
+
+/// A reading for demo card `card` at time `tick`: plausible numbers that move.
+pub fn demo_sample(card: usize, tick: u32) -> Sample {
+    let wave = |period: f64, phase: f64| ((f64::from(tick) / period + phase).sin() + 1.0) / 2.0;
+    let load = 0.55 + 0.4 * wave(9.0, card as f64) * wave(23.0, 1.0);
+    let (power, limit, clock, mem_clock, vram_total, fan_rpm) =
+        if card == 0 { (265.0, 263.0, 2450.0, 1218.0, 16384.0, 2600.0) } else { (200.0, 200.0, 2700.0, 1313.0, 12288.0, 2300.0) };
+    Sample {
+        temp_c: Some((44.0 + 30.0 * load).round()),
+        hotspot_c: (card == 0).then(|| (52.0 + 34.0 * load).round()),
+        util_pct: Some((100.0 * load).round()),
+        core_mhz: Some((clock * (0.45 + 0.55 * load)).round()),
+        mem_mhz: Some(mem_clock),
+        power_w: Some((power * (0.3 + 0.7 * load)).round()),
+        limit_w: Some(limit),
+        limit_min_w: Some((limit * 0.8).round()),
+        limit_max_w: Some((limit * 1.1).round()),
+        fan_pct: Some((25.0 + 50.0 * load).round()),
+        fan_rpm: Some((fan_rpm * (0.3 + 0.7 * load)).round()),
+        vram_used_mb: Some((vram_total * (0.3 + 0.35 * wave(40.0, card as f64))).round()),
+        vram_total_mb: Some(vram_total),
+    }
+}
+
+/// Two made-up cards: an AMD card with every control and an NVIDIA desktop card.
+pub fn demo_cards() -> Vec<Card> {
+    let gpu = |address: &str, vendor, name: &str, driver: &str| Gpu {
+        address: address.into(),
+        vendor,
+        name: name.into(),
+        driver: Some(driver.into()),
+        device: PathBuf::from("/nonexistent"),
+    };
+    let amd = gpu("0000:03:00.0", Vendor::Amd, "AMD Radeon RX 7800 XT", "amdgpu");
+    let sample = demo_sample(0, 90);
+    let detected = |control, note: String| Capability { control, support: Support::Detected(note) };
+    let amd_caps = vec![
+        detected(Control::Monitoring, tr("Temperature, power, clocks, fan and memory are readable.")),
+        detected(Control::FanSpeed, tr("The driver accepts a manual fan speed.")),
+        detected(Control::FanCurve, tr("The driver has a built-in fan curve.")),
+        detected(Control::PowerLimit, trf!("Adjustable from {} W to {} W.", "210", "290")),
+        detected(Control::TemperatureTarget, tr("The driver lets you set the temperature the card's fan control aims for.")),
+        detected(Control::ClockOffsets, tr("The driver's overdrive table is available.")),
+        Capability {
+            control: Control::ClockLimits,
+            support: Support::Unavailable { reason: tr("This driver offers clock offsets, not clock limits."), how_to: None },
+        },
+        detected(Control::VoltageCurve, tr("The card allows a voltage offset, not a full curve.")),
+    ];
+    let nvidia = gpu("0000:01:00.0", Vendor::Nvidia, "NVIDIA GeForce RTX 4070", "nvidia");
+    let probe = NvidiaProbe { power: Ok((100.0, 220.0)), fans: Ok((2, (30, 100))), core_offset: Ok(0), mem_offset: Ok(0), target: Ok(83) };
+    let nvidia_caps = nvidia_capabilities(&nvidia, true, Some(&probe));
+    vec![
+        Card { gpu: amd, sample, capabilities: amd_caps, probe: None },
+        Card { gpu: nvidia, sample: demo_sample(1, 90), capabilities: nvidia_caps, probe: Some(probe) },
+    ]
+}
+
 /// Every card with its current reading and what it lets Voltkit control.
 pub fn inspect() -> Vec<Card> {
+    if demo() {
+        return demo_cards();
+    }
     let nvml = Nvml::open().ok();
     inspect_in(Path::new("/sys"), &nvidia_query(), nvml.as_ref())
 }
@@ -623,14 +689,19 @@ pub struct Monitor {
     nvml: Option<Nvml>,
     /// The last idle time of each Intel card, to work out utilization.
     idle: std::sync::Mutex<HashMap<String, (std::time::Instant, f64)>>,
+    ticks: std::sync::atomic::AtomicU32,
 }
 
 impl Monitor {
     pub fn new(gpus: Vec<Gpu>) -> Self {
-        Monitor { gpus, nvml: Nvml::open().ok(), idle: std::sync::Mutex::new(HashMap::new()) }
+        Monitor { gpus, nvml: Nvml::open().ok(), idle: std::sync::Mutex::new(HashMap::new()), ticks: std::sync::atomic::AtomicU32::new(0) }
     }
 
     pub fn sample(&self) -> Vec<Sample> {
+        if demo() {
+            let tick = self.ticks.fetch_add(1, std::sync::atomic::Ordering::Relaxed) + 91;
+            return (0..self.gpus.len()).map(|i| demo_sample(i, tick)).collect();
+        }
         let need_smi = self.nvml.is_none() && self.gpus.iter().any(|g| g.vendor == Vendor::Nvidia);
         let smi = if need_smi { nvidia_query() } else { HashMap::new() };
         self.gpus

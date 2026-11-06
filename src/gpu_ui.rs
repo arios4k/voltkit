@@ -108,10 +108,13 @@ impl Sparkline {
             cr.set_source_rgba(f64::from(color.red()), f64::from(color.green()), f64::from(color.blue()), 0.9);
             cr.set_line_width(1.5);
             let data = d.borrow();
-            let top = c.get().max(1.0);
+            // Scale to what was seen, but never magnify tiny wobbles into big swings.
+            let low = data.iter().cloned().fold(f64::MAX, f64::min);
+            let high = data.iter().cloned().fold(f64::MIN, f64::max);
+            let span = (high - low).max(c.get().max(1.0) * 0.1);
             for (i, v) in data.iter().enumerate() {
                 let x = f64::from(w) * i as f64 / (HISTORY - 1) as f64;
-                let y = f64::from(h) - 2.0 - (f64::from(h) - 4.0) * (v / top).clamp(0.0, 1.0);
+                let y = f64::from(h) - 2.0 - (f64::from(h) - 4.0) * ((v - low) / span).clamp(0.0, 1.0);
                 if i == 0 { cr.move_to(x, y) } else { cr.line_to(x, y) }
             }
             let _ = cr.stroke();
@@ -186,6 +189,12 @@ impl CardView {
                 group.add(&row);
                 let reading = Reading { row, spark, value, text };
                 reading.row.set_subtitle(&(reading.text)(&card.sample));
+                if gpu::demo() {
+                    // Show a minute and a half of history without waiting for it.
+                    for tick in 0..HISTORY as u32 {
+                        reading.spark.push((reading.value)(&gpu::demo_sample(index, tick)));
+                    }
+                }
                 reading
             })
             .collect();
@@ -209,7 +218,7 @@ impl CardView {
             support.add(&row);
         }
         page.add(&support);
-        page.aside(&tune_group(card, toasts));
+        page.aside(&tune_group(card, toasts, gpu::demo()));
 
         stack.add_named(&*page, Some(&index.to_string()));
         Rc::new(CardView { readings })
@@ -238,8 +247,8 @@ fn spin(title: String, subtitle: Option<String>, value: f64, lo: f64, hi: f64, s
     row
 }
 
-fn expander(title: String, subtitle: String) -> adw::ExpanderRow {
-    adw::ExpanderRow::builder().title(title).subtitle(subtitle).show_enable_switch(true).enable_expansion(false).build()
+fn expander(title: String, subtitle: String, on: bool) -> adw::ExpanderRow {
+    adw::ExpanderRow::builder().title(title).subtitle(subtitle).show_enable_switch(true).enable_expansion(on).expanded(on).build()
 }
 
 type Rebuild = Rc<RefCell<Option<Rc<dyn Fn()>>>>;
@@ -251,7 +260,7 @@ struct CurveEdit {
     redo: Vec<Vec<CurvePoint>>,
 }
 
-fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup {
+fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::PreferencesGroup {
     let group = adw::PreferencesGroup::builder()
         .title(tr("Tune"))
         .description(tr("Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."))
@@ -265,15 +274,19 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
 
     let power = supported(card, Control::PowerLimit).then(|| {
         let (lo, hi) = (s.limit_min_w.unwrap_or(0.0), s.limit_max_w.unwrap_or(0.0));
-        let row = expander(tr("Power limit"), trf!("Between {} W and {} W.", format!("{lo:.0}"), format!("{hi:.0}")));
+        let power_on = demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() != Ok("curve");
+        let row = expander(tr("Power limit"), trf!("Between {} W and {} W.", format!("{lo:.0}"), format!("{hi:.0}")), power_on);
         let value = spin(tr("Watts"), None, s.limit_w.unwrap_or(hi), lo, hi, 5.0);
         row.add_row(&value);
+        if demo {
+            value.set_value(s.limit_w.unwrap_or(hi) - 15.0);
+        }
         group.add(&row);
         (row, value)
     });
 
     let fan = supported(card, Control::FanSpeed).then(|| {
-        let row = expander(tr("Fan"), tr("Fixed speed, or a curve that follows the temperature."));
+        let row = expander(tr("Fan"), tr("Fixed speed, or a curve that follows the temperature."), demo);
         let modes = gtk::StringList::new(&[&tr("The card's own control"), &tr("Fixed speed"), &tr("Curve")]);
         let mode = adw::ComboRow::builder().title(tr("Mode")).model(&modes).build();
         let fixed = spin(tr("Speed (%)"), None, s.fan_pct.unwrap_or(50.0).max(gpu_tune::MIN_FIXED_FAN_PCT), gpu_tune::MIN_FIXED_FAN_PCT, 100.0, 5.0);
@@ -292,6 +305,19 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
         let curve_rows: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::new(RefCell::new(Vec::new()));
         let curve_box = adw::ExpanderRow::builder().title(tr("Curve points")).subtitle(tr("Temperature in °C, fan speed in %.")).expanded(true).build();
         row.add_row(&curve_box);
+        // Show only the controls of the chosen mode.
+        let sync = {
+            let (mode, fixed, curve_box) = (mode.clone(), fixed.clone(), curve_box.clone());
+            Rc::new(move || {
+                fixed.set_visible(mode.selected() == 1);
+                curve_box.set_visible(mode.selected() == 2);
+            })
+        };
+        sync();
+        {
+            let sync = sync.clone();
+            mode.connect_selected_notify(move |_| sync());
+        }
         let rebuild: Rebuild = Rc::new(RefCell::new(None));
         let build = {
             let (edit, curve_rows, curve_box, rebuild) = (edit.clone(), curve_rows.clone(), curve_box.clone(), rebuild.clone());
@@ -429,12 +455,16 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
                 ));
             });
         }
+        if demo {
+            mode.set_selected(2);
+            sync();
+        }
         group.add(&row);
         (row, mode, fixed, edit)
     });
 
     let target = supported(card, Control::TemperatureTarget).then(|| {
-        let row = expander(tr("Temperature target"), tr("The temperature the card's fan control aims for."));
+        let row = expander(tr("Temperature target"), tr("The temperature the card's fan control aims for."), false);
         let value = spin(tr("Degrees (°C)"), None, 75.0, 40.0, 100.0, 1.0);
         row.add_row(&value);
         group.add(&row);
@@ -442,7 +472,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
     });
 
     let clocks = supported(card, Control::ClockOffsets).then(|| {
-        let row = expander(tr("Clock offsets"), tr("Raise or lower the clocks from their defaults."));
+        let row = expander(tr("Clock offsets"), tr("Raise or lower the clocks from their defaults."), false);
         let (core, mem) = (spin(tr("Core (MHz)"), None, 0.0, -500.0, 500.0, 5.0), spin(tr("Memory (MHz)"), None, 0.0, -1000.0, 1000.0, 10.0));
         row.add_row(&core);
         row.add_row(&mem);
@@ -455,7 +485,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
             let num = |p: &Option<std::path::PathBuf>| p.as_deref().and_then(|p| std::fs::read_to_string(p).ok()).and_then(|v| v.trim().parse::<f64>().ok());
             (num(&f.rpn).unwrap_or(0.0), num(&f.rp0).unwrap_or(4000.0))
         });
-        let row = expander(tr("Clock limits"), trf!("Keep the clock between a minimum and a maximum, from {} to {} MHz.", format!("{lo:.0}"), format!("{hi:.0}")));
+        let row = expander(tr("Clock limits"), trf!("Keep the clock between a minimum and a maximum, from {} to {} MHz.", format!("{lo:.0}"), format!("{hi:.0}")), false);
         let (min, max) = (spin(tr("Minimum (MHz)"), None, lo, lo, hi, 50.0), spin(tr("Maximum (MHz)"), None, hi, lo, hi, 50.0));
         row.add_row(&min);
         row.add_row(&max);
@@ -464,7 +494,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay) -> adw::PreferencesGroup 
     });
 
     let voltage = supported(card, Control::VoltageCurve).then(|| {
-        let row = expander(tr("Voltage offset"), tr("Lower the voltage for less heat, or raise it for stability."));
+        let row = expander(tr("Voltage offset"), tr("Lower the voltage for less heat, or raise it for stability."), false);
         let value = spin(tr("Millivolts (mV)"), None, 0.0, -200.0, 0.0, 5.0);
         row.add_row(&value);
         group.add(&row);

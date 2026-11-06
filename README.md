@@ -99,6 +99,13 @@ report in a terminal.
 Applying changes is new and has so far been tested against simulated hardware only; see
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) for what works, how it stays safe, and what isn't built yet.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
+  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="GPU Tuner showing live readings with history and the fan curve editor for an AMD Radeon card (simulated data)">
+</picture>
+
+<sub>The screenshot uses simulated data from made-up cards.</sub>
+
 ### 📝 Hosts & Environment
 
 Switch `/etc/hosts` entries on and off, add `myapp.test → 127.0.0.1` for local development, and set

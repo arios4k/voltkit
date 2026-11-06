@@ -105,6 +105,13 @@ mauvais profil ne vous enferme pas dans une boucle. `voltkit gpu` affiche le mê
 L’application des modifications est nouvelle et n’a été testée jusqu’ici que sur du matériel simulé ; voir
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) pour ce qui fonctionne, comment la sécurité est assurée et ce qui reste à faire.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
+  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="Réglage du GPU avec des mesures en direct et leur historique, et les contrôles de limite de puissance et de courbe de ventilateur d’une carte AMD Radeon (données simulées)">
+</picture>
+
+<sub>La capture d’écran utilise des données simulées de cartes fictives.</sub>
+
 ### 📝 Hôtes et environnement
 
 Activez et désactivez des entrées de `/etc/hosts`, ajoutez `myapp.test → 127.0.0.1` pour le développement local, et

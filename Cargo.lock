@@ -1661,7 +1661,7 @@ checksum = "03c2856837ef78f57382f06b2b8563a2f512f7185d732608fd9176cb3b8edf0e"
 
 [[package]]
 name = "voltkit"
-version = "0.9.1"
+version = "0.9.2"
 dependencies = [
  "anyhow",
  "ashpd",
