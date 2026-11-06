@@ -110,8 +110,28 @@ L’application des modifications est nouvelle et n’a été testée jusqu’ic
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) pour ce qui fonctionne, comment la sécurité est assurée et ce qui reste à faire.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.0">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.0" alt="Réglage du GPU avec des mesures en direct et leur historique, et les contrôles de limite de puissance et de courbe de ventilateur d’une carte AMD Radeon (données simulées)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.1">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.1" alt="Réglage du GPU avec des mesures en direct et l’éditeur de courbe de ventilateur d’une carte AMD Radeon (données simulées)">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.1">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.10.1" alt="Réglage du GPU, plus bas : ce que la carte prend en charge et les points de la courbe de ventilateur (données simulées)">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.1">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.10.1" alt="Réglage du GPU, plus bas : contrôles, Aperçu et Appliquer, et profils enregistrés (données simulées)">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.1">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.10.1" alt="Réglage du GPU, tout en bas : profils et sessions enregistrées à comparer (données simulées)">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.1">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.1" alt="Éditeur de courbe tension/fréquence du réglage du GPU avec des points déplaçables (données simulées)">
 </picture>
 
 <sub>La capture d’écran utilise des données simulées de cartes fictives.</sub>
