@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.9.0
+Version:        0.9.1
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -75,6 +75,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Thu Nov 05 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.1-1
+- Add translated guidance for inspecting busy files, drives and network ports
+- Refresh documentation and project funding links
+
 * Wed Nov 04 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.0-1
 - Translate the app, command line, help and man pages into French and Simplified Chinese
 
