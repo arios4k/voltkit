@@ -143,6 +143,15 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.9.1" date="2026-11-05">
+      <description>
+        <p>Clearer guidance for inspecting busy files, drives and network ports, with updated translations.</p>
+        <p xml:lang="es">Guía más clara para revisar archivos, unidades y puertos ocupados, con traducciones actualizadas.</p>
+        <p xml:lang="de">Klarere Hinweise zum Prüfen belegter Dateien, Laufwerke und Netzwerkports mit aktualisierten Übersetzungen.</p>
+        <p xml:lang="fr">Des conseils plus clairs pour examiner les fichiers, lecteurs et ports occupés, avec des traductions à jour.</p>
+        <p xml:lang="zh_CN">改进了检查占用中的文件、驱动器和网络端口的指引，并更新了翻译。</p>
+      </description>
+    </release>
     <release version="0.9.0" date="2026-11-04">
       <description>
         <p>Voltkit now speaks French and Simplified Chinese.</p>
