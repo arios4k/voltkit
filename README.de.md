@@ -101,12 +101,16 @@ Auch das Schließen der App oder ein Absturz macht sie rückgängig. Gespeichert
 Hintergrunddienst beim Start an; er überspringt ein Profil, dessen Start nie abgeschlossen wurde, damit ein fehlerhaftes
 Sie nicht in einer Schleife festhält. `voltkit gpu` gibt denselben Bericht im Terminal aus.
 
+Bearbeiten Sie Lüfterkurven, indem Sie Punkte in einem Diagramm ziehen, und wählen Sie, welcher Temperatur sie folgen und welche Lüfter sie steuern. Speichern Sie Einstellungen als **Profile**, die von selbst wechseln: im Akkubetrieb, solange eine App läuft, unter anhaltender Last oder wenn die Karte heiß wird. **Zeichnen Sie eine Sitzung auf**, während ein Spiel oder Benchmark läuft, und vergleichen Sie zwei Profile nebeneinander: Temperatur, Leistung, Energie und Effizienz (aktiver Takt pro Watt oder Bilder pro Watt, wenn Bilder aufgezeichnet wurden). `voltkit gpu check` vergleicht die Messwerte von Voltkit mit `nvidia-smi` und misst, was die Überwachung kostet.
+
+Haben Sie es auf Ihrer Karte ausprobiert? Ein [Hardware-Bericht](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) darüber, was funktioniert hat und was nicht, hilft derzeit am meisten.
+
 Das Anwenden von Änderungen ist neu und wurde bisher nur mit simulierter Hardware getestet; was funktioniert, wie es
 sicher bleibt und was noch fehlt, steht in [docs/GPU_TUNER.md](docs/GPU_TUNER.md).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
-  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="GPU-Tuner mit Live-Messwerten samt Verlauf und den Steuerungen für Leistungsgrenze und Lüfterkurve einer AMD-Radeon-Karte (simulierte Daten)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.0" alt="GPU-Tuner mit Live-Messwerten samt Verlauf und den Steuerungen für Leistungsgrenze und Lüfterkurve einer AMD-Radeon-Karte (simulierte Daten)">
 </picture>
 
 <sub>Der Screenshot zeigt simulierte Daten erfundener Karten.</sub>

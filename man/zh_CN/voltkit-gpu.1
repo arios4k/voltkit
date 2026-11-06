@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-gpu 1  "Voltkit 0.9.2" "Voltkit 手册"
+.TH voltkit-gpu 1  "Voltkit 0.10.0" "Voltkit 手册"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH 名称
@@ -31,7 +31,7 @@ voltkit\-gpu \- 监控 NVIDIA、AMD 和 Intel 显卡，并调节它们的功耗�
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
 从 JSON 文件应用 GPU 设置，未经确认则撤销
 
-文件包含一块显卡的设置：以 "gpu" 给出它的 PCI 地址，以及下列任意字段："power_limit_w"、"fan"（{"mode":"auto"}、{"mode":"fixed","speed_pct":50} 或 {"mode":"curve","points":[...]}）、"temperature_target_c"、"core_offset_mhz"、"mem_offset_mhz"、"voltage_offset_mv"，以及对 Intel 显卡的 "core_clock_min_mhz" 和 "core_clock_max_mhz"。显卡不允许的值会被拒绝。
+文件包含一块显卡的设置：以 "gpu" 给出它的 PCI 地址，以及下列任意字段："power_limit_w"、"fan"（{"mode":"auto"}、{"mode":"fixed","speed_pct":50} 或 {"mode":"curve","points":[...]}）、"temperature_target_c"、"core_offset_mhz"、"mem_offset_mhz"、"voltage_offset_mv"，对有完整曲线的 AMD 显卡还有 "voltage_curve"（由 {"mhz":1450,"mv":800} 这样的点组成的列表，需包含所有点），对 Intel 显卡还有 "core_clock_min_mhz" 和 "core_clock_max_mhz"。显卡不允许的值会被拒绝。
 .RS
 \fB\-\-save\fR: 重启后保留设置，并在后台服务中运行风扇曲线
 .RE
@@ -47,6 +47,39 @@ voltkit\-gpu \- 监控 NVIDIA、AMD 和 Intel 显卡，并调节它们的功耗�
 .TP
 \fBvoltkit gpu service\fR
 运行后台服务，应用已保存的 GPU 设置并执行风扇曲线
+.TP
+\fBvoltkit gpu record [\-\-seconds] [\-\-label] [\-\-gpu]\fR
+录制一块显卡一段时间的读数，以便之后比较配置文件
+
+写出一个可在电子表格中打开的 CSV 文件，并输出摘要，包含耗电量以及每瓦换来的频率工作量（“每瓦有效频率”）。请在游戏或基准测试运行时，为每个配置文件各运行一次，然后比较这些会话。
+.RS
+\fB\-\-seconds\fR: 录制多少秒
+.RE
+.RS
+\fB\-\-label\fR: 正在测试什么，例如配置文件的名称
+.RE
+.RS
+\fB\-\-gpu\fR: 显卡的 PCI 地址（默认是第一块 NVIDIA 或 AMD 显卡）
+.RE
+.TP
+\fBvoltkit gpu check [\-\-seconds]\fR
+用第二个数据源核对 Voltkit 的读数，并测量监控的开销
+
+对 NVIDIA 显卡，它会把 Voltkit 所读取的 NVML 与同一时刻的 `nvidia\-smi` 进行对比，并对照精度目标报告两者的差距。它还会测量监控所用的 CPU 时间和内存。在大多数电脑上，其他厂商的显卡没有第二个数据源，命令会说明这一点。
+.RS
+\fB\-\-seconds\fR: 对比多少秒
+.RE
+.TP
+\fBvoltkit gpu sessions\fR
+列出已录制的会话，最新的在前
+.TP
+\fBvoltkit gpu compare\fR
+并排比较两次已录制的会话
+
+每个会话是一个文件，或是 `voltkit gpu sessions` 列出的编号。会显示温度、功耗、耗电量、风扇转速、频率和效率，以及每一项中哪次会话更好。效率是“每瓦有效频率”，是每瓦工作量的近似指标；把 MangoHud 等工具得到的 fps 列添加到会话文件中，还能得到每瓦帧数。
+.TP
+\fBvoltkit gpu profiles\fR
+按电源、运行的应用、负载或温度自动切换的命名配置文件
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .ie \n(.g .ds Aq \(aq

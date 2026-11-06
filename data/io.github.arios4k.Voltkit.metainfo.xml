@@ -148,6 +148,42 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.10.0" date="2026-11-07">
+      <description>
+        <p>GPU Tuner grows up: curves on a graph, profiles that switch by themselves, and recorded sessions.</p>
+        <p xml:lang="es">Ajuste de GPU da un paso más: curvas en un gráfico, perfiles que cambian solos y sesiones grabadas.</p>
+        <p xml:lang="de">Der GPU-Tuner wird erwachsen: Kurven in einem Diagramm, Profile, die von selbst wechseln, und aufgezeichnete Sitzungen.</p>
+        <p xml:lang="fr">Le Réglage du GPU progresse : courbes sur un graphique, profils qui changent tout seuls et sessions enregistrées.</p>
+        <p xml:lang="zh_CN">GPU 调节器更进一步：图表上的曲线、会自动切换的配置文件，以及录制的会话。</p>
+        <ul>
+          <li>Edit fan curves by dragging points on a graph, and choose the temperature and fans they follow</li>
+          <li xml:lang="es">Edita las curvas de ventilador arrastrando puntos en un gráfico y elige la temperatura y los ventiladores que siguen</li>
+          <li xml:lang="de">Lüfterkurven durch Ziehen von Punkten in einem Diagramm bearbeiten und Temperatur und Lüfter wählen, denen sie folgen</li>
+          <li xml:lang="fr">Modifiez les courbes de ventilateur en faisant glisser des points sur un graphique, et choisissez la température et les ventilateurs qu’elles suivent</li>
+          <li xml:lang="zh_CN">在图表上拖动点来编辑风扇曲线，并选择它们所依据的温度和所控制的风扇</li>
+          <li>Profiles that switch by power source, running program, load or temperature</li>
+          <li xml:lang="es">Perfiles que cambian según la fuente de energía, la app en ejecución, la carga o la temperatura</li>
+          <li xml:lang="de">Profile, die nach Stromquelle, laufender App, Last oder Temperatur wechseln</li>
+          <li xml:lang="fr">Profils qui changent selon la source d’alimentation, l’application en cours, la charge ou la température</li>
+          <li xml:lang="zh_CN">按电源、运行的应用、负载或温度自动切换的配置文件</li>
+          <li>Record sessions and compare two side by side with energy used and efficiency</li>
+          <li xml:lang="es">Graba sesiones y compara dos lado a lado con la energía consumida y la eficiencia</li>
+          <li xml:lang="de">Sitzungen aufzeichnen und zwei nebeneinander mit verbrauchter Energie und Effizienz vergleichen</li>
+          <li xml:lang="fr">Enregistrez des sessions et comparez-en deux côte à côte avec l’énergie consommée et l’efficacité</li>
+          <li xml:lang="zh_CN">录制会话，并排比较两次会话的耗电量和效率</li>
+          <li>Edit full voltage and frequency curves on AMD cards that have them</li>
+          <li xml:lang="es">Edita las curvas completas de voltaje y frecuencia en las tarjetas AMD que las tienen</li>
+          <li xml:lang="de">Vollständige Spannungs-/Frequenzkurven auf AMD-Karten bearbeiten, die sie haben</li>
+          <li xml:lang="fr">Modifiez les courbes tension-fréquence complètes sur les cartes AMD qui en ont</li>
+          <li xml:lang="zh_CN">在具备完整电压与频率曲线的 AMD 显卡上编辑这些曲线</li>
+          <li>Fixed video memory reading too high on NVIDIA cards, and added voltkit gpu check to compare readings with nvidia-smi. Applying changes has so far been tested on simulated hardware only</li>
+          <li xml:lang="es">Se corrigió la memoria de vídeo que se leía demasiado alta en las tarjetas NVIDIA y se añadió voltkit gpu check para comparar lecturas con nvidia-smi. Aplicar cambios solo se ha probado hasta ahora con hardware simulado</li>
+          <li xml:lang="de">Zu hoch gelesener Grafikspeicher auf NVIDIA-Karten korrigiert und voltkit gpu check zum Vergleich der Messwerte mit nvidia-smi hinzugefügt. Das Anwenden von Änderungen wurde bisher nur mit simulierter Hardware getestet</li>
+          <li xml:lang="fr">Correction de la mémoire vidéo lue trop haut sur les cartes NVIDIA et ajout de voltkit gpu check pour comparer les mesures avec nvidia-smi. L’application des modifications n’a été testée jusqu’ici que sur du matériel simulé</li>
+          <li xml:lang="zh_CN">修复了 NVIDIA 显卡上显存读数偏高的问题，并新增 voltkit gpu check 用于与 nvidia-smi 对比读数。应用更改目前只用模拟硬件测试过</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.9.2" date="2026-11-06">
       <description>
         <p>New: GPU Tuner, the fifteenth tool.</p>

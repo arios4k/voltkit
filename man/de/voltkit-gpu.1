@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-gpu 1  "Voltkit 0.9.2" Voltkit-Handbuch
+.TH voltkit-gpu 1  "Voltkit 0.10.0" Voltkit-Handbuch
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
@@ -31,7 +31,7 @@ Die Grafikkarten, ihre Messwerte und die jeweils möglichen Steuerungen anzeigen
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
 GPU\-Einstellungen aus einer JSON\-Datei anwenden und rückgängig machen, wenn Sie nicht bestätigen
 
-Die Datei enthält die Einstellungen für eine Karte: ihre PCI\-Adresse als "gpu" und beliebige der Felder "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} oder {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv" und für Intel "core_clock_min_mhz" und "core_clock_max_mhz". Werte, die die Karte nicht erlaubt, werden abgelehnt.
+Die Datei enthält die Einstellungen für eine Karte: ihre PCI\-Adresse als "gpu" und beliebige der Felder "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} oder {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", bei AMD\-Karten mit vollständiger Kurve "voltage_curve" (eine Liste von Punkten wie {"mhz":1450,"mv":800}, und zwar alle) und für Intel "core_clock_min_mhz" und "core_clock_max_mhz". Werte, die die Karte nicht erlaubt, werden abgelehnt.
 .RS
 \fB\-\-save\fR: Die Einstellungen nach einem Neustart beibehalten und Lüfterkurven im Hintergrunddienst ausführen
 .RE
@@ -47,6 +47,39 @@ Gespeicherte Einstellungen einer Karte entfernen und ihre Lüfter an die Karte z
 .TP
 \fBvoltkit gpu service\fR
 Den Hintergrunddienst ausführen, der gespeicherte GPU\-Einstellungen anwendet und Lüfterkurven folgt
+.TP
+\fBvoltkit gpu record [\-\-seconds] [\-\-label] [\-\-gpu]\fR
+Die Messwerte einer Karte eine Weile aufzeichnen, um Profile später zu vergleichen
+
+Schreibt eine CSV\-Datei, die Sie in einer Tabellenkalkulation öffnen können, und gibt eine Zusammenfassung mit der verbrauchten Energie und der Taktarbeit pro Watt aus („aktiver Takt pro Watt“). Führen Sie es aus, während ein Spiel oder ein Benchmark läuft, einmal pro Profil, und vergleichen Sie dann die Sitzungen.
+.RS
+\fB\-\-seconds\fR: Wie viele Sekunden aufgezeichnet werden
+.RE
+.RS
+\fB\-\-label\fR: Was ausprobiert wird, etwa der Profilname
+.RE
+.RS
+\fB\-\-gpu\fR: Die PCI\-Adresse der Karte (standardmäßig die erste NVIDIA\- oder AMD\-Karte)
+.RE
+.TP
+\fBvoltkit gpu check [\-\-seconds]\fR
+Die Messwerte von Voltkit mit einer zweiten Quelle prüfen und messen, was die Überwachung kostet
+
+Bei NVIDIA\-Karten vergleicht es NVML, das Voltkit liest, mit `nvidia\-smi` zu denselben Zeitpunkten und meldet, wie weit beide auseinanderliegen, gemessen an den Genauigkeitszielen. Es misst auch die CPU\-Zeit und den Speicher, die die Überwachung braucht. Karten anderer Hersteller haben auf den meisten Computern keine zweite Quelle; der Befehl sagt das.
+.RS
+\fB\-\-seconds\fR: Wie viele Sekunden verglichen wird
+.RE
+.TP
+\fBvoltkit gpu sessions\fR
+Die aufgezeichneten Sitzungen auflisten, neueste zuerst
+.TP
+\fBvoltkit gpu compare\fR
+Zwei aufgezeichnete Sitzungen nebeneinander vergleichen
+
+Jede Sitzung ist eine Datei oder eine Nummer aus `voltkit gpu sessions`. Zeigt Temperatur, Leistung, Energie, Lüfterdrehzahl, Takte und Effizienz und welche Sitzung jeweils besser ist. Die Effizienz ist der „aktive Takt pro Watt“, ein Näherungswert für die Arbeit pro Watt; fügen Sie einer Sitzungsdatei eine fps\-Spalte aus einem Werkzeug wie MangoHud hinzu, um auch Bilder pro Sekunde pro Watt zu erhalten.
+.TP
+\fBvoltkit gpu profiles\fR
+Benannte Profile, die automatisch nach Stromquelle, laufender App, Last oder Temperatur wechseln
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .ie \n(.g .ds Aq \(aq

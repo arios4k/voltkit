@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-gpu 1  "Voltkit 0.9.2" "Manual de Voltkit"
+.TH voltkit-gpu 1  "Voltkit 0.10.0" "Manual de Voltkit"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NOMBRE
@@ -31,7 +31,7 @@ Mostrar las tarjetas gráficas, sus lecturas y lo que cada una permite controlar
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
 Aplicar ajustes de GPU desde un archivo JSON, deshaciéndolos si no confirmas
 
-El archivo contiene los ajustes de una tarjeta: su dirección PCI como "gpu" y cualquiera de "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} o {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv" y, para Intel, "core_clock_min_mhz" y "core_clock_max_mhz". Se rechazan los valores que la tarjeta no permite.
+El archivo contiene los ajustes de una tarjeta: su dirección PCI como "gpu" y cualquiera de "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} o {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", para las tarjetas AMD con curva completa "voltage_curve" (una lista de puntos {"mhz":1450,"mv":800}, todos) y, para Intel, "core_clock_min_mhz" y "core_clock_max_mhz". Se rechazan los valores que la tarjeta no permite.
 .RS
 \fB\-\-save\fR: Conservar los ajustes tras reiniciar y ejecutar las curvas de ventilador en el servicio en segundo plano
 .RE
@@ -47,6 +47,39 @@ Quitar los ajustes guardados de una tarjeta y devolverle el control de sus venti
 .TP
 \fBvoltkit gpu service\fR
 Ejecutar el servicio en segundo plano que aplica los ajustes de GPU guardados y sigue las curvas de ventilador
+.TP
+\fBvoltkit gpu record [\-\-seconds] [\-\-label] [\-\-gpu]\fR
+Grabar las lecturas de una tarjeta durante un rato, para comparar perfiles después
+
+Escribe un archivo CSV que puedes abrir en una hoja de cálculo e imprime un resumen con la energía consumida y el trabajo de reloj que rindió cada vatio («frecuencia activa por vatio»). Ejecútalo mientras corre un juego o una prueba de rendimiento, una vez por perfil, y luego compara las sesiones.
+.RS
+\fB\-\-seconds\fR: Cuántos segundos grabar
+.RE
+.RS
+\fB\-\-label\fR: Qué se está probando, como el nombre del perfil
+.RE
+.RS
+\fB\-\-gpu\fR: La dirección PCI de la tarjeta (por defecto, la primera tarjeta NVIDIA o AMD)
+.RE
+.TP
+\fBvoltkit gpu check [\-\-seconds]\fR
+Comprobar las lecturas de Voltkit con una segunda fuente y medir cuánto cuesta monitorear
+
+En las tarjetas NVIDIA compara NVML, que es lo que lee Voltkit, con `nvidia\-smi` tomado en los mismos momentos, e informa de cuánto difieren frente a los objetivos de precisión. También mide el tiempo de CPU y la memoria que usa el monitoreo. Las tarjetas de otros fabricantes no tienen una segunda fuente en la mayoría de los equipos; el comando lo indica.
+.RS
+\fB\-\-seconds\fR: Cuántos segundos comparar
+.RE
+.TP
+\fBvoltkit gpu sessions\fR
+Listar las sesiones grabadas, las más recientes primero
+.TP
+\fBvoltkit gpu compare\fR
+Comparar dos sesiones grabadas lado a lado
+
+Cada sesión es un archivo, o un número de `voltkit gpu sessions`. Muestra temperatura, potencia, energía, velocidad del ventilador, frecuencias y eficiencia, y qué sesión es mejor en cada una. La eficiencia es la «frecuencia activa por vatio», un indicador aproximado del trabajo por vatio; añade una columna fps de una herramienta como MangoHud a un archivo de sesión para obtener también fotogramas por segundo por vatio.
+.TP
+\fBvoltkit gpu profiles\fR
+Perfiles con nombre que cambian solos según la fuente de energía, la app en ejecución, la carga o la temperatura
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .ie \n(.g .ds Aq \(aq

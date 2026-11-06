@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-gpu 1  "Voltkit 0.9.2" "Voltkit Manual"
+.TH voltkit-gpu 1  "Voltkit 0.10.0" "Voltkit Manual"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NAME
@@ -31,7 +31,7 @@ Show the graphics cards, their readings and what each lets you control
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
 Apply GPU settings from a JSON file, undoing them unless you confirm
 
-The file holds the settings for one card: its PCI address as "gpu", and any of "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", and for Intel "core_clock_min_mhz" and "core_clock_max_mhz". Values the card doesn\*(Aqt allow are refused.
+The file holds the settings for one card: its PCI address as "gpu", and any of "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", for AMD cards with a full curve "voltage_curve" (a list of {"mhz":1450,"mv":800} points, all of them), and for Intel "core_clock_min_mhz" and "core_clock_max_mhz". Values the card doesn\*(Aqt allow are refused.
 .RS
 \fB\-\-save\fR: Keep the settings after a restart, and run fan curves in the background service
 .RE
@@ -47,6 +47,39 @@ Remove a card\*(Aqs saved settings and give its fans back to the card
 .TP
 \fBvoltkit gpu service\fR
 Run the background service that applies saved GPU settings and follows fan curves
+.TP
+\fBvoltkit gpu record [\-\-seconds] [\-\-label] [\-\-gpu]\fR
+Record the readings of a card for a while, to compare profiles later
+
+Writes a CSV file you can open in a spreadsheet, and prints a summary with the energy used and the clock\-work each watt bought ("active MHz per watt"). Run it while a game or a benchmark is going, once per profile, then compare the sessions.
+.RS
+\fB\-\-seconds\fR: How many seconds to record
+.RE
+.RS
+\fB\-\-label\fR: What is being tried, such as the profile name
+.RE
+.RS
+\fB\-\-gpu\fR: The card\*(Aqs PCI address (the first NVIDIA or AMD card by default)
+.RE
+.TP
+\fBvoltkit gpu check [\-\-seconds]\fR
+Check Voltkit\*(Aqs readings against a second source and measure what monitoring costs
+
+On NVIDIA cards it compares NVML, which Voltkit reads, with `nvidia\-smi` taken at the same moments, and reports how far apart they are against the accuracy targets. It also measures the CPU time and memory monitoring uses. Cards from other makers have no second source on most computers; the command says so.
+.RS
+\fB\-\-seconds\fR: How many seconds to compare for
+.RE
+.TP
+\fBvoltkit gpu sessions\fR
+List the recorded sessions, newest first
+.TP
+\fBvoltkit gpu compare\fR
+Compare two recorded sessions side by side
+
+Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power, energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency is "active MHz per watt", a proxy for work per watt; add an fps column from a tool such as MangoHud to a session file to get frames per second per watt too.
+.TP
+\fBvoltkit gpu profiles\fR
+Named profiles that switch automatically by power source, running app, load or temperature
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .ie \n(.g .ds Aq \(aq

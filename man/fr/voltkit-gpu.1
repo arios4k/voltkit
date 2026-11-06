@@ -1,6 +1,6 @@
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
-.TH voltkit-gpu 1  "Voltkit 0.9.2" "Manuel de Voltkit"
+.TH voltkit-gpu 1  "Voltkit 0.10.0" "Manuel de Voltkit"
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .SH NOM
@@ -31,7 +31,7 @@ Afficher les cartes graphiques, leurs mesures et ce que chacune permet de contr�
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
 Appliquer des réglages GPU depuis un fichier JSON, en les annulant sans confirmation
 
-Le fichier contient les réglages d’une carte : son adresse PCI comme "gpu", et n’importe lequel des champs "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} ou {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv" et, pour Intel, "core_clock_min_mhz" et "core_clock_max_mhz". Les valeurs que la carte n’autorise pas sont refusées.
+Le fichier contient les réglages d’une carte : son adresse PCI comme "gpu", et n’importe lequel des champs "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} ou {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", pour les cartes AMD à courbe complète "voltage_curve" (une liste de points {"mhz":1450,"mv":800}, tous) et, pour Intel, "core_clock_min_mhz" et "core_clock_max_mhz". Les valeurs que la carte n’autorise pas sont refusées.
 .RS
 \fB\-\-save\fR: Conserver les réglages après un redémarrage et exécuter les courbes de ventilateur dans le service en arrière\-plan
 .RE
@@ -47,6 +47,39 @@ Supprimer les réglages enregistrés d’une carte et lui rendre ses ventilateur
 .TP
 \fBvoltkit gpu service\fR
 Exécuter le service en arrière\-plan qui applique les réglages GPU enregistrés et suit les courbes de ventilateur
+.TP
+\fBvoltkit gpu record [\-\-seconds] [\-\-label] [\-\-gpu]\fR
+Enregistrer les mesures d’une carte pendant un moment, pour comparer des profils ensuite
+
+Écrit un fichier CSV ouvrable dans un tableur et affiche un résumé avec l’énergie consommée et le travail de fréquence obtenu par watt (« fréquence active par watt »). Lancez\-le pendant qu’un jeu ou un test de performance tourne, une fois par profil, puis comparez les sessions.
+.RS
+\fB\-\-seconds\fR: Combien de secondes enregistrer
+.RE
+.RS
+\fB\-\-label\fR: Ce qui est testé, comme le nom du profil
+.RE
+.RS
+\fB\-\-gpu\fR: L’adresse PCI de la carte (par défaut, la première carte NVIDIA ou AMD)
+.RE
+.TP
+\fBvoltkit gpu check [\-\-seconds]\fR
+Vérifier les mesures de Voltkit avec une seconde source et mesurer le coût de la surveillance
+
+Sur les cartes NVIDIA, il compare NVML, que lit Voltkit, avec `nvidia\-smi` pris aux mêmes instants, et indique l’écart par rapport aux objectifs de précision. Il mesure aussi le temps de CPU et la mémoire qu’utilise la surveillance. Les cartes d’autres fabricants n’ont pas de seconde source sur la plupart des ordinateurs ; la commande le précise.
+.RS
+\fB\-\-seconds\fR: Combien de secondes comparer
+.RE
+.TP
+\fBvoltkit gpu sessions\fR
+Lister les sessions enregistrées, les plus récentes d’abord
+.TP
+\fBvoltkit gpu compare\fR
+Comparer deux sessions enregistrées côte à côte
+
+Chaque session est un fichier, ou un numéro de `voltkit gpu sessions`. Affiche température, puissance, énergie, vitesse du ventilateur, fréquences et efficacité, et quelle session est la meilleure pour chacune. L’efficacité est la « fréquence active par watt », un indicateur approché du travail par watt ; ajoutez une colonne fps issue d’un outil comme MangoHud à un fichier de session pour obtenir aussi les images par seconde par watt.
+.TP
+\fBvoltkit gpu profiles\fR
+Profils nommés qui changent automatiquement selon la source d’alimentation, l’application en cours, la charge ou la température
 .ie \n(.g .ds Aq \(aq
 .el .ds Aq '
 .ie \n(.g .ds Aq \(aq

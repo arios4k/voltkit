@@ -64,6 +64,7 @@ pub struct Gpu {
 pub struct Sample {
     pub temp_c: Option<f64>,
     pub hotspot_c: Option<f64>,
+    pub mem_temp_c: Option<f64>,
     pub util_pct: Option<f64>,
     pub core_mhz: Option<f64>,
     pub mem_mhz: Option<f64>,
@@ -255,6 +256,7 @@ fn amd_sample(device: &Path) -> Sample {
         let micro = |name: &str| read_num(&hw.join(name)).map(|v| v / 1e6);
         s.temp_c = milli("temp1_input").or_else(|| milli("temp2_input"));
         s.hotspot_c = milli("temp2_input").filter(|_| hw.join("temp1_input").exists());
+        s.mem_temp_c = milli("temp3_input");
         s.power_w = micro("power1_average").or_else(|| micro("power1_input"));
         s.limit_w = micro("power1_cap");
         s.limit_min_w = micro("power1_cap_min");
@@ -582,6 +584,7 @@ pub fn demo_sample(card: usize, tick: u32) -> Sample {
     Sample {
         temp_c: Some((44.0 + 30.0 * load).round()),
         hotspot_c: (card == 0).then(|| (52.0 + 34.0 * load).round()),
+        mem_temp_c: (card == 0).then(|| (46.0 + 24.0 * load).round()),
         util_pct: Some((100.0 * load).round()),
         core_mhz: Some((clock * (0.45 + 0.55 * load)).round()),
         mem_mhz: Some(mem_clock),

@@ -92,11 +92,15 @@ WebP 减小 60%，MP4 减小 77%。
 辅助程序应用，并且**未经确认就会撤销**：关闭应用或应用崩溃同样会撤销。已保存的设置由后台服务在启动时应用，它会跳过一个始终没能启动完成的
 配置，因此有问题的配置不会让你陷入循环。`voltkit gpu` 会在终端中输出同样的报告。
 
+通过在图表上拖动点来编辑风扇曲线，并选择它们所依据的温度和所控制的风扇。把设置保存为会自动切换的**配置文件**：使用电池时、某个应用运行时、负载持续较高时，或显卡过热时。在游戏或基准测试运行时**录制一次会话**，并排比较两个配置文件：温度、功耗、耗电量和效率（每瓦有效频率；若录制了帧数，则是每瓦帧数）。`voltkit gpu check` 会把 Voltkit 的读数与 `nvidia-smi` 对比，并测量监控的开销。
+
+在你的显卡上试过了吗？一份说明哪些可用、哪些不可用的[硬件报告](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml)，是目前最有帮助的反馈。
+
 应用更改是新功能，目前只用模拟硬件测试过；哪些可用、如何保证安全以及还有什么没做，请参阅 [docs/GPU_TUNER.md](docs/GPU_TUNER.md)。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
-  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="GPU 调节器显示带历史曲线的实时读数，以及一块 AMD Radeon 显卡的功耗上限和风扇曲线控制项（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.0" alt="GPU 调节器显示带历史曲线的实时读数，以及一块 AMD Radeon 显卡的功耗上限和风扇曲线控制项（模拟数据）">
 </picture>
 
 <sub>此截图使用的是虚构显卡的模拟数据。</sub>

@@ -78,11 +78,66 @@ These are what to measure before claiming more:
 - **Recovery:** every injected failure (a failed write, a killed helper, a frozen
   boot) ends with the card back in its previous state.
 
+## Fan curves, profiles and sessions
+
+- **Curve chart.** Drag points on a temperature and fan-speed graph; rubber-band or
+  shift-click to select several; arrow keys nudge (Shift for 5); double-click the
+  line to add a point; right-click or Delete removes. The rules live in
+  `gpu_curve.rs` and keep the curve valid while you drag (temperatures at least a
+  degree apart, speeds that never drop, inside the chart). The graph shades the
+  zone no safe curve may enter and marks where the card is right now.
+- **Sensor and fans.** A curve can follow the hottest sensor, the GPU, the hotspot
+  or the memory temperature, and drive all fans or only some (NVIDIA). The
+  driver's own curve is used only when the defaults are chosen, because it
+  can't follow a chosen sensor.
+- **Profiles.** Per-card named profiles, with rules tried in order: on battery or
+  mains, while a program runs, under a sustained load, or when hot. A profile
+  stays at least 20 seconds, a load must last 30 seconds, and a heat rule lets go
+  only after the card has cooled 5 °C. Heat rules go first. "While a program runs"
+  matches process names (`steam`, `blender`), not windows. The service applies
+  them and writes the active one to `/run/voltkit/gpu-active.json`.
+- **Sessions.** `voltkit gpu record` (or the Sessions section) writes a CSV of the
+  readings. `voltkit gpu compare` or the page puts two sessions side by side with
+  the better one marked. **Efficiency is a proxy**: active MHz per watt (core clock
+  weighted by utilization, divided by power). It says how much clock-work each
+  watt bought, not frames. Add an `fps` column (for example from MangoHud) and
+  frames per second per watt are reported too. Cards that report no power (the
+  development machine's laptop Quadro, for one) show no efficiency.
+- **Voltage and frequency curve.** For AMD cards whose table has `OD_VDDC_CURVE`,
+  every point can be set within the ranges the card reports; only changed points
+  are written, each with its old value to undo. Edited as numbers for now, not on
+  the chart.
+
+## Measured so far
+
+`voltkit gpu check` compares Voltkit's readings with a second source and measures
+the cost of monitoring. On the development machine (Quadro P520, NVIDIA 580):
+
+| Measure | Result | Target |
+|---|---|---|
+| Temperature, utilization, clocks, Voltkit (NVML) against `nvidia-smi`, 8 paired readings | 0 difference | 1 °C, 5 %, 15 MHz |
+| Video memory, same comparison | 0.2 MB (53 MB before the first check found and fixed Voltkit counting the driver's reserved memory as used) | 8 MB |
+| CPU per reading of every card | about 0.8 ms, or 0.04 % of one core at a reading every 2 seconds | a few tenths of a percent |
+| Memory of the monitoring process | 52 MB (the whole command-line process) | |
+| `nvidia-smi` fallback | about 21 ms per reading, in a separate process | |
+
+This is a check of Voltkit against NVIDIA's own tool on one card, not a
+comparison with other tuning tools. Accuracy has not been measured on AMD or
+Intel, where no second source is installed here. Power, which the Quadro doesn't
+report, is untested.
+
+## Reporting hardware results
+
+Real results are the most useful contribution right now. Open a
+[GPU Tuner hardware report](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml)
+with the output of `voltkit gpu`, your distribution, kernel and driver, what you
+tried and what happened. Try one setting at a time and start with small steps; the
+page marks the controls **Experimental** until they are confirmed on real hardware.
+
 ## Not yet built
 
-Per-GPU and per-application profiles with automatic switching (workload,
-temperature, power source), recorded sessions and side-by-side profile
-comparison with performance per watt, mouse-drag editing of curves on a graph,
-voltage and frequency curve editing for cards with full curve tables, multiple
-fan and sensor selection for software curves, and comparative testing against
-other tools.
+Comparative testing against other tools (LACT, CoreCtrl, amdgpu_top, radeontop) on
+AMD and Intel hardware, which needs those cards; a separate curve per fan or
+sensor; matching programs by window rather than process name; dragging points on
+the voltage and frequency curve; and running the write paths on real AMD, Arc and
+supported NVIDIA cards, which remains the biggest gap.

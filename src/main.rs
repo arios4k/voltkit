@@ -8,6 +8,7 @@ mod app;
 mod awake;
 mod awake_ui;
 mod config;
+mod curve_chart;
 mod daemon;
 mod detective_ui;
 mod doctor;
@@ -61,7 +62,8 @@ enum GpuCommand {
     /// The file holds the settings for one card: its PCI address as "gpu", and any of
     /// "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or
     /// {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz",
-    /// "mem_offset_mhz", "voltage_offset_mv", and for Intel "core_clock_min_mhz" and
+    /// "mem_offset_mhz", "voltage_offset_mv", for AMD cards with a full curve "voltage_curve" (a
+    /// list of {"mhz":1450,"mv":800} points, all of them), and for Intel "core_clock_min_mhz" and
     /// "core_clock_max_mhz". Values the card doesn't allow are refused.
     Apply {
         /// The settings file, or - to read it from standard input
@@ -86,6 +88,71 @@ enum GpuCommand {
     },
     /// Run the background service that applies saved GPU settings and follows fan curves
     Service,
+    /// Record the readings of a card for a while, to compare profiles later
+    ///
+    /// Writes a CSV file you can open in a spreadsheet, and prints a summary with the energy used
+    /// and the clock-work each watt bought ("active MHz per watt"). Run it while a game or a
+    /// benchmark is going, once per profile, then compare the sessions.
+    Record {
+        /// How many seconds to record
+        #[arg(long, default_value_t = 60)]
+        seconds: u64,
+        /// What is being tried, such as the profile name
+        #[arg(long, default_value = "session")]
+        label: String,
+        /// The card's PCI address (the first NVIDIA or AMD card by default)
+        #[arg(long)]
+        gpu: Option<String>,
+    },
+    /// Check Voltkit's readings against a second source and measure what monitoring costs
+    ///
+    /// On NVIDIA cards it compares NVML, which Voltkit reads, with `nvidia-smi` taken at the same
+    /// moments, and reports how far apart they are against the accuracy targets. It also measures
+    /// the CPU time and memory monitoring uses. Cards from other makers have no second source on
+    /// most computers; the command says so.
+    Check {
+        /// How many seconds to compare for
+        #[arg(long, default_value_t = 10)]
+        seconds: u64,
+    },
+    /// List the recorded sessions, newest first
+    Sessions,
+    /// Compare two recorded sessions side by side
+    ///
+    /// Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power,
+    /// energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency
+    /// is "active MHz per watt", a proxy for work per watt; add an fps column from a tool such as
+    /// MangoHud to a session file to get frames per second per watt too.
+    Compare {
+        /// The first session
+        first: String,
+        /// The second session
+        second: String,
+    },
+    /// Named profiles that switch automatically by power source, running app, load or temperature
+    Profiles {
+        #[command(subcommand)]
+        command: ProfilesCommand,
+    },
+}
+
+#[derive(Subcommand)]
+enum ProfilesCommand {
+    /// List the saved profiles and the rules that switch between them
+    List,
+    /// Show which profile each card is using now
+    Active,
+    /// Install profiles and rules from a JSON file, replacing the saved ones
+    ///
+    /// The file is a list with one entry per card: its PCI address as "gpu", its "profiles"
+    /// (each a "name" and the same "settings" `voltkit gpu apply` takes), its "rules" (a
+    /// "profile" and "conditions" such as {"when":"power_source","on_battery":true},
+    /// {"when":"app","names":["steam"]}, {"when":"workload","util_above_pct":80,"for_secs":30} or
+    /// {"when":"temperature","above_c":85}) and a "default" profile. Rules are tried in order.
+    Install {
+        /// The profiles file, or - to read it from standard input
+        file: String,
+    },
 }
 
 #[derive(Subcommand)]
@@ -592,6 +659,15 @@ fn run() -> Result<()> {
             GpuCommand::Apply { file, save, yes, confirm, session } => gpu_cli::apply(&file, session, save, yes, confirm)?,
             GpuCommand::Forget { address } => gpu_cli::forget(&address)?,
             GpuCommand::Service => portal::block_on(gpu_cli::service())?,
+            GpuCommand::Record { seconds, label, gpu } => gpu_cli::record(seconds, &label, gpu.as_deref())?,
+            GpuCommand::Check { seconds } => gpu_cli::check(seconds),
+            GpuCommand::Sessions => gpu_cli::sessions(),
+            GpuCommand::Compare { first, second } => gpu_cli::compare(&first, &second)?,
+            GpuCommand::Profiles { command } => match command {
+                ProfilesCommand::List => gpu_cli::profiles_list(),
+                ProfilesCommand::Active => gpu_cli::profiles_active(),
+                ProfilesCommand::Install { file } => gpu_cli::profiles_install(&file)?,
+            },
         },
         Some(Command::Sleep) => print!("{}", sleep::render_text(&portal::block_on(sleep::report()))),
         Some(Command::Using { target, machine, lang }) => {

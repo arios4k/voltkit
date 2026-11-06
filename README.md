@@ -96,12 +96,16 @@ them**: closing the app or a crash reverts them too. Saved settings are applied 
 which skips a profile that never finished starting, so a bad one can't lock you in a loop. `voltkit gpu` prints the same
 report in a terminal.
 
+Edit fan curves by dragging points on a graph, and choose which temperature they follow and which fans they drive. Save settings as **profiles** that switch by themselves: on battery, while an app runs, under a sustained load, or when the card runs hot. **Record a session** while a game or benchmark runs and compare two profiles side by side: temperature, power, energy and efficiency (active clock per watt, or frames per watt when frames are recorded). `voltkit gpu check` compares Voltkit's readings with `nvidia-smi` and measures what monitoring costs.
+
+Tried it on your card? A [hardware report](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) of what worked and what didn't is the most useful help right now.
+
 Applying changes is new and has so far been tested against simulated hardware only; see
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) for what works, how it stays safe, and what isn't built yet.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
-  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="GPU Tuner showing live readings with history and the fan curve editor for an AMD Radeon card (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.0" alt="GPU Tuner showing live readings with history and the fan curve editor for an AMD Radeon card (simulated data)">
 </picture>
 
 <sub>The screenshot uses simulated data from made-up cards.</sub>
