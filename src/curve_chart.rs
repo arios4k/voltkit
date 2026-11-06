@@ -77,7 +77,7 @@ impl Plot {
 impl CurveChart {
     pub fn new(points: Vec<CurvePoint>) -> Self {
         let area = gtk::DrawingArea::builder().content_height(230).hexpand(true).focusable(true).can_focus(true).build();
-        area.set_tooltip_text(Some(&tr("Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it.")));
+        area.set_tooltip_text(Some(tr("Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it.")));
         area.update_property(&[gtk::accessible::Property::Label(&tr("Fan curve chart"))]);
         let chart = CurveChart {
             area,
@@ -135,6 +135,7 @@ impl CurveChart {
             let plot = Plot::new(f64::from(w), f64::from(h));
             let fg = area.color();
             let ink = |cr: &gtk::cairo::Context, alpha: f64| cr.set_source_rgba(f64::from(fg.red()), f64::from(fg.green()), f64::from(fg.blue()), alpha);
+            #[allow(deprecated)]
             let accent = area
                 .style_context()
                 .lookup_color("accent_bg_color")

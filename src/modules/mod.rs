@@ -3,6 +3,7 @@ pub mod compress;
 pub mod envvars;
 pub mod gpu;
 pub mod gpu_curve;
+pub mod gpu_profiles;
 pub mod gpu_tune;
 pub mod hosts;
 pub mod nvml;

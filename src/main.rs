@@ -87,6 +87,30 @@ enum GpuCommand {
     },
     /// Run the background service that applies saved GPU settings and follows fan curves
     Service,
+    /// Named profiles that switch automatically by power source, running app, load or temperature
+    Profiles {
+        #[command(subcommand)]
+        command: ProfilesCommand,
+    },
+}
+
+#[derive(Subcommand)]
+enum ProfilesCommand {
+    /// List the saved profiles and the rules that switch between them
+    List,
+    /// Show which profile each card is using now
+    Active,
+    /// Install profiles and rules from a JSON file, replacing the saved ones
+    ///
+    /// The file is a list with one entry per card: its PCI address as "gpu", its "profiles"
+    /// (each a "name" and the same "settings" `voltkit gpu apply` takes), its "rules" (a
+    /// "profile" and "conditions" such as {"when":"power_source","on_battery":true},
+    /// {"when":"app","names":["steam"]}, {"when":"workload","util_above_pct":80,"for_secs":30} or
+    /// {"when":"temperature","above_c":85}) and a "default" profile. Rules are tried in order.
+    Install {
+        /// The profiles file, or - to read it from standard input
+        file: String,
+    },
 }
 
 #[derive(Subcommand)]
@@ -593,6 +617,11 @@ fn run() -> Result<()> {
             GpuCommand::Apply { file, save, yes, confirm, session } => gpu_cli::apply(&file, session, save, yes, confirm)?,
             GpuCommand::Forget { address } => gpu_cli::forget(&address)?,
             GpuCommand::Service => portal::block_on(gpu_cli::service())?,
+            GpuCommand::Profiles { command } => match command {
+                ProfilesCommand::List => gpu_cli::profiles_list(),
+                ProfilesCommand::Active => gpu_cli::profiles_active(),
+                ProfilesCommand::Install { file } => gpu_cli::profiles_install(&file)?,
+            },
         },
         Some(Command::Sleep) => print!("{}", sleep::render_text(&portal::block_on(sleep::report()))),
         Some(Command::Using { target, machine, lang }) => {

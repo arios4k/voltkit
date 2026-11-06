@@ -10,10 +10,15 @@ use anyhow::{Context, Result, bail};
 
 use crate::i18n::tr;
 use crate::modules::gpu::{self, Card, Vendor};
+use crate::modules::gpu_profiles::{self, CardProfiles, Context as SwitchContext, Profile, Switcher};
 use crate::modules::gpu_tune::{self, Governor, Hardware, NvmlOp, Op, Real, Sensor, Settings, Step};
 use crate::modules::nvml::Nvml;
 
 pub const PROFILE_PATH: &str = "/etc/voltkit/gpu.json";
+pub const PROFILES_PATH: &str = "/etc/voltkit/gpu-profiles.json";
+/// Written by the service, readable by everyone: which profile each card is on.
+pub const ACTIVE_DIR: &str = "/run/voltkit";
+pub const ACTIVE_PATH: &str = "/run/voltkit/gpu-active.json";
 pub const STATE_DIR: &str = "/var/lib/voltkit/gpu";
 const UNIT: &str = "voltkit-gpu.service";
 
@@ -193,47 +198,51 @@ struct Applied {
     running: Vec<Running>,
 }
 
-fn start(profile: &[Settings], hw: &mut dyn Hardware) -> Applied {
-    let cards = gpu::inspect();
-    let mut applied = Applied { steps: Vec::new(), running: Vec::new() };
-    for settings in profile {
-        let Ok(card) = find(&cards, &settings.gpu) else {
-            eprintln!("{} {}", tr("Skipped, card not found:"), settings.gpu);
-            continue;
-        };
-        let plan = match gpu_tune::plan(card, settings) {
-            Ok(p) => p,
-            Err(e) => {
-                eprintln!("{}: {e}", settings.gpu);
-                continue;
-            }
-        };
-        match gpu_tune::execute(&plan.steps, hw) {
-            gpu_tune::Outcome::Applied => {
-                applied.steps.extend(plan.steps);
-                if let Some(curve) = plan.software_curve {
-                    let fan = match card.gpu.vendor {
-                        Vendor::Amd => {
-                            let hwmon = std::fs::read_dir(card.gpu.device.join("hwmon")).ok().and_then(|d| d.flatten().map(|e| e.path()).min());
-                            hwmon.map(|h| FanTarget::Amd { enable: h.join("pwm1_enable"), pwm: h.join("pwm1") })
-                        }
-                        Vendor::Nvidia => {
-                            let count = card.probe.as_ref().and_then(|p| p.fans.as_ref().ok().map(|f| f.0)).unwrap_or(1);
-                            let fans = if curve.fans.is_empty() { (0..count).collect() } else { curve.fans.clone() };
-                            Some(FanTarget::Nvidia { address: card.gpu.address.clone(), fans })
-                        }
-                        _ => None,
-                    };
-                    if let Some(fan) = fan
-                        && fan.manual(hw).is_ok()
-                    {
-                        let start = card.sample.fan_pct.unwrap_or(50.0);
-                        applied.running.push(Running { address: card.gpu.address.clone(), governor: Governor::new(curve.points.clone(), start), sensor: curve.sensor, fan, last: -1.0 });
+impl Applied {
+    fn none() -> Self {
+        Applied { steps: Vec::new(), running: Vec::new() }
+    }
+}
+
+/// Applies one card's settings; fan curves Voltkit follows itself are returned to run.
+fn start_one(settings: &Settings, cards: &[Card], hw: &mut dyn Hardware) -> Applied {
+    let mut applied = Applied::none();
+    let Ok(card) = find(cards, &settings.gpu) else {
+        eprintln!("{} {}", tr("Skipped, card not found:"), settings.gpu);
+        return applied;
+    };
+    let plan = match gpu_tune::plan(card, settings) {
+        Ok(p) => p,
+        Err(e) => {
+            eprintln!("{}: {e}", settings.gpu);
+            return applied;
+        }
+    };
+    match gpu_tune::execute(&plan.steps, hw) {
+        gpu_tune::Outcome::Applied => {
+            applied.steps.extend(plan.steps);
+            if let Some(curve) = plan.software_curve {
+                let fan = match card.gpu.vendor {
+                    Vendor::Amd => {
+                        let hwmon = std::fs::read_dir(card.gpu.device.join("hwmon")).ok().and_then(|d| d.flatten().map(|e| e.path()).min());
+                        hwmon.map(|h| FanTarget::Amd { enable: h.join("pwm1_enable"), pwm: h.join("pwm1") })
                     }
+                    Vendor::Nvidia => {
+                        let count = card.probe.as_ref().and_then(|p| p.fans.as_ref().ok().map(|f| f.0)).unwrap_or(1);
+                        let fans = if curve.fans.is_empty() { (0..count).collect() } else { curve.fans.clone() };
+                        Some(FanTarget::Nvidia { address: card.gpu.address.clone(), fans })
+                    }
+                    _ => None,
+                };
+                if let Some(fan) = fan
+                    && fan.manual(hw).is_ok()
+                {
+                    let start = card.sample.fan_pct.unwrap_or(50.0);
+                    applied.running.push(Running { address: card.gpu.address.clone(), governor: Governor::new(curve.points.clone(), start), sensor: curve.sensor, fan, last: -1.0 });
                 }
             }
-            other => eprintln!("{}: {other:?}", settings.gpu),
         }
+        other => eprintln!("{}: {other:?}", settings.gpu),
     }
     applied
 }
@@ -245,28 +254,69 @@ fn stop(applied: Applied, hw: &mut dyn Hardware) {
     gpu_tune::undo(&applied.steps, hw);
 }
 
-/// The root background service: applies the saved profile at start (unless the
-/// last start didn't finish), follows software fan curves, and gives the fans
-/// back to the card when it stops.
+/// The profile sets the service runs: the profiles file, or, for settings saved
+/// before profiles existed, one profile called "Saved" per card.
+pub fn load_sets(profiles: &Path, legacy: &Path) -> Vec<CardProfiles> {
+    if let Some(sets) = std::fs::read_to_string(profiles).ok().and_then(|t| serde_json::from_str::<Vec<CardProfiles>>(&t).ok()) {
+        return sets.into_iter().filter(|s| s.check().is_ok()).collect();
+    }
+    load_profile(legacy)
+        .into_iter()
+        .map(|settings| CardProfiles {
+            gpu: settings.gpu.clone(),
+            profiles: vec![Profile { name: "Saved".into(), settings }],
+            rules: Vec::new(),
+            default: Some("Saved".into()),
+        })
+        .collect()
+}
+
+struct CardRuntime {
+    set: CardProfiles,
+    switcher: Switcher,
+    active: Option<String>,
+    applied: Applied,
+}
+
+fn runtimes(sets: Vec<CardProfiles>) -> Vec<CardRuntime> {
+    sets.into_iter().map(|set| CardRuntime { set, switcher: Switcher::default(), active: None, applied: Applied::none() }).collect()
+}
+
+/// Which profile each card is on, for the app to show.
+fn publish_active(runtimes: &[CardRuntime]) {
+    let map: std::collections::BTreeMap<&str, &str> =
+        runtimes.iter().filter_map(|r| r.active.as_deref().map(|name| (r.set.gpu.as_str(), name))).collect();
+    if let Ok(text) = serde_json::to_string(&map) {
+        let _ = std::fs::create_dir_all(ACTIVE_DIR);
+        let _ = std::fs::write(ACTIVE_PATH, text);
+    }
+}
+
+/// The root background service: applies saved profiles at start (unless the
+/// last start didn't finish), switches between them by the rules, follows
+/// software fan curves, and gives the fans back to the card when it stops.
 pub async fn service() -> Result<()> {
     need_root()?;
     let guard = gpu_tune::BootGuard::new(STATE_DIR);
     let mut hw = Real { nvml: Nvml::open().ok() };
-    let profile_path = Path::new(PROFILE_PATH);
+    let (profiles_path, legacy_path) = (Path::new(PROFILES_PATH), Path::new(PROFILE_PATH));
     let mtime = |p: &Path| std::fs::metadata(p).and_then(|m| m.modified()).ok();
-    let mut seen = mtime(profile_path);
-    let mut applied = if guard.begin() {
-        start(&load_profile(profile_path), &mut hw)
+    let mut seen = (mtime(profiles_path), mtime(legacy_path));
+    let enabled = guard.begin();
+    let mut cards: Vec<CardRuntime> = if enabled {
+        runtimes(load_sets(profiles_path, legacy_path))
     } else {
         eprintln!("{}", tr("The last startup apply didn't finish, so the saved GPU settings are off. Open GPU Tuner to turn them back on."));
-        Applied { steps: Vec::new(), running: Vec::new() }
+        Vec::new()
     };
     let confirm_at = Instant::now() + Duration::from_secs(60);
+    let began = Instant::now();
     let mut confirmed = false;
-    let monitor = gpu::Monitor::new(gpu::detect());
     let gpus = gpu::detect();
+    let monitor = gpu::Monitor::new(gpus.clone());
     let mut tick = tokio::time::interval(Duration::from_secs(2));
     let mut term = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())?;
+    let (mut power, mut apps, mut count) = (None, std::collections::HashSet::new(), 0u32);
     loop {
         tokio::select! {
             _ = tick.tick() => {
@@ -274,21 +324,52 @@ pub async fn service() -> Result<()> {
                     guard.confirm();
                     confirmed = true;
                 }
-                let now = mtime(profile_path);
-                if now != seen && !guard.is_disabled() {
-                    seen = now;
-                    stop(std::mem::replace(&mut applied, Applied { steps: Vec::new(), running: Vec::new() }), &mut hw);
-                    applied = start(&load_profile(profile_path), &mut hw);
+                let now_seen = (mtime(profiles_path), mtime(legacy_path));
+                if now_seen != seen && !guard.is_disabled() {
+                    seen = now_seen;
+                    for c in cards.drain(..) {
+                        stop(c.applied, &mut hw);
+                    }
+                    cards = runtimes(load_sets(profiles_path, legacy_path));
                 }
-                if applied.running.is_empty() {
+                if cards.is_empty() {
                     continue;
                 }
+                // Cheap to read often, costlier to scan: the process list only every few seconds.
+                if count.is_multiple_of(3) {
+                    power = gpu_profiles::power_source(Path::new("/sys"));
+                    if cards.iter().any(|c| c.set.rules.iter().any(|r| r.conditions.iter().any(|x| matches!(x, gpu_profiles::Condition::App { .. })))) {
+                        apps = gpu_profiles::running_apps(Path::new("/proc"));
+                    }
+                }
+                count = count.wrapping_add(1);
                 let samples = monitor.sample();
-                for r in &mut applied.running {
-                    let temp = gpus.iter().position(|g| g.address == r.address).and_then(|i| samples.get(i)).and_then(|s| r.sensor.read(s));
-                    let speed = r.governor.update(temp);
-                    if (speed - r.last).abs() >= 1.0 && r.fan.set(&mut hw, speed).is_ok() {
-                        r.last = speed;
+                let elapsed = began.elapsed().as_secs_f64();
+                let mut changed = false;
+                for c in &mut cards {
+                    let sample = gpus.iter().position(|g| g.address.eq_ignore_ascii_case(&c.set.gpu)).and_then(|i| samples.get(i)).cloned().unwrap_or_default();
+                    let ctx = SwitchContext { on_battery: power, apps: apps.clone(), sample };
+                    let want = c.switcher.choose(&c.set, &ctx, elapsed);
+                    if want != c.active {
+                        stop(std::mem::replace(&mut c.applied, Applied::none()), &mut hw);
+                        c.active = want.clone();
+                        if let Some(profile) = want.as_deref().and_then(|n| c.set.profile(n)) {
+                            eprintln!("{} {}: {}", tr("GPU"), c.set.gpu, profile.name);
+                            c.applied = start_one(&profile.settings, &gpu::inspect(), &mut hw);
+                        }
+                        changed = true;
+                    }
+                }
+                if changed {
+                    publish_active(&cards);
+                }
+                for c in &mut cards {
+                    for r in &mut c.applied.running {
+                        let temp = gpus.iter().position(|g| g.address == r.address).and_then(|i| samples.get(i)).and_then(|s| r.sensor.read(s));
+                        let speed = r.governor.update(temp);
+                        if (speed - r.last).abs() >= 1.0 && r.fan.set(&mut hw, speed).is_ok() {
+                            r.last = speed;
+                        }
                     }
                 }
             }
@@ -296,6 +377,76 @@ pub async fn service() -> Result<()> {
             _ = tokio::signal::ctrl_c() => break,
         }
     }
-    stop(applied, &mut hw);
+    for c in cards {
+        stop(c.applied, &mut hw);
+    }
+    let _ = std::fs::remove_file(ACTIVE_PATH);
+    Ok(())
+}
+
+// ---------------------------------------------------------------- Profiles
+
+/// A rule's condition in words.
+pub fn describe_condition(c: &gpu_profiles::Condition) -> String {
+    use gpu_profiles::Condition::*;
+    match c {
+        PowerSource { on_battery: true } => tr("on battery").to_owned(),
+        PowerSource { on_battery: false } => tr("on mains power").to_owned(),
+        App { names } => crate::i18n::fill(tr("while {} is running"), &[&names.join(", ")]),
+        Workload { util_above_pct, for_secs } => crate::i18n::fill(tr("when busier than {} % for {} s"), &[util_above_pct, for_secs]),
+        Temperature { above_c } => crate::i18n::fill(tr("when hotter than {} °C"), &[above_c]),
+    }
+}
+
+pub fn profiles_list() {
+    let sets = load_sets(Path::new(PROFILES_PATH), Path::new(PROFILE_PATH));
+    if sets.is_empty() {
+        println!("{}", tr("No profiles are saved."));
+    }
+    for set in &sets {
+        println!("{} {}", tr("GPU"), set.gpu);
+        for p in &set.profiles {
+            let default = if set.default.as_deref() == Some(p.name.as_str()) { format!(" ({})", tr("default")) } else { String::new() };
+            println!("  {}{default}", p.name);
+        }
+        for r in &set.rules {
+            let when: Vec<String> = r.conditions.iter().map(describe_condition).collect();
+            println!("  {} → {}", when.join(&format!(" {} ", tr("and"))), r.profile);
+        }
+    }
+}
+
+pub fn profiles_active() {
+    let map: std::collections::BTreeMap<String, String> =
+        std::fs::read_to_string(ACTIVE_PATH).ok().and_then(|t| serde_json::from_str(&t).ok()).unwrap_or_default();
+    if map.is_empty() {
+        println!("{}", tr("No profile is active. The service may not be running."));
+    }
+    for (gpu, name) in map {
+        println!("{gpu}: {name}");
+    }
+}
+
+/// Checks and installs profiles, and turns the service on to use them.
+pub fn profiles_install(file: &str) -> Result<()> {
+    need_root()?;
+    let text = if file == "-" {
+        let mut t = String::new();
+        io::Read::read_to_string(&mut io::stdin(), &mut t)?;
+        t
+    } else {
+        std::fs::read_to_string(file).with_context(|| file.to_owned())?
+    };
+    let sets: Vec<CardProfiles> = serde_json::from_str(&text).context(tr("Can't read the profiles.").to_owned())?;
+    for set in &sets {
+        set.check().map_err(|e| anyhow::anyhow!("{}: {e}", set.gpu))?;
+    }
+    if let Some(dir) = Path::new(PROFILES_PATH).parent() {
+        std::fs::create_dir_all(dir)?;
+    }
+    std::fs::write(PROFILES_PATH, serde_json::to_string_pretty(&sets)?)?;
+    gpu_tune::BootGuard::new(STATE_DIR).enable();
+    let _ = std::process::Command::new("systemctl").args(["enable", "--now", UNIT]).status();
+    println!("{}", tr("Profiles installed."));
     Ok(())
 }

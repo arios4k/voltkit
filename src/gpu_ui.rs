@@ -20,6 +20,7 @@ fn tr(text: &str) -> String {
     crate::i18n::tr(text).to_owned()
 }
 use crate::modules::gpu::{self, Card, Control, Monitor, Sample, Support};
+use crate::modules::gpu_profiles::{Auto, CardProfiles};
 use crate::modules::gpu_tune::{self, CurvePoint, FanMode, Sensor, Settings};
 use crate::curve_chart::CurveChart;
 use crate::workspace::Workspace;
@@ -151,6 +152,7 @@ struct Reading {
 struct CardView {
     readings: Vec<Reading>,
     chart: Option<CurveChart>,
+    profiles: Option<ProfilesView>,
 }
 
 #[allow(clippy::type_complexity)]
@@ -220,17 +222,25 @@ impl CardView {
             support.add(&row);
         }
         page.add(&support);
-        let (tune, chart) = tune_group(card, toasts, gpu::demo());
+        let (tune, chart, collect) = tune_group(card, toasts, gpu::demo());
         page.aside(&tune);
+        let profiles = collect.map(|collect| {
+            let view = profiles_group(card, collect, toasts);
+            page.aside(&view.group);
+            view
+        });
 
         stack.add_named(&*page, Some(&index.to_string()));
         if let Some(chart) = &chart {
             chart.set_marker(card.sample.temp_c.zip(card.sample.fan_pct));
         }
-        Rc::new(CardView { readings, chart })
+        Rc::new(CardView { readings, chart, profiles })
     }
 
     fn update(&self, sample: &Sample) {
+        if let Some(p) = &self.profiles {
+            p.refresh_active();
+        }
         if let Some(chart) = &self.chart {
             chart.set_marker(sample.temp_c.zip(sample.fan_pct));
         }
@@ -269,7 +279,9 @@ struct CurveEdit {
     redo: Vec<Vec<CurvePoint>>,
 }
 
-fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::PreferencesGroup, Option<CurveChart>) {
+type Collect = Rc<dyn Fn() -> Settings>;
+
+fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::PreferencesGroup, Option<CurveChart>, Option<Collect>) {
     let group = adw::PreferencesGroup::builder()
         .title(tr("Tune"))
         .description(tr("Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."))
@@ -277,7 +289,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     let any = Control::ALL.iter().any(|c| *c != Control::Monitoring && supported(card, *c));
     if !any {
         group.add(&adw::ActionRow::builder().title(tr("Nothing on this card can be changed")).subtitle(tr("See what this card supports for the reasons.")).build());
-        return (group, None);
+        return (group, None, None);
     }
     let s = &card.sample;
 
@@ -644,7 +656,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
             }
         });
     }
-    (group, chart_out)
+    (group, chart_out, Some(collect as Collect))
 }
 
 // ---------------------------------------------------------------- Applying
@@ -743,4 +755,288 @@ fn run_helper(anchor: &gtk::Button, settings: &Settings, save: bool, toasts: &ad
         }
         glib::ControlFlow::Continue
     });
+}
+
+// ---------------------------------------------------------------- Profiles
+
+fn profiles_file() -> Option<std::path::PathBuf> {
+    dirs::config_dir().map(|d| d.join("voltkit/gpu-profiles.json"))
+}
+
+fn load_profiles() -> Vec<CardProfiles> {
+    profiles_file().and_then(|p| std::fs::read_to_string(p).ok()).and_then(|t| serde_json::from_str(&t).ok()).unwrap_or_default()
+}
+
+fn save_profiles(sets: &[CardProfiles]) {
+    if let Some(p) = profiles_file() {
+        if let Some(dir) = p.parent() {
+            let _ = std::fs::create_dir_all(dir);
+        }
+        if let Ok(text) = serde_json::to_string_pretty(sets) {
+            let _ = std::fs::write(p, text);
+        }
+    }
+}
+
+/// A profile's settings in a few words.
+fn summarize(s: &Settings) -> String {
+    let mut parts = Vec::new();
+    if let Some(w) = s.power_limit_w {
+        parts.push(trf!("Power limit {} W", format!("{w:.0}")));
+    }
+    match &s.fan {
+        Some(FanMode::Auto) => parts.push(tr("Fan: the card's own control")),
+        Some(FanMode::Fixed { speed_pct }) => parts.push(trf!("Fan {} %", format!("{speed_pct:.0}"))),
+        Some(FanMode::Curve { .. }) => parts.push(tr("Fan curve")),
+        None => {}
+    }
+    if let Some(t) = s.temperature_target_c {
+        parts.push(trf!("Target {} °C", format!("{t:.0}")));
+    }
+    if let Some(c) = s.core_offset_mhz.filter(|c| *c != 0) {
+        parts.push(trf!("Core {} MHz", format!("{c:+}")));
+    }
+    if let Some(m) = s.mem_offset_mhz.filter(|m| *m != 0) {
+        parts.push(trf!("Memory {} MHz", format!("{m:+}")));
+    }
+    if let (Some(lo), Some(hi)) = (s.core_clock_min_mhz, s.core_clock_max_mhz) {
+        parts.push(trf!("Clock {}–{} MHz", lo, hi));
+    }
+    if parts.is_empty() { tr("No changes") } else { parts.join(" · ") }
+}
+
+struct ProfilesView {
+    group: adw::PreferencesGroup,
+    address: String,
+    plain: String,
+}
+
+impl ProfilesView {
+    /// Shows which profile the background service has switched this card to.
+    fn refresh_active(&self) {
+        let map: std::collections::BTreeMap<String, String> =
+            std::fs::read_to_string(crate::gpu_cli::ACTIVE_PATH).ok().and_then(|t| serde_json::from_str(&t).ok()).unwrap_or_default();
+        match map.get(&self.address) {
+            Some(name) => self.group.set_description(Some(&trf!("In use now: {}", name))),
+            None => self.group.set_description(Some(&self.plain)),
+        }
+    }
+}
+
+fn profiles_group(card: &Card, collect: Collect, toasts: &adw::ToastOverlay) -> ProfilesView {
+    let plain = tr("Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot.");
+    let group = adw::PreferencesGroup::builder().title(tr("Profiles")).description(plain.as_str()).build();
+    let address = card.gpu.address.clone();
+    let mut loaded = if gpu::demo() { None } else { load_profiles().into_iter().find(|s| s.gpu.eq_ignore_ascii_case(&address)) }
+        .unwrap_or(CardProfiles { gpu: address.clone(), ..CardProfiles::default() });
+    if gpu::demo() {
+        // Made-up profiles for the README screenshots.
+        let base = Settings { gpu: address.clone(), ..Settings::default() };
+        loaded.save_profile("Quiet", Settings { power_limit_w: Some(220.0), fan: Some(FanMode::Fixed { speed_pct: 35.0 }), ..base.clone() });
+        loaded.save_profile("Balanced", Settings { power_limit_w: Some(263.0), temperature_target_c: Some(75.0), ..base.clone() });
+        loaded.save_profile("Performance", Settings { power_limit_w: Some(289.0), core_offset_mhz: Some(100), ..base });
+        loaded.default = Some("Balanced".into());
+        loaded.set_auto("Quiet", Auto::OnBattery);
+        loaded.set_auto("Performance", Auto::App(vec!["blender".into(), "steam".into()]));
+    }
+    let state = Rc::new(RefCell::new(loaded));
+    let rows: Rc<RefCell<Vec<adw::ExpanderRow>>> = Rc::new(RefCell::new(Vec::new()));
+    let render: Rebuild = Rc::new(RefCell::new(None));
+
+    let build = {
+        let (group, state, rows, render) = (group.clone(), state.clone(), rows.clone(), render.clone());
+        Rc::new(move || {
+            for r in rows.borrow_mut().drain(..) {
+                group.remove(&r);
+            }
+            let set = state.borrow().clone();
+            for profile in &set.profiles {
+                let name = profile.name.clone();
+                let row = adw::ExpanderRow::builder().title(glib::markup_escape_text(&name)).subtitle(glib::markup_escape_text(&summarize(&profile.settings))).build();
+                let kinds = gtk::StringList::new(&[
+                    &tr("Not automatic"),
+                    &tr("On battery"),
+                    &tr("On mains power"),
+                    &tr("While an app runs"),
+                    &tr("When the GPU is busy"),
+                    &tr("When the GPU runs hot"),
+                ]);
+                let auto = set.auto_of(&name);
+                let kind = adw::ComboRow::builder()
+                    .title(tr("Switch to it"))
+                    .model(&kinds)
+                    .selected(match &auto {
+                        Auto::Never => 0,
+                        Auto::OnBattery => 1,
+                        Auto::OnMains => 2,
+                        Auto::App(_) => 3,
+                        Auto::Busy(_) => 4,
+                        Auto::Hot(_) => 5,
+                    })
+                    .build();
+                let apps = adw::EntryRow::builder().title(tr("Programs, separated by commas")).build();
+                let busy = spin(tr("Busier than (%)"), None, if let Auto::Busy(v) = auto { v } else { 80.0 }, 10.0, 100.0, 5.0);
+                let hot = spin(tr("Hotter than (°C)"), None, if let Auto::Hot(v) = auto { v } else { 85.0 }, 50.0, 100.0, 1.0);
+                if let Auto::App(names) = &auto {
+                    apps.set_text(&names.join(", "));
+                }
+                let show = {
+                    let (kind, apps, busy, hot) = (kind.clone(), apps.clone(), busy.clone(), hot.clone());
+                    Rc::new(move || {
+                        apps.set_visible(kind.selected() == 3);
+                        busy.set_visible(kind.selected() == 4);
+                        hot.set_visible(kind.selected() == 5);
+                    })
+                };
+                show();
+                let update = {
+                    let (state, name, kind, apps, busy, hot, show) = (state.clone(), name.clone(), kind.clone(), apps.clone(), busy.clone(), hot.clone(), show.clone());
+                    Rc::new(move || {
+                        show();
+                        let auto = match kind.selected() {
+                            1 => Auto::OnBattery,
+                            2 => Auto::OnMains,
+                            3 => Auto::App(apps.text().split(',').map(|n| n.trim().to_owned()).filter(|n| !n.is_empty()).collect()),
+                            4 => Auto::Busy(busy.value()),
+                            5 => Auto::Hot(hot.value()),
+                            _ => Auto::Never,
+                        };
+                        state.borrow_mut().set_auto(&name, auto);
+                    })
+                };
+                {
+                    let update = update.clone();
+                    kind.connect_selected_notify(move |_| update());
+                }
+                {
+                    let update = update.clone();
+                    apps.connect_changed(move |_| update());
+                }
+                {
+                    let update = update.clone();
+                    busy.connect_value_notify(move |_| update());
+                }
+                {
+                    let update = update.clone();
+                    hot.connect_value_notify(move |_| update());
+                }
+                let default = adw::SwitchRow::builder().title(tr("Use when no rule applies")).active(set.default.as_deref() == Some(name.as_str())).build();
+                {
+                    let (state, name, render) = (state.clone(), name.clone(), render.clone());
+                    default.connect_active_notify(move |s| {
+                        let changed = {
+                            let mut st = state.borrow_mut();
+                            let is = st.default.as_deref() == Some(name.as_str());
+                            if s.is_active() && !is {
+                                st.default = Some(name.clone());
+                                true
+                            } else if !s.is_active() && is {
+                                st.default = None;
+                                true
+                            } else {
+                                false
+                            }
+                        };
+                        if changed && let Some(f) = render.borrow().clone() {
+                            glib::idle_add_local_once(move || f());
+                        }
+                    });
+                }
+                let remove = adw::ActionRow::builder().title(tr("Delete this profile")).activatable(true).build();
+                remove.add_prefix(&gtk::Image::from_icon_name("user-trash-symbolic"));
+                {
+                    let (state, name, render) = (state.clone(), name.clone(), render.clone());
+                    remove.connect_activated(move |_| {
+                        state.borrow_mut().remove_profile(&name);
+                        if let Some(f) = render.borrow().clone() {
+                            glib::idle_add_local_once(move || f());
+                        }
+                    });
+                }
+                for w in [kind.upcast_ref::<gtk::Widget>(), apps.upcast_ref(), busy.upcast_ref(), hot.upcast_ref(), default.upcast_ref(), remove.upcast_ref()] {
+                    row.add_row(w);
+                }
+                group.add(&row);
+                rows.borrow_mut().push(row);
+            }
+        })
+    };
+    *render.borrow_mut() = Some(build.clone() as Rc<dyn Fn()>);
+    build();
+
+    let buttons = gtk::Box::builder().spacing(8).halign(gtk::Align::End).margin_top(8).build();
+    let save = gtk::Button::with_label(&tr("Save current settings as a profile…"));
+    let apply = gtk::Button::builder().label(tr("Apply profiles")).css_classes(["suggested-action"]).tooltip_text(tr("Installs the profiles in Voltkit's background service, which switches between them.")).build();
+    buttons.append(&save);
+    buttons.append(&apply);
+    group.add(&buttons);
+    {
+        let (state, collect, render) = (state.clone(), collect.clone(), render.clone());
+        save.connect_clicked(move |b| {
+            let entry = gtk::Entry::builder().placeholder_text(tr("Name, for example Quiet")).activates_default(true).build();
+            let dialog = adw::AlertDialog::new(Some(&tr("Save as a profile")), Some(&tr("The settings now turned on in Tune are stored under this name.")));
+            dialog.set_extra_child(Some(&entry));
+            dialog.add_responses(&[("cancel", &tr("Cancel")), ("save", &tr("Save"))]);
+            dialog.set_response_appearance("save", adw::ResponseAppearance::Suggested);
+            dialog.set_default_response(Some("save"));
+            let (state, collect, render) = (state.clone(), collect.clone(), render.clone());
+            dialog.connect_response(None, move |_, response| {
+                let name = entry.text().trim().to_owned();
+                if response == "save" && !name.is_empty() {
+                    state.borrow_mut().save_profile(&name, collect());
+                    if let Some(f) = render.borrow().clone() {
+                        f();
+                    }
+                }
+            });
+            dialog.present(Some(b));
+        });
+    }
+    {
+        let (state, toasts, address) = (state.clone(), toasts.clone(), address.clone());
+        apply.connect_clicked(move |_| {
+            let mut all: Vec<CardProfiles> = load_profiles().into_iter().filter(|s| !s.gpu.eq_ignore_ascii_case(&address)).collect();
+            let mine = state.borrow().clone();
+            if let Err(e) = mine.check() {
+                toast(&toasts, e);
+                return;
+            }
+            all.push(mine);
+            save_profiles(&all);
+            let toasts = toasts.clone();
+            glib::spawn_future_local(async move {
+                let result = gio::spawn_blocking(move || install_profiles(&all)).await;
+                match result {
+                    Ok(Ok(())) => toast(&toasts, tr("Profiles installed.")),
+                    Ok(Err(e)) => toast(&toasts, e),
+                    Err(_) => toast(&toasts, tr("Cancelled, nothing was changed.")),
+                }
+            });
+        });
+    }
+    ProfilesView { group, address, plain }
+}
+
+/// Hands the profiles to the root helper, which checks and installs them.
+fn install_profiles(all: &[CardProfiles]) -> Result<(), String> {
+    let exe = std::env::current_exe().map_err(|e| e.to_string())?;
+    let mut child = Command::new("pkexec")
+        .arg(exe)
+        .args(["gpu", "profiles", "install", "-"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|_| tr("pkexec is needed to change GPU settings."))?;
+    if let Some(mut pipe) = child.stdin.take() {
+        let json = serde_json::to_string(all).map_err(|e| e.to_string())?;
+        let _ = pipe.write_all(json.as_bytes());
+    }
+    let out = child.wait_with_output().map_err(|e| e.to_string())?;
+    if out.status.success() {
+        Ok(())
+    } else {
+        let text = String::from_utf8_lossy(&out.stderr);
+        Err(text.trim().lines().last().map_or_else(|| tr("Cancelled, nothing was changed."), str::to_owned))
+    }
 }
