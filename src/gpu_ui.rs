@@ -23,7 +23,7 @@ use crate::modules::gpu::{self, Card, Control, Monitor, Sample, Support};
 use crate::modules::gpu_profiles::{Auto, CardProfiles};
 use crate::modules::gpu_session::{self, Recorder, Session};
 use crate::modules::gpu_tune::{self, CurvePoint, FanMode, Sensor, Settings};
-use crate::curve_chart::CurveChart;
+use crate::curve_chart::{Axes, CurveChart};
 use crate::workspace::Workspace;
 
 const HISTORY: usize = 90;
@@ -303,9 +303,10 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     group.add(&experimental);
     let s = &card.sample;
 
-    let power = supported(card, Control::PowerLimit).then(|| {
+    let only_vf = demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() == Ok("vf");
+    let power = (supported(card, Control::PowerLimit) && !only_vf).then(|| {
         let (lo, hi) = (s.limit_min_w.unwrap_or(0.0), s.limit_max_w.unwrap_or(0.0));
-        let power_on = demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() != Ok("curve");
+        let power_on = demo && !matches!(std::env::var("VOLTKIT_GPU_DEMO").as_deref(), Ok("curve") | Ok("vf"));
         let row = expander(tr("Power limit"), trf!("Between {} W and {} W.", format!("{lo:.0}"), format!("{hi:.0}")), power_on);
         let value = spin(tr("Watts"), None, s.limit_w.unwrap_or(hi), lo, hi, 5.0);
         row.add_row(&value);
@@ -316,8 +317,8 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, value)
     });
 
-    let fan = supported(card, Control::FanSpeed).then(|| {
-        let row = expander(tr("Fan"), tr("Fixed speed, or a curve that follows the temperature."), demo);
+    let fan = (supported(card, Control::FanSpeed) && !only_vf).then(|| {
+        let row = expander(tr("Fan"), tr("Fixed speed, or a curve that follows the temperature."), demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() != Ok("vf"));
         let modes = gtk::StringList::new(&[&tr("The card's own control"), &tr("Fixed speed"), &tr("Curve")]);
         let mode = adw::ComboRow::builder().title(tr("Mode")).model(&modes).build();
         let fixed = spin(tr("Speed (%)"), None, s.fan_pct.unwrap_or(50.0).max(gpu_tune::MIN_FIXED_FAN_PCT), gpu_tune::MIN_FIXED_FAN_PCT, 100.0, 5.0);
@@ -356,7 +357,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         }));
         let curve_rows: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::new(RefCell::new(Vec::new()));
         let curve_box = adw::ExpanderRow::builder().title(tr("Curve points")).subtitle(tr("Temperature in °C, fan speed in %.")).expanded(true).build();
-        let chart = CurveChart::new(edit.borrow().points.clone());
+        let chart = CurveChart::new(edit.borrow().points.clone(), Axes::fan());
         let chart_row = gtk::Box::builder().margin_top(8).margin_bottom(8).margin_start(12).margin_end(12).build();
         chart_row.append(&chart.area);
         row.add_row(&chart_row);
@@ -537,7 +538,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, mode, fixed, edit, chart, sensor_row, sensors, fan_checks)
     });
 
-    let target = supported(card, Control::TemperatureTarget).then(|| {
+    let target = (supported(card, Control::TemperatureTarget) && !only_vf).then(|| {
         let row = expander(tr("Temperature target"), tr("The temperature the card's fan control aims for."), false);
         let value = spin(tr("Degrees (°C)"), None, 75.0, 40.0, 100.0, 1.0);
         row.add_row(&value);
@@ -545,7 +546,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, value)
     });
 
-    let clocks = supported(card, Control::ClockOffsets).then(|| {
+    let clocks = (supported(card, Control::ClockOffsets) && !only_vf).then(|| {
         let row = expander(tr("Clock offsets"), tr("Raise or lower the clocks from their defaults."), false);
         let (core, mem) = (spin(tr("Core (MHz)"), None, 0.0, -500.0, 500.0, 5.0), spin(tr("Memory (MHz)"), None, 0.0, -1000.0, 1000.0, 10.0));
         row.add_row(&core);
@@ -568,9 +569,17 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     });
 
     // Cards with a full table get a point per clock; the others, a single offset.
-    let vf_table = std::fs::read_to_string(card.gpu.device.join("pp_od_clk_voltage")).ok().and_then(|t| gpu_tune::parse_vf_table(&t));
+    let od = if demo { Some(gpu::DEMO_VF.to_owned()) } else { std::fs::read_to_string(card.gpu.device.join("pp_od_clk_voltage")).ok() };
+    let vf_table = od.and_then(|t| gpu_tune::parse_vf_table(&t));
     let vf = vf_table.filter(|_| supported(card, Control::VoltageCurve)).map(|table| {
-        let row = expander(tr("Voltage and frequency curve"), tr("Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."), false);
+        let on = demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() == Ok("vf");
+        let row = expander(tr("Voltage and frequency curve"), tr("Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."), on);
+        // The chart and the number rows edit the same points.
+        let as_points = |pts: &[gpu_tune::VfPoint]| -> Vec<CurvePoint> { pts.iter().map(|p| CurvePoint { temp_c: f64::from(p.mhz), speed_pct: f64::from(p.mv) }).collect() };
+        let chart = CurveChart::new(as_points(&table.points), Axes::voltage(table.limits.clone()));
+        let chart_row = gtk::Box::builder().margin_top(8).margin_bottom(8).margin_start(12).margin_end(12).build();
+        chart_row.append(&chart.area);
+        row.add_row(&chart_row);
         let spins: Vec<(gtk::SpinButton, gtk::SpinButton)> = table
             .points
             .iter()
@@ -590,6 +599,30 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
                 (mhz, mv)
             })
             .collect();
+        let syncing = Rc::new(Cell::new(false));
+        {
+            // Dragging on the chart moves the number rows.
+            let (spins, syncing) = (spins.clone(), syncing.clone());
+            chart.connect_changed(move |_, after| {
+                syncing.set(true);
+                for ((mhz, mv), p) in spins.iter().zip(&after) {
+                    mhz.set_value(p.temp_c);
+                    mv.set_value(p.speed_pct);
+                }
+                syncing.set(false);
+            });
+        }
+        for (mhz, mv) in &spins {
+            // Typing a number moves the chart.
+            for spin in [mhz, mv] {
+                let (spins, chart, syncing) = (spins.clone(), chart.clone(), syncing.clone());
+                spin.connect_value_changed(move |_| {
+                    if !syncing.get() {
+                        chart.set_points(spins.iter().map(|(f, v)| CurvePoint { temp_c: f.value(), speed_pct: v.value() }).collect());
+                    }
+                });
+            }
+        }
         group.add(&row);
         (row, spins)
     });

@@ -77,7 +77,7 @@ msgstr "Licence MIT"
 msgid "Free to use, modify, and share"
 msgstr "Libre d’utilisation, de modification et de partage"
 
-#: src/about_ui.rs:67 src/app.rs:112
+#: src/about_ui.rs:67 src/app.rs:132
 msgid "About Voltkit"
 msgstr "À propos de Voltkit"
 
@@ -163,31 +163,31 @@ msgstr "règle d’écran"
 msgid "Smart Paste"
 msgstr "Collage intelligent"
 
-#: src/app.rs:114
+#: src/app.rs:134
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/app.rs:118
+#: src/app.rs:138
 msgid "Main Menu"
 msgstr "Menu principal"
 
-#: src/app.rs:195
+#: src/app.rs:215
 #, rust-format
 msgid "could not start {}: {}"
 msgstr "impossible de démarrer {} : {}"
 
-#: src/app.rs:278
+#: src/app.rs:298
 msgid "Details"
 msgstr "Détails"
 
-#: src/app.rs:293
+#: src/app.rs:313
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] "{} fonctionnalité demande votre attention"
 msgstr[1] "{} fonctionnalités demandent votre attention"
 
-#: src/app.rs:305
+#: src/app.rs:325
 #, rust-format
 msgid ""
 "{}\n"
@@ -198,302 +198,302 @@ msgstr ""
 "\n"
 "Exécutez `voltkit doctor` pour le rapport complet."
 
-#: src/app.rs:306
+#: src/app.rs:326
 msgid "Needs Attention"
 msgstr "Attention requise"
 
-#: src/app.rs:317
+#: src/app.rs:337
 msgid "Copy Command"
 msgstr "Copier la commande"
 
-#: src/app.rs:320 src/gpu_ui.rs:684 src/usage_ui.rs:354 src/usage_ui.rs:379
+#: src/app.rs:340 src/gpu_ui.rs:717 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr "Fermer"
 
-#: src/app.rs:333
+#: src/app.rs:353
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr ""
 "Le service en arrière-plan est désactivé, les raccourcis clavier ne fonctionneront donc pas"
 
-#: src/app.rs:334
+#: src/app.rs:354
 msgid "Start"
 msgstr "Démarrer"
 
-#: src/app.rs:351
+#: src/app.rs:371
 msgid "The background service failed to start"
 msgstr "Le service en arrière-plan n’a pas pu démarrer"
 
-#: src/app.rs:355
+#: src/app.rs:375
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "Impossible de démarrer le service : {}"
 
-#: src/app.rs:365
+#: src/app.rs:385
 msgid "Capture Region"
 msgstr "Capturer une zone"
 
-#: src/app.rs:385
+#: src/app.rs:405
 msgid "Capture text"
 msgstr "Capturer du texte"
 
-#: src/app.rs:386
+#: src/app.rs:406
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr ""
 "Sélectionnez du texte n’importe où à l’écran. Langue de reconnaissance : {}. Raccourci : {}"
 
-#: src/app.rs:391
+#: src/app.rs:411
 msgid "Copy Text"
 msgstr "Copier le texte"
 
-#: src/app.rs:392
+#: src/app.rs:412
 msgid "Extracted text"
 msgstr "Texte extrait"
 
-#: src/app.rs:392 src/app.rs:408
+#: src/app.rs:412 src/app.rs:428
 msgid "Capture a region to see and copy its text here."
 msgstr "Capturez une zone pour voir et copier son texte ici."
 
-#: src/app.rs:396
+#: src/app.rs:416
 msgid "No text captured yet"
 msgstr "Aucun texte capturé pour l’instant"
 
-#: src/app.rs:407
+#: src/app.rs:427
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} caractère"
 msgstr[1] "{} caractères"
 
-#: src/app.rs:408
+#: src/app.rs:428
 msgid "Text is also copied automatically after capture."
 msgstr "Le texte est aussi copié automatiquement après la capture."
 
-#: src/app.rs:410
+#: src/app.rs:430
 msgid "Capture from anything"
 msgstr "Capturez depuis n’importe quoi"
 
-#: src/app.rs:410
+#: src/app.rs:430
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr ""
 "Sélectionnez un paragraphe, un message d’erreur ou du texte dans une image. Le bureau vous demande de choisir une zone de l’écran ; la reconnaissance se fait localement sur votre ordinateur."
 
-#: src/app.rs:417
+#: src/app.rs:437
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "Texte du raccourci, copié dans le presse-papiers"
 
-#: src/app.rs:438
+#: src/app.rs:458
 msgid "Text copied to clipboard"
 msgstr "Texte copié dans le presse-papiers"
 
-#: src/app.rs:440 src/qr_ui.rs:101
+#: src/app.rs:460 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "Aucune capture d’écran n’a été faite"
 
-#: src/app.rs:442
+#: src/app.rs:462
 msgid "OCR worker crashed"
 msgstr "Le processus d’OCR a planté"
 
-#: src/app.rs:457 src/qr_ui.rs:49 src/smartpaste_ui.rs:329 src/sysreport_ui.rs:382
+#: src/app.rs:477 src/qr_ui.rs:49 src/smartpaste_ui.rs:329 src/sysreport_ui.rs:382
 msgid "Copy"
 msgstr "Copier"
 
-#: src/app.rs:465 src/app.rs:585
+#: src/app.rs:485 src/app.rs:605
 #, rust-format
 msgid "Copied {}"
 msgstr "{} copié"
 
-#: src/app.rs:491
+#: src/app.rs:511
 msgid "HEX or rgb()"
 msgstr "HEX ou rgb()"
 
-#: src/app.rs:496
+#: src/app.rs:516
 msgid "Pick from Screen"
 msgstr "Choisir à l’écran"
 
-#: src/app.rs:497
+#: src/app.rs:517
 msgid "Pick a color anywhere on screen"
 msgstr "Choisissez une couleur n’importe où à l’écran"
 
-#: src/app.rs:502
+#: src/app.rs:522
 msgid "Color"
 msgstr "Couleur"
 
-#: src/app.rs:503
+#: src/app.rs:523
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr ""
 "Saisissez une couleur ou choisissez-en une à l’écran. Appuyez sur Entrée pour l’ajouter à l’historique. Depuis n’importe quelle application, appuyez sur {} pour choisir une couleur : sa valeur HEX est copiée et enregistrée ici."
 
-#: src/app.rs:511
+#: src/app.rs:531
 msgid "Formats"
 msgstr "Formats"
 
-#: src/app.rs:516
+#: src/app.rs:536
 msgid "Text on white"
 msgstr "Texte sur blanc"
 
-#: src/app.rs:517
+#: src/app.rs:537
 msgid "Text on black"
 msgstr "Texte sur noir"
 
-#: src/app.rs:518
+#: src/app.rs:538
 msgid "WCAG Contrast"
 msgstr "Contraste WCAG"
 
-#: src/app.rs:522
+#: src/app.rs:542
 msgid "History"
 msgstr "Historique"
 
-#: src/app.rs:522
+#: src/app.rs:542
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr ""
 "Sélectionnez une couleur enregistrée pour la réutiliser. Les couleurs choisies à l’écran apparaissent ici."
 
-#: src/app.rs:564
+#: src/app.rs:584
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "Impossible d’enregistrer l’historique : {}"
 
-#: src/app.rs:588
+#: src/app.rs:608
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "Sélecteur de couleur indisponible : {}"
 
-#: src/app.rs:589
+#: src/app.rs:609
 msgid "Color picker crashed"
 msgstr "Le sélecteur de couleur a planté"
 
-#: src/app.rs:598
+#: src/app.rs:618
 msgid "Live color preview"
 msgstr "Aperçu de la couleur en direct"
 
-#: src/app.rs:613
+#: src/app.rs:633
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "{} choisie avec le raccourci, copiée"
 
-#: src/app.rs:659
+#: src/app.rs:679
 msgid "Open Ruler"
 msgstr "Ouvrir la règle"
 
-#: src/app.rs:672
+#: src/app.rs:692
 msgid "Measure in real pixels"
 msgstr "Mesurer en pixels réels"
 
-#: src/app.rs:672
+#: src/app.rs:692
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr ""
 "Figez votre écran, puis tracez une ligne ou un rectangle sur ce que vous voulez mesurer."
 
-#: src/app.rs:691
+#: src/app.rs:711
 msgid "Drag to measure width × height"
 msgstr "Tracez pour mesurer largeur × hauteur"
 
-#: src/app.rs:696
+#: src/app.rs:716
 msgid "Measurement controls"
 msgstr "Commandes de mesure"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Drag"
 msgstr "Tracer"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Measure a rectangle"
 msgstr "Mesurer un rectangle"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Shift + drag"
 msgstr "Maj + tracer"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Measure a straight line"
 msgstr "Mesurer une ligne droite"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Copy the measured size"
 msgstr "Copier la taille mesurée"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Esc"
 msgstr "Échap"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "Close the ruler"
 msgstr "Fermer la règle"
 
-#: src/app.rs:701
+#: src/app.rs:721
 msgid "Ready when you need it"
 msgstr "Prête quand vous en avez besoin"
 
-#: src/app.rs:701
+#: src/app.rs:721
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 "Raccourci global : {}. Les mesures utilisent les pixels de la capture d’écran, y compris sur les écrans à haute densité."
 
-#: src/app.rs:709
+#: src/app.rs:729
 msgid "Quality"
 msgstr "Qualité"
 
-#: src/app.rs:710
+#: src/app.rs:730
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "Plus c’est bas, plus c’est léger. Le PNG est toujours sans perte."
 
-#: src/app.rs:714
+#: src/app.rs:734
 msgid "Choose Files…"
 msgstr "Choisir des fichiers…"
 
-#: src/app.rs:731
+#: src/app.rs:751
 msgid "Drop Files Here"
 msgstr "Déposez des fichiers ici"
 
-#: src/app.rs:733
+#: src/app.rs:753
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 "PNG, JPEG, WebP et MP4. Les métadonnées sont supprimées ; les originaux sont conservés."
 
-#: src/app.rs:749 src/usage_ui.rs:95
+#: src/app.rs:769 src/usage_ui.rs:95
 msgid "Results"
 msgstr "Résultats"
 
-#: src/app.rs:755
+#: src/app.rs:775
 msgid "Compressing…"
 msgstr "Compression…"
 
-#: src/app.rs:772 src/app.rs:775
+#: src/app.rs:792 src/app.rs:795
 msgid "Failed"
 msgstr "Échec"
 
-#: src/app.rs:797
+#: src/app.rs:817
 msgid "Compress Files"
 msgstr "Compresser les fichiers"
 
-#: src/app.rs:813
+#: src/app.rs:833
 msgid "Compression settings"
 msgstr "Réglages de compression"
 
-#: src/app.rs:815
+#: src/app.rs:835
 msgid "Your originals stay intact"
 msgstr "Vos originaux restent intacts"
 
-#: src/app.rs:815
+#: src/app.rs:835
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "Les copies compressées sont enregistrées à côté de chaque fichier source sous le nom nom.min.ext. Les métadonnées sont supprimées de la copie. La compression PNG est sans perte ; les réglages de qualité s’appliquent au JPEG, au WebP et à la vidéo."
 
-#: src/app.rs:816
+#: src/app.rs:836
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 "Choisissez ou déposez des fichiers pour voir ici la progression et le gain de place."
@@ -609,15 +609,25 @@ msgstr "configuration invalide dans {}"
 msgid "no config directory"
 msgstr "aucun dossier de configuration"
 
-#: src/curve_chart.rs:80
+#: src/curve_chart.rs:79
 msgid ""
 "Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it."
 msgstr ""
 "Faites glisser les points pour façonner la courbe. Double-cliquez sur la ligne pour ajouter un point ; clic droit sur un point ou Suppr pour le retirer."
 
-#: src/curve_chart.rs:81
+#: src/curve_chart.rs:80
 msgid "Fan curve chart"
 msgstr "Graphique de la courbe du ventilateur"
+
+#: src/curve_chart.rs:99
+msgid ""
+"Drag points to set the voltage for each clock. Each point stays inside the range the card allows."
+msgstr ""
+"Faites glisser les points pour régler la tension de chaque fréquence. Chaque point reste dans la plage qu’autorise la carte."
+
+#: src/curve_chart.rs:100
+msgid "Voltage and frequency curve chart"
+msgstr "Graphique de la courbe tension-fréquence"
 
 #: src/daemon.rs:47
 #, rust-format
@@ -883,7 +893,7 @@ msgstr "non défini"
 msgid "Press the New Shortcut…"
 msgstr "Appuyez sur le nouveau raccourci…"
 
-#: src/detective_ui.rs:277 src/gpu_ui.rs:1022 src/snippets_ui.rs:406 src/system_ui.rs:484
+#: src/detective_ui.rs:277 src/gpu_ui.rs:1055 src/snippets_ui.rs:406 src/system_ui.rs:484
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -1157,7 +1167,7 @@ msgstr ""
 msgid "Kept."
 msgstr "Conservé."
 
-#: src/gpu_cli.rs:129 src/gpu_ui.rs:787
+#: src/gpu_cli.rs:129 src/gpu_ui.rs:820
 msgid "Not confirmed, so the change was undone."
 msgstr "Non confirmé, la modification a donc été annulée."
 
@@ -1175,7 +1185,7 @@ msgid ""
 msgstr ""
 "Le dernier démarrage ne s’est pas terminé, les réglages GPU enregistrés sont donc désactivés. Ouvrez Réglage du GPU pour les réactiver."
 
-#: src/gpu_cli.rs:359 src/gpu_cli.rs:409 src/modules/gpu.rs:777 src/modules/gpu_tune.rs:51
+#: src/gpu_cli.rs:359 src/gpu_cli.rs:409 src/modules/gpu.rs:780 src/modules/gpu_tune.rs:51
 msgid "GPU"
 msgstr "GPU"
 
@@ -1222,7 +1232,7 @@ msgstr "Aucun profil n’est actif. Le service ne tourne peut-être pas."
 msgid "Can't read the profiles."
 msgstr "Impossible de lire les profils."
 
-#: src/gpu_cli.rs:452 src/gpu_ui.rs:1053
+#: src/gpu_cli.rs:452 src/gpu_ui.rs:1086
 msgid "Profiles installed."
 msgstr "Profils installés."
 
@@ -1270,7 +1280,7 @@ msgid ""
 msgstr ""
 "◀ et ▶ marquent la meilleure session ; la fréquence active par watt est un indicateur approché du travail par watt, pas des images."
 
-#: src/gpu_cli.rs:561 src/gpu_ui.rs:39 src/modules/gpu.rs:772
+#: src/gpu_cli.rs:561 src/gpu_ui.rs:39 src/modules/gpu.rs:775
 msgid "No graphics cards were found."
 msgstr "Aucune carte graphique n’a été trouvée."
 
@@ -1345,31 +1355,31 @@ msgstr ""
 msgid "Graphics card"
 msgstr "Carte graphique"
 
-#: src/gpu_ui.rs:166 src/modules/gpu.rs:749
+#: src/gpu_ui.rs:166 src/modules/gpu.rs:752
 msgid "Temperature"
 msgstr "Température"
 
-#: src/gpu_ui.rs:167 src/modules/gpu.rs:750
+#: src/gpu_ui.rs:167 src/modules/gpu.rs:753
 msgid "Utilization"
 msgstr "Utilisation"
 
-#: src/gpu_ui.rs:168 src/modules/gpu.rs:751
+#: src/gpu_ui.rs:168 src/modules/gpu.rs:754
 msgid "Power"
 msgstr "Puissance"
 
-#: src/gpu_ui.rs:169 src/modules/gpu.rs:752
+#: src/gpu_ui.rs:169 src/modules/gpu.rs:755
 msgid "Core clock"
 msgstr "Fréquence du cœur"
 
-#: src/gpu_ui.rs:170 src/modules/gpu.rs:753
+#: src/gpu_ui.rs:170 src/modules/gpu.rs:756
 msgid "Memory clock"
 msgstr "Fréquence de la mémoire"
 
-#: src/gpu_ui.rs:171 src/gpu_ui.rs:320 src/modules/gpu.rs:761 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:171 src/gpu_ui.rs:321 src/modules/gpu.rs:764 src/modules/sysreport.rs:573
 msgid "Fan"
 msgstr "Ventilateur"
 
-#: src/gpu_ui.rs:177 src/modules/gpu.rs:766 src/modules/gpu_tune.rs:53
+#: src/gpu_ui.rs:177 src/modules/gpu.rs:769 src/modules/gpu_tune.rs:53
 msgid "Video memory"
 msgstr "Mémoire vidéo"
 
@@ -1405,438 +1415,438 @@ msgstr "Rien ne peut être modifié sur cette carte"
 msgid "See what this card supports for the reasons."
 msgstr "Voyez ce que cette carte prend en charge pour connaître les raisons."
 
-#: src/gpu_ui.rs:309 src/modules/gpu.rs:111
+#: src/gpu_ui.rs:310 src/modules/gpu.rs:111
 msgid "Power limit"
 msgstr "Limite de puissance"
 
-#: src/gpu_ui.rs:309
+#: src/gpu_ui.rs:310
 #, rust-format
 msgid "Between {} W and {} W."
 msgstr "Entre {} W et {} W."
 
-#: src/gpu_ui.rs:310
+#: src/gpu_ui.rs:311
 msgid "Watts"
 msgstr "Watts"
 
-#: src/gpu_ui.rs:320
+#: src/gpu_ui.rs:321
 msgid "Fixed speed, or a curve that follows the temperature."
 msgstr "Vitesse fixe, ou une courbe qui suit la température."
 
-#: src/gpu_ui.rs:321
+#: src/gpu_ui.rs:322
 msgid "The card's own control"
 msgstr "Le contrôle propre de la carte"
 
-#: src/gpu_ui.rs:321
+#: src/gpu_ui.rs:322
 msgid "Fixed speed"
 msgstr "Vitesse fixe"
 
-#: src/gpu_ui.rs:321
+#: src/gpu_ui.rs:322
 msgid "Curve"
 msgstr "Courbe"
 
-#: src/gpu_ui.rs:322
+#: src/gpu_ui.rs:323
 msgid "Mode"
 msgstr "Mode"
 
-#: src/gpu_ui.rs:323
+#: src/gpu_ui.rs:324
 msgid "Speed (%)"
 msgstr "Vitesse (%)"
 
-#: src/gpu_ui.rs:330
+#: src/gpu_ui.rs:331
 msgid "Temperature source"
 msgstr "Source de température"
 
-#: src/gpu_ui.rs:331
+#: src/gpu_ui.rs:332
 msgid "The reading the curve follows."
 msgstr "La mesure que suit la courbe."
 
-#: src/gpu_ui.rs:336
+#: src/gpu_ui.rs:337
 msgid "Fans"
 msgstr "Ventilateurs"
 
-#: src/gpu_ui.rs:336
+#: src/gpu_ui.rs:337
 msgid "The fans the curve drives."
 msgstr "Les ventilateurs que pilote la courbe."
 
-#: src/gpu_ui.rs:340 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:341 src/modules/sysreport.rs:573
 #, rust-format
 msgid "Fan {}"
 msgstr "Ventilateur {}"
 
-#: src/gpu_ui.rs:358
+#: src/gpu_ui.rs:359
 msgid "Curve points"
 msgstr "Points de la courbe"
 
-#: src/gpu_ui.rs:358
+#: src/gpu_ui.rs:359
 msgid "Temperature in °C, fan speed in %."
 msgstr "Température en °C, vitesse du ventilateur en %."
 
-#: src/gpu_ui.rs:390 src/gpu_ui.rs:580
+#: src/gpu_ui.rs:391 src/gpu_ui.rs:589
 #, rust-format
 msgid "Point {}"
 msgstr "Point {}"
 
-#: src/gpu_ui.rs:397 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:398 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "Retirer"
 
-#: src/gpu_ui.rs:451
+#: src/gpu_ui.rs:452
 msgid "Edit curve"
 msgstr "Modifier la courbe"
 
-#: src/gpu_ui.rs:454
+#: src/gpu_ui.rs:455
 msgid "Add point"
 msgstr "Ajouter un point"
 
-#: src/gpu_ui.rs:455 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:456 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr "Annuler"
 
-#: src/gpu_ui.rs:456
+#: src/gpu_ui.rs:457
 msgid "Redo"
 msgstr "Rétablir"
 
-#: src/gpu_ui.rs:457
+#: src/gpu_ui.rs:458
 msgid "Copy curve"
 msgstr "Copier la courbe"
 
-#: src/gpu_ui.rs:458
+#: src/gpu_ui.rs:459
 msgid "Paste curve"
 msgstr "Coller la courbe"
 
-#: src/gpu_ui.rs:505
+#: src/gpu_ui.rs:506
 msgid "Curve copied"
 msgstr "Courbe copiée"
 
-#: src/gpu_ui.rs:541 src/modules/gpu.rs:112
+#: src/gpu_ui.rs:542 src/modules/gpu.rs:112
 msgid "Temperature target"
 msgstr "Température cible"
 
-#: src/gpu_ui.rs:541
+#: src/gpu_ui.rs:542
 msgid "The temperature the card's fan control aims for."
 msgstr "La température visée par le contrôle du ventilateur de la carte."
 
-#: src/gpu_ui.rs:542
+#: src/gpu_ui.rs:543
 msgid "Degrees (°C)"
 msgstr "Degrés (°C)"
 
-#: src/gpu_ui.rs:549 src/modules/gpu.rs:113
+#: src/gpu_ui.rs:550 src/modules/gpu.rs:113
 msgid "Clock offsets"
 msgstr "Décalages de fréquence"
 
-#: src/gpu_ui.rs:549
+#: src/gpu_ui.rs:550
 msgid "Raise or lower the clocks from their defaults."
 msgstr ""
 "Augmentez ou diminuez les fréquences par rapport à leurs valeurs par défaut."
 
-#: src/gpu_ui.rs:550
+#: src/gpu_ui.rs:551
 msgid "Core (MHz)"
 msgstr "Cœur (MHz)"
 
-#: src/gpu_ui.rs:550
+#: src/gpu_ui.rs:551
 msgid "Memory (MHz)"
 msgstr "Mémoire (MHz)"
 
-#: src/gpu_ui.rs:562 src/modules/gpu.rs:114
+#: src/gpu_ui.rs:563 src/modules/gpu.rs:114
 msgid "Clock limits"
 msgstr "Limites de fréquence"
 
-#: src/gpu_ui.rs:562
+#: src/gpu_ui.rs:563
 #, rust-format
 msgid "Keep the clock between a minimum and a maximum, from {} to {} MHz."
 msgstr "Gardez la fréquence entre un minimum et un maximum, de {} à {} MHz."
 
-#: src/gpu_ui.rs:563
+#: src/gpu_ui.rs:564
 msgid "Minimum (MHz)"
 msgstr "Minimum (MHz)"
 
-#: src/gpu_ui.rs:563
+#: src/gpu_ui.rs:564
 msgid "Maximum (MHz)"
 msgstr "Maximum (MHz)"
 
-#: src/gpu_ui.rs:573 src/modules/gpu.rs:115
+#: src/gpu_ui.rs:576 src/modules/gpu.rs:115
 msgid "Voltage and frequency curve"
 msgstr "Courbe tension-fréquence"
 
-#: src/gpu_ui.rs:573
+#: src/gpu_ui.rs:576
 msgid ""
 "Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."
 msgstr ""
 "Réglez la tension pour chaque fréquence à laquelle la carte fonctionne. Les tensions plus basses chauffent moins mais peuvent faire planter la carte si elles sont trop basses."
 
-#: src/gpu_ui.rs:580
+#: src/gpu_ui.rs:589
 msgid "MHz · mV"
 msgstr "MHz · mV"
 
-#: src/gpu_ui.rs:599
+#: src/gpu_ui.rs:632
 msgid "Voltage offset"
 msgstr "Décalage de tension"
 
-#: src/gpu_ui.rs:599
+#: src/gpu_ui.rs:632
 msgid "Lower the voltage for less heat, or raise it for stability."
 msgstr ""
 "Baissez la tension pour moins de chaleur, ou augmentez-la pour plus de stabilité."
 
-#: src/gpu_ui.rs:600
+#: src/gpu_ui.rs:633
 msgid "Millivolts (mV)"
 msgstr "Millivolts (mV)"
 
-#: src/gpu_ui.rs:606
+#: src/gpu_ui.rs:639
 msgid "Keep after restart"
 msgstr "Conserver après le redémarrage"
 
-#: src/gpu_ui.rs:606
+#: src/gpu_ui.rs:639
 msgid ""
 "Saves these settings and applies them at startup. Fan curves need this."
 msgstr ""
 "Enregistre ces réglages et les applique au démarrage. Les courbes de ventilateur en ont besoin."
 
-#: src/gpu_ui.rs:666 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:699 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr "Aperçu"
 
-#: src/gpu_ui.rs:667
+#: src/gpu_ui.rs:700
 msgid "Apply"
 msgstr "Appliquer"
 
-#: src/gpu_ui.rs:679
+#: src/gpu_ui.rs:712
 msgid "Nothing to change"
 msgstr "Rien à modifier"
 
-#: src/gpu_ui.rs:679 src/gpu_ui.rs:693
+#: src/gpu_ui.rs:712 src/gpu_ui.rs:726
 msgid "Turn on at least one control."
 msgstr "Activez au moins un contrôle."
 
-#: src/gpu_ui.rs:680
+#: src/gpu_ui.rs:713
 msgid "What will change"
 msgstr "Ce qui va changer"
 
-#: src/gpu_ui.rs:681
+#: src/gpu_ui.rs:714
 msgid "This can't be applied"
 msgstr "Impossible à appliquer"
 
-#: src/gpu_ui.rs:695
+#: src/gpu_ui.rs:728
 msgid ""
 "This card has no built-in fan curve, so Voltkit's background service follows it. Turn on Keep after restart."
 msgstr ""
 "Cette carte n’a pas de courbe de ventilateur intégrée, c’est donc le service en arrière-plan de Voltkit qui la suit. Activez Conserver après le redémarrage."
 
-#: src/gpu_ui.rs:722 src/gpu_ui.rs:1073
+#: src/gpu_ui.rs:755 src/gpu_ui.rs:1106
 msgid "pkexec is needed to change GPU settings."
 msgstr "pkexec est nécessaire pour modifier les réglages du GPU."
 
-#: src/gpu_ui.rs:755
+#: src/gpu_ui.rs:788
 msgid "Keep these settings?"
 msgstr "Conserver ces réglages ?"
 
-#: src/gpu_ui.rs:756
+#: src/gpu_ui.rs:789
 msgid "Revert"
 msgstr "Annuler"
 
-#: src/gpu_ui.rs:756
+#: src/gpu_ui.rs:789
 msgid "Keep"
 msgstr "Conserver"
 
-#: src/gpu_ui.rs:761 src/gpu_ui.rs:770
+#: src/gpu_ui.rs:794 src/gpu_ui.rs:803
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr ""
 "Si vous ne confirmez pas, la carte revient à son état précédent dans {} secondes."
 
-#: src/gpu_ui.rs:786
+#: src/gpu_ui.rs:819
 msgid "Settings applied and kept."
 msgstr "Réglages appliqués et conservés."
 
-#: src/gpu_ui.rs:793 src/gpu_ui.rs:1055 src/gpu_ui.rs:1083
+#: src/gpu_ui.rs:826 src/gpu_ui.rs:1088 src/gpu_ui.rs:1116
 msgid "Cancelled, nothing was changed."
 msgstr "Annulé, rien n’a été modifié."
 
-#: src/gpu_ui.rs:828
+#: src/gpu_ui.rs:861
 #, rust-format
 msgid "Power limit {} W"
 msgstr "Limite de puissance {} W"
 
-#: src/gpu_ui.rs:831 src/modules/gpu_tune.rs:440
+#: src/gpu_ui.rs:864 src/modules/gpu_tune.rs:440
 msgid "Fan: the card's own control"
 msgstr "Ventilateur : le contrôle propre de la carte"
 
-#: src/gpu_ui.rs:832
+#: src/gpu_ui.rs:865
 #, rust-format
 msgid "Fan {} %"
 msgstr "Ventilateur {} %"
 
-#: src/gpu_ui.rs:833 src/modules/gpu.rs:110
+#: src/gpu_ui.rs:866 src/modules/gpu.rs:110
 msgid "Fan curve"
 msgstr "Courbe du ventilateur"
 
-#: src/gpu_ui.rs:837
+#: src/gpu_ui.rs:870
 #, rust-format
 msgid "Target {} °C"
 msgstr "Cible {} °C"
 
-#: src/gpu_ui.rs:840
+#: src/gpu_ui.rs:873
 #, rust-format
 msgid "Core {} MHz"
 msgstr "Cœur {} MHz"
 
-#: src/gpu_ui.rs:843
+#: src/gpu_ui.rs:876
 #, rust-format
 msgid "Memory {} MHz"
 msgstr "Mémoire {} MHz"
 
-#: src/gpu_ui.rs:846
+#: src/gpu_ui.rs:879
 #, rust-format
 msgid "Clock {}–{} MHz"
 msgstr "Fréquence {}–{} MHz"
 
-#: src/gpu_ui.rs:848
+#: src/gpu_ui.rs:881
 msgid "No changes"
 msgstr "Aucune modification"
 
-#: src/gpu_ui.rs:863
+#: src/gpu_ui.rs:896
 #, rust-format
 msgid "In use now: {}"
 msgstr "En cours d’utilisation : {}"
 
-#: src/gpu_ui.rs:870
+#: src/gpu_ui.rs:903
 msgid ""
 "Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot."
 msgstr ""
 "Enregistrez des réglages sous forme de profils nommés et laissez Voltkit passer de l’un à l’autre : sur batterie, pendant qu’une application tourne, sous charge ou quand la carte chauffe."
 
-#: src/gpu_ui.rs:871
+#: src/gpu_ui.rs:904
 msgid "Profiles"
 msgstr "Profils"
 
-#: src/gpu_ui.rs:900
+#: src/gpu_ui.rs:933
 msgid "Not automatic"
 msgstr "Pas automatique"
 
-#: src/gpu_ui.rs:901
+#: src/gpu_ui.rs:934
 msgid "On battery"
 msgstr "Sur batterie"
 
-#: src/gpu_ui.rs:902
+#: src/gpu_ui.rs:935
 msgid "On mains power"
 msgstr "Sur secteur"
 
-#: src/gpu_ui.rs:903
+#: src/gpu_ui.rs:936
 msgid "While an app runs"
 msgstr "Pendant qu’une application tourne"
 
-#: src/gpu_ui.rs:904
+#: src/gpu_ui.rs:937
 msgid "When the GPU is busy"
 msgstr "Quand le GPU est occupé"
 
-#: src/gpu_ui.rs:905
+#: src/gpu_ui.rs:938
 msgid "When the GPU runs hot"
 msgstr "Quand le GPU chauffe"
 
-#: src/gpu_ui.rs:909
+#: src/gpu_ui.rs:942
 msgid "Switch to it"
 msgstr "Passer à ce profil"
 
-#: src/gpu_ui.rs:920
+#: src/gpu_ui.rs:953
 msgid "Programs, separated by commas"
 msgstr "Programmes, séparés par des virgules"
 
-#: src/gpu_ui.rs:921
+#: src/gpu_ui.rs:954
 msgid "Busier than (%)"
 msgstr "Plus occupé que (%)"
 
-#: src/gpu_ui.rs:922
+#: src/gpu_ui.rs:955
 msgid "Hotter than (°C)"
 msgstr "Plus chaud que (°C)"
 
-#: src/gpu_ui.rs:966
+#: src/gpu_ui.rs:999
 msgid "Use when no rule applies"
 msgstr "Utiliser quand aucune règle ne s’applique"
 
-#: src/gpu_ui.rs:988
+#: src/gpu_ui.rs:1021
 msgid "Delete this profile"
 msgstr "Supprimer ce profil"
 
-#: src/gpu_ui.rs:1011
+#: src/gpu_ui.rs:1044
 msgid "Save current settings as a profile…"
 msgstr "Enregistrer les réglages actuels comme profil…"
 
-#: src/gpu_ui.rs:1012
+#: src/gpu_ui.rs:1045
 msgid "Apply profiles"
 msgstr "Appliquer les profils"
 
-#: src/gpu_ui.rs:1012
+#: src/gpu_ui.rs:1045
 msgid ""
 "Installs the profiles in Voltkit's background service, which switches between them."
 msgstr ""
 "Installe les profils dans le service en arrière-plan de Voltkit, qui passe de l’un à l’autre."
 
-#: src/gpu_ui.rs:1019
+#: src/gpu_ui.rs:1052
 msgid "Name, for example Quiet"
 msgstr "Nom, par exemple Silencieux"
 
-#: src/gpu_ui.rs:1020
+#: src/gpu_ui.rs:1053
 msgid "Save as a profile"
 msgstr "Enregistrer comme profil"
 
-#: src/gpu_ui.rs:1020
+#: src/gpu_ui.rs:1053
 msgid "The settings now turned on in Tune are stored under this name."
 msgstr ""
 "Les réglages activés actuellement dans Régler sont enregistrés sous ce nom."
 
-#: src/gpu_ui.rs:1022 src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382
+#: src/gpu_ui.rs:1055 src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/gpu_ui.rs:1129
+#: src/gpu_ui.rs:1162
 #, rust-format
 msgid "{} compared with {}"
 msgstr "{} comparée à {}"
 
-#: src/gpu_ui.rs:1130
+#: src/gpu_ui.rs:1163
 msgid ""
 "The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames."
 msgstr ""
 "Le ▶ marque la meilleure session. La fréquence active par watt est un indicateur approché du travail par watt, pas des images."
 
-#: src/gpu_ui.rs:1146
+#: src/gpu_ui.rs:1179
 msgid "These sessions have no readings in common."
 msgstr "Ces sessions n’ont aucune mesure en commun."
 
-#: src/gpu_ui.rs:1149
+#: src/gpu_ui.rs:1182
 msgid "Compare sessions"
 msgstr "Comparer les sessions"
 
-#: src/gpu_ui.rs:1155 src/modules/keybindings.rs:316
+#: src/gpu_ui.rs:1188 src/modules/keybindings.rs:316
 msgid "Sessions"
 msgstr "Sessions"
 
-#: src/gpu_ui.rs:1156
+#: src/gpu_ui.rs:1189
 msgid ""
 "Record how a profile behaves, then compare two sessions side by side: temperature, power, energy and efficiency."
 msgstr ""
 "Enregistrez le comportement d’un profil, puis comparez deux sessions côte à côte : température, puissance, énergie et efficacité."
 
-#: src/gpu_ui.rs:1159
+#: src/gpu_ui.rs:1192
 msgid "Label"
 msgstr "Libellé"
 
-#: src/gpu_ui.rs:1159
+#: src/gpu_ui.rs:1192
 msgid "Session"
 msgstr "Session"
 
-#: src/gpu_ui.rs:1160 src/gpu_ui.rs:1236
+#: src/gpu_ui.rs:1193 src/gpu_ui.rs:1269
 msgid "Start recording"
 msgstr "Démarrer l’enregistrement"
 
-#: src/gpu_ui.rs:1166
+#: src/gpu_ui.rs:1199
 msgid "Compare the two ticked"
 msgstr "Comparer les deux cochées"
 
-#: src/gpu_ui.rs:1232
+#: src/gpu_ui.rs:1265
 msgid "Stop and save"
 msgstr "Arrêter et enregistrer"
 
-#: src/gpu_ui.rs:1241
+#: src/gpu_ui.rs:1274
 msgid "Session saved."
 msgstr "Session enregistrée."
 
@@ -2654,7 +2664,7 @@ msgstr ""
 msgid "The amdgpu driver doesn't expose {} for this card."
 msgstr "Le pilote amdgpu n’expose pas {} pour cette carte."
 
-#: src/modules/gpu.rs:302 src/modules/gpu.rs:404 src/modules/gpu.rs:615
+#: src/modules/gpu.rs:302 src/modules/gpu.rs:404 src/modules/gpu.rs:618
 msgid "Temperature, power, clocks, fan and memory are readable."
 msgstr ""
 "La température, la puissance, les fréquences, le ventilateur et la mémoire sont lisibles."
@@ -2663,7 +2673,7 @@ msgstr ""
 msgid "The driver exposes no hardware sensors for this card."
 msgstr "Le pilote n’expose aucun capteur matériel pour cette carte."
 
-#: src/modules/gpu.rs:304 src/modules/gpu.rs:616
+#: src/modules/gpu.rs:304 src/modules/gpu.rs:619
 msgid "The driver accepts a manual fan speed."
 msgstr "Le pilote accepte une vitesse de ventilateur manuelle."
 
@@ -2678,7 +2688,7 @@ msgid "The driver shows the fan speed but doesn't allow setting it."
 msgstr ""
 "Le pilote affiche la vitesse du ventilateur mais ne permet pas de la régler."
 
-#: src/modules/gpu.rs:311 src/modules/gpu.rs:617
+#: src/modules/gpu.rs:311 src/modules/gpu.rs:620
 msgid "The driver has a built-in fan curve."
 msgstr "Le pilote a une courbe de ventilateur intégrée."
 
@@ -2691,7 +2701,7 @@ msgstr ""
 msgid "The driver doesn't allow setting the fan speed."
 msgstr "Le pilote ne permet pas de régler la vitesse du ventilateur."
 
-#: src/modules/gpu.rs:319 src/modules/gpu.rs:427 src/modules/gpu.rs:618
+#: src/modules/gpu.rs:319 src/modules/gpu.rs:427 src/modules/gpu.rs:621
 #, rust-format
 msgid "Adjustable from {} W to {} W."
 msgstr "Réglable de {} W à {} W."
@@ -2700,7 +2710,7 @@ msgstr "Réglable de {} W à {} W."
 msgid "The driver doesn't report an adjustable power limit."
 msgstr "Le pilote ne signale pas de limite de puissance réglable."
 
-#: src/modules/gpu.rs:324 src/modules/gpu.rs:619
+#: src/modules/gpu.rs:324 src/modules/gpu.rs:622
 msgid ""
 "The driver lets you set the temperature the card's fan control aims for."
 msgstr ""
@@ -2716,7 +2726,7 @@ msgid ""
 msgstr ""
 "Le pilote n’expose pas de température cible pour cette carte. Il faut une carte récente (RDNA 3 ou plus) et Linux 6.7 ou plus."
 
-#: src/modules/gpu.rs:332 src/modules/gpu.rs:620
+#: src/modules/gpu.rs:332 src/modules/gpu.rs:623
 msgid "The driver's overdrive table is available."
 msgstr "La table overdrive du pilote est disponible."
 
@@ -2724,7 +2734,7 @@ msgstr "La table overdrive du pilote est disponible."
 msgid "clock offsets"
 msgstr "les décalages de fréquence"
 
-#: src/modules/gpu.rs:335 src/modules/gpu.rs:441 src/modules/gpu.rs:623
+#: src/modules/gpu.rs:335 src/modules/gpu.rs:441 src/modules/gpu.rs:626
 msgid "This driver offers clock offsets, not clock limits."
 msgstr ""
 "Ce pilote propose des décalages de fréquence, pas des limites de fréquence."
@@ -2733,7 +2743,7 @@ msgstr ""
 msgid "The card exposes a voltage and frequency curve."
 msgstr "La carte expose une courbe tension-fréquence."
 
-#: src/modules/gpu.rs:340 src/modules/gpu.rs:625
+#: src/modules/gpu.rs:340 src/modules/gpu.rs:628
 msgid "The card allows a voltage offset, not a full curve."
 msgstr "La carte autorise un décalage de tension, pas une courbe complète."
 
@@ -2878,7 +2888,7 @@ msgid "GPU Tuner covers NVIDIA, AMD and Intel cards; this one isn't."
 msgstr ""
 "Réglage du GPU couvre les cartes NVIDIA, AMD et Intel ; celle-ci n’en est pas une."
 
-#: src/modules/gpu.rs:781
+#: src/modules/gpu.rs:784
 msgid "Controls:"
 msgstr "Contrôles :"
 

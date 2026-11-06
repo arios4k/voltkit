@@ -105,8 +105,10 @@ These are what to measure before claiming more:
   development machine's laptop Quadro, for one) show no efficiency.
 - **Voltage and frequency curve.** For AMD cards whose table has `OD_VDDC_CURVE`,
   every point can be set within the ranges the card reports; only changed points
-  are written, each with its old value to undo. Edited as numbers for now, not on
-  the chart.
+  are written, each with its old value to undo. Drag the points on the chart or
+  type numbers: the two stay in step, and each point is kept inside the box the
+  card allows for it. A card's curve has a fixed number of points, so none can be
+  added or removed.
 
 ## Measured so far
 
@@ -138,6 +140,5 @@ page marks the controls **Experimental** until they are confirmed on real hardwa
 
 Comparative testing against other tools (LACT, CoreCtrl, amdgpu_top, radeontop) on
 AMD and Intel hardware, which needs those cards; a separate curve per fan or
-sensor; matching programs by window rather than process name; dragging points on
-the voltage and frequency curve; and running the write paths on real AMD, Arc and
+sensor; matching programs by window rather than process name; and running the write paths on real AMD, Arc and
 supported NVIDIA cards, which remains the biggest gap.
