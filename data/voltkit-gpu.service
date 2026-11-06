@@ -1,0 +1,13 @@
+[Unit]
+Description=Voltkit GPU Tuner: apply saved GPU settings and follow fan curves
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/voltkit gpu service
+# The fans go back to the card's own control when the service stops.
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

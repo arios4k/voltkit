@@ -12,11 +12,10 @@ use std::process::Command;
 
 use super::nvml::{Nvml, NvmlError, Threshold};
 
-use crate::i18n::tr;
 
 /// A translated message as an owned string.
-fn t(text: &str) -> String {
-    tr(text).to_owned()
+fn tr(text: &str) -> String {
+    crate::i18n::tr(text).to_owned()
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -102,14 +101,14 @@ impl Control {
     ];
 
     pub fn title(self) -> String {
-        t(match self {
-            Control::Monitoring => "Monitoring",
-            Control::FanSpeed => "Fan speed",
-            Control::FanCurve => "Fan curve",
-            Control::PowerLimit => "Power limit",
-            Control::TemperatureTarget => "Temperature target",
-            Control::ClockOffsets => "Clock offsets",
-            Control::VoltageCurve => "Voltage and frequency curve",
+        tr(match self {
+            Control::Monitoring => N_!("Monitoring"),
+            Control::FanSpeed => N_!("Fan speed"),
+            Control::FanCurve => N_!("Fan curve"),
+            Control::PowerLimit => N_!("Power limit"),
+            Control::TemperatureTarget => N_!("Temperature target"),
+            Control::ClockOffsets => N_!("Clock offsets"),
+            Control::VoltageCurve => N_!("Voltage and frequency curve"),
         })
     }
 }
@@ -118,9 +117,6 @@ impl Control {
 pub enum Support {
     /// The hardware and driver expose it, so Voltkit can read or drive it.
     Detected(String),
-    /// Depends on the GPU generation or driver in a way Voltkit can't read
-    /// beforehand; it will test it safely before offering it.
-    Unverified(String),
     /// Not available, with the reason and, when there is one, what to do.
     Unavailable { reason: String, how_to: Option<String> },
 }
@@ -285,7 +281,7 @@ fn amd_capabilities(gpu: &Gpu, sample: &Sample, sys: &Path) -> Vec<Capability> {
         if overdrive_off {
             Support::Unavailable {
                 reason: trf!("Overdrive is turned off in the amdgpu driver, so {} can't be changed.", what),
-                how_to: Some(t("Add amdgpu.ppfeaturemask=0xffffffff to the kernel command line and restart.")),
+                how_to: Some(tr("Add amdgpu.ppfeaturemask=0xffffffff to the kernel command line and restart.")),
             }
         } else {
             Support::Unavailable {
@@ -298,49 +294,49 @@ fn amd_capabilities(gpu: &Gpu, sample: &Sample, sys: &Path) -> Vec<Capability> {
     let mut out = Vec::new();
     for control in Control::ALL {
         let support = match control {
-            Control::Monitoring if hw.is_some() => Support::Detected(t("Temperature, power, clocks, fan and memory are readable.")),
-            Control::Monitoring => Support::Unavailable { reason: t("The driver exposes no hardware sensors for this card."), how_to: None },
-            Control::FanSpeed if in_hw("pwm1") && in_hw("pwm1_enable") => Support::Detected(t("The driver accepts a manual fan speed.")),
+            Control::Monitoring if hw.is_some() => Support::Detected(tr("Temperature, power, clocks, fan and memory are readable.")),
+            Control::Monitoring => Support::Unavailable { reason: tr("The driver exposes no hardware sensors for this card."), how_to: None },
+            Control::FanSpeed if in_hw("pwm1") && in_hw("pwm1_enable") => Support::Detected(tr("The driver accepts a manual fan speed.")),
             Control::FanSpeed | Control::FanCurve if !in_hw("fan1_input") && !in_hw("pwm1") => Support::Unavailable {
-                reason: t("No fan is visible to the driver. Laptop and integrated GPUs usually share the system fan, which firmware controls."),
+                reason: tr("No fan is visible to the driver. Laptop and integrated GPUs usually share the system fan, which firmware controls."),
                 how_to: None,
             },
-            Control::FanSpeed => Support::Unavailable { reason: t("The driver shows the fan speed but doesn't allow setting it."), how_to: None },
+            Control::FanSpeed => Support::Unavailable { reason: tr("The driver shows the fan speed but doesn't allow setting it."), how_to: None },
             Control::FanCurve if device.join("gpu_od/fan_ctrl/fan_curve").exists() => {
-                Support::Detected(t("The driver has a built-in fan curve."))
+                Support::Detected(tr("The driver has a built-in fan curve."))
             }
             Control::FanCurve if in_hw("pwm1") && in_hw("pwm1_enable") => {
-                Support::Detected(t("Voltkit can follow a curve by adjusting the fan speed itself."))
+                Support::Detected(tr("Voltkit can follow a curve by adjusting the fan speed itself."))
             }
-            Control::FanCurve => Support::Unavailable { reason: t("The driver doesn't allow setting the fan speed."), how_to: None },
+            Control::FanCurve => Support::Unavailable { reason: tr("The driver doesn't allow setting the fan speed."), how_to: None },
             Control::PowerLimit => match (sample.limit_min_w, sample.limit_max_w) {
                 (Some(min), Some(max)) if max > min && in_hw("power1_cap") => {
                     Support::Detected(trf!("Adjustable from {} W to {} W.", format!("{min:.0}"), format!("{max:.0}")))
                 }
-                _ => Support::Unavailable { reason: t("The driver doesn't report an adjustable power limit."), how_to: None },
+                _ => Support::Unavailable { reason: tr("The driver doesn't report an adjustable power limit."), how_to: None },
             },
             Control::TemperatureTarget if device.join("gpu_od/fan_ctrl/fan_target_temperature").exists() => {
-                Support::Detected(t("The driver lets you set the temperature the card's fan control aims for."))
+                Support::Detected(tr("The driver lets you set the temperature the card's fan control aims for."))
             }
-            Control::TemperatureTarget if overdrive_off => overdrive_missing(&t("the temperature target")),
+            Control::TemperatureTarget if overdrive_off => overdrive_missing(&tr("the temperature target")),
             Control::TemperatureTarget => Support::Unavailable {
-                reason: t("The driver doesn't expose a temperature target for this card. It needs a recent card (RDNA 3 or newer) and Linux 6.7 or newer."),
+                reason: tr("The driver doesn't expose a temperature target for this card. It needs a recent card (RDNA 3 or newer) and Linux 6.7 or newer."),
                 how_to: None,
             },
             Control::ClockOffsets if od_present && od_table.contains("OD_") => {
-                Support::Detected(t("The driver's overdrive table is available."))
+                Support::Detected(tr("The driver's overdrive table is available."))
             }
-            Control::ClockOffsets => overdrive_missing(&t("clock offsets")),
+            Control::ClockOffsets => overdrive_missing(&tr("clock offsets")),
             Control::VoltageCurve if od_table.contains("OD_VDDC_CURVE") => {
-                Support::Detected(t("The card exposes a voltage and frequency curve."))
+                Support::Detected(tr("The card exposes a voltage and frequency curve."))
             }
             Control::VoltageCurve if od_table.contains("OD_VDDGFX_OFFSET") => {
-                Support::Detected(t("The card allows a voltage offset, not a full curve."))
+                Support::Detected(tr("The card allows a voltage offset, not a full curve."))
             }
             Control::VoltageCurve if od_present => {
-                Support::Unavailable { reason: t("This card's driver exposes clocks but no voltage controls."), how_to: None }
+                Support::Unavailable { reason: tr("This card's driver exposes clocks but no voltage controls."), how_to: None }
             }
-            Control::VoltageCurve => overdrive_missing(&t("the voltage curve")),
+            Control::VoltageCurve => overdrive_missing(&tr("the voltage curve")),
         };
         out.push(Capability { control, support });
     }
@@ -362,7 +358,12 @@ pub struct NvidiaProbe {
 
 pub fn probe_nvidia(nvml: &Nvml, address: &str) -> NvidiaProbe {
     NvidiaProbe {
-        power: nvml.power_limit_range(address),
+        // Some cards answer the range call with nonsense while having no power
+        // management at all, so the range only counts when the current limit
+        // can be read too and the numbers are plausible for a graphics card.
+        power: nvml.power_limit_range(address).and_then(|(min, max)| {
+            if max > min && max <= 1500.0 && nvml.power_limit(address).is_ok() { Ok((min, max)) } else { Err(NvmlError::Unsupported) }
+        }),
         fans: nvml.fan_count(address).and_then(|n| if n == 0 { Err(NvmlError::Unsupported) } else { nvml.fan_range(address).map(|r| (n, r)) }),
         core_offset: nvml.clock_offset(address, false),
         mem_offset: nvml.clock_offset(address, true),
@@ -374,7 +375,7 @@ fn nvidia_capabilities(gpu: &Gpu, reported: bool, probe: Option<&NvidiaProbe>) -
     let proprietary = gpu.driver.as_deref() == Some("nvidia");
     let wrong_driver = |what: &str| Support::Unavailable {
         reason: trf!("The open-source nouveau driver doesn't allow changing {} on most cards.", what),
-        how_to: Some(t("Install NVIDIA's proprietary driver.")),
+        how_to: Some(tr("Install NVIDIA's proprietary driver.")),
     };
     let why = |e: &NvmlError, what: &str, laptop_note: bool| match e {
         NvmlError::Unsupported => Support::Unavailable {
@@ -387,51 +388,51 @@ fn nvidia_capabilities(gpu: &Gpu, reported: bool, probe: Option<&NvidiaProbe>) -
         },
         NvmlError::TooOld => Support::Unavailable {
             reason: trf!("The installed NVIDIA driver is too old to change {}.", what),
-            how_to: Some(t("Update the NVIDIA driver.")),
+            how_to: Some(tr("Update the NVIDIA driver.")),
         },
         other => Support::Unavailable { reason: other.to_string(), how_to: None },
     };
     let mut out = Vec::new();
     for control in Control::ALL {
         let support = match control {
-            Control::Monitoring if reported => Support::Detected(t("Temperature, power, clocks, fan and memory are readable.")),
+            Control::Monitoring if reported => Support::Detected(tr("Temperature, power, clocks, fan and memory are readable.")),
             Control::Monitoring if !proprietary => Support::Unavailable {
-                reason: t("Without NVIDIA's proprietary driver, only basic sensors are available."),
-                how_to: Some(t("Install NVIDIA's proprietary driver.")),
+                reason: tr("Without NVIDIA's proprietary driver, only basic sensors are available."),
+                how_to: Some(tr("Install NVIDIA's proprietary driver.")),
             },
             Control::Monitoring => Support::Unavailable {
-                reason: t("nvidia-smi isn't available, so the card can't be read."),
-                how_to: Some(t("Install the NVIDIA driver's utilities (nvidia-utils).")),
+                reason: tr("nvidia-smi isn't available, so the card can't be read."),
+                how_to: Some(tr("Install the NVIDIA driver's utilities (nvidia-utils).")),
             },
             _ if !proprietary => wrong_driver(&control.title().to_lowercase()),
             _ if probe.is_none() => Support::Unavailable {
                 reason: NvmlError::Missing.to_string(),
-                how_to: Some(t("Install the NVIDIA driver's utilities (nvidia-utils).")),
+                how_to: Some(tr("Install the NVIDIA driver's utilities (nvidia-utils).")),
             },
             _ => {
                 let probe = probe.unwrap();
                 match control {
                     Control::FanSpeed | Control::FanCurve => match &probe.fans {
                         Ok((n, (min, max))) => Support::Detected(trf!("{} fan(s), adjustable from {} % to {} %.", n, min, max)),
-                        Err(e) => why(e, &t("the fan"), true),
+                        Err(e) => why(e, &tr("the fan"), true),
                     },
                     Control::PowerLimit => match &probe.power {
                         Ok((min, max)) if max > min => {
                             Support::Detected(trf!("Adjustable from {} W to {} W.", format!("{min:.0}"), format!("{max:.0}")))
                         }
-                        Ok(_) => Support::Unavailable { reason: t("The card's power limit is fixed."), how_to: None },
-                        Err(e) => why(e, &t("the power limit"), true),
+                        Ok(_) => Support::Unavailable { reason: tr("The card's power limit is fixed."), how_to: None },
+                        Err(e) => why(e, &tr("the power limit"), true),
                     },
                     Control::TemperatureTarget => match &probe.target {
                         Ok(c) => Support::Detected(trf!("The card's fan control aims for {} °C.", c)),
-                        Err(e) => why(e, &t("the temperature target"), true),
+                        Err(e) => why(e, &tr("the temperature target"), true),
                     },
                     Control::ClockOffsets => match (&probe.core_offset, &probe.mem_offset) {
-                        (Ok(_), _) | (_, Ok(_)) => Support::Detected(t("The driver accepts core and memory clock offsets.")),
-                        (Err(e), _) => why(e, &t("clock offsets"), true),
+                        (Ok(_), _) | (_, Ok(_)) => Support::Detected(tr("The driver reports core and memory clock offsets.")),
+                        (Err(e), _) => why(e, &tr("clock offsets"), true),
                     },
                     Control::VoltageCurve => Support::Unavailable {
-                        reason: t("NVIDIA's driver offers clock offsets, not a voltage and frequency curve."),
+                        reason: tr("NVIDIA's driver offers clock offsets, not a voltage and frequency curve."),
                         how_to: None,
                     },
                     Control::Monitoring => unreachable!(),
@@ -542,11 +543,11 @@ fn value(v: Option<f64>, unit: &str, digits: usize) -> String {
 /// The readings as label and text pairs, for the command line and the app.
 pub fn readings(s: &Sample) -> Vec<(String, String)> {
     let mut out = vec![
-        (t("Temperature"), value(s.temp_c, "°C", 0)),
-        (t("Utilization"), value(s.util_pct, "%", 0)),
-        (t("Power"), value(s.power_w, "W", 0)),
-        (t("Core clock"), value(s.core_mhz, "MHz", 0)),
-        (t("Memory clock"), value(s.mem_mhz, "MHz", 0)),
+        (tr("Temperature"), value(s.temp_c, "°C", 0)),
+        (tr("Utilization"), value(s.util_pct, "%", 0)),
+        (tr("Power"), value(s.power_w, "W", 0)),
+        (tr("Core clock"), value(s.core_mhz, "MHz", 0)),
+        (tr("Memory clock"), value(s.mem_mhz, "MHz", 0)),
     ];
     let fan = match (s.fan_pct, s.fan_rpm) {
         (Some(p), Some(r)) => format!("{p:.0} % · {r:.0} RPM"),
@@ -554,31 +555,30 @@ pub fn readings(s: &Sample) -> Vec<(String, String)> {
         (None, Some(r)) => format!("{r:.0} RPM"),
         (None, None) => "—".to_owned(),
     };
-    out.push((t("Fan"), fan));
+    out.push((tr("Fan"), fan));
     let memory = match (s.vram_used_mb, s.vram_total_mb) {
         (Some(u), Some(t)) => format!("{u:.0} / {t:.0} MB"),
         _ => "—".to_owned(),
     };
-    out.push((t("Video memory"), memory));
+    out.push((tr("Video memory"), memory));
     out
 }
 
 pub fn render_text(cards: &[Card]) -> String {
     if cards.is_empty() {
-        return format!("{}\n", t("No graphics cards were found."));
+        return format!("{}\n", tr("No graphics cards were found."));
     }
     let mut out = String::new();
     for (i, card) in cards.iter().enumerate() {
         let driver = card.gpu.driver.as_deref().unwrap_or("—");
-        out.push_str(&format!("{} {}: {} ({}, {})\n", t("GPU"), i + 1, card.gpu.name, card.gpu.vendor.name(), driver));
+        out.push_str(&format!("{} {}: {} ({}, {})\n", tr("GPU"), i + 1, card.gpu.name, card.gpu.vendor.name(), driver));
         for (label, v) in readings(&card.sample) {
             out.push_str(&format!("  {label}: {v}\n"));
         }
-        out.push_str(&format!("  {}\n", t("Controls:")));
+        out.push_str(&format!("  {}\n", tr("Controls:")));
         for c in &card.capabilities {
             let (mark, text) = match &c.support {
                 Support::Detected(note) => ("✓", note.clone()),
-                Support::Unverified(note) => ("?", note.clone()),
                 Support::Unavailable { reason, how_to: Some(how) } => ("✗", format!("{reason} {how}")),
                 Support::Unavailable { reason, how_to: None } => ("✗", reason.clone()),
             };

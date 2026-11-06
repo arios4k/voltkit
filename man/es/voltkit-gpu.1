@@ -1,0 +1,59 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-gpu 1  "Voltkit 0.9.1" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-gpu \- Monitor NVIDIA and AMD graphics cards and tune their power, fans, clocks and temperature
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit gpu\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIcomandos\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Monitor NVIDIA and AMD graphics cards and tune their power, fans, clocks and temperature
+.PP
+Without a subcommand, shows each card with its readings and which controls it supports, with the reason for any it doesn\*(Aqt. Changing settings needs administrator rights, and anything you don\*(Aqt confirm is undone.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPCIONES
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMANDOS
+.TP
+\fBvoltkit gpu show\fR
+Show the graphics cards, their readings and what each lets you control
+.TP
+\fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
+Apply GPU settings from a JSON file, undoing them unless you confirm
+
+The file holds the settings for one card: its PCI address as "gpu", and any of "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz" and "voltage_offset_mv". Values the card doesn\*(Aqt allow are refused.
+.RS
+\fB\-\-save\fR: Keep the settings after a restart, and run fan curves in the background service
+.RE
+.RS
+\fB\-\-yes\fR: Keep the settings without asking for confirmation
+.RE
+.RS
+\fB\-\-confirm\fR: Seconds to wait for confirmation before undoing the change
+.RE
+.TP
+\fBvoltkit gpu forget\fR
+Remove a card\*(Aqs saved settings and give its fans back to the card
+.TP
+\fBvoltkit gpu service\fR
+Run the background service that applies saved GPU settings and follows fan curves
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

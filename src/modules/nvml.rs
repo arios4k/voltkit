@@ -52,8 +52,6 @@ pub type Result<T> = std::result::Result<T, NvmlError>;
 /// Which temperature NVML sets or reads (`nvmlTemperatureThresholds_t`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Threshold {
-    Slowdown = 1,
-    GpuMax = 3,
     /// The temperature the card's own fan control aims for.
     AcousticTarget = 5,
 }
@@ -145,13 +143,20 @@ impl Nvml {
     // ---- Reading
 
     /// A reading of the sensors; what the card doesn't report stays `None`.
+    #[allow(clippy::field_reassign_with_default)]
     pub fn sample(&self, address: &str) -> Result<Sample> {
         let d = self.device(address)?;
         let mut s = Sample::default();
         s.temp_c = self.get_uint_with(b"nvmlDeviceGetTemperature\0", d, 0).ok().map(f64::from);
         s.power_w = self.get_uint(b"nvmlDeviceGetPowerUsage\0", d).ok().map(|mw| f64::from(mw) / 1000.0);
         s.limit_w = self.get_uint(b"nvmlDeviceGetPowerManagementLimit\0", d).ok().map(|mw| f64::from(mw) / 1000.0);
-        if let Some((min, max)) = self.power_limit_range(address).ok() {
+        // Some cards answer the range with nonsense; it only counts when plausible
+        // and the current limit is readable too.
+        if let Ok((min, max)) = self.power_limit_range(address)
+            && max > min
+            && max <= 1500.0
+            && s.limit_w.is_some()
+        {
             s.limit_min_w = Some(min);
             s.limit_max_w = Some(max);
         }
@@ -186,6 +191,11 @@ impl Nvml {
         Ok((f64::from(min) / 1000.0, f64::from(max) / 1000.0))
     }
 
+    /// The power limit now, in watts.
+    pub fn power_limit(&self, address: &str) -> Result<f64> {
+        self.get_uint(b"nvmlDeviceGetPowerManagementLimit\0", self.device(address)?).map(|mw| f64::from(mw) / 1000.0)
+    }
+
     pub fn fan_count(&self, address: &str) -> Result<u32> {
         self.get_uint(b"nvmlDeviceGetNumFans\0", self.device(address)?)
     }
@@ -198,10 +208,6 @@ impl Nvml {
         // SAFETY: valid handle and out pointers.
         self.check(unsafe { f(d, &mut min, &mut max) })?;
         Ok((min, max))
-    }
-
-    pub fn fan_speed(&self, address: &str, fan: u32) -> Result<u32> {
-        self.get_uint_with(b"nvmlDeviceGetFanSpeed_v2\0", self.device(address)?, fan)
     }
 
     pub fn clock_offset(&self, address: &str, memory: bool) -> Result<i32> {

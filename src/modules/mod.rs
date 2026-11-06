@@ -81,7 +81,7 @@ pub const ALL: &[ModuleInfo] = &[
     ModuleInfo {
         id: "gpu",
         title: N_!("GPU Tuner"),
-        icon: "video-card-symbolic",
+        icon: "applications-graphics-symbolic",
         summary: N_!("Monitor NVIDIA and AMD graphics cards and see exactly which controls each one supports."),
     },
     ModuleInfo {

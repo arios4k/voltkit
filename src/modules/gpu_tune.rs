@@ -16,10 +16,9 @@ use serde::{Deserialize, Serialize};
 
 use super::gpu::{Card, Control, Sample, Support, Vendor};
 use super::nvml::{Nvml, Threshold};
-use crate::i18n::tr;
 
-fn t(text: &str) -> String {
-    tr(text).to_owned()
+fn tr(text: &str) -> String {
+    crate::i18n::tr(text).to_owned()
 }
 
 // ---------------------------------------------------------------- Settings
@@ -64,19 +63,19 @@ pub const SAFE_TEMP_C: f64 = 85.0;
 /// gets hotter, and enough airflow before the card gets hot.
 pub fn validate_curve(points: &[CurvePoint]) -> Result<()> {
     if points.len() < 2 {
-        bail!("{}", t("A fan curve needs at least two points."));
+        bail!("{}", tr("A fan curve needs at least two points."));
     }
     for p in points {
         if !(0.0..=110.0).contains(&p.temp_c) || !(0.0..=100.0).contains(&p.speed_pct) {
-            bail!("{}", t("Curve points must be between 0 and 110 °C and between 0 and 100 %."));
+            bail!("{}", tr("Curve points must be between 0 and 110 °C and between 0 and 100 %."));
         }
     }
     for w in points.windows(2) {
         if w[1].temp_c <= w[0].temp_c {
-            bail!("{}", t("Curve points must go up in temperature."));
+            bail!("{}", tr("Curve points must go up in temperature."));
         }
         if w[1].speed_pct < w[0].speed_pct {
-            bail!("{}", t("A hotter point can't have a slower fan than a cooler one."));
+            bail!("{}", tr("A hotter point can't have a slower fan than a cooler one."));
         }
     }
     if speed_at(points, SAFE_TEMP_C) < SAFE_FAN_PCT {
@@ -206,7 +205,7 @@ impl Plan {
     pub fn preview(&self) -> Vec<String> {
         let mut lines: Vec<String> = self.steps.iter().map(|s| s.label.clone()).collect();
         if self.software_curve.is_some() {
-            lines.push(t("Voltkit's GPU service will follow the fan curve."));
+            lines.push(tr("Voltkit's GPU service will follow the fan curve."));
         }
         lines
     }
@@ -255,7 +254,7 @@ fn require(card: &Card, control: Control) -> Result<()> {
             let how = how_to.as_deref().map(|h| format!(" {h}")).unwrap_or_default();
             bail!("{}: {reason}{how}", control.title())
         }
-        _ => bail!("{}: {}", control.title(), t("this card doesn't offer it")),
+        _ => bail!("{}: {}", control.title(), tr("this card doesn't offer it")),
     }
 }
 
@@ -269,7 +268,7 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
     let amd = card.gpu.vendor == Vendor::Amd;
     let nvidia = card.gpu.vendor == Vendor::Nvidia;
     if !amd && !nvidia {
-        bail!("{}", t("GPU Tuner covers NVIDIA and AMD cards."));
+        bail!("{}", tr("GPU Tuner covers NVIDIA and AMD cards."));
     }
     let address = card.gpu.address.clone();
     let dev = &card.gpu.device;
@@ -278,7 +277,7 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
 
     if let Some(watts) = settings.power_limit_w {
         require(card, Control::PowerLimit)?;
-        let (Some(min), Some(max)) = (s.limit_min_w, s.limit_max_w) else { bail!("{}", t("The card doesn't report its power limit range.")) };
+        let (Some(min), Some(max)) = (s.limit_min_w, s.limit_max_w) else { bail!("{}", tr("The card doesn't report its power limit range.")) };
         if watts < min || watts > max {
             bail!("{}", trf!("The power limit must be between {} W and {} W.", format!("{min:.0}"), format!("{max:.0}")));
         }
@@ -300,7 +299,7 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
         require(card, Control::FanSpeed)?;
         match mode {
             FanMode::Auto => {
-                let label = t("Fan: the card's own control");
+                let label = tr("Fan: the card's own control");
                 if amd {
                     let enable = hwmon.clone().map(|h| h.join("pwm1_enable")).unwrap_or_default();
                     let was = read(&enable).unwrap_or_else(|| "2".into());
@@ -324,7 +323,7 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
                     let (enable, pwm) = (h.join("pwm1_enable"), h.join("pwm1"));
                     let was_enable = read(&enable).unwrap_or_else(|| "2".into());
                     let was_pwm = read(&pwm).unwrap_or_else(|| "128".into());
-                    plan.steps.push(write_step(t("Fan: manual control"), enable, "1".into(), was_enable));
+                    plan.steps.push(write_step(tr("Fan: manual control"), enable, "1".into(), was_enable));
                     plan.steps.push(write_step(label, pwm, format!("{}", (speed_pct / 100.0 * 255.0).round() as u32), was_pwm));
                 } else {
                     let fans = fan_count.max(1);
@@ -350,7 +349,7 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
                             "r".into(),
                         ));
                     }
-                    plan.steps.push(write_step(t("Fan curve: apply"), native.clone(), "c".into(), "c".into()));
+                    plan.steps.push(write_step(tr("Fan curve: apply"), native.clone(), "c".into(), "c".into()));
                 } else {
                     plan.software_curve = Some(points.clone());
                 }
@@ -361,14 +360,14 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
     if let Some(target) = settings.temperature_target_c {
         require(card, Control::TemperatureTarget)?;
         if !(40.0..=100.0).contains(&target) {
-            bail!("{}", t("The temperature target must be between 40 and 100 °C."));
+            bail!("{}", tr("The temperature target must be between 40 and 100 °C."));
         }
         let label = trf!("Temperature target: {} °C", format!("{target:.0}"));
         if amd {
             let file = dev.join("gpu_od/fan_ctrl/fan_target_temperature");
             let was = od_value(&read(&file).unwrap_or_default(), "OD_FAN_TARGET_TEMPERATURE:").map_or("r".to_owned(), |v| format!("{v:.0}"));
             plan.steps.push(write_step(label, file.clone(), format!("{target:.0}"), was));
-            plan.steps.push(write_step(t("Temperature target: apply"), file, "c".into(), "c".into()));
+            plan.steps.push(write_step(tr("Temperature target: apply"), file, "c".into(), "c".into()));
         } else {
             let was = probe.and_then(|p| p.target.as_ref().ok().copied()).map_or(83, |v| v as i32);
             plan.steps.push(Step {
@@ -389,9 +388,9 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
             ] {
                 let Some(mhz) = value else { continue };
                 if mhz.abs() > 1000 {
-                    bail!("{}", t("Clock offsets must be between -1000 and 1000 MHz."));
+                    bail!("{}", tr("Clock offsets must be between -1000 and 1000 MHz."));
                 }
-                let name = if memory { t("Memory clock offset") } else { t("Core clock offset") };
+                let name = if memory { tr("Memory clock offset") } else { tr("Core clock offset") };
                 plan.steps.push(Step {
                     label: trf!("{}: {} MHz", name, mhz),
                     op: Op::Nvml(NvmlOp::ClockOffset { address: address.clone(), memory, mhz }),
@@ -416,12 +415,12 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
                     }
                     plan.steps.push(write_step(trf!("Core clock offset: {} MHz", mhz), file.clone(), format!("s 1 {new:.0}"), format!("s 1 {max:.0}")));
                 } else {
-                    bail!("{}", t("Can't read this card's core clock limits."));
+                    bail!("{}", tr("Can't read this card's core clock limits."));
                 }
             }
             if let Some(mhz) = settings.mem_offset_mhz {
                 let (Some((_, hi)), Some(max)) = (od_range(&od, "MCLK:"), od_indexed(&od, "OD_MCLK:", 1)) else {
-                    bail!("{}", t("Can't read this card's memory clock limits."));
+                    bail!("{}", tr("Can't read this card's memory clock limits."));
                 };
                 let new = max + f64::from(mhz);
                 if new > hi {
@@ -446,7 +445,7 @@ pub fn plan(card: &Card, settings: &Settings) -> Result<Plan> {
     // Overdrive tables take their values only after a commit.
     if amd && plan.steps.iter().any(|s| matches!(&s.op, Op::Write { path, .. } if path.ends_with("pp_od_clk_voltage"))) {
         let file = dev.join("pp_od_clk_voltage");
-        plan.steps.push(write_step(t("Clocks and voltage: apply"), file, "c".into(), "c".into()));
+        plan.steps.push(write_step(tr("Clocks and voltage: apply"), file, "c".into(), "c".into()));
     }
     Ok(plan)
 }
@@ -511,19 +510,11 @@ pub fn undo(steps: &[Step], hw: &mut dyn Hardware) -> Vec<String> {
 }
 
 /// The conversation with the privileged helper, which the app starts through
-/// `pkexec`. It reads one line of settings, answers with its preview and
-/// "applied", then waits for "keep". Anything else, or the app closing or
-/// crashing, undoes the change: an unconfirmed setting never stays.
-pub fn session(
-    card: &Card,
-    input: &mut dyn BufRead,
-    out: &mut dyn Write,
-    hw: &mut dyn Hardware,
-) -> Result<()> {
-    let mut line = String::new();
-    input.read_line(&mut line)?;
-    let settings: Settings = serde_json::from_str(line.trim())?;
-    let plan = plan(card, &settings)?;
+/// `pkexec`. It answers with its preview and "applied", then waits for "keep".
+/// Anything else, or the app closing or crashing, undoes the change: an
+/// unconfirmed setting never stays. Returns whether the change was kept.
+pub fn session(card: &Card, settings: &Settings, input: &mut dyn BufRead, out: &mut dyn Write, hw: &mut dyn Hardware) -> Result<bool> {
+    let plan = plan(card, settings)?;
     for l in plan.preview() {
         writeln!(out, "step {l}")?;
     }
@@ -544,7 +535,7 @@ pub fn session(
         writeln!(out, "{}", if stuck.is_empty() { "reverted".to_owned() } else { format!("stuck {}", stuck.join(", ")) })?;
     }
     out.flush()?;
-    Ok(())
+    Ok(kept)
 }
 
 // ---------------------------------------------------------------- Startup guard
@@ -857,12 +848,12 @@ mod tests {
     fn an_unconfirmed_change_is_reverted() {
         let tree = Tree::new("session");
         let card = amd_card(&tree);
-        let request = serde_json::to_string(&Settings { power_limit_w: Some(250.0), ..settings() }).unwrap();
+        let request = Settings { power_limit_w: Some(250.0), ..settings() };
         for (reply, expect, cap) in [("keep\n", "kept", "250000000"), ("\n", "reverted", "200000000"), ("", "reverted", "200000000")] {
             tree.put("hwmon/hwmon1/power1_cap", "200000000");
-            let mut input = std::io::Cursor::new(format!("{request}\n{reply}"));
+            let mut input = std::io::Cursor::new(reply.to_owned());
             let mut out = Vec::new();
-            session(&card, &mut input, &mut out, &mut Real { nvml: None }).unwrap();
+            session(&card, &request, &mut input, &mut out, &mut Real { nvml: None }).unwrap();
             let text = String::from_utf8(out).unwrap();
             assert!(text.contains("applied") && text.trim_end().ends_with(expect), "{text}");
             assert_eq!(tree.get("hwmon/hwmon1/power1_cap"), cap, "{reply:?}");

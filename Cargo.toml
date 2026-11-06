@@ -58,6 +58,7 @@ assets = [
     ["data/io.github.arios4k.Voltkit.desktop", "usr/share/applications/", "644"],
     ["data/io.github.arios4k.Voltkit.Daemon.desktop", "etc/xdg/autostart/", "644"],
     ["data/io.github.arios4k.Voltkit.metainfo.xml", "usr/share/metainfo/", "644"],
+    ["data/voltkit-gpu.service", "usr/lib/systemd/system/", "644"],
     ["data/icons/io.github.arios4k.Voltkit.svg", "usr/share/icons/hicolor/scalable/apps/", "644"],
     ["data/icons/io.github.arios4k.Voltkit-symbolic.svg", "usr/share/icons/hicolor/symbolic/apps/", "644"],
     ["man/*.1", "usr/share/man/man1/", "644"],
