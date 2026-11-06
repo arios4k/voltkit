@@ -159,7 +159,7 @@ msgstr "{} 已退出，状态为 {}"
 msgid "screen ruler"
 msgstr "屏幕标尺"
 
-#: src/actions.rs:149 src/modules/mod.rs:119 src/smartpaste_ui.rs:100
+#: src/actions.rs:149 src/modules/mod.rs:120 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "智能粘贴"
 
@@ -205,7 +205,7 @@ msgstr "需要注意"
 msgid "Copy Command"
 msgstr "复制命令"
 
-#: src/app.rs:320 src/gpu_ui.rs:570 src/usage_ui.rs:354 src/usage_ui.rs:379
+#: src/app.rs:320 src/gpu_ui.rs:599 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr "关闭"
 
@@ -547,7 +547,7 @@ msgstr "4 小时"
 msgid "Until turned off"
 msgstr "直到关闭"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:95
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:96
 msgid "Keep Awake"
 msgstr "保持唤醒"
 
@@ -564,7 +564,7 @@ msgstr "在你观看、演示、阅读或下载时，阻止电脑休眠或锁屏
 msgid "Needs the background service: start it with the banner above"
 msgstr "需要后台服务：请使用上方的横幅启动它"
 
-#: src/awake_ui.rs:94 src/main.rs:632 src/main.rs:643
+#: src/awake_ui.rs:94 src/main.rs:633 src/main.rs:644
 #, rust-format
 msgid "Keep Awake: {}"
 msgstr "保持唤醒：{}"
@@ -594,6 +594,15 @@ msgstr "{} 中的配置无效"
 #: src/config.rs:122 src/daemon.rs:352 src/modules/envvars.rs:69
 msgid "no config directory"
 msgstr "没有配置目录"
+
+#: src/curve_chart.rs:80
+msgid ""
+"Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it."
+msgstr ""
+
+#: src/curve_chart.rs:81
+msgid "Fan curve chart"
+msgstr ""
 
 #: src/daemon.rs:47
 #, rust-format
@@ -670,7 +679,7 @@ msgstr "系统快照：{}"
 msgid "Voltkit daemon stopped"
 msgstr "Voltkit 守护进程已停止"
 
-#: src/daemon.rs:223 src/main.rs:397
+#: src/daemon.rs:223 src/main.rs:398
 msgid "Typed triggers off"
 msgstr "键入触发词已关闭"
 
@@ -954,7 +963,7 @@ msgstr "区域截取"
 msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr "请安装 xdg-desktop-portal 以及适合你桌面的门户后端"
 
-#: src/doctor.rs:257 src/modules/mod.rs:77
+#: src/doctor.rs:257 src/modules/mod.rs:78
 msgid "Color Picker"
 msgstr "取色器"
 
@@ -966,11 +975,11 @@ msgstr "屏幕取色：截图门户"
 msgid "Clipboard (hotkeys and command line)"
 msgstr "剪贴板（快捷键和命令行）"
 
-#: src/doctor.rs:272 src/modules/mod.rs:71
+#: src/doctor.rs:272 src/modules/mod.rs:72
 msgid "Asset Compressor"
 msgstr "资源压缩器"
 
-#: src/doctor.rs:283 src/modules/mod.rs:131
+#: src/doctor.rs:283 src/modules/mod.rs:132
 msgid "Text Expansion"
 msgstr "文本扩展"
 
@@ -998,7 +1007,7 @@ msgstr "先运行 `voltkit expander setup`，再运行 `voltkit expander enable`
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "阻止休眠和锁屏：Inhibit 门户"
 
-#: src/doctor.rs:320 src/modules/mod.rs:89
+#: src/doctor.rs:320 src/modules/mod.rs:90
 msgid "Hosts & Environment"
 msgstr "Hosts 与环境变量"
 
@@ -1108,7 +1117,7 @@ msgstr "已应用。请在 {} 秒内输入 keep 并按 Enter 以保留；否则�
 msgid "Kept."
 msgstr "已保留。"
 
-#: src/gpu_cli.rs:122 src/gpu_ui.rs:673
+#: src/gpu_cli.rs:122 src/gpu_ui.rs:702
 msgid "Not confirmed, so the change was undone."
 msgstr "未确认，因此已撤销更改。"
 
@@ -1125,280 +1134,280 @@ msgid ""
 "The last startup apply didn't finish, so the saved GPU settings are off. Open GPU Tuner to turn them back on."
 msgstr "上次启动时未能完成应用，因此已保存的 GPU 设置被关闭。请打开“GPU 调节器”重新开启。"
 
-#: src/gpu_ui.rs:36 src/modules/gpu.rs:769
+#: src/gpu_ui.rs:37 src/modules/gpu.rs:769
 msgid "No graphics cards were found."
 msgstr "未找到显卡。"
 
-#: src/gpu_ui.rs:37
+#: src/gpu_ui.rs:38
 msgid ""
 "Voltkit looks for NVIDIA, AMD and Intel cards through the kernel's graphics devices."
 msgstr "Voltkit 通过内核的图形设备查找 NVIDIA、AMD 和 Intel 显卡。"
 
-#: src/gpu_ui.rs:49
+#: src/gpu_ui.rs:50
 msgid "Graphics card"
 msgstr "显卡"
 
-#: src/gpu_ui.rs:160 src/modules/gpu.rs:746
+#: src/gpu_ui.rs:162 src/modules/gpu.rs:746
 msgid "Temperature"
 msgstr "温度"
 
-#: src/gpu_ui.rs:161 src/modules/gpu.rs:747
+#: src/gpu_ui.rs:163 src/modules/gpu.rs:747
 msgid "Utilization"
 msgstr "使用率"
 
-#: src/gpu_ui.rs:162 src/modules/gpu.rs:748
+#: src/gpu_ui.rs:164 src/modules/gpu.rs:748
 msgid "Power"
 msgstr "功耗"
 
-#: src/gpu_ui.rs:163 src/modules/gpu.rs:749
+#: src/gpu_ui.rs:165 src/modules/gpu.rs:749
 msgid "Core clock"
 msgstr "核心频率"
 
-#: src/gpu_ui.rs:164 src/modules/gpu.rs:750
+#: src/gpu_ui.rs:166 src/modules/gpu.rs:750
 msgid "Memory clock"
 msgstr "显存频率"
 
-#: src/gpu_ui.rs:165 src/gpu_ui.rs:289 src/modules/gpu.rs:758 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:167 src/gpu_ui.rs:298 src/modules/gpu.rs:758 src/modules/sysreport.rs:573
 msgid "Fan"
 msgstr "风扇"
 
-#: src/gpu_ui.rs:171 src/modules/gpu.rs:763
+#: src/gpu_ui.rs:173 src/modules/gpu.rs:763
 msgid "Video memory"
 msgstr "显存"
 
-#: src/gpu_ui.rs:182 src/modules/sleep.rs:632
+#: src/gpu_ui.rs:184 src/modules/sleep.rs:632
 msgid "Right now"
 msgstr "当前情况"
 
-#: src/gpu_ui.rs:204
+#: src/gpu_ui.rs:206
 msgid "What this card supports"
 msgstr "这块显卡支持什么"
 
-#: src/gpu_ui.rs:205
+#: src/gpu_ui.rs:207
 msgid ""
 "Each control is shown as the driver reports it. Voltkit can't go beyond what the hardware, firmware and driver allow."
 msgstr "每个控制项都按驱动程序报告的情况显示。Voltkit 无法超出硬件、固件和驱动所允许的范围。"
 
-#: src/gpu_ui.rs:265
+#: src/gpu_ui.rs:274
 msgid "Tune"
 msgstr "调节"
 
-#: src/gpu_ui.rs:266
+#: src/gpu_ui.rs:275
 msgid ""
 "Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."
 msgstr "开启要更改的控制项。预览会准确显示将发生什么。未经你确认，任何更改都不会保留。"
 
-#: src/gpu_ui.rs:270
+#: src/gpu_ui.rs:279
 msgid "Nothing on this card can be changed"
 msgstr "这块显卡上没有可更改的项目"
 
-#: src/gpu_ui.rs:270
+#: src/gpu_ui.rs:279
 msgid "See what this card supports for the reasons."
 msgstr "请查看“这块显卡支持什么”了解原因。"
 
-#: src/gpu_ui.rs:278 src/modules/gpu.rs:110
+#: src/gpu_ui.rs:287 src/modules/gpu.rs:110
 msgid "Power limit"
 msgstr "功耗上限"
 
-#: src/gpu_ui.rs:278
+#: src/gpu_ui.rs:287
 #, rust-format
 msgid "Between {} W and {} W."
 msgstr "介于 {} W 和 {} W 之间。"
 
-#: src/gpu_ui.rs:279
+#: src/gpu_ui.rs:288
 msgid "Watts"
 msgstr "瓦特"
 
-#: src/gpu_ui.rs:289
+#: src/gpu_ui.rs:298
 msgid "Fixed speed, or a curve that follows the temperature."
 msgstr "固定转速，或随温度变化的曲线。"
 
-#: src/gpu_ui.rs:290
+#: src/gpu_ui.rs:299
 msgid "The card's own control"
 msgstr "显卡自带的控制"
 
-#: src/gpu_ui.rs:290
+#: src/gpu_ui.rs:299
 msgid "Fixed speed"
 msgstr "固定转速"
 
-#: src/gpu_ui.rs:290
+#: src/gpu_ui.rs:299
 msgid "Curve"
 msgstr "曲线"
 
-#: src/gpu_ui.rs:291
+#: src/gpu_ui.rs:300
 msgid "Mode"
 msgstr "模式"
 
-#: src/gpu_ui.rs:292
+#: src/gpu_ui.rs:301
 msgid "Speed (%)"
 msgstr "转速 (%)"
 
-#: src/gpu_ui.rs:306
+#: src/gpu_ui.rs:315
 msgid "Curve points"
 msgstr "曲线点"
 
-#: src/gpu_ui.rs:306
+#: src/gpu_ui.rs:315
 msgid "Temperature in °C, fan speed in %."
 msgstr "温度单位为 °C，风扇转速单位为 %。"
 
-#: src/gpu_ui.rs:330
+#: src/gpu_ui.rs:344
 #, rust-format
 msgid "Point {}"
 msgstr "点 {}"
 
-#: src/gpu_ui.rs:337 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:351 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "移除"
 
-#: src/gpu_ui.rs:377
+#: src/gpu_ui.rs:405
 msgid "Edit curve"
 msgstr "编辑曲线"
 
-#: src/gpu_ui.rs:380
+#: src/gpu_ui.rs:408
 msgid "Add point"
 msgstr "添加点"
 
-#: src/gpu_ui.rs:381 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:409 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr "撤销"
 
-#: src/gpu_ui.rs:382
+#: src/gpu_ui.rs:410
 msgid "Redo"
 msgstr "重做"
 
-#: src/gpu_ui.rs:383
+#: src/gpu_ui.rs:411
 msgid "Copy curve"
 msgstr "复制曲线"
 
-#: src/gpu_ui.rs:384
+#: src/gpu_ui.rs:412
 msgid "Paste curve"
 msgstr "粘贴曲线"
 
-#: src/gpu_ui.rs:431
+#: src/gpu_ui.rs:459
 msgid "Curve copied"
 msgstr "曲线已复制"
 
-#: src/gpu_ui.rs:467 src/modules/gpu.rs:111
+#: src/gpu_ui.rs:495 src/modules/gpu.rs:111
 msgid "Temperature target"
 msgstr "目标温度"
 
-#: src/gpu_ui.rs:467
+#: src/gpu_ui.rs:495
 msgid "The temperature the card's fan control aims for."
 msgstr "显卡风扇控制所要维持的温度。"
 
-#: src/gpu_ui.rs:468
+#: src/gpu_ui.rs:496
 msgid "Degrees (°C)"
 msgstr "度 (°C)"
 
-#: src/gpu_ui.rs:475 src/modules/gpu.rs:112
+#: src/gpu_ui.rs:503 src/modules/gpu.rs:112
 msgid "Clock offsets"
 msgstr "频率偏移"
 
-#: src/gpu_ui.rs:475
+#: src/gpu_ui.rs:503
 msgid "Raise or lower the clocks from their defaults."
 msgstr "相对默认值提高或降低频率。"
 
-#: src/gpu_ui.rs:476
+#: src/gpu_ui.rs:504
 msgid "Core (MHz)"
 msgstr "核心 (MHz)"
 
-#: src/gpu_ui.rs:476
+#: src/gpu_ui.rs:504
 msgid "Memory (MHz)"
 msgstr "显存 (MHz)"
 
-#: src/gpu_ui.rs:488 src/modules/gpu.rs:113
+#: src/gpu_ui.rs:516 src/modules/gpu.rs:113
 msgid "Clock limits"
 msgstr "频率上限与下限"
 
-#: src/gpu_ui.rs:488
+#: src/gpu_ui.rs:516
 #, rust-format
 msgid "Keep the clock between a minimum and a maximum, from {} to {} MHz."
 msgstr "将频率保持在最小值与最大值之间，范围为 {} 到 {} MHz。"
 
-#: src/gpu_ui.rs:489
+#: src/gpu_ui.rs:517
 msgid "Minimum (MHz)"
 msgstr "最小值 (MHz)"
 
-#: src/gpu_ui.rs:489
+#: src/gpu_ui.rs:517
 msgid "Maximum (MHz)"
 msgstr "最大值 (MHz)"
 
-#: src/gpu_ui.rs:497
+#: src/gpu_ui.rs:525
 msgid "Voltage offset"
 msgstr "电压偏移"
 
-#: src/gpu_ui.rs:497
+#: src/gpu_ui.rs:525
 msgid "Lower the voltage for less heat, or raise it for stability."
 msgstr "降低电压可减少发热，提高电压可增强稳定性。"
 
-#: src/gpu_ui.rs:498
+#: src/gpu_ui.rs:526
 msgid "Millivolts (mV)"
 msgstr "毫伏 (mV)"
 
-#: src/gpu_ui.rs:504
+#: src/gpu_ui.rs:532
 msgid "Keep after restart"
 msgstr "重启后保留"
 
-#: src/gpu_ui.rs:504
+#: src/gpu_ui.rs:532
 msgid ""
 "Saves these settings and applies them at startup. Fan curves need this."
 msgstr "保存这些设置并在启动时应用。风扇曲线需要开启此项。"
 
-#: src/gpu_ui.rs:552 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:581 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr "预览"
 
-#: src/gpu_ui.rs:553
+#: src/gpu_ui.rs:582
 msgid "Apply"
 msgstr "应用"
 
-#: src/gpu_ui.rs:565
+#: src/gpu_ui.rs:594
 msgid "Nothing to change"
 msgstr "没有要更改的内容"
 
-#: src/gpu_ui.rs:565 src/gpu_ui.rs:579
+#: src/gpu_ui.rs:594 src/gpu_ui.rs:608
 msgid "Turn on at least one control."
 msgstr "请至少开启一个控制项。"
 
-#: src/gpu_ui.rs:566
+#: src/gpu_ui.rs:595
 msgid "What will change"
 msgstr "将要更改的内容"
 
-#: src/gpu_ui.rs:567
+#: src/gpu_ui.rs:596
 msgid "This can't be applied"
 msgstr "无法应用"
 
-#: src/gpu_ui.rs:581
+#: src/gpu_ui.rs:610
 msgid ""
 "This card has no built-in fan curve, so Voltkit's background service follows it. Turn on Keep after restart."
 msgstr "这块显卡没有内置风扇曲线，因此由 Voltkit 的后台服务来执行。请开启“重启后保留”。"
 
-#: src/gpu_ui.rs:608
+#: src/gpu_ui.rs:637
 msgid "pkexec is needed to change GPU settings."
 msgstr "更改 GPU 设置需要 pkexec。"
 
-#: src/gpu_ui.rs:641
+#: src/gpu_ui.rs:670
 msgid "Keep these settings?"
 msgstr "保留这些设置吗？"
 
-#: src/gpu_ui.rs:642
+#: src/gpu_ui.rs:671
 msgid "Revert"
 msgstr "还原"
 
-#: src/gpu_ui.rs:642
+#: src/gpu_ui.rs:671
 msgid "Keep"
 msgstr "保留"
 
-#: src/gpu_ui.rs:647 src/gpu_ui.rs:656
+#: src/gpu_ui.rs:676 src/gpu_ui.rs:685
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr "如果不确认，显卡将在 {} 秒后恢复原状。"
 
-#: src/gpu_ui.rs:672
+#: src/gpu_ui.rs:701
 msgid "Settings applied and kept."
 msgstr "设置已应用并保留。"
 
-#: src/gpu_ui.rs:679
+#: src/gpu_ui.rs:708
 msgid "Cancelled, nothing was changed."
 msgstr "已取消，未做任何更改。"
 
@@ -1438,152 +1447,152 @@ msgstr "显示版本"
 msgid "Print this message or the help of the given subcommand(s)"
 msgstr "显示此消息或指定子命令的帮助"
 
-#: src/main.rs:355
+#: src/main.rs:356
 #, rust-format
 msgid "expected name=value, got {}"
 msgstr "应为 name=value，实际为 {}"
 
-#: src/main.rs:361
+#: src/main.rs:362
 msgid "typed triggers: enabled"
 msgstr "键入触发词：已开启"
 
-#: src/main.rs:361
+#: src/main.rs:362
 msgid "typed triggers: disabled"
 msgstr "键入触发词：已关闭"
 
-#: src/main.rs:364
+#: src/main.rs:365
 msgid "permissions: ok"
 msgstr "权限：正常"
 
-#: src/main.rs:367
+#: src/main.rs:368
 #, rust-format
 msgid "permissions: {}"
 msgstr "权限：{}"
 
-#: src/main.rs:369
+#: src/main.rs:370
 #, rust-format
 msgid "next step: {}"
 msgstr "下一步：{}"
 
-#: src/main.rs:378
+#: src/main.rs:379
 msgid "Done: typed triggers can read the keyboard now, no need to log out."
 msgstr "完成：键入触发词现在即可读取键盘，无需注销。"
 
-#: src/main.rs:380
+#: src/main.rs:381
 msgid ""
 "# Typed triggers need these commands to run as root. They let the person at the"
 msgstr "# 键入触发词需要以 root 身份运行这些命令。它们让坐在"
 
-#: src/main.rs:381
+#: src/main.rs:382
 msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
 msgstr "# 电脑前的用户立即读取键盘并使用虚拟键盘。运行"
 
-#: src/main.rs:382
+#: src/main.rs:383
 msgid ""
 "# `voltkit expander setup --apply` to run them (it asks for your password).\n"
 msgstr ""
 "# `voltkit expander setup --apply` 来执行它们（会要求输入密码）。\n"
 
-#: src/main.rs:391
+#: src/main.rs:392
 msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
 msgstr "键入触发词已关闭，Voltkit 的键盘访问权限已移除。"
 
-#: src/main.rs:397
+#: src/main.rs:398
 msgid "Typed triggers on"
 msgstr "键入触发词已开启"
 
-#: src/main.rs:399
+#: src/main.rs:400
 #, rust-format
 msgid "They need keyboard access first: {}"
 msgstr "它们需要先获得键盘访问权限：{}"
 
-#: src/main.rs:402
+#: src/main.rs:403
 msgid "Takes effect when the background service starts"
 msgstr "后台服务启动后生效"
 
-#: src/main.rs:411
+#: src/main.rs:412
 msgid "Error"
 msgstr "错误"
 
-#: src/main.rs:458
+#: src/main.rs:459
 msgid "on white"
 msgstr "白底"
 
-#: src/main.rs:458
+#: src/main.rs:459
 msgid "on black"
 msgstr "黑底"
 
-#: src/main.rs:488
+#: src/main.rs:489
 #, rust-format
 msgid "running (v{}), shortcuts: {}, typed triggers: {}"
 msgstr "正在运行 (v{})，快捷键：{}，键入触发词：{}"
 
-#: src/main.rs:490 src/main.rs:494 src/main.rs:498
+#: src/main.rs:491 src/main.rs:495 src/main.rs:499
 msgid "not running"
 msgstr "未运行"
 
-#: src/main.rs:493
+#: src/main.rs:494
 msgid "Reloaded snippets"
 msgstr "已重新加载片段"
 
-#: src/main.rs:504
+#: src/main.rs:505
 #, rust-format
 msgid "Starts at login through {}, installed with Voltkit"
 msgstr "通过 {} 在登录时启动，随 Voltkit 一并安装"
 
-#: src/main.rs:506
+#: src/main.rs:507
 #, rust-format
 msgid "Created {}"
 msgstr "已创建 {}"
 
-#: src/main.rs:510
+#: src/main.rs:511
 #, rust-format
 msgid "Removed {}"
 msgstr "已删除 {}"
 
-#: src/main.rs:528
+#: src/main.rs:529
 #, rust-format
 msgid "no QR code found in {}"
 msgstr "在 {} 中未找到二维码"
 
-#: src/main.rs:539
+#: src/main.rs:540
 msgid "the code doesn't scan with this logo; shorten the text"
 msgstr "此二维码加上这个标志后无法扫描；请缩短文字"
 
-#: src/main.rs:545 src/qr_ui.rs:364 src/snippets_ui.rs:347
+#: src/main.rs:546 src/qr_ui.rs:364 src/snippets_ui.rs:347
 #, rust-format
 msgid "Saved {}"
 msgstr "已保存 {}"
 
-#: src/main.rs:564
+#: src/main.rs:565
 #, rust-format
 msgid "no conversion called {}; run `voltkit convert` for the list"
 msgstr "没有名为 {} 的转换；运行 `voltkit convert` 查看列表"
 
-#: src/main.rs:567
+#: src/main.rs:568
 #, rust-format
 msgid "{} doesn't fit this text"
 msgstr "{} 不适用于此文本"
 
-#: src/main.rs:578
+#: src/main.rs:579
 msgid "Fixes:"
 msgstr "修复方法："
 
-#: src/main.rs:584
+#: src/main.rs:585
 msgid "Memory:"
 msgstr "内存："
 
-#: src/main.rs:608
+#: src/main.rs:609
 #, rust-format
 msgid "Nothing is using {}"
 msgstr "没有东西在使用 {}"
 
-#: src/main.rs:617
+#: src/main.rs:618
 #, rust-format
 msgid "this is {}"
 msgstr "这是{}"
 
-#: src/main.rs:624
+#: src/main.rs:625
 #, rust-format
 msgid ""
 "{} program of other users or the system wasn't checked; run with sudo to include it"
@@ -1591,33 +1600,33 @@ msgid_plural ""
 "{} programs of other users or the system weren't checked; run with sudo to include them"
 msgstr[0] "有 {} 个其他用户或系统的程序未被检查；请用 sudo 运行以包含它们"
 
-#: src/main.rs:633
+#: src/main.rs:634
 msgid "Keep Awake: off (the background service isn't running)"
 msgstr "保持唤醒：关闭（后台服务没有运行）"
 
-#: src/main.rs:638
+#: src/main.rs:639
 msgid "Keep Awake: Off"
 msgstr "保持唤醒：关闭"
 
-#: src/main.rs:665
+#: src/main.rs:666
 msgid "Added to GNOME keyboard shortcuts"
 msgstr "已添加到 GNOME 键盘快捷键"
 
-#: src/main.rs:682
+#: src/main.rs:683
 #, rust-format
 msgid "{} isn't a shortcut"
 msgstr "{} 不是快捷键"
 
-#: src/main.rs:687
+#: src/main.rs:688
 #, rust-format
 msgid "{} is free. Nearby free combinations:"
 msgstr "{} 是空闲的。附近的空闲组合："
 
-#: src/main.rs:692
+#: src/main.rs:693
 msgid "Free combinations nearby:"
 msgstr "附近的空闲组合："
 
-#: src/main.rs:702
+#: src/main.rs:703
 msgid "No clashes: no two actions share a shortcut."
 msgstr "没有冲突：没有两个操作共用同一个快捷键。"
 
@@ -2664,107 +2673,107 @@ msgstr "无法保存快捷键"
 msgid "custom shortcuts have no default"
 msgstr "自定义快捷键没有默认值"
 
-#: src/modules/mod.rs:65
+#: src/modules/mod.rs:66
 msgid "App Permissions"
 msgstr "应用权限"
 
-#: src/modules/mod.rs:67
+#: src/modules/mod.rs:68
 msgid ""
 "Change or forget the answers you gave when apps asked for screenshots, the camera and more."
 msgstr "更改或遗忘你在应用请求截屏、摄像头等时给出的回答。"
 
-#: src/modules/mod.rs:73
+#: src/modules/mod.rs:74
 msgid "Drop images or videos to strip metadata and shrink them."
 msgstr "拖入图片或视频，即可删除元数据并缩小体积。"
 
-#: src/modules/mod.rs:79
+#: src/modules/mod.rs:80
 msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
 msgstr "HEX / RGB / HSL 转换、WCAG 对比度检查和历史记录。"
 
-#: src/modules/mod.rs:83
+#: src/modules/mod.rs:84
 msgid "GPU Tuner"
 msgstr "GPU 调节器"
 
-#: src/modules/mod.rs:85
+#: src/modules/mod.rs:86
 msgid ""
 "Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."
 msgstr "监控并调节 NVIDIA、AMD 和 Intel 显卡，并清楚了解每块显卡支持哪些控制项。"
 
-#: src/modules/mod.rs:91
+#: src/modules/mod.rs:92
 msgid ""
 "Edit /etc/hosts and your session's environment variables without a text editor."
 msgstr "无需文本编辑器，即可编辑 /etc/hosts 和会话的环境变量。"
 
-#: src/modules/mod.rs:97
+#: src/modules/mod.rs:98
 msgid "Stop your computer from sleeping or locking for a while."
 msgstr "让电脑在一段时间内不休眠、不锁屏。"
 
-#: src/modules/mod.rs:101
+#: src/modules/mod.rs:102
 msgid "QR Code"
 msgstr "二维码"
 
-#: src/modules/mod.rs:103
+#: src/modules/mod.rs:104
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
 msgstr "读取屏幕上任何位置的二维码，或将文字、链接和 Wi-Fi 信息生成二维码。"
 
-#: src/modules/mod.rs:107 src/ruler.rs:79 src/ruler.rs:125 src/ruler.rs:176
+#: src/modules/mod.rs:108 src/ruler.rs:79 src/ruler.rs:125 src/ruler.rs:176
 msgid "Screen Ruler"
 msgstr "屏幕标尺"
 
-#: src/modules/mod.rs:109
+#: src/modules/mod.rs:110
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "以像素为单位测量屏幕上的距离和大小。"
 
-#: src/modules/mod.rs:113
+#: src/modules/mod.rs:114
 msgid "Shortcut Detective"
 msgstr "快捷键侦探"
 
-#: src/modules/mod.rs:115
+#: src/modules/mod.rs:116
 msgid ""
 "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
 msgstr "找出哪个应用占用了某个键盘快捷键，修复冲突，并挑选空闲的组合。"
 
-#: src/modules/mod.rs:121
+#: src/modules/mod.rs:122
 msgid ""
 "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
 msgstr "粘贴转换后的复制内容：整理 JSON、将表格转为 Markdown、清理链接、改变大小写。"
 
-#: src/modules/mod.rs:125
+#: src/modules/mod.rs:126
 msgid "System Report"
 msgstr "系统报告"
 
-#: src/modules/mod.rs:127
+#: src/modules/mod.rs:128
 msgid ""
 "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
 msgstr "这台电脑里有什么，一目了然：驱动、硬盘健康、温度、固件更新以及有什么变化。"
 
-#: src/modules/mod.rs:133
+#: src/modules/mod.rs:134
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr "带动态变量的片段：日期、剪贴板、参数。"
 
-#: src/modules/mod.rs:137
+#: src/modules/mod.rs:138
 msgid "Text Extractor"
 msgstr "文字提取器"
 
-#: src/modules/mod.rs:139
+#: src/modules/mod.rs:140
 msgid "Drag a box around any text on screen and copy it to the clipboard."
 msgstr "在屏幕上的任意文字周围拖出一个方框，并将其复制到剪贴板。"
 
-#: src/modules/mod.rs:143
+#: src/modules/mod.rs:144
 msgid "What's Using This?"
 msgstr "是什么在占用它？"
 
-#: src/modules/mod.rs:145
+#: src/modules/mod.rs:146
 msgid ""
 "See which apps keep a file, folder, drive or network port busy, and close them."
 msgstr "查看哪些应用占用了文件、文件夹、磁盘或网络端口，并将其关闭。"
 
-#: src/modules/mod.rs:149
+#: src/modules/mod.rs:150
 msgid "Why Didn't It Sleep?"
 msgstr "为什么没有休眠？"
 
-#: src/modules/mod.rs:151
+#: src/modules/mod.rs:152
 msgid ""
 "What keeps the computer awake, what woke it up, and how much battery it used asleep."
 msgstr "是什么让电脑保持唤醒，是什么把它唤醒，以及休眠时用了多少电量。"

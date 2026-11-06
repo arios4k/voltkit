@@ -8,6 +8,7 @@ mod app;
 mod awake;
 mod awake_ui;
 mod config;
+mod curve_chart;
 mod daemon;
 mod detective_ui;
 mod doctor;

@@ -159,7 +159,7 @@ msgstr "{} terminó con {}"
 msgid "screen ruler"
 msgstr "regla de pantalla"
 
-#: src/actions.rs:149 src/modules/mod.rs:119 src/smartpaste_ui.rs:100
+#: src/actions.rs:149 src/modules/mod.rs:120 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "Pegado inteligente"
 
@@ -206,7 +206,7 @@ msgstr "Necesita atención"
 msgid "Copy Command"
 msgstr "Copiar comando"
 
-#: src/app.rs:320 src/gpu_ui.rs:570 src/usage_ui.rs:354 src/usage_ui.rs:379
+#: src/app.rs:320 src/gpu_ui.rs:599 src/usage_ui.rs:354 src/usage_ui.rs:379
 msgid "Close"
 msgstr "Cerrar"
 
@@ -558,7 +558,7 @@ msgstr "4 horas"
 msgid "Until turned off"
 msgstr "Hasta que lo apagues"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:95
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:96
 msgid "Keep Awake"
 msgstr "Mantener activo"
 
@@ -577,7 +577,7 @@ msgid "Needs the background service: start it with the banner above"
 msgstr ""
 "Necesita el servicio en segundo plano: inícialo con el aviso de arriba"
 
-#: src/awake_ui.rs:94 src/main.rs:632 src/main.rs:643
+#: src/awake_ui.rs:94 src/main.rs:633 src/main.rs:644
 #, rust-format
 msgid "Keep Awake: {}"
 msgstr "Mantener activo: {}"
@@ -608,6 +608,15 @@ msgstr "configuración no válida en {}"
 #: src/config.rs:122 src/daemon.rs:352 src/modules/envvars.rs:69
 msgid "no config directory"
 msgstr "no hay carpeta de configuración"
+
+#: src/curve_chart.rs:80
+msgid ""
+"Drag points to shape the curve. Double-click the line to add a point; right-click a point or press Delete to remove it."
+msgstr ""
+
+#: src/curve_chart.rs:81
+msgid "Fan curve chart"
+msgstr ""
 
 #: src/daemon.rs:47
 #, rust-format
@@ -684,7 +693,7 @@ msgstr "instantánea del sistema: {}"
 msgid "Voltkit daemon stopped"
 msgstr "Daemon de Voltkit detenido"
 
-#: src/daemon.rs:223 src/main.rs:397
+#: src/daemon.rs:223 src/main.rs:398
 msgid "Typed triggers off"
 msgstr "Disparadores al escribir apagados"
 
@@ -976,7 +985,7 @@ msgstr "captura de región"
 msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr "instala xdg-desktop-portal y el backend de portales de tu escritorio"
 
-#: src/doctor.rs:257 src/modules/mod.rs:77
+#: src/doctor.rs:257 src/modules/mod.rs:78
 msgid "Color Picker"
 msgstr "Selector de color"
 
@@ -988,11 +997,11 @@ msgstr "cuentagotas de pantalla: portal Screenshot"
 msgid "Clipboard (hotkeys and command line)"
 msgstr "Portapapeles (atajos y línea de comandos)"
 
-#: src/doctor.rs:272 src/modules/mod.rs:71
+#: src/doctor.rs:272 src/modules/mod.rs:72
 msgid "Asset Compressor"
 msgstr "Compresor de archivos"
 
-#: src/doctor.rs:283 src/modules/mod.rs:131
+#: src/doctor.rs:283 src/modules/mod.rs:132
 msgid "Text Expansion"
 msgstr "Expansión de texto"
 
@@ -1021,7 +1030,7 @@ msgstr ""
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "evitar suspensión y bloqueo: portal Inhibit"
 
-#: src/doctor.rs:320 src/modules/mod.rs:89
+#: src/doctor.rs:320 src/modules/mod.rs:90
 msgid "Hosts & Environment"
 msgstr "Hosts y entorno"
 
@@ -1135,7 +1144,7 @@ msgstr ""
 msgid "Kept."
 msgstr "Conservado."
 
-#: src/gpu_cli.rs:122 src/gpu_ui.rs:673
+#: src/gpu_cli.rs:122 src/gpu_ui.rs:702
 msgid "Not confirmed, so the change was undone."
 msgstr "No se confirmó, así que se deshizo el cambio."
 
@@ -1153,287 +1162,287 @@ msgid ""
 msgstr ""
 "El último inicio no terminó de aplicarse, así que los ajustes guardados de la GPU están desactivados. Abre Ajuste de GPU para volver a activarlos."
 
-#: src/gpu_ui.rs:36 src/modules/gpu.rs:769
+#: src/gpu_ui.rs:37 src/modules/gpu.rs:769
 msgid "No graphics cards were found."
 msgstr "No se encontraron tarjetas gráficas."
 
-#: src/gpu_ui.rs:37
+#: src/gpu_ui.rs:38
 msgid ""
 "Voltkit looks for NVIDIA, AMD and Intel cards through the kernel's graphics devices."
 msgstr ""
 "Voltkit busca tarjetas NVIDIA, AMD e Intel a través de los dispositivos gráficos del kernel."
 
-#: src/gpu_ui.rs:49
+#: src/gpu_ui.rs:50
 msgid "Graphics card"
 msgstr "Tarjeta gráfica"
 
-#: src/gpu_ui.rs:160 src/modules/gpu.rs:746
+#: src/gpu_ui.rs:162 src/modules/gpu.rs:746
 msgid "Temperature"
 msgstr "Temperatura"
 
-#: src/gpu_ui.rs:161 src/modules/gpu.rs:747
+#: src/gpu_ui.rs:163 src/modules/gpu.rs:747
 msgid "Utilization"
 msgstr "Utilización"
 
-#: src/gpu_ui.rs:162 src/modules/gpu.rs:748
+#: src/gpu_ui.rs:164 src/modules/gpu.rs:748
 msgid "Power"
 msgstr "Potencia"
 
-#: src/gpu_ui.rs:163 src/modules/gpu.rs:749
+#: src/gpu_ui.rs:165 src/modules/gpu.rs:749
 msgid "Core clock"
 msgstr "Frecuencia del núcleo"
 
-#: src/gpu_ui.rs:164 src/modules/gpu.rs:750
+#: src/gpu_ui.rs:166 src/modules/gpu.rs:750
 msgid "Memory clock"
 msgstr "Frecuencia de la memoria"
 
-#: src/gpu_ui.rs:165 src/gpu_ui.rs:289 src/modules/gpu.rs:758 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:167 src/gpu_ui.rs:298 src/modules/gpu.rs:758 src/modules/sysreport.rs:573
 msgid "Fan"
 msgstr "Ventilador"
 
-#: src/gpu_ui.rs:171 src/modules/gpu.rs:763
+#: src/gpu_ui.rs:173 src/modules/gpu.rs:763
 msgid "Video memory"
 msgstr "Memoria de vídeo"
 
-#: src/gpu_ui.rs:182 src/modules/sleep.rs:632
+#: src/gpu_ui.rs:184 src/modules/sleep.rs:632
 msgid "Right now"
 msgstr "Ahora mismo"
 
-#: src/gpu_ui.rs:204
+#: src/gpu_ui.rs:206
 msgid "What this card supports"
 msgstr "Qué admite esta tarjeta"
 
-#: src/gpu_ui.rs:205
+#: src/gpu_ui.rs:207
 msgid ""
 "Each control is shown as the driver reports it. Voltkit can't go beyond what the hardware, firmware and driver allow."
 msgstr ""
 "Cada control se muestra tal como lo informa el controlador. Voltkit no puede ir más allá de lo que permiten el hardware, el firmware y el controlador."
 
-#: src/gpu_ui.rs:265
+#: src/gpu_ui.rs:274
 msgid "Tune"
 msgstr "Ajustar"
 
-#: src/gpu_ui.rs:266
+#: src/gpu_ui.rs:275
 msgid ""
 "Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."
 msgstr ""
 "Activa los controles que quieras cambiar. La vista previa muestra exactamente qué pasará. Nada se queda si no lo confirmas."
 
-#: src/gpu_ui.rs:270
+#: src/gpu_ui.rs:279
 msgid "Nothing on this card can be changed"
 msgstr "Nada en esta tarjeta se puede cambiar"
 
-#: src/gpu_ui.rs:270
+#: src/gpu_ui.rs:279
 msgid "See what this card supports for the reasons."
 msgstr "Mira qué admite esta tarjeta para ver los motivos."
 
-#: src/gpu_ui.rs:278 src/modules/gpu.rs:110
+#: src/gpu_ui.rs:287 src/modules/gpu.rs:110
 msgid "Power limit"
 msgstr "Límite de potencia"
 
-#: src/gpu_ui.rs:278
+#: src/gpu_ui.rs:287
 #, rust-format
 msgid "Between {} W and {} W."
 msgstr "Entre {} W y {} W."
 
-#: src/gpu_ui.rs:279
+#: src/gpu_ui.rs:288
 msgid "Watts"
 msgstr "Vatios"
 
-#: src/gpu_ui.rs:289
+#: src/gpu_ui.rs:298
 msgid "Fixed speed, or a curve that follows the temperature."
 msgstr "Velocidad fija, o una curva que sigue la temperatura."
 
-#: src/gpu_ui.rs:290
+#: src/gpu_ui.rs:299
 msgid "The card's own control"
 msgstr "El control propio de la tarjeta"
 
-#: src/gpu_ui.rs:290
+#: src/gpu_ui.rs:299
 msgid "Fixed speed"
 msgstr "Velocidad fija"
 
-#: src/gpu_ui.rs:290
+#: src/gpu_ui.rs:299
 msgid "Curve"
 msgstr "Curva"
 
-#: src/gpu_ui.rs:291
+#: src/gpu_ui.rs:300
 msgid "Mode"
 msgstr "Modo"
 
-#: src/gpu_ui.rs:292
+#: src/gpu_ui.rs:301
 msgid "Speed (%)"
 msgstr "Velocidad (%)"
 
-#: src/gpu_ui.rs:306
+#: src/gpu_ui.rs:315
 msgid "Curve points"
 msgstr "Puntos de la curva"
 
-#: src/gpu_ui.rs:306
+#: src/gpu_ui.rs:315
 msgid "Temperature in °C, fan speed in %."
 msgstr "Temperatura en °C, velocidad del ventilador en %."
 
-#: src/gpu_ui.rs:330
+#: src/gpu_ui.rs:344
 #, rust-format
 msgid "Point {}"
 msgstr "Punto {}"
 
-#: src/gpu_ui.rs:337 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:351 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "Quitar"
 
-#: src/gpu_ui.rs:377
+#: src/gpu_ui.rs:405
 msgid "Edit curve"
 msgstr "Editar curva"
 
-#: src/gpu_ui.rs:380
+#: src/gpu_ui.rs:408
 msgid "Add point"
 msgstr "Añadir punto"
 
-#: src/gpu_ui.rs:381 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:409 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr "Deshacer"
 
-#: src/gpu_ui.rs:382
+#: src/gpu_ui.rs:410
 msgid "Redo"
 msgstr "Rehacer"
 
-#: src/gpu_ui.rs:383
+#: src/gpu_ui.rs:411
 msgid "Copy curve"
 msgstr "Copiar curva"
 
-#: src/gpu_ui.rs:384
+#: src/gpu_ui.rs:412
 msgid "Paste curve"
 msgstr "Pegar curva"
 
-#: src/gpu_ui.rs:431
+#: src/gpu_ui.rs:459
 msgid "Curve copied"
 msgstr "Curva copiada"
 
-#: src/gpu_ui.rs:467 src/modules/gpu.rs:111
+#: src/gpu_ui.rs:495 src/modules/gpu.rs:111
 msgid "Temperature target"
 msgstr "Temperatura objetivo"
 
-#: src/gpu_ui.rs:467
+#: src/gpu_ui.rs:495
 msgid "The temperature the card's fan control aims for."
 msgstr ""
 "La temperatura que busca mantener el control del ventilador de la tarjeta."
 
-#: src/gpu_ui.rs:468
+#: src/gpu_ui.rs:496
 msgid "Degrees (°C)"
 msgstr "Grados (°C)"
 
-#: src/gpu_ui.rs:475 src/modules/gpu.rs:112
+#: src/gpu_ui.rs:503 src/modules/gpu.rs:112
 msgid "Clock offsets"
 msgstr "Desplazamientos de frecuencia"
 
-#: src/gpu_ui.rs:475
+#: src/gpu_ui.rs:503
 msgid "Raise or lower the clocks from their defaults."
 msgstr "Sube o baja las frecuencias respecto a las predeterminadas."
 
-#: src/gpu_ui.rs:476
+#: src/gpu_ui.rs:504
 msgid "Core (MHz)"
 msgstr "Núcleo (MHz)"
 
-#: src/gpu_ui.rs:476
+#: src/gpu_ui.rs:504
 msgid "Memory (MHz)"
 msgstr "Memoria (MHz)"
 
-#: src/gpu_ui.rs:488 src/modules/gpu.rs:113
+#: src/gpu_ui.rs:516 src/modules/gpu.rs:113
 msgid "Clock limits"
 msgstr "Límites de frecuencia"
 
-#: src/gpu_ui.rs:488
+#: src/gpu_ui.rs:516
 #, rust-format
 msgid "Keep the clock between a minimum and a maximum, from {} to {} MHz."
 msgstr "Mantén la frecuencia entre un mínimo y un máximo, de {} a {} MHz."
 
-#: src/gpu_ui.rs:489
+#: src/gpu_ui.rs:517
 msgid "Minimum (MHz)"
 msgstr "Mínimo (MHz)"
 
-#: src/gpu_ui.rs:489
+#: src/gpu_ui.rs:517
 msgid "Maximum (MHz)"
 msgstr "Máximo (MHz)"
 
-#: src/gpu_ui.rs:497
+#: src/gpu_ui.rs:525
 msgid "Voltage offset"
 msgstr "Desplazamiento de voltaje"
 
-#: src/gpu_ui.rs:497
+#: src/gpu_ui.rs:525
 msgid "Lower the voltage for less heat, or raise it for stability."
 msgstr ""
 "Baja el voltaje para generar menos calor, o súbelo para ganar estabilidad."
 
-#: src/gpu_ui.rs:498
+#: src/gpu_ui.rs:526
 msgid "Millivolts (mV)"
 msgstr "Milivoltios (mV)"
 
-#: src/gpu_ui.rs:504
+#: src/gpu_ui.rs:532
 msgid "Keep after restart"
 msgstr "Conservar tras reiniciar"
 
-#: src/gpu_ui.rs:504
+#: src/gpu_ui.rs:532
 msgid ""
 "Saves these settings and applies them at startup. Fan curves need this."
 msgstr ""
 "Guarda estos ajustes y los aplica al iniciar. Las curvas de ventilador lo necesitan."
 
-#: src/gpu_ui.rs:552 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:581 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr "Vista previa"
 
-#: src/gpu_ui.rs:553
+#: src/gpu_ui.rs:582
 msgid "Apply"
 msgstr "Aplicar"
 
-#: src/gpu_ui.rs:565
+#: src/gpu_ui.rs:594
 msgid "Nothing to change"
 msgstr "Nada que cambiar"
 
-#: src/gpu_ui.rs:565 src/gpu_ui.rs:579
+#: src/gpu_ui.rs:594 src/gpu_ui.rs:608
 msgid "Turn on at least one control."
 msgstr "Activa al menos un control."
 
-#: src/gpu_ui.rs:566
+#: src/gpu_ui.rs:595
 msgid "What will change"
 msgstr "Qué cambiará"
 
-#: src/gpu_ui.rs:567
+#: src/gpu_ui.rs:596
 msgid "This can't be applied"
 msgstr "No se puede aplicar"
 
-#: src/gpu_ui.rs:581
+#: src/gpu_ui.rs:610
 msgid ""
 "This card has no built-in fan curve, so Voltkit's background service follows it. Turn on Keep after restart."
 msgstr ""
 "Esta tarjeta no tiene una curva de ventilador integrada, así que la sigue el servicio en segundo plano de Voltkit. Activa Conservar tras reiniciar."
 
-#: src/gpu_ui.rs:608
+#: src/gpu_ui.rs:637
 msgid "pkexec is needed to change GPU settings."
 msgstr "Se necesita pkexec para cambiar los ajustes de la GPU."
 
-#: src/gpu_ui.rs:641
+#: src/gpu_ui.rs:670
 msgid "Keep these settings?"
 msgstr "¿Conservar estos ajustes?"
 
-#: src/gpu_ui.rs:642
+#: src/gpu_ui.rs:671
 msgid "Revert"
 msgstr "Deshacer"
 
-#: src/gpu_ui.rs:642
+#: src/gpu_ui.rs:671
 msgid "Keep"
 msgstr "Conservar"
 
-#: src/gpu_ui.rs:647 src/gpu_ui.rs:656
+#: src/gpu_ui.rs:676 src/gpu_ui.rs:685
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr "Si no lo confirmas, la tarjeta vuelve a como estaba en {} segundos."
 
-#: src/gpu_ui.rs:672
+#: src/gpu_ui.rs:701
 msgid "Settings applied and kept."
 msgstr "Ajustes aplicados y conservados."
 
-#: src/gpu_ui.rs:679
+#: src/gpu_ui.rs:708
 msgid "Cancelled, nothing was changed."
 msgstr "Cancelado, no se cambió nada."
 
@@ -1473,157 +1482,157 @@ msgstr "Muestra la versión"
 msgid "Print this message or the help of the given subcommand(s)"
 msgstr "Muestra este mensaje o la ayuda de los subcomandos indicados"
 
-#: src/main.rs:355
+#: src/main.rs:356
 #, rust-format
 msgid "expected name=value, got {}"
 msgstr "se esperaba nombre=valor, se recibió {}"
 
-#: src/main.rs:361
+#: src/main.rs:362
 msgid "typed triggers: enabled"
 msgstr "disparadores al escribir: activados"
 
-#: src/main.rs:361
+#: src/main.rs:362
 msgid "typed triggers: disabled"
 msgstr "disparadores al escribir: desactivados"
 
-#: src/main.rs:364
+#: src/main.rs:365
 msgid "permissions: ok"
 msgstr "permisos: bien"
 
-#: src/main.rs:367
+#: src/main.rs:368
 #, rust-format
 msgid "permissions: {}"
 msgstr "permisos: {}"
 
-#: src/main.rs:369
+#: src/main.rs:370
 #, rust-format
 msgid "next step: {}"
 msgstr "siguiente paso: {}"
 
-#: src/main.rs:378
+#: src/main.rs:379
 msgid "Done: typed triggers can read the keyboard now, no need to log out."
 msgstr ""
 "Listo: los disparadores al escribir ya pueden leer el teclado, sin necesidad de cerrar sesión."
 
-#: src/main.rs:380
+#: src/main.rs:381
 msgid ""
 "# Typed triggers need these commands to run as root. They let the person at the"
 msgstr ""
 "# Los disparadores al escribir necesitan que estos comandos se ejecuten como root. Permiten que la persona"
 
-#: src/main.rs:381
+#: src/main.rs:382
 msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
 msgstr ""
 "# frente a la computadora lea teclados y use un teclado virtual, de inmediato. Ejecuta"
 
-#: src/main.rs:382
+#: src/main.rs:383
 msgid ""
 "# `voltkit expander setup --apply` to run them (it asks for your password).\n"
 msgstr ""
 "# `voltkit expander setup --apply` para ejecutarlos (pide tu contraseña).\n"
 
-#: src/main.rs:391
+#: src/main.rs:392
 msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
 msgstr ""
 "Los disparadores al escribir están apagados y se quitó el acceso de Voltkit al teclado."
 
-#: src/main.rs:397
+#: src/main.rs:398
 msgid "Typed triggers on"
 msgstr "Disparadores al escribir encendidos"
 
-#: src/main.rs:399
+#: src/main.rs:400
 #, rust-format
 msgid "They need keyboard access first: {}"
 msgstr "Primero necesitan acceso al teclado: {}"
 
-#: src/main.rs:402
+#: src/main.rs:403
 msgid "Takes effect when the background service starts"
 msgstr "Se aplica cuando se inicie el servicio en segundo plano"
 
-#: src/main.rs:411
+#: src/main.rs:412
 msgid "Error"
 msgstr "Error"
 
-#: src/main.rs:458
+#: src/main.rs:459
 msgid "on white"
 msgstr "sobre blanco"
 
-#: src/main.rs:458
+#: src/main.rs:459
 msgid "on black"
 msgstr "sobre negro"
 
-#: src/main.rs:488
+#: src/main.rs:489
 #, rust-format
 msgid "running (v{}), shortcuts: {}, typed triggers: {}"
 msgstr "en ejecución (v{}), atajos: {}, disparadores al escribir: {}"
 
-#: src/main.rs:490 src/main.rs:494 src/main.rs:498
+#: src/main.rs:491 src/main.rs:495 src/main.rs:499
 msgid "not running"
 msgstr "no se está ejecutando"
 
-#: src/main.rs:493
+#: src/main.rs:494
 msgid "Reloaded snippets"
 msgstr "Fragmentos recargados"
 
-#: src/main.rs:504
+#: src/main.rs:505
 #, rust-format
 msgid "Starts at login through {}, installed with Voltkit"
 msgstr "Se inicia al iniciar sesión mediante {}, instalado con Voltkit"
 
-#: src/main.rs:506
+#: src/main.rs:507
 #, rust-format
 msgid "Created {}"
 msgstr "Se creó {}"
 
-#: src/main.rs:510
+#: src/main.rs:511
 #, rust-format
 msgid "Removed {}"
 msgstr "Se eliminó {}"
 
-#: src/main.rs:528
+#: src/main.rs:529
 #, rust-format
 msgid "no QR code found in {}"
 msgstr "no se encontró ningún código QR en {}"
 
-#: src/main.rs:539
+#: src/main.rs:540
 msgid "the code doesn't scan with this logo; shorten the text"
 msgstr "el código no se puede escanear con este logo; acorta el texto"
 
-#: src/main.rs:545 src/qr_ui.rs:364 src/snippets_ui.rs:347
+#: src/main.rs:546 src/qr_ui.rs:364 src/snippets_ui.rs:347
 #, rust-format
 msgid "Saved {}"
 msgstr "Se guardó {}"
 
-#: src/main.rs:564
+#: src/main.rs:565
 #, rust-format
 msgid "no conversion called {}; run `voltkit convert` for the list"
 msgstr ""
 "no hay ninguna conversión llamada {}; ejecuta `voltkit convert` para ver la lista"
 
-#: src/main.rs:567
+#: src/main.rs:568
 #, rust-format
 msgid "{} doesn't fit this text"
 msgstr "{} no sirve para este texto"
 
-#: src/main.rs:578
+#: src/main.rs:579
 msgid "Fixes:"
 msgstr "Soluciones:"
 
-#: src/main.rs:584
+#: src/main.rs:585
 msgid "Memory:"
 msgstr "Memoria:"
 
-#: src/main.rs:608
+#: src/main.rs:609
 #, rust-format
 msgid "Nothing is using {}"
 msgstr "Nada está usando {}"
 
-#: src/main.rs:617
+#: src/main.rs:618
 #, rust-format
 msgid "this is {}"
 msgstr "esto es {}"
 
-#: src/main.rs:624
+#: src/main.rs:625
 #, rust-format
 msgid ""
 "{} program of other users or the system wasn't checked; run with sudo to include it"
@@ -1634,34 +1643,34 @@ msgstr[0] ""
 msgstr[1] ""
 "{} programas de otros usuarios o del sistema no se revisaron; ejecútalo con sudo para incluirlos"
 
-#: src/main.rs:633
+#: src/main.rs:634
 msgid "Keep Awake: off (the background service isn't running)"
 msgstr ""
 "Mantener activo: apagado (el servicio en segundo plano no se está ejecutando)"
 
-#: src/main.rs:638
+#: src/main.rs:639
 msgid "Keep Awake: Off"
 msgstr "Mantener activo: Apagado"
 
-#: src/main.rs:665
+#: src/main.rs:666
 msgid "Added to GNOME keyboard shortcuts"
 msgstr "Se agregó a los atajos de teclado de GNOME"
 
-#: src/main.rs:682
+#: src/main.rs:683
 #, rust-format
 msgid "{} isn't a shortcut"
 msgstr "{} no es un atajo"
 
-#: src/main.rs:687
+#: src/main.rs:688
 #, rust-format
 msgid "{} is free. Nearby free combinations:"
 msgstr "{} está libre. Combinaciones libres cercanas:"
 
-#: src/main.rs:692
+#: src/main.rs:693
 msgid "Free combinations nearby:"
 msgstr "Combinaciones libres cercanas:"
 
-#: src/main.rs:702
+#: src/main.rs:703
 msgid "No clashes: no two actions share a shortcut."
 msgstr "Sin conflictos: ninguna acción comparte un atajo."
 
@@ -2753,117 +2762,117 @@ msgstr "no se pudo guardar el atajo"
 msgid "custom shortcuts have no default"
 msgstr "los atajos personalizados no tienen valor predeterminado"
 
-#: src/modules/mod.rs:65
+#: src/modules/mod.rs:66
 msgid "App Permissions"
 msgstr "Permisos de apps"
 
-#: src/modules/mod.rs:67
+#: src/modules/mod.rs:68
 msgid ""
 "Change or forget the answers you gave when apps asked for screenshots, the camera and more."
 msgstr ""
 "Cambia u olvida las respuestas que diste cuando las apps pidieron capturas de pantalla, la cámara y más."
 
-#: src/modules/mod.rs:73
+#: src/modules/mod.rs:74
 msgid "Drop images or videos to strip metadata and shrink them."
 msgstr ""
 "Suelta imágenes o videos para quitarles los metadatos y reducir su tamaño."
 
-#: src/modules/mod.rs:79
+#: src/modules/mod.rs:80
 msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
 msgstr "Conversión HEX / RGB / HSL, revisión de contraste WCAG e historial."
 
-#: src/modules/mod.rs:83
+#: src/modules/mod.rs:84
 msgid "GPU Tuner"
 msgstr "Ajuste de GPU"
 
-#: src/modules/mod.rs:85
+#: src/modules/mod.rs:86
 msgid ""
 "Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."
 msgstr ""
 "Monitorea y ajusta tarjetas gráficas NVIDIA, AMD e Intel, y ve exactamente qué controles admite cada una."
 
-#: src/modules/mod.rs:91
+#: src/modules/mod.rs:92
 msgid ""
 "Edit /etc/hosts and your session's environment variables without a text editor."
 msgstr ""
 "Edita /etc/hosts y las variables de entorno de tu sesión sin un editor de texto."
 
-#: src/modules/mod.rs:97
+#: src/modules/mod.rs:98
 msgid "Stop your computer from sleeping or locking for a while."
 msgstr "Evita que tu computadora se suspenda o se bloquee por un rato."
 
-#: src/modules/mod.rs:101
+#: src/modules/mod.rs:102
 msgid "QR Code"
 msgstr "Código QR"
 
-#: src/modules/mod.rs:103
+#: src/modules/mod.rs:104
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
 msgstr ""
 "Lee un código QR en cualquier parte de la pantalla, o convierte texto, enlaces y datos de Wi-Fi en uno."
 
-#: src/modules/mod.rs:107 src/ruler.rs:79 src/ruler.rs:125 src/ruler.rs:176
+#: src/modules/mod.rs:108 src/ruler.rs:79 src/ruler.rs:125 src/ruler.rs:176
 msgid "Screen Ruler"
 msgstr "Regla de pantalla"
 
-#: src/modules/mod.rs:109
+#: src/modules/mod.rs:110
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "Mide distancias y tamaños en pantalla en píxeles."
 
-#: src/modules/mod.rs:113
+#: src/modules/mod.rs:114
 msgid "Shortcut Detective"
 msgstr "Detective de atajos"
 
-#: src/modules/mod.rs:115
+#: src/modules/mod.rs:116
 msgid ""
 "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
 msgstr ""
 "Averigua qué app es dueña de un atajo de teclado, resuelve conflictos y elige combinaciones libres."
 
-#: src/modules/mod.rs:121
+#: src/modules/mod.rs:122
 msgid ""
 "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
 msgstr ""
 "Pega lo que copiaste ya convertido: JSON ordenado, tablas como Markdown, enlaces limpios, otro tipo de mayúsculas."
 
-#: src/modules/mod.rs:125
+#: src/modules/mod.rs:126
 msgid "System Report"
 msgstr "Informe del sistema"
 
-#: src/modules/mod.rs:127
+#: src/modules/mod.rs:128
 msgid ""
 "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
 msgstr ""
 "Lo que hay en esta computadora, explicado: drivers, salud de las unidades, temperaturas, actualizaciones de firmware y qué cambió."
 
-#: src/modules/mod.rs:133
+#: src/modules/mod.rs:134
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr "Fragmentos con variables dinámicas: fechas, portapapeles, parámetros."
 
-#: src/modules/mod.rs:137
+#: src/modules/mod.rs:138
 msgid "Text Extractor"
 msgstr "Extractor de texto"
 
-#: src/modules/mod.rs:139
+#: src/modules/mod.rs:140
 msgid "Drag a box around any text on screen and copy it to the clipboard."
 msgstr ""
 "Arrastra un recuadro alrededor de cualquier texto en pantalla y cópialo al portapapeles."
 
-#: src/modules/mod.rs:143
+#: src/modules/mod.rs:144
 msgid "What's Using This?"
 msgstr "¿Qué lo está usando?"
 
-#: src/modules/mod.rs:145
+#: src/modules/mod.rs:146
 msgid ""
 "See which apps keep a file, folder, drive or network port busy, and close them."
 msgstr ""
 "Mira qué apps mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red, y ciérralas."
 
-#: src/modules/mod.rs:149
+#: src/modules/mod.rs:150
 msgid "Why Didn't It Sleep?"
 msgstr "¿Por qué no se suspendió?"
 
-#: src/modules/mod.rs:151
+#: src/modules/mod.rs:152
 msgid ""
 "What keeps the computer awake, what woke it up, and how much battery it used asleep."
 msgstr ""

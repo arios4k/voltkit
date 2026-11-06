@@ -21,6 +21,7 @@ fn tr(text: &str) -> String {
 }
 use crate::modules::gpu::{self, Card, Control, Monitor, Sample, Support};
 use crate::modules::gpu_tune::{self, CurvePoint, FanMode, Settings};
+use crate::curve_chart::CurveChart;
 use crate::workspace::Workspace;
 
 const HISTORY: usize = 90;
@@ -149,6 +150,7 @@ struct Reading {
 
 struct CardView {
     readings: Vec<Reading>,
+    chart: Option<CurveChart>,
 }
 
 #[allow(clippy::type_complexity)]
@@ -218,13 +220,20 @@ impl CardView {
             support.add(&row);
         }
         page.add(&support);
-        page.aside(&tune_group(card, toasts, gpu::demo()));
+        let (tune, chart) = tune_group(card, toasts, gpu::demo());
+        page.aside(&tune);
 
         stack.add_named(&*page, Some(&index.to_string()));
-        Rc::new(CardView { readings })
+        if let Some(chart) = &chart {
+            chart.set_marker(card.sample.temp_c.zip(card.sample.fan_pct));
+        }
+        Rc::new(CardView { readings, chart })
     }
 
     fn update(&self, sample: &Sample) {
+        if let Some(chart) = &self.chart {
+            chart.set_marker(sample.temp_c.zip(sample.fan_pct));
+        }
         for r in &self.readings {
             r.row.set_subtitle(&(r.text)(sample));
             r.spark.push((r.value)(sample));
@@ -260,7 +269,7 @@ struct CurveEdit {
     redo: Vec<Vec<CurvePoint>>,
 }
 
-fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::PreferencesGroup {
+fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::PreferencesGroup, Option<CurveChart>) {
     let group = adw::PreferencesGroup::builder()
         .title(tr("Tune"))
         .description(tr("Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."))
@@ -268,7 +277,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
     let any = Control::ALL.iter().any(|c| *c != Control::Monitoring && supported(card, *c));
     if !any {
         group.add(&adw::ActionRow::builder().title(tr("Nothing on this card can be changed")).subtitle(tr("See what this card supports for the reasons.")).build());
-        return group;
+        return (group, None);
     }
     let s = &card.sample;
 
@@ -304,13 +313,18 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
         }));
         let curve_rows: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::new(RefCell::new(Vec::new()));
         let curve_box = adw::ExpanderRow::builder().title(tr("Curve points")).subtitle(tr("Temperature in °C, fan speed in %.")).expanded(true).build();
+        let chart = CurveChart::new(edit.borrow().points.clone());
+        let chart_row = gtk::Box::builder().margin_top(8).margin_bottom(8).margin_start(12).margin_end(12).build();
+        chart_row.append(&chart.area);
+        row.add_row(&chart_row);
         row.add_row(&curve_box);
         // Show only the controls of the chosen mode.
         let sync = {
-            let (mode, fixed, curve_box) = (mode.clone(), fixed.clone(), curve_box.clone());
+            let (mode, fixed, curve_box, chart_row) = (mode.clone(), fixed.clone(), curve_box.clone(), chart_row.clone());
             Rc::new(move || {
                 fixed.set_visible(mode.selected() == 1);
                 curve_box.set_visible(mode.selected() == 2);
+                chart_row.set_visible(mode.selected() == 2);
             })
         };
         sync();
@@ -320,7 +334,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
         }
         let rebuild: Rebuild = Rc::new(RefCell::new(None));
         let build = {
-            let (edit, curve_rows, curve_box, rebuild) = (edit.clone(), curve_rows.clone(), curve_box.clone(), rebuild.clone());
+            let (edit, curve_rows, curve_box, rebuild, chart) = (edit.clone(), curve_rows.clone(), curve_box.clone(), rebuild.clone(), chart.clone());
             Rc::new(move || {
                 for r in curve_rows.borrow_mut().drain(..) {
                     curve_box.remove(&r);
@@ -336,7 +350,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
                     speed.set_valign(gtk::Align::Center);
                     let remove = gtk::Button::builder().icon_name("user-trash-symbolic").valign(gtk::Align::Center).css_classes(["flat"]).tooltip_text(tr("Remove")).build();
                     for (spin, is_temp) in [(&temp, true), (&speed, false)] {
-                        let edit = edit.clone();
+                        let (edit, chart) = (edit.clone(), chart.clone());
                         spin.connect_value_changed(move |s| {
                             let mut e = edit.borrow_mut();
                             let before = e.points.clone();
@@ -345,6 +359,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
                             }
                             e.undo.push(before);
                             e.redo.clear();
+                            chart.set_points(e.points.clone());
                         });
                     }
                     {
@@ -369,10 +384,23 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
                     curve_box.add_row(&r);
                     curve_rows.borrow_mut().push(r);
                 }
+                chart.set_points(points);
             })
         };
         *rebuild.borrow_mut() = Some(build.clone() as Rc<dyn Fn()>);
         build();
+        {
+            // An edit on the chart is one undo step, like an edit in the rows.
+            let (edit, build) = (edit.clone(), build.clone());
+            chart.connect_changed(move |before, after| {
+                let mut e = edit.borrow_mut();
+                e.undo.push(before);
+                e.redo.clear();
+                e.points = after;
+                drop(e);
+                build();
+            });
+        }
 
         let tools = adw::ActionRow::builder().title(tr("Edit curve")).build();
         let button = |icon: &str, tip: String| gtk::Button::builder().icon_name(icon).tooltip_text(tip).valign(gtk::Align::Center).css_classes(["flat"]).build();
@@ -460,7 +488,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
             sync();
         }
         group.add(&row);
-        (row, mode, fixed, edit)
+        (row, mode, fixed, edit, chart)
     });
 
     let target = supported(card, Control::TemperatureTarget).then(|| {
@@ -504,6 +532,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
     let keep = adw::SwitchRow::builder().title(tr("Keep after restart")).subtitle(tr("Saves these settings and applies them at startup. Fan curves need this.")).build();
     group.add(&keep);
 
+    let chart_out = fan.as_ref().map(|f| f.4.clone());
     let collect = {
         let address = card.gpu.address.clone();
         Rc::new(move || {
@@ -513,7 +542,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
             {
                 s.power_limit_w = Some(v.value());
             }
-            if let Some((row, mode, fixed, edit)) = &fan
+            if let Some((row, mode, fixed, edit, _)) = &fan
                 && row.enables_expansion()
             {
                 s.fan = Some(match mode.selected() {
@@ -585,7 +614,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> adw::Prefe
             }
         });
     }
-    group
+    (group, chart_out)
 }
 
 // ---------------------------------------------------------------- Applying
