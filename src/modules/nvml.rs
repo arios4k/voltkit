@@ -71,6 +71,21 @@ struct MemoryInfo {
     used: c_ulonglong,
 }
 
+/// `nvmlMemory_v2_t`: the newer memory report, which keeps the memory the driver
+/// sets aside apart from what programs use, as `nvidia-smi` does.
+#[repr(C)]
+#[derive(Default)]
+struct MemoryInfoV2 {
+    version: c_uint,
+    total: c_ulonglong,
+    reserved: c_ulonglong,
+    free: c_ulonglong,
+    used: c_ulonglong,
+}
+
+/// `NVML_STRUCT_VERSION(nvmlMemory, 2)`: the struct's size with the version in the top byte.
+const MEMORY_V2_VERSION: c_uint = (std::mem::size_of::<MemoryInfoV2>() as c_uint) | (2 << 24);
+
 type Device = *mut c_void;
 
 pub struct Nvml {
@@ -170,7 +185,18 @@ impl Nvml {
                 s.util_pct = Some(f64::from(u.gpu));
             }
         }
-        if let Ok(f) = self.func::<unsafe extern "C" fn(Device, *mut MemoryInfo) -> c_int>(b"nvmlDeviceGetMemoryInfo\0") {
+        let mut have_memory = false;
+        if let Ok(f) = self.func::<unsafe extern "C" fn(Device, *mut MemoryInfoV2) -> c_int>(b"nvmlDeviceGetMemoryInfo_v2\0") {
+            let mut m = MemoryInfoV2 { version: MEMORY_V2_VERSION, ..MemoryInfoV2::default() };
+            // SAFETY: valid handle and out pointer, with the version field set as NVML requires.
+            if unsafe { f(d, &mut m) } == SUCCESS {
+                s.vram_used_mb = Some(m.used as f64 / (1024.0 * 1024.0));
+                s.vram_total_mb = Some(m.total as f64 / (1024.0 * 1024.0));
+                have_memory = true;
+            }
+        }
+        // Older drivers have only the original call.
+        if !have_memory && let Ok(f) = self.func::<unsafe extern "C" fn(Device, *mut MemoryInfo) -> c_int>(b"nvmlDeviceGetMemoryInfo\0") {
             let mut m = MemoryInfo::default();
             // SAFETY: valid handle and out pointer.
             if unsafe { f(d, &mut m) } == SUCCESS {

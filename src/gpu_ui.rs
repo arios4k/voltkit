@@ -562,7 +562,35 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, min, max)
     });
 
-    let voltage = supported(card, Control::VoltageCurve).then(|| {
+    // Cards with a full table get a point per clock; the others, a single offset.
+    let vf_table = std::fs::read_to_string(card.gpu.device.join("pp_od_clk_voltage")).ok().and_then(|t| gpu_tune::parse_vf_table(&t));
+    let vf = vf_table.filter(|_| supported(card, Control::VoltageCurve)).map(|table| {
+        let row = expander(tr("Voltage and frequency curve"), tr("Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."), false);
+        let spins: Vec<(gtk::SpinButton, gtk::SpinButton)> = table
+            .points
+            .iter()
+            .zip(&table.limits)
+            .enumerate()
+            .map(|(i, (p, ((f_lo, f_hi), (v_lo, v_hi))))| {
+                let r = adw::ActionRow::builder().title(trf!("Point {}", i + 1)).subtitle(tr("MHz · mV")).build();
+                let mhz = gtk::SpinButton::with_range(*f_lo, *f_hi, 10.0);
+                mhz.set_value(f64::from(p.mhz));
+                mhz.set_valign(gtk::Align::Center);
+                let mv = gtk::SpinButton::with_range(*v_lo, *v_hi, 5.0);
+                mv.set_value(f64::from(p.mv));
+                mv.set_valign(gtk::Align::Center);
+                r.add_suffix(&mhz);
+                r.add_suffix(&mv);
+                row.add_row(&r);
+                (mhz, mv)
+            })
+            .collect();
+        group.add(&row);
+        (row, spins)
+    });
+    let vf_present = vf.is_some();
+
+    let voltage = (supported(card, Control::VoltageCurve) && !vf_present).then(|| {
         let row = expander(tr("Voltage offset"), tr("Lower the voltage for less heat, or raise it for stability."), false);
         let value = spin(tr("Millivolts (mV)"), None, 0.0, -200.0, 0.0, 5.0);
         row.add_row(&value);
@@ -614,6 +642,11 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
             {
                 s.core_clock_min_mhz = Some(min.value() as u32);
                 s.core_clock_max_mhz = Some(max.value() as u32);
+            }
+            if let Some((row, spins)) = &vf
+                && row.enables_expansion()
+            {
+                s.voltage_curve = Some(spins.iter().map(|(f, v)| gpu_tune::VfPoint { mhz: f.value() as u32, mv: v.value() as u32 }).collect());
             }
             if let Some((row, v)) = &voltage
                 && row.enables_expansion()

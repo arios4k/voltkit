@@ -62,7 +62,8 @@ enum GpuCommand {
     /// The file holds the settings for one card: its PCI address as "gpu", and any of
     /// "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or
     /// {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz",
-    /// "mem_offset_mhz", "voltage_offset_mv", and for Intel "core_clock_min_mhz" and
+    /// "mem_offset_mhz", "voltage_offset_mv", for AMD cards with a full curve "voltage_curve" (a
+    /// list of {"mhz":1450,"mv":800} points, all of them), and for Intel "core_clock_min_mhz" and
     /// "core_clock_max_mhz". Values the card doesn't allow are refused.
     Apply {
         /// The settings file, or - to read it from standard input
@@ -102,6 +103,17 @@ enum GpuCommand {
         /// The card's PCI address (the first NVIDIA or AMD card by default)
         #[arg(long)]
         gpu: Option<String>,
+    },
+    /// Check Voltkit's readings against a second source and measure what monitoring costs
+    ///
+    /// On NVIDIA cards it compares NVML, which Voltkit reads, with `nvidia-smi` taken at the same
+    /// moments, and reports how far apart they are against the accuracy targets. It also measures
+    /// the CPU time and memory monitoring uses. Cards from other makers have no second source on
+    /// most computers; the command says so.
+    Check {
+        /// How many seconds to compare for
+        #[arg(long, default_value_t = 10)]
+        seconds: u64,
     },
     /// List the recorded sessions, newest first
     Sessions,
@@ -648,6 +660,7 @@ fn run() -> Result<()> {
             GpuCommand::Forget { address } => gpu_cli::forget(&address)?,
             GpuCommand::Service => portal::block_on(gpu_cli::service())?,
             GpuCommand::Record { seconds, label, gpu } => gpu_cli::record(seconds, &label, gpu.as_deref())?,
+            GpuCommand::Check { seconds } => gpu_cli::check(seconds),
             GpuCommand::Sessions => gpu_cli::sessions(),
             GpuCommand::Compare { first, second } => gpu_cli::compare(&first, &second)?,
             GpuCommand::Profiles { command } => match command {

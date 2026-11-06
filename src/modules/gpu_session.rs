@@ -221,7 +221,6 @@ pub fn stats(s: &Session) -> Stats {
 pub enum Better {
     Higher,
     Lower,
-    Neither,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -239,14 +238,15 @@ impl Line {
         (self.a.abs() > f64::EPSILON).then(|| (self.b - self.a) / self.a * 100.0)
     }
 
-    /// `Some(true)` if `b` is the better one, `Some(false)` if `a`, `None` for a tie or no ranking.
+    /// `Some(true)` if `b` is the better one, `Some(false)` if `a`, `None` for a tie.
     pub fn b_wins(&self) -> Option<bool> {
-        match self.better {
-            Better::Neither => None,
-            _ if (self.a - self.b).abs() < f64::EPSILON => None,
-            Better::Higher => Some(self.b > self.a),
-            Better::Lower => Some(self.b < self.a),
+        if (self.a - self.b).abs() < f64::EPSILON {
+            return None;
         }
+        Some(match self.better {
+            Better::Higher => self.b > self.a,
+            Better::Lower => self.b < self.a,
+        })
     }
 }
 

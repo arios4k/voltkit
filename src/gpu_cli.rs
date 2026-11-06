@@ -10,7 +10,7 @@ use anyhow::{Context, Result, bail};
 
 use crate::i18n::tr;
 use crate::modules::gpu::{self, Card, Vendor};
-use crate::modules::gpu_session;
+use crate::modules::{gpu_check, gpu_session};
 use crate::modules::gpu_profiles::{self, CardProfiles, Context as SwitchContext, Profile, Switcher};
 use crate::modules::gpu_tune::{self, Governor, Hardware, NvmlOp, Op, Real, Sensor, Settings, Step};
 use crate::modules::nvml::Nvml;
@@ -550,4 +550,77 @@ pub fn compare(first: &str, second: &str) -> Result<()> {
     let (a, b) = (gpu_session::load(&resolve(first)?)?, gpu_session::load(&resolve(second)?)?);
     print!("{}", render_comparison(&a, &b));
     Ok(())
+}
+
+// ---------------------------------------------------------------- Self-check
+
+pub fn check(seconds: u64) {
+    let gpus = gpu::detect();
+    if gpus.is_empty() {
+        println!("{}", tr("No graphics cards were found."));
+        return;
+    }
+    let nvml = Nvml::open().ok();
+    for g in &gpus {
+        println!("{} ({}, {})", g.name, g.vendor.name(), g.driver.as_deref().unwrap_or("—"));
+        match (g.vendor, nvml.as_ref()) {
+            (Vendor::Nvidia, Some(nvml)) if crate::system::has("nvidia-smi") => {
+                let (mut ours, mut theirs) = (Vec::new(), Vec::new());
+                for _ in 0..seconds.max(2) {
+                    let smi = gpu::nvidia_query();
+                    if let (Ok(a), Some((_, b))) = (nvml.sample(&g.address), smi.get(&g.address)) {
+                        ours.push(a);
+                        theirs.push(b.clone());
+                    }
+                    std::thread::sleep(Duration::from_millis(1000));
+                }
+                let results = gpu_check::compare_sources(&ours, &theirs);
+                if results.is_empty() {
+                    println!("  {}", tr("The two sources report no metric in common."));
+                }
+                println!("  {}", crate::i18n::fill(tr("Voltkit (NVML) against nvidia-smi, {} readings:"), &[&ours.len()]));
+                for a in results {
+                    let verdict = if a.within_target() { tr("within target") } else { tr("outside target") };
+                    println!(
+                        "    {}: {} {} {} {:.1} {u}, {} {:.1} {u}, {} {} {u} ({verdict})",
+                        tr(a.metric),
+                        tr("average difference"),
+                        "",
+                        "",
+                        a.mean_abs,
+                        tr("largest"),
+                        a.max_abs,
+                        tr("target"),
+                        a.target,
+                        u = a.unit
+                    );
+                }
+            }
+            _ => println!("  {}", tr("No second source to compare with on this computer; only the cost is measured.")),
+        }
+    }
+
+    // What monitoring costs: CPU time per reading, memory, and the nvidia-smi fallback.
+    let monitor = gpu::Monitor::new(gpus.clone());
+    let _ = monitor.sample();
+    let Some((cpu0, _)) = gpu_check::read_usage() else { return };
+    let (n, began) = (50u32, Instant::now());
+    for _ in 0..n {
+        let _ = monitor.sample();
+    }
+    let wall = began.elapsed().as_secs_f64();
+    if let Some((cpu1, rss)) = gpu_check::read_usage() {
+        let per_reading = (cpu1 - cpu0) / f64::from(n);
+        println!("{}", tr("Cost of monitoring:"));
+        println!("  {}", crate::i18n::fill(tr("{} ms of CPU per reading of every card, {} ms of wall time"), &[&format!("{:.2}", per_reading * 1000.0), &format!("{:.1}", wall / f64::from(n) * 1000.0)]));
+        println!("  {}", crate::i18n::fill(tr("{} % of one core at one reading every 2 seconds"), &[&format!("{:.3}", per_reading / 2.0 * 100.0)]));
+        println!("  {}", crate::i18n::fill(tr("{} MB of memory in this process"), &[&format!("{rss:.0}")]));
+    }
+    if nvml.is_some() && crate::system::has("nvidia-smi") {
+        let began = Instant::now();
+        for _ in 0..5 {
+            let _ = gpu::nvidia_query();
+        }
+        println!("  {}", crate::i18n::fill(tr("The nvidia-smi fallback takes {} ms per reading, in a separate process"), &[&format!("{:.0}", began.elapsed().as_secs_f64() / 5.0 * 1000.0)]));
+    }
 }

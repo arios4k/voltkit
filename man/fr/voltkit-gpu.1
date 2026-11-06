@@ -29,9 +29,9 @@ Afficher l’aide (un résumé avec « \-h »)
 Afficher les cartes graphiques, leurs mesures et ce que chacune permet de contrôler
 .TP
 \fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
-Appliquer des réglages GPU depuis un fichier JSON, en les annulant sans confirmation
+Apply GPU settings from a JSON file, undoing them unless you confirm
 
-Le fichier contient les réglages d’une carte : son adresse PCI comme "gpu", et n’importe lequel des champs "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} ou {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv" et, pour Intel, "core_clock_min_mhz" et "core_clock_max_mhz". Les valeurs que la carte n’autorise pas sont refusées.
+The file holds the settings for one card: its PCI address as "gpu", and any of "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv", for AMD cards with a full curve "voltage_curve" (a list of {"mhz":1450,"mv":800} points, all of them), and for Intel "core_clock_min_mhz" and "core_clock_max_mhz". Values the card doesn\*(Aqt allow are refused.
 .RS
 \fB\-\-save\fR: Conserver les réglages après un redémarrage et exécuter les courbes de ventilateur dans le service en arrière\-plan
 .RE
@@ -60,6 +60,14 @@ Writes a CSV file you can open in a spreadsheet, and prints a summary with the e
 .RE
 .RS
 \fB\-\-gpu\fR: The card\*(Aqs PCI address (the first NVIDIA or AMD card by default)
+.RE
+.TP
+\fBvoltkit gpu check [\-\-seconds]\fR
+Check Voltkit\*(Aqs readings against a second source and measure what monitoring costs
+
+On NVIDIA cards it compares NVML, which Voltkit reads, with `nvidia\-smi` taken at the same moments, and reports how far apart they are against the accuracy targets. It also measures the CPU time and memory monitoring uses. Cards from other makers have no second source on most computers; the command says so.
+.RS
+\fB\-\-seconds\fR: How many seconds to compare for
 .RE
 .TP
 \fBvoltkit gpu sessions\fR
