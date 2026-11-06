@@ -50,8 +50,28 @@ pub(crate) fn add_source_icon_path() {
     });
 }
 
+/// Icons that live inside the binary, so they show up however Voltkit was
+/// installed: written once to the cache folder and added to the icon search path.
+const GPU_ICON: &str = include_str!("../data/icons/voltkit-gpu-symbolic.svg");
+
+pub(crate) fn add_embedded_icons() {
+    static ONCE: std::sync::Once = std::sync::Once::new();
+    ONCE.call_once(|| {
+        let Some(display) = gdk::Display::default() else { return };
+        let root = glib::user_cache_dir().join("voltkit/icons");
+        let dir = root.join("hicolor/symbolic/apps");
+        let file = dir.join("voltkit-gpu-symbolic.svg");
+        if std::fs::read_to_string(&file).ok().as_deref() != Some(GPU_ICON) {
+            let _ = std::fs::create_dir_all(&dir);
+            let _ = std::fs::write(&file, GPU_ICON);
+        }
+        gtk::IconTheme::for_display(&display).add_search_path(&root);
+    });
+}
+
 pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::Window {
     add_source_icon_path();
+    add_embedded_icons();
     crate::appearance::install();
     if let Some(window) = app.active_window() {
         window.present();

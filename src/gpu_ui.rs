@@ -35,7 +35,7 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     let outer = gtk::Box::builder().orientation(gtk::Orientation::Vertical).build();
     if cards.is_empty() {
         let status = adw::StatusPage::builder()
-            .icon_name("applications-graphics-symbolic")
+            .icon_name("voltkit-gpu-symbolic")
             .title(tr("No graphics cards were found."))
             .description(tr("Voltkit looks for NVIDIA, AMD and Intel cards through the kernel's graphics devices."))
             .vexpand(true)
