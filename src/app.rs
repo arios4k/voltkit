@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{actions, awake_ui, daemon, detective_ui, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, sysreport_ui, system_ui, usage_ui};
+use crate::{actions, awake_ui, daemon, detective_ui, gpu_ui, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, sysreport_ui, system_ui, usage_ui};
 use crate::i18n::tr;
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
@@ -72,6 +72,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&usage_ui::page(&toasts), Some("using"));
     stack.add_named(&permissions_ui::page(&toasts), Some("permissions"));
     stack.add_named(&sleep_ui::page(&toasts), Some("sleep"));
+    stack.add_named(&gpu_ui::page(&toasts), Some("gpu"));
     stack.add_named(&sysreport_ui::page(&toasts), Some("sysreport"));
     stack.add_named(&detective_ui::page(&toasts), Some("shortcuts"));
     toasts.set_child(Some(&stack));

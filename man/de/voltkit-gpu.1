@@ -1,0 +1,59 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-gpu 1  "Voltkit 0.9.2" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-gpu \- NVIDIA\-, AMD\- und Intel\-Grafikkarten überwachen und Leistung, Lüfter, Takte und Temperatur einstellen
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit gpu\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIbefehle\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+NVIDIA\-, AMD\- und Intel\-Grafikkarten überwachen und Leistung, Lüfter, Takte und Temperatur einstellen
+.PP
+Ohne Unterbefehl zeigt es jede Karte mit ihren Messwerten und den unterstützten Steuerungen an, bei den nicht unterstützten mit dem Grund. Das Ändern von Einstellungen erfordert Administratorrechte, und alles, was Sie nicht bestätigen, wird rückgängig gemacht.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONEN
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BEFEHLE
+.TP
+\fBvoltkit gpu show\fR
+Die Grafikkarten, ihre Messwerte und die jeweils möglichen Steuerungen anzeigen
+.TP
+\fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
+GPU\-Einstellungen aus einer JSON\-Datei anwenden und rückgängig machen, wenn Sie nicht bestätigen
+
+Die Datei enthält die Einstellungen für eine Karte: ihre PCI\-Adresse als "gpu" und beliebige der Felder "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} oder {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv" und für Intel "core_clock_min_mhz" und "core_clock_max_mhz". Werte, die die Karte nicht erlaubt, werden abgelehnt.
+.RS
+\fB\-\-save\fR: Die Einstellungen nach einem Neustart beibehalten und Lüfterkurven im Hintergrunddienst ausführen
+.RE
+.RS
+\fB\-\-yes\fR: Die Einstellungen ohne Rückfrage beibehalten
+.RE
+.RS
+\fB\-\-confirm\fR: Sekunden, die auf die Bestätigung gewartet wird, bevor die Änderung rückgängig gemacht wird
+.RE
+.TP
+\fBvoltkit gpu forget\fR
+Gespeicherte Einstellungen einer Karte entfernen und ihre Lüfter an die Karte zurückgeben
+.TP
+\fBvoltkit gpu service\fR
+Den Hintergrunddienst ausführen, der gespeicherte GPU\-Einstellungen anwendet und Lüfterkurven folgt
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

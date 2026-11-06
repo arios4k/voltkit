@@ -1,0 +1,59 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-gpu 1  "Voltkit 0.9.2" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-gpu \- 监控 NVIDIA、AMD 和 Intel 显卡，并调节它们的功耗、风扇、频率和温度
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit gpu\fR [\fB\-h\fR|\fB\-\-help\fR] [\fI命令\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+监控 NVIDIA、AMD 和 Intel 显卡，并调节它们的功耗、风扇、频率和温度
+.PP
+不带子命令时，显示每块显卡的读数和它支持的控制项，不支持的会说明原因。更改设置需要管理员权限，未经确认的更改都会被撤销。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 选项
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 命令
+.TP
+\fBvoltkit gpu show\fR
+显示显卡、它们的读数以及每块显卡允许控制的内容
+.TP
+\fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
+从 JSON 文件应用 GPU 设置，未经确认则撤销
+
+文件包含一块显卡的设置：以 "gpu" 给出它的 PCI 地址，以及下列任意字段："power_limit_w"、"fan"（{"mode":"auto"}、{"mode":"fixed","speed_pct":50} 或 {"mode":"curve","points":[...]}）、"temperature_target_c"、"core_offset_mhz"、"mem_offset_mhz"、"voltage_offset_mv"，以及对 Intel 显卡的 "core_clock_min_mhz" 和 "core_clock_max_mhz"。显卡不允许的值会被拒绝。
+.RS
+\fB\-\-save\fR: 重启后保留设置，并在后台服务中运行风扇曲线
+.RE
+.RS
+\fB\-\-yes\fR: 不经确认直接保留设置
+.RE
+.RS
+\fB\-\-confirm\fR: 撤销更改前等待确认的秒数
+.RE
+.TP
+\fBvoltkit gpu forget\fR
+删除某块显卡已保存的设置，并把风扇还给显卡
+.TP
+\fBvoltkit gpu service\fR
+运行后台服务，应用已保存的 GPU 设置并执行风扇曲线
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

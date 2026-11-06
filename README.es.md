@@ -9,8 +9,8 @@
 **Herramientas potentes para tu escritorio Linux.**
 OCR de pantalla, un lector de códigos QR, un selector de color, una regla de pantalla, un compresor de imágenes y
 videos, un expansor de texto, Pegado inteligente, Mantener activo, un editor de hosts y entorno, un buscador de
-“¿qué lo está usando?”, un administrador de permisos de apps, un diagnóstico de suspensión, un informe del sistema
-y un detective de atajos, en una sola app.
+“¿qué lo está usando?”, un administrador de permisos de apps, un diagnóstico de suspensión, un informe del sistema,
+un detective de atajos y un ajuste de GPU, en una sola app.
 
 [![Última versión](https://img.shields.io/github/v/release/arios4k/voltkit?label=versi%C3%B3n&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
@@ -31,7 +31,7 @@ y un detective de atajos, en una sola app.
 > la línea de comandos y las páginas del manual (`man voltkit`). Las capturas de esta página son de la versión
 > en inglés.
 
-## Una app en lugar de catorce
+## Una app en lugar de quince
 
 Tener estas herramientas básicas en Linux suele significar buscar un applet distinto para cada tarea, cada uno con
 su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa con un solo conjunto de atajos:
@@ -41,6 +41,7 @@ su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa c
 | nada: no había una pantalla para esto | **Permisos de apps**: cambia u olvida las respuestas que diste a las apps que pidieron capturas de pantalla, la cámara, tu ubicación y más | — |
 | un compresor de imágenes aparte, más conjuros de ffmpeg | **Compresor de archivos**: suelta archivos PNG, JPEG, WebP o MP4 para quitarles los metadatos y reducir su tamaño | arrastrar y soltar |
 | un selector de color aparte | **Selector de color**: un cuentagotas para cualquier píxel, HEX/RGB/HSL, revisión de contraste WCAG e historial | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>C</kbd> |
+| una herramienta aparte para ajustar la GPU, más utilidades de cada fabricante | **Ajuste de GPU**: monitorea tarjetas gráficas NVIDIA, AMD e Intel y cambia límites de potencia, ventiladores y curvas de ventilador, temperaturas objetivo, frecuencias y voltaje, con cada cambio en vista previa y deshecho si no lo confirmas | — |
 | editar `/etc/hosts` y `~/.profile` en una terminal | **Hosts y entorno**: activa y desactiva entradas de hosts y administra las variables de entorno de tu sesión | — |
 | una extensión del shell para mantener la pantalla encendida | **Mantener activo**: evita que tu computadora se suspenda o se bloquee de 30 minutos a 4 horas, o hasta que lo apagues | — |
 | un lector QR en tu teléfono o una página web de QR | **Código QR**: lee un código QR en cualquier parte de la pantalla, o convierte texto, enlaces y datos de Wi-Fi en uno | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>Q</kbd> |
@@ -87,6 +88,28 @@ según las normas WCAG (AA / AAA) y recuerda tus colores recientes.
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
   <img src="docs/screenshots/color-light.png?v=0.7.0" alt="El selector de color con vista previa, formatos HEX/RGB/HSL, calificaciones de contraste y colores guardados">
 </picture>
+
+### 🎛️ Ajuste de GPU
+
+Mira en vivo tus tarjetas gráficas NVIDIA, AMD e Intel, con historial, y cambia lo que el hardware permite: el límite
+de potencia, una velocidad fija del ventilador o una curva, la temperatura que busca la tarjeta, desplazamientos o
+límites de frecuencia y el voltaje. **Qué admite esta tarjeta** lista cada control tal como lo informa el controlador y
+explica por qué falta alguno y qué podría activarlo (una GPU de portátil que oculta su ventilador, o una tarjeta AMD que
+necesita `amdgpu.ppfeaturemask`). Los cambios se comparan con los límites de la propia tarjeta, se muestran en vista
+previa, se aplican con un ayudante con permisos de administrador y **se deshacen si no los confirmas**: cerrar la app o
+un fallo también los revierte. Los ajustes guardados los aplica al iniciar un servicio en segundo plano, que omite un
+perfil que nunca terminó de iniciar, para que uno defectuoso no te deje atrapado en un ciclo. `voltkit gpu` muestra el
+mismo informe en una terminal.
+
+Aplicar cambios es nuevo y hasta ahora solo se ha probado con hardware simulado; consulta
+[docs/GPU_TUNER.md](docs/GPU_TUNER.md) para saber qué funciona, cómo se mantiene seguro y qué falta por construir.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.9.2">
+  <img src="docs/screenshots/gpu-light.png?v=0.9.2" alt="Ajuste de GPU con lecturas en vivo con historial y los controles de límite de potencia y curva de ventilador de una tarjeta AMD Radeon (datos simulados)">
+</picture>
+
+<sub>La captura usa datos simulados de tarjetas inventadas.</sub>
 
 ### 📝 Hosts y entorno
 
@@ -467,6 +490,8 @@ src/
   usage_ui.rs        página ¿Qué lo está usando?
   permissions_ui.rs  página Permisos de apps
   sleep_ui.rs        página ¿Por qué no se suspendió?
+  gpu_ui.rs          página Ajuste de GPU: lecturas, informe de compatibilidad, controles
+  gpu_cli.rs         `voltkit gpu`, el ayudante con permisos de administrador y el servicio en segundo plano
   sysreport_ui.rs    página Informe del sistema
   detective_ui.rs    página Detective de atajos
   smartpaste_ui.rs   ventana y página de Pegado inteligente
@@ -486,6 +511,9 @@ src/
     usage.rs         encuentra y cierra los procesos que usan una ruta o un puerto (/proc)
     permissions.rs   el almacén de permisos del portal del escritorio
     sleep.rs         bloqueos de suspensión, historial (journal, UPower) y dispositivos que despiertan
+    gpu.rs           detección de GPU, sensores y qué admite cada tarjeta (NVIDIA, AMD, Intel)
+    gpu_tune.rs      cambios de GPU validados y transaccionales, curvas de ventilador, protección de inicio
+    nvml.rs          enlace con la biblioteca de administración de NVIDIA
     sysreport.rs     hardware, revisiones, salud de unidades, sensores, firmware, instantáneas, memoria SMBIOS
     keybindings.rs   todos los atajos de GSettings: dueños, conflictos, combinaciones libres, cambios
     smartpaste.rs    las conversiones de texto de Pegado inteligente

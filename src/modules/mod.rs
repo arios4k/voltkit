@@ -1,7 +1,10 @@
 pub mod color;
 pub mod compress;
 pub mod envvars;
+pub mod gpu;
+pub mod gpu_tune;
 pub mod hosts;
+pub mod nvml;
 pub mod keybindings;
 pub mod ocr;
 pub mod qr;
@@ -74,6 +77,12 @@ pub const ALL: &[ModuleInfo] = &[
         title: N_!("Color Picker"),
         icon: "color-select-symbolic",
         summary: N_!("HEX / RGB / HSL conversion, WCAG contrast checking and history."),
+    },
+    ModuleInfo {
+        id: "gpu",
+        title: N_!("GPU Tuner"),
+        icon: "applications-graphics-symbolic",
+        summary: N_!("Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."),
     },
     ModuleInfo {
         id: "system",

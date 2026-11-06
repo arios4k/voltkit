@@ -12,6 +12,8 @@ mod daemon;
 mod detective_ui;
 mod doctor;
 mod expander;
+mod gpu_cli;
+mod gpu_ui;
 mod manpages;
 mod modules;
 mod paste;
@@ -48,6 +50,42 @@ use crate::i18n::tr;
 struct Cli {
     #[command(subcommand)]
     command: Option<Command>,
+}
+
+#[derive(Subcommand)]
+enum GpuCommand {
+    /// Show the graphics cards, their readings and what each lets you control
+    Show,
+    /// Apply GPU settings from a JSON file, undoing them unless you confirm
+    ///
+    /// The file holds the settings for one card: its PCI address as "gpu", and any of
+    /// "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} or
+    /// {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz",
+    /// "mem_offset_mhz", "voltage_offset_mv", and for Intel "core_clock_min_mhz" and
+    /// "core_clock_max_mhz". Values the card doesn't allow are refused.
+    Apply {
+        /// The settings file, or - to read it from standard input
+        file: String,
+        /// Keep the settings after a restart, and run fan curves in the background service
+        #[arg(long)]
+        save: bool,
+        /// Keep the settings without asking for confirmation
+        #[arg(long, short)]
+        yes: bool,
+        /// Seconds to wait for confirmation before undoing the change
+        #[arg(long, default_value_t = 15)]
+        confirm: u64,
+        /// Talk to the app: read the answer "keep" from standard input
+        #[arg(long, hide = true)]
+        session: bool,
+    },
+    /// Remove a card's saved settings and give its fans back to the card
+    Forget {
+        /// The card's PCI address, as `voltkit gpu` shows it
+        address: String,
+    },
+    /// Run the background service that applies saved GPU settings and follows fan curves
+    Service,
 }
 
 #[derive(Subcommand)]
@@ -177,6 +215,15 @@ enum Command {
     /// last week with what started and ended each one and the battery used, and the USB devices
     /// allowed to wake it.
     Sleep,
+    /// Monitor NVIDIA, AMD and Intel graphics cards and tune their power, fans, clocks and temperature
+    ///
+    /// Without a subcommand, shows each card with its readings and which controls it supports,
+    /// with the reason for any it doesn't. Changing settings needs administrator rights, and
+    /// anything you don't confirm is undone.
+    Gpu {
+        #[command(subcommand)]
+        command: Option<GpuCommand>,
+    },
     /// Read QR codes from the screen or image files, or make them from text
     Qr {
         #[command(subcommand)]
@@ -540,6 +587,12 @@ fn run() -> Result<()> {
                 }
             }
         }
+        Some(Command::Gpu { command }) => match command.unwrap_or(GpuCommand::Show) {
+            GpuCommand::Show => gpu_cli::show(),
+            GpuCommand::Apply { file, save, yes, confirm, session } => gpu_cli::apply(&file, session, save, yes, confirm)?,
+            GpuCommand::Forget { address } => gpu_cli::forget(&address)?,
+            GpuCommand::Service => portal::block_on(gpu_cli::service())?,
+        },
         Some(Command::Sleep) => print!("{}", sleep::render_text(&portal::block_on(sleep::report()))),
         Some(Command::Using { target, machine, lang }) => {
             if let Some(lang) = lang {

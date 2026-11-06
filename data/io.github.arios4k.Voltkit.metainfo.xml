@@ -72,6 +72,11 @@
       <li xml:lang="de">Ein Tastenkürzel-Detektiv: sehen, wem ein Tastenkürzel gehört, Konflikte finden und ändern</li>
       <li xml:lang="fr">Un détective de raccourcis : voyez à qui appartient un raccourci clavier, trouvez les conflits et modifiez-les</li>
       <li xml:lang="zh_CN">快捷键侦探：查看某个键盘快捷键归谁所有，找出冲突并加以更改</li>
+      <li>A GPU tuner: monitor NVIDIA, AMD and Intel graphics cards and change power limits, fans, temperature targets and clocks, with every change undone unless you confirm it</li>
+      <li xml:lang="es">Un ajuste de GPU: monitorea tarjetas gráficas NVIDIA, AMD e Intel y cambia límites de potencia, ventiladores, temperaturas objetivo y frecuencias, con cada cambio deshecho si no lo confirmas</li>
+      <li xml:lang="de">Ein GPU-Tuner: NVIDIA-, AMD- und Intel-Grafikkarten überwachen und Leistungsgrenzen, Lüfter, Zieltemperaturen und Takte ändern, jede Änderung wird ohne Ihre Bestätigung rückgängig gemacht</li>
+      <li xml:lang="fr">Un réglage du GPU : surveillez les cartes graphiques NVIDIA, AMD et Intel et modifiez limites de puissance, ventilateurs, températures cibles et fréquences, chaque modification étant annulée sans votre confirmation</li>
+      <li xml:lang="zh_CN">GPU 调节器：监控 NVIDIA、AMD 和 Intel 显卡，并更改功耗上限、风扇、目标温度和频率，未经确认的更改都会被撤销</li>
     </ul>
   </description>
   <screenshots>
@@ -143,6 +148,32 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.9.2" date="2026-11-06">
+      <description>
+        <p>New: GPU Tuner, the fifteenth tool.</p>
+        <p xml:lang="es">Novedad: Ajuste de GPU, la herramienta número quince.</p>
+        <p xml:lang="de">Neu: GPU-Tuner, das fünfzehnte Werkzeug.</p>
+        <p xml:lang="fr">Nouveau : Réglage du GPU, le quinzième outil.</p>
+        <p xml:lang="zh_CN">新增：GPU 调节器，第十五个工具。</p>
+        <ul>
+          <li>Monitor NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports and why</li>
+          <li xml:lang="es">Monitorea tarjetas gráficas NVIDIA, AMD e Intel y ve exactamente qué controles admite cada una y por qué</li>
+          <li xml:lang="de">NVIDIA-, AMD- und Intel-Grafikkarten überwachen und genau sehen, welche Steuerungen jede unterstützt und warum</li>
+          <li xml:lang="fr">Surveillez les cartes graphiques NVIDIA, AMD et Intel et voyez exactement quels contrôles chacune prend en charge, et pourquoi</li>
+          <li xml:lang="zh_CN">监控 NVIDIA、AMD 和 Intel 显卡，并清楚了解每块显卡支持哪些控制项及其原因</li>
+          <li>Change power limits, fans and fan curves, temperature targets, clocks and voltage; every change is previewed and undone unless you confirm it. Applying changes has so far been tested on simulated hardware only</li>
+          <li xml:lang="es">Cambia límites de potencia, ventiladores y curvas de ventilador, temperaturas objetivo, frecuencias y voltaje; cada cambio se muestra antes y se deshace si no lo confirmas. Aplicar cambios solo se ha probado hasta ahora con hardware simulado</li>
+          <li xml:lang="de">Leistungsgrenzen, Lüfter und Lüfterkurven, Zieltemperaturen, Takte und Spannung ändern; jede Änderung wird vorab angezeigt und ohne Ihre Bestätigung rückgängig gemacht. Das Anwenden von Änderungen wurde bisher nur mit simulierter Hardware getestet</li>
+          <li xml:lang="fr">Modifiez limites de puissance, ventilateurs et courbes de ventilateur, températures cibles, fréquences et tension ; chaque modification est prévisualisée et annulée sans votre confirmation. L’application des modifications n’a été testée jusqu’ici que sur du matériel simulé</li>
+          <li xml:lang="zh_CN">更改功耗上限、风扇与风扇曲线、目标温度、频率和电压；每次更改都会先预览，未经确认即撤销。应用更改目前只用模拟硬件测试过</li>
+          <li>Fixed number fields that were hard to read in the light theme</li>
+          <li xml:lang="es">Se corrigieron los campos numéricos que costaba leer en el tema claro</li>
+          <li xml:lang="de">Zahlenfelder, die im hellen Design schwer lesbar waren, wurden korrigiert</li>
+          <li xml:lang="fr">Correction des champs numériques difficiles à lire avec le thème clair</li>
+          <li xml:lang="zh_CN">修复了浅色主题下难以阅读的数字输入框</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.9.1" date="2026-11-05">
       <description>
         <p>Clearer guidance for inspecting busy files, drives and network ports, with updated translations.</p>

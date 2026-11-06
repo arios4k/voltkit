@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.9.1
+Version:        0.9.2
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -12,6 +12,7 @@ Source0:        %{url}/archive/refs/tags/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:  cargo
 BuildRequires:  rust
 BuildRequires:  gcc
+BuildRequires:  systemd-rpm-macros
 BuildRequires:  gtk4-devel
 BuildRequires:  libadwaita-devel
 BuildRequires:  libappstream-glib
@@ -35,7 +36,7 @@ finder for the apps keeping a drive, file or port busy, an app permissions
 manager, a troubleshooter for sleep and wake-ups, and a system report with
 driver and drive-health checks, firmware updates and what changed after
 updates, and a shortcut detective that finds what owns a keyboard shortcut,
-lists clashes and changes them. Built for Wayland, with global hotkeys.
+lists clashes and changes them, plus a GPU tuner for NVIDIA, AMD and Intel cards. Built for Wayland, with global hotkeys.
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -48,6 +49,7 @@ install -Dm755 target/release/voltkit -t %{buildroot}%{_bindir}/
 install -Dm644 data/io.github.arios4k.Voltkit.desktop -t %{buildroot}%{_datadir}/applications/
 install -Dm644 data/io.github.arios4k.Voltkit.Daemon.desktop -t %{buildroot}%{_sysconfdir}/xdg/autostart/
 install -Dm644 data/io.github.arios4k.Voltkit.metainfo.xml -t %{buildroot}%{_metainfodir}/
+install -Dm644 data/voltkit-gpu.service -t %{buildroot}%{_unitdir}/
 install -Dm644 data/icons/io.github.arios4k.Voltkit.svg -t %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg -t %{buildroot}%{_datadir}/icons/hicolor/symbolic/apps/
 install -Dm644 man/*.1 -t %{buildroot}%{_mandir}/man1/
@@ -66,6 +68,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %{_datadir}/applications/io.github.arios4k.Voltkit.desktop
 %{_metainfodir}/io.github.arios4k.Voltkit.metainfo.xml
 %config(noreplace) %{_sysconfdir}/xdg/autostart/io.github.arios4k.Voltkit.Daemon.desktop
+%{_unitdir}/voltkit-gpu.service
 %{_datadir}/icons/hicolor/scalable/apps/io.github.arios4k.Voltkit.svg
 %{_datadir}/icons/hicolor/symbolic/apps/io.github.arios4k.Voltkit-symbolic.svg
 %{_mandir}/man1/voltkit*.1*
@@ -75,6 +78,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Fri Nov 06 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.2-1
+- Add GPU Tuner: monitor NVIDIA, AMD and Intel graphics cards and change power limits, fans and fan curves, temperature targets, clocks and voltage, with every change previewed and undone unless confirmed
+- Fix unreadable number fields in the light theme
+
 * Thu Nov 05 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.9.1-1
 - Add translated guidance for inspecting busy files, drives and network ports
 - Refresh documentation and project funding links

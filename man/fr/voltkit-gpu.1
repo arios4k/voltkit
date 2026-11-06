@@ -1,0 +1,59 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-gpu 1  "Voltkit 0.9.2" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-gpu \- Surveiller les cartes graphiques NVIDIA, AMD et Intel et régler leur puissance, leurs ventilateurs, leurs fréquences et leur température
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit gpu\fR [\fB\-h\fR|\fB\-\-help\fR] [\fIcommandes\fR]
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Surveiller les cartes graphiques NVIDIA, AMD et Intel et régler leur puissance, leurs ventilateurs, leurs fréquences et leur température
+.PP
+Sans sous\-commande, affiche chaque carte avec ses mesures et les contrôles qu’elle prend en charge, avec la raison de ceux qu’elle ne prend pas en charge. Modifier les réglages demande les droits d’administrateur, et tout ce que vous ne confirmez pas est annulé.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH COMMANDES
+.TP
+\fBvoltkit gpu show\fR
+Afficher les cartes graphiques, leurs mesures et ce que chacune permet de contrôler
+.TP
+\fBvoltkit gpu apply [\-\-save] [\-\-yes] [\-\-confirm]\fR
+Appliquer des réglages GPU depuis un fichier JSON, en les annulant sans confirmation
+
+Le fichier contient les réglages d’une carte : son adresse PCI comme "gpu", et n’importe lequel des champs "power_limit_w", "fan" ({"mode":"auto"}, {"mode":"fixed","speed_pct":50} ou {"mode":"curve","points":[...]}), "temperature_target_c", "core_offset_mhz", "mem_offset_mhz", "voltage_offset_mv" et, pour Intel, "core_clock_min_mhz" et "core_clock_max_mhz". Les valeurs que la carte n’autorise pas sont refusées.
+.RS
+\fB\-\-save\fR: Conserver les réglages après un redémarrage et exécuter les courbes de ventilateur dans le service en arrière\-plan
+.RE
+.RS
+\fB\-\-yes\fR: Conserver les réglages sans demander de confirmation
+.RE
+.RS
+\fB\-\-confirm\fR: Secondes d’attente de la confirmation avant d’annuler la modification
+.RE
+.TP
+\fBvoltkit gpu forget\fR
+Supprimer les réglages enregistrés d’une carte et lui rendre ses ventilateurs
+.TP
+\fBvoltkit gpu service\fR
+Exécuter le service en arrière\-plan qui applique les réglages GPU enregistrés et suit les courbes de ventilateur
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron
