@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.10.1
+Version:        0.10.2
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -78,6 +78,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Fri Nov 06 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.2-1
+- GPU Tuner: session comparison names one better session in each category, in a larger window with a Close button
+- GPU Tuner: controls and charts a card doesn't support stay visible but disabled, with the reason
+- Accessibility: names for unlabeled switches, check boxes, the color swatch and the ruler canvas
+
 * Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.1-1
 - GPU Tuner: a new graphics-card icon
 - GPU Tuner: edit the voltage and frequency curve by dragging points on a chart
