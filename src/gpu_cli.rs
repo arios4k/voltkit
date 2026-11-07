@@ -534,16 +534,19 @@ fn resolve(arg: &str) -> Result<PathBuf> {
 pub fn render_comparison(a: &gpu_session::Session, b: &gpu_session::Session) -> String {
     let (sa, sb) = (gpu_session::stats(a), gpu_session::stats(b));
     let mut out = format!("{} → {}\n", a.label, b.label);
-    for l in gpu_session::compare(&sa, &sb) {
-        let change = l.change_pct().map_or_else(String::new, |c| format!(" ({c:+.0} %)"));
-        let mark = match l.b_wins() {
-            Some(true) => "▶",
-            Some(false) => "◀",
-            None => " ",
+    for category in gpu_session::categories(&gpu_session::compare(&sa, &sb)) {
+        let verdict = match category.better {
+            Some(true) => trf!("Better: {}", b.label.clone()),
+            Some(false) => trf!("Better: {}", a.label.clone()),
+            None => tr("Same").to_string(),
         };
-        out.push_str(&format!("  {mark} {} ({}): {:.1} → {:.1}{change}\n", tr(l.label), l.unit, l.a, l.b));
+        out.push_str(&format!("\n{}: {verdict}\n", tr(category.name)));
+        for l in &category.lines {
+            let change = l.change_pct().map_or_else(String::new, |c| format!(" ({c:+.0} %)"));
+            out.push_str(&format!("  {} ({}): {:.1} → {:.1}{change}\n", tr(l.label), l.unit, l.a, l.b));
+        }
     }
-    out.push_str(&format!("{}\n", tr("◀ and ▶ mark the better session; active MHz per watt is a proxy for work per watt, not frames.")));
+    out.push_str(&format!("\n{}\n", tr("Each category names the better session. Active MHz per watt is a proxy for work per watt, not frames.")));
     out
 }
 

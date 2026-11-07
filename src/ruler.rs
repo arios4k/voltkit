@@ -157,6 +157,7 @@ fn show(app: &adw::Application, texture: gdk::Texture) {
         .build();
     let area = gtk::DrawingArea::builder().hexpand(true).vexpand(true).build();
     area.set_cursor_from_name(Some("crosshair"));
+    area.update_property(&[gtk::accessible::Property::Label(tr(HINT))]);
     let hint = gtk::Label::builder()
         .label(tr(HINT))
         .halign(gtk::Align::Center)

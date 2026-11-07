@@ -552,6 +552,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
         }
     };
     refresh(initial);
+    swatch.update_property(&[gtk::accessible::Property::Label(&trf!("Selected color {}", initial.to_hex()))]);
 
     {
         let (current, swatch) = (current.clone(), swatch.clone());
@@ -559,6 +560,7 @@ fn color_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
             Ok(c) => {
                 e.remove_css_class("error");
                 current.set(c);
+                swatch.update_property(&[gtk::accessible::Property::Label(&trf!("Selected color {}", c.to_hex()))]);
                 swatch.queue_draw();
                 refresh(c);
             }
@@ -651,7 +653,7 @@ fn add_history_row(
     }
     {
         let row = adw::ActionRow::builder().title(c.to_hex()).activatable(true).build();
-        let dot = gtk::DrawingArea::builder().content_width(16).content_height(16).build();
+        let dot = gtk::DrawingArea::builder().content_width(16).content_height(16).accessible_role(gtk::AccessibleRole::Presentation).build();
         dot.set_draw_func(move |_, cr, w, h| {
             cr.set_source_rgb(c.r as f64 / 255.0, c.g as f64 / 255.0, c.b as f64 / 255.0);
             cr.arc(w as f64 / 2.0, h as f64 / 2.0, w.min(h) as f64 / 2.0, 0.0, std::f64::consts::TAU);
@@ -690,7 +692,7 @@ fn ruler_page(config: &Config) -> gtk::Widget {
     });
     let page = crate::workspace::Workspace::new();
     let preview = crate::workspace::note(tr("Measure in real pixels"), tr("Freeze your screen, then drag a line or a rectangle over anything you want to measure."), "zoom-fit-best-symbolic");
-    let diagram = gtk::DrawingArea::builder().content_height(200).hexpand(true).build();
+    let diagram = gtk::DrawingArea::builder().content_height(200).hexpand(true).accessible_role(gtk::AccessibleRole::Presentation).build();
     diagram.set_draw_func(|area, cr, w, h| {
         let color = area.color();
         cr.set_source_rgba(color.red() as f64, color.green() as f64, color.blue() as f64, 0.55);
