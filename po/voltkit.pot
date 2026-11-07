@@ -199,7 +199,7 @@ msgstr ""
 msgid "Copy Command"
 msgstr ""
 
-#: src/app.rs:340 src/gpu_ui.rs:717 src/usage_ui.rs:354 src/usage_ui.rs:379
+#: src/app.rs:340 src/gpu_ui.rs:756 src/gpu_ui.rs:1240 src/usage_ui.rs:354
 msgid "Close"
 msgstr ""
 
@@ -861,7 +861,7 @@ msgstr ""
 msgid "Press the New Shortcut…"
 msgstr ""
 
-#: src/detective_ui.rs:277 src/gpu_ui.rs:1055 src/snippets_ui.rs:406 src/system_ui.rs:484
+#: src/detective_ui.rs:277 src/gpu_ui.rs:1094 src/snippets_ui.rs:406 src/system_ui.rs:484
 msgid "Save"
 msgstr ""
 
@@ -1103,11 +1103,11 @@ msgstr ""
 msgid "Can't read the settings."
 msgstr ""
 
-#: src/gpu_cli.rs:87 src/gpu_ui.rs:299
+#: src/gpu_cli.rs:87 src/gpu_ui.rs:320
 msgid "Experimental"
 msgstr ""
 
-#: src/gpu_cli.rs:87 src/gpu_ui.rs:299
+#: src/gpu_cli.rs:87 src/gpu_ui.rs:320
 msgid ""
 "Changing GPU settings hasn't been confirmed on real hardware for every card yet. Everything you don't confirm is undone, but a wrong voltage can still crash the computer."
 msgstr ""
@@ -1126,7 +1126,7 @@ msgstr ""
 msgid "Kept."
 msgstr ""
 
-#: src/gpu_cli.rs:129 src/gpu_ui.rs:820
+#: src/gpu_cli.rs:129 src/gpu_ui.rs:859
 msgid "Not confirmed, so the change was undone."
 msgstr ""
 
@@ -1190,7 +1190,7 @@ msgstr ""
 msgid "Can't read the profiles."
 msgstr ""
 
-#: src/gpu_cli.rs:452 src/gpu_ui.rs:1086
+#: src/gpu_cli.rs:452 src/gpu_ui.rs:1125
 msgid "Profiles installed."
 msgstr ""
 
@@ -1328,7 +1328,7 @@ msgstr ""
 msgid "Memory clock"
 msgstr ""
 
-#: src/gpu_ui.rs:171 src/gpu_ui.rs:321 src/modules/gpu.rs:764 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:171 src/gpu_ui.rs:345 src/modules/gpu.rs:764 src/modules/sysreport.rs:573
 msgid "Fan"
 msgstr ""
 
@@ -1349,444 +1349,462 @@ msgid ""
 "Each control is shown as the driver reports it. Voltkit can't go beyond what the hardware, firmware and driver allow."
 msgstr ""
 
-#: src/gpu_ui.rs:291
+#: src/gpu_ui.rs:282
+msgid "This card doesn't offer this control."
+msgstr ""
+
+#: src/gpu_ui.rs:309
 msgid "Tune"
 msgstr ""
 
-#: src/gpu_ui.rs:292
+#: src/gpu_ui.rs:310
 msgid ""
 "Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."
 msgstr ""
 
-#: src/gpu_ui.rs:296
+#: src/gpu_ui.rs:314
 msgid "Nothing on this card can be changed"
 msgstr ""
 
-#: src/gpu_ui.rs:296
+#: src/gpu_ui.rs:314
 msgid "See what this card supports for the reasons."
 msgstr ""
 
-#: src/gpu_ui.rs:310 src/modules/gpu.rs:111
+#: src/gpu_ui.rs:331 src/modules/gpu.rs:111
 msgid "Power limit"
 msgstr ""
 
-#: src/gpu_ui.rs:310
+#: src/gpu_ui.rs:331
 #, rust-format
 msgid "Between {} W and {} W."
 msgstr ""
 
-#: src/gpu_ui.rs:311
+#: src/gpu_ui.rs:332
 msgid "Watts"
 msgstr ""
 
-#: src/gpu_ui.rs:321
+#: src/gpu_ui.rs:345
 msgid "Fixed speed, or a curve that follows the temperature."
 msgstr ""
 
-#: src/gpu_ui.rs:322
+#: src/gpu_ui.rs:346
 msgid "The card's own control"
 msgstr ""
 
-#: src/gpu_ui.rs:322
+#: src/gpu_ui.rs:346
 msgid "Fixed speed"
 msgstr ""
 
-#: src/gpu_ui.rs:322
+#: src/gpu_ui.rs:346
 msgid "Curve"
 msgstr ""
 
-#: src/gpu_ui.rs:323
+#: src/gpu_ui.rs:347
 msgid "Mode"
 msgstr ""
 
-#: src/gpu_ui.rs:324
+#: src/gpu_ui.rs:348
 msgid "Speed (%)"
 msgstr ""
 
-#: src/gpu_ui.rs:331
+#: src/gpu_ui.rs:355
 msgid "Temperature source"
 msgstr ""
 
-#: src/gpu_ui.rs:332
+#: src/gpu_ui.rs:356
 msgid "The reading the curve follows."
 msgstr ""
 
-#: src/gpu_ui.rs:337
+#: src/gpu_ui.rs:361
 msgid "Fans"
 msgstr ""
 
-#: src/gpu_ui.rs:337
+#: src/gpu_ui.rs:361
 msgid "The fans the curve drives."
 msgstr ""
 
-#: src/gpu_ui.rs:341 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:365 src/modules/sysreport.rs:573
 #, rust-format
 msgid "Fan {}"
 msgstr ""
 
-#: src/gpu_ui.rs:359
+#: src/gpu_ui.rs:383
 msgid "Curve points"
 msgstr ""
 
-#: src/gpu_ui.rs:359
+#: src/gpu_ui.rs:383
 msgid "Temperature in °C, fan speed in %."
 msgstr ""
 
-#: src/gpu_ui.rs:391 src/gpu_ui.rs:589
+#: src/gpu_ui.rs:415 src/gpu_ui.rs:625
 #, rust-format
 msgid "Point {}"
 msgstr ""
 
-#: src/gpu_ui.rs:398 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:422 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr ""
 
-#: src/gpu_ui.rs:452
+#: src/gpu_ui.rs:476
 msgid "Edit curve"
 msgstr ""
 
-#: src/gpu_ui.rs:455
+#: src/gpu_ui.rs:479
 msgid "Add point"
 msgstr ""
 
-#: src/gpu_ui.rs:456 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:480 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr ""
 
-#: src/gpu_ui.rs:457
+#: src/gpu_ui.rs:481
 msgid "Redo"
 msgstr ""
 
-#: src/gpu_ui.rs:458
+#: src/gpu_ui.rs:482
 msgid "Copy curve"
 msgstr ""
 
-#: src/gpu_ui.rs:459
+#: src/gpu_ui.rs:483
 msgid "Paste curve"
 msgstr ""
 
-#: src/gpu_ui.rs:506
+#: src/gpu_ui.rs:530
 msgid "Curve copied"
 msgstr ""
 
-#: src/gpu_ui.rs:542 src/modules/gpu.rs:112
+#: src/gpu_ui.rs:569 src/modules/gpu.rs:112
 msgid "Temperature target"
 msgstr ""
 
-#: src/gpu_ui.rs:542
+#: src/gpu_ui.rs:569
 msgid "The temperature the card's fan control aims for."
 msgstr ""
 
-#: src/gpu_ui.rs:543
+#: src/gpu_ui.rs:570
 msgid "Degrees (°C)"
 msgstr ""
 
-#: src/gpu_ui.rs:550 src/modules/gpu.rs:113
+#: src/gpu_ui.rs:580 src/modules/gpu.rs:113
 msgid "Clock offsets"
 msgstr ""
 
-#: src/gpu_ui.rs:550
+#: src/gpu_ui.rs:580
 msgid "Raise or lower the clocks from their defaults."
 msgstr ""
 
-#: src/gpu_ui.rs:551
+#: src/gpu_ui.rs:581
 msgid "Core (MHz)"
 msgstr ""
 
-#: src/gpu_ui.rs:551
+#: src/gpu_ui.rs:581
 msgid "Memory (MHz)"
 msgstr ""
 
-#: src/gpu_ui.rs:563 src/modules/gpu.rs:114
+#: src/gpu_ui.rs:596 src/modules/gpu.rs:114
 msgid "Clock limits"
 msgstr ""
 
-#: src/gpu_ui.rs:563
+#: src/gpu_ui.rs:596
 #, rust-format
 msgid "Keep the clock between a minimum and a maximum, from {} to {} MHz."
 msgstr ""
 
-#: src/gpu_ui.rs:564
+#: src/gpu_ui.rs:597
 msgid "Minimum (MHz)"
 msgstr ""
 
-#: src/gpu_ui.rs:564
+#: src/gpu_ui.rs:597
 msgid "Maximum (MHz)"
 msgstr ""
 
-#: src/gpu_ui.rs:576 src/modules/gpu.rs:115
+#: src/gpu_ui.rs:612 src/modules/gpu.rs:115
 msgid "Voltage and frequency curve"
 msgstr ""
 
-#: src/gpu_ui.rs:576
+#: src/gpu_ui.rs:612
 msgid ""
 "Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."
 msgstr ""
 
-#: src/gpu_ui.rs:589
+#: src/gpu_ui.rs:625
 msgid "MHz · mV"
 msgstr ""
 
-#: src/gpu_ui.rs:632
+#: src/gpu_ui.rs:671
 msgid "Voltage offset"
 msgstr ""
 
-#: src/gpu_ui.rs:632
+#: src/gpu_ui.rs:671
 msgid "Lower the voltage for less heat, or raise it for stability."
 msgstr ""
 
-#: src/gpu_ui.rs:633
+#: src/gpu_ui.rs:672
 msgid "Millivolts (mV)"
 msgstr ""
 
-#: src/gpu_ui.rs:639
+#: src/gpu_ui.rs:678
 msgid "Keep after restart"
 msgstr ""
 
-#: src/gpu_ui.rs:639
+#: src/gpu_ui.rs:678
 msgid ""
 "Saves these settings and applies them at startup. Fan curves need this."
 msgstr ""
 
-#: src/gpu_ui.rs:699 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:738 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr ""
 
-#: src/gpu_ui.rs:700
+#: src/gpu_ui.rs:739
 msgid "Apply"
 msgstr ""
 
-#: src/gpu_ui.rs:712
+#: src/gpu_ui.rs:751
 msgid "Nothing to change"
 msgstr ""
 
-#: src/gpu_ui.rs:712 src/gpu_ui.rs:726
+#: src/gpu_ui.rs:751 src/gpu_ui.rs:765
 msgid "Turn on at least one control."
 msgstr ""
 
-#: src/gpu_ui.rs:713
+#: src/gpu_ui.rs:752
 msgid "What will change"
 msgstr ""
 
-#: src/gpu_ui.rs:714
+#: src/gpu_ui.rs:753
 msgid "This can't be applied"
 msgstr ""
 
-#: src/gpu_ui.rs:728
+#: src/gpu_ui.rs:767
 msgid ""
 "This card has no built-in fan curve, so Voltkit's background service follows it. Turn on Keep after restart."
 msgstr ""
 
-#: src/gpu_ui.rs:755 src/gpu_ui.rs:1106
+#: src/gpu_ui.rs:794 src/gpu_ui.rs:1145
 msgid "pkexec is needed to change GPU settings."
 msgstr ""
 
-#: src/gpu_ui.rs:788
+#: src/gpu_ui.rs:827
 msgid "Keep these settings?"
 msgstr ""
 
-#: src/gpu_ui.rs:789
+#: src/gpu_ui.rs:828
 msgid "Revert"
 msgstr ""
 
-#: src/gpu_ui.rs:789
+#: src/gpu_ui.rs:828
 msgid "Keep"
 msgstr ""
 
-#: src/gpu_ui.rs:794 src/gpu_ui.rs:803
+#: src/gpu_ui.rs:833 src/gpu_ui.rs:842
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr ""
 
-#: src/gpu_ui.rs:819
+#: src/gpu_ui.rs:858
 msgid "Settings applied and kept."
 msgstr ""
 
-#: src/gpu_ui.rs:826 src/gpu_ui.rs:1088 src/gpu_ui.rs:1116
+#: src/gpu_ui.rs:865 src/gpu_ui.rs:1127 src/gpu_ui.rs:1155
 msgid "Cancelled, nothing was changed."
 msgstr ""
 
-#: src/gpu_ui.rs:861
+#: src/gpu_ui.rs:900
 #, rust-format
 msgid "Power limit {} W"
 msgstr ""
 
-#: src/gpu_ui.rs:864 src/modules/gpu_tune.rs:440
+#: src/gpu_ui.rs:903 src/modules/gpu_tune.rs:440
 msgid "Fan: the card's own control"
 msgstr ""
 
-#: src/gpu_ui.rs:865
+#: src/gpu_ui.rs:904
 #, rust-format
 msgid "Fan {} %"
 msgstr ""
 
-#: src/gpu_ui.rs:866 src/modules/gpu.rs:110
+#: src/gpu_ui.rs:905 src/modules/gpu.rs:110
 msgid "Fan curve"
 msgstr ""
 
-#: src/gpu_ui.rs:870
+#: src/gpu_ui.rs:909
 #, rust-format
 msgid "Target {} °C"
 msgstr ""
 
-#: src/gpu_ui.rs:873
+#: src/gpu_ui.rs:912
 #, rust-format
 msgid "Core {} MHz"
 msgstr ""
 
-#: src/gpu_ui.rs:876
+#: src/gpu_ui.rs:915
 #, rust-format
 msgid "Memory {} MHz"
 msgstr ""
 
-#: src/gpu_ui.rs:879
+#: src/gpu_ui.rs:918
 #, rust-format
 msgid "Clock {}–{} MHz"
 msgstr ""
 
-#: src/gpu_ui.rs:881
+#: src/gpu_ui.rs:920
 msgid "No changes"
 msgstr ""
 
-#: src/gpu_ui.rs:896
+#: src/gpu_ui.rs:935
 #, rust-format
 msgid "In use now: {}"
 msgstr ""
 
-#: src/gpu_ui.rs:903
+#: src/gpu_ui.rs:942
 msgid ""
 "Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot."
 msgstr ""
 
-#: src/gpu_ui.rs:904
+#: src/gpu_ui.rs:943
 msgid "Profiles"
 msgstr ""
 
-#: src/gpu_ui.rs:933
+#: src/gpu_ui.rs:972
 msgid "Not automatic"
 msgstr ""
 
-#: src/gpu_ui.rs:934
+#: src/gpu_ui.rs:973
 msgid "On battery"
 msgstr ""
 
-#: src/gpu_ui.rs:935
+#: src/gpu_ui.rs:974
 msgid "On mains power"
 msgstr ""
 
-#: src/gpu_ui.rs:936
+#: src/gpu_ui.rs:975
 msgid "While an app runs"
 msgstr ""
 
-#: src/gpu_ui.rs:937
+#: src/gpu_ui.rs:976
 msgid "When the GPU is busy"
 msgstr ""
 
-#: src/gpu_ui.rs:938
+#: src/gpu_ui.rs:977
 msgid "When the GPU runs hot"
 msgstr ""
 
-#: src/gpu_ui.rs:942
+#: src/gpu_ui.rs:981
 msgid "Switch to it"
 msgstr ""
 
-#: src/gpu_ui.rs:953
+#: src/gpu_ui.rs:992
 msgid "Programs, separated by commas"
 msgstr ""
 
-#: src/gpu_ui.rs:954
+#: src/gpu_ui.rs:993
 msgid "Busier than (%)"
 msgstr ""
 
-#: src/gpu_ui.rs:955
+#: src/gpu_ui.rs:994
 msgid "Hotter than (°C)"
 msgstr ""
 
-#: src/gpu_ui.rs:999
+#: src/gpu_ui.rs:1038
 msgid "Use when no rule applies"
 msgstr ""
 
-#: src/gpu_ui.rs:1021
+#: src/gpu_ui.rs:1060
 msgid "Delete this profile"
 msgstr ""
 
-#: src/gpu_ui.rs:1044
+#: src/gpu_ui.rs:1083
 msgid "Save current settings as a profile…"
 msgstr ""
 
-#: src/gpu_ui.rs:1045
+#: src/gpu_ui.rs:1084
 msgid "Apply profiles"
 msgstr ""
 
-#: src/gpu_ui.rs:1045
+#: src/gpu_ui.rs:1084
 msgid ""
 "Installs the profiles in Voltkit's background service, which switches between them."
 msgstr ""
 
-#: src/gpu_ui.rs:1052
+#: src/gpu_ui.rs:1091
 msgid "Name, for example Quiet"
 msgstr ""
 
-#: src/gpu_ui.rs:1053
+#: src/gpu_ui.rs:1092
 msgid "Save as a profile"
 msgstr ""
 
-#: src/gpu_ui.rs:1053
+#: src/gpu_ui.rs:1092
 msgid "The settings now turned on in Tune are stored under this name."
 msgstr ""
 
-#: src/gpu_ui.rs:1055 src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382
+#: src/gpu_ui.rs:1094 src/snippets_ui.rs:187 src/snippets_ui.rs:404 src/sysreport_ui.rs:382
 msgid "Cancel"
 msgstr ""
 
-#: src/gpu_ui.rs:1162
+#: src/gpu_ui.rs:1207
 #, rust-format
 msgid "{} compared with {}"
 msgstr ""
 
-#: src/gpu_ui.rs:1163
+#: src/gpu_ui.rs:1212
+#, rust-format
+msgid "{} is better on {} of {} measures."
+msgstr ""
+
+#: src/gpu_ui.rs:1214
+msgid ""
+"Neither session is clearly better: they win the same number of measures."
+msgstr ""
+
+#: src/gpu_ui.rs:1218
 msgid ""
 "The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames."
 msgstr ""
 
-#: src/gpu_ui.rs:1179
+#: src/gpu_ui.rs:1227
+msgid "Same"
+msgstr ""
+
+#: src/gpu_ui.rs:1234
 msgid "These sessions have no readings in common."
 msgstr ""
 
-#: src/gpu_ui.rs:1182
+#: src/gpu_ui.rs:1239
 msgid "Compare sessions"
 msgstr ""
 
-#: src/gpu_ui.rs:1188 src/modules/keybindings.rs:316
+#: src/gpu_ui.rs:1260 src/modules/keybindings.rs:316
 msgid "Sessions"
 msgstr ""
 
-#: src/gpu_ui.rs:1189
+#: src/gpu_ui.rs:1261
 msgid ""
 "Record how a profile behaves, then compare two sessions side by side: temperature, power, energy and efficiency."
 msgstr ""
 
-#: src/gpu_ui.rs:1192
+#: src/gpu_ui.rs:1264
 msgid "Label"
 msgstr ""
 
-#: src/gpu_ui.rs:1192
+#: src/gpu_ui.rs:1264
 msgid "Session"
 msgstr ""
 
-#: src/gpu_ui.rs:1193 src/gpu_ui.rs:1269
+#: src/gpu_ui.rs:1265 src/gpu_ui.rs:1351
 msgid "Start recording"
 msgstr ""
 
-#: src/gpu_ui.rs:1199
+#: src/gpu_ui.rs:1271
 msgid "Compare the two ticked"
 msgstr ""
 
-#: src/gpu_ui.rs:1265
+#: src/gpu_ui.rs:1347
 msgid "Stop and save"
 msgstr ""
 
-#: src/gpu_ui.rs:1274
+#: src/gpu_ui.rs:1356
 msgid "Session saved."
 msgstr ""
 

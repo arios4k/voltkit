@@ -271,6 +271,24 @@ fn spin(title: String, subtitle: Option<String>, value: f64, lo: f64, hi: f64, s
     row
 }
 
+/// A control this card doesn't offer: still listed, greyed out, with the reason.
+fn unavailable_row(card: &Card, control: Control) -> adw::ActionRow {
+    let text = card.capabilities.iter().find(|c| c.control == control).and_then(|c| match &c.support {
+        Support::Unavailable { reason, how_to } => Some(how_to.as_ref().map_or(reason.clone(), |h| format!("{reason}\n{h}"))),
+        Support::Detected(_) => None,
+    });
+    let row = adw::ActionRow::builder()
+        .title(control.title())
+        .subtitle(glib::markup_escape_text(&text.unwrap_or_else(|| tr("This card doesn't offer this control.").to_string())))
+        .subtitle_lines(4)
+        .sensitive(false)
+        .build();
+    let lock = gtk::Image::from_icon_name("changes-prevent-symbolic");
+    row.add_prefix(&lock);
+    row.add_suffix(&gtk::Switch::builder().valign(gtk::Align::Center).sensitive(false).build());
+    row
+}
+
 fn expander(title: String, subtitle: String, on: bool) -> adw::ExpanderRow {
     adw::ExpanderRow::builder().title(title).subtitle(subtitle).show_enable_switch(true).enable_expansion(on).expanded(on).build()
 }
@@ -294,6 +312,9 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     let any = Control::ALL.iter().any(|c| *c != Control::Monitoring && supported(card, *c));
     if !any {
         group.add(&adw::ActionRow::builder().title(tr("Nothing on this card can be changed")).subtitle(tr("See what this card supports for the reasons.")).build());
+        for control in Control::ALL.iter().filter(|c| !matches!(c, Control::Monitoring | Control::FanCurve)) {
+            group.add(&unavailable_row(card, *control));
+        }
         return (group, None, None);
     }
     let experimental = adw::ActionRow::builder().title(tr("Experimental")).subtitle(tr("Changing GPU settings hasn't been confirmed on real hardware for every card yet. Everything you don't confirm is undone, but a wrong voltage can still crash the computer.")).subtitle_lines(6).build();
@@ -317,6 +338,9 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, value)
     });
 
+    if !supported(card, Control::PowerLimit) && !only_vf {
+        group.add(&unavailable_row(card, Control::PowerLimit));
+    }
     let fan = (supported(card, Control::FanSpeed) && !only_vf).then(|| {
         let row = expander(tr("Fan"), tr("Fixed speed, or a curve that follows the temperature."), demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() != Ok("vf"));
         let modes = gtk::StringList::new(&[&tr("The card's own control"), &tr("Fixed speed"), &tr("Curve")]);
@@ -538,6 +562,9 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, mode, fixed, edit, chart, sensor_row, sensors, fan_checks)
     });
 
+    if !supported(card, Control::FanSpeed) && !only_vf {
+        group.add(&unavailable_row(card, Control::FanSpeed));
+    }
     let target = (supported(card, Control::TemperatureTarget) && !only_vf).then(|| {
         let row = expander(tr("Temperature target"), tr("The temperature the card's fan control aims for."), false);
         let value = spin(tr("Degrees (°C)"), None, 75.0, 40.0, 100.0, 1.0);
@@ -546,6 +573,9 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, value)
     });
 
+    if !supported(card, Control::TemperatureTarget) && !only_vf {
+        group.add(&unavailable_row(card, Control::TemperatureTarget));
+    }
     let clocks = (supported(card, Control::ClockOffsets) && !only_vf).then(|| {
         let row = expander(tr("Clock offsets"), tr("Raise or lower the clocks from their defaults."), false);
         let (core, mem) = (spin(tr("Core (MHz)"), None, 0.0, -500.0, 500.0, 5.0), spin(tr("Memory (MHz)"), None, 0.0, -1000.0, 1000.0, 10.0));
@@ -555,6 +585,9 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, core, mem)
     });
 
+    if !supported(card, Control::ClockOffsets) && !only_vf {
+        group.add(&unavailable_row(card, Control::ClockOffsets));
+    }
     let limits = supported(card, Control::ClockLimits).then(|| {
         let (lo, hi) = crate::modules::gpu::intel_freq(&card.gpu).map_or((0.0, 4000.0), |f| {
             let num = |p: &Option<std::path::PathBuf>| p.as_deref().and_then(|p| std::fs::read_to_string(p).ok()).and_then(|v| v.trim().parse::<f64>().ok());
@@ -568,6 +601,9 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         (row, min, max)
     });
 
+    if !supported(card, Control::ClockLimits) && !only_vf {
+        group.add(&unavailable_row(card, Control::ClockLimits));
+    }
     // Cards with a full table get a point per clock; the others, a single offset.
     let od = if demo { Some(gpu::DEMO_VF.to_owned()) } else { std::fs::read_to_string(card.gpu.device.join("pp_od_clk_voltage")).ok() };
     let vf_table = od.and_then(|t| gpu_tune::parse_vf_table(&t));
@@ -628,6 +664,9 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     });
     let vf_present = vf.is_some();
 
+    if !supported(card, Control::VoltageCurve) && !only_vf {
+        group.add(&unavailable_row(card, Control::VoltageCurve));
+    }
     let voltage = (supported(card, Control::VoltageCurve) && !vf_present).then(|| {
         let row = expander(tr("Voltage offset"), tr("Lower the voltage for less heat, or raise it for stability."), false);
         let value = spin(tr("Millivolts (mV)"), None, 0.0, -200.0, 0.0, 5.0);
@@ -1158,28 +1197,61 @@ fn demo_sessions() -> Vec<Session> {
 
 fn show_comparison(anchor: &impl IsA<gtk::Widget>, a: &Session, b: &Session) {
     let lines = gpu_session::compare(&gpu_session::stats(a), &gpu_session::stats(b));
-    let group = adw::PreferencesGroup::builder()
-        .title(trf!("{} compared with {}", a.label.clone(), b.label.clone()))
-        .description(tr("The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames."))
-        .build();
+    let tally = gpu_session::tally(&lines);
+    let wrapped = |text: String, css: &[&str]| {
+        gtk::Label::builder().label(text).wrap(true).xalign(0.0).hexpand(true).css_classes(css.to_vec()).build()
+    };
+
+    let content = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(12)
+        .margin_top(12).margin_bottom(18).margin_start(18).margin_end(18).build();
+    content.append(&wrapped(trf!("{} compared with {}", a.label.clone(), b.label.clone()), &["title-3"]));
+    if !lines.is_empty() {
+        let verdict = match tally.leader() {
+            Some(b_leads) => {
+                let (name, wins) = if b_leads { (b.label.clone(), tally.b) } else { (a.label.clone(), tally.a) };
+                trf!("{} is better on {} of {} measures.", name, wins, lines.len())
+            }
+            None => tr("Neither session is clearly better: they win the same number of measures.").to_string(),
+        };
+        content.append(&wrapped(verdict, &["heading"]));
+    }
+    content.append(&wrapped(tr("The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames.").to_string(), &["dim-label"]));
+
+    let group = adw::PreferencesGroup::new();
     for l in &lines {
         let change = l.change_pct().map_or_else(String::new, |c| format!("  ({c:+.0} %)"));
         let row = adw::ActionRow::builder().title(tr(l.label)).subtitle(format!("{:.1} → {:.1} {}{change}", l.a, l.b, l.unit)).build();
-        let mark = match l.b_wins() {
-            Some(true) => Some((format!("{} ▶", b.label), "success")),
-            Some(false) => Some((format!("◀ {}", a.label), "success")),
-            None => None,
+        let (text, css) = match l.b_wins() {
+            Some(true) => (format!("{} ▶", b.label), "success"),
+            Some(false) => (format!("◀ {}", a.label), "success"),
+            None => (tr("Same").to_string(), "dim-label"),
         };
-        if let Some((text, css)) = mark {
-            row.add_suffix(&gtk::Label::builder().label(text).css_classes([css]).valign(gtk::Align::Center).build());
-        }
+        row.add_suffix(&gtk::Label::builder().label(text).ellipsize(gtk::pango::EllipsizeMode::End).max_width_chars(28).justify(gtk::Justification::Right)
+            .css_classes([css]).valign(gtk::Align::Center).build());
         group.add(&row);
     }
     if lines.is_empty() {
         group.add(&adw::ActionRow::builder().title(tr("These sessions have no readings in common.")).build());
     }
-    let scroll = gtk::ScrolledWindow::builder().child(&group).min_content_height(360).hscrollbar_policy(gtk::PolicyType::Never).build();
-    let dialog = adw::Dialog::builder().title(tr("Compare sessions")).content_width(520).child(&scroll).build();
+    content.append(&group);
+
+    let scroll = gtk::ScrolledWindow::builder().child(&content).vexpand(true).hscrollbar_policy(gtk::PolicyType::Never).build();
+    let dialog = adw::Dialog::builder().title(tr("Compare sessions")).content_width(760).content_height(640).build();
+    let close = gtk::Button::builder().label(tr("Close")).halign(gtk::Align::End).css_classes(["suggested-action"]).build();
+    close.connect_clicked({
+        let dialog = dialog.clone();
+        move |_| {
+            dialog.close();
+        }
+    });
+    let bar = gtk::Box::builder().orientation(gtk::Orientation::Horizontal).margin_top(8).margin_bottom(8).margin_start(18).margin_end(18).build();
+    bar.append(&close);
+    bar.set_halign(gtk::Align::End);
+    let view = adw::ToolbarView::new();
+    view.add_top_bar(&adw::HeaderBar::new());
+    view.set_content(Some(&scroll));
+    view.add_bottom_bar(&bar);
+    dialog.set_child(Some(&view));
     dialog.present(Some(anchor));
 }
 
@@ -1241,6 +1313,16 @@ fn sessions_group(card: &Card, toasts: &adw::ToastOverlay) -> SessionsView {
     *refresh.borrow_mut() = Some(rebuild.clone() as Rc<dyn Fn()>);
     rebuild();
     group.add(&compare);
+    if std::env::var("VOLTKIT_GPU_DEMO").as_deref() == Ok("compare") {
+        // For checking the comparison window: tick both demo sessions and open it.
+        let (rows, compare) = (rows.clone(), compare.clone());
+        glib::timeout_add_local_once(std::time::Duration::from_millis(1500), move || {
+            for (_, check, _) in rows.borrow().iter().take(2) {
+                check.set_active(true);
+            }
+            compare.emit_clicked();
+        });
+    }
     {
         let rows = rows.clone();
         compare.connect_clicked(move |b| {

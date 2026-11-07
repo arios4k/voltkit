@@ -238,9 +238,11 @@ impl Line {
         (self.a.abs() > f64::EPSILON).then(|| (self.b - self.a) / self.a * 100.0)
     }
 
-    /// `Some(true)` if `b` is the better one, `Some(false)` if `a`, `None` for a tie.
+    /// `Some(true)` if `b` is the better one, `Some(false)` if `a`, `None` for a
+    /// tie. A difference under half a percent is noise, not a win.
     pub fn b_wins(&self) -> Option<bool> {
-        if (self.a - self.b).abs() < f64::EPSILON {
+        let scale = self.a.abs().max(self.b.abs());
+        if (self.a - self.b).abs() <= scale * 0.005 {
             return None;
         }
         Some(match self.better {
@@ -248,6 +250,38 @@ impl Line {
             Better::Lower => self.b < self.a,
         })
     }
+}
+
+/// How many measures each session wins, and how many are a tie.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Tally {
+    pub a: usize,
+    pub b: usize,
+    pub ties: usize,
+}
+
+impl Tally {
+    /// The session that is better on more measures: `Some(true)` for `b`,
+    /// `Some(false)` for `a`, `None` when it is even.
+    pub fn leader(&self) -> Option<bool> {
+        match self.b.cmp(&self.a) {
+            std::cmp::Ordering::Greater => Some(true),
+            std::cmp::Ordering::Less => Some(false),
+            std::cmp::Ordering::Equal => None,
+        }
+    }
+}
+
+pub fn tally(lines: &[Line]) -> Tally {
+    let mut t = Tally { a: 0, b: 0, ties: 0 };
+    for l in lines {
+        match l.b_wins() {
+            Some(true) => t.b += 1,
+            Some(false) => t.a += 1,
+            None => t.ties += 1,
+        }
+    }
+    t
 }
 
 /// The measures both sessions have, side by side.
@@ -320,6 +354,18 @@ mod tests {
         assert_eq!(by("Average power").b_wins(), Some(true), "lower is better for power");
         assert_eq!(by("Average core clock").b_wins(), Some(false), "but the stock clock is higher");
         assert!(by("Average temperature").change_pct().unwrap() < 0.0);
+    }
+
+    #[test]
+    fn tiny_differences_are_ties_and_one_session_leads() {
+        let line = |a, b, better| Line { label: "x", unit: "", a, b, better };
+        assert_eq!(line(70.0, 70.2, Better::Lower).b_wins(), None, "0.3 % is noise");
+        assert_eq!(line(70.0, 69.0, Better::Lower).b_wins(), Some(true));
+        assert_eq!(line(0.0, 0.0, Better::Lower).b_wins(), None);
+        let t = tally(&[line(2.0, 1.0, Better::Lower), line(2.0, 1.0, Better::Lower), line(1.0, 2.0, Better::Higher), line(5.0, 5.0, Better::Higher), line(1.0, 2.0, Better::Lower)]);
+        assert_eq!(t, Tally { a: 1, b: 3, ties: 1 });
+        assert_eq!(t.leader(), Some(true));
+        assert_eq!(Tally { a: 2, b: 2, ties: 0 }.leader(), None);
     }
 
     #[test]
