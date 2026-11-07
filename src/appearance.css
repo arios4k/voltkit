@@ -61,8 +61,8 @@ preferencesgroup.workspace-card { margin: 0; }
 .workspace-card .title-2 { font-weight: 700; }
 
 /* About is a compact companion to the main workspaces. */
-.about-body { padding: 8px 24px 24px; }
-.about-hero { padding: 14px 12px 12px; border-radius: 16px; background: linear-gradient(180deg, alpha(@accent_bg_color, 0.14), alpha(@accent_bg_color, 0.02)); }
+.about-body { padding: 4px 24px 20px; }
+.about-hero { padding: 10px 12px 10px; border-radius: 16px; background: linear-gradient(180deg, alpha(@accent_bg_color, 0.14), alpha(@accent_bg_color, 0.02)); }
 .about-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; }
 .about-version { border-radius: 20px; background: alpha(@accent_bg_color, 0.12); color: @accent_color; }
 .about-chip { padding: 8px; border-radius: 8px; background-color: alpha(@window_fg_color, 0.05); font-size: 12px; }
