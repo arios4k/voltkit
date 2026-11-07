@@ -61,31 +61,49 @@ msgstr "报告问题"
 msgid "Share a bug or suggest an improvement"
 msgstr "反馈错误或提出改进建议"
 
-#: src/about_ui.rs:49
+#: src/about_ui.rs:51
+msgid "More from the same author"
+msgstr "同一作者的更多应用"
+
+#: src/about_ui.rs:52
+msgid "Universal shipping label printer for Linux"
+msgstr "适用于 Linux 的通用快递面单打印工具"
+
+#: src/about_ui.rs:54
+msgid ""
+"Battery health, charge limits and energy usage in one place, for GNOME"
+msgstr "在一处查看电池健康、充电上限和能耗，适用于 GNOME"
+
+#: src/about_ui.rs:58
 msgid "Credits and license"
 msgstr "致谢与许可证"
 
-#: src/about_ui.rs:50
+#: src/about_ui.rs:59
 msgid "Created by"
 msgstr "作者"
 
-#: src/about_ui.rs:52 src/about_ui.rs:96
+#: src/about_ui.rs:61 src/about_ui.rs:117
 msgid "MIT License"
 msgstr "MIT 许可证"
 
-#: src/about_ui.rs:52
+#: src/about_ui.rs:61
 msgid "Free to use, modify, and share"
 msgstr "可自由使用、修改和分享"
 
-#: src/about_ui.rs:67 src/app.rs:132
+#: src/about_ui.rs:76 src/app.rs:147
 msgid "About Voltkit"
 msgstr "关于 Voltkit"
 
-#: src/about_ui.rs:74
+#: src/about_ui.rs:84
+#, rust-format
+msgid "Open {} on GitHub"
+msgstr "在 GitHub 上打开 {}"
+
+#: src/about_ui.rs:95
 msgid "Open in browser"
 msgstr "在浏览器中打开"
 
-#: src/about_ui.rs:81
+#: src/about_ui.rs:102
 #, rust-format
 msgid "Could not open link: {}"
 msgstr "无法打开链接：{}"
@@ -163,30 +181,30 @@ msgstr "屏幕标尺"
 msgid "Smart Paste"
 msgstr "智能粘贴"
 
-#: src/app.rs:134
+#: src/app.rs:149
 msgid "Quit"
 msgstr "退出"
 
-#: src/app.rs:138
+#: src/app.rs:153
 msgid "Main Menu"
 msgstr "主菜单"
 
-#: src/app.rs:215
+#: src/app.rs:230
 #, rust-format
 msgid "could not start {}: {}"
 msgstr "无法启动 {}：{}"
 
-#: src/app.rs:298
+#: src/app.rs:313
 msgid "Details"
 msgstr "详细信息"
 
-#: src/app.rs:313
+#: src/app.rs:328
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] "有 {} 项功能需要注意"
 
-#: src/app.rs:325
+#: src/app.rs:340
 #, rust-format
 msgid ""
 "{}\n"
@@ -197,298 +215,298 @@ msgstr ""
 "\n"
 "运行 `voltkit doctor` 查看完整报告。"
 
-#: src/app.rs:326
+#: src/app.rs:341
 msgid "Needs Attention"
 msgstr "需要注意"
 
-#: src/app.rs:337
+#: src/app.rs:352
 msgid "Copy Command"
 msgstr "复制命令"
 
-#: src/app.rs:340 src/gpu_ui.rs:806 src/gpu_ui.rs:1296 src/usage_ui.rs:354
+#: src/app.rs:355 src/gpu_ui.rs:806 src/gpu_ui.rs:1296 src/usage_ui.rs:354
 msgid "Close"
 msgstr "关闭"
 
-#: src/app.rs:353
+#: src/app.rs:368
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr "后台服务已关闭，因此键盘快捷键无法使用"
 
-#: src/app.rs:354
+#: src/app.rs:369
 msgid "Start"
 msgstr "启动"
 
-#: src/app.rs:371
+#: src/app.rs:386
 msgid "The background service failed to start"
 msgstr "后台服务启动失败"
 
-#: src/app.rs:375
+#: src/app.rs:390
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "无法启动服务：{}"
 
-#: src/app.rs:385
+#: src/app.rs:400
 msgid "Capture Region"
 msgstr "截取区域"
 
-#: src/app.rs:405
+#: src/app.rs:420
 msgid "Capture text"
 msgstr "捕获文字"
 
-#: src/app.rs:406
+#: src/app.rs:421
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr "在屏幕上任意位置选取文字。识别语言：{}。快捷键：{}"
 
-#: src/app.rs:411
+#: src/app.rs:426
 msgid "Copy Text"
 msgstr "复制文字"
 
-#: src/app.rs:412
+#: src/app.rs:427
 msgid "Extracted text"
 msgstr "提取的文字"
 
-#: src/app.rs:412 src/app.rs:428
+#: src/app.rs:427 src/app.rs:443
 msgid "Capture a region to see and copy its text here."
 msgstr "捕获一个区域，即可在此查看并复制其中的文字。"
 
-#: src/app.rs:416
+#: src/app.rs:431
 msgid "No text captured yet"
 msgstr "尚未捕获任何文字"
 
-#: src/app.rs:427
+#: src/app.rs:442
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} 个字符"
 
-#: src/app.rs:428
+#: src/app.rs:443
 msgid "Text is also copied automatically after capture."
 msgstr "捕获后文字也会自动复制。"
 
-#: src/app.rs:430
+#: src/app.rs:445
 msgid "Capture from anything"
 msgstr "从任何内容中捕获"
 
-#: src/app.rs:430
+#: src/app.rs:445
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr "选取一段文字、一条错误信息或图片中的文字。桌面会请你选择屏幕区域；识别过程在你的电脑本地完成。"
 
-#: src/app.rs:437
+#: src/app.rs:452
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "来自快捷键的文字，已复制到剪贴板"
 
-#: src/app.rs:458
+#: src/app.rs:473
 msgid "Text copied to clipboard"
 msgstr "文字已复制到剪贴板"
 
-#: src/app.rs:460 src/qr_ui.rs:101
+#: src/app.rs:475 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "未截取屏幕"
 
-#: src/app.rs:462
+#: src/app.rs:477
 msgid "OCR worker crashed"
 msgstr "OCR 进程崩溃了"
 
-#: src/app.rs:477 src/qr_ui.rs:49 src/smartpaste_ui.rs:329 src/sysreport_ui.rs:382
+#: src/app.rs:492 src/qr_ui.rs:49 src/smartpaste_ui.rs:329 src/sysreport_ui.rs:382
 msgid "Copy"
 msgstr "复制"
 
-#: src/app.rs:485 src/app.rs:607
+#: src/app.rs:500 src/app.rs:622
 #, rust-format
 msgid "Copied {}"
 msgstr "已复制 {}"
 
-#: src/app.rs:511
+#: src/app.rs:526
 msgid "HEX or rgb()"
 msgstr "HEX 或 rgb()"
 
-#: src/app.rs:516
+#: src/app.rs:531
 msgid "Pick from Screen"
 msgstr "从屏幕取色"
 
-#: src/app.rs:517
+#: src/app.rs:532
 msgid "Pick a color anywhere on screen"
 msgstr "在屏幕上任意位置取色"
 
-#: src/app.rs:522
+#: src/app.rs:537
 msgid "Color"
 msgstr "颜色"
 
-#: src/app.rs:523
+#: src/app.rs:538
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr "输入颜色，或从屏幕上取色。按 Enter 将其保存到历史记录。在任何应用中按 {} 即可取色：其 HEX 值会被复制并保存在这里。"
 
-#: src/app.rs:531
+#: src/app.rs:546
 msgid "Formats"
 msgstr "格式"
 
-#: src/app.rs:536
+#: src/app.rs:551
 msgid "Text on white"
 msgstr "白底文字"
 
-#: src/app.rs:537
+#: src/app.rs:552
 msgid "Text on black"
 msgstr "黑底文字"
 
-#: src/app.rs:538
+#: src/app.rs:553
 msgid "WCAG Contrast"
 msgstr "WCAG 对比度"
 
-#: src/app.rs:542
+#: src/app.rs:557
 msgid "History"
 msgstr "历史记录"
 
-#: src/app.rs:542
+#: src/app.rs:557
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr "选择已保存的颜色即可再次使用。从屏幕取的颜色会显示在这里。"
 
-#: src/app.rs:555 src/app.rs:563
+#: src/app.rs:570 src/app.rs:578
 #, rust-format
 msgid "Selected color {}"
 msgstr "已选颜色 {}"
 
-#: src/app.rs:586
+#: src/app.rs:601
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "无法保存历史记录：{}"
 
-#: src/app.rs:610
+#: src/app.rs:625
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "取色器不可用：{}"
 
-#: src/app.rs:611
+#: src/app.rs:626
 msgid "Color picker crashed"
 msgstr "取色器崩溃了"
 
-#: src/app.rs:620
+#: src/app.rs:635
 msgid "Live color preview"
 msgstr "实时颜色预览"
 
-#: src/app.rs:635
+#: src/app.rs:650
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "已通过快捷键取色 {}，并已复制"
 
-#: src/app.rs:681
+#: src/app.rs:696
 msgid "Open Ruler"
 msgstr "打开标尺"
 
-#: src/app.rs:694
+#: src/app.rs:709
 msgid "Measure in real pixels"
 msgstr "按真实像素测量"
 
-#: src/app.rs:694
+#: src/app.rs:709
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr "冻结屏幕，然后在要测量的内容上拖出一条线或一个矩形。"
 
-#: src/app.rs:713
+#: src/app.rs:728
 msgid "Drag to measure width × height"
 msgstr "拖动以测量 宽 × 高"
 
-#: src/app.rs:718
+#: src/app.rs:733
 msgid "Measurement controls"
 msgstr "测量控制"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Drag"
 msgstr "拖动"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Measure a rectangle"
 msgstr "测量矩形"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Shift + drag"
 msgstr "Shift + 拖动"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Measure a straight line"
 msgstr "测量直线"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Copy the measured size"
 msgstr "复制测得的尺寸"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:719
+#: src/app.rs:734
 msgid "Close the ruler"
 msgstr "关闭标尺"
 
-#: src/app.rs:723
+#: src/app.rs:738
 msgid "Ready when you need it"
 msgstr "随时待命"
 
-#: src/app.rs:723
+#: src/app.rs:738
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr "全局快捷键：{}。测量基于截图像素，高分屏上也一样。"
 
-#: src/app.rs:731
+#: src/app.rs:746
 msgid "Quality"
 msgstr "质量"
 
-#: src/app.rs:732
+#: src/app.rs:747
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "数值越低文件越小。PNG 始终无损。"
 
-#: src/app.rs:736
+#: src/app.rs:751
 msgid "Choose Files…"
 msgstr "选择文件…"
 
-#: src/app.rs:753
+#: src/app.rs:768
 msgid "Drop Files Here"
 msgstr "将文件拖放到此处"
 
-#: src/app.rs:755
+#: src/app.rs:770
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr "支持 PNG、JPEG、WebP 和 MP4。元数据会被删除；原文件会保留。"
 
-#: src/app.rs:771 src/usage_ui.rs:95
+#: src/app.rs:786 src/usage_ui.rs:95
 msgid "Results"
 msgstr "结果"
 
-#: src/app.rs:777
+#: src/app.rs:792
 msgid "Compressing…"
 msgstr "正在压缩…"
 
-#: src/app.rs:794 src/app.rs:797
+#: src/app.rs:809 src/app.rs:812
 msgid "Failed"
 msgstr "失败"
 
-#: src/app.rs:819
+#: src/app.rs:834
 msgid "Compress Files"
 msgstr "压缩文件"
 
-#: src/app.rs:835
+#: src/app.rs:850
 msgid "Compression settings"
 msgstr "压缩设置"
 
-#: src/app.rs:837
+#: src/app.rs:852
 msgid "Your originals stay intact"
 msgstr "原文件保持不变"
 
-#: src/app.rs:837
+#: src/app.rs:852
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "压缩后的副本会以 name.min.ext 的名称保存在每个源文件旁边。副本中的元数据会被删除。PNG 压缩是无损的；质量设置适用于 JPEG、WebP 和视频。"
 
-#: src/app.rs:838
+#: src/app.rs:853
 msgid "Choose or drop files to see progress and size savings here."
 msgstr "选择或拖入文件，即可在此查看进度和节省的空间。"
 
