@@ -148,6 +148,32 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.10.2" date="2026-11-06">
+      <description>
+        <p>A clearer session comparison, and GPU Tuner shows everything, disabling what a card doesn't support.</p>
+        <p xml:lang="es">Una comparación de sesiones más clara, y el Ajuste de GPU lo muestra todo, desactivando lo que una tarjeta no admite.</p>
+        <p xml:lang="de">Ein klarerer Sitzungsvergleich, und der GPU-Tuner zeigt alles an und deaktiviert, was eine Karte nicht unterstützt.</p>
+        <p xml:lang="fr">Une comparaison de sessions plus claire, et le Réglage du GPU affiche tout en désactivant ce qu’une carte ne prend pas en charge.</p>
+        <p xml:lang="zh_CN">更清晰的会话对比；GPU 调节器会显示全部内容，并禁用显卡不支持的项目。</p>
+        <ul>
+          <li>The session comparison names one better session in each category, in a larger window with a Close button</li>
+          <li xml:lang="es">La comparación de sesiones indica la mejor sesión en cada categoría, en una ventana más grande con un botón Cerrar</li>
+          <li xml:lang="de">Der Sitzungsvergleich nennt in jeder Kategorie die bessere Sitzung, in einem größeren Fenster mit Schließen-Schaltfläche</li>
+          <li xml:lang="fr">La comparaison de sessions indique la meilleure session dans chaque catégorie, dans une fenêtre plus grande avec un bouton Fermer</li>
+          <li xml:lang="zh_CN">会话对比在每个类别中指出更好的会话，窗口更大并带有关闭按钮</li>
+          <li>Controls and charts a card doesn't support stay visible but disabled, with the reason</li>
+          <li xml:lang="es">Los controles y gráficos que una tarjeta no admite siguen visibles pero desactivados, con el motivo</li>
+          <li xml:lang="de">Steuerungen und Diagramme, die eine Karte nicht unterstützt, bleiben sichtbar, aber deaktiviert, mit Begründung</li>
+          <li xml:lang="fr">Les contrôles et graphiques qu’une carte ne prend pas en charge restent visibles mais désactivés, avec la raison</li>
+          <li xml:lang="zh_CN">显卡不支持的控制项和图表仍然可见但被禁用，并说明原因</li>
+          <li>Better screen reader support: names for switches, check boxes, the color swatch and the ruler</li>
+          <li xml:lang="es">Mejor compatibilidad con lectores de pantalla: nombres para interruptores, casillas, la muestra de color y la regla</li>
+          <li xml:lang="de">Bessere Bildschirmleser-Unterstützung: Namen für Schalter, Kontrollkästchen, Farbfeld und Lineal</li>
+          <li xml:lang="fr">Meilleure prise en charge des lecteurs d’écran : noms pour les interrupteurs, cases à cocher, l’échantillon de couleur et la règle</li>
+          <li xml:lang="zh_CN">更好的读屏支持：为开关、复选框、颜色色块和标尺添加名称</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.1" date="2026-11-07">
       <description>
         <p>GPU Tuner gets a graphics-card icon and a chart for the voltage and frequency curve.</p>
