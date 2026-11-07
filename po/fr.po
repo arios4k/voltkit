@@ -28,83 +28,66 @@ msgstr "Version {}"
 msgid "Version information copied"
 msgstr "Informations de version copiées"
 
-#: src/about_ui.rs:33
-#, rust-format
-msgid "{} everyday tools"
-msgstr "{} outils du quotidien"
-
-#: src/about_ui.rs:34
-msgid "Native Linux app"
-msgstr "Application Linux native"
-
-#: src/about_ui.rs:34
-msgid "Open source"
-msgstr "Open source"
-
-#: src/about_ui.rs:42
+#: src/about_ui.rs:30
 msgid "Explore Voltkit"
 msgstr "Découvrir Voltkit"
 
-#: src/about_ui.rs:43
+#: src/about_ui.rs:31
 msgid "Project & source code"
 msgstr "Projet et code source"
 
-#: src/about_ui.rs:43
+#: src/about_ui.rs:31
 msgid "Documentation, releases, and the code behind Voltkit"
 msgstr "Documentation, versions et code de Voltkit"
 
-#: src/about_ui.rs:45
+#: src/about_ui.rs:33
 msgid "Report an issue"
 msgstr "Signaler un problème"
 
-#: src/about_ui.rs:45
+#: src/about_ui.rs:33
 msgid "Share a bug or suggest an improvement"
 msgstr "Signaler un bogue ou suggérer une amélioration"
 
-#: src/about_ui.rs:51
-msgid "More from the same author"
-msgstr "Du même auteur"
-
-#: src/about_ui.rs:52
+#: src/about_ui.rs:38
 msgid "Universal shipping label printer for Linux"
 msgstr "Imprimante universelle d’étiquettes d’expédition pour Linux"
 
-#: src/about_ui.rs:54
+#: src/about_ui.rs:40
 msgid ""
 "Battery health, charge limits and energy usage in one place, for GNOME"
 msgstr ""
 "Santé de la batterie, limites de charge et consommation d’énergie au même endroit, pour GNOME"
 
-#: src/about_ui.rs:58
+#: src/about_ui.rs:44
 msgid "Credits and license"
 msgstr "Crédits et licence"
 
-#: src/about_ui.rs:59
+#: src/about_ui.rs:45
 msgid "Created by"
 msgstr "Créé par"
 
-#: src/about_ui.rs:61 src/about_ui.rs:117
+#: src/about_ui.rs:47 src/about_ui.rs:98
 msgid "MIT License"
 msgstr "Licence MIT"
 
-#: src/about_ui.rs:61
+#: src/about_ui.rs:47
 msgid "Free to use, modify, and share"
 msgstr "Libre d’utilisation, de modification et de partage"
 
-#: src/about_ui.rs:76 src/app.rs:147
+#: src/about_ui.rs:57 src/app.rs:147
 msgid "About Voltkit"
 msgstr "À propos de Voltkit"
 
-#: src/about_ui.rs:84
+#: src/about_ui.rs:65
 #, rust-format
 msgid "Open {} on GitHub"
 msgstr "Ouvrir {} sur GitHub"
 
-#: src/about_ui.rs:95
+#: src/about_ui.rs:76
 msgid "Open in browser"
 msgstr "Ouvrir dans le navigateur"
 
-#: src/about_ui.rs:102
+#: src/about_ui.rs:83
 #, rust-format
 msgid "Could not open link: {}"
 msgstr "Impossible d’ouvrir le lien : {}"

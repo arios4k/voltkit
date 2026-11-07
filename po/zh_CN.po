@@ -28,82 +28,65 @@ msgstr "版本 {}"
 msgid "Version information copied"
 msgstr "版本信息已复制"
 
-#: src/about_ui.rs:33
-#, rust-format
-msgid "{} everyday tools"
-msgstr "{} 个日常工具"
-
-#: src/about_ui.rs:34
-msgid "Native Linux app"
-msgstr "原生 Linux 应用"
-
-#: src/about_ui.rs:34
-msgid "Open source"
-msgstr "开源"
-
-#: src/about_ui.rs:42
+#: src/about_ui.rs:30
 msgid "Explore Voltkit"
 msgstr "探索 Voltkit"
 
-#: src/about_ui.rs:43
+#: src/about_ui.rs:31
 msgid "Project & source code"
 msgstr "项目与源代码"
 
-#: src/about_ui.rs:43
+#: src/about_ui.rs:31
 msgid "Documentation, releases, and the code behind Voltkit"
 msgstr "文档、发行版本以及 Voltkit 的代码"
 
-#: src/about_ui.rs:45
+#: src/about_ui.rs:33
 msgid "Report an issue"
 msgstr "报告问题"
 
-#: src/about_ui.rs:45
+#: src/about_ui.rs:33
 msgid "Share a bug or suggest an improvement"
 msgstr "反馈错误或提出改进建议"
 
-#: src/about_ui.rs:51
-msgid "More from the same author"
-msgstr "同一作者的更多应用"
-
-#: src/about_ui.rs:52
+#: src/about_ui.rs:38
 msgid "Universal shipping label printer for Linux"
 msgstr "适用于 Linux 的通用快递面单打印工具"
 
-#: src/about_ui.rs:54
+#: src/about_ui.rs:40
 msgid ""
 "Battery health, charge limits and energy usage in one place, for GNOME"
 msgstr "在一处查看电池健康、充电上限和能耗，适用于 GNOME"
 
-#: src/about_ui.rs:58
+#: src/about_ui.rs:44
 msgid "Credits and license"
 msgstr "致谢与许可证"
 
-#: src/about_ui.rs:59
+#: src/about_ui.rs:45
 msgid "Created by"
 msgstr "作者"
 
-#: src/about_ui.rs:61 src/about_ui.rs:117
+#: src/about_ui.rs:47 src/about_ui.rs:98
 msgid "MIT License"
 msgstr "MIT 许可证"
 
-#: src/about_ui.rs:61
+#: src/about_ui.rs:47
 msgid "Free to use, modify, and share"
 msgstr "可自由使用、修改和分享"
 
-#: src/about_ui.rs:76 src/app.rs:147
+#: src/about_ui.rs:57 src/app.rs:147
 msgid "About Voltkit"
 msgstr "关于 Voltkit"
 
-#: src/about_ui.rs:84
+#: src/about_ui.rs:65
 #, rust-format
 msgid "Open {} on GitHub"
 msgstr "在 GitHub 上打开 {}"
 
-#: src/about_ui.rs:95
+#: src/about_ui.rs:76
 msgid "Open in browser"
 msgstr "在浏览器中打开"
 
-#: src/about_ui.rs:102
+#: src/about_ui.rs:83
 #, rust-format
 msgid "Could not open link: {}"
 msgstr "无法打开链接：{}"
