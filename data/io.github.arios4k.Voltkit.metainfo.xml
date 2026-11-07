@@ -148,6 +148,22 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.10.3" date="2026-11-07">
+      <description>
+        <p>The About box links to the author's other apps.</p>
+        <p xml:lang="es">El cuadro Acerca de enlaza con las otras aplicaciones del autor.</p>
+        <p xml:lang="de">Das Info-Fenster verlinkt die anderen Apps des Autors.</p>
+        <p xml:lang="fr">La fenêtre À propos renvoie vers les autres applications de l’auteur.</p>
+        <p xml:lang="zh_CN">“关于”窗口新增指向作者其他应用的链接。</p>
+        <ul>
+          <li>Links to ThermalPrint and Battery Health Center, with their official icons</li>
+          <li xml:lang="es">Enlaces a ThermalPrint y Battery Health Center, con sus iconos oficiales</li>
+          <li xml:lang="de">Links zu ThermalPrint und Battery Health Center mit ihren offiziellen Symbolen</li>
+          <li xml:lang="fr">Liens vers ThermalPrint et Battery Health Center, avec leurs icônes officielles</li>
+          <li xml:lang="zh_CN">指向 ThermalPrint 和 Battery Health Center 的链接，并附带它们的官方图标</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.2" date="2026-11-06">
       <description>
         <p>A clearer session comparison, and GPU Tuner shows everything, disabling what a card doesn't support.</p>
