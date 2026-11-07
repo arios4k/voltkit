@@ -252,36 +252,43 @@ impl Line {
     }
 }
 
-/// How many measures each session wins, and how many are a tie.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct Tally {
-    pub a: usize,
-    pub b: usize,
-    pub ties: usize,
+/// A group of related measures, with the one session that did better in it.
+#[derive(Clone, Debug, PartialEq)]
+pub struct Category {
+    pub name: &'static str,
+    pub lines: Vec<Line>,
+    /// `Some(true)` if `b` did better here, `Some(false)` if `a`, `None` if they are even.
+    pub better: Option<bool>,
 }
 
-impl Tally {
-    /// The session that is better on more measures: `Some(true)` for `b`,
-    /// `Some(false)` for `a`, `None` when it is even.
-    pub fn leader(&self) -> Option<bool> {
-        match self.b.cmp(&self.a) {
-            std::cmp::Ordering::Greater => Some(true),
-            std::cmp::Ordering::Less => Some(false),
-            std::cmp::Ordering::Equal => None,
-        }
-    }
-}
-
-pub fn tally(lines: &[Line]) -> Tally {
-    let mut t = Tally { a: 0, b: 0, ties: 0 };
-    for l in lines {
-        match l.b_wins() {
-            Some(true) => t.b += 1,
-            Some(false) => t.a += 1,
-            None => t.ties += 1,
-        }
-    }
-    t
+/// The measures sorted into categories, each naming one better session: the one
+/// ahead on more of the category's measures, or on its first measure when they split evenly.
+pub fn categories(lines: &[Line]) -> Vec<Category> {
+    const GROUPS: [(&str, &[&str]); 6] = [
+        (N_!("Temperature"), &["Average temperature", "Highest temperature"]),
+        (N_!("Power and energy"), &["Average power", "Highest power", "Energy used"]),
+        (N_!("Fan"), &["Average fan speed"]),
+        (N_!("Clock speed"), &["Average core clock", "Active clock"]),
+        (N_!("Efficiency"), &["Active clock per watt"]),
+        (N_!("Frames"), &["Average frames per second", "Frames per second per watt"]),
+    ];
+    GROUPS
+        .iter()
+        .filter_map(|(name, labels)| {
+            let mine: Vec<Line> = lines.iter().filter(|l| labels.contains(&l.label)).cloned().collect();
+            if mine.is_empty() {
+                return None;
+            }
+            let b_wins = mine.iter().filter(|l| l.b_wins() == Some(true)).count();
+            let a_wins = mine.iter().filter(|l| l.b_wins() == Some(false)).count();
+            let better = match b_wins.cmp(&a_wins) {
+                std::cmp::Ordering::Greater => Some(true),
+                std::cmp::Ordering::Less => Some(false),
+                std::cmp::Ordering::Equal => mine.iter().find_map(Line::b_wins),
+            };
+            Some(Category { name, lines: mine, better })
+        })
+        .collect()
 }
 
 /// The measures both sessions have, side by side.
@@ -292,17 +299,17 @@ pub fn compare(a: &Stats, b: &Stats) -> Vec<Line> {
             out.push(Line { label, unit, a, b, better });
         }
     };
-    add("Average temperature", "°C", a.avg_temp_c, b.avg_temp_c, Better::Lower);
-    add("Highest temperature", "°C", a.max_temp_c, b.max_temp_c, Better::Lower);
-    add("Average power", "W", a.avg_power_w, b.avg_power_w, Better::Lower);
-    add("Highest power", "W", a.max_power_w, b.max_power_w, Better::Lower);
-    add("Energy used", "Wh", a.energy_wh, b.energy_wh, Better::Lower);
-    add("Average fan speed", "%", a.avg_fan_pct, b.avg_fan_pct, Better::Lower);
-    add("Average core clock", "MHz", a.avg_core_mhz, b.avg_core_mhz, Better::Higher);
-    add("Active clock", "MHz", a.active_mhz, b.active_mhz, Better::Higher);
-    add("Active clock per watt", "MHz/W", a.active_mhz_per_w, b.active_mhz_per_w, Better::Higher);
-    add("Average frames per second", "fps", a.avg_fps, b.avg_fps, Better::Higher);
-    add("Frames per second per watt", "fps/W", a.fps_per_w, b.fps_per_w, Better::Higher);
+    add(N_!("Average temperature"), "°C", a.avg_temp_c, b.avg_temp_c, Better::Lower);
+    add(N_!("Highest temperature"), "°C", a.max_temp_c, b.max_temp_c, Better::Lower);
+    add(N_!("Average power"), "W", a.avg_power_w, b.avg_power_w, Better::Lower);
+    add(N_!("Highest power"), "W", a.max_power_w, b.max_power_w, Better::Lower);
+    add(N_!("Energy used"), "Wh", a.energy_wh, b.energy_wh, Better::Lower);
+    add(N_!("Average fan speed"), "%", a.avg_fan_pct, b.avg_fan_pct, Better::Lower);
+    add(N_!("Average core clock"), "MHz", a.avg_core_mhz, b.avg_core_mhz, Better::Higher);
+    add(N_!("Active clock"), "MHz", a.active_mhz, b.active_mhz, Better::Higher);
+    add(N_!("Active clock per watt"), "MHz/W", a.active_mhz_per_w, b.active_mhz_per_w, Better::Higher);
+    add(N_!("Average frames per second"), "fps", a.avg_fps, b.avg_fps, Better::Higher);
+    add(N_!("Frames per second per watt"), "fps/W", a.fps_per_w, b.fps_per_w, Better::Higher);
     out
 }
 
@@ -357,15 +364,29 @@ mod tests {
     }
 
     #[test]
-    fn tiny_differences_are_ties_and_one_session_leads() {
-        let line = |a, b, better| Line { label: "x", unit: "", a, b, better };
-        assert_eq!(line(70.0, 70.2, Better::Lower).b_wins(), None, "0.3 % is noise");
-        assert_eq!(line(70.0, 69.0, Better::Lower).b_wins(), Some(true));
-        assert_eq!(line(0.0, 0.0, Better::Lower).b_wins(), None);
-        let t = tally(&[line(2.0, 1.0, Better::Lower), line(2.0, 1.0, Better::Lower), line(1.0, 2.0, Better::Higher), line(5.0, 5.0, Better::Higher), line(1.0, 2.0, Better::Lower)]);
-        assert_eq!(t, Tally { a: 1, b: 3, ties: 1 });
-        assert_eq!(t.leader(), Some(true));
-        assert_eq!(Tally { a: 2, b: 2, ties: 0 }.leader(), None);
+    fn tiny_differences_are_ties_and_each_category_names_one_session() {
+        let line = |label, a, b, better| Line { label, unit: "", a, b, better };
+        assert_eq!(line("x", 70.0, 70.2, Better::Lower).b_wins(), None, "0.3 % is noise");
+        assert_eq!(line("x", 70.0, 69.0, Better::Lower).b_wins(), Some(true));
+        assert_eq!(line("x", 0.0, 0.0, Better::Lower).b_wins(), None);
+        let lines = [
+            line("Average temperature", 76.0, 68.0, Better::Lower),
+            line("Highest temperature", 78.0, 70.0, Better::Lower),
+            line("Average power", 258.0, 206.0, Better::Lower),
+            line("Highest power", 200.0, 210.0, Better::Lower),
+            line("Energy used", 5.0, 5.0, Better::Lower),
+            line("Average core clock", 2480.0, 2440.0, Better::Higher),
+            line("Active clock per watt", 9.0, 11.0, Better::Higher),
+        ];
+        let cats = categories(&lines);
+        let by = |n: &str| cats.iter().find(|c| c.name == n).unwrap().better;
+        assert_eq!(cats.len(), 4, "only categories with readings appear");
+        assert_eq!(by("Temperature"), Some(true));
+        assert_eq!(by("Power and energy"), Some(true), "first measure decides a split");
+        assert_eq!(by("Clock speed"), Some(false), "stock clocks higher");
+        assert_eq!(by("Efficiency"), Some(true));
+        let even = categories(&[line("Energy used", 5.0, 5.0, Better::Lower)]);
+        assert_eq!(even[0].better, None);
     }
 
     #[test]

@@ -104,7 +104,7 @@ impl Sparkline {
     fn new(ceiling: f64) -> Self {
         let data: Rc<RefCell<VecDeque<f64>>> = Rc::new(RefCell::new(VecDeque::new()));
         let ceiling = Rc::new(Cell::new(ceiling));
-        let area = gtk::DrawingArea::builder().content_width(120).content_height(28).valign(gtk::Align::Center).build();
+        let area = gtk::DrawingArea::builder().content_width(120).content_height(28).valign(gtk::Align::Center).accessible_role(gtk::AccessibleRole::Presentation).build();
         let (d, c) = (data.clone(), ceiling.clone());
         area.set_draw_func(move |area, cr, w, h| {
             let color = area.color();
@@ -231,7 +231,20 @@ impl CardView {
             page.aside(&view.group);
             view
         });
+        if profiles.is_none() {
+            let off = adw::PreferencesGroup::builder()
+                .title(tr("Profiles"))
+                .description(tr("Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot."))
+                .build();
+            off.add(&adw::ActionRow::builder().title(tr("No settings to save")).subtitle(tr("Nothing on this card can be changed, so there is nothing to put in a profile.")).sensitive(false).build());
+            let buttons = gtk::Box::builder().spacing(8).halign(gtk::Align::End).margin_top(8).sensitive(false).build();
+            buttons.append(&gtk::Button::with_label(&tr("Save current settings as a profile…")));
+            buttons.append(&gtk::Button::builder().label(tr("Apply profiles")).css_classes(["suggested-action"]).build());
+            off.add(&buttons);
+            page.aside(&off);
+        }
         let sessions = sessions_group(card, toasts);
+        sessions.group.set_sensitive(supported(card, Control::Monitoring));
         page.aside(&sessions.group);
 
         stack.add_named(&*page, Some(&index.to_string()));
@@ -271,6 +284,36 @@ fn spin(title: String, subtitle: Option<String>, value: f64, lo: f64, hi: f64, s
     row
 }
 
+/// A greyed-out chart showing where the curve would go, for cards that don't offer it.
+fn disabled_chart(points: Vec<CurvePoint>, axes: Axes) -> adw::PreferencesRow {
+    let chart = CurveChart::new(points, axes);
+    chart.area.update_property(&[gtk::accessible::Property::Description(&tr("Not available on this card."))]);
+    chart.area.set_tooltip_text(Some(&tr("Not available on this card.")));
+    let holder = gtk::Box::builder().margin_top(8).margin_bottom(8).margin_start(12).margin_end(12).opacity(0.45).sensitive(false).build();
+    holder.append(&chart.area);
+    // A preferences row, so the group keeps it directly under its control.
+    adw::PreferencesRow::builder().child(&holder).activatable(false).selectable(false).sensitive(false).build()
+}
+
+/// Lists a control the card doesn't offer: greyed out with the reason, and for
+/// the two curve editors, an inactive chart too.
+fn add_unavailable(group: &adw::PreferencesGroup, card: &Card, control: Control) {
+    group.add(&unavailable_row(card, control));
+    match control {
+        Control::FanSpeed => {
+            let points = [(30.0, 25.0), (50.0, 40.0), (70.0, 65.0), (85.0, 100.0)].map(|(t, f)| CurvePoint { temp_c: t, speed_pct: f });
+            group.add(&disabled_chart(points.to_vec(), Axes::fan()));
+        }
+        Control::VoltageCurve => {
+            if let Some(table) = gpu_tune::parse_vf_table(gpu::DEMO_VF) {
+                let points = table.points.iter().map(|p| CurvePoint { temp_c: f64::from(p.mhz), speed_pct: f64::from(p.mv) }).collect();
+                group.add(&disabled_chart(points, Axes::voltage(table.limits.clone())));
+            }
+        }
+        _ => {}
+    }
+}
+
 /// A control this card doesn't offer: still listed, greyed out, with the reason.
 fn unavailable_row(card: &Card, control: Control) -> adw::ActionRow {
     let text = card.capabilities.iter().find(|c| c.control == control).and_then(|c| match &c.support {
@@ -283,9 +326,11 @@ fn unavailable_row(card: &Card, control: Control) -> adw::ActionRow {
         .subtitle_lines(4)
         .sensitive(false)
         .build();
-    let lock = gtk::Image::from_icon_name("changes-prevent-symbolic");
+    let lock = gtk::Image::builder().icon_name("changes-prevent-symbolic").accessible_role(gtk::AccessibleRole::Presentation).build();
     row.add_prefix(&lock);
-    row.add_suffix(&gtk::Switch::builder().valign(gtk::Align::Center).sensitive(false).build());
+    let off = gtk::Switch::builder().valign(gtk::Align::Center).sensitive(false).build();
+    off.update_property(&[gtk::accessible::Property::Label(&control.title())]);
+    row.add_suffix(&off);
     row
 }
 
@@ -312,13 +357,17 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     let any = Control::ALL.iter().any(|c| *c != Control::Monitoring && supported(card, *c));
     if !any {
         group.add(&adw::ActionRow::builder().title(tr("Nothing on this card can be changed")).subtitle(tr("See what this card supports for the reasons.")).build());
-        for control in Control::ALL.iter().filter(|c| !matches!(c, Control::Monitoring | Control::FanCurve)) {
-            group.add(&unavailable_row(card, *control));
+        for control in [Control::PowerLimit, Control::FanSpeed, Control::TemperatureTarget, Control::ClockOffsets, Control::ClockLimits, Control::VoltageCurve] {
+            add_unavailable(&group, card, control);
         }
+        let buttons = gtk::Box::builder().spacing(8).halign(gtk::Align::End).margin_top(8).sensitive(false).build();
+        buttons.append(&gtk::Button::with_label(&tr("Preview")));
+        buttons.append(&gtk::Button::builder().label(tr("Apply")).css_classes(["suggested-action"]).build());
+        group.add(&buttons);
         return (group, None, None);
     }
     let experimental = adw::ActionRow::builder().title(tr("Experimental")).subtitle(tr("Changing GPU settings hasn't been confirmed on real hardware for every card yet. Everything you don't confirm is undone, but a wrong voltage can still crash the computer.")).subtitle_lines(6).build();
-    let warning = gtk::Image::from_icon_name("dialog-warning-symbolic");
+    let warning = gtk::Image::builder().icon_name("dialog-warning-symbolic").accessible_role(gtk::AccessibleRole::Presentation).build();
     warning.add_css_class("warning");
     experimental.add_prefix(&warning);
     group.add(&experimental);
@@ -339,7 +388,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     });
 
     if !supported(card, Control::PowerLimit) && !only_vf {
-        group.add(&unavailable_row(card, Control::PowerLimit));
+        add_unavailable(&group, card, Control::PowerLimit);
     }
     let fan = (supported(card, Control::FanSpeed) && !only_vf).then(|| {
         let row = expander(tr("Fan"), tr("Fixed speed, or a curve that follows the temperature."), demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() != Ok("vf"));
@@ -362,6 +411,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         let fan_checks: Vec<gtk::CheckButton> = (0..fan_count)
             .map(|i| {
                 let check = gtk::CheckButton::builder().active(true).valign(gtk::Align::Center).build();
+                check.update_property(&[gtk::accessible::Property::Label(&trf!("Fan {}", i + 1))]);
                 let r = adw::ActionRow::builder().title(trf!("Fan {}", i + 1)).activatable_widget(&check).build();
                 r.add_prefix(&check);
                 fans_row.add_row(&r);
@@ -563,7 +613,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     });
 
     if !supported(card, Control::FanSpeed) && !only_vf {
-        group.add(&unavailable_row(card, Control::FanSpeed));
+        add_unavailable(&group, card, Control::FanSpeed);
     }
     let target = (supported(card, Control::TemperatureTarget) && !only_vf).then(|| {
         let row = expander(tr("Temperature target"), tr("The temperature the card's fan control aims for."), false);
@@ -574,7 +624,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     });
 
     if !supported(card, Control::TemperatureTarget) && !only_vf {
-        group.add(&unavailable_row(card, Control::TemperatureTarget));
+        add_unavailable(&group, card, Control::TemperatureTarget);
     }
     let clocks = (supported(card, Control::ClockOffsets) && !only_vf).then(|| {
         let row = expander(tr("Clock offsets"), tr("Raise or lower the clocks from their defaults."), false);
@@ -586,7 +636,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     });
 
     if !supported(card, Control::ClockOffsets) && !only_vf {
-        group.add(&unavailable_row(card, Control::ClockOffsets));
+        add_unavailable(&group, card, Control::ClockOffsets);
     }
     let limits = supported(card, Control::ClockLimits).then(|| {
         let (lo, hi) = crate::modules::gpu::intel_freq(&card.gpu).map_or((0.0, 4000.0), |f| {
@@ -602,7 +652,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     });
 
     if !supported(card, Control::ClockLimits) && !only_vf {
-        group.add(&unavailable_row(card, Control::ClockLimits));
+        add_unavailable(&group, card, Control::ClockLimits);
     }
     // Cards with a full table get a point per clock; the others, a single offset.
     let od = if demo { Some(gpu::DEMO_VF.to_owned()) } else { std::fs::read_to_string(card.gpu.device.join("pp_od_clk_voltage")).ok() };
@@ -665,7 +715,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     let vf_present = vf.is_some();
 
     if !supported(card, Control::VoltageCurve) && !only_vf {
-        group.add(&unavailable_row(card, Control::VoltageCurve));
+        add_unavailable(&group, card, Control::VoltageCurve);
     }
     let voltage = (supported(card, Control::VoltageCurve) && !vf_present).then(|| {
         let row = expander(tr("Voltage offset"), tr("Lower the voltage for less heat, or raise it for stability."), false);
@@ -1197,45 +1247,51 @@ fn demo_sessions() -> Vec<Session> {
 
 fn show_comparison(anchor: &impl IsA<gtk::Widget>, a: &Session, b: &Session) {
     let lines = gpu_session::compare(&gpu_session::stats(a), &gpu_session::stats(b));
-    let tally = gpu_session::tally(&lines);
     let wrapped = |text: String, css: &[&str]| {
         gtk::Label::builder().label(text).wrap(true).xalign(0.0).hexpand(true).css_classes(css.to_vec()).build()
     };
 
-    let content = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(12)
-        .margin_top(12).margin_bottom(18).margin_start(18).margin_end(18).build();
-    content.append(&wrapped(trf!("{} compared with {}", a.label.clone(), b.label.clone()), &["title-3"]));
-    if !lines.is_empty() {
-        let verdict = match tally.leader() {
-            Some(b_leads) => {
-                let (name, wins) = if b_leads { (b.label.clone(), tally.b) } else { (a.label.clone(), tally.a) };
-                trf!("{} is better on {} of {} measures.", name, wins, lines.len())
-            }
-            None => tr("Neither session is clearly better: they win the same number of measures.").to_string(),
-        };
-        content.append(&wrapped(verdict, &["heading"]));
-    }
-    content.append(&wrapped(tr("The ▶ marks the better session. Active MHz per watt is a proxy for work per watt, not frames.").to_string(), &["dim-label"]));
+    // The heading stays put above the scrolling list, so it can never be cut off.
+    let top = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(6)
+        .margin_top(6).margin_bottom(12).margin_start(18).margin_end(18).build();
+    top.append(&wrapped(trf!("{} compared with {}", a.label.clone(), b.label.clone()), &["title-3"]));
+    top.append(&wrapped(tr("Each category names the better session. Active MHz per watt is a proxy for work per watt, not frames.").to_string(), &["dim-label"]));
 
-    let group = adw::PreferencesGroup::new();
-    for l in &lines {
-        let change = l.change_pct().map_or_else(String::new, |c| format!("  ({c:+.0} %)"));
-        let row = adw::ActionRow::builder().title(tr(l.label)).subtitle(format!("{:.1} → {:.1} {}{change}", l.a, l.b, l.unit)).build();
-        let (text, css) = match l.b_wins() {
-            Some(true) => (format!("{} ▶", b.label), "success"),
-            Some(false) => (format!("◀ {}", a.label), "success"),
-            None => (tr("Same").to_string(), "dim-label"),
+    let list = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(18)
+        .margin_top(6).margin_bottom(18).margin_start(18).margin_end(18).build();
+    for category in gpu_session::categories(&lines) {
+        let group = adw::PreferencesGroup::builder().title(tr(category.name)).build();
+        let (icon, css, verdict) = match category.better {
+            Some(true) => ("emblem-ok-symbolic", "success", trf!("Better: {}", b.label.clone())),
+            Some(false) => ("emblem-ok-symbolic", "success", trf!("Better: {}", a.label.clone())),
+            None => ("dialog-information-symbolic", "dim-label", tr("Same").to_string()),
         };
-        row.add_suffix(&gtk::Label::builder().label(text).ellipsize(gtk::pango::EllipsizeMode::End).max_width_chars(28).justify(gtk::Justification::Right)
-            .css_classes([css]).valign(gtk::Align::Center).build());
-        group.add(&row);
+        let winner = adw::ActionRow::builder().title(glib::markup_escape_text(&verdict)).title_lines(0).build();
+        let mark = gtk::Image::builder().icon_name(icon).accessible_role(gtk::AccessibleRole::Presentation).build();
+        mark.add_css_class(css);
+        winner.add_prefix(&mark);
+        winner.add_css_class("heading");
+        group.add(&winner);
+        for l in &category.lines {
+            let change = l.change_pct().map_or_else(String::new, |c| format!("  ({c:+.0} %)"));
+            group.add(
+                &adw::ActionRow::builder()
+                    .title(glib::markup_escape_text(&tr(l.label)))
+                    .subtitle(glib::markup_escape_text(&format!("{:.1} → {:.1} {}{change}", l.a, l.b, l.unit)))
+                    .title_lines(0)
+                    .subtitle_lines(0)
+                    .build(),
+            );
+        }
+        list.append(&group);
     }
     if lines.is_empty() {
-        group.add(&adw::ActionRow::builder().title(tr("These sessions have no readings in common.")).build());
+        let group = adw::PreferencesGroup::new();
+        group.add(&adw::ActionRow::builder().title(tr("These sessions have no readings in common.")).title_lines(0).build());
+        list.append(&group);
     }
-    content.append(&group);
 
-    let scroll = gtk::ScrolledWindow::builder().child(&content).vexpand(true).hscrollbar_policy(gtk::PolicyType::Never).build();
+    let scroll = gtk::ScrolledWindow::builder().child(&list).vexpand(true).hscrollbar_policy(gtk::PolicyType::Never).build();
     let dialog = adw::Dialog::builder().title(tr("Compare sessions")).content_width(760).content_height(640).build();
     let close = gtk::Button::builder().label(tr("Close")).halign(gtk::Align::End).css_classes(["suggested-action"]).build();
     close.connect_clicked({
@@ -1244,14 +1300,18 @@ fn show_comparison(anchor: &impl IsA<gtk::Widget>, a: &Session, b: &Session) {
             dialog.close();
         }
     });
-    let bar = gtk::Box::builder().orientation(gtk::Orientation::Horizontal).margin_top(8).margin_bottom(8).margin_start(18).margin_end(18).build();
+    let bar = gtk::Box::builder().orientation(gtk::Orientation::Horizontal).halign(gtk::Align::End).margin_top(8).margin_bottom(8).margin_start(18).margin_end(18).build();
     bar.append(&close);
-    bar.set_halign(gtk::Align::End);
+    let body = gtk::Box::builder().orientation(gtk::Orientation::Vertical).build();
+    body.append(&top);
+    body.append(&scroll);
     let view = adw::ToolbarView::new();
     view.add_top_bar(&adw::HeaderBar::new());
-    view.set_content(Some(&scroll));
+    view.set_content(Some(&body));
     view.add_bottom_bar(&bar);
     dialog.set_child(Some(&view));
+    dialog.set_default_widget(Some(&close));
+    dialog.set_focus(Some(&close));
     dialog.present(Some(anchor));
 }
 
@@ -1294,6 +1354,7 @@ fn sessions_group(card: &Card, toasts: &adw::ToastOverlay) -> SessionsView {
                 let power = st.avg_power_w.map_or_else(String::new, |p| format!(" · {p:.0} W"));
                 let row = adw::ActionRow::builder().title(glib::markup_escape_text(&s.label)).subtitle(format!("{} · {:.0} s{power}", s.started.replace('T', " "), st.seconds)).build();
                 let check = gtk::CheckButton::builder().valign(gtk::Align::Center).build();
+                check.update_property(&[gtk::accessible::Property::Label(&s.label)]);
                 row.add_prefix(&check);
                 row.set_activatable_widget(Some(&check));
                 {
