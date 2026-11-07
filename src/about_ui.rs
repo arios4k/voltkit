@@ -46,6 +46,15 @@ pub fn dialog() -> adw::Dialog {
         concat!(env!("CARGO_PKG_REPOSITORY"), "/issues"), &toasts));
     body.append(&project);
 
+    // The author's other apps, with their own icons.
+    crate::app::add_embedded_icons();
+    let more = adw::PreferencesGroup::builder().title(tr("More from the same author")).build();
+    more.add(&app_link("ThermalPrint", tr("Universal shipping label printer for Linux"), "org.thermalprint.ThermalPrint",
+        "https://github.com/arios4k/thermalprint", &toasts));
+    more.add(&app_link("Battery Health Center", tr("Battery health, charge limits and energy usage in one place, for GNOME"),
+        "io.github.BatteryHealthCenter", "https://github.com/arios4k/battery-health-center", &toasts));
+    body.append(&more);
+
     let credits = adw::PreferencesGroup::builder().title(tr("Credits and license")).build();
     credits.add(&adw::ActionRow::builder().title(tr("Created by"))
         .subtitle(glib::markup_escape_text(env!("CARGO_PKG_AUTHORS"))).subtitle_selectable(true).build());
@@ -68,9 +77,21 @@ pub fn dialog() -> adw::Dialog {
         .child(&view).css_classes(["voltkit-about"]).build()
 }
 
+/// A link to one of the author's other apps, shown with the app's own icon.
+fn app_link(name: &'static str, subtitle: &str, icon: &str, uri: &'static str, toasts: &adw::ToastOverlay) -> adw::ActionRow {
+    let image = gtk::Image::builder().icon_name(icon).pixel_size(40).accessible_role(gtk::AccessibleRole::Presentation).build();
+    let row = link_row(name, subtitle, image, uri, toasts);
+    row.set_tooltip_text(Some(&trf!("Open {} on GitHub", name)));
+    row
+}
+
 fn link(title: &str, subtitle: &str, icon: &str, uri: &'static str, toasts: &adw::ToastOverlay) -> adw::ActionRow {
+    link_row(title, subtitle, gtk::Image::from_icon_name(icon), uri, toasts)
+}
+
+fn link_row(title: &str, subtitle: &str, prefix: gtk::Image, uri: &'static str, toasts: &adw::ToastOverlay) -> adw::ActionRow {
     let row = adw::ActionRow::builder().title(glib::markup_escape_text(title)).subtitle(glib::markup_escape_text(subtitle)).subtitle_lines(2).activatable(true).build();
-    row.add_prefix(&gtk::Image::from_icon_name(icon));
+    row.add_prefix(&prefix);
     row.add_suffix(&gtk::Image::builder().icon_name("adw-external-link-symbolic").tooltip_text(tr("Open in browser")).build());
     let toasts = toasts.clone();
     row.connect_activated(move |row| {

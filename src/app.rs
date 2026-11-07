@@ -65,9 +65,24 @@ pub(crate) fn add_embedded_icons() {
             let _ = std::fs::create_dir_all(&dir);
             let _ = std::fs::write(&file, GPU_ICON);
         }
+        // The colour icons of the author's other apps, shown in the About box.
+        let apps = root.join("hicolor/scalable/apps");
+        for (name, svg) in SIBLING_ICONS {
+            let file = apps.join(format!("{name}.svg"));
+            if std::fs::read_to_string(&file).ok().as_deref() != Some(svg) {
+                let _ = std::fs::create_dir_all(&apps);
+                let _ = std::fs::write(&file, svg);
+            }
+        }
         gtk::IconTheme::for_display(&display).add_search_path(&root);
     });
 }
+
+/// The official icons of ThermalPrint and Battery Health Center, copied from their repositories.
+const SIBLING_ICONS: [(&str, &str); 2] = [
+    ("org.thermalprint.ThermalPrint", include_str!("../data/icons/org.thermalprint.ThermalPrint.svg")),
+    ("io.github.BatteryHealthCenter", include_str!("../data/icons/io.github.BatteryHealthCenter.svg")),
+];
 
 pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::Window {
     add_source_icon_path();
