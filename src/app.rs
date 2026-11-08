@@ -904,4 +904,11 @@ mod manual_tests {
         }
         assert_eq!(manual_url("nothing"), MANUAL_URL);
     }
+
+    #[test]
+    fn the_manuals_whats_new_page_lists_this_version() {
+        let page = std::fs::read_to_string(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("docs/manual/pages/whats-new.md")).unwrap();
+        let heading = format!("## Version {}\n", env!("CARGO_PKG_VERSION"));
+        assert!(page.contains(&heading), "add \"{}\" to docs/manual/pages/whats-new.md", heading.trim());
+    }
 }

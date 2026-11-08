@@ -36,7 +36,8 @@ launch, so users only install and open it.
 
 1. Set the new version in `Cargo.toml` and `packaging/rpm/voltkit.spec` (`Version`, `Release: 1`,
    and a `%changelog` entry). `cargo test` fails until they match. Regenerate the man pages
-   (`cargo run -- manpages man`).
+   (`cargo run -- manpages man`). Add the release to `docs/manual/pages/whats-new.md` (a
+   `## Version X.Y.Z` section, newest first): `cargo test` fails until it is there.
 2. Commit, then tag and push: `git tag vX.Y.Z && git push origin main vX.Y.Z`. The release workflow
    publishes the GitHub Release and the apt repository.
 3. COPR builds by itself: the last job of the release workflow calls the COPR webhook once the tag is

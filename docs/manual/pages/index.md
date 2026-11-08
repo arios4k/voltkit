@@ -10,6 +10,7 @@
 - **Looking for one tool?** Pick it in the left menu. Each tool page follows the same pattern: what it is for, how to open it, every control on its page, the keyboard shortcut and terminal command, and troubleshooting.
 - **Looking for a command or a setting?** See the [Command-line reference](cli), [Global shortcuts and the background service](daemon) and [Configuration file](config).
 - **Something is not working?** See [Troubleshooting and `voltkit doctor`](troubleshooting).
+- **Updated recently?** See [What's new](whats-new) for the changes in every release.
 - Press <kbd>/</kbd> anywhere in the manual to search it.
 
 ## The fifteen tools
