@@ -198,6 +198,8 @@ def main():
                   heads=[dict(id=i, t=t) for _, i, t in p["heads"]]) for p in pages]
     (out / "search.json").write_text(json.dumps(index, ensure_ascii=False))
 
+    byline = (f'<p class="byline">By <a href="https://github.com/arios4k">Alexis Rios-Negron</a>'
+              f' · Voltkit {html.escape(version)}</p>')
     for n, p in enumerate(pages):
         toc = "".join(f'<li class="l{lvl}"><a href="#{i}">{html.escape(t)}</a></li>' for lvl, i, t in p["heads"] if lvl <= 3)
         prev = pages[n - 1] if n else None
@@ -220,8 +222,8 @@ def main():
 <div id="results" class="results" hidden></div>
 <div class="layout">
 <aside class="side" id="nav" aria-label="Manual pages"><button class="close" aria-label="Close the menu">✕ Close</button>{nav(p["stem"])}</aside>
-<main><details class="toc-m"><summary>On this page</summary><ul>{toc}</ul></details><article>{p["body"]}</article>{pn}
-<footer>Voltkit {html.escape(version)} · <a href="https://github.com/arios4k/voltkit/issues">Report a problem with this manual</a> · MIT License</footer></main>
+<main><details class="toc-m"><summary>On this page</summary><ul>{toc}</ul></details><article>{p["body"].replace("</h1>", "</h1>" + byline, 1)}</article>{pn}
+<footer>Written by Alexis Rios-Negron · Voltkit {html.escape(version)} · <a href="https://github.com/arios4k/voltkit/issues">Report a problem with this manual</a> · MIT License</footer></main>
 <aside class="toc" aria-label="On this page"><div class="group-title">On this page</div><ul>{toc}</ul></aside>
 </div><script src="manual.js"></script></body></html>"""
         (out / f'{p["stem"]}.html').write_text(page)
