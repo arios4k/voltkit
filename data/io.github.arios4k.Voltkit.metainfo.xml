@@ -148,6 +148,42 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.10.4" date="2026-11-07">
+      <description>
+        <p>GPU Tuner is organized into tabs and gains an advisor, throttle reasons, session cost, profile sharing and an idle-power check.</p>
+        <p xml:lang="es">El ajuste de GPU se organiza en pestañas y suma un asistente, los motivos de frenado, el coste de las sesiones, perfiles compartibles y una comprobación de consumo en reposo.</p>
+        <p xml:lang="de">Der GPU-Tuner ist in Reiter gegliedert und bietet jetzt einen Berater, Drosselgründe, Sitzungskosten, teilbare Profile und einen Leerlauf-Stromcheck.</p>
+        <p xml:lang="fr">Le réglage du GPU est organisé en onglets et ajoute un conseiller, les causes de freinage, le coût des sessions, le partage de profils et une vérification de la consommation au repos.</p>
+        <p xml:lang="zh_CN">GPU 调节器按标签页整理，并新增建议功能、限频原因、会话成本、配置分享和空闲功耗检查。</p>
+        <ul>
+          <li>Monitor, Tune, Profiles and Sessions tabs</li>
+          <li xml:lang="es">Pestañas Monitorización, Ajustar, Perfiles y Sesiones</li>
+          <li xml:lang="de">Reiter Überwachung, Einstellen, Profile und Sitzungen</li>
+          <li xml:lang="fr">Onglets Surveillance, Régler, Profils et Sessions</li>
+          <li xml:lang="zh_CN">“监控”“调节”“配置”“会话”标签页</li>
+          <li>Why the clock is held back (power limit or heat), recorded in sessions</li>
+          <li xml:lang="es">Por qué se frena el reloj (límite de potencia o calor), registrado en las sesiones</li>
+          <li xml:lang="de">Warum der Takt gebremst wird (Leistungslimit oder Hitze), in Sitzungen aufgezeichnet</li>
+          <li xml:lang="fr">Pourquoi la fréquence est freinée (limite de puissance ou chaleur), enregistré dans les sessions</li>
+          <li xml:lang="zh_CN">频率被限制的原因（功率上限或高温），并记录在会话中</li>
+          <li>Suggest a power limit, and what a session cost</li>
+          <li xml:lang="es">Sugerir un límite de potencia y lo que costó una sesión</li>
+          <li xml:lang="de">Leistungslimit vorschlagen und was eine Sitzung gekostet hat</li>
+          <li xml:lang="fr">Suggérer une limite de puissance et le coût d’une session</li>
+          <li xml:lang="zh_CN">建议功率上限，以及一次会话的花费</li>
+          <li>Steam and Proton game rules, a Keep under a temperature fan mode, shareable profiles and an idle power check</li>
+          <li xml:lang="es">Reglas para juegos de Steam y Proton, modo de ventilador para mantener bajo una temperatura, perfiles compartibles y comprobación de consumo en reposo</li>
+          <li xml:lang="de">Regeln für Steam- und Proton-Spiele, Lüftermodus unter einer Temperatur, teilbare Profile und Leerlauf-Stromcheck</li>
+          <li xml:lang="fr">Règles pour les jeux Steam et Proton, mode ventilateur sous une température, profils partageables et vérification de la consommation au repos</li>
+          <li xml:lang="zh_CN">Steam 与 Proton 游戏规则、保持在某温度以下的风扇模式、可分享的配置以及空闲功耗检查</li>
+          <li>The About box fits without scrolling</li>
+          <li xml:lang="es">El cuadro Acerca de cabe sin desplazarse</li>
+          <li xml:lang="de">Das Info-Fenster passt ohne Scrollen</li>
+          <li xml:lang="fr">La fenêtre À propos tient sans défilement</li>
+          <li xml:lang="zh_CN">“关于”窗口无需滚动</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.3" date="2026-11-07">
       <description>
         <p>The About box links to the author's other apps.</p>
