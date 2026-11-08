@@ -22,6 +22,7 @@ gpu-profiles | Profiles | GPU Tuner
 gpu-sessions | Sessions and suggestions | GPU Tuner
 gpu-terminal | GPU on the command line | GPU Tuner
 gpu-safety | Safety and limits | GPU Tuner
+whats-new | What's new | Reference
 cli | Command-line reference | Reference
 daemon | Global shortcuts and the service | Reference
 config | Configuration file | Reference
