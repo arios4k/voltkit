@@ -208,7 +208,7 @@ msgstr "Aufmerksamkeit nötig"
 msgid "Copy Command"
 msgstr "Befehl kopieren"
 
-#: src/app.rs:355 src/gpu_ui.rs:846 src/gpu_ui.rs:1400 src/gpu_ui.rs:1538
+#: src/app.rs:355 src/gpu_ui.rs:863 src/gpu_ui.rs:1417 src/gpu_ui.rs:1555
 msgid "Close"
 msgstr "Schließen"
 
@@ -903,7 +903,7 @@ msgstr "nicht festgelegt"
 msgid "Press the New Shortcut…"
 msgstr "Drücken Sie das neue Tastenkürzel …"
 
-#: src/detective_ui.rs:277 src/gpu_ui.rs:1232 src/snippets_ui.rs:406 src/system_ui.rs:484
+#: src/detective_ui.rs:277 src/gpu_ui.rs:1249 src/snippets_ui.rs:406 src/system_ui.rs:484
 msgid "Save"
 msgstr "Speichern"
 
@@ -1154,11 +1154,11 @@ msgstr "Diese Grafikkarte wurde nicht gefunden."
 msgid "Can't read the settings."
 msgstr "Die Einstellungen können nicht gelesen werden."
 
-#: src/gpu_cli.rs:89 src/gpu_ui.rs:400
+#: src/gpu_cli.rs:89 src/gpu_ui.rs:417
 msgid "Experimental"
 msgstr "Experimentell"
 
-#: src/gpu_cli.rs:89 src/gpu_ui.rs:400
+#: src/gpu_cli.rs:89 src/gpu_ui.rs:417
 msgid ""
 "Changing GPU settings hasn't been confirmed on real hardware for every card yet. Everything you don't confirm is undone, but a wrong voltage can still crash the computer."
 msgstr ""
@@ -1179,7 +1179,7 @@ msgstr ""
 msgid "Kept."
 msgstr "Beibehalten."
 
-#: src/gpu_cli.rs:131 src/gpu_ui.rs:949
+#: src/gpu_cli.rs:131 src/gpu_ui.rs:966
 msgid "Not confirmed, so the change was undone."
 msgstr "Nicht bestätigt, daher wurde die Änderung rückgängig gemacht."
 
@@ -1244,7 +1244,7 @@ msgstr "Es ist kein Profil aktiv. Der Dienst läuft möglicherweise nicht."
 msgid "Can't read the profiles."
 msgstr "Die Profile können nicht gelesen werden."
 
-#: src/gpu_cli.rs:454 src/gpu_ui.rs:1263
+#: src/gpu_cli.rs:454 src/gpu_ui.rs:1280
 msgid "Profiles installed."
 msgstr "Profile installiert."
 
@@ -1294,16 +1294,16 @@ msgid "No sessions are recorded yet. Run `voltkit gpu record`."
 msgstr ""
 "Es sind noch keine Sitzungen aufgezeichnet. Führen Sie `voltkit gpu record` aus."
 
-#: src/gpu_cli.rs:556 src/gpu_cli.rs:557 src/gpu_ui.rs:1369 src/gpu_ui.rs:1370
+#: src/gpu_cli.rs:556 src/gpu_cli.rs:557 src/gpu_ui.rs:1386 src/gpu_ui.rs:1387
 #, rust-format
 msgid "Better: {}"
 msgstr "Besser: {}"
 
-#: src/gpu_cli.rs:558 src/gpu_ui.rs:1371
+#: src/gpu_cli.rs:558 src/gpu_ui.rs:1388
 msgid "Same"
 msgstr "Gleich"
 
-#: src/gpu_cli.rs:566 src/gpu_ui.rs:1362
+#: src/gpu_cli.rs:566 src/gpu_ui.rs:1379
 msgid ""
 "Each category names the better session. Active MHz per watt is a proxy for work per watt, not frames."
 msgstr ""
@@ -1487,7 +1487,7 @@ msgstr "Kerntakt"
 msgid "Memory clock"
 msgstr "Speichertakt"
 
-#: src/gpu_ui.rs:175 src/gpu_ui.rs:425 src/modules/gpu.rs:776 src/modules/gpu_session.rs:300
+#: src/gpu_ui.rs:175 src/gpu_ui.rs:442 src/modules/gpu.rs:776 src/modules/gpu_session.rs:300
 msgid "Fan"
 msgstr "Lüfter"
 
@@ -1519,585 +1519,589 @@ msgstr " und "
 msgid "Video memory"
 msgstr "Grafikspeicher"
 
-#: src/gpu_ui.rs:208 src/modules/sleep.rs:632
+#: src/gpu_ui.rs:209 src/modules/sleep.rs:632
 msgid "Right now"
 msgstr "Gerade jetzt"
 
-#: src/gpu_ui.rs:228
+#: src/gpu_ui.rs:229
 msgid "Idle power check"
 msgstr "Leerlauf-Stromcheck"
 
-#: src/gpu_ui.rs:228
+#: src/gpu_ui.rs:229
 msgid "Checks whether the memory clock drops when nothing runs."
 msgstr "Prüft, ob der Speichertakt sinkt, wenn nichts läuft."
 
-#: src/gpu_ui.rs:234
+#: src/gpu_ui.rs:235
 msgid "What this card supports"
 msgstr "Was diese Karte unterstützt"
 
-#: src/gpu_ui.rs:235
+#: src/gpu_ui.rs:236
 msgid ""
 "Each control is shown as the driver reports it. Voltkit can't go beyond what the hardware, firmware and driver allow."
 msgstr ""
 "Jede Steuerung wird so angezeigt, wie der Treiber sie meldet. Voltkit kann nicht über das hinausgehen, was Hardware, Firmware und Treiber erlauben."
 
-#: src/gpu_ui.rs:260 src/gpu_ui.rs:1033
+#: src/gpu_ui.rs:261 src/gpu_ui.rs:279 src/gpu_ui.rs:1050
 msgid "Profiles"
 msgstr "Profile"
 
-#: src/gpu_ui.rs:261 src/gpu_ui.rs:1032
+#: src/gpu_ui.rs:262 src/gpu_ui.rs:1049
 msgid ""
 "Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot."
 msgstr ""
 "Speichern Sie Einstellungen als benannte Profile und lassen Sie Voltkit zwischen ihnen wechseln: im Akkubetrieb, solange eine App läuft, unter Last oder wenn die Karte heiß wird."
 
-#: src/gpu_ui.rs:263
+#: src/gpu_ui.rs:264
 msgid "No settings to save"
 msgstr "Keine Einstellungen zu speichern"
 
-#: src/gpu_ui.rs:263
+#: src/gpu_ui.rs:264
 msgid ""
 "Nothing on this card can be changed, so there is nothing to put in a profile."
 msgstr ""
 "Auf dieser Karte lässt sich nichts ändern, also gibt es nichts für ein Profil."
 
-#: src/gpu_ui.rs:265 src/gpu_ui.rs:1190
+#: src/gpu_ui.rs:266 src/gpu_ui.rs:1207
 msgid "Save current settings as a profile…"
 msgstr "Aktuelle Einstellungen als Profil speichern …"
 
-#: src/gpu_ui.rs:266 src/gpu_ui.rs:1191
+#: src/gpu_ui.rs:267 src/gpu_ui.rs:1208
 msgid "Apply profiles"
 msgstr "Profile anwenden"
 
-#: src/gpu_ui.rs:319 src/gpu_ui.rs:320
-msgid "Not available on this card."
-msgstr "Auf dieser Karte nicht verfügbar."
+#: src/gpu_ui.rs:277
+msgid "Monitor"
+msgstr "Überwachung"
 
-#: src/gpu_ui.rs:354
-msgid "This card doesn't offer this control."
-msgstr "Diese Karte bietet diese Steuerung nicht an."
-
-#: src/gpu_ui.rs:385
+#: src/gpu_ui.rs:278 src/gpu_ui.rs:402
 msgid "Tune"
 msgstr "Einstellen"
 
-#: src/gpu_ui.rs:386
+#: src/gpu_ui.rs:280 src/gpu_ui.rs:1441 src/modules/keybindings.rs:316
+msgid "Sessions"
+msgstr "Sitzungen"
+
+#: src/gpu_ui.rs:336 src/gpu_ui.rs:337
+msgid "Not available on this card."
+msgstr "Auf dieser Karte nicht verfügbar."
+
+#: src/gpu_ui.rs:371
+msgid "This card doesn't offer this control."
+msgstr "Diese Karte bietet diese Steuerung nicht an."
+
+#: src/gpu_ui.rs:403
 msgid ""
 "Turn on the controls to change. Preview shows exactly what will happen. Nothing stays unless you confirm it."
 msgstr ""
 "Schalten Sie die Steuerungen ein, die Sie ändern möchten. Die Vorschau zeigt genau, was passiert. Nichts bleibt, wenn Sie es nicht bestätigen."
 
-#: src/gpu_ui.rs:390
+#: src/gpu_ui.rs:407
 msgid "Nothing on this card can be changed"
 msgstr "Auf dieser Karte lässt sich nichts ändern"
 
-#: src/gpu_ui.rs:390
+#: src/gpu_ui.rs:407
 msgid "See what this card supports for the reasons."
 msgstr "Sehen Sie unter „Was diese Karte unterstützt“ nach den Gründen."
 
-#: src/gpu_ui.rs:395 src/gpu_ui.rs:828 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:412 src/gpu_ui.rs:845 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr "Vorschau"
 
-#: src/gpu_ui.rs:396 src/gpu_ui.rs:829
+#: src/gpu_ui.rs:413 src/gpu_ui.rs:846
 msgid "Apply"
 msgstr "Anwenden"
 
-#: src/gpu_ui.rs:411 src/modules/gpu.rs:121
+#: src/gpu_ui.rs:428 src/modules/gpu.rs:121
 msgid "Power limit"
 msgstr "Leistungsgrenze"
 
-#: src/gpu_ui.rs:411
+#: src/gpu_ui.rs:428
 #, rust-format
 msgid "Between {} W and {} W."
 msgstr "Zwischen {} W und {} W."
 
-#: src/gpu_ui.rs:412
+#: src/gpu_ui.rs:429
 msgid "Watts"
 msgstr "Watt"
 
-#: src/gpu_ui.rs:425
+#: src/gpu_ui.rs:442
 msgid "Fixed speed, or a curve that follows the temperature."
 msgstr "Feste Drehzahl oder eine Kurve, die der Temperatur folgt."
 
-#: src/gpu_ui.rs:426
+#: src/gpu_ui.rs:443
 msgid "The card's own control"
 msgstr "Die eigene Steuerung der Karte"
 
-#: src/gpu_ui.rs:426
+#: src/gpu_ui.rs:443
 msgid "Fixed speed"
 msgstr "Feste Drehzahl"
 
-#: src/gpu_ui.rs:426
+#: src/gpu_ui.rs:443
 msgid "Curve"
 msgstr "Kurve"
 
-#: src/gpu_ui.rs:426
+#: src/gpu_ui.rs:443
 msgid "Keep under a temperature"
 msgstr "Unter einer Temperatur halten"
 
-#: src/gpu_ui.rs:427
+#: src/gpu_ui.rs:444
 msgid "Mode"
 msgstr "Modus"
 
-#: src/gpu_ui.rs:428
+#: src/gpu_ui.rs:445
 msgid "Speed (%)"
 msgstr "Drehzahl (%)"
 
-#: src/gpu_ui.rs:431
+#: src/gpu_ui.rs:448
 msgid "Keep the card under (°C)"
 msgstr "Karte halten unter (°C)"
 
-#: src/gpu_ui.rs:431
+#: src/gpu_ui.rs:448
 msgid ""
 "Quiet while it is cooler; the fan reaches full speed at this temperature."
 msgstr ""
 "Leise, solange sie kühler ist; der Lüfter erreicht bei dieser Temperatur volle Drehzahl."
 
-#: src/gpu_ui.rs:437
+#: src/gpu_ui.rs:454
 msgid "Temperature source"
 msgstr "Temperaturquelle"
 
-#: src/gpu_ui.rs:438
+#: src/gpu_ui.rs:455
 msgid "The reading the curve follows."
 msgstr "Der Messwert, dem die Kurve folgt."
 
-#: src/gpu_ui.rs:443
+#: src/gpu_ui.rs:460
 msgid "Fans"
 msgstr "Lüfter"
 
-#: src/gpu_ui.rs:443
+#: src/gpu_ui.rs:460
 msgid "The fans the curve drives."
 msgstr "Die Lüfter, die die Kurve steuert."
 
-#: src/gpu_ui.rs:447 src/gpu_ui.rs:448 src/modules/sysreport.rs:573
+#: src/gpu_ui.rs:464 src/gpu_ui.rs:465 src/modules/sysreport.rs:573
 #, rust-format
 msgid "Fan {}"
 msgstr "Lüfter {}"
 
-#: src/gpu_ui.rs:471
+#: src/gpu_ui.rs:488
 msgid "Curve points"
 msgstr "Kurvenpunkte"
 
-#: src/gpu_ui.rs:471
+#: src/gpu_ui.rs:488
 msgid "Temperature in °C, fan speed in %."
 msgstr "Temperatur in °C, Lüfterdrehzahl in %."
 
-#: src/gpu_ui.rs:504 src/gpu_ui.rs:714
+#: src/gpu_ui.rs:521 src/gpu_ui.rs:731
 #, rust-format
 msgid "Point {}"
 msgstr "Punkt {}"
 
-#: src/gpu_ui.rs:511 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:528 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "Entfernen"
 
-#: src/gpu_ui.rs:565
+#: src/gpu_ui.rs:582
 msgid "Edit curve"
 msgstr "Kurve bearbeiten"
 
-#: src/gpu_ui.rs:568
+#: src/gpu_ui.rs:585
 msgid "Add point"
 msgstr "Punkt hinzufügen"
 
-#: src/gpu_ui.rs:569 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:586 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: src/gpu_ui.rs:570
+#: src/gpu_ui.rs:587
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: src/gpu_ui.rs:571
+#: src/gpu_ui.rs:588
 msgid "Copy curve"
 msgstr "Kurve kopieren"
 
-#: src/gpu_ui.rs:572
+#: src/gpu_ui.rs:589
 msgid "Paste curve"
 msgstr "Kurve einfügen"
 
-#: src/gpu_ui.rs:619
+#: src/gpu_ui.rs:636
 msgid "Curve copied"
 msgstr "Kurve kopiert"
 
-#: src/gpu_ui.rs:658 src/modules/gpu.rs:122
+#: src/gpu_ui.rs:675 src/modules/gpu.rs:122
 msgid "Temperature target"
 msgstr "Zieltemperatur"
 
-#: src/gpu_ui.rs:658
+#: src/gpu_ui.rs:675
 msgid "The temperature the card's fan control aims for."
 msgstr "Die Temperatur, auf die die Lüftersteuerung der Karte abzielt."
 
-#: src/gpu_ui.rs:659
+#: src/gpu_ui.rs:676
 msgid "Degrees (°C)"
 msgstr "Grad (°C)"
 
-#: src/gpu_ui.rs:669 src/modules/gpu.rs:123
+#: src/gpu_ui.rs:686 src/modules/gpu.rs:123
 msgid "Clock offsets"
 msgstr "Taktversatz"
 
-#: src/gpu_ui.rs:669
+#: src/gpu_ui.rs:686
 msgid "Raise or lower the clocks from their defaults."
 msgstr "Takte gegenüber den Standardwerten erhöhen oder senken."
 
-#: src/gpu_ui.rs:670
+#: src/gpu_ui.rs:687
 msgid "Core (MHz)"
 msgstr "Kern (MHz)"
 
-#: src/gpu_ui.rs:670
+#: src/gpu_ui.rs:687
 msgid "Memory (MHz)"
 msgstr "Speicher (MHz)"
 
-#: src/gpu_ui.rs:685 src/modules/gpu.rs:124
+#: src/gpu_ui.rs:702 src/modules/gpu.rs:124
 msgid "Clock limits"
 msgstr "Taktgrenzen"
 
-#: src/gpu_ui.rs:685
+#: src/gpu_ui.rs:702
 #, rust-format
 msgid "Keep the clock between a minimum and a maximum, from {} to {} MHz."
 msgstr ""
 "Halten Sie den Takt zwischen einem Minimum und einem Maximum, von {} bis {} MHz."
 
-#: src/gpu_ui.rs:686
+#: src/gpu_ui.rs:703
 msgid "Minimum (MHz)"
 msgstr "Minimum (MHz)"
 
-#: src/gpu_ui.rs:686
+#: src/gpu_ui.rs:703
 msgid "Maximum (MHz)"
 msgstr "Maximum (MHz)"
 
-#: src/gpu_ui.rs:701 src/modules/gpu.rs:125
+#: src/gpu_ui.rs:718 src/modules/gpu.rs:125
 msgid "Voltage and frequency curve"
 msgstr "Spannungs-/Frequenzkurve"
 
-#: src/gpu_ui.rs:701
+#: src/gpu_ui.rs:718
 msgid ""
 "Set the voltage for each clock the card runs at. Lower voltages run cooler but can crash the card if too low."
 msgstr ""
 "Legen Sie die Spannung für jeden Takt fest, mit dem die Karte läuft. Niedrigere Spannungen laufen kühler, können die Karte aber zum Absturz bringen, wenn sie zu niedrig sind."
 
-#: src/gpu_ui.rs:714
+#: src/gpu_ui.rs:731
 msgid "MHz · mV"
 msgstr "MHz · mV"
 
-#: src/gpu_ui.rs:760
+#: src/gpu_ui.rs:777
 msgid "Voltage offset"
 msgstr "Spannungsversatz"
 
-#: src/gpu_ui.rs:760
+#: src/gpu_ui.rs:777
 msgid "Lower the voltage for less heat, or raise it for stability."
 msgstr ""
 "Senken Sie die Spannung für weniger Wärme oder erhöhen Sie sie für mehr Stabilität."
 
-#: src/gpu_ui.rs:761
+#: src/gpu_ui.rs:778
 msgid "Millivolts (mV)"
 msgstr "Millivolt (mV)"
 
-#: src/gpu_ui.rs:767
+#: src/gpu_ui.rs:784
 msgid "Keep after restart"
 msgstr "Nach Neustart beibehalten"
 
-#: src/gpu_ui.rs:767
+#: src/gpu_ui.rs:784
 msgid ""
 "Saves these settings and applies them at startup. Fan curves need this."
 msgstr ""
 "Speichert diese Einstellungen und wendet sie beim Start an. Lüfterkurven benötigen dies."
 
-#: src/gpu_ui.rs:841
+#: src/gpu_ui.rs:858
 msgid "Nothing to change"
 msgstr "Nichts zu ändern"
 
-#: src/gpu_ui.rs:841 src/gpu_ui.rs:855
+#: src/gpu_ui.rs:858 src/gpu_ui.rs:872
 msgid "Turn on at least one control."
 msgstr "Schalten Sie mindestens eine Steuerung ein."
 
-#: src/gpu_ui.rs:842
+#: src/gpu_ui.rs:859
 msgid "What will change"
 msgstr "Was sich ändert"
 
-#: src/gpu_ui.rs:843
+#: src/gpu_ui.rs:860
 msgid "This can't be applied"
 msgstr "Das kann nicht angewendet werden"
 
-#: src/gpu_ui.rs:857
+#: src/gpu_ui.rs:874
 msgid ""
 "This card has no built-in fan curve, so Voltkit's background service follows it. Turn on Keep after restart."
 msgstr ""
 "Diese Karte hat keine integrierte Lüfterkurve, daher folgt der Hintergrunddienst von Voltkit ihr. Schalten Sie „Nach Neustart beibehalten“ ein."
 
-#: src/gpu_ui.rs:884 src/gpu_ui.rs:1283
+#: src/gpu_ui.rs:901 src/gpu_ui.rs:1300
 msgid "pkexec is needed to change GPU settings."
 msgstr "Zum Ändern der GPU-Einstellungen wird pkexec benötigt."
 
-#: src/gpu_ui.rs:917
+#: src/gpu_ui.rs:934
 msgid "Keep these settings?"
 msgstr "Diese Einstellungen beibehalten?"
 
-#: src/gpu_ui.rs:918
+#: src/gpu_ui.rs:935
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: src/gpu_ui.rs:918
+#: src/gpu_ui.rs:935
 msgid "Keep"
 msgstr "Beibehalten"
 
-#: src/gpu_ui.rs:923 src/gpu_ui.rs:932
+#: src/gpu_ui.rs:940 src/gpu_ui.rs:949
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr ""
 "Wenn Sie nicht bestätigen, kehrt die Karte in {} Sekunden zum vorherigen Zustand zurück."
 
-#: src/gpu_ui.rs:948
+#: src/gpu_ui.rs:965
 msgid "Settings applied and kept."
 msgstr "Einstellungen angewendet und beibehalten."
 
-#: src/gpu_ui.rs:955 src/gpu_ui.rs:1265 src/gpu_ui.rs:1293
+#: src/gpu_ui.rs:972 src/gpu_ui.rs:1282 src/gpu_ui.rs:1310
 msgid "Cancelled, nothing was changed."
 msgstr "Abgebrochen, es wurde nichts geändert."
 
-#: src/gpu_ui.rs:990
+#: src/gpu_ui.rs:1007
 #, rust-format
 msgid "Power limit {} W"
 msgstr "Leistungsgrenze {} W"
 
-#: src/gpu_ui.rs:993 src/modules/gpu_tune.rs:451
+#: src/gpu_ui.rs:1010 src/modules/gpu_tune.rs:451
 msgid "Fan: the card's own control"
 msgstr "Lüfter: die eigene Steuerung der Karte"
 
-#: src/gpu_ui.rs:994
+#: src/gpu_ui.rs:1011
 #, rust-format
 msgid "Fan {} %"
 msgstr "Lüfter {} %"
 
-#: src/gpu_ui.rs:995 src/modules/gpu.rs:120
+#: src/gpu_ui.rs:1012 src/modules/gpu.rs:120
 msgid "Fan curve"
 msgstr "Lüfterkurve"
 
-#: src/gpu_ui.rs:999
+#: src/gpu_ui.rs:1016
 #, rust-format
 msgid "Target {} °C"
 msgstr "Ziel {} °C"
 
-#: src/gpu_ui.rs:1002
+#: src/gpu_ui.rs:1019
 #, rust-format
 msgid "Core {} MHz"
 msgstr "Kern {} MHz"
 
-#: src/gpu_ui.rs:1005
+#: src/gpu_ui.rs:1022
 #, rust-format
 msgid "Memory {} MHz"
 msgstr "Speicher {} MHz"
 
-#: src/gpu_ui.rs:1008
+#: src/gpu_ui.rs:1025
 #, rust-format
 msgid "Clock {}–{} MHz"
 msgstr "Takt {}–{} MHz"
 
-#: src/gpu_ui.rs:1010
+#: src/gpu_ui.rs:1027
 msgid "No changes"
 msgstr "Keine Änderungen"
 
-#: src/gpu_ui.rs:1025
+#: src/gpu_ui.rs:1042
 #, rust-format
 msgid "In use now: {}"
 msgstr "Jetzt aktiv: {}"
 
-#: src/gpu_ui.rs:1063
+#: src/gpu_ui.rs:1080
 msgid "Not automatic"
 msgstr "Nicht automatisch"
 
-#: src/gpu_ui.rs:1064
+#: src/gpu_ui.rs:1081
 msgid "On battery"
 msgstr "Im Akkubetrieb"
 
-#: src/gpu_ui.rs:1065
+#: src/gpu_ui.rs:1082
 msgid "On mains power"
 msgstr "Im Netzbetrieb"
 
-#: src/gpu_ui.rs:1066
+#: src/gpu_ui.rs:1083
 msgid "While an app runs"
 msgstr "Solange eine App läuft"
 
-#: src/gpu_ui.rs:1067
+#: src/gpu_ui.rs:1084
 msgid "When the GPU is busy"
 msgstr "Wenn die GPU ausgelastet ist"
 
-#: src/gpu_ui.rs:1068
+#: src/gpu_ui.rs:1085
 msgid "When the GPU runs hot"
 msgstr "Wenn die GPU heiß wird"
 
-#: src/gpu_ui.rs:1072
+#: src/gpu_ui.rs:1089
 msgid "Switch to it"
 msgstr "Dorthin wechseln"
 
-#: src/gpu_ui.rs:1083
+#: src/gpu_ui.rs:1100
 msgid "Programs or Steam games (steam:<App ID>), separated by commas"
 msgstr "Programme oder Steam-Spiele (steam:<App-ID>), durch Kommas getrennt"
 
-#: src/gpu_ui.rs:1084
+#: src/gpu_ui.rs:1101
 msgid "Busier than (%)"
 msgstr "Stärker ausgelastet als (%)"
 
-#: src/gpu_ui.rs:1085
+#: src/gpu_ui.rs:1102
 msgid "Hotter than (°C)"
 msgstr "Heißer als (°C)"
 
-#: src/gpu_ui.rs:1129
+#: src/gpu_ui.rs:1146
 msgid "Use when no rule applies"
 msgstr "Verwenden, wenn keine Regel zutrifft"
 
-#: src/gpu_ui.rs:1152
+#: src/gpu_ui.rs:1169
 msgid "Copy a share code"
 msgstr "Teilcode kopieren"
 
-#: src/gpu_ui.rs:1153
+#: src/gpu_ui.rs:1170
 msgid ""
 "One line of text to send to someone with a similar card. It holds no addresses or personal data."
 msgstr ""
 "Eine Textzeile zum Senden an jemanden mit einer ähnlichen Karte. Sie enthält keine Adressen oder persönlichen Daten."
 
-#: src/gpu_ui.rs:1163
+#: src/gpu_ui.rs:1180
 msgid "Share code copied."
 msgstr "Teilcode kopiert."
 
-#: src/gpu_ui.rs:1167
+#: src/gpu_ui.rs:1184
 msgid "Delete this profile"
 msgstr "Dieses Profil löschen"
 
-#: src/gpu_ui.rs:1191
+#: src/gpu_ui.rs:1208
 msgid ""
 "Installs the profiles in Voltkit's background service, which switches between them."
 msgstr ""
 "Installiert die Profile im Hintergrunddienst von Voltkit, der zwischen ihnen wechselt."
 
-#: src/gpu_ui.rs:1192
+#: src/gpu_ui.rs:1209
 msgid "Import a shared profile…"
 msgstr "Geteiltes Profil importieren…"
 
-#: src/gpu_ui.rs:1201
+#: src/gpu_ui.rs:1218
 msgid "Import a shared profile"
 msgstr "Geteiltes Profil importieren"
 
-#: src/gpu_ui.rs:1201
+#: src/gpu_ui.rs:1218
 msgid ""
 "Paste the share code you were sent. Voltkit checks it, then adds it as a new profile. Nothing is applied until you choose to."
 msgstr ""
 "Füge den erhaltenen Teilcode ein. Voltkit prüft ihn und fügt ihn als neues Profil hinzu. Nichts wird angewendet, bis du es willst."
 
-#: src/gpu_ui.rs:1203 src/gpu_ui.rs:1232 src/snippets_ui.rs:187 src/snippets_ui.rs:404
+#: src/gpu_ui.rs:1220 src/gpu_ui.rs:1249 src/snippets_ui.rs:187 src/snippets_ui.rs:404
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/gpu_ui.rs:1203
+#: src/gpu_ui.rs:1220
 msgid "Import"
 msgstr "Importieren"
 
-#: src/gpu_ui.rs:1218
+#: src/gpu_ui.rs:1235
 #, rust-format
 msgid "Imported {}."
 msgstr "{} importiert."
 
-#: src/gpu_ui.rs:1218
+#: src/gpu_ui.rs:1235
 #, rust-format
 msgid ""
 "Imported {}, made on {}. Every chip behaves a little differently, so try it before you rely on it."
 msgstr ""
 "{} importiert, erstellt auf {}. Jeder Chip verhält sich ein wenig anders, probiere es also aus, bevor du dich darauf verlässt."
 
-#: src/gpu_ui.rs:1220
+#: src/gpu_ui.rs:1237
 #, rust-format
 msgid "Can't import that: {}"
 msgstr "Das lässt sich nicht importieren: {}"
 
-#: src/gpu_ui.rs:1229
+#: src/gpu_ui.rs:1246
 msgid "Name, for example Quiet"
 msgstr "Name, zum Beispiel Leise"
 
-#: src/gpu_ui.rs:1230
+#: src/gpu_ui.rs:1247
 msgid "Save as a profile"
 msgstr "Als Profil speichern"
 
-#: src/gpu_ui.rs:1230
+#: src/gpu_ui.rs:1247
 msgid "The settings now turned on in Tune are stored under this name."
 msgstr ""
 "Die jetzt unter „Einstellen“ eingeschalteten Einstellungen werden unter diesem Namen gespeichert."
 
-#: src/gpu_ui.rs:1361
+#: src/gpu_ui.rs:1378
 #, rust-format
 msgid "{} compared with {}"
 msgstr "{} im Vergleich zu {}"
 
-#: src/gpu_ui.rs:1394
+#: src/gpu_ui.rs:1411
 msgid "These sessions have no readings in common."
 msgstr "Diese Sitzungen haben keine gemeinsamen Messwerte."
 
-#: src/gpu_ui.rs:1399
+#: src/gpu_ui.rs:1416
 msgid "Compare sessions"
 msgstr "Sitzungen vergleichen"
 
-#: src/gpu_ui.rs:1424 src/modules/keybindings.rs:316
-msgid "Sessions"
-msgstr "Sitzungen"
-
-#: src/gpu_ui.rs:1425
+#: src/gpu_ui.rs:1442
 msgid ""
 "Record how a profile behaves, then compare two sessions side by side: temperature, power, energy and efficiency."
 msgstr ""
 "Zeichnen Sie auf, wie sich ein Profil verhält, und vergleichen Sie zwei Sitzungen nebeneinander: Temperatur, Leistung, Energie und Effizienz."
 
-#: src/gpu_ui.rs:1428
+#: src/gpu_ui.rs:1445
 msgid "Label"
 msgstr "Bezeichnung"
 
-#: src/gpu_ui.rs:1428
+#: src/gpu_ui.rs:1445
 msgid "Session"
 msgstr "Sitzung"
 
-#: src/gpu_ui.rs:1429 src/gpu_ui.rs:1579
+#: src/gpu_ui.rs:1446 src/gpu_ui.rs:1596
 msgid "Start recording"
 msgstr "Aufzeichnung starten"
 
-#: src/gpu_ui.rs:1433
+#: src/gpu_ui.rs:1450
 msgid "Electricity price per kWh"
 msgstr "Strompreis pro kWh"
 
-#: src/gpu_ui.rs:1442
+#: src/gpu_ui.rs:1459
 msgid "Suggest a power limit"
 msgstr "Leistungslimit vorschlagen"
 
-#: src/gpu_ui.rs:1443
+#: src/gpu_ui.rs:1460
 msgid ""
 "From sessions recorded under different limits: the lowest one that keeps almost all the speed."
 msgstr ""
 "Aus Sitzungen mit verschiedenen Limits: das niedrigste, das fast die gesamte Geschwindigkeit behält."
 
-#: src/gpu_ui.rs:1451
+#: src/gpu_ui.rs:1468
 msgid "Compare the two ticked"
 msgstr "Die beiden markierten vergleichen"
 
-#: src/gpu_ui.rs:1503
+#: src/gpu_ui.rs:1520
 msgid "Type the price as a number, such as 0.15 or 0,15 €."
 msgstr "Gib den Preis als Zahl ein, zum Beispiel 0.15 oder 0,15 €."
 
-#: src/gpu_ui.rs:1531
+#: src/gpu_ui.rs:1548
 msgid "Suggested power limit"
 msgstr "Vorgeschlagenes Leistungslimit"
 
-#: src/gpu_ui.rs:1533
+#: src/gpu_ui.rs:1550
 msgid "Not enough sessions yet"
 msgstr "Noch nicht genug Sitzungen"
 
-#: src/gpu_ui.rs:1534
+#: src/gpu_ui.rs:1551
 msgid ""
 "Record the same game or benchmark under at least two different power limits, then ask again."
 msgstr ""
 "Zeichne dasselbe Spiel oder denselben Benchmark mit mindestens zwei verschiedenen Leistungslimits auf und frage dann erneut."
 
-#: src/gpu_ui.rs:1575
+#: src/gpu_ui.rs:1592
 msgid "Stop and save"
 msgstr "Anhalten und speichern"
 
-#: src/gpu_ui.rs:1584
+#: src/gpu_ui.rs:1601
 msgid "Session saved."
 msgstr "Sitzung gespeichert."
 

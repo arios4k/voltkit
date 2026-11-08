@@ -106,28 +106,28 @@ Applying changes is new and has so far been tested against simulated hardware on
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) for what works, how it stays safe, and what isn't built yet.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.1" alt="GPU Tuner showing live readings with history and the fan curve editor for an AMD Radeon card (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="GPU Tuner, Monitor tab: live readings with history, why the clock is held back, and what the card supports (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.1" alt="GPU Tuner scrolled down: what the card supports and the fan curve points (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="GPU Tuner, Tune tab: power limit, fan curve editor and the other controls (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.1" alt="GPU Tuner scrolled further: tune controls, Preview and Apply, and saved profiles (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="GPU Tuner, Profiles tab: saved profiles, automatic rules, sharing and import (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.1" alt="GPU Tuner at the bottom: profiles and recorded sessions to compare (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="GPU Tuner, Sessions tab: recorded sessions, electricity price, power-limit suggestion and comparison (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.1" alt="GPU Tuner voltage and frequency curve editor with draggable points (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="GPU Tuner voltage and frequency curve editor with draggable points (simulated data)">
 </picture>
 
 <sub>The screenshot uses simulated data from made-up cards.</sub>

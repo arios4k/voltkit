@@ -96,9 +96,9 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
             hide_banners(&window);
             glib::timeout_future(SETTLE).await;
             save(&window, &dir.join(format!("{}-{theme}.png", module.id)), theme == "dark")?;
-            // A long page gets one picture per screenful, named page-2, page-3…
+            // The GPU page has tabs: one picture of each, named gpu-2, gpu-3…
             if module.id == "gpu" {
-                scroll_through(&window, dir, "gpu", theme).await?;
+                tour_tabs(&window, dir, "gpu", theme).await?;
             }
         }
 
@@ -142,35 +142,22 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
     Ok(())
 }
 
-/// Scrolls the page on screen a screenful at a time, saving each stop as
-/// `NAME-2-THEME.png`, `NAME-3-THEME.png`… (the first, unscrolled picture is
-/// saved by the caller), then scrolls back to the top.
-async fn scroll_through(window: &gtk::Window, dir: &Path, name: &str, theme: &str) -> Result<()> {
-    const MAX_PICTURES: usize = 6;
-    // The page's scroller is the visible one that holds the workspace cards.
-    let Some(scroller) = descendants(window)
-        .into_iter()
-        .filter(|w| w.is_mapped() && w.has_css_class("workspace-body"))
-        .find_map(|body| body.ancestor(gtk::ScrolledWindow::static_type()).and_then(|a| a.downcast::<gtk::ScrolledWindow>().ok()))
-    else {
+/// Shows each of the GPU page's other tabs in turn, saving them as
+/// `NAME-2-THEME.png`, `NAME-3-THEME.png`… (the first tab is saved by the
+/// caller), then goes back to the first tab.
+async fn tour_tabs(window: &gtk::Window, dir: &Path, name: &str, theme: &str) -> Result<()> {
+    let Some(tabs) = descendants(window).into_iter().filter(|w| w.is_mapped()).find_map(|w| w.downcast::<adw::ViewStack>().ok().filter(|s| s.has_css_class("gpu-tabs"))) else {
         return Ok(());
     };
-    let adjustment = scroller.vadjustment();
-    let (page, last) = (adjustment.page_size(), adjustment.upper() - adjustment.page_size());
-    // Overlap a little, so what was at the bottom of one picture is at the top of the next.
-    let step = (page * 0.82).max(1.0);
-    let mut position = 0.0;
-    for n in 2..=MAX_PICTURES {
-        if position >= last - 1.0 {
-            break;
-        }
-        position = (position + step).min(last);
-        adjustment.set_value(position);
+    let names: Vec<String> = tabs.pages().iter::<adw::ViewStackPage>().flatten().filter_map(|p| p.name().map(|n| n.to_string())).collect();
+    let first = names.first().cloned().unwrap_or_default();
+    for (i, tab) in names.iter().skip(1).enumerate() {
+        tabs.set_visible_child_name(tab);
         hide_banners(window);
         glib::timeout_future(SETTLE).await;
-        save(window, &dir.join(format!("{name}-{n}-{theme}.png")), theme == "dark")?;
+        save(window, &dir.join(format!("{name}-{}-{theme}.png", i + 2)), theme == "dark")?;
     }
-    adjustment.set_value(0.0);
+    tabs.set_visible_child_name(&first);
     glib::timeout_future(SETTLE).await;
     Ok(())
 }

@@ -99,28 +99,28 @@ WebP 减小 60%，MP4 减小 77%。
 应用更改是新功能，目前只用模拟硬件测试过；哪些可用、如何保证安全以及还有什么没做，请参阅 [docs/GPU_TUNER.md](docs/GPU_TUNER.md)。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.1" alt="GPU 调节器显示实时读数和一块 AMD Radeon 显卡的风扇曲线编辑器（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="GPU 调节器“监控”标签页：带历史的实时读数、频率被限制的原因以及显卡支持的功能（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.1" alt="GPU 调节器向下滚动：显卡支持的功能和风扇曲线各点（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="GPU 调节器“调节”标签页：功率上限、风扇曲线编辑器及其他控件（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.1" alt="GPU 调节器继续向下：调节控件、预览与应用，以及已保存的配置（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="GPU 调节器“配置”标签页：已保存的配置、自动规则、分享与导入（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.1" alt="GPU 调节器底部：配置和可对比的录制会话（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="GPU 调节器“会话”标签页：录制的会话、电价、功率上限建议和对比（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.1" alt="GPU 调节器的电压/频率曲线编辑器，各点可拖动（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="GPU 调节器的电压/频率曲线编辑器，各点可拖动（模拟数据）">
 </picture>
 
 <sub>此截图使用的是虚构显卡的模拟数据。</sub>

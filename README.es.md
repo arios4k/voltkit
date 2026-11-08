@@ -109,28 +109,28 @@ Aplicar cambios es nuevo y hasta ahora solo se ha probado con hardware simulado;
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) para saber qué funciona, cómo se mantiene seguro y qué falta por construir.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.1" alt="Ajuste de GPU con lecturas en vivo y el editor de curva de ventilador de una tarjeta AMD Radeon (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Monitorización: lecturas en vivo con historial, por qué se frena el reloj y qué admite la tarjeta (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.1" alt="Ajuste de GPU, más abajo: qué admite la tarjeta y los puntos de la curva del ventilador (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Ajustar: límite de potencia, editor de curva del ventilador y demás controles (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.1" alt="Ajuste de GPU, más abajo: controles, Vista previa y Aplicar, y perfiles guardados (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Perfiles: perfiles guardados, reglas automáticas, compartir e importar (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.1" alt="Ajuste de GPU, al final: perfiles y sesiones grabadas para comparar (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Sesiones: sesiones grabadas, precio de la electricidad, sugerencia de límite de potencia y comparación (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.1" alt="Editor de curva de voltaje y frecuencia del ajuste de GPU con puntos arrastrables (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="Editor de curva de voltaje y frecuencia del ajuste de GPU con puntos arrastrables (datos simulados)">
 </picture>
 
 <sub>La captura usa datos simulados de tarjetas inventadas.</sub>

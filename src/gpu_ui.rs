@@ -203,7 +203,8 @@ fn readings_for() -> Vec<(String, f64, fn(&Sample) -> Option<f64>, fn(&Sample) -
 
 impl CardView {
     fn new(card: &Card, toasts: &adw::ToastOverlay, stack: &gtk::Stack, index: usize) -> Rc<Self> {
-        let page = Workspace::new();
+        // One tab per kind of work, each its own scrolling page, so nothing is crammed.
+        let (monitor_tab, tune_tab, profiles_tab, sessions_tab) = (Workspace::new(), Workspace::new(), Workspace::new(), Workspace::new());
 
         let group = adw::PreferencesGroup::builder().title(tr("Right now")).description(card.gpu.name.as_str()).build();
         let readings: Vec<Reading> = readings_for()
@@ -228,7 +229,7 @@ impl CardView {
         let idle_row = adw::ActionRow::builder().title(tr("Idle power check")).subtitle(tr("Checks whether the memory clock drops when nothing runs.")).subtitle_lines(0).build();
         idle_row.add_prefix(&gtk::Image::builder().icon_name("battery-level-100-symbolic").accessible_role(gtk::AccessibleRole::Presentation).build());
         group.add(&idle_row);
-        page.add(&group);
+        monitor_tab.add(&group);
 
         let support = adw::PreferencesGroup::builder()
             .title(tr("What this card supports"))
@@ -247,12 +248,12 @@ impl CardView {
             row.add_prefix(&image);
             support.add(&row);
         }
-        page.add(&support);
+        monitor_tab.aside(&support);
         let (tune, chart, collect) = tune_group(card, toasts, gpu::demo());
-        page.aside(&tune);
+        tune_tab.add(&tune);
         let profiles = collect.map(|collect| {
             let view = profiles_group(card, collect, toasts);
-            page.aside(&view.group);
+            profiles_tab.add(&view.group);
             view
         });
         if profiles.is_none() {
@@ -265,13 +266,29 @@ impl CardView {
             buttons.append(&gtk::Button::with_label(&tr("Save current settings as a profile…")));
             buttons.append(&gtk::Button::builder().label(tr("Apply profiles")).css_classes(["suggested-action"]).build());
             off.add(&buttons);
-            page.aside(&off);
+            profiles_tab.add(&off);
         }
         let sessions = sessions_group(card, toasts);
         sessions.group.set_sensitive(supported(card, Control::Monitoring));
-        page.aside(&sessions.group);
+        sessions_tab.add(&sessions.group);
 
-        stack.add_named(&*page, Some(&index.to_string()));
+        let tabs = adw::ViewStack::builder().vexpand(true).css_classes(["gpu-tabs"]).build();
+        for (name, title, icon, tab) in [
+            ("monitor", tr("Monitor"), "utilities-system-monitor-symbolic", &monitor_tab),
+            ("tune", tr("Tune"), "preferences-system-symbolic", &tune_tab),
+            ("profiles", tr("Profiles"), "view-list-symbolic", &profiles_tab),
+            ("sessions", tr("Sessions"), "media-record-symbolic", &sessions_tab),
+        ] {
+            tabs.add_titled_with_icon(&**tab, Some(name), &title, icon);
+        }
+        if gpu::demo() && std::env::var("VOLTKIT_GPU_DEMO").as_deref() == Ok("vf") {
+            tabs.set_visible_child_name("tune");
+        }
+        let switcher = adw::ViewSwitcher::builder().stack(&tabs).policy(adw::ViewSwitcherPolicy::Wide).halign(gtk::Align::Center).margin_top(6).margin_bottom(6).build();
+        let container = gtk::Box::builder().orientation(gtk::Orientation::Vertical).build();
+        container.append(&switcher);
+        container.append(&tabs);
+        stack.add_named(&container, Some(&index.to_string()));
         if let Some(chart) = &chart {
             chart.set_marker(card.sample.temp_c.zip(card.sample.fan_pct));
         }
