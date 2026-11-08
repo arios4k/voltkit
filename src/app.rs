@@ -14,6 +14,17 @@ use crate::i18n::tr;
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
 
+/// Where the manual is published. Each tool has a page named after its id.
+pub const MANUAL_URL: &str = "https://arios4k.github.io/voltkit/manual/";
+
+/// The manual page for a tool, or the manual's home page for anything else.
+pub fn manual_url(tool: &str) -> String {
+    match modules::ALL.iter().find(|m| m.id == tool) {
+        Some(m) => format!("{MANUAL_URL}{}.html", m.id),
+        None => MANUAL_URL.to_owned(),
+    }
+}
+
 pub fn run(config: Config) {
     let app = adw::Application::builder().application_id(APP_ID).build();
     let about = gio::ActionEntry::builder("about")
@@ -25,6 +36,7 @@ pub fn run(config: Config) {
     let quit = gio::ActionEntry::builder("quit").activate(|app: &adw::Application, _, _| app.quit()).build();
     app.add_action_entries([about, quit]);
     app.set_accels_for_action("app.quit", &["<Control>q"]);
+    app.set_accels_for_action("win.help", &["F1"]);
     let config = Rc::new(config);
     app.connect_activate(move |app| {
         // Right after installing, the background service isn't running until
@@ -124,7 +136,9 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let hero = gtk::Box::builder().spacing(18).margin_start(24).margin_end(24).margin_top(12).margin_bottom(20).build();
     hero.append(&tool_icon);
     hero.append(&titles);
-    content_view.add_top_bar(&adw::HeaderBar::new());
+    let content_header = adw::HeaderBar::new();
+    content_header.pack_end(&gtk::Button::builder().icon_name("help-browser-symbolic").action_name("win.help").tooltip_text(tr("Open the manual for this tool")).build());
+    content_view.add_top_bar(&content_header);
     content_view.add_top_bar(&hero);
     content_view.add_top_bar(&daemon_banner(&toasts));
     content_view.add_top_bar(&doctor_banner(config));
@@ -144,6 +158,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let sidebar_view = adw::ToolbarView::new();
     sidebar_view.add_css_class("tool-sidebar");
     let menu = gio::Menu::new();
+    menu.append(Some(tr("Help & Manual")), Some("win.help"));
     menu.append(Some(tr("About Voltkit")), Some("app.about"));
     let end = gio::Menu::new();
     end.append(Some(tr("Quit")), Some("app.quit"));
@@ -162,12 +177,15 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
 
     let split = adw::NavigationSplitView::builder().sidebar(&sidebar).content(&content).build();
 
+    // The tool on screen, so Help opens its page of the manual.
+    let current: Rc<RefCell<&'static str>> = Rc::new(RefCell::new(tools[0].id));
     {
-        let (stack, content, split) = (stack.clone(), content.clone(), split.clone());
+        let (stack, content, split, current) = (stack.clone(), content.clone(), split.clone(), current.clone());
         list.connect_row_selected(move |_, row| {
             let Some(row) = row else { return };
             let id = row.widget_name();
             if let Some(m) = modules::ALL.iter().find(|m| m.id == id) {
+                *current.borrow_mut() = m.id;
                 stack.set_visible_child_name(m.id);
                 content.set_title(m.title());
                 tool_heading.set_label(m.title());
@@ -188,6 +206,22 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
         .height_request(400)
         .content(&split)
         .build();
+
+    let help = gio::ActionEntry::builder("help")
+        .activate({
+            let toasts = toasts.clone();
+            move |window: &adw::ApplicationWindow, _, _| {
+                let url = manual_url(&current.borrow());
+                let toasts = toasts.clone();
+                gtk::UriLauncher::new(&url).launch(Some(window), gio::Cancellable::NONE, move |result| {
+                    if let Err(error) = result {
+                        toast(&toasts, trf!("Could not open the manual: {}", error));
+                    }
+                });
+            }
+        })
+        .build();
+    window.add_action_entries([help]);
 
     let breakpoint = adw::Breakpoint::new(adw::BreakpointCondition::parse("max-width: 600sp").unwrap());
     breakpoint.add_setter(&split, "collapsed", Some(&true.to_value()));
@@ -856,3 +890,18 @@ fn compress_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
 }
 
 // ---------------------------------------------------------------- Snippets
+
+#[cfg(test)]
+mod manual_tests {
+    use super::*;
+
+    #[test]
+    fn every_tool_has_a_page_in_the_manual() {
+        let pages = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("docs/manual/pages");
+        for m in modules::ALL {
+            assert!(pages.join(format!("{}.md", m.id)).exists(), "the manual has no page for {}", m.id);
+            assert_eq!(manual_url(m.id), format!("https://arios4k.github.io/voltkit/manual/{}.html", m.id));
+        }
+        assert_eq!(manual_url("nothing"), MANUAL_URL);
+    }
+}

@@ -72,6 +72,11 @@ jobs:
           echo "$APT_SIGNING_KEY" | gpg --batch --import
           packaging/apt/build-repo.sh debs site
 
+      - name: Build the manual
+        run: |
+          version=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
+          python3 docs/manual/build.py site/manual --version "$version"
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

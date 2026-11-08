@@ -13,6 +13,8 @@ jobs:
       - run: cargo test
       # Every message in the sources is in each translation, and the catalogs are current.
       - run: python3 po/update.py --check
+      # The manual builds, with no broken links or missing screenshots.
+      - run: python3 docs/manual/build.py "$RUNNER_TEMP/manual"
 
   # Build the Fedora package from this commit, in real Fedora, so packaging
   # problems show up before a release is published.
