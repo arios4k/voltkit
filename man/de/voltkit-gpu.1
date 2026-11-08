@@ -78,6 +78,22 @@ Zwei aufgezeichnete Sitzungen nebeneinander vergleichen
 
 Jede Sitzung ist eine Datei oder eine Nummer aus `voltkit gpu sessions`. Zeigt Temperatur, Leistung, Energie, Lüfterdrehzahl, Takte und Effizienz und welche Sitzung jeweils besser ist. Die Effizienz ist der „aktive Takt pro Watt“, ein Näherungswert für die Arbeit pro Watt; fügen Sie einer Sitzungsdatei eine fps\-Spalte aus einem Werkzeug wie MangoHud hinzu, um auch Bilder pro Sekunde pro Watt zu erhalten.
 .TP
+\fBvoltkit gpu idle\fR
+Herausfinden, warum der Grafikspeicher im Leerlauf auf hohem Takt bleibt
+
+Ein häufiges Linux\-Problem: Bei mehreren Monitoren, gemischten Bildwiederholraten oder einem sehr schnellen Panel kann der Treiber den Speichertakt nicht senken, und die Karte verbraucht grundlos zusätzlichen Strom. Führe es bei ruhigem Desktop aus; es liest Taktraten und Bildschirme und nennt die wahrscheinlichen Ursachen.
+.TP
+\fBvoltkit gpu advise [\-\-tolerance] [\-\-gpu]\fR
+Das Leistungslimit vorschlagen, das bei fast gleicher Geschwindigkeit am meisten Strom spart
+
+Liest die Sitzungen, die du unter verschiedenen Leistungslimits aufgezeichnet hast (`voltkit gpu record`, einmal pro Limit, mit demselben Spiel oder Benchmark), und wählt das niedrigste Limit innerhalb der Toleranz zum schnellsten. Es schlägt nur Limits vor, die du wirklich gemessen hast.
+.RS
+\fB\-\-tolerance\fR: Wie viel langsamer als das schnellste Limit akzeptabel ist, in Prozent
+.RE
+.RS
+\fB\-\-gpu\fR: Nur die Sitzungen dieser Karte (ihre PCI\-Adresse)
+.RE
+.TP
 \fBvoltkit gpu profiles\fR
 Benannte Profile, die automatisch nach Stromquelle, laufender App, Last oder Temperatur wechseln
 .ie \n(.g .ds Aq \(aq

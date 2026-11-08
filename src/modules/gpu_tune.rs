@@ -219,6 +219,17 @@ pub fn validate_curve(points: &[CurvePoint]) -> Result<()> {
     Ok(())
 }
 
+/// The lowest and highest temperature a target fan can aim for.
+pub const TARGET_RANGE_C: (f64, f64) = (50.0, 90.0);
+
+/// A fan curve that keeps the card under `target_c`: quiet while it is well below,
+/// ramping up as it nears the target, and at full speed once it gets there. It is an
+/// ordinary curve, so it runs on the card's own fan control where there is one.
+pub fn curve_for_target(target_c: f64) -> Vec<CurvePoint> {
+    let t = target_c.clamp(TARGET_RANGE_C.0, TARGET_RANGE_C.1).round();
+    [(t - 30.0, 25.0), (t - 18.0, 40.0), (t - 8.0, 70.0), (t, 100.0)].map(|(temp_c, speed_pct)| CurvePoint { temp_c, speed_pct }).to_vec()
+}
+
 /// The fan speed a curve gives at `temp`, by straight lines between points.
 pub fn speed_at(points: &[CurvePoint], temp: f64) -> f64 {
     let (Some(first), Some(last)) = (points.first(), points.last()) else { return 100.0 };
@@ -1074,6 +1085,18 @@ mod tests {
             }
             other => panic!("{other:?}"),
         }
+    }
+
+    #[test]
+    fn a_target_curve_is_valid_for_every_target_and_full_speed_at_the_target() {
+        for target in (TARGET_RANGE_C.0 as u32..=TARGET_RANGE_C.1 as u32).map(f64::from) {
+            let curve = curve_for_target(target);
+            validate_curve(&curve).unwrap_or_else(|e| panic!("{target}: {e}"));
+            assert_eq!(speed_at(&curve, target), 100.0);
+            assert!(speed_at(&curve, target - 30.0) <= 25.0);
+        }
+        // Out-of-range targets are pulled in.
+        assert_eq!(curve_for_target(120.0).last().map(|p| p.temp_c), Some(TARGET_RANGE_C.1));
     }
 
     #[test]

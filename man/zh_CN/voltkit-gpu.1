@@ -78,6 +78,22 @@ voltkit\-gpu \- 监控 NVIDIA、AMD 和 Intel 显卡，并调节它们的功耗�
 
 每个会话是一个文件，或是 `voltkit gpu sessions` 列出的编号。会显示温度、功耗、耗电量、风扇转速、频率和效率，以及每一项中哪次会话更好。效率是“每瓦有效频率”，是每瓦工作量的近似指标；把 MangoHud 等工具得到的 fps 列添加到会话文件中，还能得到每瓦帧数。
 .TP
+\fBvoltkit gpu idle\fR
+查明显卡空闲时显存为何停留在高频
+
+Linux 上的常见问题：使用多个显示器、混合刷新率或超快面板时，驱动无法降低显存频率，显卡会白白多耗电。请在桌面空闲时运行；它会读取频率和显示器，并指出可能的原因。
+.TP
+\fBvoltkit gpu advise [\-\-tolerance] [\-\-gpu]\fR
+建议在速度几乎不变的情况下最省电的功率上限
+
+读取你在不同功率上限下录制的会话（`voltkit gpu record`，每个上限一次，使用同一个游戏或基准测试），并选出在最快者容差范围内最低的上限。它只建议你实际测量过的上限。
+.RS
+\fB\-\-tolerance\fR: 比最快上限慢多少是可以接受的，以百分比计
+.RE
+.RS
+\fB\-\-gpu\fR: 仅此显卡的会话（其 PCI 地址）
+.RE
+.TP
 \fBvoltkit gpu profiles\fR
 按电源、运行的应用、负载或温度自动切换的命名配置文件
 .ie \n(.g .ds Aq \(aq

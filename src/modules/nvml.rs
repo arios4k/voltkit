@@ -185,6 +185,7 @@ impl Nvml {
                 s.util_pct = Some(f64::from(u.gpu));
             }
         }
+        s.throttle = self.throttle_reasons(d);
         let mut have_memory = false;
         if let Ok(f) = self.func::<unsafe extern "C" fn(Device, *mut MemoryInfoV2) -> c_int>(b"nvmlDeviceGetMemoryInfo_v2\0") {
             let mut m = MemoryInfoV2 { version: MEMORY_V2_VERSION, ..MemoryInfoV2::default() };
@@ -205,6 +206,14 @@ impl Nvml {
             }
         }
         Ok(s)
+    }
+
+    /// Why the clock is held back, folded into the three groups Voltkit shows.
+    fn throttle_reasons(&self, d: Device) -> Option<u32> {
+        let f = self.func::<unsafe extern "C" fn(Device, *mut u64) -> c_int>(b"nvmlDeviceGetCurrentClocksThrottleReasons\0").ok()?;
+        let mut bits: u64 = 0;
+        // SAFETY: valid handle and out pointer.
+        (unsafe { f(d, &mut bits) } == SUCCESS).then(|| fold_throttle(bits))
     }
 
     /// The adjustable power limit range in watts.
@@ -289,6 +298,23 @@ impl Nvml {
         // SAFETY: valid handle and in/out pointer.
         self.check(unsafe { f(d, which as c_uint, &mut value) })
     }
+}
+
+/// NVML's reason bits: 0x4 software power cap, 0x80 hardware power brake; 0x8
+/// hardware slowdown, 0x20 software thermal, 0x40 hardware thermal. The idle
+/// (0x1), application-clock (0x2) and sync-boost (0x10) bits are not trouble.
+fn fold_throttle(bits: u64) -> u32 {
+    let mut out = 0;
+    if bits & (0x4 | 0x80) != 0 {
+        out |= super::gpu::THROTTLE_POWER;
+    }
+    if bits & (0x8 | 0x20 | 0x40) != 0 {
+        out |= super::gpu::THROTTLE_HEAT;
+    }
+    if bits & 0x10 != 0 {
+        out |= super::gpu::THROTTLE_OTHER;
+    }
+    out
 }
 
 impl Drop for Nvml {

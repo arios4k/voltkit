@@ -129,6 +129,26 @@ enum GpuCommand {
         /// The second session
         second: String,
     },
+    /// Find out why the video memory stays at a high clock while the card is idle
+    ///
+    /// A common Linux problem: with several monitors, mixed refresh rates or a very fast panel,
+    /// the driver can't lower the memory clock, and the card draws extra power for nothing. Run
+    /// it while the desktop is quiet; it reads the clocks and the displays and names the likely
+    /// causes.
+    Idle,
+    /// Suggest the power limit that saves the most power for almost the same speed
+    ///
+    /// Reads the sessions you recorded under different power limits (`voltkit gpu record`, once
+    /// per limit, with the same game or benchmark) and picks the lowest limit that stays within
+    /// the tolerance of the fastest. It only suggests limits you actually measured.
+    Advise {
+        /// How much slower than the fastest limit is acceptable, in percent
+        #[arg(long, default_value_t = 3.0)]
+        tolerance: f64,
+        /// Only the sessions of this card (its PCI address)
+        #[arg(long)]
+        gpu: Option<String>,
+    },
     /// Named profiles that switch automatically by power source, running app, load or temperature
     Profiles {
         #[command(subcommand)]
@@ -663,6 +683,8 @@ fn run() -> Result<()> {
             GpuCommand::Check { seconds } => gpu_cli::check(seconds),
             GpuCommand::Sessions => gpu_cli::sessions(),
             GpuCommand::Compare { first, second } => gpu_cli::compare(&first, &second)?,
+            GpuCommand::Idle => gpu_cli::idle(),
+            GpuCommand::Advise { tolerance, gpu } => gpu_cli::advise(tolerance, gpu.as_deref())?,
             GpuCommand::Profiles { command } => match command {
                 ProfilesCommand::List => gpu_cli::profiles_list(),
                 ProfilesCommand::Active => gpu_cli::profiles_active(),
