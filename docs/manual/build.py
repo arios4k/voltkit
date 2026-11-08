@@ -212,14 +212,15 @@ def main():
 <meta name="description" content="{html.escape(p["text"][:160])}">
 <link rel="icon" href="img/icon.png"><link rel="stylesheet" href="style.css"></head>
 <body>
-<header class="top"><button class="menu" aria-label="Menu" aria-expanded="false">☰</button>
-<a class="brand" href="index.html"><img src="img/icon.png" alt="" width="28" height="28"> {SITE_TITLE}</a>
+<header class="top"><button class="menu" aria-label="Open the menu" aria-expanded="false" aria-controls="nav">☰</button>
+<a class="brand" href="index.html"><img src="img/icon.png" alt="" width="28" height="28"> <span>{SITE_TITLE}</span></a>
+<button class="find" aria-label="Search the manual" aria-expanded="false">⌕</button>
 <input id="q" type="search" placeholder="Search the manual…" aria-label="Search the manual" autocomplete="off">
 <a class="ghost" href="https://github.com/arios4k/voltkit">GitHub</a></header>
 <div id="results" class="results" hidden></div>
 <div class="layout">
-<aside class="side" aria-label="Manual pages">{nav(p["stem"])}</aside>
-<main><article>{p["body"]}</article>{pn}
+<aside class="side" id="nav" aria-label="Manual pages"><button class="close" aria-label="Close the menu">✕ Close</button>{nav(p["stem"])}</aside>
+<main><details class="toc-m"><summary>On this page</summary><ul>{toc}</ul></details><article>{p["body"]}</article>{pn}
 <footer>Voltkit {html.escape(version)} · <a href="https://github.com/arios4k/voltkit/issues">Report a problem with this manual</a> · MIT License</footer></main>
 <aside class="toc" aria-label="On this page"><div class="group-title">On this page</div><ul>{toc}</ul></aside>
 </div><script src="manual.js"></script></body></html>"""
