@@ -12,6 +12,7 @@ pub struct Config {
     pub ocr: OcrConfig,
     pub compress: CompressConfig,
     pub expander: ExpanderConfig,
+    pub gpu: GpuConfig,
     pub snippets: Vec<Snippet>,
 }
 
@@ -24,6 +25,16 @@ pub struct Hotkeys {
     pub qr: String,
     pub ruler: String,
     pub smart_paste: String,
+}
+
+/// GPU Tuner settings that belong to the person, not to a card.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(default)]
+pub struct GpuConfig {
+    /// What a kilowatt-hour costs, to show what a session cost. 0 means not set.
+    pub price_per_kwh: f64,
+    /// The currency sign shown next to a cost.
+    pub currency: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -61,6 +72,7 @@ impl Default for Config {
             ocr: OcrConfig::default(),
             compress: CompressConfig::default(),
             expander: ExpanderConfig::default(),
+            gpu: GpuConfig::default(),
             snippets: vec![
                 Snippet { trigger: ";date".into(), template: "{date:%Y-%m-%d}".into() },
                 Snippet { trigger: ";now".into(), template: "{date:%Y-%m-%d} {time}".into() },

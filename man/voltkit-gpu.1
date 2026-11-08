@@ -78,6 +78,22 @@ Compare two recorded sessions side by side
 
 Each session is a file, or a number from `voltkit gpu sessions`. Shows temperature, power, energy, fan speed, clocks and efficiency, and which session is better at each. Efficiency is "active MHz per watt", a proxy for work per watt; add an fps column from a tool such as MangoHud to a session file to get frames per second per watt too.
 .TP
+\fBvoltkit gpu idle\fR
+Find out why the video memory stays at a high clock while the card is idle
+
+A common Linux problem: with several monitors, mixed refresh rates or a very fast panel, the driver can\*(Aqt lower the memory clock, and the card draws extra power for nothing. Run it while the desktop is quiet; it reads the clocks and the displays and names the likely causes.
+.TP
+\fBvoltkit gpu advise [\-\-tolerance] [\-\-gpu]\fR
+Suggest the power limit that saves the most power for almost the same speed
+
+Reads the sessions you recorded under different power limits (`voltkit gpu record`, once per limit, with the same game or benchmark) and picks the lowest limit that stays within the tolerance of the fastest. It only suggests limits you actually measured.
+.RS
+\fB\-\-tolerance\fR: How much slower than the fastest limit is acceptable, in percent
+.RE
+.RS
+\fB\-\-gpu\fR: Only the sessions of this card (its PCI address)
+.RE
+.TP
 \fBvoltkit gpu profiles\fR
 Named profiles that switch automatically by power source, running app, load or temperature
 .ie \n(.g .ds Aq \(aq

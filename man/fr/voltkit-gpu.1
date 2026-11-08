@@ -78,6 +78,22 @@ Comparer deux sessions enregistrées côte à côte
 
 Chaque session est un fichier, ou un numéro de `voltkit gpu sessions`. Affiche température, puissance, énergie, vitesse du ventilateur, fréquences et efficacité, et quelle session est la meilleure pour chacune. L’efficacité est la « fréquence active par watt », un indicateur approché du travail par watt ; ajoutez une colonne fps issue d’un outil comme MangoHud à un fichier de session pour obtenir aussi les images par seconde par watt.
 .TP
+\fBvoltkit gpu idle\fR
+Trouver pourquoi la mémoire vidéo reste à une fréquence élevée quand la carte est au repos
+
+Un problème courant sous Linux : avec plusieurs moniteurs, des fréquences de rafraîchissement mixtes ou une dalle très rapide, le pilote ne peut pas abaisser la fréquence de la mémoire et la carte consomme de l\*(Aqénergie pour rien. Lancez\-le quand le bureau est calme ; il lit les fréquences et les écrans et nomme les causes probables.
+.TP
+\fBvoltkit gpu advise [\-\-tolerance] [\-\-gpu]\fR
+Suggérer la limite de puissance qui économise le plus d\*(Aqénergie pour presque la même vitesse
+
+Lit les sessions que vous avez enregistrées avec différentes limites de puissance (`voltkit gpu record`, une fois par limite, avec le même jeu ou test) et choisit la limite la plus basse qui reste dans la tolérance par rapport à la plus rapide. Elle ne suggère que des limites que vous avez réellement mesurées.
+.RS
+\fB\-\-tolerance\fR: De combien le plus rapide peut être dépassé en lenteur, en pourcentage
+.RE
+.RS
+\fB\-\-gpu\fR: Seulement les sessions de cette carte (son adresse PCI)
+.RE
+.TP
 \fBvoltkit gpu profiles\fR
 Profils nommés qui changent automatiquement selon la source d’alimentation, l’application en cours, la charge ou la température
 .ie \n(.g .ds Aq \(aq

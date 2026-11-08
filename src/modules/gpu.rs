@@ -76,7 +76,17 @@ pub struct Sample {
     pub fan_rpm: Option<f64>,
     pub vram_used_mb: Option<f64>,
     pub vram_total_mb: Option<f64>,
+    /// Why the card is holding its clock back right now: a mix of [`THROTTLE_POWER`],
+    /// [`THROTTLE_HEAT`] and [`THROTTLE_OTHER`]; `Some(0)` means nothing is. `None` when not reported.
+    pub throttle: Option<u32>,
 }
+
+/// The card is at its power limit.
+pub const THROTTLE_POWER: u32 = 1;
+/// The card is too hot, or the hardware cut the clock to cool it.
+pub const THROTTLE_HEAT: u32 = 2;
+/// Any other cause: voltage, a sync boost, an application clock.
+pub const THROTTLE_OTHER: u32 = 4;
 
 /// What a card might let the user adjust.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -596,6 +606,8 @@ pub fn demo_sample(card: usize, tick: u32) -> Sample {
         fan_rpm: Some((fan_rpm * (0.3 + 0.7 * load)).round()),
         vram_used_mb: Some((vram_total * (0.3 + 0.35 * wave(40.0, card as f64))).round()),
         vram_total_mb: Some(vram_total),
+        // The big card brushes its power limit at the top of the load wave.
+        throttle: Some(if card == 0 && load > 0.85 { THROTTLE_POWER } else if load > 0.93 { THROTTLE_HEAT } else { 0 }),
     }
 }
 

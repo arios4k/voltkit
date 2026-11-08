@@ -16,8 +16,8 @@ use anyhow::{Context, Result, bail};
 
 use super::gpu::Sample;
 
-const COLUMNS: [&str; 11] =
-    ["t_s", "temp_c", "hotspot_c", "util_pct", "core_mhz", "mem_mhz", "power_w", "fan_pct", "fan_rpm", "vram_mb", "fps"];
+const COLUMNS: [&str; 13] =
+    ["t_s", "temp_c", "hotspot_c", "util_pct", "core_mhz", "mem_mhz", "power_w", "fan_pct", "fan_rpm", "vram_mb", "fps", "limit_w", "throttle"];
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct Row {
@@ -79,6 +79,8 @@ pub fn to_csv(s: &Session) -> String {
             x.fan_rpm,
             x.vram_used_mb,
             r.fps,
+            x.limit_w,
+            x.throttle.map(f64::from),
         ];
         out.push_str(&cells.map(cell).join(","));
         out.push('\n');
@@ -116,6 +118,8 @@ pub fn from_csv(text: &str) -> Result<Session> {
                 fan_pct: get("fan_pct"),
                 fan_rpm: get("fan_rpm"),
                 vram_used_mb: get("vram_mb"),
+                limit_w: get("limit_w"),
+                throttle: get("throttle").map(|v| v as u32),
                 ..Sample::default()
             },
             fps: get("fps"),
@@ -170,6 +174,12 @@ pub struct Stats {
     pub active_mhz_per_w: Option<f64>,
     pub avg_fps: Option<f64>,
     pub fps_per_w: Option<f64>,
+    /// The power limit the card ran under, on average.
+    pub avg_limit_w: Option<f64>,
+    /// Share of the time the clock was held back by the power limit, and by heat.
+    /// `None` when the card doesn't say why it slows down.
+    pub held_by_power_pct: Option<f64>,
+    pub held_by_heat_pct: Option<f64>,
 }
 
 fn mean(values: impl Iterator<Item = f64>) -> Option<f64> {
@@ -199,6 +209,8 @@ pub fn stats(s: &Session) -> Stats {
         (Some(v), Some(p)) if p > 0.0 => Some(v / p),
         _ => None,
     };
+    let reported: Vec<u32> = rows.iter().filter_map(|r| r.sample.throttle).collect();
+    let share = |bit: u32| (!reported.is_empty()).then(|| 100.0 * reported.iter().filter(|t| **t & bit != 0).count() as f64 / reported.len() as f64);
     Stats {
         seconds,
         avg_temp_c: mean(rows.iter().filter_map(|r| r.sample.temp_c)),
@@ -213,7 +225,25 @@ pub fn stats(s: &Session) -> Stats {
         active_mhz_per_w: per_w(active_mhz),
         avg_fps,
         fps_per_w: per_w(avg_fps),
+        avg_limit_w: mean(rows.iter().filter_map(|r| r.sample.limit_w)),
+        held_by_power_pct: share(super::gpu::THROTTLE_POWER),
+        held_by_heat_pct: share(super::gpu::THROTTLE_HEAT),
     }
+}
+
+/// What a session's energy cost at `price_per_kwh`.
+pub fn cost(energy_wh: f64, price_per_kwh: f64) -> f64 {
+    energy_wh / 1000.0 * price_per_kwh
+}
+
+/// Reads a price such as `0.15`, `0,15 €` or `$0.15`: the number and the
+/// currency sign around it (empty if none). `None` for anything else.
+pub fn parse_price(text: &str) -> Option<(f64, String)> {
+    let text = text.trim();
+    let number: String = text.chars().filter(|c| c.is_ascii_digit() || matches!(c, '.' | ',')).collect();
+    let currency: String = text.chars().filter(|c| !(c.is_ascii_digit() || matches!(c, '.' | ',') || c.is_whitespace())).collect();
+    let value: f64 = number.replace(',', ".").parse().ok()?;
+    (value.is_finite() && (0.0..=100.0).contains(&value)).then_some((value, currency))
 }
 
 /// Which way is better for a measure.
@@ -265,8 +295,8 @@ pub struct Category {
 /// ahead on more of the category's measures, or on its first measure when they split evenly.
 pub fn categories(lines: &[Line]) -> Vec<Category> {
     const GROUPS: [(&str, &[&str]); 6] = [
-        (N_!("Temperature"), &["Average temperature", "Highest temperature"]),
-        (N_!("Power and energy"), &["Average power", "Highest power", "Energy used"]),
+        (N_!("Temperature"), &["Average temperature", "Highest temperature", "Held back by heat"]),
+        (N_!("Power and energy"), &["Average power", "Highest power", "Energy used", "Held back by the power limit"]),
         (N_!("Fan"), &["Average fan speed"]),
         (N_!("Clock speed"), &["Average core clock", "Active clock"]),
         (N_!("Efficiency"), &["Active clock per watt"]),
@@ -304,6 +334,8 @@ pub fn compare(a: &Stats, b: &Stats) -> Vec<Line> {
     add(N_!("Average power"), "W", a.avg_power_w, b.avg_power_w, Better::Lower);
     add(N_!("Highest power"), "W", a.max_power_w, b.max_power_w, Better::Lower);
     add(N_!("Energy used"), "Wh", a.energy_wh, b.energy_wh, Better::Lower);
+    add(N_!("Held back by heat"), "%", a.held_by_heat_pct, b.held_by_heat_pct, Better::Lower);
+    add(N_!("Held back by the power limit"), "%", a.held_by_power_pct, b.held_by_power_pct, Better::Lower);
     add(N_!("Average fan speed"), "%", a.avg_fan_pct, b.avg_fan_pct, Better::Lower);
     add(N_!("Average core clock"), "MHz", a.avg_core_mhz, b.avg_core_mhz, Better::Higher);
     add(N_!("Active clock"), "MHz", a.active_mhz, b.active_mhz, Better::Higher);

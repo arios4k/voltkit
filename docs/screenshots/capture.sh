@@ -110,8 +110,8 @@ shoot() {
         "$@" "$repo/target/debug/voltkit" screenshots "$dir"
 }
 
-# Every page. The GPU Tuner page is long, so it gets one picture per screenful
-# (gpu-light.png, gpu-2-light.png, ...), here with the fan curve editor open.
+# Every page. The GPU Tuner page has tabs, so it gets one picture of each
+# (gpu-light.png for Monitor, gpu-2 Tune, gpu-3 Profiles, gpu-4 Sessions), with the fan curve editor open.
 shoot "$out" VOLTKIT_GPU_DEMO=curve
 
 # The voltage and frequency curve editor, from its own pass; only its first

@@ -11,6 +11,8 @@ use anyhow::{Context, Result, bail};
 use crate::i18n::tr;
 use crate::modules::gpu::{self, Card, Vendor};
 use crate::modules::{gpu_check, gpu_session};
+use crate::modules::gpu_advisor;
+use crate::modules::gpu_idle;
 use crate::modules::gpu_profiles::{self, CardProfiles, Context as SwitchContext, Profile, Switcher};
 use crate::modules::gpu_tune::{self, Governor, Hardware, NvmlOp, Op, Real, Sensor, Settings, Step};
 use crate::modules::nvml::Nvml;
@@ -465,13 +467,28 @@ fn now_stamp() -> String {
 
 fn describe(stats: &gpu_session::Stats) -> Vec<String> {
     let f = |v: Option<f64>, unit: &str| v.map_or_else(|| "—".to_owned(), |v| format!("{v:.1} {unit}"));
-    vec![
+    let mut lines = vec![
         format!("{}: {:.0} s", tr("Duration"), stats.seconds),
         format!("{}: {} / {}", tr("Temperature (average / highest)"), f(stats.avg_temp_c, "°C"), f(stats.max_temp_c, "°C")),
         format!("{}: {} / {}", tr("Power (average / highest)"), f(stats.avg_power_w, "W"), f(stats.max_power_w, "W")),
         format!("{}: {}", tr("Energy used"), f(stats.energy_wh, "Wh")),
         format!("{}: {}", tr("Active clock per watt"), f(stats.active_mhz_per_w, "MHz/W")),
-    ]
+    ];
+    if let Some(cost) = energy_cost(stats) {
+        lines.push(format!("{}: {cost}", tr("Energy cost")));
+    }
+    if let (Some(power), Some(heat)) = (stats.held_by_power_pct, stats.held_by_heat_pct) {
+        lines.push(format!("{}: {power:.0} % / {heat:.0} %", tr("Held back by the power limit / by heat")));
+    }
+    lines
+}
+
+/// What a session's energy cost at the electricity price in the settings, if one is set.
+pub fn energy_cost(stats: &gpu_session::Stats) -> Option<String> {
+    let gpu = crate::config::Config::load().ok()?.gpu;
+    (gpu.price_per_kwh > 0.0).then_some(())?;
+    let amount = gpu_session::cost(stats.energy_wh?, gpu.price_per_kwh);
+    Some(format!("{amount:.3} {}", gpu.currency).trim_end().to_owned())
 }
 
 /// Records one card's readings and saves them as a session.
@@ -553,6 +570,98 @@ pub fn render_comparison(a: &gpu_session::Session, b: &gpu_session::Session) -> 
 pub fn compare(first: &str, second: &str) -> Result<()> {
     let (a, b) = (gpu_session::load(&resolve(first)?)?, gpu_session::load(&resolve(second)?)?);
     print!("{}", render_comparison(&a, &b));
+    Ok(())
+}
+
+/// What the idle check found, in words.
+pub fn idle_text(verdict: &gpu_idle::Verdict, displays: &[gpu_idle::Display]) -> String {
+    use gpu_idle::{Cause, Verdict};
+    match verdict {
+        Verdict::Unknown => tr("This card doesn't report its clocks, so it can't be checked.").to_string(),
+        Verdict::Busy => tr("The card is in use right now. Check again when the desktop is quiet.").to_string(),
+        Verdict::Fine => tr("The memory idles at its low clock. Nothing to fix.").to_string(),
+        Verdict::Stuck(causes) => {
+            let mut out = tr("The memory clock stays high while the card is idle, which wastes power.").to_string();
+            for c in causes {
+                out.push('\n');
+                out.push_str(&match c {
+                    Cause::SeveralDisplays(n) => trf!("{} displays are on. The driver may not find a gap long enough to lower the memory clock.", n),
+                    Cause::MixedRefresh => tr("The displays refresh at different rates.").to_string(),
+                    Cause::FastRefresh(hz) => trf!("A display runs at {} Hz.", format!("{hz:.0}")),
+                });
+            }
+            out.push('\n');
+            out.push_str(&if causes.is_empty() {
+                tr("No display setup that usually causes this was found. A program may be using the card: an overlay, a video, or a browser with hardware acceleration.").to_string()
+            } else {
+                tr("Try giving every display the same refresh rate (60 Hz is the easiest), or lowering the fastest one, then check again.").to_string()
+            });
+            if !displays.is_empty() {
+                let list: Vec<String> = displays.iter().map(|d| format!("{} {}×{} @ {:.0} Hz", d.connector, d.width, d.height, d.hz)).collect();
+                out.push('\n');
+                out.push_str(&trf!("Displays (each monitor's preferred mode, which may differ from the one in use): {}", list.join("; ")));
+            }
+            out
+        }
+    }
+}
+
+pub fn idle() {
+    let cards = gpu::inspect();
+    if cards.is_empty() {
+        println!("{}", tr("No GPU found."));
+    }
+    for card in &cards {
+        let displays = gpu_idle::read_displays(Path::new("/sys/class/drm"), &card.gpu.device);
+        println!("{}\n{}\n", card.gpu.name, idle_text(&gpu_idle::diagnose(&card.sample, &displays), &displays));
+    }
+}
+
+/// The advisor's findings as text.
+pub fn advice_text(a: &gpu_advisor::Advice, tolerance_pct: f64) -> String {
+    let unit = a.metric.unit();
+    let mut out = trf!("Tried {} power limits, measured in {}:", a.points.len(), unit) + "\n";
+    for p in &a.points {
+        out.push_str(&format!(
+            "  {:>4.0} W: {:.1} {unit} at {:.0} W ({:.2} {unit}/W)\n",
+            p.limit_w,
+            p.perf,
+            p.power_w,
+            p.per_watt()
+        ));
+    }
+    out.push('\n');
+    if a.is_saving() {
+        out.push_str(&trf!(
+            "Suggestion: run at about {} W. It draws {} % less power for {} % less speed.",
+            format!("{:.0}", a.pick.limit_w),
+            format!("{:.0}", a.power_saved_pct()),
+            format!("{:.1}", a.performance_lost_pct().max(0.0))
+        ));
+    } else {
+        out.push_str(&trf!(
+            "No lower limit you tried stays within {} % of the fastest. Record sessions at more limits to look further.",
+            format!("{tolerance_pct:.0}")
+        ));
+    }
+    out.push('\n');
+    out
+}
+
+pub fn advise(tolerance: f64, gpu: Option<&str>) -> Result<()> {
+    let files = sessions_dir().as_deref().map(gpu_session::list).unwrap_or_default();
+    let sessions: Vec<gpu_session::Session> = files
+        .iter()
+        .filter_map(|p| gpu_session::load(p).ok())
+        .filter(|s| gpu.is_none_or(|g| s.gpu.eq_ignore_ascii_case(g)))
+        .collect();
+    match gpu_advisor::advise(&sessions, tolerance) {
+        Some(a) => print!("{}", advice_text(&a, tolerance)),
+        None => println!(
+            "{}",
+            tr("Record the same game or benchmark under at least two different power limits (`voltkit gpu record`), then ask again.")
+        ),
+    }
     Ok(())
 }
 

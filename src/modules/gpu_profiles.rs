@@ -237,6 +237,104 @@ impl CardProfiles {
     }
 }
 
+// ---------------------------------------------------------------- Sharing
+
+/// What a shared profile starts with, so it can be told from other text.
+pub const SHARE_PREFIX: &str = "voltkit-profile:1 ";
+const SHARE_MAX_BYTES: usize = 16 * 1024;
+
+#[derive(Serialize, Deserialize)]
+struct Shared {
+    name: String,
+    /// The card it was made on, as a hint: every chip behaves a little differently.
+    card: String,
+    settings: Settings,
+}
+
+/// A profile as one line of text to send to someone. The card's address is
+/// left out; the receiver's own card takes its place.
+pub fn share_text(profile: &Profile, card_name: &str) -> String {
+    let shared = Shared { name: profile.name.clone(), card: card_name.to_owned(), settings: Settings { gpu: String::new(), ..profile.settings.clone() } };
+    format!("{SHARE_PREFIX}{}", serde_json::to_string(&shared).unwrap_or_default())
+}
+
+/// A profile read from shared text, and the card it was made on.
+#[derive(Debug, PartialEq)]
+pub struct Received {
+    pub profile: Profile,
+    pub made_on: String,
+}
+
+fn within(name: &str, v: f64, lo: f64, hi: f64) -> Result<(), String> {
+    if (lo..=hi).contains(&v) { Ok(()) } else { Err(format!("{name}: {v} is outside {lo} to {hi}")) }
+}
+
+/// Checks that a received profile is plausible. Whether the card allows it is
+/// decided when it is applied; this only refuses nonsense.
+fn sanity(s: &Settings) -> Result<(), String> {
+    use super::gpu_tune::{FanMode, MIN_FIXED_FAN_PCT, validate_curve};
+    if let Some(w) = s.power_limit_w {
+        within("power limit", w, 10.0, 1500.0)?;
+    }
+    if let Some(t) = s.temperature_target_c {
+        within("temperature target", t, 40.0, 100.0)?;
+    }
+    for (name, v, lo, hi) in [
+        ("core offset", s.core_offset_mhz, -500, 500),
+        ("memory offset", s.mem_offset_mhz, -1000, 1000),
+        ("voltage offset", s.voltage_offset_mv, -300, 300),
+    ] {
+        if let Some(v) = v {
+            within(name, f64::from(v), f64::from(lo), f64::from(hi))?;
+        }
+    }
+    for (name, v) in [("clock minimum", s.core_clock_min_mhz), ("clock maximum", s.core_clock_max_mhz)] {
+        if let Some(v) = v {
+            within(name, f64::from(v), 0.0, 6000.0)?;
+        }
+    }
+    match &s.fan {
+        Some(FanMode::Fixed { speed_pct }) => within("fan speed", *speed_pct, MIN_FIXED_FAN_PCT, 100.0)?,
+        Some(FanMode::Curve { points, .. }) => validate_curve(points).map_err(|e| e.to_string())?,
+        _ => {}
+    }
+    if let Some(curve) = &s.voltage_curve {
+        if curve.len() > 64 {
+            return Err("the voltage curve has too many points".into());
+        }
+        for p in curve {
+            within("curve clock", f64::from(p.mhz), 0.0, 6000.0)?;
+            within("curve voltage", f64::from(p.mv), 0.0, 1600.0)?;
+        }
+    }
+    Ok(())
+}
+
+/// Reads shared text for the card at `address`. Surrounding whitespace is ignored.
+pub fn parse_share(text: &str, address: &str) -> Result<Received, String> {
+    let text = text.trim();
+    let body = text.strip_prefix(SHARE_PREFIX.trim_end()).ok_or("not a Voltkit profile")?.trim_start();
+    if body.len() > SHARE_MAX_BYTES {
+        return Err("the profile is too large".into());
+    }
+    let shared: Shared = serde_json::from_str(body).map_err(|e| format!("can't read the profile: {e}"))?;
+    let name = shared.name.trim();
+    if name.is_empty() || name.chars().count() > 40 || name.chars().any(char::is_control) {
+        return Err("the profile has no usable name".into());
+    }
+    sanity(&shared.settings)?;
+    let card: String = shared.card.chars().filter(|c| !c.is_control()).take(80).collect();
+    Ok(Received { profile: Profile { name: name.to_owned(), settings: Settings { gpu: address.to_owned(), ..shared.settings } }, made_on: card })
+}
+
+/// `name`, or `name (2)`, `name (3)` ... if the card already has one by that name.
+pub fn free_name(set: &CardProfiles, name: &str) -> String {
+    if set.profile(name).is_none() {
+        return name.to_owned();
+    }
+    (2..).map(|n| format!("{name} ({n})")).find(|c| set.profile(c).is_none()).unwrap_or_default()
+}
+
 // ---------------------------------------------------------------- System
 
 /// `Some(true)` on battery, `Some(false)` on mains, `None` if unknown.
@@ -261,6 +359,17 @@ pub fn power_source(sys: &Path) -> Option<bool> {
     known.then_some(discharging && !mains_online)
 }
 
+/// The Steam game a process belongs to. Steam starts every game, native or under
+/// Proton, through `reaper SteamLaunch AppId=<number> -- ...`.
+fn steam_app_id(cmdline: &[u8]) -> Option<u32> {
+    let mut args = cmdline.split(|b| *b == 0);
+    let first = args.next()?;
+    if !first.ends_with(b"reaper") {
+        return None;
+    }
+    args.find_map(|a| std::str::from_utf8(a).ok()?.strip_prefix("AppId=")?.parse().ok())
+}
+
 /// Lowercase names of every running program: the process name and, where it
 /// can be read, the name of its executable (the process name is cut at 15 letters).
 pub fn running_apps(proc_root: &Path) -> HashSet<String> {
@@ -273,6 +382,11 @@ pub fn running_apps(proc_root: &Path) -> HashSet<String> {
         let p = entry.path();
         if let Ok(comm) = std::fs::read_to_string(p.join("comm")) {
             out.insert(comm.trim().to_lowercase());
+        }
+        if let Ok(cmdline) = std::fs::read(p.join("cmdline"))
+            && let Some(id) = steam_app_id(&cmdline)
+        {
+            out.insert(format!("steam:{id}"));
         }
         if let Some(name) = std::fs::read_link(p.join("exe")).ok().and_then(|e| e.file_name().map(|n| n.to_string_lossy().to_lowercase())) {
             out.insert(name.trim_end_matches(" (deleted)").to_owned());
@@ -462,5 +576,53 @@ mod tests {
         // The real /proc always has at least this process.
         assert!(!running_apps(Path::new("/proc")).is_empty());
         let _ = std::fs::remove_dir_all(&t);
+    }
+
+    #[test]
+    fn a_steam_game_is_named_by_its_app_id() {
+        let t = tree("steam");
+        put(&t, "77/comm", "reaper\n");
+        put(&t, "77/cmdline", "/home/u/.steam/ubuntu12_32/reaper\0SteamLaunch\0AppId=1245620\0--\0proton\0run\0game.exe\0");
+        put(&t, "78/comm", "bash\n");
+        put(&t, "78/cmdline", "bash\0-c\0echo AppId=99\0");
+        let apps = running_apps(&t);
+        assert!(apps.contains("steam:1245620"));
+        assert!(!apps.contains("steam:99"), "only Steam's reaper names a game");
+        assert_eq!(steam_app_id(b"reaper\0AppId=abc\0"), None);
+        let _ = std::fs::remove_dir_all(&t);
+    }
+
+    #[test]
+    fn a_profile_survives_sharing_without_its_card_address() {
+        let mut p = Profile { name: "Quiet 1080p".into(), settings: settings("0000:03:00.0", 180.0) };
+        p.settings.core_offset_mhz = Some(-100);
+        let text = share_text(&p, "GeForce RTX 3070");
+        assert!(text.starts_with(SHARE_PREFIX) && !text.contains("0000:03:00.0") && !text.contains('\n'));
+        let got = parse_share(&format!("  {text}\n"), "0000:0a:00.0").unwrap();
+        assert_eq!(got.made_on, "GeForce RTX 3070");
+        assert_eq!(got.profile.name, "Quiet 1080p");
+        assert_eq!(got.profile.settings, Settings { gpu: "0000:0a:00.0".into(), ..p.settings });
+    }
+
+    #[test]
+    fn nonsense_is_refused_before_it_gets_near_a_card() {
+        let ok = share_text(&Profile { name: "x".into(), settings: settings("", 200.0) }, "c");
+        assert!(parse_share("hello", "a").is_err());
+        assert!(parse_share(&ok.replace("voltkit-profile:1", "voltkit-profile:2"), "a").is_err());
+        assert!(parse_share(&ok.replace("200.0", "5000.0"), "a").unwrap_err().contains("power limit"));
+        assert!(parse_share(&ok.replace("\"name\":\"x\"", "\"name\":\"\""), "a").is_err());
+        assert!(parse_share(&format!("{SHARE_PREFIX}{{\"name\":\"x\"}}"), "a").is_err());
+        assert!(parse_share(&format!("{SHARE_PREFIX}{}", "x".repeat(20_000)), "a").unwrap_err().contains("large"));
+        let hot_fan = r#"{"name":"x","card":"c","settings":{"gpu":"","power_limit_w":null,"fan":{"mode":"fixed","speed_pct":5.0},"temperature_target_c":null,"core_offset_mhz":null,"mem_offset_mhz":null,"voltage_offset_mv":null,"core_clock_min_mhz":null,"core_clock_max_mhz":null}}"#;
+        assert!(parse_share(&format!("{SHARE_PREFIX}{hot_fan}"), "a").unwrap_err().contains("fan speed"));
+    }
+
+    #[test]
+    fn a_received_profile_never_replaces_one_with_the_same_name() {
+        let mut set = set();
+        assert_eq!(free_name(&set, "Brand new"), "Brand new");
+        assert_eq!(free_name(&set, "Quiet"), "Quiet (2)");
+        set.profiles.push(Profile { name: "Quiet (2)".into(), settings: settings("x", 1.0) });
+        assert_eq!(free_name(&set, "Quiet"), "Quiet (3)");
     }
 }

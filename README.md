@@ -98,34 +98,36 @@ report in a terminal.
 
 Edit fan curves by dragging points on a graph, and choose which temperature they follow and which fans they drive. Save settings as **profiles** that switch by themselves: on battery, while an app runs, under a sustained load, or when the card runs hot. **Record a session** while a game or benchmark runs and compare two profiles side by side: temperature, power, energy and efficiency (active clock per watt, or frames per watt when frames are recorded). `voltkit gpu check` compares Voltkit's readings with `nvidia-smi` and measures what monitoring costs.
 
+More for gamers and tinkerers: a profile can switch on while a **Steam or Proton game** runs (type `steam:<App ID>` as the program); the live readings say **why the clock is held back** (power limit or heat, NVIDIA); **Keep under a temperature** drives the fan to a target instead of a hand-drawn curve; sessions show **what they cost** at your electricity price; **Suggest a power limit** (`voltkit gpu advise`) finds the lowest limit that keeps almost all the speed from sessions you recorded; profiles can be **shared as one line of text** and imported with checks; and **Idle power check** (`voltkit gpu idle`) explains why the video memory stays at a high clock with nothing running, a common multi-monitor problem on Linux.
+
 Tried it on your card? A [hardware report](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) of what worked and what didn't is the most useful help right now.
 
 Applying changes is new and has so far been tested against simulated hardware only; see
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) for what works, how it stays safe, and what isn't built yet.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.1" alt="GPU Tuner showing live readings with history and the fan curve editor for an AMD Radeon card (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="GPU Tuner, Monitor tab: live readings with history, why the clock is held back, and what the card supports (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.1" alt="GPU Tuner scrolled down: what the card supports and the fan curve points (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="GPU Tuner, Tune tab: power limit, fan curve editor and the other controls (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.1" alt="GPU Tuner scrolled further: tune controls, Preview and Apply, and saved profiles (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="GPU Tuner, Profiles tab: saved profiles, automatic rules, sharing and import (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.1" alt="GPU Tuner at the bottom: profiles and recorded sessions to compare (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="GPU Tuner, Sessions tab: recorded sessions, electricity price, power-limit suggestion and comparison (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.1">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.1" alt="GPU Tuner voltage and frequency curve editor with draggable points (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="GPU Tuner voltage and frequency curve editor with draggable points (simulated data)">
 </picture>
 
 <sub>The screenshot uses simulated data from made-up cards.</sub>

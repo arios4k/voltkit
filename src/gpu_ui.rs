@@ -20,7 +20,9 @@ fn tr(text: &str) -> String {
     crate::i18n::tr(text).to_owned()
 }
 use crate::modules::gpu::{self, Card, Control, Monitor, Sample, Support};
-use crate::modules::gpu_profiles::{Auto, CardProfiles};
+use crate::modules::gpu_profiles::{self, Auto, CardProfiles};
+use crate::modules::gpu_advisor;
+use crate::modules::gpu_idle;
 use crate::modules::gpu_session::{self, Recorder, Session};
 use crate::modules::gpu_tune::{self, CurvePoint, FanMode, Sensor, Settings};
 use crate::curve_chart::{Axes, CurveChart};
@@ -152,6 +154,8 @@ struct Reading {
 
 struct CardView {
     readings: Vec<Reading>,
+    /// The idle-power check: its row and the displays on this card.
+    idle: (adw::ActionRow, Vec<gpu_idle::Display>),
     chart: Option<CurveChart>,
     profiles: Option<ProfilesView>,
     sessions: SessionsView,
@@ -174,6 +178,22 @@ fn readings_for() -> Vec<(String, f64, fn(&Sample) -> Option<f64>, fn(&Sample) -
             (None, Some(r)) => format!("{r:.0} RPM"),
             _ => "—".to_owned(),
         }),
+        (tr("Held back by"), 2.0, |s| s.throttle.map(|t| if t & gpu::THROTTLE_HEAT != 0 { 2.0 } else if t != 0 { 1.0 } else { 0.0 }), |s| match s.throttle {
+            None => "—".to_owned(),
+            Some(t) => {
+                let mut why = Vec::new();
+                if t & gpu::THROTTLE_POWER != 0 {
+                    why.push(tr("the power limit"));
+                }
+                if t & gpu::THROTTLE_HEAT != 0 {
+                    why.push(tr("heat"));
+                }
+                if t & gpu::THROTTLE_OTHER != 0 {
+                    why.push(tr("another limit"));
+                }
+                if why.is_empty() { tr("Nothing: full speed").to_string() } else { why.join(&tr(" and ")) }
+            }
+        }),
         (tr("Video memory"), 1024.0, |s| s.vram_used_mb, |s| match (s.vram_used_mb, s.vram_total_mb) {
             (Some(u), Some(t)) => format!("{u:.0} / {t:.0} MB"),
             _ => "—".to_owned(),
@@ -183,7 +203,8 @@ fn readings_for() -> Vec<(String, f64, fn(&Sample) -> Option<f64>, fn(&Sample) -
 
 impl CardView {
     fn new(card: &Card, toasts: &adw::ToastOverlay, stack: &gtk::Stack, index: usize) -> Rc<Self> {
-        let page = Workspace::new();
+        // One tab per kind of work, each its own scrolling page, so nothing is crammed.
+        let (monitor_tab, tune_tab, profiles_tab, sessions_tab) = (Workspace::new(), Workspace::new(), Workspace::new(), Workspace::new());
 
         let group = adw::PreferencesGroup::builder().title(tr("Right now")).description(card.gpu.name.as_str()).build();
         let readings: Vec<Reading> = readings_for()
@@ -204,7 +225,11 @@ impl CardView {
                 reading
             })
             .collect();
-        page.add(&group);
+        let displays = if gpu::demo() { Vec::new() } else { gpu_idle::read_displays(std::path::Path::new("/sys/class/drm"), &card.gpu.device) };
+        let idle_row = adw::ActionRow::builder().title(tr("Idle power check")).subtitle(tr("Checks whether the memory clock drops when nothing runs.")).subtitle_lines(0).build();
+        idle_row.add_prefix(&gtk::Image::builder().icon_name("battery-level-100-symbolic").accessible_role(gtk::AccessibleRole::Presentation).build());
+        group.add(&idle_row);
+        monitor_tab.add(&group);
 
         let support = adw::PreferencesGroup::builder()
             .title(tr("What this card supports"))
@@ -223,12 +248,12 @@ impl CardView {
             row.add_prefix(&image);
             support.add(&row);
         }
-        page.add(&support);
+        monitor_tab.aside(&support);
         let (tune, chart, collect) = tune_group(card, toasts, gpu::demo());
-        page.aside(&tune);
+        tune_tab.add(&tune);
         let profiles = collect.map(|collect| {
             let view = profiles_group(card, collect, toasts);
-            page.aside(&view.group);
+            profiles_tab.add(&view.group);
             view
         });
         if profiles.is_none() {
@@ -241,21 +266,42 @@ impl CardView {
             buttons.append(&gtk::Button::with_label(&tr("Save current settings as a profile…")));
             buttons.append(&gtk::Button::builder().label(tr("Apply profiles")).css_classes(["suggested-action"]).build());
             off.add(&buttons);
-            page.aside(&off);
+            profiles_tab.add(&off);
         }
         let sessions = sessions_group(card, toasts);
         sessions.group.set_sensitive(supported(card, Control::Monitoring));
-        page.aside(&sessions.group);
+        sessions_tab.add(&sessions.group);
 
-        stack.add_named(&*page, Some(&index.to_string()));
+        let tabs = adw::ViewStack::builder().vexpand(true).css_classes(["gpu-tabs"]).build();
+        for (name, title, icon, tab) in [
+            ("monitor", tr("Monitor"), "utilities-system-monitor-symbolic", &monitor_tab),
+            ("tune", tr("Tune"), "preferences-system-symbolic", &tune_tab),
+            ("profiles", tr("Profiles"), "view-list-symbolic", &profiles_tab),
+            ("sessions", tr("Sessions"), "media-record-symbolic", &sessions_tab),
+        ] {
+            tabs.add_titled_with_icon(&**tab, Some(name), &title, icon);
+        }
+        if gpu::demo() && std::env::var("VOLTKIT_GPU_DEMO").as_deref() == Ok("vf") {
+            tabs.set_visible_child_name("tune");
+        }
+        let switcher = adw::ViewSwitcher::builder().stack(&tabs).policy(adw::ViewSwitcherPolicy::Wide).halign(gtk::Align::Center).margin_top(6).margin_bottom(6).build();
+        let container = gtk::Box::builder().orientation(gtk::Orientation::Vertical).build();
+        container.append(&switcher);
+        container.append(&tabs);
+        stack.add_named(&container, Some(&index.to_string()));
         if let Some(chart) = &chart {
             chart.set_marker(card.sample.temp_c.zip(card.sample.fan_pct));
         }
-        Rc::new(CardView { readings, chart, profiles, sessions })
+        Rc::new(CardView { readings, idle: (idle_row, displays), chart, profiles, sessions })
     }
 
     fn update(&self, sample: &Sample) {
         self.sessions.push(sample);
+        // Only a quiet card is worth a verdict; otherwise keep what was said last.
+        let verdict = gpu_idle::diagnose(sample, &self.idle.1);
+        if !matches!(verdict, gpu_idle::Verdict::Busy | gpu_idle::Verdict::Unknown) {
+            self.idle.0.set_subtitle(&glib::markup_escape_text(&crate::gpu_cli::idle_text(&verdict, &self.idle.1)));
+        }
         if let Some(p) = &self.profiles {
             p.refresh_active();
         }
@@ -343,6 +389,8 @@ type Rebuild = Rc<RefCell<Option<Rc<dyn Fn()>>>>;
 /// The undo history of the fan curve being edited.
 struct CurveEdit {
     points: Vec<CurvePoint>,
+    /// The temperature of the "Keep under" mode.
+    target_c: f64,
     undo: Vec<Vec<CurvePoint>>,
     redo: Vec<Vec<CurvePoint>>,
 }
@@ -392,11 +440,13 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
     }
     let fan = (supported(card, Control::FanSpeed) && !only_vf).then(|| {
         let row = expander(tr("Fan"), tr("Fixed speed, or a curve that follows the temperature."), demo && std::env::var("VOLTKIT_GPU_DEMO").as_deref() != Ok("vf"));
-        let modes = gtk::StringList::new(&[&tr("The card's own control"), &tr("Fixed speed"), &tr("Curve")]);
+        let modes = gtk::StringList::new(&[&tr("The card's own control"), &tr("Fixed speed"), &tr("Curve"), &tr("Keep under a temperature")]);
         let mode = adw::ComboRow::builder().title(tr("Mode")).model(&modes).build();
         let fixed = spin(tr("Speed (%)"), None, s.fan_pct.unwrap_or(50.0).max(gpu_tune::MIN_FIXED_FAN_PCT), gpu_tune::MIN_FIXED_FAN_PCT, 100.0, 5.0);
         row.add_row(&mode);
         row.add_row(&fixed);
+        let target = spin(tr("Keep the card under (°C)"), Some(tr("Quiet while it is cooler; the fan reaches full speed at this temperature.").to_string()), 70.0, gpu_tune::TARGET_RANGE_C.0, gpu_tune::TARGET_RANGE_C.1, 1.0);
+        row.add_row(&target);
         // Which temperature the curve follows and which fans it drives, when there's a choice.
         let sensors = Sensor::available(s);
         let sensor_names: Vec<String> = sensors.iter().map(|x| x.title()).collect();
@@ -420,6 +470,7 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
             .collect();
         row.add_row(&fans_row);
         let edit = Rc::new(RefCell::new(CurveEdit {
+            target_c: 70.0,
             points: vec![
                 CurvePoint { temp_c: 30.0, speed_pct: 25.0 },
                 CurvePoint { temp_c: 50.0, speed_pct: 40.0 },
@@ -429,6 +480,10 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
             undo: Vec::new(),
             redo: Vec::new(),
         }));
+        {
+            let edit = edit.clone();
+            target.adjustment().connect_value_changed(move |a| edit.borrow_mut().target_c = a.value());
+        }
         let curve_rows: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::new(RefCell::new(Vec::new()));
         let curve_box = adw::ExpanderRow::builder().title(tr("Curve points")).subtitle(tr("Temperature in °C, fan speed in %.")).expanded(true).build();
         let chart = CurveChart::new(edit.borrow().points.clone(), Axes::fan());
@@ -438,14 +493,15 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
         row.add_row(&curve_box);
         // Show only the controls of the chosen mode.
         let sync = {
-            let (mode, fixed, curve_box, chart_row) = (mode.clone(), fixed.clone(), curve_box.clone(), chart_row.clone());
+            let (mode, fixed, curve_box, chart_row, target) = (mode.clone(), fixed.clone(), curve_box.clone(), chart_row.clone(), target.clone());
             let (sensor_row, fans_row, many_sensors, many_fans) = (sensor_row.clone(), fans_row.clone(), sensors.len() > 1, fan_count > 1);
             Rc::new(move || {
                 fixed.set_visible(mode.selected() == 1);
                 curve_box.set_visible(mode.selected() == 2);
                 chart_row.set_visible(mode.selected() == 2);
-                sensor_row.set_visible(mode.selected() == 2 && many_sensors);
-                fans_row.set_visible(mode.selected() == 2 && many_fans);
+                target.set_visible(mode.selected() == 3);
+                sensor_row.set_visible(mode.selected() >= 2 && many_sensors);
+                fans_row.set_visible(mode.selected() >= 2 && many_fans);
             })
         };
         sync();
@@ -749,7 +805,8 @@ fn tune_group(card: &Card, toasts: &adw::ToastOverlay, demo: bool) -> (adw::Pref
                         let chosen: Vec<u32> = fan_checks.iter().enumerate().filter(|(_, c)| c.is_active()).map(|(i, _)| i as u32).collect();
                         // All fans, or none ticked, mean every fan.
                         let fans = if chosen.len() == fan_checks.len() { Vec::new() } else { chosen };
-                        FanMode::Curve { points: edit.borrow().points.clone(), sensor, fans }
+                        let points = if mode.selected() == 3 { gpu_tune::curve_for_target(edit.borrow().target_c) } else { edit.borrow().points.clone() };
+                        FanMode::Curve { points, sensor, fans }
                     }
                 });
             }
@@ -1008,8 +1065,9 @@ fn profiles_group(card: &Card, collect: Collect, toasts: &adw::ToastOverlay) -> 
     let rows: Rc<RefCell<Vec<adw::ExpanderRow>>> = Rc::new(RefCell::new(Vec::new()));
     let render: Rebuild = Rc::new(RefCell::new(None));
 
+    let card_name = card.gpu.name.clone();
     let build = {
-        let (group, state, rows, render) = (group.clone(), state.clone(), rows.clone(), render.clone());
+        let (group, state, rows, render, card_name) = (group.clone(), state.clone(), rows.clone(), render.clone(), card_name.clone());
         Rc::new(move || {
             for r in rows.borrow_mut().drain(..) {
                 group.remove(&r);
@@ -1039,7 +1097,7 @@ fn profiles_group(card: &Card, collect: Collect, toasts: &adw::ToastOverlay) -> 
                         Auto::Hot(_) => 5,
                     })
                     .build();
-                let apps = adw::EntryRow::builder().title(tr("Programs, separated by commas")).build();
+                let apps = adw::EntryRow::builder().title(tr("Programs or Steam games (steam:<App ID>), separated by commas")).build();
                 let busy = spin(tr("Busier than (%)"), None, if let Auto::Busy(v) = auto { v } else { 80.0 }, 10.0, 100.0, 5.0);
                 let hot = spin(tr("Hotter than (°C)"), None, if let Auto::Hot(v) = auto { v } else { 85.0 }, 50.0, 100.0, 1.0);
                 if let Auto::App(names) = &auto {
@@ -1107,6 +1165,22 @@ fn profiles_group(card: &Card, collect: Collect, toasts: &adw::ToastOverlay) -> 
                         }
                     });
                 }
+                let share = adw::ActionRow::builder()
+                    .title(tr("Copy a share code"))
+                    .subtitle(tr("One line of text to send to someone with a similar card. It holds no addresses or personal data."))
+                    .subtitle_lines(2)
+                    .activatable(true)
+                    .build();
+                share.add_prefix(&gtk::Image::from_icon_name("edit-copy-symbolic"));
+                {
+                    let (profile, card_name) = (profile.clone(), card_name.clone());
+                    share.connect_activated(move |r| {
+                        r.clipboard().set_text(&gpu_profiles::share_text(&profile, &card_name));
+                        if let Some(overlay) = r.ancestor(adw::ToastOverlay::static_type()).and_downcast::<adw::ToastOverlay>() {
+                            overlay.add_toast(adw::Toast::new(&tr("Share code copied.")));
+                        }
+                    });
+                }
                 let remove = adw::ActionRow::builder().title(tr("Delete this profile")).activatable(true).build();
                 remove.add_prefix(&gtk::Image::from_icon_name("user-trash-symbolic"));
                 {
@@ -1118,7 +1192,7 @@ fn profiles_group(card: &Card, collect: Collect, toasts: &adw::ToastOverlay) -> 
                         }
                     });
                 }
-                for w in [kind.upcast_ref::<gtk::Widget>(), apps.upcast_ref(), busy.upcast_ref(), hot.upcast_ref(), default.upcast_ref(), remove.upcast_ref()] {
+                for w in [kind.upcast_ref::<gtk::Widget>(), apps.upcast_ref(), busy.upcast_ref(), hot.upcast_ref(), default.upcast_ref(), share.upcast_ref(), remove.upcast_ref()] {
                     row.add_row(w);
                 }
                 group.add(&row);
@@ -1132,9 +1206,40 @@ fn profiles_group(card: &Card, collect: Collect, toasts: &adw::ToastOverlay) -> 
     let buttons = gtk::Box::builder().spacing(8).halign(gtk::Align::End).margin_top(8).build();
     let save = gtk::Button::with_label(&tr("Save current settings as a profile…"));
     let apply = gtk::Button::builder().label(tr("Apply profiles")).css_classes(["suggested-action"]).tooltip_text(tr("Installs the profiles in Voltkit's background service, which switches between them.")).build();
+    let import = gtk::Button::with_label(&tr("Import a shared profile…"));
+    buttons.append(&import);
     buttons.append(&save);
     buttons.append(&apply);
     group.add(&buttons);
+    {
+        let (state, render, toasts, address) = (state.clone(), render.clone(), toasts.clone(), address.clone());
+        import.connect_clicked(move |b| {
+            let entry = gtk::Entry::builder().placeholder_text("voltkit-profile:1 …").activates_default(true).build();
+            let dialog = adw::AlertDialog::new(Some(&tr("Import a shared profile")), Some(&tr("Paste the share code you were sent. Voltkit checks it, then adds it as a new profile. Nothing is applied until you choose to.")));
+            dialog.set_extra_child(Some(&entry));
+            dialog.add_responses(&[("cancel", &tr("Cancel")), ("import", &tr("Import"))]);
+            dialog.set_response_appearance("import", adw::ResponseAppearance::Suggested);
+            dialog.set_default_response(Some("import"));
+            let (state, render, toasts, address) = (state.clone(), render.clone(), toasts.clone(), address.clone());
+            dialog.connect_response(None, move |_, response| {
+                if response != "import" {
+                    return;
+                }
+                match gpu_profiles::parse_share(&entry.text(), &address) {
+                    Ok(got) => {
+                        let name = gpu_profiles::free_name(&state.borrow(), &got.profile.name);
+                        state.borrow_mut().save_profile(&name, got.profile.settings);
+                        if let Some(f) = render.borrow().clone() {
+                            f();
+                        }
+                        toast(&toasts, if got.made_on.is_empty() { trf!("Imported {}.", name) } else { trf!("Imported {}, made on {}. Every chip behaves a little differently, so try it before you rely on it.", name, got.made_on) });
+                    }
+                    Err(e) => toast(&toasts, trf!("Can't import that: {}", e)),
+                }
+            });
+            dialog.present(Some(b));
+        });
+    }
     {
         let (state, collect, render) = (state.clone(), collect.clone(), render.clone());
         save.connect_clicked(move |b| {
@@ -1222,6 +1327,22 @@ impl SessionsView {
             recorder.push(began.elapsed().as_secs_f64(), sample.clone());
         }
     }
+}
+
+/// Made-up sessions at three power limits, for the advisor's screenshot.
+fn demo_sweep() -> Vec<Session> {
+    let make = |limit: f64, power: f64, clock: f64, fps: f64| {
+        let mut r = Recorder::new("Sweep", "0000:03:00.0", "2026-11-06T20:00:00");
+        for t in 0..=60 {
+            r.push(f64::from(t), Sample { util_pct: Some(98.0), core_mhz: Some(clock), power_w: Some(power), limit_w: Some(limit), ..Sample::default() });
+        }
+        let mut s = r.finish();
+        for row in &mut s.rows {
+            row.fps = Some(fps);
+        }
+        s
+    };
+    vec![make(263.0, 258.0, 2480.0, 112.0), make(220.0, 217.0, 2440.0, 110.5), make(180.0, 178.0, 2250.0, 101.0)]
 }
 
 /// Two made-up sessions for the screenshots: stock settings and an undervolt.
@@ -1326,6 +1447,22 @@ fn sessions_group(card: &Card, toasts: &adw::ToastOverlay) -> SessionsView {
     label.add_suffix(&record);
     group.add(&label);
 
+    let price = adw::EntryRow::builder().title(tr("Electricity price per kWh")).show_apply_button(true).build();
+    if let Ok(c) = crate::config::Config::load()
+        && c.gpu.price_per_kwh > 0.0
+    {
+        price.set_text(format!("{} {}", c.gpu.price_per_kwh, c.gpu.currency).trim());
+    }
+    group.add(&price);
+
+    let advisor = adw::ActionRow::builder()
+        .title(tr("Suggest a power limit"))
+        .subtitle(tr("From sessions recorded under different limits: the lowest one that keeps almost all the speed."))
+        .activatable(true)
+        .build();
+    advisor.add_suffix(&gtk::Image::from_icon_name("go-next-symbolic"));
+    group.add(&advisor);
+
     let rows: Rc<RefCell<Vec<(adw::ActionRow, gtk::CheckButton, Session)>>> = Rc::new(RefCell::new(Vec::new()));
     let shown: Rc<RefCell<Vec<adw::ActionRow>>> = Rc::new(RefCell::new(Vec::new()));
     let compare = gtk::Button::builder().label(tr("Compare the two ticked")).halign(gtk::Align::End).margin_top(8).sensitive(false).build();
@@ -1352,7 +1489,8 @@ fn sessions_group(card: &Card, toasts: &adw::ToastOverlay) -> SessionsView {
             for s in sessions {
                 let st = gpu_session::stats(&s);
                 let power = st.avg_power_w.map_or_else(String::new, |p| format!(" · {p:.0} W"));
-                let row = adw::ActionRow::builder().title(glib::markup_escape_text(&s.label)).subtitle(format!("{} · {:.0} s{power}", s.started.replace('T', " "), st.seconds)).build();
+                let cost = crate::gpu_cli::energy_cost(&st).map_or_else(String::new, |c| format!(" · {c}"));
+                let row = adw::ActionRow::builder().title(glib::markup_escape_text(&s.label)).subtitle(format!("{} · {:.0} s{power}{cost}", s.started.replace('T', " "), st.seconds)).build();
                 let check = gtk::CheckButton::builder().valign(gtk::Align::Center).build();
                 check.update_property(&[gtk::accessible::Property::Label(&s.label)]);
                 row.add_prefix(&check);
@@ -1373,6 +1511,52 @@ fn sessions_group(card: &Card, toasts: &adw::ToastOverlay) -> SessionsView {
     };
     *refresh.borrow_mut() = Some(rebuild.clone() as Rc<dyn Fn()>);
     rebuild();
+    {
+        let (toasts, rebuild) = (toasts.clone(), rebuild.clone());
+        price.connect_apply(move |row| {
+            let text = row.text();
+            let parsed = if text.trim().is_empty() { Some((0.0, String::new())) } else { gpu_session::parse_price(&text) };
+            let Some((price_per_kwh, currency)) = parsed else {
+                toast(&toasts, tr("Type the price as a number, such as 0.15 or 0,15 €."));
+                return;
+            };
+            match crate::config::Config::load().and_then(|mut c| {
+                c.gpu = crate::config::GpuConfig { price_per_kwh, currency };
+                c.save()
+            }) {
+                Ok(()) => rebuild(),
+                Err(e) => toast(&toasts, e.to_string()),
+            }
+        });
+    }
+    {
+        let address = card.gpu.address.clone();
+        advisor.connect_activated(move |row| {
+            let sessions: Vec<Session> = if gpu::demo() {
+                demo_sweep()
+            } else {
+                crate::gpu_cli::sessions_dir()
+                    .as_deref()
+                    .map(gpu_session::list)
+                    .unwrap_or_default()
+                    .iter()
+                    .filter_map(|p| gpu_session::load(p).ok())
+                    .filter(|s| s.gpu.eq_ignore_ascii_case(&address))
+                    .collect()
+            };
+            let (heading, body) = match gpu_advisor::advise(&sessions, 3.0) {
+                Some(a) => (tr("Suggested power limit"), crate::gpu_cli::advice_text(&a, 3.0)),
+                None => (
+                    tr("Not enough sessions yet"),
+                    tr("Record the same game or benchmark under at least two different power limits, then ask again.").to_string(),
+                ),
+            };
+            let dialog = adw::AlertDialog::builder().heading(heading).body(glib::markup_escape_text(&body)).build();
+            dialog.add_response("close", &tr("Close"));
+            dialog.set_default_response(Some("close"));
+            dialog.present(Some(row));
+        });
+    }
     group.add(&compare);
     if std::env::var("VOLTKIT_GPU_DEMO").as_deref() == Ok("compare") {
         // For checking the comparison window: tick both demo sessions and open it.
