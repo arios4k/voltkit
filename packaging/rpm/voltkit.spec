@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.10.4
+Version:        0.10.5
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -78,6 +78,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.5-1
+- A detailed manual, published at https://arios4k.github.io/voltkit/manual/
+- A Help button in the header, Help & Manual in the main menu, and F1 open the manual page for the tool you are using
+
 * Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.4-1
 - GPU Tuner: organized into Monitor, Tune, Profiles and Sessions tabs
 - GPU Tuner: shows why the clock is held back (power limit or heat) and records it in sessions

@@ -148,6 +148,27 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.10.5" date="2026-11-07">
+      <description>
+        <p>A detailed manual, and a Help button that opens it.</p>
+        <p xml:lang="es">Un manual detallado y un botón de ayuda que lo abre.</p>
+        <p xml:lang="de">Ein ausführliches Handbuch und eine Hilfe-Schaltfläche, die es öffnet.</p>
+        <p xml:lang="fr">Un manuel détaillé et un bouton d’aide qui l’ouvre.</p>
+        <p xml:lang="zh_CN">新增详细的使用手册，以及打开它的帮助按钮。</p>
+        <ul>
+          <li>A manual covering every tool, with screenshots, at arios4k.github.io/voltkit/manual</li>
+          <li xml:lang="es">Un manual que cubre cada herramienta, con capturas, en arios4k.github.io/voltkit/manual</li>
+          <li xml:lang="de">Ein Handbuch zu jedem Werkzeug mit Screenshots unter arios4k.github.io/voltkit/manual</li>
+          <li xml:lang="fr">Un manuel couvrant chaque outil, avec des captures, sur arios4k.github.io/voltkit/manual</li>
+          <li xml:lang="zh_CN">涵盖每个工具并附截图的手册，网址为 arios4k.github.io/voltkit/manual</li>
+          <li>A Help button, Help &amp; Manual in the menu, and F1 open the page for the tool you are using</li>
+          <li xml:lang="es">Un botón de ayuda, Ayuda y manual en el menú y F1 abren la página de la herramienta que usas</li>
+          <li xml:lang="de">Eine Hilfe-Schaltfläche, Hilfe und Handbuch im Menü und F1 öffnen die Seite des aktuellen Werkzeugs</li>
+          <li xml:lang="fr">Un bouton d’aide, Aide et manuel dans le menu et F1 ouvrent la page de l’outil utilisé</li>
+          <li xml:lang="zh_CN">帮助按钮、菜单中的“帮助与手册”和 F1 会打开当前工具的页面</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.4" date="2026-11-07">
       <description>
         <p>GPU Tuner is organized into tabs and gains an advisor, throttle reasons, session cost, profile sharing and an idle-power check.</p>
