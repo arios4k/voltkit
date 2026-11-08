@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.10.3
+Version:        0.10.4
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -78,6 +78,17 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.4-1
+- GPU Tuner: organized into Monitor, Tune, Profiles and Sessions tabs
+- GPU Tuner: shows why the clock is held back (power limit or heat) and records it in sessions
+- GPU Tuner: session energy cost at your electricity price
+- GPU Tuner: "Suggest a power limit" (voltkit gpu advise) from sessions recorded under different limits
+- GPU Tuner: profile rules can match Steam and Proton games by App ID (steam:<App ID>)
+- GPU Tuner: "Keep under a temperature" fan mode
+- GPU Tuner: share a profile as one line of text and import it with checks
+- GPU Tuner: idle power check (voltkit gpu idle) for a memory clock stuck high
+- About: the dialog fits without scrolling
+
 * Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.3-1
 - About: links to ThermalPrint and Battery Health Center, with their official icons
 
