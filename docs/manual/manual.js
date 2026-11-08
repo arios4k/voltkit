@@ -37,7 +37,10 @@
       if (!words.every(function (w) { return hay.indexOf(w) >= 0; })) return;
       var score = words.reduce(function (s, w) { return s + (p.title.toLowerCase().indexOf(w) >= 0 ? 10 : 0) +
         (p.heads.some(function (h) { return h.t.toLowerCase().indexOf(w) >= 0; }) ? 4 : 0); }, 0);
-      var at = hay.indexOf(words[0], p.title.length), snip = at >= 0 ? p.text.substr(Math.max(0, at - p.title.length - 40), 140) : '';
+      // Cut the snippet from the page text itself, starting on a word boundary before the match.
+      var at = p.text.toLowerCase().indexOf(words[0]), from = Math.max(0, at - 40);
+      if (from > 0) { var sp = p.text.indexOf(' ', from); if (sp >= 0 && sp < at) from = sp + 1; }
+      var snip = at >= 0 ? (from > 0 ? '…' : '') + p.text.substr(from, 140) : '';
       hits.push({ p: p, score: score, snip: snip });
     });
     hits.sort(function (a, b) { return b.score - a.score; });
