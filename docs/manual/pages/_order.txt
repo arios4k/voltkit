@@ -1,0 +1,29 @@
+# file-stem | Title | Group
+index | Voltkit Manual | Start here
+install | Install | Start here
+tour | A tour of the app | Start here
+permissions | App Permissions | Tools
+compress | Asset Compressor | Tools
+color | Color Picker | Tools
+system | Hosts & Environment | Tools
+awake | Keep Awake | Tools
+qr | QR Code | Tools
+ruler | Screen Ruler | Tools
+shortcuts | Shortcut Detective | Tools
+smartpaste | Smart Paste | Tools
+sysreport | System Report | Tools
+snippets | Text Expansion | Tools
+ocr | Text Extractor | Tools
+using | What's Using This? | Tools
+sleep | Why Didn't It Sleep? | Tools
+gpu | GPU Tuner | GPU Tuner
+gpu-tune | Tune: changing settings | GPU Tuner
+gpu-profiles | Profiles | GPU Tuner
+gpu-sessions | Sessions and suggestions | GPU Tuner
+gpu-terminal | GPU on the command line | GPU Tuner
+gpu-safety | Safety and limits | GPU Tuner
+cli | Command-line reference | Reference
+daemon | Global shortcuts and the service | Reference
+config | Configuration file | Reference
+troubleshooting | Troubleshooting and doctor | Reference
+faq | FAQ, privacy and safety | Reference
