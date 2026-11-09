@@ -6,7 +6,7 @@ Open **Voltkit** from your apps. This page explains the window, the menu, the ba
 
 ## The window
 
-- **The sidebar** on the left lists the fifteen tools, in alphabetical order for your language, each with an icon. Select one to open its page. Hover over a tool to see a one-line description.
+- **The sidebar** on the left lists the eighteen tools, in alphabetical order for your language, each with an icon. Select one to open its page. Hover over a tool to see a one-line description.
 - **The page** shows the tool's name and a short description at the top, then its controls. Pages use two columns on a wide window and one column on a narrow one; every page scrolls on its own.
 - **On a narrow window** (under about 600 pixels) the sidebar becomes a list you go back to with the window's back button, like on a phone.
 - The window follows your system's **light or dark** appearance.
@@ -24,7 +24,7 @@ Opens this manual's home page, `https://arios4k.github.io/voltkit/manual/`.
 
 ### About Voltkit
 
-Shows the version (click it to copy the version information), links to the project and to *Report an issue*, links to other apps by the same author, the author's name, and the **MIT License**, which is free to use, modify and share.
+Shows the version (click it to copy the version information), links to the project and to *Report an issue*, a **More from the same author** group with links to the author's other apps (ThermalPrint and Battery Health Center), the author's name, and the **MIT License**, which is free to use, modify and share.
 
 ### Quit
 
@@ -54,6 +54,8 @@ Global shortcuts work from any app while the background service runs:
 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> | [QR Code](qr): scan a code on screen |
 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> | [Screen Ruler](ruler): measure on screen |
 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> | [Smart Paste](smartpaste): paste converted |
+| <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> | [Zoom & Annotate](zoom): zoom into the screen and draw on it |
+| <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> | [Shortcut cheat sheet](shortcuts#the-cheat-sheet) |
 
 You can change them in the [configuration file](config) or with [Shortcut Detective](shortcuts). Inside the app: <kbd>F1</kbd> opens help and <kbd>Ctrl</kbd>+<kbd>Q</kbd> quits.
 

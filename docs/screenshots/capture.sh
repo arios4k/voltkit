@@ -112,7 +112,7 @@ shoot() {
 
 # Every page. The GPU Tuner page has tabs, so it gets one picture of each
 # (gpu-light.png for Monitor, gpu-2 Tune, gpu-3 Profiles, gpu-4 Sessions), with the fan curve editor open.
-shoot "$out" VOLTKIT_GPU_DEMO=curve
+shoot "$out" VOLTKIT_GPU_DEMO=curve VOLTKIT_RENAME_DEMO=1 VOLTKIT_RESIZE_DEMO=done
 
 # The voltage and frequency curve editor, from its own pass; only its first
 # picture is kept.

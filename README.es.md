@@ -21,8 +21,8 @@ un detective de atajos y un ajuste de GPU, en una sola app.
 [![Apoyar en PayPal](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="El selector de color de Voltkit mostrando #7C3AED con sus valores HEX, RGB y HSL y las calificaciones de contraste WCAG">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="El selector de color de Voltkit mostrando #7C3AED con sus valores HEX, RGB y HSL y las calificaciones de contraste WCAG">
 </picture>
 
 </div>
@@ -31,7 +31,7 @@ un detective de atajos y un ajuste de GPU, en una sola app.
 > la línea de comandos y las páginas del manual (`man voltkit`). Las capturas de esta página son de la versión
 > en inglés.
 
-## Una app en lugar de quince
+## Una app en lugar de dieciocho
 
 Tener estas herramientas básicas en Linux suele significar buscar un applet distinto para cada tarea, cada uno con
 su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa con un solo conjunto de atajos:
@@ -41,9 +41,12 @@ su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa c
 | nada: no había una pantalla para esto | **Permisos de apps**: cambia u olvida las respuestas que diste a las apps que pidieron capturas de pantalla, la cámara, tu ubicación y más | — |
 | un compresor de imágenes aparte, más conjuros de ffmpeg | **Compresor de archivos**: suelta archivos PNG, JPEG, WebP o MP4 para quitarles los metadatos y reducir su tamaño | arrastrar y soltar |
 | un selector de color aparte | **Selector de color**: un cuentagotas para cualquier píxel, HEX/RGB/HSL, revisión de contraste WCAG e historial | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>C</kbd> |
+| bucles de shell con `mv` o un renombrador aparte | **Renombrar en lote**: renombra muchos archivos a la vez con buscar y reemplazar, expresiones regulares y numeración, con vista previa y deshacer | — |
+| un redimensionador de imágenes aparte | **Redimensionar imágenes**: cambia el tamaño de muchas imágenes a la vez, conservando su forma y sin tocar los originales | — |
 | una herramienta aparte para ajustar la GPU, más utilidades de cada fabricante | **Ajuste de GPU**: monitorea tarjetas gráficas NVIDIA, AMD e Intel y cambia límites de potencia, ventiladores y curvas de ventilador, temperaturas objetivo, frecuencias y voltaje, con cada cambio en vista previa y deshecho si no lo confirmas | — |
 | editar `/etc/hosts` y `~/.profile` en una terminal | **Hosts y entorno**: activa y desactiva entradas de hosts y administra las variables de entorno de tu sesión | — |
 | una extensión del shell para mantener la pantalla encendida | **Mantener activo**: evita que tu computadora se suspenda o se bloquee de 30 minutos a 4 horas, o hasta que lo apagues | — |
+| un lápiz de presentación aparte | **Zoom y anotaciones**: congela la pantalla, acércala y dibuja sobre ella con lápiz, flechas, recuadros y texto | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | un lector QR en tu teléfono o una página web de QR | **Código QR**: lee un código QR en cualquier parte de la pantalla, o convierte texto, enlaces y datos de Wi-Fi en uno | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>Q</kbd> |
 | una regla de pantalla aparte, o capturas y un editor de imágenes | **Regla de pantalla**: congela la pantalla y mide lo que sea en píxeles | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>R</kbd> |
 | adivinar por qué un atajo de teclado no hace nada | **Detective de atajos**: presiona cualquier atajo para ver a quién pertenece, encontrar conflictos, elegir una combinación libre y cambiarlo | — |
@@ -63,8 +66,8 @@ recuerda tu respuesta. Permisos de apps las muestra por app: mueve
 un interruptor para cambiar una, u olvídala para que la app vuelva a preguntar.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.7.0">
-  <img src="docs/screenshots/permissions-light.png?v=0.7.0" alt="La página Permisos de apps con las apps y sus permisos de cámara y capturas de pantalla">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.11.0">
+  <img src="docs/screenshots/permissions-light.png?v=0.11.0" alt="La página Permisos de apps con las apps y sus permisos de cámara y capturas de pantalla">
 </picture>
 
 ### 📦 Compresor de archivos
@@ -74,8 +77,26 @@ comprime con la mejor herramienta para cada formato y escribe `nombre.min.ext` j
 toca. En nuestras pruebas: JPEG −43 %, PNG −23 % (sin pérdida), WebP −60 %, MP4 −77 %.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
-  <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="El compresor de archivos con cuatro archivos comprimidos y el espacio ahorrado">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.11.0">
+  <img src="docs/screenshots/compress-light.png?v=0.11.0" alt="El compresor de archivos con cuatro archivos comprimidos y el espacio ahorrado">
+</picture>
+
+### ✏️ Renombrar en lote
+
+Suelta archivos o carpetas, di qué cambiar y mira la **vista previa** antes de que pase nada: buscar y reemplazar, expresiones regulares con grupos `$1`, numeración con `{n:3}`, mayúsculas y minúsculas, y el nombre o solo la extensión. Los conflictos (dos archivos con el mismo nombre, un nombre ocupado) se señalan primero, un lote se renombra **todo o nada** y el último lote se puede **deshacer**. Funciona igual en la terminal: `voltkit rename *.jpg --find IMG --replace Vacaciones --apply`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Renombrar en lote con una vista previa de cinco fotos que se renombran">
+</picture>
+
+### 🖼️ Redimensionar imágenes
+
+Añade imágenes, elige un tamaño (un lado más largo, un porcentaje, o un ancho y alto que se ajusta, rellena o estira, o pulsa una idea como «Correo o chat») y pulsa **Redimensionar**: las copias aparecen junto a los originales, que nunca se tocan. Las fotos salen derechas, la calidad de WebP y JPEG la eliges tú y el tamaño nunca crece salvo que lo permitas. `voltkit resize fotos/*.jpg --longest-side 1280`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Redimensionar imágenes con tres imágenes ajustadas a 1920 píxeles">
 </picture>
 
 ### 🎨 Selector de color
@@ -85,8 +106,8 @@ portapapeles. La página de color convierte entre HEX, RGB y HSL, califica el co
 según las normas WCAG (AA / AAA) y recuerda tus colores recientes.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="El selector de color con vista previa, formatos HEX/RGB/HSL, calificaciones de contraste y colores guardados">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="El selector de color con vista previa, formatos HEX/RGB/HSL, calificaciones de contraste y colores guardados">
 </picture>
 
 ### 🎛️ Ajuste de GPU
@@ -109,28 +130,28 @@ Aplicar cambios es nuevo y hasta ahora solo se ha probado con hardware simulado;
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) para saber qué funciona, cómo se mantiene seguro y qué falta por construir.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Monitorización: lecturas en vivo con historial, por qué se frena el reloj y qué admite la tarjeta (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.11.0" alt="Ajuste de GPU, pestaña Monitorización: lecturas en vivo con historial, por qué se frena el reloj y qué admite la tarjeta (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Ajustar: límite de potencia, editor de curva del ventilador y demás controles (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.11.0" alt="Ajuste de GPU, pestaña Ajustar: límite de potencia, editor de curva del ventilador y demás controles (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Perfiles: perfiles guardados, reglas automáticas, compartir e importar (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.11.0" alt="Ajuste de GPU, pestaña Perfiles: perfiles guardados, reglas automáticas, compartir e importar (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="Ajuste de GPU, pestaña Sesiones: sesiones grabadas, precio de la electricidad, sugerencia de límite de potencia y comparación (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.11.0" alt="Ajuste de GPU, pestaña Sesiones: sesiones grabadas, precio de la electricidad, sugerencia de límite de potencia y comparación (datos simulados)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="Editor de curva de voltaje y frecuencia del ajuste de GPU con puntos arrastrables (datos simulados)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.11.0" alt="Editor de curva de voltaje y frecuencia del ajuste de GPU con puntos arrastrables (datos simulados)">
 </picture>
 
 <sub>La captura usa datos simulados de tarjetas inventadas.</sub>
@@ -142,8 +163,8 @@ variables de entorno como `EDITOR` o una carpeta extra en `PATH` para toda tu se
 del sistema están protegidas y cada vez que se guarda hosts queda una copia de seguridad.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.7.0">
-  <img src="docs/screenshots/system-light.png?v=0.7.0" alt="La página Hosts y entorno con entradas de hosts e interruptores">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.11.0">
+  <img src="docs/screenshots/system-light.png?v=0.11.0" alt="La página Hosts y entorno con entradas de hosts e interruptores">
 </picture>
 
 ### ☕ Mantener activo
@@ -153,8 +174,8 @@ apagues, y tu computadora no se suspenderá ni se bloqueará. Sigue funcionando 
 apaga sola cuando se acaba el tiempo.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.7.0">
-  <img src="docs/screenshots/awake-light.png?v=0.7.0" alt="Mantener activo con su estado actual y los controles de duración">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.11.0">
+  <img src="docs/screenshots/awake-light.png?v=0.11.0" alt="Mantener activo con su estado actual y los controles de duración">
 </picture>
 
 ### 📷 Código QR
@@ -166,8 +187,8 @@ guárdalo como PNG para imprimir. Si quieres, agrega tu propio logo pequeño en 
 el código para comprobar que todavía se puede escanear.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/qr-light.png?v=0.7.0" alt="La página Código QR con un código generado para un enlace">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/qr-light.png?v=0.11.0" alt="La página Código QR con un código generado para un enlace">
 </picture>
 
 ### 📏 Regla de pantalla
@@ -176,8 +197,17 @@ el código para comprobar que todavía se puede escanear.
 reales (mantén Mayús para una línea recta) y presiona Ctrl+C para copiar el tamaño.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="La regla de pantalla con su botón para abrirla y los controles de medición">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ruler-light.png?v=0.11.0" alt="La regla de pantalla con su botón para abrirla y los controles de medición">
+</picture>
+
+### 🔍 Zoom y anotaciones
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> congela la pantalla. Desplaza para acercar, arrastra para dibujar, mantén Mayús para una línea, Ctrl para un rectángulo, Tab para una elipse, Ctrl+Mayús para una flecha, pulsa T para escribir, R/G/B/O/Y/P para el color, W/K para una pizarra blanca o negra, y Ctrl+C o Ctrl+S para copiar o guardar la imagen. Las imágenes guardadas van a `Imágenes/Voltkit` o a la carpeta que elijas en la página de la herramienta (Ctrl+Mayús+S guarda una en otro sitio).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom y anotaciones: una flecha, un círculo, texto y un marcador dibujados sobre una pantalla congelada">
 </picture>
 
 ### ⌨️ Detective de atajos
@@ -189,8 +219,8 @@ las que cambiar, y cualquier atajo se puede cambiar, desactivar o restablecer ah
 los escritorios construidos como él (Cinnamon, Budgie, MATE).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.7.0">
-  <img src="docs/screenshots/shortcuts-light.png?v=0.7.0" alt="Detective de atajos mostrando que dos acciones usan Super+V">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">
+  <img src="docs/screenshots/shortcuts-light.png?v=0.11.0" alt="Detective de atajos mostrando que dos acciones usan Super+V">
 </picture>
 
 ### 📋 Pegado inteligente
@@ -203,8 +233,8 @@ Solo se ofrecen las conversiones que sirven para lo que copiaste, cada una con v
 queda como estaba. Las mismas conversiones funcionan en scripts: `wl-paste | voltkit convert markdown-table`.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.7.0">
-  <img src="docs/screenshots/smartpaste-light.png?v=0.7.0" alt="La página Pegado inteligente convirtiendo un rango de una hoja de cálculo en una tabla Markdown y en CSV">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.11.0">
+  <img src="docs/screenshots/smartpaste-light.png?v=0.11.0" alt="La página Pegado inteligente convirtiendo un rango de una hoja de cálculo en una tabla Markdown y en CSV">
 </picture>
 
 ### 🖥️ Informe del sistema
@@ -220,8 +250,8 @@ ayuda, **Copiar informe** te da un resumen ordenado para un foro o un reporte de
 nombres ni direcciones de red.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sysreport-light.png?v=0.7.0" alt="La página Informe del sistema con revisiones, cambios recientes y el hardware de la computadora">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sysreport-light.png?v=0.11.0" alt="La página Informe del sistema con revisiones, cambios recientes y el hardware de la computadora">
 </picture>
 
 ### ⌨️ Expansión de texto
@@ -233,18 +263,18 @@ cualquier app. Agrega, edita y elimina fragmentos en la misma app: los botones I
 el portapapeles o un campo para completar, y una vista previa en vivo muestra exactamente lo que se pegará.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippets-light.png?v=0.7.0" alt="Expansión de texto con fragmentos con búsqueda y controles para insertar">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippets-light.png?v=0.11.0" alt="Expansión de texto con fragmentos con búsqueda y controles para insertar">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.7.0">
-  <img src="docs/screenshots/picker-light.png?v=0.7.0" alt="El selector de fragmentos con fragmentos y sus vistas previas">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.11.0">
+  <img src="docs/screenshots/picker-light.png?v=0.11.0" alt="El selector de fragmentos con fragmentos y sus vistas previas">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippet-editor-light.png?v=0.7.0" alt="El editor de fragmentos con un disparador, el texto con botones para insertar fecha, hora, portapapeles y campos para completar, y una vista previa en vivo">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippet-editor-light.png?v=0.11.0" alt="El editor de fragmentos con un disparador, el texto con botones para insertar fecha, hora, portapapeles y campos para completar, y una vista previa en vivo">
 </picture>
 
 ### 🔍 Extractor de texto
@@ -255,8 +285,8 @@ Tesseract, compatible con [más de 100 idiomas](https://tesseract-ocr.github.io/
 (para español instala `tesseract-ocr-spa` y usa `spa` como idioma).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ocr-light.png?v=0.7.0" alt="El extractor de texto mostrando el texto leído de una foto de una diapositiva: una contraseña de Wi-Fi y un enlace">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ocr-light.png?v=0.11.0" alt="El extractor de texto mostrando el texto leído de una foto de una diapositiva: una contraseña de Wi-Fi y un enlace">
 </picture>
 
 ### 🔎 ¿Qué lo está usando?
@@ -267,8 +297,8 @@ app con un clic (primero se le pide amablemente que se cierre, y solo se fuerza 
 **Expulsar** las cierre y expulse la unidad por ti. Las partes del propio sistema nunca se ofrecen para cerrar.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.7.0">
-  <img src="docs/screenshots/using-light.png?v=0.7.0" alt="La página ¿Qué lo está usando? con las apps que mantienen ocupada una unidad USB">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.11.0">
+  <img src="docs/screenshots/using-light.png?v=0.11.0" alt="La página ¿Qué lo está usando? con las apps que mantienen ocupada una unidad USB">
 </picture>
 
 ### 🌙 ¿Por qué no se suspendió?
@@ -279,8 +309,8 @@ ahora mismo (una app, un video, Mantener activo, un ajuste de energía, un monit
 con un interruptor para frenar el que la sigue despertando.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sleep-light.png?v=0.7.0" alt="La página ¿Por qué no se suspendió? con lo que mantiene activa la computadora y las suspensiones recientes">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sleep-light.png?v=0.11.0" alt="La página ¿Por qué no se suspendió? con lo que mantiene activa la computadora y las suspensiones recientes">
 </picture>
 
 ## Por qué Voltkit
@@ -576,8 +606,8 @@ El [flujo de trabajo Release](.github/workflows/release.yml) compila el `.deb`, 
 Creado por **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.7.0">
-  <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="La ventana Acerca de de Voltkit con el ícono de la app, la versión y el autor Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
+  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="La ventana Acerca de de Voltkit con el ícono de la app, la versión y el autor Alexis Rios-Negron">
 </picture>
 
 ## Apoya a Voltkit

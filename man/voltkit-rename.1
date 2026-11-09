@@ -1,0 +1,95 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-rename 1  "Voltkit 0.11.0" "Voltkit Manual"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-rename \- Rename many files at once: search and replace, regular expressions, numbering and letter case
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit rename\fR [\fB\-\-find\fR] [\fB\-\-replace\fR] [\fB\-\-regex\fR] [\fB\-\-ignore\-case\fR] [\fB\-\-first\fR] [\fB\-\-scope\fR] [\fB\-\-case\fR] [\fB\-\-start\fR] [\fB\-\-step\fR] [\fB\-\-apply\fR] [\fB\-\-undo\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fIFILE\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Shows what would be renamed and changes nothing, until you add \-\-apply. Every conflict (two files getting one name, a name that is taken) is reported first, and a batch is renamed all or nothing. The last batch can be undone with \-\-undo.
+.PP
+In the replacement, {n} is the file\*(Aqs number and {n:3} is the number padded to 3 digits; with \-\-regex, $1 and ${name} are the groups of the match. An empty \-\-find matches the whole name, so \-\-replace \*(Aqphoto\-{n:3}\*(Aq numbers every file.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH OPTIONS
+.TP
+\fB\-\-find\fR \fI<FIND>\fR [default: ]
+The text to look for (empty matches the whole name)
+.TP
+\fB\-\-replace\fR \fI<REPLACE>\fR [default: ]
+The text to put instead
+.TP
+\fB\-\-regex\fR
+Treat \-\-find as a regular expression
+.TP
+\fB\-\-ignore\-case\fR
+Ignore the difference between upper and lower case when searching
+.TP
+\fB\-\-first\fR
+Replace only the first match in each name
+.TP
+\fB\-\-scope\fR \fI<SCOPE>\fR [default: name]
+Which part of the name to change
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+name: The name without its extension
+.IP \(bu 2
+extension: Only the extension
+.IP \(bu 2
+full: The whole name, extension included
+.RE
+.TP
+\fB\-\-case\fR \fI<LETTER_CASE>\fR [default: keep]
+Change the letter case afterwards
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+keep
+.IP \(bu 2
+upper
+.IP \(bu 2
+lower
+.IP \(bu 2
+title
+.RE
+.TP
+\fB\-\-start\fR \fI<START>\fR [default: 1]
+The first number for {n}
+.TP
+\fB\-\-step\fR \fI<STEP>\fR [default: 1]
+How much each next file adds to the number
+.TP
+\fB\-\-apply\fR
+Really rename the files; without it only the preview is shown
+.TP
+\fB\-\-undo\fR
+Undo the last batch renamed with \-\-apply (or in the app)
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help (see a summary with \*(Aq\-h\*(Aq)
+.TP
+[\fIFILE\fR]
+Files and folders to rename, in the order they are numbered
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SEE ALSO"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTHOR
+Alexis Rios\-Negron

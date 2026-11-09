@@ -4,8 +4,10 @@ install | Install | Start here
 tour | A tour of the app | Start here
 permissions | App Permissions | Tools
 compress | Asset Compressor | Tools
+rename | Batch Rename | Tools
 color | Color Picker | Tools
 system | Hosts & Environment | Tools
+resize | Image Resizer | Tools
 awake | Keep Awake | Tools
 qr | QR Code | Tools
 ruler | Screen Ruler | Tools
@@ -16,6 +18,7 @@ snippets | Text Expansion | Tools
 ocr | Text Extractor | Tools
 using | What's Using This? | Tools
 sleep | Why Didn't It Sleep? | Tools
+zoom | Zoom & Annotate | Tools
 gpu | GPU Tuner | GPU Tuner
 gpu-tune | Tune: changing settings | GPU Tuner
 gpu-profiles | Profiles | GPU Tuner

@@ -1,0 +1,96 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-rename 1  "Voltkit 0.11.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-rename \- Viele Dateien auf einmal umbenennen: Suchen und Ersetzen, reguläre Ausdrücke, Nummerierung und Groß\-/Kleinschreibung
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit rename\fR [\fB\-\-find\fR] [\fB\-\-replace\fR] [\fB\-\-regex\fR] [\fB\-\-ignore\-case\fR] [\fB\-\-first\fR] [\fB\-\-scope\fR] [\fB\-\-case\fR] [\fB\-\-start\fR] [\fB\-\-step\fR] [\fB\-\-apply\fR] [\fB\-\-undo\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fIFILE\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Zeigt, was umbenannt würde, und ändert nichts, bis Sie \-\-apply angeben. Jeder Konflikt (zwei Dateien mit einem Namen, ein vergebener Name) wird zuerst gemeldet, und ein Stapel wird ganz oder gar nicht umbenannt. Der letzte Stapel lässt sich mit \-\-undo rückgängig machen.
+.PP
+Im Ersatztext ist {n} die Nummer der Datei und {n:3} die auf 3 Stellen aufgefüllte Nummer; mit \-\-regex sind $1 und ${name} die Gruppen des Treffers. Ein leeres \-\-find passt auf den ganzen Namen, also nummeriert \-\-replace \*(Aqfoto\-{n:3}\*(Aq jede Datei.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+[\fIFILE\fR]
+Dateien und Ordner zum Umbenennen, in der Reihenfolge der Nummerierung
+.SH OPTIONEN
+.TP
+\fB\-\-find\fR \fI<FIND>\fR [default: ]
+Der gesuchte Text (leer passt auf den ganzen Namen)
+.TP
+\fB\-\-replace\fR \fI<REPLACE>\fR [default: ]
+Der Text, der stattdessen eingesetzt wird
+.TP
+\fB\-\-regex\fR
+\-\-find als regulären Ausdruck behandeln
+.TP
+\fB\-\-ignore\-case\fR
+Beim Suchen Groß\- und Kleinschreibung ignorieren
+.TP
+\fB\-\-first\fR
+Nur den ersten Treffer in jedem Namen ersetzen
+.TP
+\fB\-\-scope\fR \fI<SCOPE>\fR [default: name]
+Welcher Teil des Namens geändert wird
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+name: The name without its extension
+.IP \(bu 2
+extension: Only the extension
+.IP \(bu 2
+full: The whole name, extension included
+.RE
+.TP
+\fB\-\-case\fR \fI<LETTER_CASE>\fR [default: keep]
+Danach die Groß\-/Kleinschreibung ändern
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+keep
+.IP \(bu 2
+upper
+.IP \(bu 2
+lower
+.IP \(bu 2
+title
+.RE
+.TP
+\fB\-\-start\fR \fI<START>\fR [default: 1]
+Die erste Nummer für {n}
+.TP
+\fB\-\-step\fR \fI<STEP>\fR [default: 1]
+Wie viel jede weitere Datei zur Nummer addiert
+.TP
+\fB\-\-apply\fR
+Die Dateien wirklich umbenennen; ohne dies wird nur die Vorschau gezeigt
+.TP
+\fB\-\-undo\fR
+Den letzten mit \-\-apply (oder in der App) umbenannten Stapel rückgängig machen
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

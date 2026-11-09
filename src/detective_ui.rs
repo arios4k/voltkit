@@ -70,7 +70,10 @@ impl View {
         let recorded = label(tr("Choose Record Shortcut to inspect a key combination"), "dim-label");
         recorded.set_hexpand(true);
         let press = gtk::Button::builder().label(tr("Record Shortcut")).valign(gtk::Align::Center).css_classes(["suggested-action"]).build();
+        let guide = gtk::Button::builder().label(tr("Cheat Sheet")).tooltip_text(tr("Open a list of your shortcuts to read at a glance")).valign(gtk::Align::Center).build();
+        guide.connect_clicked(|b| crate::app::spawn_window_tool(b, &["shortcut-guide"]));
         capture_bar.append(&recorded);
+        capture_bar.append(&guide);
         capture_bar.append(&press);
         intro.append(&capture_bar);
         body.append(&intro);

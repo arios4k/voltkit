@@ -8,121 +8,28 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use adw::prelude::*;
-use gtk::{cairo, gdk, gio, glib};
+use gtk::{cairo, gdk, glib};
 
-use crate::portal::{self, APP_ID, Cancelled};
 use crate::system;
 use crate::i18n::tr;
 
 const HINT: &str = N_!("Drag to measure  ·  Shift: straight line  ·  Ctrl+C: copy size  ·  Right-click: clear  ·  Esc: close");
 
 pub fn run() {
-    let app = adw::Application::builder()
-        .application_id(APP_ID)
-        .flags(gio::ApplicationFlags::NON_UNIQUE)
-        .build();
-    app.connect_activate(|app| {
-        // Hold the app open while the screenshot is taken, before any window exists.
-        let (app, hold) = (app.clone(), app.hold());
-        glib::spawn_future_local(async move {
-            // When opened from the control center, let its window finish
-            // minimizing so it isn't in the screenshot.
-            glib::timeout_future(SETTLE).await;
-            match capture(None).await {
-                Ok(texture) => show(&app, texture),
-                // GNOME asks "Allow screenshots?" only for the focused app, and
-                // the ruler has no window yet, so a first request is refused
-                // without a prompt. Ask from a window of our own.
-                Err(e) if portal::is_refused(&e) => ask_permission(&app),
-                Err(e) => fail(&format!("{e:#}")).await,
-            }
-            drop(hold);
-        });
+    crate::snapshot::run(&crate::snapshot::Tool {
+        title: N_!("Screen Ruler"),
+        allow_title: N_!("Allow Screen Ruler to See Your Screen"),
+        allow_text: N_!(
+            "The ruler measures a snapshot of your screen. Your desktop will ask once whether \
+             Voltkit may take screenshots; choose Allow. This window closes before the snapshot."
+        ),
+        denied_text: N_!(
+            "Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then \
+             Allow when your desktop asks. If you chose Deny before, forget that answer in \
+             Voltkit's App Permissions page first."
+        ),
+        show,
     });
-    app.run_with_args::<&str>(&[]);
-}
-
-/// Time for windows to finish hiding before a screenshot.
-const SETTLE: std::time::Duration = std::time::Duration::from_millis(400);
-
-async fn capture(parent: Option<String>) -> anyhow::Result<gdk::Texture> {
-    let path = gio::spawn_blocking(move || portal::block_on(portal::screenshot_full(parent.as_deref())))
-        .await
-        .map_err(|_| anyhow::anyhow!("{}", tr("screenshot worker crashed")))??;
-    let texture = gdk::Texture::from_filename(&path);
-    let _ = std::fs::remove_file(&path);
-    Ok(texture?)
-}
-
-/// Asks for the screenshot permission from a focused window, then takes a
-/// clean screenshot without it and opens the ruler.
-fn ask_permission(app: &adw::Application) {
-    let button = gtk::Button::builder()
-        .label(tr("Continue"))
-        .halign(gtk::Align::Center)
-        .css_classes(["suggested-action", "pill"])
-        .build();
-    let status = adw::StatusPage::builder()
-        .icon_name("video-display-symbolic")
-        .title(tr("Allow Screen Ruler to See Your Screen"))
-        .description(
-            tr("The ruler measures a snapshot of your screen. Your desktop will ask once whether \
-             Voltkit may take screenshots; choose Allow. This window closes before the snapshot."),
-        )
-        .child(&button)
-        .build();
-    let view = adw::ToolbarView::new();
-    view.add_top_bar(&adw::HeaderBar::new());
-    view.set_content(Some(&status));
-    let window = adw::ApplicationWindow::builder()
-        .application(app)
-        .title(tr("Screen Ruler"))
-        .default_width(520)
-        .default_height(560)
-        .content(&view)
-        .build();
-
-    let (app, prompt) = (app.clone(), window.clone());
-    button.connect_clicked(move |button| {
-        let (app, window, status, button) = (app.clone(), prompt.clone(), status.clone(), button.clone());
-        button.set_sensitive(false);
-        glib::spawn_future_local(async move {
-            let (parent, guard) = portal::parent_handle(&window).await;
-            // This first screenshot shows this window, so it's only for the permission.
-            match capture(parent).await {
-                Ok(_) => {
-                    drop(guard);
-                    let hold = app.hold();
-                    window.close();
-                    glib::timeout_future(SETTLE).await;
-                    match capture(None).await {
-                        Ok(texture) => show(&app, texture),
-                        Err(e) if e.is::<Cancelled>() => {}
-                        Err(e) => fail(&format!("{e:#}")).await,
-                    }
-                    drop(hold);
-                }
-                Err(e) => {
-                    status.set_description(Some(&if portal::is_refused(&e) {
-                        tr("Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then \
-                         Allow when your desktop asks. If you chose Deny before, forget that answer in \
-                         Voltkit's App Permissions page first.")
-                            .to_owned()
-                    } else {
-                        glib::markup_escape_text(&format!("{e:#}")).to_string()
-                    }));
-                    button.set_label(tr("Try Again"));
-                    button.set_sensitive(true);
-                }
-            }
-        });
-    });
-    window.present();
-}
-
-async fn fail(message: &str) {
-    let message = message.to_owned();
-    let _ = gio::spawn_blocking(move || portal::block_on(portal::notify(tr("Screen Ruler"), &message))).await;
 }
 
 #[derive(Default)]

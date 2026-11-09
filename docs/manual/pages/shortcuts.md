@@ -6,6 +6,22 @@ You pressed a shortcut and nothing happened, or the wrong thing did. **Shortcut 
 
 It works on **GNOME** and the desktops built like it (**Cinnamon, Budgie, MATE**), which keep their shortcuts in GSettings. On other desktops, such as KDE Plasma, the page says so and points you to *System Settings → Shortcuts*.
 
+## The cheat sheet
+
+Click **Cheat Sheet** (next to **Record Shortcut**), or press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> from any app, to open a **cheat sheet** of your shortcuts: a window you read at a glance and close with <kbd>Esc</kbd>.
+
+![The shortcut cheat sheet, grouped by who owns each shortcut](shot:guide)
+
+- Shortcuts are grouped by who owns them: **Voltkit** first, then **Windows**, **GNOME Shell**, then the rest alphabetically (system, extensions…). Actions without a shortcut are left out.
+- Each shortcut shows its keys as key caps; when an action has several, they are shown side by side with *or*.
+- A last group, **In most apps**, lists the editing shortcuts almost every app shares (copy, paste, undo, find, save and so on).
+- **Type to find a shortcut…**: filter by action, group or keys (`overview`, `alt+f4`, `windows`). *No shortcuts match* means nothing fits.
+- It is read-only. To change a shortcut, use Shortcut Detective's **Change…**.
+
+The cheat sheet shows the **system-wide** shortcuts. Apps can have more of their own, and Wayland does not let Voltkit tell which app is in front, so it cannot show the shortcuts of the app you are using. On a desktop whose shortcuts Voltkit cannot read, only the **In most apps** group is shown.
+
+The hotkey is `shortcut_guide` in the [configuration file](config). From the terminal: `voltkit shortcut-guide`.
+
 ## What it covers
 
 Voltkit reads the shortcuts of: the window manager, GNOME Shell, system and media keys, your custom shortcuts, enabled shell extensions, and Voltkit's own hotkeys. Each action shows what it does in plain words and who it belongs to (*Windows*, *GNOME Shell*, *Voltkit*, an extension name…).

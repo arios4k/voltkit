@@ -198,7 +198,7 @@ mod tests {
         assert_eq!(
             *list,
             format!(
-                "['{BASE}custom0/', '{BASE}voltkit-ocr/', '{BASE}voltkit-color/', '{BASE}voltkit-snippets/', '{BASE}voltkit-qr/', '{BASE}voltkit-ruler/', '{BASE}voltkit-smart-paste/']"
+                "['{BASE}custom0/', '{BASE}voltkit-ocr/', '{BASE}voltkit-color/', '{BASE}voltkit-snippets/', '{BASE}voltkit-qr/', '{BASE}voltkit-ruler/', '{BASE}voltkit-smart-paste/', '{BASE}voltkit-zoom/', '{BASE}voltkit-shortcut-guide/']"
             )
         );
         let command = plan.iter().find(|a| a[2] == "command").unwrap();

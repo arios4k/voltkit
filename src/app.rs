@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{actions, awake_ui, daemon, detective_ui, gpu_ui, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, sysreport_ui, system_ui, usage_ui};
+use crate::{actions, awake_ui, rename_ui, resize_ui, daemon, detective_ui, gpu_ui, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, sysreport_ui, system_ui, usage_ui};
 use crate::i18n::tr;
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
@@ -111,7 +111,10 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&qr_ui::page(config, &toasts), Some("qr"));
     stack.add_named(&color_page(config, &toasts), Some("color"));
     stack.add_named(&ruler_page(config), Some("ruler"));
+    stack.add_named(&zoom_page(config, &toasts), Some("zoom"));
     stack.add_named(&compress_page(config, &toasts), Some("compress"));
+    stack.add_named(&rename_ui::page(&toasts), Some("rename"));
+    stack.add_named(&resize_ui::page(&toasts), Some("resize"));
     stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
     stack.add_named(&smartpaste_ui::page(config, &toasts), Some("smartpaste"));
     stack.add_named(&awake_ui::page(&toasts), Some("awake"));
@@ -757,9 +760,14 @@ fn ruler_page(config: &Config) -> gtk::Widget {
             cr.line_to(x, if i % 5 == 0 { 52.0 } else { 44.0 });
         }
         let _ = cr.stroke();
+        // The words sit in the middle of the box, whatever its size.
         cr.set_font_size(16.0);
-        cr.move_to(left + 18.0, 110.0);
-        let _ = cr.show_text(tr("Drag to measure width × height"));
+        let text = tr("Drag to measure width × height");
+        if let Ok(ext) = cr.text_extents(text) {
+            let (box_top, box_h) = (35.0, bottom - 35.0);
+            cr.move_to(left + (right - left - ext.width()) / 2.0 - ext.x_bearing(), box_top + (box_h - ext.height()) / 2.0 - ext.y_bearing());
+        }
+        let _ = cr.show_text(text);
     });
     preview.append(&diagram);
     preview.append(&open);
@@ -770,6 +778,141 @@ fn ruler_page(config: &Config) -> gtk::Widget {
     }
     page.aside(&controls);
     page.aside(&crate::workspace::note(tr("Ready when you need it"), &trf!("Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays.", shortcut_label(&config.hotkeys.ruler)), "input-keyboard-symbolic"));
+    page.upcast()
+}
+
+fn zoom_page(config: &Config, toasts: &adw::ToastOverlay) -> gtk::Widget {
+    let open = gtk::Button::builder()
+        .label(tr("Open Zoom & Annotate"))
+        .halign(gtk::Align::Center)
+        .css_classes(["pill", "suggested-action"])
+        .build();
+    open.connect_clicked(|button| {
+        // Get the activation token before minimizing, while this window has focus.
+        spawn_window_tool(button, &["zoom"]);
+        // Keep this window out of the screenshot that is drawn on.
+        if let Some(w) = button.root().and_downcast::<gtk::Window>() {
+            w.minimize();
+        }
+    });
+    let page = crate::workspace::Workspace::new();
+    let preview = crate::workspace::note(
+        tr("Show it, then point at it"),
+        tr("Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."),
+        "zoom-in-symbolic",
+    );
+    let diagram = gtk::DrawingArea::builder().content_height(200).hexpand(true).accessible_role(gtk::AccessibleRole::Presentation).build();
+    diagram.set_draw_func(|area, cr, w, h| {
+        let color = area.color();
+        let (w, h) = (w as f64, h as f64);
+        cr.set_source_rgba(color.red() as f64, color.green() as f64, color.blue() as f64, 0.35);
+        cr.set_line_width(1.5);
+        cr.rectangle(28.0, 30.0, (w - 56.0).max(10.0), h - 60.0);
+        let _ = cr.stroke();
+        // A scribbled circle and an arrow pointing at it.
+        cr.set_source_rgb(0.93, 0.18, 0.18);
+        cr.set_line_width(4.0);
+        cr.set_line_cap(gtk::cairo::LineCap::Round);
+        cr.save().ok();
+        cr.translate(w * 0.62, h / 2.0);
+        cr.scale(h * 0.28, h * 0.2);
+        cr.arc(0.0, 0.0, 1.0, 0.0, std::f64::consts::TAU);
+        cr.restore().ok();
+        let _ = cr.stroke();
+        cr.move_to(w * 0.18, h * 0.3);
+        cr.line_to(w * 0.62 - h * 0.34, h * 0.45);
+        let _ = cr.stroke();
+        cr.move_to(w * 0.62 - h * 0.34, h * 0.45);
+        cr.line_to(w * 0.62 - h * 0.34 - 14.0, h * 0.45 - 12.0);
+        cr.line_to(w * 0.62 - h * 0.34 - 18.0, h * 0.45 + 6.0);
+        cr.close_path();
+        let _ = cr.fill();
+    });
+    preview.append(&diagram);
+    preview.append(&open);
+    page.add(&preview);
+    // Where pictures are saved, and a way to change it.
+    let saving = adw::PreferencesGroup::builder()
+        .title(tr("Saving pictures"))
+        .description(tr("Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."))
+        .build();
+    let folder_row = adw::ActionRow::builder().title(tr("Pictures are saved in")).subtitle_selectable(true).build();
+    let current = || Config::load().map(|c| c.zoom.folder()).unwrap_or_else(|_| crate::config::ZoomConfig::default_folder());
+    let choose = gtk::Button::builder().label(tr("Change…")).valign(gtk::Align::Center).build();
+    let reset = gtk::Button::builder().icon_name("edit-undo-symbolic").valign(gtk::Align::Center).css_classes(["flat"]).tooltip_text(tr("Use the default folder, Pictures/Voltkit")).build();
+    reset.update_property(&[gtk::accessible::Property::Label(tr("Use the default folder, Pictures/Voltkit"))]);
+    folder_row.add_suffix(&reset);
+    folder_row.add_suffix(&choose);
+    let show_folder = {
+        let (folder_row, reset) = (folder_row.clone(), reset.clone());
+        Rc::new(move || {
+            let (path, custom) = (current(), Config::load().map(|c| !c.zoom.save_dir.trim().is_empty()).unwrap_or(false));
+            folder_row.set_subtitle(&glib::markup_escape_text(&path.display().to_string()));
+            reset.set_visible(custom);
+        })
+    };
+    show_folder();
+    {
+        let (show_folder, toasts) = (show_folder.clone(), toasts.clone());
+        choose.connect_clicked(move |b| {
+            let (show_folder, toasts) = (show_folder.clone(), toasts.clone());
+            let parent = b.root().and_downcast::<gtk::Window>();
+            let start = Config::load().map(|c| c.zoom.folder()).unwrap_or_default();
+            let dialog = gtk::FileDialog::builder().title(tr("Choose Where Pictures Are Saved")).initial_folder(&gio::File::for_path(&start)).build();
+            dialog.select_folder(parent.as_ref(), gio::Cancellable::NONE, move |result| {
+                let Ok(folder) = result else { return };
+                let Some(path) = folder.path() else { return };
+                match Config::load().and_then(|mut c| {
+                    c.zoom.save_dir = path.display().to_string();
+                    c.save()
+                }) {
+                    Ok(()) => {
+                        show_folder();
+                        toast(&toasts, trf!("Pictures will be saved in {}", path.display()));
+                    }
+                    Err(e) => toast(&toasts, format!("{e:#}")),
+                }
+            });
+        });
+    }
+    {
+        let (show_folder, toasts) = (show_folder.clone(), toasts.clone());
+        reset.connect_clicked(move |_| {
+            match Config::load().and_then(|mut c| {
+                c.zoom.save_dir.clear();
+                c.save()
+            }) {
+                Ok(()) => {
+                    show_folder();
+                    toast(&toasts, tr("Pictures are saved in Pictures/Voltkit again"));
+                }
+                Err(e) => toast(&toasts, format!("{e:#}")),
+            }
+        });
+    }
+    saving.add(&folder_row);
+    page.add(&saving);
+    let controls = adw::PreferencesGroup::builder().title(tr("Controls")).build();
+    for (title, description) in [
+        (tr("Scroll"), tr("Zoom in and out")),
+        (tr("Drag"), tr("Draw with the pen")),
+        (tr("Shift + drag"), tr("Draw a straight line")),
+        (tr("Ctrl + drag"), tr("Draw a rectangle")),
+        (tr("Tab + drag"), tr("Draw an ellipse")),
+        (tr("Ctrl + Shift + drag"), tr("Draw an arrow")),
+        (tr("R, G, B, O, Y, P"), tr("Red, green, blue, orange, yellow or pink")),
+        (tr("T"), tr("Type text, then press Enter")),
+        (tr("W or K"), tr("A white or a black board")),
+        (tr("Ctrl+C"), tr("Copy the picture")),
+        (tr("Ctrl+S"), tr("Save the picture in the folder above")),
+        (tr("Ctrl+Shift+S"), tr("Save the picture somewhere else, once")),
+        (tr("F1"), tr("Show every key")),
+        (tr("Esc"), tr("Close")),
+    ] {
+        controls.add(&adw::ActionRow::builder().title(title).subtitle(description).build());
+    }
+    page.aside(&controls);
+    page.aside(&crate::workspace::note(tr("Ready when you need it"), &trf!("Global shortcut: {}.", shortcut_label(&config.hotkeys.zoom)), "input-keyboard-symbolic"));
     page.upcast()
 }
 

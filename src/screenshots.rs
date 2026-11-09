@@ -94,6 +94,8 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         for (i, module) in modules::sorted().into_iter().enumerate() {
             sidebar.select_row(sidebar.row_at_index(i as i32).as_ref());
             hide_banners(&window);
+            // Keep the window focused, so clicking elsewhere meanwhile can't dim the picture.
+            window.present();
             glib::timeout_future(SETTLE).await;
             save(&window, &dir.join(format!("{}-{theme}.png", module.id)), theme == "dark")?;
             // The GPU page has tabs: one picture of each, named gpu-2, gpu-3…
@@ -128,7 +130,8 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         let about = app::about_dialog();
         about.present(Some(&window));
         hide_banners(&window);
-        glib::timeout_future(SETTLE).await;
+        window.present();
+        glib::timeout_future(SETTLE * 2).await;
         save(&window, &dir.join(format!("about-{theme}.png")), theme == "dark")?;
         about.force_close();
 
@@ -137,6 +140,22 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         glib::timeout_future(SETTLE).await;
         save(&popup, &dir.join(format!("picker-{theme}.png")), theme == "dark")?;
         popup.close();
+
+        // The shortcut cheat sheet, and the zoom overlay on the color page as its screenshot.
+        let guide: gtk::Window = crate::guide_ui::build(app).upcast();
+        resize(&guide, 1180, 720);
+        glib::timeout_future(SETTLE).await;
+        save(&guide, &dir.join(format!("guide-{theme}.png")), theme == "dark")?;
+        guide.close();
+        if let Ok(texture) = gdk::Texture::from_filename(dir.join(format!("color-{theme}.png")))
+            && let Some(zoom) = crate::zoom::demo(app, texture).map(|w| w.upcast::<gtk::Window>())
+        {
+            resize(&zoom, 1240, 780);
+            zoom.present();
+            glib::timeout_future(SETTLE).await;
+            save(&zoom, &dir.join(format!("zoom-overlay-{theme}.png")), theme == "dark")?;
+            zoom.close();
+        }
     }
     window.close();
     Ok(())
@@ -234,7 +253,7 @@ fn fill_demo(window: &gtk::Window) {
             entry.set_text("#7C3AED");
         } else if let Some(entry) = w.downcast_ref::<adw::EntryRow>().filter(|e| e.title() == "Text or link") {
             entry.set_text("https://arios4k.github.io/voltkit");
-        } else if let Some(group) = w.downcast_ref::<adw::PreferencesGroup>().filter(|g| g.title() == "Results") {
+        } else if let Some(group) = w.downcast_ref::<adw::PreferencesGroup>().filter(|g| g.title() == "Results" && g.widget_name() != "resize-results") {
             for (name, sizes) in COMPRESS_DEMO {
                 let row = adw::ActionRow::builder().title(*name).subtitle(*sizes).build();
                 row.add_prefix(&gtk::Image::from_icon_name("emblem-ok-symbolic"));

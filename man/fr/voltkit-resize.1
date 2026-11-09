@@ -1,0 +1,85 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-resize 1  "Voltkit 0.11.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-resize \- Redimensionner des images en lot
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit resize\fR [\fB\-\-longest\-side\fR] [\fB\-\-percent\fR] [\fB\-\-width\fR] [\fB\-\-height\fR] [\fB\-\-mode\fR] [\fB\-\-enlarge\fR] [\fB\-\-format\fR] [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Chaque FICHIER est écrit sous NOM (LxH).EXT à côté de lui ; les originaux ne sont jamais modifiés. La rotation propre de l’image est appliquée ; les autres métadonnées ne sont pas copiées. Choisissez la taille avec \-\-longest\-side, \-\-percent, ou \-\-width et/ou \-\-height (par défaut : \-\-longest\-side 1920). Les images ne sont pas agrandies sauf avec \-\-enlarge.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+<\fIFILE\fR>
+Images à redimensionner (.png, .jpg/.jpeg, .webp, .gif, .bmp, .tif/.tiff)
+.SH OPTIONS
+.TP
+\fB\-\-longest\-side\fR \fI<PIXELS>\fR
+Le côté le plus long fait ce nombre de pixels
+.TP
+\fB\-\-percent\fR \fI<PERCENT>\fR
+Une part de la taille d’origine, en pourcentage
+.TP
+\fB\-\-width\fR \fI<PIXELS>\fR
+Au plus cette largeur, en pixels
+.TP
+\fB\-\-height\fR \fI<PIXELS>\fR
+Au plus cette hauteur, en pixels
+.TP
+\fB\-\-mode\fR \fI<MODE>\fR [default: fit]
+Comment l’image s’adapte à \-\-width et \-\-height
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+fit: Keep the shape and fit inside the size
+.IP \(bu 2
+fill: Keep the shape, fill the size and trim the overflow
+.IP \(bu 2
+stretch: Exactly the size, even if it distorts the picture
+.RE
+.TP
+\fB\-\-enlarge\fR
+Autoriser à agrandir les images au\-delà de leur taille
+.TP
+\fB\-\-format\fR \fI<FORMAT>\fR [default: same]
+Le format à écrire
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+same: The format of the original
+.IP \(bu 2
+png
+.IP \(bu 2
+jpeg
+.IP \(bu 2
+webp
+.RE
+.TP
+\fB\-\-quality\fR \fI<QUALITY>\fR [default: 90]
+Qualité JPEG et WebP de 1 à 100
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide (un résumé avec « \-h »)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

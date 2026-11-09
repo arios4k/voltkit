@@ -25,10 +25,15 @@ pub enum Action {
     Ruler,
     /// Paste the clipboard converted
     SmartPaste,
+    /// Zoom into the screen and draw on it
+    Zoom,
+    /// Show a cheat sheet of the shortcuts
+    ShortcutGuide,
 }
 
 impl Action {
-    pub const ALL: [Action; 6] = [Action::Ocr, Action::Color, Action::Snippets, Action::Qr, Action::Ruler, Action::SmartPaste];
+    pub const ALL: [Action; 8] =
+        [Action::Ocr, Action::Color, Action::Snippets, Action::Qr, Action::Ruler, Action::SmartPaste, Action::Zoom, Action::ShortcutGuide];
 
     pub fn id(self) -> &'static str {
         match self {
@@ -38,6 +43,8 @@ impl Action {
             Action::Qr => "qr",
             Action::Ruler => "ruler",
             Action::SmartPaste => "smart-paste",
+            Action::Zoom => "zoom",
+            Action::ShortcutGuide => "shortcut-guide",
         }
     }
 
@@ -53,6 +60,8 @@ impl Action {
             Action::Qr => tr("Scan a QR code on screen"),
             Action::Ruler => tr("Measure on screen"),
             Action::SmartPaste => tr("Paste the clipboard converted"),
+            Action::Zoom => tr("Zoom and draw on the screen"),
+            Action::ShortcutGuide => tr("Show the shortcut cheat sheet"),
         }
     }
 
@@ -64,6 +73,8 @@ impl Action {
             Action::Qr => &config.hotkeys.qr,
             Action::Ruler => &config.hotkeys.ruler,
             Action::SmartPaste => &config.hotkeys.smart_paste,
+            Action::Zoom => &config.hotkeys.zoom,
+            Action::ShortcutGuide => &config.hotkeys.shortcut_guide,
         }
     }
 }
@@ -147,6 +158,8 @@ pub async fn run(action: Action, config: &Config) {
         Action::Qr => scan_qr().await,
         Action::Ruler => run_window_tool(vec!["ruler".into()], N_!("screen ruler")).await,
         Action::SmartPaste => run_window_tool(vec!["smart-paste".into()], N_!("Smart Paste")).await,
+        Action::Zoom => run_window_tool(vec!["zoom".into()], N_!("Zoom & Annotate")).await,
+        Action::ShortcutGuide => run_window_tool(vec!["shortcut-guide".into()], N_!("Shortcut Guide")).await,
     };
     match result {
         Ok(()) => {}

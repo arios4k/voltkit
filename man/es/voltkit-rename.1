@@ -1,0 +1,96 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-rename 1  "Voltkit 0.11.0" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-rename \- Renombra muchos archivos a la vez: buscar y reemplazar, expresiones regulares, numeración y mayúsculas o minúsculas
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit rename\fR [\fB\-\-find\fR] [\fB\-\-replace\fR] [\fB\-\-regex\fR] [\fB\-\-ignore\-case\fR] [\fB\-\-first\fR] [\fB\-\-scope\fR] [\fB\-\-case\fR] [\fB\-\-start\fR] [\fB\-\-step\fR] [\fB\-\-apply\fR] [\fB\-\-undo\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fIFILE\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Muestra qué se renombraría y no cambia nada hasta que añades \-\-apply. Cada conflicto (dos archivos con el mismo nombre, un nombre ocupado) se informa primero, y un lote se renombra todo o nada. El último lote se puede deshacer con \-\-undo.
+.PP
+En el reemplazo, {n} es el número del archivo y {n:3} es el número rellenado a 3 dígitos; con \-\-regex, $1 y ${name} son los grupos de la coincidencia. Un \-\-find vacío coincide con todo el nombre, así que \-\-replace \*(Aqfoto\-{n:3}\*(Aq numera todos los archivos.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+[\fIFILE\fR]
+Archivos y carpetas por renombrar, en el orden en que se numeran
+.SH OPCIONES
+.TP
+\fB\-\-find\fR \fI<FIND>\fR [default: ]
+El texto que buscar (vacío coincide con todo el nombre)
+.TP
+\fB\-\-replace\fR \fI<REPLACE>\fR [default: ]
+El texto que poner en su lugar
+.TP
+\fB\-\-regex\fR
+Trata \-\-find como una expresión regular
+.TP
+\fB\-\-ignore\-case\fR
+Ignora la diferencia entre mayúsculas y minúsculas al buscar
+.TP
+\fB\-\-first\fR
+Reemplaza solo la primera coincidencia de cada nombre
+.TP
+\fB\-\-scope\fR \fI<SCOPE>\fR [default: name]
+Qué parte del nombre cambiar
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+name: The name without its extension
+.IP \(bu 2
+extension: Only the extension
+.IP \(bu 2
+full: The whole name, extension included
+.RE
+.TP
+\fB\-\-case\fR \fI<LETTER_CASE>\fR [default: keep]
+Cambia después las mayúsculas y minúsculas
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+keep
+.IP \(bu 2
+upper
+.IP \(bu 2
+lower
+.IP \(bu 2
+title
+.RE
+.TP
+\fB\-\-start\fR \fI<START>\fR [default: 1]
+El primer número para {n}
+.TP
+\fB\-\-step\fR \fI<STEP>\fR [default: 1]
+Cuánto suma cada archivo siguiente al número
+.TP
+\fB\-\-apply\fR
+Renombra de verdad los archivos; sin esto solo se muestra la vista previa
+.TP
+\fB\-\-undo\fR
+Deshace el último lote renombrado con \-\-apply (o en la app)
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

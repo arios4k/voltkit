@@ -1,0 +1,96 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-rename 1  "Voltkit 0.11.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-rename \- 一次重命名许多文件：查找替换、正则表达式、编号和字母大小写
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit rename\fR [\fB\-\-find\fR] [\fB\-\-replace\fR] [\fB\-\-regex\fR] [\fB\-\-ignore\-case\fR] [\fB\-\-first\fR] [\fB\-\-scope\fR] [\fB\-\-case\fR] [\fB\-\-start\fR] [\fB\-\-step\fR] [\fB\-\-apply\fR] [\fB\-\-undo\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fIFILE\fR] 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+显示将重命名的内容，在添加 \-\-apply 之前不会更改任何东西。所有冲突（两个文件同名、名称已被占用）都会先报告，一批文件要么全部重命名，要么全都不改。最近一批可用 \-\-undo 撤销。
+.PP
+在替换内容中，{n} 是文件的编号，{n:3} 是补足为 3 位的编号；使用 \-\-regex 时，$1 和 ${name} 是匹配的分组。\-\-find 留空会匹配整个名称，因此 \-\-replace \*(Aqphoto\-{n:3}\*(Aq 会给每个文件编号。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+[\fIFILE\fR]
+要重命名的文件和文件夹，按编号顺序
+.SH 选项
+.TP
+\fB\-\-find\fR \fI<FIND>\fR [default: ]
+要查找的文本（留空匹配整个名称）
+.TP
+\fB\-\-replace\fR \fI<REPLACE>\fR [default: ]
+用来替换的文本
+.TP
+\fB\-\-regex\fR
+将 \-\-find 视为正则表达式
+.TP
+\fB\-\-ignore\-case\fR
+查找时忽略大小写差异
+.TP
+\fB\-\-first\fR
+每个名称只替换第一个匹配项
+.TP
+\fB\-\-scope\fR \fI<SCOPE>\fR [default: name]
+更改名称的哪一部分
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+name: The name without its extension
+.IP \(bu 2
+extension: Only the extension
+.IP \(bu 2
+full: The whole name, extension included
+.RE
+.TP
+\fB\-\-case\fR \fI<LETTER_CASE>\fR [default: keep]
+之后更改字母大小写
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+keep
+.IP \(bu 2
+upper
+.IP \(bu 2
+lower
+.IP \(bu 2
+title
+.RE
+.TP
+\fB\-\-start\fR \fI<START>\fR [default: 1]
+{n} 的第一个数字
+.TP
+\fB\-\-step\fR \fI<STEP>\fR [default: 1]
+每个后续文件的编号增加多少
+.TP
+\fB\-\-apply\fR
+真正重命名文件；不加此选项则只显示预览
+.TP
+\fB\-\-undo\fR
+撤销最近一次用 \-\-apply（或在应用中）重命名的一批
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

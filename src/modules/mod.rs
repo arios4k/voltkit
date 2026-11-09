@@ -1,7 +1,9 @@
+pub mod annotate;
 pub mod color;
 pub mod compress;
 pub mod envvars;
 pub mod gpu;
+pub mod guide;
 pub mod gpu_advisor;
 pub mod gpu_check;
 pub mod gpu_curve;
@@ -14,6 +16,8 @@ pub mod nvml;
 pub mod keybindings;
 pub mod ocr;
 pub mod qr;
+pub mod rename;
+pub mod resize;
 pub mod sleep;
 pub mod smartpaste;
 pub mod permissions;
@@ -79,6 +83,12 @@ pub const ALL: &[ModuleInfo] = &[
         summary: N_!("Drop images or videos to strip metadata and shrink them."),
     },
     ModuleInfo {
+        id: "rename",
+        title: N_!("Batch Rename"),
+        icon: "edit-find-replace-symbolic",
+        summary: N_!("Rename many files at once: search and replace, regular expressions, numbering, with a preview and undo."),
+    },
+    ModuleInfo {
         id: "color",
         title: N_!("Color Picker"),
         icon: "color-select-symbolic",
@@ -95,6 +105,12 @@ pub const ALL: &[ModuleInfo] = &[
         title: N_!("Hosts & Environment"),
         icon: "network-server-symbolic",
         summary: N_!("Edit /etc/hosts and your session's environment variables without a text editor."),
+    },
+    ModuleInfo {
+        id: "resize",
+        title: N_!("Image Resizer"),
+        icon: "image-x-generic-symbolic",
+        summary: N_!("Resize many pictures at once, keeping their shape, without touching the originals."),
     },
     ModuleInfo {
         id: "awake",
@@ -155,6 +171,12 @@ pub const ALL: &[ModuleInfo] = &[
         title: N_!("Why Didn't It Sleep?"),
         icon: "weather-clear-night-symbolic",
         summary: N_!("What keeps the computer awake, what woke it up, and how much battery it used asleep."),
+    },
+    ModuleInfo {
+        id: "zoom",
+        title: N_!("Zoom & Annotate"),
+        icon: "zoom-in-symbolic",
+        summary: N_!("Zoom into the screen and draw on it with a pen, arrows, boxes and text."),
     },
 ];
 

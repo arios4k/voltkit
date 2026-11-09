@@ -1,0 +1,85 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-resize 1  "Voltkit 0.11.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-resize \- 批量缩放图片
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit resize\fR [\fB\-\-longest\-side\fR] [\fB\-\-percent\fR] [\fB\-\-width\fR] [\fB\-\-height\fR] [\fB\-\-mode\fR] [\fB\-\-enlarge\fR] [\fB\-\-format\fR] [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+每个文件会在其旁边写成“名称 (宽x高).扩展名”；原文件绝不会被修改。会应用图片自带的旋转信息；其他元数据不会被复制。用 \-\-longest\-side、\-\-percent，或 \-\-width 和/或 \-\-height 选择尺寸（默认：\-\-longest\-side 1920）。除非加上 \-\-enlarge，否则不会放大图片。
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+<\fIFILE\fR>
+要缩放的图片（.png、.jpg/.jpeg、.webp、.gif、.bmp、.tif/.tiff）
+.SH 选项
+.TP
+\fB\-\-longest\-side\fR \fI<PIXELS>\fR
+最长边变为这么多像素
+.TP
+\fB\-\-percent\fR \fI<PERCENT>\fR
+原尺寸的百分比
+.TP
+\fB\-\-width\fR \fI<PIXELS>\fR
+最大宽度（像素）
+.TP
+\fB\-\-height\fR \fI<PIXELS>\fR
+最大高度（像素）
+.TP
+\fB\-\-mode\fR \fI<MODE>\fR [default: fit]
+图片如何适应 \-\-width 和 \-\-height
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+fit: Keep the shape and fit inside the size
+.IP \(bu 2
+fill: Keep the shape, fill the size and trim the overflow
+.IP \(bu 2
+stretch: Exactly the size, even if it distorts the picture
+.RE
+.TP
+\fB\-\-enlarge\fR
+允许把图片放大到超过原尺寸
+.TP
+\fB\-\-format\fR \fI<FORMAT>\fR [default: same]
+要写入的格式
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+same: The format of the original
+.IP \(bu 2
+png
+.IP \(bu 2
+jpeg
+.IP \(bu 2
+webp
+.RE
+.TP
+\fB\-\-quality\fR \fI<QUALITY>\fR [default: 90]
+JPEG 和 WebP 质量，1 到 100
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助（用 \*(Aq\-h\*(Aq 查看摘要）
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

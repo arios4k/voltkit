@@ -6,6 +6,7 @@ mod appearance;
 mod actions;
 mod app;
 mod awake;
+mod bulk_cli;
 mod awake_ui;
 mod config;
 mod curve_chart;
@@ -15,12 +16,16 @@ mod doctor;
 mod expander;
 mod gpu_cli;
 mod gpu_ui;
+mod guide_ui;
 mod manpages;
 mod modules;
 mod paste;
 mod picker;
 mod qr_ui;
+mod resize_ui;
+mod rename_ui;
 mod ruler;
+mod zoom;
 mod usage_ui;
 mod permissions_ui;
 mod sleep_ui;
@@ -28,6 +33,7 @@ mod sysreport_ui;
 mod smartpaste_ui;
 mod portal;
 mod screenshots;
+mod snapshot;
 mod snippets_ui;
 mod system_ui;
 mod shortcuts;
@@ -211,6 +217,8 @@ enum Command {
         #[arg(long, default_value_t = 80)]
         quality: u8,
     },
+    Rename(bulk_cli::RenameArgs),
+    Resize(bulk_cli::ResizeArgs),
     /// Expand a snippet template, e.g. "Sent {date:%A}: {clipboard}"
     ///
     /// Prints TEMPLATE with its {variables} replaced. Fails if a variable is unknown or an
@@ -246,6 +254,18 @@ enum Command {
     /// Freezes the screen and shows it full screen. Drag to measure a width and height; hold
     /// Shift for a straight line. Ctrl+C copies the size, right-click clears, Esc closes.
     Ruler,
+    /// Zoom into the screen and draw on it, for presentations
+    ///
+    /// Freezes the screen and shows it full screen. Scroll to zoom, drag to draw, hold Shift for
+    /// a straight line, Ctrl for a rectangle, Tab for an ellipse and Ctrl+Shift for an arrow.
+    /// R, G, B, O, Y and P pick the color, T types text, W and K make a white or black board,
+    /// E erases everything, Ctrl+Z undoes, Ctrl+C copies the picture, Ctrl+S saves it and Esc closes.
+    Zoom,
+    /// Show a cheat sheet of the keyboard shortcuts
+    ///
+    /// Lists the system-wide shortcuts by who owns them, plus the ones most apps share. Type to
+    /// find one, press Esc to close. Works on GNOME and the desktops built like it.
+    ShortcutGuide,
     /// Keep the computer from sleeping or locking its screen
     ///
     /// Held by the background service, so it continues after this command or the window
@@ -560,6 +580,8 @@ fn run() -> Result<()> {
                 );
             }
         }
+        Some(Command::Rename(args)) => bulk_cli::rename(args)?,
+        Some(Command::Resize(args)) => bulk_cli::resize(args)?,
         Some(Command::Expand { template, args }) => {
             let ctx = snippets::Context {
                 clipboard: system::read_clipboard().ok(),
@@ -603,6 +625,8 @@ fn run() -> Result<()> {
         Some(Command::Trigger { action: Action::Ruler }) => ruler::run(),
         // Smart Paste reads the clipboard, which needs a focused window: same reason.
         Some(Command::Trigger { action: Action::SmartPaste }) => smartpaste_ui::run(config),
+        Some(Command::Trigger { action: Action::Zoom }) => zoom::run(),
+        Some(Command::Trigger { action: Action::ShortcutGuide }) => guide_ui::run(),
         Some(Command::Trigger { action }) => daemon::trigger(action, &config)?,
         Some(Command::Qr { command }) => match command {
             QrCommand::Scan => {
@@ -655,6 +679,8 @@ fn run() -> Result<()> {
             println!("{out}");
         }
         Some(Command::Ruler) => ruler::run(),
+        Some(Command::Zoom) => zoom::run(),
+        Some(Command::ShortcutGuide) => guide_ui::run(),
         Some(Command::Report { privileged: true, .. }) => println!("{}", serde_json::to_string(&sysreport::memory_info()?)?),
         Some(Command::Report { memory, .. }) => {
             let report = sysreport::collect();

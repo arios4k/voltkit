@@ -1,0 +1,85 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-resize 1  "Voltkit 0.11.0" Voltkit-Handbuch
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NAME
+voltkit\-resize \- Bilder in großer Zahl verkleinern
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ÜBERSICHT
+\fBvoltkit resize\fR [\fB\-\-longest\-side\fR] [\fB\-\-percent\fR] [\fB\-\-width\fR] [\fB\-\-height\fR] [\fB\-\-mode\fR] [\fB\-\-enlarge\fR] [\fB\-\-format\fR] [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH BESCHREIBUNG
+Jede DATEI wird daneben als NAME (BxH).ENDUNG geschrieben; Originale werden nie verändert. Die Drehung des Bildes wird angewendet; andere Metadaten werden nicht kopiert. Wählen Sie die Größe mit \-\-longest\-side, \-\-percent oder \-\-width und/oder \-\-height (Standard: \-\-longest\-side 1920). Bilder werden nicht vergrößert, außer Sie geben \-\-enlarge an.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTE
+.TP
+<\fIFILE\fR>
+Zu verkleinernde Bilder (.png, .jpg/.jpeg, .webp, .gif, .bmp, .tif/.tiff)
+.SH OPTIONEN
+.TP
+\fB\-\-longest\-side\fR \fI<PIXELS>\fR
+Die längste Seite wird so viele Pixel groß
+.TP
+\fB\-\-percent\fR \fI<PERCENT>\fR
+Ein Anteil der Originalgröße in Prozent
+.TP
+\fB\-\-width\fR \fI<PIXELS>\fR
+Höchstens so breit, in Pixeln
+.TP
+\fB\-\-height\fR \fI<PIXELS>\fR
+Höchstens so hoch, in Pixeln
+.TP
+\fB\-\-mode\fR \fI<MODE>\fR [default: fit]
+Wie das Bild zu \-\-width und \-\-height passt
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+fit: Keep the shape and fit inside the size
+.IP \(bu 2
+fill: Keep the shape, fill the size and trim the overflow
+.IP \(bu 2
+stretch: Exactly the size, even if it distorts the picture
+.RE
+.TP
+\fB\-\-enlarge\fR
+Erlaubt, Bilder größer als ihre Originalgröße zu machen
+.TP
+\fB\-\-format\fR \fI<FORMAT>\fR [default: same]
+Das zu schreibende Format
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+same: The format of the original
+.IP \(bu 2
+png
+.IP \(bu 2
+jpeg
+.IP \(bu 2
+webp
+.RE
+.TP
+\fB\-\-quality\fR \fI<QUALITY>\fR [default: 90]
+JPEG\- und WebP\-Qualität von 1 bis 100
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Hilfe anzeigen (Zusammenfassung mit \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "SIEHE AUCH"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron

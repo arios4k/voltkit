@@ -21,8 +21,8 @@ veille, un rapport système, un détective de raccourcis et un réglage du GPU, 
 [![Soutenir sur PayPal](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Le sélecteur de couleur de Voltkit affichant #7C3AED avec ses valeurs HEX, RGB et HSL et les notes de contraste WCAG">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Le sélecteur de couleur de Voltkit affichant #7C3AED avec ses valeurs HEX, RGB et HSL et les notes de contraste WCAG">
 </picture>
 
 </div>
@@ -31,7 +31,7 @@ veille, un rapport système, un détective de raccourcis et un réglage du GPU, 
 > langue de votre système : l’application, la ligne de commande et les pages de manuel (`man voltkit`). Les captures
 > d’écran de cette page montrent la version anglaise.
 
-## Une application au lieu de quinze
+## Une application au lieu de dix-huit
 
 Obtenir ces outils de base sous Linux oblige souvent à chercher une petite application pour chaque besoin, chacune avec
 son apparence, ses réglages et ses raccourcis. Voltkit les réunit dans une seule application GTK4 native, avec un seul
@@ -42,9 +42,12 @@ jeu de raccourcis :
 | rien : il n’existait aucun écran pour cela | **Autorisations des applications** : modifiez ou oubliez les réponses données aux applications qui demandaient des captures d’écran, la caméra, votre position, etc. | — |
 | un compresseur d’images à part, plus des formules ffmpeg obscures | **Compresseur de fichiers** : déposez des fichiers PNG, JPEG, WebP ou MP4 pour supprimer leurs métadonnées et les alléger | glisser-déposer |
 | un sélecteur de couleur à part | **Sélecteur de couleur** : une pipette pour n’importe quel pixel, HEX/RGB/HSL, vérification du contraste WCAG et historique | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>C</kbd> |
+| des boucles de shell avec `mv` ou un renommeur à part | **Renommage en lot** : renomme beaucoup de fichiers d’un coup avec chercher-remplacer, expressions régulières et numérotation, avec aperçu et annulation | — |
+| un redimensionneur d’images à part | **Redimensionneur d’images** : redimensionne beaucoup d’images d’un coup, en gardant leur forme et sans toucher aux originaux | — |
 | un outil de réglage du GPU à part, plus les utilitaires des fabricants | **Réglage du GPU** : surveillez les cartes graphiques NVIDIA, AMD et Intel et modifiez limites de puissance, ventilateurs et courbes de ventilateur, températures cibles, fréquences et tension, chaque modification étant prévisualisée et annulée sans votre confirmation | — |
 | modifier `/etc/hosts` et `~/.profile` dans un terminal | **Hôtes et environnement** : activez et désactivez des entrées hosts, et gérez les variables d’environnement de votre session | — |
 | une extension du shell pour garder l’écran allumé | **Rester éveillé** : empêchez votre ordinateur de se mettre en veille ou de se verrouiller de 30 minutes à 4 heures, ou jusqu’à ce que vous le désactiviez | — |
+| un stylo de présentation à part | **Zoom et annotations** : fige l’écran, zoome et dessine dessus avec un stylo, des flèches, des cadres et du texte | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | un lecteur de QR sur votre téléphone ou un site web de QR | **Code QR** : lisez un code QR n’importe où à l’écran, ou transformez du texte, des liens et des informations Wi-Fi en code QR | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>Q</kbd> |
 | une règle d’écran à part, ou des captures d’écran et un éditeur d’images | **Règle d’écran** : figez l’écran et mesurez n’importe quoi en pixels | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>R</kbd> |
 | deviner pourquoi un raccourci clavier ne fait rien | **Détective de raccourcis** : appuyez sur un raccourci pour voir à qui il appartient, trouvez les conflits, choisissez une combinaison libre et changez-la | — |
@@ -64,8 +67,8 @@ position, le bureau se souvient de votre réponse. Autorisations des application
 pour que l’application redemande.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.7.0">
-  <img src="docs/screenshots/permissions-light.png?v=0.7.0" alt="La page Autorisations des applications listant des applications avec leurs autorisations de caméra et de capture d’écran">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.11.0">
+  <img src="docs/screenshots/permissions-light.png?v=0.11.0" alt="La page Autorisations des applications listant des applications avec leurs autorisations de caméra et de capture d’écran">
 </picture>
 
 ### 📦 Compresseur de fichiers
@@ -75,8 +78,26 @@ autres métadonnées, compresse avec le meilleur outil pour chaque format, et é
 qu’il ne touche jamais. Dans nos tests : JPEG −43 %, PNG −23 % (sans perte), WebP −60 %, MP4 −77 %.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
-  <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="Le compresseur de fichiers avec quatre fichiers compressés et leur gain de place">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.11.0">
+  <img src="docs/screenshots/compress-light.png?v=0.11.0" alt="Le compresseur de fichiers avec quatre fichiers compressés et leur gain de place">
+</picture>
+
+### ✏️ Renommage en lot
+
+Déposez des fichiers ou des dossiers, dites ce qui change et regardez l’**aperçu** avant que rien n’arrive : chercher-remplacer, expressions régulières avec groupes `$1`, numérotation avec `{n:3}`, casse, et le nom ou seulement l’extension. Les conflits (deux fichiers avec le même nom, un nom pris) sont signalés d’abord, un lot est renommé **en entier ou pas du tout**, et le dernier lot peut être **annulé**. Pareil dans un terminal : `voltkit rename *.jpg --find IMG --replace Vacances --apply`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Renommage en lot avec l’aperçu de cinq photos renommées">
+</picture>
+
+### 🖼️ Redimensionneur d’images
+
+Ajoutez des images, choisissez une taille (côté le plus long, pourcentage, ou largeur et hauteur qui s’ajustent, remplissent ou étirent, ou cliquez sur une idée comme « E-mail ou messagerie ») et cliquez sur **Redimensionner** : les copies apparaissent à côté des originaux, qui ne sont jamais touchés. Les photos ressortent droites, la qualité WebP et JPEG se règle, et la taille n’augmente jamais sauf si vous l’autorisez. `voltkit resize photos/*.jpg --longest-side 1280`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Redimensionneur d’images avec trois images ramenées à 1920 pixels">
 </picture>
 
 ### 🎨 Sélecteur de couleur
@@ -86,8 +107,8 @@ presse-papiers. La page de couleur convertit entre HEX, RGB et HSL, note le cont
 selon les normes WCAG (AA / AAA), et garde en mémoire vos couleurs récentes.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Le sélecteur de couleur avec un aperçu en direct, les formats HEX/RGB/HSL, les notes de contraste et les couleurs enregistrées">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Le sélecteur de couleur avec un aperçu en direct, les formats HEX/RGB/HSL, les notes de contraste et les couleurs enregistrées">
 </picture>
 
 ### 🎛️ Réglage du GPU
@@ -110,28 +131,28 @@ L’application des modifications est nouvelle et n’a été testée jusqu’ic
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) pour ce qui fonctionne, comment la sécurité est assurée et ce qui reste à faire.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="Réglage du GPU, onglet Surveillance : mesures en direct avec historique, pourquoi la fréquence est freinée et ce que la carte prend en charge (données simulées)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.11.0" alt="Réglage du GPU, onglet Surveillance : mesures en direct avec historique, pourquoi la fréquence est freinée et ce que la carte prend en charge (données simulées)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="Réglage du GPU, onglet Régler : limite de puissance, éditeur de courbe de ventilateur et autres contrôles (données simulées)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.11.0" alt="Réglage du GPU, onglet Régler : limite de puissance, éditeur de courbe de ventilateur et autres contrôles (données simulées)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="Réglage du GPU, onglet Profils : profils enregistrés, règles automatiques, partage et import (données simulées)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.11.0" alt="Réglage du GPU, onglet Profils : profils enregistrés, règles automatiques, partage et import (données simulées)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="Réglage du GPU, onglet Sessions : sessions enregistrées, prix de l’électricité, suggestion de limite de puissance et comparaison (données simulées)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.11.0" alt="Réglage du GPU, onglet Sessions : sessions enregistrées, prix de l’électricité, suggestion de limite de puissance et comparaison (données simulées)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="Éditeur de courbe tension/fréquence du réglage du GPU avec des points déplaçables (données simulées)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.11.0" alt="Éditeur de courbe tension/fréquence du réglage du GPU avec des points déplaçables (données simulées)">
 </picture>
 
 <sub>La capture d’écran utilise des données simulées de cartes fictives.</sub>
@@ -143,8 +164,8 @@ définissez des variables d’environnement comme `EDITOR` ou un dossier `PATH` 
 bureau. Les entrées système sont protégées, et chaque enregistrement du fichier hosts conserve une sauvegarde.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.7.0">
-  <img src="docs/screenshots/system-light.png?v=0.7.0" alt="La page Hôtes et environnement avec des entrées hosts et des interrupteurs">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.11.0">
+  <img src="docs/screenshots/system-light.png?v=0.11.0" alt="La page Hôtes et environnement avec des entrées hosts et des interrupteurs">
 </picture>
 
 ### ☕ Rester éveillé
@@ -154,8 +175,8 @@ heures ou jusqu’à ce que vous le désactiviez, et votre ordinateur ne se mett
 continue après la fermeture de Voltkit et s’arrête tout seul à la fin du délai.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.7.0">
-  <img src="docs/screenshots/awake-light.png?v=0.7.0" alt="Rester éveillé avec son état actuel et les commandes de durée">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.11.0">
+  <img src="docs/screenshots/awake-light.png?v=0.11.0" alt="Rester éveillé avec son état actuel et les commandes de durée">
 </picture>
 
 ### 📷 Code QR
@@ -167,8 +188,8 @@ enregistrez-le en PNG pour l’imprimer. Ajoutez au milieu votre propre petit lo
 le code pour s’assurer qu’il se scanne toujours.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/qr-light.png?v=0.7.0" alt="La page Code QR avec un code généré pour un lien">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/qr-light.png?v=0.11.0" alt="La page Code QR avec un code généré pour un lien">
 </picture>
 
 ### 📏 Règle d’écran
@@ -177,8 +198,17 @@ le code pour s’assurer qu’il se scanne toujours.
 réels (maintenez Maj pour une ligne droite), et appuyez sur Ctrl+C pour copier la taille.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="La règle d’écran avec son action de lancement et ses commandes de mesure">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ruler-light.png?v=0.11.0" alt="La règle d’écran avec son action de lancement et ses commandes de mesure">
+</picture>
+
+### 🔍 Zoom et annotations
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> fige l’écran. Faites défiler pour zoomer, glissez pour dessiner, Maj pour une ligne, Ctrl pour un rectangle, Tab pour une ellipse, Ctrl+Maj pour une flèche, T pour écrire, R/G/B/O/Y/P pour la couleur, W/K pour un tableau blanc ou noir, et Ctrl+C ou Ctrl+S pour copier ou enregistrer l’image. Les images enregistrées vont dans `Images/Voltkit`, ou dans un dossier choisi sur la page de l’outil (Ctrl+Maj+S en enregistre une ailleurs).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom et annotations : une flèche, un cercle, du texte et un surligneur dessinés sur un écran figé">
 </picture>
 
 ### ⌨️ Détective de raccourcis
@@ -190,8 +220,8 @@ listés pour vous, chacun avec des combinaisons libres vers lesquelles passer, e
 modifié, désactivé ou rétabli sur place. Fonctionne sous GNOME et les bureaux construits comme lui (Cinnamon, Budgie, MATE).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.7.0">
-  <img src="docs/screenshots/shortcuts-light.png?v=0.7.0" alt="Le détective de raccourcis montrant que Super+V est utilisé par deux actions">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">
+  <img src="docs/screenshots/shortcuts-light.png?v=0.11.0" alt="Le détective de raccourcis montrant que Super+V est utilisé par deux actions">
 </picture>
 
 ### 📋 Collage intelligent
@@ -205,8 +235,8 @@ chacune avec un aperçu, et votre presse-papiers reste tel quel. Les mêmes conv
 `wl-paste | voltkit convert markdown-table`.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.7.0">
-  <img src="docs/screenshots/smartpaste-light.png?v=0.7.0" alt="La page Collage intelligent transformant une plage de tableur en tableau Markdown et en CSV">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.11.0">
+  <img src="docs/screenshots/smartpaste-light.png?v=0.11.0" alt="La page Collage intelligent transformant une plage de tableur en tableau Markdown et en CSV">
 </picture>
 
 ### 🖥️ Rapport système
@@ -223,8 +253,8 @@ d’aide, **Copier le rapport** vous donne un résumé soigné pour un forum ou 
 noms ni adresses réseau.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sysreport-light.png?v=0.7.0" alt="La page Rapport système avec les vérifications, les changements récents et le matériel de l’ordinateur">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sysreport-light.png?v=0.11.0" alt="La page Rapport système avec les vérifications, les changements récents et le matériel de l’ordinateur">
 </picture>
 
 ### ⌨️ Expansion de texte
@@ -237,18 +267,18 @@ l’application : des boutons Insérer ajoutent la date, l’heure, le presse-pa
 direct montre exactement ce qui sera collé.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippets-light.png?v=0.7.0" alt="L’expansion de texte avec des extraits consultables et des commandes d’insertion">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippets-light.png?v=0.11.0" alt="L’expansion de texte avec des extraits consultables et des commandes d’insertion">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.7.0">
-  <img src="docs/screenshots/picker-light.png?v=0.7.0" alt="Le sélecteur d’extraits listant des extraits avec des aperçus en direct">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.11.0">
+  <img src="docs/screenshots/picker-light.png?v=0.11.0" alt="Le sélecteur d’extraits listant des extraits avec des aperçus en direct">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippet-editor-light.png?v=0.7.0" alt="L’éditeur d’extraits avec un déclencheur, un texte avec des boutons Insérer pour la date, l’heure, le presse-papiers et les champs à remplir, et un aperçu en direct">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippet-editor-light.png?v=0.11.0" alt="L’éditeur d’extraits avec un déclencheur, un texte avec des boutons Insérer pour la date, l’heure, le presse-papiers et les champs à remplir, et un aperçu en direct">
 </picture>
 
 ### 🔍 Extracteur de texte
@@ -259,8 +289,8 @@ Tesseract, avec la prise en charge de
 [plus de 100 langues](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ocr-light.png?v=0.7.0" alt="L’extracteur de texte montrant le texte lu sur la photo d’une diapositive de conférence : un mot de passe Wi-Fi et un lien">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ocr-light.png?v=0.11.0" alt="L’extracteur de texte montrant le texte lu sur la photo d’une diapositive de conférence : un mot de passe Wi-Fi et un lien">
 </picture>
 
 ### 🔎 Qu’est-ce qui l’utilise ?
@@ -272,8 +302,8 @@ Forcer à quitter seulement si elle refuse), ou laissez **Éjecter** les fermer 
 système lui-même ne sont jamais proposés à la fermeture.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.7.0">
-  <img src="docs/screenshots/using-light.png?v=0.7.0" alt="La page Qu’est-ce qui l’utilise ? listant les applications qui gardent un disque USB occupé">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.11.0">
+  <img src="docs/screenshots/using-light.png?v=0.11.0" alt="La page Qu’est-ce qui l’utilise ? listant les applications qui gardent un disque USB occupé">
 </picture>
 
 ### 🌙 Pourquoi ne s’est-il pas mis en veille ?
@@ -284,8 +314,8 @@ dernière semaine avec ce qui l’a déclenchée et terminée et la batterie uti
 réveiller, avec un interrupteur pour arrêter celui qui n’arrête pas de le réveiller.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sleep-light.png?v=0.7.0" alt="La page Pourquoi ne s’est-il pas mis en veille ? listant ce qui maintient l’ordinateur éveillé et les mises en veille récentes">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sleep-light.png?v=0.11.0" alt="La page Pourquoi ne s’est-il pas mis en veille ? listant ce qui maintient l’ordinateur éveillé et les mises en veille récentes">
 </picture>
 
 ## Pourquoi Voltkit
@@ -587,8 +617,8 @@ reconstruit le dépôt APT signé sur GitHub Pages. Il signe avec la clé du sec
 Créé par **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.7.0">
-  <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="La fenêtre À propos de Voltkit montrant l’icône de l’application, la version et l’auteur Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
+  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="La fenêtre À propos de Voltkit montrant l’icône de l’application, la version et l’auteur Alexis Rios-Negron">
 </picture>
 
 ## Soutenir Voltkit

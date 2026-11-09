@@ -50,6 +50,8 @@ Other custom shortcuts are left untouched.
 | QR scan | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> | `qr` |
 | Screen Ruler | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> | `ruler` |
 | Smart Paste | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> | `smart_paste` |
+| Zoom & Annotate | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> | `zoom` |
+| Shortcut cheat sheet | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> | `shortcut_guide` |
 
 Change them in `~/.config/voltkit/config.toml` (see [Configuration file](config)) and run `voltkit shortcuts install` again, or use [Shortcut Detective](shortcuts) to find a free combination and change it.
 

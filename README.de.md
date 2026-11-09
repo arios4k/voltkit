@@ -20,8 +20,8 @@ nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehler
 [![Auf PayPal unterstützen](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Der Farbwähler von Voltkit zeigt #7C3AED mit HEX-, RGB- und HSL-Werten und WCAG-Kontrastbewertungen">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Der Farbwähler von Voltkit zeigt #7C3AED mit HEX-, RGB- und HSL-Werten und WCAG-Kontrastbewertungen">
 </picture>
 
 </div>
@@ -30,7 +30,7 @@ nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehler
 > App, auf der Befehlszeile und in den Handbuchseiten (`man voltkit`). Die Bildschirmfotos auf dieser Seite zeigen
 > die englische Version.
 
-## Eine App statt fünfzehn
+## Eine App statt achtzehn
 
 Diese Grundfunktionen unter Linux zu bekommen, heißt meist, für jede Aufgabe ein eigenes Applet zu suchen, jedes
 mit eigenem Aussehen, eigenen Einstellungen und Tastenkürzeln. Voltkit vereint sie in einer nativen GTK4-App mit
@@ -41,9 +41,12 @@ einem gemeinsamen Satz Tastenkürzel:
 | nichts: dafür gab es keine Oberfläche | **App-Berechtigungen**: Antworten ändern oder vergessen, die Sie Apps auf Anfragen nach Bildschirmfotos, Kamera, Standort und mehr gegeben haben | — |
 | eines eigenen Bildkompressors plus ffmpeg-Beschwörungen | **Dateikompressor**: PNG-, JPEG-, WebP- oder MP4-Dateien ablegen, um Metadaten zu entfernen und sie zu verkleinern | Ziehen &amp; Ablegen |
 | eines eigenen Farbwählers | **Farbwähler**: eine Pipette für jedes Pixel, HEX/RGB/HSL, WCAG-Kontrastprüfung und Verlauf | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>C</kbd> |
+| Shell-Schleifen mit `mv` oder ein eigenes Umbenennungsprogramm | **Stapel-Umbenennen**: viele Dateien auf einmal umbenennen, mit Suchen und Ersetzen, regulären Ausdrücken und Nummerierung, mit Vorschau und Rückgängig | — |
+| ein eigenes Bildverkleinerungsprogramm | **Bildgrößen ändern**: viele Bilder auf einmal verkleinern, mit unveränderter Form und ohne die Originale anzutasten | — |
 | ein eigenes GPU-Tuning-Programm plus Herstellertools | **GPU-Tuner**: NVIDIA-, AMD- und Intel-Grafikkarten überwachen und Leistungsgrenzen, Lüfter und Lüfterkurven, Zieltemperaturen, Takte und Spannung ändern, jede Änderung mit Vorschau und rückgängig gemacht, wenn Sie sie nicht bestätigen | — |
 | `/etc/hosts` und `~/.profile` im Terminal zu bearbeiten | **Hosts &amp; Umgebung**: hosts-Einträge ein- und ausschalten und die Umgebungsvariablen Ihrer Sitzung verwalten | — |
 | einer Shell-Erweiterung, die den Bildschirm anlässt | **Wach halten**: Bereitschaft und Sperre für 30 Minuten bis 4 Stunden verhindern oder bis Sie es ausschalten | — |
+| einen eigenen Präsentationsstift | **Zoom und Anmerkungen**: den Bildschirm einfrieren, hineinzoomen und mit Stift, Pfeilen, Rahmen und Text darauf zeichnen | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | eines QR-Scanners auf dem Telefon oder einer QR-Webseite | **QR-Code**: einen QR-Code irgendwo auf dem Bildschirm lesen oder Text, Links und WLAN-Daten in einen umwandeln | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>Q</kbd> |
 | eines eigenen Bildschirmlineals oder Bildschirmfoto plus Bildbearbeitung | **Bildschirmlineal**: den Bildschirm einfrieren und alles in Pixeln messen | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>R</kbd> |
 | zu raten, warum ein Tastenkürzel nichts tut | **Tastenkürzel-Detektiv**: ein beliebiges Tastenkürzel drücken, um zu sehen, wem es gehört, Konflikte finden, eine freie Kombination wählen und es ändern | — |
@@ -63,8 +66,8 @@ sich der Desktop Ihre Antwort. App-Berechtigungen listet sie nach App
 auf: Legen Sie einen Schalter um, um eine zu ändern, oder vergessen Sie sie, damit die App erneut fragt.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.7.0">
-  <img src="docs/screenshots/permissions-light.png?v=0.7.0" alt="Die Seite App-Berechtigungen mit Apps und ihren Kamera- und Bildschirmfoto-Berechtigungen">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.11.0">
+  <img src="docs/screenshots/permissions-light.png?v=0.11.0" alt="Die Seite App-Berechtigungen mit Apps und ihren Kamera- und Bildschirmfoto-Berechtigungen">
 </picture>
 
 ### 📦 Dateikompressor
@@ -74,8 +77,26 @@ Metadaten, komprimiert mit dem besten Werkzeug für jedes Format und schreibt `n
 das es nie verändert. In unseren Tests: JPEG −43 %, PNG −23 % (verlustfrei), WebP −60 %, MP4 −77 %.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
-  <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="Der Dateikompressor mit vier komprimierten Dateien und ihrer Ersparnis">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.11.0">
+  <img src="docs/screenshots/compress-light.png?v=0.11.0" alt="Der Dateikompressor mit vier komprimierten Dateien und ihrer Ersparnis">
+</picture>
+
+### ✏️ Stapel-Umbenennen
+
+Dateien oder Ordner ablegen, sagen, was sich ändern soll, und die **Vorschau** ansehen, bevor etwas passiert: Suchen und Ersetzen, reguläre Ausdrücke mit `$1`-Gruppen, Nummerierung mit `{n:3}`, Groß- und Kleinschreibung, und der Name oder nur die Endung. Konflikte (zwei Dateien mit einem Namen, ein vergebener Name) werden zuerst genannt, ein Stapel wird **ganz oder gar nicht** umbenannt, und der letzte Stapel lässt sich **rückgängig machen**. Auch im Terminal: `voltkit rename *.jpg --find IMG --replace Urlaub --apply`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Stapel-Umbenennen mit der Vorschau von fünf Fotos, die umbenannt werden">
+</picture>
+
+### 🖼️ Bildgrößen ändern
+
+Bilder hinzufügen, eine Größe wählen (längste Seite, Prozent oder Breite und Höhe, die einpasst, füllt oder streckt, oder eine Idee wie „E-Mail oder Chat“ anklicken) und auf **Verkleinern** klicken: die Kopien erscheinen neben den Originalen, die nie angetastet werden. Fotos kommen aufrecht heraus, die WebP- und JPEG-Qualität stellen Sie ein, und das Bild wird nie größer, außer Sie erlauben es. `voltkit resize fotos/*.jpg --longest-side 1280`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Bildgrößen ändern mit drei auf 1920 Pixel verkleinerten Bildern">
 </picture>
 
 ### 🎨 Farbwähler
@@ -85,8 +106,8 @@ schon in der Zwischenablage. Die Farbseite rechnet zwischen HEX, RGB und HSL um,
 und Schwarz nach WCAG (AA / AAA) und merkt sich Ihre letzten Farben.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Der Farbwähler mit Vorschau, HEX/RGB/HSL-Formaten, Kontrastbewertungen und gespeicherten Farben">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Der Farbwähler mit Vorschau, HEX/RGB/HSL-Formaten, Kontrastbewertungen und gespeicherten Farben">
 </picture>
 
 ### 🎛️ GPU-Tuner
@@ -109,28 +130,28 @@ Das Anwenden von Änderungen ist neu und wurde bisher nur mit simulierter Hardwa
 sicher bleibt und was noch fehlt, steht in [docs/GPU_TUNER.md](docs/GPU_TUNER.md).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="GPU-Tuner, Reiter Überwachung: Live-Messwerte mit Verlauf, warum der Takt gebremst wird und was die Karte unterstützt (simulierte Daten)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Überwachung: Live-Messwerte mit Verlauf, warum der Takt gebremst wird und was die Karte unterstützt (simulierte Daten)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="GPU-Tuner, Reiter Einstellen: Leistungslimit, Lüfterkurven-Editor und weitere Regler (simulierte Daten)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Einstellen: Leistungslimit, Lüfterkurven-Editor und weitere Regler (simulierte Daten)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="GPU-Tuner, Reiter Profile: gespeicherte Profile, automatische Regeln, Teilen und Importieren (simulierte Daten)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Profile: gespeicherte Profile, automatische Regeln, Teilen und Importieren (simulierte Daten)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="GPU-Tuner, Reiter Sitzungen: aufgezeichnete Sitzungen, Strompreis, Vorschlag für das Leistungslimit und Vergleich (simulierte Daten)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Sitzungen: aufgezeichnete Sitzungen, Strompreis, Vorschlag für das Leistungslimit und Vergleich (simulierte Daten)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="Spannungs-/Frequenzkurven-Editor des GPU-Tuners mit ziehbaren Punkten (simulierte Daten)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.11.0" alt="Spannungs-/Frequenzkurven-Editor des GPU-Tuners mit ziehbaren Punkten (simulierte Daten)">
 </picture>
 
 <sub>Der Screenshot zeigt simulierte Daten erfundener Karten.</sub>
@@ -142,8 +163,8 @@ hinzu und setzen Sie Umgebungsvariablen wie `EDITOR` oder einen zusätzlichen `P
 Desktop-Sitzung. Systemeinträge sind geschützt, und jedes Speichern von hosts legt eine Sicherung an.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.7.0">
-  <img src="docs/screenshots/system-light.png?v=0.7.0" alt="Die Seite Hosts & Umgebung mit hosts-Einträgen und Schaltern">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.11.0">
+  <img src="docs/screenshots/system-light.png?v=0.11.0" alt="Die Seite Hosts & Umgebung mit hosts-Einträgen und Schaltern">
 </picture>
 
 ### ☕ Wach halten
@@ -153,8 +174,8 @@ oder bis zum Ausschalten ein, und Ihr Computer geht weder in Bereitschaft noch s
 nachdem Sie Voltkit geschlossen haben, und schaltet sich ab, wenn die Zeit um ist.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.7.0">
-  <img src="docs/screenshots/awake-light.png?v=0.7.0" alt="Wach halten mit aktuellem Status und Einstellung der Dauer">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.11.0">
+  <img src="docs/screenshots/awake-light.png?v=0.11.0" alt="Wach halten mit aktuellem Status und Einstellung der Dauer">
 </picture>
 
 ### 📷 QR-Code
@@ -166,8 +187,8 @@ als Bild oder speichern Sie ihn zum Drucken als PNG. Auf Wunsch kommt Ihr eigene
 Voltkit liest den Code danach, um sicherzustellen, dass er sich noch scannen lässt.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/qr-light.png?v=0.7.0" alt="Die Seite QR-Code mit einem erzeugten Code für einen Link">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/qr-light.png?v=0.11.0" alt="Die Seite QR-Code mit einem erzeugten Code für einen Link">
 </picture>
 
 ### 📏 Bildschirmlineal
@@ -177,8 +198,17 @@ echten Pixeln zu messen (mit gedrückter Umschalttaste für eine gerade Linie), 
 zu kopieren.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="Das Bildschirmlineal mit seiner Startschaltfläche und der Messsteuerung">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ruler-light.png?v=0.11.0" alt="Das Bildschirmlineal mit seiner Startschaltfläche und der Messsteuerung">
+</picture>
+
+### 🔍 Zoom und Anmerkungen
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> friert den Bildschirm ein. Scrollen zoomt, Ziehen zeichnet, Umschalt hält eine Linie, Strg ein Rechteck, Tab eine Ellipse, Strg+Umschalt einen Pfeil, T tippt Text, R/G/B/O/Y/P wählen die Farbe, W/K eine weiße oder schwarze Tafel, und Strg+C oder Strg+S kopieren oder speichern das Bild. Gespeicherte Bilder landen in `Bilder/Voltkit` oder in einem Ordner, den Sie auf der Seite des Werkzeugs wählen (Strg+Umschalt+S speichert eines woanders).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom und Anmerkungen: ein Pfeil, ein Kreis, Text und ein Textmarker auf einem eingefrorenen Bildschirm">
 </picture>
 
 ### ⌨️ Tastenkürzel-Detektiv
@@ -190,8 +220,8 @@ Kombinationen zum Wechseln, und jedes Tastenkürzel lässt sich direkt dort änd
 Funktioniert unter GNOME und den ähnlich aufgebauten Desktops (Cinnamon, Budgie, MATE).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.7.0">
-  <img src="docs/screenshots/shortcuts-light.png?v=0.7.0" alt="Der Tastenkürzel-Detektiv zeigt, dass zwei Aktionen Super+V verwenden">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">
+  <img src="docs/screenshots/shortcuts-light.png?v=0.11.0" alt="Der Tastenkürzel-Detektiv zeigt, dass zwei Aktionen Super+V verwenden">
 </picture>
 
 ### 📋 Intelligentes Einfügen
@@ -205,8 +235,8 @@ Vorschau, und Ihre Zwischenablage bleibt, wie sie war. Dieselben Umwandlungen fu
 `wl-paste | voltkit convert markdown-table`.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.7.0">
-  <img src="docs/screenshots/smartpaste-light.png?v=0.7.0" alt="Die Seite Intelligentes Einfügen wandelt einen Tabellenbereich in eine Markdown-Tabelle und CSV um">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.11.0">
+  <img src="docs/screenshots/smartpaste-light.png?v=0.11.0" alt="Die Seite Intelligentes Einfügen wandelt einen Tabellenbereich in eine Markdown-Tabelle und CSV um">
 </picture>
 
 ### 🖥️ Systembericht
@@ -222,8 +252,8 @@ liefert **Bericht kopieren** eine aufgeräumte Zusammenfassung für ein Forum od
 Seriennummern, Namen oder Netzwerkadressen.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sysreport-light.png?v=0.7.0" alt="Die Seite Systembericht mit Prüfungen, letzten Änderungen und der Hardware des Computers">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sysreport-light.png?v=0.11.0" alt="Die Seite Systembericht mit Prüfungen, letzten Änderungen und der Hardware des Computers">
 </picture>
 
 ### ⌨️ Textbausteine
@@ -236,18 +266,18 @@ Einfügen-Schaltflächen ergänzen Datum, Uhrzeit, Zwischenablage oder ein Ausf�
 genau, was eingefügt wird.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippets-light.png?v=0.7.0" alt="Textbausteine mit durchsuchbaren Bausteinen und Einfügen-Steuerelementen">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippets-light.png?v=0.11.0" alt="Textbausteine mit durchsuchbaren Bausteinen und Einfügen-Steuerelementen">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.7.0">
-  <img src="docs/screenshots/picker-light.png?v=0.7.0" alt="Die Bausteinauswahl mit Bausteinen und ihren Vorschauen">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.11.0">
+  <img src="docs/screenshots/picker-light.png?v=0.11.0" alt="Die Bausteinauswahl mit Bausteinen und ihren Vorschauen">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippet-editor-light.png?v=0.7.0" alt="Der Baustein-Editor mit Kürzel, Text mit Schaltflächen für Datum, Uhrzeit, Zwischenablage und Ausfüllfelder sowie einer Live-Vorschau">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippet-editor-light.png?v=0.11.0" alt="Der Baustein-Editor mit Kürzel, Text mit Schaltflächen für Datum, Uhrzeit, Zwischenablage und Ausfüllfelder sowie einer Live-Vorschau">
 </picture>
 
 ### 🔍 Texterkennung
@@ -258,8 +288,8 @@ Sie ein. Mit Tesseract, das [über 100 Sprachen](https://tesseract-ocr.github.io
 unterstützt (für Deutsch `tesseract-ocr-deu` installieren und `deu` als Sprache verwenden).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ocr-light.png?v=0.7.0" alt="Die Texterkennung zeigt Text aus dem Foto einer Konferenzfolie: ein WLAN-Passwort und einen Link">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ocr-light.png?v=0.11.0" alt="Die Texterkennung zeigt Text aus dem Foto einer Konferenzfolie: ein WLAN-Passwort und einen Link">
 </picture>
 
 ### 🔎 Was belegt das?
@@ -271,8 +301,8 @@ nur wenn sie nicht reagiert, sofort beendet), oder lassen Sie **Auswerfen** sie 
 Teile des Systems selbst werden nie zum Schließen angeboten.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.7.0">
-  <img src="docs/screenshots/using-light.png?v=0.7.0" alt="Die Seite Was belegt das? mit den Apps, die ein USB-Laufwerk belegen">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.11.0">
+  <img src="docs/screenshots/using-light.png?v=0.11.0" alt="Die Seite Was belegt das? mit den Apps, die ein USB-Laufwerk belegen">
 </picture>
 
 ### 🌙 Warum keine Bereitschaft?
@@ -283,8 +313,8 @@ Woche mit Beginn, Ende und Akkuverbrauch sowie die USB-Geräte, die ihn wecken d
 Gerät, das ihn immer wieder weckt.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sleep-light.png?v=0.7.0" alt="Die Seite Warum keine Bereitschaft? mit dem, was den Computer wach hält, und den letzten Bereitschaftsphasen">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sleep-light.png?v=0.11.0" alt="Die Seite Warum keine Bereitschaft? mit dem, was den Computer wach hält, und den letzten Bereitschaftsphasen">
 </picture>
 
 ## Warum Voltkit
@@ -585,8 +615,8 @@ baut das signierte APT-Repository auf GitHub Pages neu. Er signiert mit dem Schl
 Erstellt von **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.7.0">
-  <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="Das Über-Fenster von Voltkit mit App-Symbol, Version und Autor Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
+  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="Das Über-Fenster von Voltkit mit App-Symbol, Version und Autor Alexis Rios-Negron">
 </picture>
 
 ## Voltkit unterstützen

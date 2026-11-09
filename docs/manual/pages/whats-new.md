@@ -4,6 +4,23 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.11.0
+
+*November 9, 2026*
+
+**Three new tools, and a shortcut cheat sheet.** Voltkit now has eighteen tools.
+
+| Feature | How it works | Read more |
+|---|---|---|
+| Batch Rename | Search and replace, regular expressions, numbering with `{n:3}`, letter case, a preview that names every conflict, all-or-nothing renaming and undo. `voltkit rename` | [Batch Rename](rename) |
+| Image Resizer | Add pictures, choose a size (or click one of the ideas, such as "Email or chat"), then click **Resize**. Copies go beside the originals. `voltkit resize` | [Image Resizer](resize) |
+| Zoom & Annotate | Freeze the screen, zoom in and draw on it with a pen, lines, boxes, arrows and text, then copy or save the picture. <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>. `voltkit zoom` | [Zoom & Annotate](zoom) |
+| Shortcut cheat sheet | A **Cheat Sheet** button in Shortcut Detective and <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> open a searchable sheet of every shortcut, grouped by owner. `voltkit shortcut-guide` | [Shortcut Detective](shortcuts#the-cheat-sheet) |
+
+- **Choose where annotated pictures are saved.** Zoom & Annotate saves in `Pictures/Voltkit` by default; **Change…** on its page picks another folder, and <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> saves one picture anywhere. See [Zoom & Annotate](zoom#where-pictures-are-saved).
+- **The author's other apps** are in their own "More from the same author" group in the About box.
+- The words in the Screen Ruler page's diagram are centered.
+
 ## Version 0.10.5
 
 *November 7, 2026*
