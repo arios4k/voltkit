@@ -28,7 +28,7 @@
 > Voltkit 提供简体中文、英语、西班牙语、德语和法语，并会自动使用你系统的语言：应用、命令行和手册页（`man voltkit`）
 > 都是如此。本页的截图为英文版。
 
-## 一个应用，取代十五个
+## 一个应用，取代十八个
 
 在 Linux 上要凑齐这些基础功能，往往得为每件事各找一个小工具，每个都有自己的外观、设置和快捷键。Voltkit 把它们
 放进一个原生 GTK4 应用，共用一套快捷键：
@@ -38,9 +38,12 @@
 | 没有：根本没有对应的界面 | **应用权限**：更改或遗忘你对应用的截屏、摄像头、位置等请求所给出的回答 | — |
 | 单独的图片压缩器，再加一堆 ffmpeg 咒语 | **资源压缩器**：拖入 PNG、JPEG、WebP 或 MP4 文件，即可删除元数据并缩小体积 | 拖放 |
 | 单独的取色器 | **取色器**：可吸取任意像素，支持 HEX/RGB/HSL、WCAG 对比度检查和历史记录 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| 用 `mv` 写的 shell 循环或单独的重命名工具 | **批量重命名**：一次重命名许多文件，支持查找替换、正则表达式和编号，带预览和撤销 | — |
+| 单独的图片缩放工具 | **图片缩放**：一次缩放许多图片，保持比例，不改动原文件 | — |
 | 单独的 GPU 调节工具，外加各厂商的实用程序 | **GPU 调节器**：监控 NVIDIA、AMD 和 Intel 显卡，并更改功耗上限、风扇与风扇曲线、目标温度、频率和电压，每次更改都会先预览，未经确认即撤销 | — |
 | 在终端里编辑 `/etc/hosts` 和 `~/.profile` | **Hosts 与环境变量**：开关 hosts 条目，并管理会话的环境变量 | — |
 | 用来保持屏幕常亮的 shell 扩展 | **保持唤醒**：让电脑在 30 分钟到 4 小时内，或直到你关闭为止，不休眠、不锁屏 | — |
+| 单独的演示画笔 | **缩放与批注**：冻结屏幕，放大并用画笔、箭头、方框和文字在上面绘制 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | 手机上的扫码工具或二维码网站 | **二维码**：读取屏幕上任意位置的二维码，或把文字、链接和 Wi-Fi 信息生成二维码 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> |
 | 单独的屏幕标尺，或截图加图片编辑器 | **屏幕标尺**：冻结屏幕，以像素为单位测量任何内容 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> |
 | 猜测某个键盘快捷键为什么没反应 | **快捷键侦探**：按下任意快捷键，查看它归谁所有、找出冲突、挑选空闲组合并修改 | — |
@@ -72,6 +75,24 @@ WebP 减小 60%，MP4 减小 77%。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
   <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="资源压缩器，显示四个已压缩的文件及节省的空间">
+</picture>
+
+### ✏️ 批量重命名
+
+拖入文件或文件夹，说明要改什么，先看**预览**再动手：查找替换、带 `$1` 分组的正则表达式、用 `{n:3}` 编号、大小写，以及只改名称或只改扩展名。冲突（两个文件同名、名称已被占用）会先指出，一批文件要么**全部改名要么全都不改**，最近一批还能**撤销**。终端里同样可用：`voltkit rename *.jpg --find IMG --replace 假期 --apply`。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="批量重命名，预览五张照片的新名称">
+</picture>
+
+### 🖼️ 图片缩放
+
+拖入图片，选择尺寸（最长边、百分比，或适应、填充、拉伸的宽高），原文件旁边就会生成缩放后的副本，原文件不会被改动。照片会摆正，WebP 和 JPEG 质量可调，除非你允许，否则图片不会被放大。`voltkit resize photos/*.jpg --longest-side 1280`。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="图片缩放，三张图片缩放到 1920 像素">
 </picture>
 
 ### 🎨 取色器
@@ -164,6 +185,15 @@ WebP 减小 60%，MP4 减小 77%。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
   <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="屏幕标尺，显示其启动操作和测量控件">
+</picture>
+
+### 🔍 缩放与批注
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> 冻结屏幕。滚动缩放，拖动绘制，按住 Shift 画直线，Ctrl 画矩形，Tab 画椭圆，Ctrl+Shift 画箭头，按 T 输入文字，R/G/B/O/Y/P 选颜色，W/K 切换白板或黑板，Ctrl+C 或 Ctrl+S 复制或保存图片。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="缩放与批注：在冻结的屏幕上画出的箭头、圆圈、文字和荧光笔">
 </picture>
 
 ### ⌨️ 快捷键侦探

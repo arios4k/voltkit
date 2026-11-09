@@ -31,7 +31,7 @@ veille, un rapport système, un détective de raccourcis et un réglage du GPU, 
 > langue de votre système : l’application, la ligne de commande et les pages de manuel (`man voltkit`). Les captures
 > d’écran de cette page montrent la version anglaise.
 
-## Une application au lieu de quinze
+## Une application au lieu de dix-huit
 
 Obtenir ces outils de base sous Linux oblige souvent à chercher une petite application pour chaque besoin, chacune avec
 son apparence, ses réglages et ses raccourcis. Voltkit les réunit dans une seule application GTK4 native, avec un seul
@@ -42,9 +42,12 @@ jeu de raccourcis :
 | rien : il n’existait aucun écran pour cela | **Autorisations des applications** : modifiez ou oubliez les réponses données aux applications qui demandaient des captures d’écran, la caméra, votre position, etc. | — |
 | un compresseur d’images à part, plus des formules ffmpeg obscures | **Compresseur de fichiers** : déposez des fichiers PNG, JPEG, WebP ou MP4 pour supprimer leurs métadonnées et les alléger | glisser-déposer |
 | un sélecteur de couleur à part | **Sélecteur de couleur** : une pipette pour n’importe quel pixel, HEX/RGB/HSL, vérification du contraste WCAG et historique | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>C</kbd> |
+| des boucles de shell avec `mv` ou un renommeur à part | **Renommage en lot** : renomme beaucoup de fichiers d’un coup avec chercher-remplacer, expressions régulières et numérotation, avec aperçu et annulation | — |
+| un redimensionneur d’images à part | **Redimensionneur d’images** : redimensionne beaucoup d’images d’un coup, en gardant leur forme et sans toucher aux originaux | — |
 | un outil de réglage du GPU à part, plus les utilitaires des fabricants | **Réglage du GPU** : surveillez les cartes graphiques NVIDIA, AMD et Intel et modifiez limites de puissance, ventilateurs et courbes de ventilateur, températures cibles, fréquences et tension, chaque modification étant prévisualisée et annulée sans votre confirmation | — |
 | modifier `/etc/hosts` et `~/.profile` dans un terminal | **Hôtes et environnement** : activez et désactivez des entrées hosts, et gérez les variables d’environnement de votre session | — |
 | une extension du shell pour garder l’écran allumé | **Rester éveillé** : empêchez votre ordinateur de se mettre en veille ou de se verrouiller de 30 minutes à 4 heures, ou jusqu’à ce que vous le désactiviez | — |
+| un stylo de présentation à part | **Zoom et annotations** : fige l’écran, zoome et dessine dessus avec un stylo, des flèches, des cadres et du texte | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | un lecteur de QR sur votre téléphone ou un site web de QR | **Code QR** : lisez un code QR n’importe où à l’écran, ou transformez du texte, des liens et des informations Wi-Fi en code QR | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>Q</kbd> |
 | une règle d’écran à part, ou des captures d’écran et un éditeur d’images | **Règle d’écran** : figez l’écran et mesurez n’importe quoi en pixels | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>R</kbd> |
 | deviner pourquoi un raccourci clavier ne fait rien | **Détective de raccourcis** : appuyez sur un raccourci pour voir à qui il appartient, trouvez les conflits, choisissez une combinaison libre et changez-la | — |
@@ -77,6 +80,24 @@ qu’il ne touche jamais. Dans nos tests : JPEG −43 %, PNG −23 % (sans perte
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
   <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="Le compresseur de fichiers avec quatre fichiers compressés et leur gain de place">
+</picture>
+
+### ✏️ Renommage en lot
+
+Déposez des fichiers ou des dossiers, dites ce qui change et regardez l’**aperçu** avant que rien n’arrive : chercher-remplacer, expressions régulières avec groupes `$1`, numérotation avec `{n:3}`, casse, et le nom ou seulement l’extension. Les conflits (deux fichiers avec le même nom, un nom pris) sont signalés d’abord, un lot est renommé **en entier ou pas du tout**, et le dernier lot peut être **annulé**. Pareil dans un terminal : `voltkit rename *.jpg --find IMG --replace Vacances --apply`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Renommage en lot avec l’aperçu de cinq photos renommées">
+</picture>
+
+### 🖼️ Redimensionneur d’images
+
+Déposez des images, choisissez une taille (côté le plus long, pourcentage, ou largeur et hauteur qui s’ajustent, remplissent ou étirent) et obtenez des copies redimensionnées à côté des originaux, qui ne sont jamais touchés. Les photos ressortent droites, la qualité WebP et JPEG se règle, et la taille n’augmente jamais sauf si vous l’autorisez. `voltkit resize photos/*.jpg --longest-side 1280`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Redimensionneur d’images avec trois images ramenées à 1920 pixels">
 </picture>
 
 ### 🎨 Sélecteur de couleur
@@ -179,6 +200,15 @@ réels (maintenez Maj pour une ligne droite), et appuyez sur Ctrl+C pour copier 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
   <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="La règle d’écran avec son action de lancement et ses commandes de mesure">
+</picture>
+
+### 🔍 Zoom et annotations
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> fige l’écran. Faites défiler pour zoomer, glissez pour dessiner, Maj pour une ligne, Ctrl pour un rectangle, Tab pour une ellipse, Ctrl+Maj pour une flèche, T pour écrire, R/G/B/O/Y/P pour la couleur, W/K pour un tableau blanc ou noir, et Ctrl+C ou Ctrl+S pour copier ou enregistrer l’image.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom et annotations : une flèche, un cercle, du texte et un surligneur dessinés sur un écran figé">
 </picture>
 
 ### ⌨️ Détective de raccourcis

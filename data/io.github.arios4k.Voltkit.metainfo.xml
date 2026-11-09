@@ -52,6 +52,16 @@
       <li xml:lang="de">„Wach halten“ sowie ein Editor für hosts und Umgebungsvariablen</li>
       <li xml:lang="fr">Rester éveillé, et un éditeur de hosts et de variables d’environnement</li>
       <li xml:lang="zh_CN">保持唤醒，以及 hosts 和环境变量编辑器</li>
+      <li>Batch Rename and an image resizer, both with a preview and without touching originals</li>
+      <li xml:lang="es">Renombrar en lote y un redimensionador de imágenes, ambos con vista previa y sin tocar los originales</li>
+      <li xml:lang="de">Stapel-Umbenennen und ein Bildgrößen-Werkzeug, beide mit Vorschau und ohne die Originale anzutasten</li>
+      <li xml:lang="fr">Renommage en lot et un redimensionneur d’images, tous deux avec aperçu et sans toucher aux originaux</li>
+      <li xml:lang="zh_CN">批量重命名和图片缩放工具，均带预览，且不改动原文件</li>
+      <li>Zoom &amp; Annotate: freeze the screen, zoom in and draw on it</li>
+      <li xml:lang="es">Zoom y anotaciones: congela la pantalla, acércala y dibuja sobre ella</li>
+      <li xml:lang="de">Zoom und Anmerkungen: den Bildschirm einfrieren, hineinzoomen und darauf zeichnen</li>
+      <li xml:lang="fr">Zoom et annotations : figez l’écran, zoomez et dessinez dessus</li>
+      <li xml:lang="zh_CN">缩放与批注：冻结屏幕，放大并在上面绘制</li>
       <li>A finder for the apps keeping a drive, file or port busy</li>
       <li xml:lang="es">Un buscador de las apps que mantienen ocupada una unidad, un archivo o un puerto</li>
       <li xml:lang="de">Eine Suche nach Apps, die ein Laufwerk, eine Datei oder einen Port belegen</li>

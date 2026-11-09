@@ -519,6 +519,8 @@ fn save_voltkit_hotkey(action: &str, accel: &str) -> Result<()> {
         "qr" => &mut h.qr,
         "ruler" => &mut h.ruler,
         "smart-paste" => &mut h.smart_paste,
+        "zoom" => &mut h.zoom,
+        "shortcut-guide" => &mut h.shortcut_guide,
         _ => return Ok(()),
     };
     *slot = accel.to_owned();

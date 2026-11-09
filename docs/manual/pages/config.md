@@ -14,6 +14,8 @@ snippets = "<Super><Shift>e"      # opens the snippet picker
 qr = "<Super><Shift>q"            # scans a QR code on screen
 ruler = "<Super><Shift>r"         # opens the screen ruler
 smart_paste = "<Super><Shift>v"   # pastes the clipboard converted
+zoom = "<Super><Shift>z"          # zooms into the screen and draws on it
+shortcut_guide = "<Super><Shift>slash"   # shows the shortcut cheat sheet
 
 [ocr]
 lang = "eng"            # e.g. "eng+deu"; needs matching tesseract language packs
@@ -42,7 +44,7 @@ template = "Best regards,\n{arg:name}"
 
 | Section | Key | Meaning | Default |
 |---|---|---|---|
-| `[hotkeys]` | `ocr`, `color_picker`, `snippets`, `qr`, `ruler`, `smart_paste` | The global shortcuts, in the form `<Super><Shift>t` | see [Global shortcuts](daemon) |
+| `[hotkeys]` | `ocr`, `color_picker`, `snippets`, `qr`, `ruler`, `smart_paste`, `zoom`, `shortcut_guide` | The global shortcuts, in the form `<Super><Shift>t` | see [Global shortcuts](daemon) |
 | `[ocr]` | `lang` | Tesseract language code(s); join several with `+` | `eng` |
 | `[compress]` | `quality` | Default quality for JPEG, WebP and video, 1 to 100 | `80` |
 | `[expander]` | `typed_triggers` | Whether typed triggers are on (use the page switch or `voltkit expander setup` to set it up) | `false` |
@@ -56,7 +58,7 @@ template = "Best regards,\n{arg:name}"
 |---|---|
 | `~/.config/voltkit/gpu-profiles.json` | GPU profiles you edit in the app |
 | `~/.config/environment.d/90-voltkit.conf` | Environment variables set in [Hosts & Environment](system) |
-| `~/.local/share/voltkit/` | Color history, daily hardware snapshots, and `gpu-sessions/` |
+| `~/.local/share/voltkit/` | Color history, daily hardware snapshots, `gpu-sessions/`, and the last Batch Rename (`rename-undo.json`) |
 | `/etc/voltkit/gpu.json`, `/etc/voltkit/gpu-profiles.json` | What the GPU service runs |
 | `/etc/hosts.voltkit-backup` | The backup of the hosts file |
 | `/etc/udev/rules.d/70-voltkit-typed-triggers.rules` | Keyboard access for typed triggers (only if you turned them on) |

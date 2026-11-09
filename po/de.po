@@ -74,7 +74,7 @@ msgstr "MIT-Lizenz"
 msgid "Free to use, modify, and share"
 msgstr "Frei nutzbar, veränderbar und weitergebbar"
 
-#: src/about_ui.rs:57 src/app.rs:162
+#: src/about_ui.rs:57 src/app.rs:165
 msgid "About Voltkit"
 msgstr "Über Voltkit"
 
@@ -92,31 +92,39 @@ msgstr "Im Browser öffnen"
 msgid "Could not open link: {}"
 msgstr "Link konnte nicht geöffnet werden: {}"
 
-#: src/actions.rs:50
+#: src/actions.rs:57
 msgid "Extract text from screen"
 msgstr "Text vom Bildschirm erkennen"
 
-#: src/actions.rs:51
+#: src/actions.rs:58
 msgid "Pick a color from screen"
 msgstr "Farbe vom Bildschirm aufnehmen"
 
-#: src/actions.rs:52
+#: src/actions.rs:59
 msgid "Insert a snippet"
 msgstr "Textbaustein einfügen"
 
-#: src/actions.rs:53
+#: src/actions.rs:60
 msgid "Scan a QR code on screen"
 msgstr "QR-Code auf dem Bildschirm scannen"
 
-#: src/actions.rs:54
+#: src/actions.rs:61
 msgid "Measure on screen"
 msgstr "Auf dem Bildschirm messen"
 
-#: src/actions.rs:55
+#: src/actions.rs:62
 msgid "Paste the clipboard converted"
 msgstr "Zwischenablage umgewandelt einfügen"
 
-#: src/actions.rs:85
+#: src/actions.rs:63
+msgid "Zoom and draw on the screen"
+msgstr "Bildschirm vergrößern und darauf zeichnen"
+
+#: src/actions.rs:64
+msgid "Show the shortcut cheat sheet"
+msgstr "Tastenkürzel-Übersicht anzeigen"
+
+#: src/actions.rs:96
 #, rust-format
 msgid ""
 "\n"
@@ -127,82 +135,90 @@ msgstr ""
 "\n"
 "Nicht kopiert: {}"
 
-#: src/actions.rs:96
+#: src/actions.rs:107
 msgid "Text copied"
 msgstr "Text kopiert"
 
-#: src/actions.rs:96
+#: src/actions.rs:107
 msgid "Text extracted"
 msgstr "Text erkannt"
 
-#: src/actions.rs:106
+#: src/actions.rs:117
 #, rust-format
 msgid "{} copied"
 msgstr "{} kopiert"
 
-#: src/actions.rs:117
+#: src/actions.rs:128
 msgid "QR code copied"
 msgstr "QR-Code kopiert"
 
-#: src/actions.rs:117
+#: src/actions.rs:128
 msgid "QR code read"
 msgstr "QR-Code gelesen"
 
-#: src/actions.rs:128
+#: src/actions.rs:139
 msgid "snippet picker"
 msgstr "Bausteinauswahl"
 
-#: src/actions.rs:136
+#: src/actions.rs:147
 #, rust-format
 msgid "{} exited with {}"
 msgstr "{} wurde mit {} beendet"
 
-#: src/actions.rs:148
+#: src/actions.rs:159
 msgid "screen ruler"
 msgstr "Bildschirmlineal"
 
-#: src/actions.rs:149 src/modules/mod.rs:125 src/smartpaste_ui.rs:100
+#: src/actions.rs:160 src/modules/mod.rs:141 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "Intelligentes Einfügen"
 
-#: src/app.rs:140
+#: src/actions.rs:161 src/modules/mod.rs:177 src/zoom.rs:21 src/zoom.rs:170
+msgid "Zoom & Annotate"
+msgstr "Zoom und Anmerkungen"
+
+#: src/actions.rs:162 src/guide_ui.rs:105
+msgid "Shortcut Guide"
+msgstr "Tastenkürzel-Übersicht"
+
+#: src/app.rs:143
 msgid "Open the manual for this tool"
 msgstr "Handbuch zu diesem Werkzeug öffnen"
 
-#: src/app.rs:161
+#: src/app.rs:164
 msgid "Help & Manual"
 msgstr "Hilfe und Handbuch"
 
-#: src/app.rs:164
+#: src/app.rs:167
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/app.rs:168
+#: src/app.rs:171
 msgid "Main Menu"
 msgstr "Hauptmenü"
 
-#: src/app.rs:218
+#: src/app.rs:221
 #, rust-format
 msgid "Could not open the manual: {}"
 msgstr "Das Handbuch konnte nicht geöffnet werden: {}"
 
-#: src/app.rs:264
+#: src/app.rs:267
 #, rust-format
 msgid "could not start {}: {}"
 msgstr "{} konnte nicht gestartet werden: {}"
 
-#: src/app.rs:347
+#: src/app.rs:350
 msgid "Details"
 msgstr "Details"
 
-#: src/app.rs:362
+#: src/app.rs:365
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] "{} Funktion braucht Aufmerksamkeit"
 msgstr[1] "{} Funktionen brauchen Aufmerksamkeit"
 
-#: src/app.rs:374
+#: src/app.rs:377
 #, rust-format
 msgid ""
 "{}\n"
@@ -213,308 +229,412 @@ msgstr ""
 "\n"
 "Führen Sie `voltkit doctor` aus, um den vollständigen Bericht zu sehen."
 
-#: src/app.rs:375
+#: src/app.rs:378
 msgid "Needs Attention"
 msgstr "Aufmerksamkeit nötig"
 
-#: src/app.rs:386
+#: src/app.rs:389
 msgid "Copy Command"
 msgstr "Befehl kopieren"
 
-#: src/app.rs:389 src/gpu_ui.rs:863 src/gpu_ui.rs:1417 src/gpu_ui.rs:1555
+#: src/app.rs:392 src/app.rs:842 src/gpu_ui.rs:863 src/gpu_ui.rs:1417
 msgid "Close"
 msgstr "Schließen"
 
-#: src/app.rs:402
+#: src/app.rs:405
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr ""
 "Der Hintergrunddienst ist aus, daher funktionieren die Tastenkürzel nicht"
 
-#: src/app.rs:403
+#: src/app.rs:406
 msgid "Start"
 msgstr "Starten"
 
-#: src/app.rs:420
+#: src/app.rs:423
 msgid "The background service failed to start"
 msgstr "Der Hintergrunddienst konnte nicht gestartet werden"
 
-#: src/app.rs:424
+#: src/app.rs:427
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "Der Dienst konnte nicht gestartet werden: {}"
 
-#: src/app.rs:434
+#: src/app.rs:437
 msgid "Capture Region"
 msgstr "Bereich erfassen"
 
-#: src/app.rs:454
+#: src/app.rs:457
 msgid "Capture text"
 msgstr "Text erfassen"
 
-#: src/app.rs:455
+#: src/app.rs:458
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr ""
 "Wählen Sie Text an beliebiger Stelle auf dem Bildschirm aus. Erkennungssprache: {}. Tastenkürzel: {}"
 
-#: src/app.rs:460
+#: src/app.rs:463
 msgid "Copy Text"
 msgstr "Text kopieren"
 
-#: src/app.rs:461
+#: src/app.rs:464
 msgid "Extracted text"
 msgstr "Erkannter Text"
 
-#: src/app.rs:461 src/app.rs:477
+#: src/app.rs:464 src/app.rs:480
 msgid "Capture a region to see and copy its text here."
 msgstr ""
 "Erfassen Sie einen Bereich, um seinen Text hier zu sehen und zu kopieren."
 
-#: src/app.rs:465
+#: src/app.rs:468
 msgid "No text captured yet"
 msgstr "Noch kein Text erfasst"
 
-#: src/app.rs:476
+#: src/app.rs:479
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} Zeichen"
 msgstr[1] "{} Zeichen"
 
-#: src/app.rs:477
+#: src/app.rs:480
 msgid "Text is also copied automatically after capture."
 msgstr "Der Text wird nach dem Erfassen auch automatisch kopiert."
 
-#: src/app.rs:479
+#: src/app.rs:482
 msgid "Capture from anything"
 msgstr "Aus allem erfassen"
 
-#: src/app.rs:479
+#: src/app.rs:482
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr ""
 "Wählen Sie einen Absatz, eine Fehlermeldung oder Text in einem Bild aus. Der Desktop bittet Sie, einen Bildschirmbereich zu wählen; die Erkennung läuft lokal auf Ihrem Computer."
 
-#: src/app.rs:486
+#: src/app.rs:489
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "Text vom Tastenkürzel, in die Zwischenablage kopiert"
 
-#: src/app.rs:507
+#: src/app.rs:510
 msgid "Text copied to clipboard"
 msgstr "Text in die Zwischenablage kopiert"
 
-#: src/app.rs:509 src/qr_ui.rs:101
+#: src/app.rs:512 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "Es wurde kein Bildschirmfoto aufgenommen"
 
-#: src/app.rs:511
+#: src/app.rs:514
 msgid "OCR worker crashed"
 msgstr "Der Texterkennungsprozess ist abgestürzt"
 
-#: src/app.rs:526 src/qr_ui.rs:49 src/smartpaste_ui.rs:329 src/sysreport_ui.rs:382
+#: src/app.rs:529 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/app.rs:534 src/app.rs:656
+#: src/app.rs:537 src/app.rs:659
 #, rust-format
 msgid "Copied {}"
 msgstr "{} kopiert"
 
-#: src/app.rs:560
+#: src/app.rs:563
 msgid "HEX or rgb()"
 msgstr "HEX oder rgb()"
 
-#: src/app.rs:565
+#: src/app.rs:568
 msgid "Pick from Screen"
 msgstr "Vom Bildschirm aufnehmen"
 
-#: src/app.rs:566
+#: src/app.rs:569
 msgid "Pick a color anywhere on screen"
 msgstr "Eine Farbe an beliebiger Stelle des Bildschirms aufnehmen"
 
-#: src/app.rs:571
+#: src/app.rs:574
 msgid "Color"
 msgstr "Farbe"
 
-#: src/app.rs:572
+#: src/app.rs:575
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr ""
 "Geben Sie eine Farbe ein oder nehmen Sie eine vom Bildschirm auf. Drücken Sie die Eingabetaste, um sie im Verlauf zu speichern. Drücken Sie in einer beliebigen App {}, um eine Farbe aufzunehmen: Ihr HEX-Wert wird kopiert und hier gespeichert."
 
-#: src/app.rs:580
+#: src/app.rs:583
 msgid "Formats"
 msgstr "Formate"
 
-#: src/app.rs:585
+#: src/app.rs:588
 msgid "Text on white"
 msgstr "Text auf Weiß"
 
-#: src/app.rs:586
+#: src/app.rs:589
 msgid "Text on black"
 msgstr "Text auf Schwarz"
 
-#: src/app.rs:587
+#: src/app.rs:590
 msgid "WCAG Contrast"
 msgstr "WCAG-Kontrast"
 
-#: src/app.rs:591
+#: src/app.rs:594
 msgid "History"
 msgstr "Verlauf"
 
-#: src/app.rs:591
+#: src/app.rs:594
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr ""
 "Wählen Sie eine gespeicherte Farbe, um sie wiederzuverwenden. Vom Bildschirm aufgenommene Farben erscheinen hier."
 
-#: src/app.rs:604 src/app.rs:612
+#: src/app.rs:607 src/app.rs:615
 #, rust-format
 msgid "Selected color {}"
 msgstr "Ausgewählte Farbe {}"
 
-#: src/app.rs:635
+#: src/app.rs:638
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "Verlauf konnte nicht gespeichert werden: {}"
 
-#: src/app.rs:659
+#: src/app.rs:662
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "Farbwähler nicht verfügbar: {}"
 
-#: src/app.rs:660
+#: src/app.rs:663
 msgid "Color picker crashed"
 msgstr "Der Farbwähler ist abgestürzt"
 
-#: src/app.rs:669
+#: src/app.rs:672
 msgid "Live color preview"
 msgstr "Farbvorschau"
 
-#: src/app.rs:684
+#: src/app.rs:687
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "{} mit dem Tastenkürzel aufgenommen und kopiert"
 
-#: src/app.rs:730
+#: src/app.rs:733
 msgid "Open Ruler"
 msgstr "Lineal öffnen"
 
-#: src/app.rs:743
+#: src/app.rs:746
 msgid "Measure in real pixels"
 msgstr "In echten Pixeln messen"
 
-#: src/app.rs:743
+#: src/app.rs:746
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr ""
 "Frieren Sie den Bildschirm ein und ziehen Sie dann eine Linie oder ein Rechteck über das, was Sie messen möchten."
 
-#: src/app.rs:762
+#: src/app.rs:765
 msgid "Drag to measure width × height"
 msgstr "Ziehen, um Breite × Höhe zu messen"
 
-#: src/app.rs:767
+#: src/app.rs:770
 msgid "Measurement controls"
 msgstr "Messsteuerung"
 
-#: src/app.rs:768
+#: src/app.rs:771 src/app.rs:832
 msgid "Drag"
 msgstr "Ziehen"
 
-#: src/app.rs:768
+#: src/app.rs:771
 msgid "Measure a rectangle"
 msgstr "Ein Rechteck messen"
 
-#: src/app.rs:768
+#: src/app.rs:771 src/app.rs:833
 msgid "Shift + drag"
 msgstr "Umschalt + Ziehen"
 
-#: src/app.rs:768
+#: src/app.rs:771
 msgid "Measure a straight line"
 msgstr "Eine gerade Linie messen"
 
-#: src/app.rs:768
+#: src/app.rs:771
 msgid "Ctrl+C"
 msgstr "Strg+C"
 
-#: src/app.rs:768
+#: src/app.rs:771
 msgid "Copy the measured size"
 msgstr "Die gemessene Größe kopieren"
 
-#: src/app.rs:768
+#: src/app.rs:771 src/app.rs:842
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:768
+#: src/app.rs:771
 msgid "Close the ruler"
 msgstr "Das Lineal schließen"
 
-#: src/app.rs:772
+#: src/app.rs:775 src/app.rs:847
 msgid "Ready when you need it"
 msgstr "Bereit, wenn Sie es brauchen"
 
-#: src/app.rs:772
+#: src/app.rs:775
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 "Globales Tastenkürzel: {}. Die Messungen verwenden die Pixel des Bildschirmfotos, auch auf hochauflösenden Bildschirmen."
 
-#: src/app.rs:780
+#: src/app.rs:781
+msgid "Open Zoom & Annotate"
+msgstr "Zoom und Anmerkungen öffnen"
+
+#: src/app.rs:795
+msgid "Show it, then point at it"
+msgstr "Zeigen, dann darauf deuten"
+
+#: src/app.rs:796
+msgid ""
+"Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
+msgstr ""
+"Friert den Bildschirm ein, zoomt in jeden Bereich und zeichnet mit Stift, Linien, Rahmen, Pfeilen und Text: für Präsentationen, Anleitungen und Fehlerberichte."
+
+#: src/app.rs:829
+msgid "Controls"
+msgstr "Bedienung"
+
+#: src/app.rs:831
+msgid "Scroll"
+msgstr "Scrollen"
+
+#: src/app.rs:831
+msgid "Zoom in and out"
+msgstr "Hinein- und herauszoomen"
+
+#: src/app.rs:832
+msgid "Draw with the pen"
+msgstr "Mit dem Stift zeichnen"
+
+#: src/app.rs:833
+msgid "Draw a straight line"
+msgstr "Eine gerade Linie zeichnen"
+
+#: src/app.rs:834
+msgid "Ctrl + drag"
+msgstr "Strg + ziehen"
+
+#: src/app.rs:834
+msgid "Draw a rectangle"
+msgstr "Ein Rechteck zeichnen"
+
+#: src/app.rs:835
+msgid "Tab + drag"
+msgstr "Tab + ziehen"
+
+#: src/app.rs:835
+msgid "Draw an ellipse"
+msgstr "Eine Ellipse zeichnen"
+
+#: src/app.rs:836
+msgid "Ctrl + Shift + drag"
+msgstr "Strg + Umschalt + ziehen"
+
+#: src/app.rs:836
+msgid "Draw an arrow"
+msgstr "Einen Pfeil zeichnen"
+
+#: src/app.rs:837
+msgid "R, G, B, O, Y, P"
+msgstr "R, G, B, O, Y, P"
+
+#: src/app.rs:837
+msgid "Red, green, blue, orange, yellow or pink"
+msgstr "Rot, Grün, Blau, Orange, Gelb oder Rosa"
+
+#: src/app.rs:838
+msgid "T"
+msgstr "T"
+
+#: src/app.rs:838
+msgid "Type text, then press Enter"
+msgstr "Text tippen, dann Eingabetaste drücken"
+
+#: src/app.rs:839
+msgid "W or K"
+msgstr "W oder K"
+
+#: src/app.rs:839
+msgid "A white or a black board"
+msgstr "Eine weiße oder schwarze Tafel"
+
+#: src/app.rs:840
+msgid "Ctrl+C or Ctrl+S"
+msgstr "Strg+C oder Strg+S"
+
+#: src/app.rs:840
+msgid "Copy the picture, or save it"
+msgstr "Das Bild kopieren oder speichern"
+
+#: src/app.rs:841
+msgid "F1"
+msgstr "F1"
+
+#: src/app.rs:841
+msgid "Show every key"
+msgstr "Alle Tasten anzeigen"
+
+#: src/app.rs:847
+#, rust-format
+msgid "Global shortcut: {}. Saved pictures go in Pictures/Voltkit."
+msgstr ""
+"Globales Tastenkürzel: {}. Gespeicherte Bilder liegen in Bilder/Voltkit."
+
+#: src/app.rs:855 src/resize_ui.rs:56
 msgid "Quality"
 msgstr "Qualität"
 
-#: src/app.rs:781
+#: src/app.rs:856
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "Niedriger ist kleiner. PNG ist immer verlustfrei."
 
-#: src/app.rs:785
+#: src/app.rs:860
 msgid "Choose Files…"
 msgstr "Dateien auswählen…"
 
-#: src/app.rs:802
+#: src/app.rs:877
 msgid "Drop Files Here"
 msgstr "Dateien hier ablegen"
 
-#: src/app.rs:804
+#: src/app.rs:879
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 "PNG, JPEG, WebP und MP4. Metadaten werden entfernt; die Originale bleiben erhalten."
 
-#: src/app.rs:820 src/usage_ui.rs:95
+#: src/app.rs:895 src/resize_ui.rs:124 src/usage_ui.rs:95
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: src/app.rs:826
+#: src/app.rs:901
 msgid "Compressing…"
 msgstr "Wird komprimiert …"
 
-#: src/app.rs:843 src/app.rs:846
+#: src/app.rs:918 src/app.rs:921 src/resize_ui.rs:146 src/resize_ui.rs:149
 msgid "Failed"
 msgstr "Fehlgeschlagen"
 
-#: src/app.rs:868
+#: src/app.rs:943
 msgid "Compress Files"
 msgstr "Dateien komprimieren"
 
-#: src/app.rs:884
+#: src/app.rs:959
 msgid "Compression settings"
 msgstr "Komprimierungseinstellungen"
 
-#: src/app.rs:886
+#: src/app.rs:961 src/resize_ui.rs:206
 msgid "Your originals stay intact"
 msgstr "Ihre Originale bleiben unverändert"
 
-#: src/app.rs:886
+#: src/app.rs:961
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "Komprimierte Kopien werden neben jeder Quelldatei als name.min.ext gespeichert. Metadaten werden aus der Kopie entfernt. Die PNG-Komprimierung ist verlustfrei; die Qualität gilt für JPEG, WebP und Video."
 
-#: src/app.rs:887
+#: src/app.rs:962
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 "Wählen Sie Dateien aus oder legen Sie sie ab, um hier den Fortschritt und die Ersparnis zu sehen."
@@ -582,7 +702,7 @@ msgstr "4 Stunden"
 msgid "Until turned off"
 msgstr "Bis zum Ausschalten"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:101
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:117
 msgid "Keep Awake"
 msgstr "Wach halten"
 
@@ -600,7 +720,7 @@ msgstr ""
 msgid "Needs the background service: start it with the banner above"
 msgstr "Benötigt den Hintergrunddienst: Starten Sie ihn über das Banner oben"
 
-#: src/awake_ui.rs:94 src/main.rs:730 src/main.rs:741
+#: src/awake_ui.rs:94 src/main.rs:756 src/main.rs:767
 #, rust-format
 msgid "Keep Awake: {}"
 msgstr "Wach halten: {}"
@@ -623,12 +743,58 @@ msgid ""
 msgstr ""
 "Wählen Sie eine Dauer, bevor Sie „Wach halten“ einschalten. Es läuft weiter, nachdem Sie dieses Fenster geschlossen haben, und endet automatisch, wenn die Zeit abgelaufen ist. Schalten Sie es hier aus, wann immer Sie fertig sind."
 
-#: src/config.rs:130
+#: src/bulk_cli.rs:78 src/rename_ui.rs:279
+#, rust-format
+msgid "Undone: {} item has its old name again"
+msgid_plural "Undone: {} items have their old names again"
+msgstr[0] "Rückgängig gemacht: {} Eintrag hat wieder seinen alten Namen"
+msgstr[1] "Rückgängig gemacht: {} Einträge haben wieder ihre alten Namen"
+
+#: src/bulk_cli.rs:113
+msgid "unchanged"
+msgstr "unverändert"
+
+#: src/bulk_cli.rs:121 src/rename_ui.rs:140
+#, rust-format
+msgid "{} to rename, {} unchanged, {} with problems"
+msgstr "{} umzubenennen, {} unverändert, {} mit Problemen"
+
+#: src/bulk_cli.rs:123
+msgid "Nothing was renamed: fix the problems above first"
+msgstr "Nichts wurde umbenannt: beheben Sie zuerst die obigen Probleme"
+
+#: src/bulk_cli.rs:127
+msgid "This was only a preview. Add --apply to rename."
+msgstr "Das war nur eine Vorschau. Mit --apply wird umbenannt."
+
+#: src/bulk_cli.rs:136 src/rename_ui.rs:255
+msgid "The rename worked, but it can't be undone"
+msgstr "Das Umbenennen hat geklappt, lässt sich aber nicht rückgängig machen"
+
+#: src/bulk_cli.rs:138 src/rename_ui.rs:257
+#, rust-format
+msgid "Renamed {} item"
+msgid_plural "Renamed {} items"
+msgstr[0] "{} Eintrag umbenannt"
+msgstr[1] "{} Einträge umbenannt"
+
+#: src/bulk_cli.rs:138
+msgid "Undo with `voltkit rename --undo`."
+msgstr "Rückgängig mit `voltkit rename --undo`."
+
+#: src/bulk_cli.rs:244
+#, rust-format
+msgid "{} picture could not be resized"
+msgid_plural "{} pictures could not be resized"
+msgstr[0] "{} Bild konnte nicht verkleinert werden"
+msgstr[1] "{} Bilder konnten nicht verkleinert werden"
+
+#: src/config.rs:134
 #, rust-format
 msgid "invalid config at {}"
 msgstr "Ungültige Konfiguration in {}"
 
-#: src/config.rs:134 src/daemon.rs:352 src/modules/envvars.rs:69
+#: src/config.rs:138 src/daemon.rs:352 src/modules/envvars.rs:69
 msgid "no config directory"
 msgstr "Kein Konfigurationsordner vorhanden"
 
@@ -727,7 +893,7 @@ msgstr "Systemaufnahme: {}"
 msgid "Voltkit daemon stopped"
 msgstr "Voltkit-Dienst beendet"
 
-#: src/daemon.rs:223 src/main.rs:484
+#: src/daemon.rs:223 src/main.rs:504
 msgid "Typed triggers off"
 msgstr "Kürzel beim Tippen aus"
 
@@ -794,179 +960,187 @@ msgstr ""
 msgid "Record Shortcut"
 msgstr "Tastenkürzel aufnehmen"
 
-#: src/detective_ui.rs:79
+#: src/detective_ui.rs:73
+msgid "Cheat Sheet"
+msgstr "Übersicht"
+
+#: src/detective_ui.rs:73
+msgid "Open a list of your shortcuts to read at a glance"
+msgstr "Öffnet eine Liste Ihrer Tastenkürzel zum schnellen Nachlesen"
+
+#: src/detective_ui.rs:82
 msgid "All Shortcuts"
 msgstr "Alle Tastenkürzel"
 
-#: src/detective_ui.rs:80
+#: src/detective_ui.rs:83
 msgid "Conflicts"
 msgstr "Konflikte"
 
-#: src/detective_ui.rs:81
+#: src/detective_ui.rs:84
 msgid "Refresh shortcuts"
 msgstr "Tastenkürzel aktualisieren"
 
-#: src/detective_ui.rs:86
+#: src/detective_ui.rs:89
 msgid "Filter shortcuts by action, owner, or keys…"
 msgstr "Tastenkürzel nach Aktion, Besitzer oder Tasten filtern …"
 
-#: src/detective_ui.rs:91
+#: src/detective_ui.rs:94
 msgid "Registered shortcuts"
 msgstr "Registrierte Tastenkürzel"
 
-#: src/detective_ui.rs:106
+#: src/detective_ui.rs:109
 msgid "System-wide shortcuts · Select an action to inspect or change it"
 msgstr ""
 "Systemweite Tastenkürzel · Wählen Sie eine Aktion, um sie zu prüfen oder zu ändern"
 
-#: src/detective_ui.rs:116
+#: src/detective_ui.rs:119
 msgid "Press the keys now · Esc to cancel"
 msgstr "Drücken Sie jetzt die Tasten · Esc zum Abbrechen"
 
-#: src/detective_ui.rs:124
+#: src/detective_ui.rs:127
 msgid "Recording cancelled. Choose Record Shortcut to try again."
 msgstr ""
 "Aufnahme abgebrochen. Wählen Sie „Tastenkürzel aufnehmen“, um es erneut zu versuchen."
 
-#: src/detective_ui.rs:145
+#: src/detective_ui.rs:148
 msgid "No shortcut assigned"
 msgstr "Kein Tastenkürzel zugewiesen"
 
-#: src/detective_ui.rs:163
+#: src/detective_ui.rs:166
 #, rust-format
 msgid "Conflicts · {}"
 msgstr "Konflikte · {}"
 
-#: src/detective_ui.rs:170
+#: src/detective_ui.rs:173
 #, rust-format
 msgid "Registered shortcuts · {} of {}"
 msgstr "Registrierte Tastenkürzel · {} von {}"
 
-#: src/detective_ui.rs:177 src/detective_ui.rs:246
+#: src/detective_ui.rs:180 src/detective_ui.rs:249
 msgid "Not set"
 msgstr "Nicht festgelegt"
 
-#: src/detective_ui.rs:181
+#: src/detective_ui.rs:184
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: src/detective_ui.rs:190
+#: src/detective_ui.rs:193
 msgid "No shortcuts match these filters"
 msgstr "Keine Tastenkürzel passen zu diesen Filtern"
 
-#: src/detective_ui.rs:211
+#: src/detective_ui.rs:214
 msgid "Shortcut details"
 msgstr "Details zum Tastenkürzel"
 
-#: src/detective_ui.rs:217
+#: src/detective_ui.rs:220
 msgid ""
 "Available as a system-wide shortcut. Apps may still use it within their windows."
 msgstr ""
 "Als systemweites Tastenkürzel verfügbar. Apps können es innerhalb ihrer Fenster trotzdem verwenden."
 
-#: src/detective_ui.rs:218
+#: src/detective_ui.rs:221
 msgid "1 action uses this shortcut"
 msgstr "1 Aktion verwendet dieses Tastenkürzel"
 
-#: src/detective_ui.rs:219
+#: src/detective_ui.rs:222
 #, rust-format
 msgid ""
 "{} actions share this shortcut. Change an action to resolve the conflict."
 msgstr ""
 "{} Aktionen teilen sich dieses Tastenkürzel. Ändern Sie eine Aktion, um den Konflikt zu lösen."
 
-#: src/detective_ui.rs:227
+#: src/detective_ui.rs:230
 msgid "Free combinations to try"
 msgstr "Freie Kombinationen zum Ausprobieren"
 
-#: src/detective_ui.rs:233
+#: src/detective_ui.rs:236
 msgid ""
 "Choose Change to record a new combination, turn a shortcut off, or reset its default."
 msgstr ""
 "Wählen Sie „Ändern“, um eine neue Kombination aufzunehmen, ein Tastenkürzel auszuschalten oder den Standard wiederherzustellen."
 
-#: src/detective_ui.rs:239
+#: src/detective_ui.rs:242
 msgid ""
 "Select a shortcut or record a key combination to see its owners and available alternatives."
 msgstr ""
 "Wählen Sie ein Tastenkürzel oder nehmen Sie eine Tastenkombination auf, um ihre Besitzer und verfügbare Alternativen zu sehen."
 
-#: src/detective_ui.rs:246
+#: src/detective_ui.rs:249
 msgid "  or  "
 msgstr "  oder  "
 
-#: src/detective_ui.rs:252
+#: src/detective_ui.rs:255
 msgid "Change…"
 msgstr "Ändern …"
 
-#: src/detective_ui.rs:261
+#: src/detective_ui.rs:264
 msgid "Locked by the system administrator"
 msgstr "Vom Systemverwalter gesperrt"
 
-#: src/detective_ui.rs:272
+#: src/detective_ui.rs:275
 #, rust-format
 msgid "{} · now {}"
 msgstr "{} · jetzt {}"
 
-#: src/detective_ui.rs:272
+#: src/detective_ui.rs:275
 msgid "not set"
 msgstr "nicht festgelegt"
 
-#: src/detective_ui.rs:274 src/detective_ui.rs:310
+#: src/detective_ui.rs:277 src/detective_ui.rs:313
 msgid "Press the New Shortcut…"
 msgstr "Drücken Sie das neue Tastenkürzel …"
 
-#: src/detective_ui.rs:277 src/gpu_ui.rs:1249 src/snippets_ui.rs:406 src/system_ui.rs:484
+#: src/detective_ui.rs:280 src/gpu_ui.rs:1249 src/modules/guide.rs:36 src/snippets_ui.rs:406
 msgid "Save"
 msgstr "Speichern"
 
-#: src/detective_ui.rs:286
+#: src/detective_ui.rs:289
 #, rust-format
 msgid "{} is free"
 msgstr "{} ist frei"
 
-#: src/detective_ui.rs:290
+#: src/detective_ui.rs:293
 #, rust-format
 msgid "{} is already used by {}. Pick another, or change that one first."
 msgstr ""
 "{} wird bereits von {} verwendet. Wählen Sie ein anderes oder ändern Sie zuerst jenes."
 
-#: src/detective_ui.rs:307
+#: src/detective_ui.rs:310
 msgid "Press the keys now (Esc to cancel)"
 msgstr "Drücken Sie jetzt die Tasten (Esc zum Abbrechen)"
 
-#: src/detective_ui.rs:324
+#: src/detective_ui.rs:327
 msgid "Free combinations"
 msgstr "Freie Kombinationen"
 
-#: src/detective_ui.rs:327 src/sleep_ui.rs:181
+#: src/detective_ui.rs:330 src/sleep_ui.rs:181
 msgid "Turn Off"
 msgstr "Ausschalten"
 
-#: src/detective_ui.rs:328
+#: src/detective_ui.rs:331
 msgid "Reset to Default"
 msgstr "Auf Standard zurücksetzen"
 
-#: src/detective_ui.rs:338
+#: src/detective_ui.rs:341
 msgid "Change Shortcut"
 msgstr "Tastenkürzel ändern"
 
-#: src/detective_ui.rs:350 src/permissions_ui.rs:170
+#: src/detective_ui.rs:353 src/permissions_ui.rs:170
 #, rust-format
 msgid "Not changed: {}"
 msgstr "Nicht geändert: {}"
 
-#: src/detective_ui.rs:358
+#: src/detective_ui.rs:361
 #, rust-format
 msgid "“{}” is now {}"
 msgstr "„{}“ ist jetzt {}"
 
-#: src/detective_ui.rs:363
+#: src/detective_ui.rs:366
 #, rust-format
 msgid "“{}” has no shortcut now"
 msgstr "„{}“ hat jetzt kein Tastenkürzel"
 
-#: src/detective_ui.rs:367
+#: src/detective_ui.rs:370
 #, rust-format
 msgid "“{}” is back to its default"
 msgstr "„{}“ ist wieder auf dem Standard"
@@ -1023,7 +1197,7 @@ msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr ""
 "Installieren Sie xdg-desktop-portal und das Portal-Backend Ihres Desktops"
 
-#: src/doctor.rs:257 src/modules/mod.rs:83
+#: src/doctor.rs:257 src/modules/mod.rs:93
 msgid "Color Picker"
 msgstr "Farbwähler"
 
@@ -1035,11 +1209,11 @@ msgstr "Bildschirm-Pipette: Screenshot-Portal"
 msgid "Clipboard (hotkeys and command line)"
 msgstr "Zwischenablage (Tastenkürzel und Befehlszeile)"
 
-#: src/doctor.rs:272 src/modules/mod.rs:77
+#: src/doctor.rs:272 src/modules/mod.rs:81
 msgid "Asset Compressor"
 msgstr "Dateikompressor"
 
-#: src/doctor.rs:283 src/modules/mod.rs:137
+#: src/doctor.rs:283 src/modules/mod.rs:153
 msgid "Text Expansion"
 msgstr "Textbausteine"
 
@@ -1068,7 +1242,7 @@ msgstr ""
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "Bereitschaft und Sperre verhindern: Inhibit-Portal"
 
-#: src/doctor.rs:320 src/modules/mod.rs:95
+#: src/doctor.rs:320 src/modules/mod.rs:105
 msgid "Hosts & Environment"
 msgstr "Hosts & Umgebung"
 
@@ -1616,7 +1790,7 @@ msgstr "Auf dieser Karte lässt sich nichts ändern"
 msgid "See what this card supports for the reasons."
 msgstr "Sehen Sie unter „Was diese Karte unterstützt“ nach den Gründen."
 
-#: src/gpu_ui.rs:412 src/gpu_ui.rs:845 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:412 src/gpu_ui.rs:845 src/rename_ui.rs:69 src/snippets_ui.rs:491
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -1721,11 +1895,11 @@ msgstr "Kurve bearbeiten"
 msgid "Add point"
 msgstr "Punkt hinzufügen"
 
-#: src/gpu_ui.rs:586 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:586 src/modules/guide.rs:32 src/snippets_ui.rs:312 src/system_ui.rs:383
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: src/gpu_ui.rs:587
+#: src/gpu_ui.rs:587 src/modules/guide.rs:33
 msgid "Redo"
 msgstr "Wiederholen"
 
@@ -2118,6 +2292,28 @@ msgstr "Anhalten und speichern"
 msgid "Session saved."
 msgstr "Sitzung gespeichert."
 
+#: src/guide_ui.rs:32
+msgid "or"
+msgstr "oder"
+
+#: src/guide_ui.rs:70
+msgid "No shortcuts match"
+msgstr "Keine passenden Tastenkürzel"
+
+#: src/guide_ui.rs:70
+msgid "Try another action, group or key."
+msgstr "Versuchen Sie eine andere Aktion, Gruppe oder Taste."
+
+#: src/guide_ui.rs:75
+msgid "Type to find a shortcut…"
+msgstr "Tippen, um ein Tastenkürzel zu finden…"
+
+#: src/guide_ui.rs:97
+msgid ""
+"System-wide shortcuts. Apps can have more of their own. Press Esc to close."
+msgstr ""
+"Systemweite Tastenkürzel. Apps können eigene haben. Esc schließt das Fenster."
+
 #: src/i18n.rs:402
 msgid "Commands"
 msgstr "Befehle"
@@ -2154,157 +2350,157 @@ msgstr "Version anzeigen"
 msgid "Print this message or the help of the given subcommand(s)"
 msgstr "Diese Hilfe oder die Hilfe der angegebenen Unterbefehle anzeigen"
 
-#: src/main.rs:442
+#: src/main.rs:462
 #, rust-format
 msgid "expected name=value, got {}"
 msgstr "name=wert erwartet, erhalten: {}"
 
-#: src/main.rs:448
+#: src/main.rs:468
 msgid "typed triggers: enabled"
 msgstr "Kürzel beim Tippen: aktiviert"
 
-#: src/main.rs:448
+#: src/main.rs:468
 msgid "typed triggers: disabled"
 msgstr "Kürzel beim Tippen: deaktiviert"
 
-#: src/main.rs:451
+#: src/main.rs:471
 msgid "permissions: ok"
 msgstr "Berechtigungen: in Ordnung"
 
-#: src/main.rs:454
+#: src/main.rs:474
 #, rust-format
 msgid "permissions: {}"
 msgstr "Berechtigungen: {}"
 
-#: src/main.rs:456
+#: src/main.rs:476
 #, rust-format
 msgid "next step: {}"
 msgstr "Nächster Schritt: {}"
 
-#: src/main.rs:465
+#: src/main.rs:485
 msgid "Done: typed triggers can read the keyboard now, no need to log out."
 msgstr ""
 "Fertig: Kürzel beim Tippen können jetzt die Tastatur lesen, ohne Abmelden."
 
-#: src/main.rs:467
+#: src/main.rs:487
 msgid ""
 "# Typed triggers need these commands to run as root. They let the person at the"
 msgstr ""
 "# Kürzel beim Tippen benötigen diese Befehle mit Root-Rechten. Sie erlauben der Person am"
 
-#: src/main.rs:468
+#: src/main.rs:488
 msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
 msgstr ""
 "# Computer, Tastaturen zu lesen und eine virtuelle Tastatur zu verwenden, sofort. Führen Sie"
 
-#: src/main.rs:469
+#: src/main.rs:489
 msgid ""
 "# `voltkit expander setup --apply` to run them (it asks for your password).\n"
 msgstr ""
 "# `voltkit expander setup --apply` aus, um sie auszuführen (fragt nach Ihrem Passwort).\n"
 
-#: src/main.rs:478
+#: src/main.rs:498
 msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
 msgstr ""
 "Kürzel beim Tippen sind aus, und der Tastaturzugriff von Voltkit wurde entfernt."
 
-#: src/main.rs:484
+#: src/main.rs:504
 msgid "Typed triggers on"
 msgstr "Kürzel beim Tippen an"
 
-#: src/main.rs:486
+#: src/main.rs:506
 #, rust-format
 msgid "They need keyboard access first: {}"
 msgstr "Sie benötigen zuerst Tastaturzugriff: {}"
 
-#: src/main.rs:489
+#: src/main.rs:509
 msgid "Takes effect when the background service starts"
 msgstr "Wirkt, sobald der Hintergrunddienst startet"
 
-#: src/main.rs:498
+#: src/main.rs:518
 msgid "Error"
 msgstr "Fehler"
 
-#: src/main.rs:545
+#: src/main.rs:565
 msgid "on white"
 msgstr "auf Weiß"
 
-#: src/main.rs:545
+#: src/main.rs:565
 msgid "on black"
 msgstr "auf Schwarz"
 
-#: src/main.rs:575
+#: src/main.rs:597
 #, rust-format
 msgid "running (v{}), shortcuts: {}, typed triggers: {}"
 msgstr "läuft (v{}), Tastenkürzel: {}, Kürzel beim Tippen: {}"
 
-#: src/main.rs:577 src/main.rs:581 src/main.rs:585
+#: src/main.rs:599 src/main.rs:603 src/main.rs:607
 msgid "not running"
 msgstr "läuft nicht"
 
-#: src/main.rs:580
+#: src/main.rs:602
 msgid "Reloaded snippets"
 msgstr "Textbausteine neu geladen"
 
-#: src/main.rs:591
+#: src/main.rs:613
 #, rust-format
 msgid "Starts at login through {}, installed with Voltkit"
 msgstr "Startet bei der Anmeldung über {}, mit Voltkit installiert"
 
-#: src/main.rs:593
+#: src/main.rs:615
 #, rust-format
 msgid "Created {}"
 msgstr "{} erstellt"
 
-#: src/main.rs:597
+#: src/main.rs:619
 #, rust-format
 msgid "Removed {}"
 msgstr "{} entfernt"
 
-#: src/main.rs:615
+#: src/main.rs:639
 #, rust-format
 msgid "no QR code found in {}"
 msgstr "Kein QR-Code in {} gefunden"
 
-#: src/main.rs:626
+#: src/main.rs:650
 msgid "the code doesn't scan with this logo; shorten the text"
 msgstr ""
 "Mit diesem Logo lässt sich der Code nicht scannen; kürzen Sie den Text"
 
-#: src/main.rs:632 src/qr_ui.rs:364 src/snippets_ui.rs:347
+#: src/main.rs:656 src/qr_ui.rs:364 src/snippets_ui.rs:347 src/zoom.rs:433
 #, rust-format
 msgid "Saved {}"
 msgstr "{} gespeichert"
 
-#: src/main.rs:651
+#: src/main.rs:675
 #, rust-format
 msgid "no conversion called {}; run `voltkit convert` for the list"
 msgstr "Keine Umwandlung namens {}; `voltkit convert` zeigt die Liste"
 
-#: src/main.rs:654
+#: src/main.rs:678
 #, rust-format
 msgid "{} doesn't fit this text"
 msgstr "{} passt nicht zu diesem Text"
 
-#: src/main.rs:665
+#: src/main.rs:691
 msgid "Fixes:"
 msgstr "Lösungen:"
 
-#: src/main.rs:671
+#: src/main.rs:697
 msgid "Memory:"
 msgstr "Arbeitsspeicher:"
 
-#: src/main.rs:706
+#: src/main.rs:732
 #, rust-format
 msgid "Nothing is using {}"
 msgstr "Nichts verwendet {}"
 
-#: src/main.rs:715
+#: src/main.rs:741
 #, rust-format
 msgid "this is {}"
 msgstr "das ist {}"
 
-#: src/main.rs:722
+#: src/main.rs:748
 #, rust-format
 msgid ""
 "{} program of other users or the system wasn't checked; run with sudo to include it"
@@ -2315,33 +2511,33 @@ msgstr[0] ""
 msgstr[1] ""
 "{} Programme anderer Benutzer oder des Systems wurden nicht geprüft; mit sudo ausführen, um sie einzubeziehen"
 
-#: src/main.rs:731
+#: src/main.rs:757
 msgid "Keep Awake: off (the background service isn't running)"
 msgstr "Wach halten: aus (der Hintergrunddienst läuft nicht)"
 
-#: src/main.rs:736
+#: src/main.rs:762
 msgid "Keep Awake: Off"
 msgstr "Wach halten: Aus"
 
-#: src/main.rs:763
+#: src/main.rs:789
 msgid "Added to GNOME keyboard shortcuts"
 msgstr "Zu den GNOME-Tastenkürzeln hinzugefügt"
 
-#: src/main.rs:780
+#: src/main.rs:806
 #, rust-format
 msgid "{} isn't a shortcut"
 msgstr "{} ist kein Tastenkürzel"
 
-#: src/main.rs:785
+#: src/main.rs:811
 #, rust-format
 msgid "{} is free. Nearby free combinations:"
 msgstr "{} ist frei. Freie Kombinationen in der Nähe:"
 
-#: src/main.rs:790
+#: src/main.rs:816
 msgid "Free combinations nearby:"
 msgstr "Freie Kombinationen in der Nähe:"
 
-#: src/main.rs:800
+#: src/main.rs:826
 msgid "No clashes: no two actions share a shortcut."
 msgstr "Keine Konflikte: Keine zwei Aktionen teilen sich ein Tastenkürzel."
 
@@ -2874,6 +3070,34 @@ msgstr "OPTIONEN"
 #: src/manpages.rs:479
 msgid "SUBCOMMANDS"
 msgstr "UNTERBEFEHLE"
+
+#: src/modules/annotate.rs:83
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+#: src/modules/annotate.rs:84
+msgid "Red"
+msgstr "Rot"
+
+#: src/modules/annotate.rs:85
+msgid "Green"
+msgstr "Grün"
+
+#: src/modules/annotate.rs:86
+msgid "Blue"
+msgstr "Blau"
+
+#: src/modules/annotate.rs:87
+msgid "Orange"
+msgstr "Orange"
+
+#: src/modules/annotate.rs:88
+msgid "Yellow"
+msgstr "Gelb"
+
+#: src/modules/annotate.rs:89
+msgid "Pink"
+msgstr "Rosa"
 
 #: src/modules/color.rs:24
 #, rust-format
@@ -3451,6 +3675,42 @@ msgid ""
 msgstr ""
 "{} ist fehlgeschlagen: {}. Rückgängig machen nicht möglich: {}. Starten Sie den Computer neu, um die Karte zurückzusetzen."
 
+#: src/modules/guide.rs:27
+msgid "In most apps"
+msgstr "In den meisten Apps"
+
+#: src/modules/guide.rs:30
+msgid "Cut"
+msgstr "Ausschneiden"
+
+#: src/modules/guide.rs:31
+msgid "Paste"
+msgstr "Einfügen"
+
+#: src/modules/guide.rs:34
+msgid "Select all"
+msgstr "Alles auswählen"
+
+#: src/modules/guide.rs:35
+msgid "Find"
+msgstr "Suchen"
+
+#: src/modules/guide.rs:37
+msgid "Print"
+msgstr "Drucken"
+
+#: src/modules/guide.rs:38
+msgid "Close the window or tab"
+msgstr "Fenster oder Tab schließen"
+
+#: src/modules/guide.rs:39
+msgid "New tab"
+msgstr "Neuer Tab"
+
+#: src/modules/guide.rs:40
+msgid "Quit the app"
+msgstr "App beenden"
+
 #: src/modules/hosts.rs:183
 msgid "pkexec is needed to save /etc/hosts"
 msgstr "pkexec wird benötigt, um /etc/hosts zu speichern"
@@ -3514,123 +3774,149 @@ msgstr "Das Tastenkürzel konnte nicht gespeichert werden"
 msgid "custom shortcuts have no default"
 msgstr "Eigene Tastenkürzel haben keinen Standard"
 
-#: src/modules/mod.rs:71
+#: src/modules/mod.rs:75
 msgid "App Permissions"
 msgstr "App-Berechtigungen"
 
-#: src/modules/mod.rs:73
+#: src/modules/mod.rs:77
 msgid ""
 "Change or forget the answers you gave when apps asked for screenshots, the camera and more."
 msgstr ""
 "Ändern oder vergessen Sie Antworten, die Sie gegeben haben, als Apps nach Bildschirmfotos, der Kamera und mehr gefragt haben."
 
-#: src/modules/mod.rs:79
+#: src/modules/mod.rs:83
 msgid "Drop images or videos to strip metadata and shrink them."
 msgstr ""
 "Bilder oder Videos ablegen, um Metadaten zu entfernen und sie zu verkleinern."
 
-#: src/modules/mod.rs:85
+#: src/modules/mod.rs:87
+msgid "Batch Rename"
+msgstr "Stapel-Umbenennen"
+
+#: src/modules/mod.rs:89
+msgid ""
+"Rename many files at once: search and replace, regular expressions, numbering, with a preview and undo."
+msgstr ""
+"Viele Dateien auf einmal umbenennen: Suchen und Ersetzen, reguläre Ausdrücke, Nummerierung, mit Vorschau und Rückgängig."
+
+#: src/modules/mod.rs:95
 msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
 msgstr "HEX/RGB/HSL-Umrechnung, WCAG-Kontrastprüfung und Verlauf."
 
-#: src/modules/mod.rs:89
+#: src/modules/mod.rs:99
 msgid "GPU Tuner"
 msgstr "GPU-Tuner"
 
-#: src/modules/mod.rs:91
+#: src/modules/mod.rs:101
 msgid ""
 "Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."
 msgstr ""
 "Überwachen und optimieren Sie NVIDIA-, AMD- und Intel-Grafikkarten und sehen Sie genau, welche Steuerungen jede unterstützt."
 
-#: src/modules/mod.rs:97
+#: src/modules/mod.rs:107
 msgid ""
 "Edit /etc/hosts and your session's environment variables without a text editor."
 msgstr ""
 "/etc/hosts und die Umgebungsvariablen Ihrer Sitzung ohne Texteditor bearbeiten."
 
-#: src/modules/mod.rs:103
+#: src/modules/mod.rs:111
+msgid "Image Resizer"
+msgstr "Bildgrößen ändern"
+
+#: src/modules/mod.rs:113
+msgid ""
+"Resize many pictures at once, keeping their shape, without touching the originals."
+msgstr ""
+"Viele Bilder auf einmal verkleinern, mit unveränderter Form und ohne die Originale anzutasten."
+
+#: src/modules/mod.rs:119
 msgid "Stop your computer from sleeping or locking for a while."
 msgstr ""
 "Verhindert für eine Weile, dass Ihr Computer in Bereitschaft geht oder sich sperrt."
 
-#: src/modules/mod.rs:107
+#: src/modules/mod.rs:123
 msgid "QR Code"
 msgstr "QR-Code"
 
-#: src/modules/mod.rs:109
+#: src/modules/mod.rs:125
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
 msgstr ""
 "Einen QR-Code an beliebiger Stelle auf dem Bildschirm lesen oder Text, Links und WLAN-Daten in einen umwandeln."
 
-#: src/modules/mod.rs:113 src/ruler.rs:79 src/ruler.rs:125 src/ruler.rs:177
+#: src/modules/mod.rs:129 src/ruler.rs:20 src/ruler.rs:84
 msgid "Screen Ruler"
 msgstr "Bildschirmlineal"
 
-#: src/modules/mod.rs:115
+#: src/modules/mod.rs:131
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "Abstände und Größen auf dem Bildschirm in Pixeln messen."
 
-#: src/modules/mod.rs:119
+#: src/modules/mod.rs:135
 msgid "Shortcut Detective"
 msgstr "Tastenkürzel-Detektiv"
 
-#: src/modules/mod.rs:121
+#: src/modules/mod.rs:137
 msgid ""
 "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
 msgstr ""
 "Herausfinden, welcher App ein Tastenkürzel gehört, Konflikte lösen und freie Kombinationen wählen."
 
-#: src/modules/mod.rs:127
+#: src/modules/mod.rs:143
 msgid ""
 "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
 msgstr ""
 "Kopiertes umgewandelt einfügen: aufgeräumtes JSON, Tabellen als Markdown, saubere Links, eine andere Groß-/Kleinschreibung."
 
-#: src/modules/mod.rs:131
+#: src/modules/mod.rs:147
 msgid "System Report"
 msgstr "Systembericht"
 
-#: src/modules/mod.rs:133
+#: src/modules/mod.rs:149
 msgid ""
 "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
 msgstr ""
 "Was in diesem Computer steckt, verständlich erklärt: Treiber, Laufwerkszustand, Temperaturen, Firmware-Aktualisierungen und was sich geändert hat."
 
-#: src/modules/mod.rs:139
+#: src/modules/mod.rs:155
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr ""
 "Textbausteine mit dynamischen Variablen: Datum, Zwischenablage, Parameter."
 
-#: src/modules/mod.rs:143
+#: src/modules/mod.rs:159
 msgid "Text Extractor"
 msgstr "Texterkennung"
 
-#: src/modules/mod.rs:145
+#: src/modules/mod.rs:161
 msgid "Drag a box around any text on screen and copy it to the clipboard."
 msgstr ""
 "Einen Rahmen um beliebigen Text auf dem Bildschirm ziehen und ihn in die Zwischenablage kopieren."
 
-#: src/modules/mod.rs:149
+#: src/modules/mod.rs:165
 msgid "What's Using This?"
 msgstr "Was belegt das?"
 
-#: src/modules/mod.rs:151
+#: src/modules/mod.rs:167
 msgid ""
 "See which apps keep a file, folder, drive or network port busy, and close them."
 msgstr ""
 "Sehen, welche Apps eine Datei, einen Ordner, ein Laufwerk oder einen Netzwerkport belegen, und sie schließen."
 
-#: src/modules/mod.rs:155
+#: src/modules/mod.rs:171
 msgid "Why Didn't It Sleep?"
 msgstr "Warum keine Bereitschaft?"
 
-#: src/modules/mod.rs:157
+#: src/modules/mod.rs:173
 msgid ""
 "What keeps the computer awake, what woke it up, and how much battery it used asleep."
 msgstr ""
 "Was den Computer wach hält, was ihn geweckt hat und wie viel Akku er in Bereitschaft verbraucht hat."
+
+#: src/modules/mod.rs:179
+msgid ""
+"Zoom into the screen and draw on it with a pen, arrows, boxes and text."
+msgstr ""
+"In den Bildschirm hineinzoomen und mit Stift, Pfeilen, Rahmen und Text darauf zeichnen."
 
 #: src/modules/nvml.rs:39
 msgid "NVIDIA's management library isn't installed."
@@ -3797,6 +4083,34 @@ msgstr "Das Bild ist zu groß ({}×{}); verwenden Sie eines unter {}×{} Pixeln"
 msgid "the image is too wide or tall ({}×{}); use a square-ish logo"
 msgstr ""
 "Das Bild ist zu breit oder zu hoch ({}×{}); verwenden Sie ein annähernd quadratisches Logo"
+
+#: src/modules/rename.rs:99
+#, rust-format
+msgid "The search is not a valid regular expression: {}"
+msgstr "Die Suche ist kein gültiger regulärer Ausdruck: {}"
+
+#: src/modules/resize.rs:174
+msgid "this kind of picture can't be written"
+msgstr "diese Art von Bild kann nicht geschrieben werden"
+
+#: src/modules/resize.rs:176
+#, rust-format
+msgid ""
+"This computer can't write {} pictures. Install its pixbuf loader (for WebP: webp-pixbuf-loader)."
+msgstr ""
+"Dieser Computer kann keine {}-Bilder schreiben. Installieren Sie den passenden Pixbuf-Lader (für WebP: webp-pixbuf-loader)."
+
+#: src/modules/resize.rs:178
+msgid "can't read the picture"
+msgstr "das Bild kann nicht gelesen werden"
+
+#: src/modules/resize.rs:186 src/modules/resize.rs:193
+msgid "the picture is too large to resize"
+msgstr "das Bild ist zu groß zum Verkleinern"
+
+#: src/modules/resize.rs:201
+msgid "can't save the picture"
+msgstr "das Bild kann nicht gespeichert werden"
 
 #: src/modules/sleep.rs:44
 msgid "Stops the computer from sleeping"
@@ -4133,15 +4447,15 @@ msgstr "Nummerierte Liste"
 msgid "Quote"
 msgstr "Zitat"
 
-#: src/modules/smartpaste.rs:27
+#: src/modules/smartpaste.rs:27 src/rename_ui.rs:53
 msgid "UPPERCASE"
 msgstr "GROSSBUCHSTABEN"
 
-#: src/modules/smartpaste.rs:28
+#: src/modules/smartpaste.rs:28 src/rename_ui.rs:53
 msgid "lowercase"
 msgstr "kleinbuchstaben"
 
-#: src/modules/smartpaste.rs:29
+#: src/modules/smartpaste.rs:29 src/rename_ui.rs:53
 msgid "Title Case"
 msgstr "Jedes Wort Groß"
 
@@ -5099,51 +5413,320 @@ msgstr "Dieses Logo kann nicht verwendet werden: {}"
 msgid "QR code image copied"
 msgstr "QR-Code-Bild kopiert"
 
-#: src/qr_ui.rs:365 src/system_ui.rs:370
+#: src/qr_ui.rs:365 src/system_ui.rs:370 src/zoom.rs:434
 #, rust-format
 msgid "Could not save: {}"
 msgstr "Speichern fehlgeschlagen: {}"
 
-#: src/ruler.rs:17
+#: src/rename_ui.rs:22
+msgid "Files and folders"
+msgstr "Dateien und Ordner"
+
+#: src/rename_ui.rs:23
+msgid ""
+"Drop files or folders here, or add them with the buttons. They are numbered in the order shown."
+msgstr ""
+"Dateien oder Ordner hier ablegen oder mit den Schaltflächen hinzufügen. Sie werden in der angezeigten Reihenfolge nummeriert."
+
+#: src/rename_ui.rs:25
+msgid "Add Files…"
+msgstr "Dateien hinzufügen…"
+
+#: src/rename_ui.rs:26
+msgid "Add Folders…"
+msgstr "Ordner hinzufügen…"
+
+#: src/rename_ui.rs:27
+msgid "Clear"
+msgstr "Leeren"
+
+#: src/rename_ui.rs:32 src/rename_ui.rs:119
+msgid "Nothing added yet"
+msgstr "Noch nichts hinzugefügt"
+
+#: src/rename_ui.rs:32 src/rename_ui.rs:120
+msgid "Drop files here to start"
+msgstr "Zum Starten Dateien hier ablegen"
+
+#: src/rename_ui.rs:39
+msgid "Search and replace"
+msgstr "Suchen und Ersetzen"
+
+#: src/rename_ui.rs:40
+msgid ""
+"In the replacement, {n} is the item's number and {n:3} pads it to 3 digits. Leave the search empty to replace the whole name."
+msgstr ""
+"Im Ersatztext ist {n} die Nummer des Eintrags und {n:3} füllt sie auf 3 Stellen auf. Eine leere Suche ersetzt den ganzen Namen."
+
+#: src/rename_ui.rs:42
+msgid "Search for"
+msgstr "Suchen nach"
+
+#: src/rename_ui.rs:43
+msgid "Replace with"
+msgstr "Ersetzen durch"
+
+#: src/rename_ui.rs:44
+msgid "Regular expression"
+msgstr "Regulärer Ausdruck"
+
+#: src/rename_ui.rs:44
+msgid "Use $1, $2… in the replacement for the parts you grouped with ( )"
+msgstr "Verwenden Sie $1, $2… im Ersatztext für die mit ( ) gruppierten Teile"
+
+#: src/rename_ui.rs:45
+msgid "Match case"
+msgstr "Groß-/Kleinschreibung beachten"
+
+#: src/rename_ui.rs:46
+msgid "Replace every match"
+msgstr "Jeden Treffer ersetzen"
+
+#: src/rename_ui.rs:46
+msgid "Off: only the first match in each name"
+msgstr "Aus: nur der erste Treffer in jedem Namen"
+
+#: src/rename_ui.rs:48
+msgid "Change"
+msgstr "Ändern"
+
+#: src/rename_ui.rs:49
+msgid "The name, not the extension"
+msgstr "Der Name, nicht die Endung"
+
+#: src/rename_ui.rs:49
+msgid "Only the extension"
+msgstr "Nur die Endung"
+
+#: src/rename_ui.rs:49
+msgid "The whole name"
+msgstr "Der ganze Name"
+
+#: src/rename_ui.rs:52
+msgid "Letter case"
+msgstr "Groß-/Kleinschreibung"
+
+#: src/rename_ui.rs:53
+msgid "Keep as it is"
+msgstr "Unverändert lassen"
+
+#: src/rename_ui.rs:55
+msgid "Numbering"
+msgstr "Nummerierung"
+
+#: src/rename_ui.rs:55
+msgid "Where {n} starts and how much it grows"
+msgstr "Wo {n} beginnt und wie stark es wächst"
+
+#: src/rename_ui.rs:57
+msgid "Start at"
+msgstr "Beginnen bei"
+
+#: src/rename_ui.rs:60
+msgid "Step"
+msgstr "Schrittweite"
+
+#: src/rename_ui.rs:69 src/rename_ui.rs:121
+msgid "Add files to see what would be renamed."
+msgstr "Fügen Sie Dateien hinzu, um zu sehen, was umbenannt würde."
+
+#: src/rename_ui.rs:71
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: src/rename_ui.rs:72
+msgid "Undo Last Rename"
+msgstr "Letztes Umbenennen rückgängig"
+
+#: src/rename_ui.rs:72
+msgid "Puts the names of the last batch back"
+msgstr "Stellt die Namen des letzten Stapels wieder her"
+
+#: src/rename_ui.rs:126
+#, rust-format
+msgid "{} item"
+msgid_plural "{} items"
+msgstr[0] "{} Eintrag"
+msgstr[1] "{} Einträge"
+
+#: src/rename_ui.rs:127
+msgid "Drop more to add them. Clear starts again."
+msgstr "Weitere ablegen, um sie hinzuzufügen. Leeren beginnt neu."
+
+#: src/rename_ui.rs:148
+msgid "Unchanged"
+msgstr "Unverändert"
+
+#: src/rename_ui.rs:164 src/sysreport_ui.rs:330 src/usage_ui.rs:342
+#, rust-format
+msgid "and {} more"
+msgstr "und {} weitere"
+
+#: src/rename_ui.rs:219
+msgid "Add Files"
+msgstr "Dateien hinzufügen"
+
+#: src/rename_ui.rs:230
+msgid "Add Folders"
+msgstr "Ordner hinzufügen"
+
+#: src/resize_ui.rs:16
+msgid "Size"
+msgstr "Größe"
+
+#: src/resize_ui.rs:18
+msgid "Make the pictures"
+msgstr "Bilder machen"
+
+#: src/resize_ui.rs:20
+msgid "Small: 640 px on the longest side"
+msgstr "Klein: 640 px an der längsten Seite"
+
+#: src/resize_ui.rs:21
+msgid "Medium: 1280 px on the longest side"
+msgstr "Mittel: 1280 px an der längsten Seite"
+
+#: src/resize_ui.rs:22
+msgid "Large: 1920 px on the longest side"
+msgstr "Groß: 1920 px an der längsten Seite"
+
+#: src/resize_ui.rs:23
+msgid "Very large: 3840 px on the longest side"
+msgstr "Sehr groß: 3840 px an der längsten Seite"
+
+#: src/resize_ui.rs:24
+msgid "A share of their size"
+msgstr "Ein Anteil ihrer Größe"
+
+#: src/resize_ui.rs:25
+msgid "A width and height"
+msgstr "Eine Breite und Höhe"
+
+#: src/resize_ui.rs:30
+msgid "Percent of the original"
+msgstr "Prozent des Originals"
+
+#: src/resize_ui.rs:33
+msgid "Width (px)"
+msgstr "Breite (px)"
+
+#: src/resize_ui.rs:34
+msgid "0 leaves the width open"
+msgstr "0 lässt die Breite offen"
+
+#: src/resize_ui.rs:37
+msgid "Height (px)"
+msgstr "Höhe (px)"
+
+#: src/resize_ui.rs:38
+msgid "0 leaves the height open"
+msgstr "0 lässt die Höhe offen"
+
+#: src/resize_ui.rs:41
+msgid "When the shape is different"
+msgstr "Wenn die Form abweicht"
+
+#: src/resize_ui.rs:42
+msgid "Fit inside the size"
+msgstr "In die Größe einpassen"
+
+#: src/resize_ui.rs:42
+msgid "Fill the size and trim the edges"
+msgstr "Die Größe füllen und die Ränder beschneiden"
+
+#: src/resize_ui.rs:42
+msgid "Stretch to exactly that size"
+msgstr "Auf genau diese Größe strecken"
+
+#: src/resize_ui.rs:44
+msgid "Allow enlarging"
+msgstr "Vergrößern erlauben"
+
+#: src/resize_ui.rs:44
+msgid "Off: a picture smaller than the size is left at its size"
+msgstr "Aus: ein kleineres Bild bleibt in seiner Größe"
+
+#: src/resize_ui.rs:50
+msgid "Output"
+msgstr "Ausgabe"
+
+#: src/resize_ui.rs:52
+msgid "Format"
+msgstr "Format"
+
+#: src/resize_ui.rs:53
+msgid "Same as the original"
+msgstr "Wie das Original"
+
+#: src/resize_ui.rs:57
+msgid "For JPEG and WebP. PNG is always lossless."
+msgstr "Für JPEG und WebP. PNG ist immer verlustfrei."
+
+#: src/resize_ui.rs:108
+msgid "Choose Pictures…"
+msgstr "Bilder auswählen…"
+
+#: src/resize_ui.rs:111
+msgid "Drop Pictures Here"
+msgstr "Bilder hier ablegen"
+
+#: src/resize_ui.rs:114
+msgid ""
+"PNG, JPEG, WebP, GIF, BMP and TIFF. The copies are saved beside the originals, which are never changed."
+msgstr ""
+"PNG, JPEG, WebP, GIF, BMP und TIFF. Die Kopien liegen neben den Originalen, die nie verändert werden."
+
+#: src/resize_ui.rs:124
+msgid "Choose or drop pictures to see the new sizes here."
+msgstr ""
+"Wählen Sie Bilder aus oder legen Sie sie ab, um hier die neuen Größen zu sehen."
+
+#: src/resize_ui.rs:130
+msgid "Resizing…"
+msgstr "Wird verkleinert…"
+
+#: src/resize_ui.rs:184
+msgid "Pictures"
+msgstr "Bilder"
+
+#: src/resize_ui.rs:190
+msgid "Resize Pictures"
+msgstr "Bilder verkleinern"
+
+#: src/resize_ui.rs:207
+msgid ""
+"Each copy is saved beside its original as name (WxH).ext. A picture's own rotation is applied; other metadata, such as the place a photo was taken, is not copied."
+msgstr ""
+"Jede Kopie liegt neben ihrem Original als Name (BxH).Endung. Die Drehung des Bildes wird angewendet; andere Metadaten, etwa wo ein Foto aufgenommen wurde, werden nicht kopiert."
+
+#: src/ruler.rs:16
 msgid ""
 "Drag to measure  ·  Shift: straight line  ·  Ctrl+C: copy size  ·  Right-click: clear  ·  Esc: close"
 msgstr ""
 "Ziehen zum Messen  ·  Umschalt: gerade Linie  ·  Strg+C: Größe kopieren  ·  Rechtsklick: löschen  ·  Esc: schließen"
 
-#: src/ruler.rs:51
-msgid "screenshot worker crashed"
-msgstr "Der Bildschirmfoto-Prozess ist abgestürzt"
-
-#: src/ruler.rs:61
-msgid "Continue"
-msgstr "Weiter"
-
-#: src/ruler.rs:67
+#: src/ruler.rs:21
 msgid "Allow Screen Ruler to See Your Screen"
 msgstr "Dem Bildschirmlineal erlauben, Ihren Bildschirm zu sehen"
 
-#: src/ruler.rs:69
+#: src/ruler.rs:23
 msgid ""
 "The ruler measures a snapshot of your screen. Your desktop will ask once whether Voltkit may take screenshots; choose Allow. This window closes before the snapshot."
 msgstr ""
 "Das Lineal misst eine Momentaufnahme Ihres Bildschirms. Ihr Desktop fragt einmal, ob Voltkit Bildschirmfotos aufnehmen darf; wählen Sie „Erlauben“. Dieses Fenster schließt sich vor der Aufnahme."
 
-#: src/ruler.rs:107
+#: src/ruler.rs:27
 msgid ""
 "Screenshots weren't allowed, so the ruler can't open. Choose Try Again, then Allow when your desktop asks. If you chose Deny before, forget that answer in Voltkit's App Permissions page first."
 msgstr ""
 "Bildschirmfotos wurden nicht erlaubt, daher kann sich das Lineal nicht öffnen. Wählen Sie „Erneut versuchen“ und dann „Erlauben“, wenn Ihr Desktop fragt. Wenn Sie zuvor „Verweigern“ gewählt haben, vergessen Sie diese Antwort zuerst auf der Seite „App-Berechtigungen“ von Voltkit."
 
-#: src/ruler.rs:114
-msgid "Try Again"
-msgstr "Erneut versuchen"
-
-#: src/ruler.rs:259
+#: src/ruler.rs:166
 #, rust-format
 msgid "Copied {}  ·  Esc: close"
 msgstr "{} kopiert  ·  Esc: schließen"
 
-#: src/ruler.rs:260
+#: src/ruler.rs:167 src/zoom.rs:427
 #, rust-format
 msgid "Could not copy: {}"
 msgstr "Kopieren fehlgeschlagen: {}"
@@ -5374,6 +5957,18 @@ msgstr "Umwandlungen"
 #: src/smartpaste_ui.rs:342
 msgid "Only plain text fits this"
 msgstr "Hierfür passt nur reiner Text"
+
+#: src/snapshot.rs:57
+msgid "screenshot worker crashed"
+msgstr "Der Bildschirmfoto-Prozess ist abgestürzt"
+
+#: src/snapshot.rs:67
+msgid "Continue"
+msgstr "Weiter"
+
+#: src/snapshot.rs:114
+msgid "Try Again"
+msgstr "Erneut versuchen"
 
 #: src/snippets_ui.rs:21
 msgid "Find a snippet by trigger or content…"
@@ -5606,7 +6201,7 @@ msgstr "Ausfüllfeld"
 msgid "A blank you fill in each time you use the snippet"
 msgstr "Eine Lücke, die Sie bei jeder Verwendung des Bausteins ausfüllen"
 
-#: src/snippets_ui.rs:472
+#: src/snippets_ui.rs:472 src/zoom.rs:94
 msgid "Text"
 msgstr "Text"
 
@@ -5786,11 +6381,6 @@ msgid ""
 msgstr ""
 "Voltkit speichert jeden Tag, an dem es läuft, eine Aufnahme; Änderungen erscheinen hier also ab morgen."
 
-#: src/sysreport_ui.rs:330 src/usage_ui.rs:342
-#, rust-format
-msgid "and {} more"
-msgstr "und {} weitere"
-
 #: src/sysreport_ui.rs:378
 msgid "Copy System Report"
 msgstr "Systembericht kopieren"
@@ -5829,29 +6419,29 @@ msgstr "`{}` ist fehlgeschlagen: {}"
 msgid "timed out after {}s"
 msgstr "Zeitüberschreitung nach {} s"
 
-#: src/system.rs:69 src/system.rs:92
+#: src/system.rs:69 src/system.rs:94 src/system.rs:117
 msgid "no clipboard tool found; `voltkit doctor` shows how to install one"
 msgstr ""
 "Kein Werkzeug für die Zwischenablage gefunden; `voltkit doctor` zeigt, wie man eines installiert"
 
-#: src/system.rs:71
+#: src/system.rs:71 src/system.rs:96
 msgid "could not set the clipboard"
 msgstr "Die Zwischenablage konnte nicht gesetzt werden"
 
-#: src/system.rs:73
+#: src/system.rs:73 src/system.rs:98
 #, rust-format
 msgid "could not set the clipboard ({})"
 msgstr "Die Zwischenablage konnte nicht gesetzt werden ({})"
 
-#: src/system.rs:99
+#: src/system.rs:124
 msgid "could not read the clipboard"
 msgstr "Die Zwischenablage konnte nicht gelesen werden"
 
-#: src/system.rs:100
+#: src/system.rs:125
 msgid "clipboard reader crashed"
 msgstr "Der Zwischenablage-Leser ist abgestürzt"
 
-#: src/system.rs:103
+#: src/system.rs:128
 msgid "clipboard has no text"
 msgstr "Die Zwischenablage enthält keinen Text"
 
@@ -6223,6 +6813,58 @@ msgid_plural "{} Apps"
 msgstr[0] "{} App"
 msgstr[1] "{} Apps"
 
+#: src/zoom.rs:22
+msgid "Allow Zoom & Annotate to See Your Screen"
+msgstr "Zoom und Anmerkungen den Bildschirm sehen lassen"
+
+#: src/zoom.rs:24
+msgid ""
+"Zoom & Annotate draws on a snapshot of your screen. Your desktop will ask once whether Voltkit may take screenshots; choose Allow. This window closes before the snapshot."
+msgstr ""
+"Zoom und Anmerkungen zeichnet auf einem Schnappschuss Ihres Bildschirms. Ihr Desktop fragt einmal, ob Voltkit Bildschirmfotos aufnehmen darf; wählen Sie „Erlauben“. Dieses Fenster schließt sich vor dem Schnappschuss."
+
+#: src/zoom.rs:28
+msgid ""
+"Screenshots weren't allowed, so Zoom & Annotate can't open. Choose Try Again, then Allow when your desktop asks. If you chose Deny before, forget that answer in Voltkit's App Permissions page first."
+msgstr ""
+"Bildschirmfotos wurden nicht erlaubt, daher kann Zoom und Anmerkungen nicht starten. Wählen Sie „Erneut versuchen“ und dann „Erlauben“, wenn Ihr Desktop fragt. Falls Sie vorher „Ablehnen“ gewählt haben, vergessen Sie diese Antwort zuerst auf Voltkits Seite „App-Berechtigungen“."
+
+#: src/zoom.rs:37
+msgid ""
+"Scroll: zoom  ·  Middle-drag or arrow keys: move  ·  0: reset zoom\n"
+"Drag: pen  ·  Shift: line  ·  Ctrl: rectangle  ·  Tab: ellipse  ·  Ctrl+Shift: arrow\n"
+"R G B O Y P: color  ·  H: highlighter  ·  Ctrl+scroll or [ ]: pen size\n"
+"T: type text (Enter finishes)  ·  W / K: white / black board\n"
+"Right-click or Ctrl+Z: undo  ·  Ctrl+Y: redo  ·  E: erase all\n"
+"Ctrl+C: copy the picture  ·  Ctrl+S: save it  ·  F1: this help  ·  Esc: close"
+msgstr ""
+"Scrollen: Zoom  ·  Mittelklick-Ziehen oder Pfeiltasten: bewegen  ·  0: Zoom zurücksetzen\n"
+"Ziehen: Stift  ·  Umschalt: Linie  ·  Strg: Rechteck  ·  Tab: Ellipse  ·  Strg+Umschalt: Pfeil\n"
+"R G B O Y P: Farbe  ·  H: Textmarker  ·  Strg+Scrollen oder [ ]: Stiftstärke\n"
+"T: Text tippen (Eingabe beendet)  ·  W / K: weiße / schwarze Tafel\n"
+"Rechtsklick oder Strg+Z: rückgängig  ·  Strg+Y: wiederholen  ·  E: alles löschen\n"
+"Strg+C: Bild kopieren  ·  Strg+S: speichern  ·  F1: diese Hilfe  ·  Esc: schließen"
+
+#: src/zoom.rs:96
+msgid "Highlighter"
+msgstr "Textmarker"
+
+#: src/zoom.rs:98
+msgid "Pen"
+msgstr "Stift"
+
+#: src/zoom.rs:105
+msgid "F1: help"
+msgstr "F1: Hilfe"
+
+#: src/zoom.rs:152
+msgid "Drawing area. Press F1 for the keys."
+msgstr "Zeichenfläche. F1 zeigt die Tasten."
+
+#: src/zoom.rs:426
+msgid "Copied the picture"
+msgstr "Bild kopiert"
+
 #: src/main.rs (command-line help)
 msgid "A unified suite of desktop micro-utilities for Linux"
 msgstr "Eine einheitliche Sammlung kleiner Desktop-Werkzeuge für Linux"
@@ -6313,6 +6955,120 @@ msgid ""
 "Quality from 1 (smallest) to 100 (best); ignored for PNG, which is always lossless"
 msgstr ""
 "Qualität von 1 (am kleinsten) bis 100 (am besten); wird bei PNG ignoriert, das immer verlustfrei ist"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Rename many files at once: search and replace, regular expressions, numbering and letter case"
+msgstr ""
+"Viele Dateien auf einmal umbenennen: Suchen und Ersetzen, reguläre Ausdrücke, Nummerierung und Groß-/Kleinschreibung"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Shows what would be renamed and changes nothing, until you add --apply. Every conflict (two files getting one name, a name that is taken) is reported first, and a batch is renamed all or nothing. The last batch can be undone with --undo.\n"
+"\n"
+"In the replacement, {n} is the file's number and {n:3} is the number padded to 3 digits; with --regex, $1 and ${name} are the groups of the match. An empty --find matches the whole name, so --replace 'photo-{n:3}' numbers every file."
+msgstr ""
+"Zeigt, was umbenannt würde, und ändert nichts, bis Sie --apply angeben. Jeder Konflikt (zwei Dateien mit einem Namen, ein vergebener Name) wird zuerst gemeldet, und ein Stapel wird ganz oder gar nicht umbenannt. Der letzte Stapel lässt sich mit --undo rückgängig machen.\n"
+"\n"
+"Im Ersatztext ist {n} die Nummer der Datei und {n:3} die auf 3 Stellen aufgefüllte Nummer; mit --regex sind $1 und ${name} die Gruppen des Treffers. Ein leeres --find passt auf den ganzen Namen, also nummeriert --replace 'foto-{n:3}' jede Datei."
+
+#: src/main.rs (command-line help)
+msgid "Files and folders to rename, in the order they are numbered"
+msgstr ""
+"Dateien und Ordner zum Umbenennen, in der Reihenfolge der Nummerierung"
+
+#: src/main.rs (command-line help)
+msgid "The text to look for (empty matches the whole name)"
+msgstr "Der gesuchte Text (leer passt auf den ganzen Namen)"
+
+#: src/main.rs (command-line help)
+msgid "The text to put instead"
+msgstr "Der Text, der stattdessen eingesetzt wird"
+
+#: src/main.rs (command-line help)
+msgid "Treat --find as a regular expression"
+msgstr "--find als regulären Ausdruck behandeln"
+
+#: src/main.rs (command-line help)
+msgid "Ignore the difference between upper and lower case when searching"
+msgstr "Beim Suchen Groß- und Kleinschreibung ignorieren"
+
+#: src/main.rs (command-line help)
+msgid "Replace only the first match in each name"
+msgstr "Nur den ersten Treffer in jedem Namen ersetzen"
+
+#: src/main.rs (command-line help)
+msgid "Which part of the name to change"
+msgstr "Welcher Teil des Namens geändert wird"
+
+#: src/main.rs (command-line help)
+msgid "Change the letter case afterwards"
+msgstr "Danach die Groß-/Kleinschreibung ändern"
+
+#: src/main.rs (command-line help)
+msgid "The first number for {n}"
+msgstr "Die erste Nummer für {n}"
+
+#: src/main.rs (command-line help)
+msgid "How much each next file adds to the number"
+msgstr "Wie viel jede weitere Datei zur Nummer addiert"
+
+#: src/main.rs (command-line help)
+msgid "Really rename the files; without it only the preview is shown"
+msgstr ""
+"Die Dateien wirklich umbenennen; ohne dies wird nur die Vorschau gezeigt"
+
+#: src/main.rs (command-line help)
+msgid "Undo the last batch renamed with --apply (or in the app)"
+msgstr ""
+"Den letzten mit --apply (oder in der App) umbenannten Stapel rückgängig machen"
+
+#: src/main.rs (command-line help)
+msgid "Resize pictures in bulk"
+msgstr "Bilder in großer Zahl verkleinern"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Each FILE is written to NAME (WxH).EXT beside it; originals are never modified. A picture's own rotation is applied; other metadata is not copied. Choose the size with --longest-side, --percent, or --width and/or --height (default: --longest-side 1920). Pictures are not enlarged unless you add --enlarge."
+msgstr ""
+"Jede DATEI wird daneben als NAME (BxH).ENDUNG geschrieben; Originale werden nie verändert. Die Drehung des Bildes wird angewendet; andere Metadaten werden nicht kopiert. Wählen Sie die Größe mit --longest-side, --percent oder --width und/oder --height (Standard: --longest-side 1920). Bilder werden nicht vergrößert, außer Sie geben --enlarge an."
+
+#: src/main.rs (command-line help)
+msgid "Pictures to resize (.png, .jpg/.jpeg, .webp, .gif, .bmp, .tif/.tiff)"
+msgstr ""
+"Zu verkleinernde Bilder (.png, .jpg/.jpeg, .webp, .gif, .bmp, .tif/.tiff)"
+
+#: src/main.rs (command-line help)
+msgid "The longest side becomes this many pixels"
+msgstr "Die längste Seite wird so viele Pixel groß"
+
+#: src/main.rs (command-line help)
+msgid "A share of the original size, in percent"
+msgstr "Ein Anteil der Originalgröße in Prozent"
+
+#: src/main.rs (command-line help)
+msgid "At most this wide, in pixels"
+msgstr "Höchstens so breit, in Pixeln"
+
+#: src/main.rs (command-line help)
+msgid "At most this high, in pixels"
+msgstr "Höchstens so hoch, in Pixeln"
+
+#: src/main.rs (command-line help)
+msgid "How the picture meets --width and --height"
+msgstr "Wie das Bild zu --width und --height passt"
+
+#: src/main.rs (command-line help)
+msgid "Allow pictures to be made bigger than they are"
+msgstr "Erlaubt, Bilder größer als ihre Originalgröße zu machen"
+
+#: src/main.rs (command-line help)
+msgid "The format to write"
+msgstr "Das zu schreibende Format"
+
+#: src/main.rs (command-line help)
+msgid "JPEG and WebP quality from 1 to 100"
+msgstr "JPEG- und WebP-Qualität von 1 bis 100"
 
 #: src/main.rs (command-line help)
 msgid "Expand a snippet template, e.g. \"Sent {date:%A}: {clipboard}\""
@@ -6416,6 +7172,35 @@ msgstr ""
 "Abstände auf dem Bildschirm in Pixeln messen\n"
 "\n"
 "Friert den Bildschirm ein und zeigt ihn im Vollbild. Ziehen misst Breite und Höhe; mit gedrückter Umschalttaste eine gerade Linie. Strg+C kopiert die Größe, Rechtsklick löscht, Esc schließt."
+
+#: src/main.rs (command-line help)
+msgid "Zoom into the screen and draw on it, for presentations"
+msgstr ""
+"In den Bildschirm hineinzoomen und darauf zeichnen, für Präsentationen"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Zoom into the screen and draw on it, for presentations\n"
+"\n"
+"Freezes the screen and shows it full screen. Scroll to zoom, drag to draw, hold Shift for a straight line, Ctrl for a rectangle, Tab for an ellipse and Ctrl+Shift for an arrow. R, G, B, O, Y and P pick the color, T types text, W and K make a white or black board, E erases everything, Ctrl+Z undoes, Ctrl+C copies the picture, Ctrl+S saves it and Esc closes."
+msgstr ""
+"In den Bildschirm hineinzoomen und darauf zeichnen, für Präsentationen\n"
+"\n"
+"Friert den Bildschirm ein und zeigt ihn im Vollbild. Scrollen zoomt, Ziehen zeichnet, Umschalt hält eine gerade Linie, Strg ein Rechteck, Tab eine Ellipse und Strg+Umschalt einen Pfeil. R, G, B, O, Y und P wählen die Farbe, T tippt Text, W und K machen eine weiße oder schwarze Tafel, E löscht alles, Strg+Z macht rückgängig, Strg+C kopiert das Bild, Strg+S speichert es und Esc schließt."
+
+#: src/main.rs (command-line help)
+msgid "Show a cheat sheet of the keyboard shortcuts"
+msgstr "Eine Übersicht der Tastenkürzel anzeigen"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Show a cheat sheet of the keyboard shortcuts\n"
+"\n"
+"Lists the system-wide shortcuts by who owns them, plus the ones most apps share. Type to find one, press Esc to close. Works on GNOME and the desktops built like it."
+msgstr ""
+"Eine Übersicht der Tastenkürzel anzeigen\n"
+"\n"
+"Listet die systemweiten Tastenkürzel nach Besitzer auf, dazu die, die die meisten Apps teilen. Tippen, um eines zu finden, Esc schließt. Funktioniert unter GNOME und den ähnlich aufgebauten Desktops."
 
 #: src/main.rs (command-line help)
 msgid "Keep the computer from sleeping or locking its screen"

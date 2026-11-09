@@ -25,6 +25,8 @@ pub struct Hotkeys {
     pub qr: String,
     pub ruler: String,
     pub smart_paste: String,
+    pub zoom: String,
+    pub shortcut_guide: String,
 }
 
 /// GPU Tuner settings that belong to the person, not to a card.
@@ -94,6 +96,8 @@ impl Default for Hotkeys {
             qr: "<Super><Shift>q".into(),
             ruler: "<Super><Shift>r".into(),
             smart_paste: "<Super><Shift>v".into(),
+            zoom: "<Super><Shift>z".into(),
+            shortcut_guide: "<Super><Shift>slash".into(),
         }
     }
 }

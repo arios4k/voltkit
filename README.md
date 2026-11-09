@@ -8,7 +8,7 @@
 
 **Power tools for your Linux desktop.**
 Screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
-Smart Paste, Keep Awake, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
+Smart Paste, Keep Awake, a batch file renamer, an image resizer, a zoom &amp; annotate tool, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
 manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU tuner, in one app.
 
 [![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
@@ -26,7 +26,7 @@ manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU
 
 </div>
 
-## One app instead of fifteen
+## One app instead of eighteen
 
 Getting these basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
@@ -37,9 +37,12 @@ hotkeys:
 | nothing: there was no screen for it | **App Permissions**: change or forget the answers you gave apps asking for screenshots, the camera, your location and more | — |
 | a separate image compressor, plus ffmpeg incantations | **Asset Compressor**: drop PNG, JPEG, WebP or MP4 files to strip metadata and shrink them | drag &amp; drop |
 | a separate color picker | **Color Picker**: an eyedropper for any pixel, HEX/RGB/HSL, WCAG contrast check and history | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| shell loops with `mv` or a separate renamer | **Batch Rename**: rename many files at once with search and replace, regular expressions and numbering, with a preview and undo | — |
+| a separate image resizer | **Image Resizer**: resize many pictures at once, keeping their shape, without touching the originals | — |
 | a separate GPU tuning tool, plus vendor utilities | **GPU Tuner**: monitor NVIDIA, AMD and Intel graphics cards and change power limits, fans and fan curves, temperature targets, clocks and voltage, with every change previewed and undone unless you confirm it | — |
 | editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
 | a shell extension to keep the screen on | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
+| a separate presentation pen | **Zoom & Annotate**: freeze the screen, zoom in and draw on it with a pen, arrows, boxes and text | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | a QR scanner on your phone or a QR website | **QR Code**: read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> |
 | a separate screen ruler, or screenshots and an image editor | **Screen Ruler**: freeze the screen and measure anything in pixels | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> |
 | guessing why a keyboard shortcut does nothing | **Shortcut Detective**: press any shortcut to see what owns it, find clashes, pick a free combination and change it | — |
@@ -72,6 +75,24 @@ it never touches. In our tests: JPEG −43%, PNG −23% (lossless), WebP −60%,
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
   <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="Asset Compressor with four compressed files and their size savings">
+</picture>
+
+### ✏️ Batch Rename
+
+Drop files or folders, say what to change, and watch the **preview** before anything happens: search and replace, regular expressions with `$1` groups, numbering with `{n:3}`, letter case, and the name or only the extension. Conflicts (two files with one name, a name that is taken) are named first, a batch is renamed **all or nothing**, and the last batch can be **undone**. The same works in a terminal: `voltkit rename *.jpg --find IMG --replace Holiday --apply`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Batch Rename with a preview of five photos being renamed">
+</picture>
+
+### 🖼️ Image Resizer
+
+Drop pictures, pick a size (a longest side, a percent, or a width and height that fit, fill or stretch) and get resized copies beside the originals, which are never touched. Photos come out upright, WebP and JPEG quality is yours to set, and the size never grows unless you allow it. `voltkit resize photos/*.jpg --longest-side 1280`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Image Resizer with three pictures resized to 1920 pixels">
 </picture>
 
 ### 🎨 Color Picker
@@ -176,12 +197,21 @@ pixels (hold Shift for a straight line), and press Ctrl+C to copy the size.
   <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="Screen Ruler with its launch action and measurement controls">
 </picture>
 
+### 🔍 Zoom & Annotate
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> freezes the screen. Scroll to zoom, drag to draw, hold Shift for a line, Ctrl for a rectangle, Tab for an ellipse, Ctrl+Shift for an arrow, press T to type, R/G/B/O/Y/P for color, W/K for a white or black board, and Ctrl+C or Ctrl+S to copy or save the picture.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom and Annotate: an arrow, a circle, text and a highlighter drawn on a frozen screen">
+</picture>
+
 ### ⌨️ Shortcut Detective
 
 Pressed a shortcut and nothing happened, or the wrong thing did? Press it in **Shortcut Detective** to see every
 action that uses it: the window manager, GNOME Shell, system keys, your custom shortcuts, shell extensions and
 Voltkit itself. Clashes are listed for you, each with free combinations to switch to, and any shortcut can be
-changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE).
+changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE). A **cheat sheet** of every shortcut, grouped by owner, opens with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd>.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.7.0">
@@ -498,6 +528,12 @@ src/
   snippets_ui.rs     Text Expansion page: snippet list and editor
   qr_ui.rs           QR Code page
   ruler.rs           Screen Ruler (frozen-screenshot overlay)
+  snapshot.rs        shared start-up of the tools that work on a frozen screenshot
+  zoom.rs            Zoom & Annotate (zoom and draw on the frozen screen)
+  rename_ui.rs       Batch Rename page: files, preview, rename and undo
+  resize_ui.rs       Image Resizer page
+  bulk_cli.rs        `voltkit rename` and `voltkit resize`
+  guide_ui.rs        the shortcut cheat sheet window
   awake.rs           Keep Awake (Inhibit portal, held by the daemon)
   awake_ui.rs        Keep Awake page
   system_ui.rs       Hosts & Environment page
@@ -518,6 +554,10 @@ src/
     ocr.rs           region capture + Tesseract
     color.rs         parsing, HSL, WCAG luminance & contrast
     compress.rs      format detection + per-format compression pipelines
+    rename.rs        batch rename: plan, conflicts, two-step apply, undo journal
+    resize.rs        image resizing with GdkPixbuf
+    annotate.rs      the drawing model of Zoom & Annotate: marks, undo, zoom view
+    guide.rs         the shortcut cheat sheet's groups and filter
     snippets.rs      snippet template engine
     qr.rs            QR code reading and making
     hosts.rs         /etc/hosts parsing that preserves everything it doesn't edit

@@ -31,7 +31,8 @@ Recommends:     libwebp-tools
 Voltkit brings everyday desktop tools to Linux in one GTK4/libadwaita app and a
 single command: screen OCR, a QR code scanner and maker, a color picker with
 contrast checking, a screen ruler, an image and video compressor, a text
-expander, Smart Paste, Keep Awake, a hosts and environment variable editor, a
+expander, Smart Paste, a batch file renamer, an image resizer, a zoom and
+annotate tool, Keep Awake, a hosts and environment variable editor, a
 finder for the apps keeping a drive, file or port busy, an app permissions
 manager, a troubleshooter for sleep and wake-ups, and a system report with
 driver and drive-health checks, firmware updates and what changed after

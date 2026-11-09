@@ -31,7 +31,7 @@ un detective de atajos y un ajuste de GPU, en una sola app.
 > la línea de comandos y las páginas del manual (`man voltkit`). Las capturas de esta página son de la versión
 > en inglés.
 
-## Una app en lugar de quince
+## Una app en lugar de dieciocho
 
 Tener estas herramientas básicas en Linux suele significar buscar un applet distinto para cada tarea, cada uno con
 su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa con un solo conjunto de atajos:
@@ -41,9 +41,12 @@ su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa c
 | nada: no había una pantalla para esto | **Permisos de apps**: cambia u olvida las respuestas que diste a las apps que pidieron capturas de pantalla, la cámara, tu ubicación y más | — |
 | un compresor de imágenes aparte, más conjuros de ffmpeg | **Compresor de archivos**: suelta archivos PNG, JPEG, WebP o MP4 para quitarles los metadatos y reducir su tamaño | arrastrar y soltar |
 | un selector de color aparte | **Selector de color**: un cuentagotas para cualquier píxel, HEX/RGB/HSL, revisión de contraste WCAG e historial | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>C</kbd> |
+| bucles de shell con `mv` o un renombrador aparte | **Renombrar en lote**: renombra muchos archivos a la vez con buscar y reemplazar, expresiones regulares y numeración, con vista previa y deshacer | — |
+| un redimensionador de imágenes aparte | **Redimensionar imágenes**: cambia el tamaño de muchas imágenes a la vez, conservando su forma y sin tocar los originales | — |
 | una herramienta aparte para ajustar la GPU, más utilidades de cada fabricante | **Ajuste de GPU**: monitorea tarjetas gráficas NVIDIA, AMD e Intel y cambia límites de potencia, ventiladores y curvas de ventilador, temperaturas objetivo, frecuencias y voltaje, con cada cambio en vista previa y deshecho si no lo confirmas | — |
 | editar `/etc/hosts` y `~/.profile` en una terminal | **Hosts y entorno**: activa y desactiva entradas de hosts y administra las variables de entorno de tu sesión | — |
 | una extensión del shell para mantener la pantalla encendida | **Mantener activo**: evita que tu computadora se suspenda o se bloquee de 30 minutos a 4 horas, o hasta que lo apagues | — |
+| un lápiz de presentación aparte | **Zoom y anotaciones**: congela la pantalla, acércala y dibuja sobre ella con lápiz, flechas, recuadros y texto | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | un lector QR en tu teléfono o una página web de QR | **Código QR**: lee un código QR en cualquier parte de la pantalla, o convierte texto, enlaces y datos de Wi-Fi en uno | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>Q</kbd> |
 | una regla de pantalla aparte, o capturas y un editor de imágenes | **Regla de pantalla**: congela la pantalla y mide lo que sea en píxeles | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>R</kbd> |
 | adivinar por qué un atajo de teclado no hace nada | **Detective de atajos**: presiona cualquier atajo para ver a quién pertenece, encontrar conflictos, elegir una combinación libre y cambiarlo | — |
@@ -76,6 +79,24 @@ toca. En nuestras pruebas: JPEG −43 %, PNG −23 % (sin pérdida), WebP −60 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
   <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="El compresor de archivos con cuatro archivos comprimidos y el espacio ahorrado">
+</picture>
+
+### ✏️ Renombrar en lote
+
+Suelta archivos o carpetas, di qué cambiar y mira la **vista previa** antes de que pase nada: buscar y reemplazar, expresiones regulares con grupos `$1`, numeración con `{n:3}`, mayúsculas y minúsculas, y el nombre o solo la extensión. Los conflictos (dos archivos con el mismo nombre, un nombre ocupado) se señalan primero, un lote se renombra **todo o nada** y el último lote se puede **deshacer**. Funciona igual en la terminal: `voltkit rename *.jpg --find IMG --replace Vacaciones --apply`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Renombrar en lote con una vista previa de cinco fotos que se renombran">
+</picture>
+
+### 🖼️ Redimensionar imágenes
+
+Suelta imágenes, elige un tamaño (un lado más largo, un porcentaje, o un ancho y alto que se ajusta, rellena o estira) y obtén copias redimensionadas junto a los originales, que nunca se tocan. Las fotos salen derechas, la calidad de WebP y JPEG la eliges tú y el tamaño nunca crece salvo que lo permitas. `voltkit resize fotos/*.jpg --longest-side 1280`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Redimensionar imágenes con tres imágenes ajustadas a 1920 píxeles">
 </picture>
 
 ### 🎨 Selector de color
@@ -178,6 +199,15 @@ reales (mantén Mayús para una línea recta) y presiona Ctrl+C para copiar el t
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
   <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="La regla de pantalla con su botón para abrirla y los controles de medición">
+</picture>
+
+### 🔍 Zoom y anotaciones
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> congela la pantalla. Desplaza para acercar, arrastra para dibujar, mantén Mayús para una línea, Ctrl para un rectángulo, Tab para una elipse, Ctrl+Mayús para una flecha, pulsa T para escribir, R/G/B/O/Y/P para el color, W/K para una pizarra blanca o negra, y Ctrl+C o Ctrl+S para copiar o guardar la imagen.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom y anotaciones: una flecha, un círculo, texto y un marcador dibujados sobre una pantalla congelada">
 </picture>
 
 ### ⌨️ Detective de atajos

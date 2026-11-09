@@ -30,7 +30,7 @@ nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehler
 > App, auf der Befehlszeile und in den Handbuchseiten (`man voltkit`). Die Bildschirmfotos auf dieser Seite zeigen
 > die englische Version.
 
-## Eine App statt fünfzehn
+## Eine App statt achtzehn
 
 Diese Grundfunktionen unter Linux zu bekommen, heißt meist, für jede Aufgabe ein eigenes Applet zu suchen, jedes
 mit eigenem Aussehen, eigenen Einstellungen und Tastenkürzeln. Voltkit vereint sie in einer nativen GTK4-App mit
@@ -41,9 +41,12 @@ einem gemeinsamen Satz Tastenkürzel:
 | nichts: dafür gab es keine Oberfläche | **App-Berechtigungen**: Antworten ändern oder vergessen, die Sie Apps auf Anfragen nach Bildschirmfotos, Kamera, Standort und mehr gegeben haben | — |
 | eines eigenen Bildkompressors plus ffmpeg-Beschwörungen | **Dateikompressor**: PNG-, JPEG-, WebP- oder MP4-Dateien ablegen, um Metadaten zu entfernen und sie zu verkleinern | Ziehen &amp; Ablegen |
 | eines eigenen Farbwählers | **Farbwähler**: eine Pipette für jedes Pixel, HEX/RGB/HSL, WCAG-Kontrastprüfung und Verlauf | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>C</kbd> |
+| Shell-Schleifen mit `mv` oder ein eigenes Umbenennungsprogramm | **Stapel-Umbenennen**: viele Dateien auf einmal umbenennen, mit Suchen und Ersetzen, regulären Ausdrücken und Nummerierung, mit Vorschau und Rückgängig | — |
+| ein eigenes Bildverkleinerungsprogramm | **Bildgrößen ändern**: viele Bilder auf einmal verkleinern, mit unveränderter Form und ohne die Originale anzutasten | — |
 | ein eigenes GPU-Tuning-Programm plus Herstellertools | **GPU-Tuner**: NVIDIA-, AMD- und Intel-Grafikkarten überwachen und Leistungsgrenzen, Lüfter und Lüfterkurven, Zieltemperaturen, Takte und Spannung ändern, jede Änderung mit Vorschau und rückgängig gemacht, wenn Sie sie nicht bestätigen | — |
 | `/etc/hosts` und `~/.profile` im Terminal zu bearbeiten | **Hosts &amp; Umgebung**: hosts-Einträge ein- und ausschalten und die Umgebungsvariablen Ihrer Sitzung verwalten | — |
 | einer Shell-Erweiterung, die den Bildschirm anlässt | **Wach halten**: Bereitschaft und Sperre für 30 Minuten bis 4 Stunden verhindern oder bis Sie es ausschalten | — |
+| einen eigenen Präsentationsstift | **Zoom und Anmerkungen**: den Bildschirm einfrieren, hineinzoomen und mit Stift, Pfeilen, Rahmen und Text darauf zeichnen | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> |
 | eines QR-Scanners auf dem Telefon oder einer QR-Webseite | **QR-Code**: einen QR-Code irgendwo auf dem Bildschirm lesen oder Text, Links und WLAN-Daten in einen umwandeln | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>Q</kbd> |
 | eines eigenen Bildschirmlineals oder Bildschirmfoto plus Bildbearbeitung | **Bildschirmlineal**: den Bildschirm einfrieren und alles in Pixeln messen | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>R</kbd> |
 | zu raten, warum ein Tastenkürzel nichts tut | **Tastenkürzel-Detektiv**: ein beliebiges Tastenkürzel drücken, um zu sehen, wem es gehört, Konflikte finden, eine freie Kombination wählen und es ändern | — |
@@ -76,6 +79,24 @@ das es nie verändert. In unseren Tests: JPEG −43 %, PNG −23 % (verlustfrei)
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
   <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="Der Dateikompressor mit vier komprimierten Dateien und ihrer Ersparnis">
+</picture>
+
+### ✏️ Stapel-Umbenennen
+
+Dateien oder Ordner ablegen, sagen, was sich ändern soll, und die **Vorschau** ansehen, bevor etwas passiert: Suchen und Ersetzen, reguläre Ausdrücke mit `$1`-Gruppen, Nummerierung mit `{n:3}`, Groß- und Kleinschreibung, und der Name oder nur die Endung. Konflikte (zwei Dateien mit einem Namen, ein vergebener Name) werden zuerst genannt, ein Stapel wird **ganz oder gar nicht** umbenannt, und der letzte Stapel lässt sich **rückgängig machen**. Auch im Terminal: `voltkit rename *.jpg --find IMG --replace Urlaub --apply`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
+  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Stapel-Umbenennen mit der Vorschau von fünf Fotos, die umbenannt werden">
+</picture>
+
+### 🖼️ Bildgrößen ändern
+
+Bilder ablegen, eine Größe wählen (längste Seite, Prozent oder Breite und Höhe, die einpasst, füllt oder streckt) und verkleinerte Kopien neben den Originalen erhalten, die nie angetastet werden. Fotos kommen aufrecht heraus, die WebP- und JPEG-Qualität stellen Sie ein, und das Bild wird nie größer, außer Sie erlauben es. `voltkit resize fotos/*.jpg --longest-side 1280`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
+  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Bildgrößen ändern mit drei auf 1920 Pixel verkleinerten Bildern">
 </picture>
 
 ### 🎨 Farbwähler
@@ -179,6 +200,15 @@ zu kopieren.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
   <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="Das Bildschirmlineal mit seiner Startschaltfläche und der Messsteuerung">
+</picture>
+
+### 🔍 Zoom und Anmerkungen
+
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> friert den Bildschirm ein. Scrollen zoomt, Ziehen zeichnet, Umschalt hält eine Linie, Strg ein Rechteck, Tab eine Ellipse, Strg+Umschalt einen Pfeil, T tippt Text, R/G/B/O/Y/P wählen die Farbe, W/K eine weiße oder schwarze Tafel, und Strg+C oder Strg+S kopieren oder speichern das Bild.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
+  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom und Anmerkungen: ein Pfeil, ein Kreis, Text und ein Textmarker auf einem eingefrorenen Bildschirm">
 </picture>
 
 ### ⌨️ Tastenkürzel-Detektiv

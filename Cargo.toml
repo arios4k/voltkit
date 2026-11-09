@@ -24,6 +24,7 @@ gtk = { version = "0.11.5", package = "gtk4", features = ["v4_14"] }
 libloading = "0.8"
 oxipng = { version = "10.2.1", default-features = false, features = ["parallel"] }
 qrcode = { version = "0.14.1", default-features = false }
+regex = "1"
 roff = "1.1.1"
 rqrr = { version = "0.11.0", default-features = false }
 serde = { version = "1.0.229", features = ["derive"] }
@@ -47,7 +48,7 @@ QR code scanner and maker (Super+Shift+Q), a screen color picker with contrast \
 checking (Super+Shift+C), a screen ruler (Super+Shift+R), a metadata-stripping \
 image and video compressor, a text expander with a snippet picker \
 (Super+Shift+E) and optional typed triggers, Smart Paste for pasting the \
-clipboard converted (Super+Shift+V), Keep Awake, a hosts and environment \
+clipboard converted (Super+Shift+V), a batch file renamer, an image resizer, a zoom and annotate tool (Super+Shift+Z), Keep Awake, a hosts and environment \
 variable editor, a finder for the apps keeping a drive, file or port busy, a \
 manager for app permissions, a troubleshooter for sleep and wake-ups, and a \
 system report with driver and drive-health checks, firmware updates and what \

@@ -75,6 +75,31 @@ pub fn copy_to_clipboard(text: &str) -> Result<()> {
     Ok(())
 }
 
+/// Puts a PNG picture on the clipboard, for pasting into documents and chats.
+pub fn copy_png_to_clipboard(png: &[u8]) -> Result<()> {
+    let mut cmd = if is_wayland() {
+        let mut c = Command::new("wl-copy");
+        c.args(["--type", "image/png"]);
+        c
+    } else {
+        let mut c = Command::new("xclip");
+        c.args(["-selection", "clipboard", "-t", "image/png"]);
+        c
+    };
+    let mut child = cmd
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .context(tr("no clipboard tool found; `voltkit doctor` shows how to install one"))?;
+    child.stdin.take().unwrap().write_all(png)?;
+    let status = wait_with_timeout(&mut child, CLIPBOARD_TIMEOUT).context(tr("could not set the clipboard"))?;
+    if !status.success() {
+        bail!("{}", trf!("could not set the clipboard ({})", status));
+    }
+    Ok(())
+}
+
 pub fn read_clipboard() -> Result<String> {
     let mut cmd = if is_wayland() {
         let mut c = Command::new("wl-paste");

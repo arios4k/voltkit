@@ -21,6 +21,11 @@ man voltkit                  # the manual page, and man voltkit-COMMAND for each
 | `voltkit picker [--snippet TRIGGER]` | Open the snippet picker | [Text Expansion](snippets) |
 | `voltkit expander …` | Set up and toggle typed triggers | [Text Expansion](snippets) |
 | `voltkit ruler` | Measure distances on screen in pixels | [Screen Ruler](ruler) |
+| `voltkit zoom` | Zoom into the screen and draw on it | [Zoom & Annotate](zoom) |
+| `voltkit rename FILE… [--find TEXT] [--replace TEXT] [--apply]` | Rename many files at once; previews unless `--apply` | [Batch Rename](rename) |
+| `voltkit rename --undo` | Undo the last batch | [Batch Rename](rename) |
+| `voltkit resize FILE… [--longest-side N]` | Resize pictures in bulk | [Image Resizer](resize) |
+| `voltkit shortcut-guide` | Show the shortcut cheat sheet | [Shortcut Detective](shortcuts#the-cheat-sheet) |
 | `voltkit awake [DURATION]` | Keep the computer awake | [Keep Awake](awake) |
 | `voltkit using TARGET` | Which programs keep a file, folder, drive or port busy | [What's Using This?](using) |
 | `voltkit smart-paste` | Paste the clipboard converted | [Smart Paste](smartpaste) |
@@ -38,6 +43,9 @@ man voltkit                  # the manual page, and man voltkit-COMMAND for each
 
 ```bash
 voltkit ocr --lang eng+deu              # text on screen → clipboard
+voltkit rename *.jpg --find IMG --replace Holiday --apply
+voltkit resize photos/*.jpg --longest-side 1280
+voltkit zoom                            # zoom into the screen and draw on it
 voltkit pick-color                      # eyedropper → HEX on the clipboard
 voltkit color '#3584e4'                 # HEX / RGB / HSL + contrast vs white and black
 voltkit compress *.png --quality 75
@@ -55,7 +63,7 @@ voltkit gpu                             # graphics cards, readings, supported co
 
 ## Binding a command to a key
 
-If your desktop has no GlobalShortcuts portal, bind `voltkit trigger ocr`, `trigger color`, `trigger snippets`, `trigger qr`, `trigger ruler` or `trigger smart-paste` to keys in your desktop's keyboard settings or compositor config. `trigger` sends the action to the running background service, or runs it directly if the service is not running. Results and errors appear as desktop notifications.
+If your desktop has no GlobalShortcuts portal, bind `voltkit trigger ocr`, `trigger color`, `trigger snippets`, `trigger qr`, `trigger ruler`, `trigger smart-paste`, `trigger zoom` or `trigger shortcut-guide` to keys in your desktop's keyboard settings or compositor config. `trigger` sends the action to the running background service, or runs it directly if the service is not running. Results and errors appear as desktop notifications.
 
 ## Man pages
 

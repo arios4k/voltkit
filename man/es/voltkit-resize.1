@@ -1,0 +1,85 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-resize 1  "Voltkit 0.10.5" "Manual de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOMBRE
+voltkit\-resize \- Redimensiona imágenes en lote
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SINOPSIS
+\fBvoltkit resize\fR [\fB\-\-longest\-side\fR] [\fB\-\-percent\fR] [\fB\-\-width\fR] [\fB\-\-height\fR] [\fB\-\-mode\fR] [\fB\-\-enlarge\fR] [\fB\-\-format\fR] [\fB\-\-quality\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFILE\fR> 
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPCIÓN
+Cada ARCHIVO se escribe como NOMBRE (AnxAl).EXT a su lado; los originales nunca se modifican. Se aplica la rotación propia de la imagen; los demás metadatos no se copian. Elige el tamaño con \-\-longest\-side, \-\-percent, o \-\-width y/o \-\-height (por defecto: \-\-longest\-side 1920). Las imágenes no se amplían salvo que añadas \-\-enlarge.
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTOS
+.TP
+<\fIFILE\fR>
+Imágenes por redimensionar (.png, .jpg/.jpeg, .webp, .gif, .bmp, .tif/.tiff)
+.SH OPCIONES
+.TP
+\fB\-\-longest\-side\fR \fI<PIXELS>\fR
+El lado más largo pasa a tener estos píxeles
+.TP
+\fB\-\-percent\fR \fI<PERCENT>\fR
+Un porcentaje del tamaño original
+.TP
+\fB\-\-width\fR \fI<PIXELS>\fR
+Como máximo este ancho, en píxeles
+.TP
+\fB\-\-height\fR \fI<PIXELS>\fR
+Como máximo este alto, en píxeles
+.TP
+\fB\-\-mode\fR \fI<MODE>\fR [default: fit]
+Cómo se adapta la imagen a \-\-width y \-\-height
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+fit: Keep the shape and fit inside the size
+.IP \(bu 2
+fill: Keep the shape, fill the size and trim the overflow
+.IP \(bu 2
+stretch: Exactly the size, even if it distorts the picture
+.RE
+.TP
+\fB\-\-enlarge\fR
+Permite agrandir las imágenes por encima de su tamaño
+.TP
+\fB\-\-format\fR \fI<FORMAT>\fR [default: same]
+El formato en que escribir
+.br
+
+.br
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+same: The format of the original
+.IP \(bu 2
+png
+.IP \(bu 2
+jpeg
+.IP \(bu 2
+webp
+.RE
+.TP
+\fB\-\-quality\fR \fI<QUALITY>\fR [default: 90]
+Calidad de JPEG y WebP de 1 a 100
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Muestra la ayuda (ve un resumen con \*(Aq\-h\*(Aq)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VÉASE TAMBIÉN"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTOR
+Alexis Rios\-Negron
