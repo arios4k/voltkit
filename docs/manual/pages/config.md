@@ -27,6 +27,9 @@ quality = 80            # 1–100
 typed_triggers = false        # expand ;date etc. as you type; run `voltkit expander setup` first
 paste_shortcut = "ctrl+v"     # or "ctrl+shift+v" / "shift+insert"
 
+[zoom]
+save_dir = "/home/you/Pictures/Screenshots"   # where Zoom & Annotate saves; empty means Pictures/Voltkit
+
 [gpu]
 price_per_kwh = 0.15          # your electricity price, to show what a GPU session cost
 currency = "€"
@@ -49,6 +52,7 @@ template = "Best regards,\n{arg:name}"
 | `[compress]` | `quality` | Default quality for JPEG, WebP and video, 1 to 100 | `80` |
 | `[expander]` | `typed_triggers` | Whether typed triggers are on (use the page switch or `voltkit expander setup` to set it up) | `false` |
 | `[expander]` | `paste_shortcut` | What the picker presses to paste: `ctrl+v`, `ctrl+shift+v` (terminals) or `shift+insert` | `ctrl+v` |
+| `[zoom]` | `save_dir` | The folder where Zoom & Annotate saves pictures. Change it on the Zoom & Annotate page. | `Pictures/Voltkit` |
 | `[gpu]` | `price_per_kwh`, `currency` | Electricity price and currency sign for session costs | not set |
 | `[[snippets]]` | `trigger`, `template` | One snippet each; see [Text Expansion](snippets) | three examples |
 

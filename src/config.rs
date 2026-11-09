@@ -13,6 +13,7 @@ pub struct Config {
     pub compress: CompressConfig,
     pub expander: ExpanderConfig,
     pub gpu: GpuConfig,
+    pub zoom: ZoomConfig,
     pub snippets: Vec<Snippet>,
 }
 
@@ -37,6 +38,26 @@ pub struct GpuConfig {
     pub price_per_kwh: f64,
     /// The currency sign shown next to a cost.
     pub currency: String,
+}
+
+/// Zoom & Annotate settings.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(default)]
+pub struct ZoomConfig {
+    /// The folder Ctrl+S saves pictures in. Empty means `Pictures/Voltkit`.
+    pub save_dir: String,
+}
+
+impl ZoomConfig {
+    /// Where pictures are saved: the chosen folder, or `Pictures/Voltkit`.
+    pub fn folder(&self) -> PathBuf {
+        let chosen = self.save_dir.trim();
+        if chosen.is_empty() { Self::default_folder() } else { PathBuf::from(chosen) }
+    }
+
+    pub fn default_folder() -> PathBuf {
+        gtk::glib::user_special_dir(gtk::glib::UserDirectory::Pictures).or_else(dirs::picture_dir).or_else(dirs::home_dir).unwrap_or_default().join("Voltkit")
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -75,6 +96,7 @@ impl Default for Config {
             compress: CompressConfig::default(),
             expander: ExpanderConfig::default(),
             gpu: GpuConfig::default(),
+            zoom: ZoomConfig::default(),
             snippets: vec![
                 Snippet { trigger: ";date".into(), template: "{date:%Y-%m-%d}".into() },
                 Snippet { trigger: ";now".into(), template: "{date:%Y-%m-%d} {time}".into() },

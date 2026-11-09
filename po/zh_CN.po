@@ -48,45 +48,49 @@ msgstr "报告问题"
 msgid "Share a bug or suggest an improvement"
 msgstr "反馈错误或提出改进建议"
 
-#: src/about_ui.rs:38
+#: src/about_ui.rs:40
+msgid "More from the same author"
+msgstr "同一作者的更多应用"
+
+#: src/about_ui.rs:41
 msgid "Universal shipping label printer for Linux"
 msgstr "适用于 Linux 的通用快递面单打印工具"
 
-#: src/about_ui.rs:40
+#: src/about_ui.rs:43
 msgid ""
 "Battery health, charge limits and energy usage in one place, for GNOME"
 msgstr "在一处查看电池健康、充电上限和能耗，适用于 GNOME"
 
-#: src/about_ui.rs:44
+#: src/about_ui.rs:47
 msgid "Credits and license"
 msgstr "致谢与许可证"
 
-#: src/about_ui.rs:45
+#: src/about_ui.rs:48
 msgid "Created by"
 msgstr "作者"
 
-#: src/about_ui.rs:47 src/about_ui.rs:98
+#: src/about_ui.rs:50 src/about_ui.rs:101
 msgid "MIT License"
 msgstr "MIT 许可证"
 
-#: src/about_ui.rs:47
+#: src/about_ui.rs:50
 msgid "Free to use, modify, and share"
 msgstr "可自由使用、修改和分享"
 
-#: src/about_ui.rs:57 src/app.rs:165
+#: src/about_ui.rs:60 src/app.rs:165
 msgid "About Voltkit"
 msgstr "关于 Voltkit"
 
-#: src/about_ui.rs:65
+#: src/about_ui.rs:68
 #, rust-format
 msgid "Open {} on GitHub"
 msgstr "在 GitHub 上打开 {}"
 
-#: src/about_ui.rs:76
+#: src/about_ui.rs:79
 msgid "Open in browser"
 msgstr "在浏览器中打开"
 
-#: src/about_ui.rs:83
+#: src/about_ui.rs:86
 #, rust-format
 msgid "Could not open link: {}"
 msgstr "无法打开链接：{}"
@@ -172,7 +176,7 @@ msgstr "屏幕标尺"
 msgid "Smart Paste"
 msgstr "智能粘贴"
 
-#: src/actions.rs:161 src/modules/mod.rs:177 src/zoom.rs:21 src/zoom.rs:170
+#: src/actions.rs:161 src/modules/mod.rs:177 src/zoom.rs:21 src/zoom.rs:172
 msgid "Zoom & Annotate"
 msgstr "缩放与批注"
 
@@ -235,7 +239,7 @@ msgstr "需要注意"
 msgid "Copy Command"
 msgstr "复制命令"
 
-#: src/app.rs:392 src/app.rs:842 src/gpu_ui.rs:863 src/gpu_ui.rs:1417
+#: src/app.rs:392 src/app.rs:910 src/gpu_ui.rs:863 src/gpu_ui.rs:1417
 msgid "Close"
 msgstr "关闭"
 
@@ -422,205 +426,251 @@ msgstr "冻结屏幕，然后在要测量的内容上拖出一条线或一个矩
 msgid "Drag to measure width × height"
 msgstr "拖动以测量 宽 × 高"
 
-#: src/app.rs:770
+#: src/app.rs:775
 msgid "Measurement controls"
 msgstr "测量控制"
 
-#: src/app.rs:771 src/app.rs:832
+#: src/app.rs:776 src/app.rs:898
 msgid "Drag"
 msgstr "拖动"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Measure a rectangle"
 msgstr "测量矩形"
 
-#: src/app.rs:771 src/app.rs:833
+#: src/app.rs:776 src/app.rs:899
 msgid "Shift + drag"
 msgstr "Shift + 拖动"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Measure a straight line"
 msgstr "测量直线"
 
-#: src/app.rs:771
+#: src/app.rs:776 src/app.rs:906
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Copy the measured size"
 msgstr "复制测得的尺寸"
 
-#: src/app.rs:771 src/app.rs:842
+#: src/app.rs:776 src/app.rs:910
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Close the ruler"
 msgstr "关闭标尺"
 
-#: src/app.rs:775 src/app.rs:847
+#: src/app.rs:780 src/app.rs:915
 msgid "Ready when you need it"
 msgstr "随时待命"
 
-#: src/app.rs:775
+#: src/app.rs:780
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr "全局快捷键：{}。测量基于截图像素，高分屏上也一样。"
 
-#: src/app.rs:781
+#: src/app.rs:786
 msgid "Open Zoom & Annotate"
 msgstr "打开缩放与批注"
 
-#: src/app.rs:795
+#: src/app.rs:800
 msgid "Show it, then point at it"
 msgstr "先展示，再指出重点"
 
-#: src/app.rs:796
+#: src/app.rs:801
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr "冻结屏幕，放大任意部分，并用画笔、直线、方框、箭头和文字在上面绘制：适用于演示、教程和问题报告。"
 
-#: src/app.rs:829
+#: src/app.rs:836
+msgid "Saving pictures"
+msgstr "保存图片"
+
+#: src/app.rs:837
+msgid ""
+"Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
+msgstr "Ctrl+S 会把图片保存到此文件夹。Ctrl+Shift+S 可为某张图片另选位置。"
+
+#: src/app.rs:839
+msgid "Pictures are saved in"
+msgstr "图片保存在"
+
+#: src/app.rs:841 src/detective_ui.rs:255
+msgid "Change…"
+msgstr "更改…"
+
+#: src/app.rs:842 src/app.rs:843
+msgid "Use the default folder, Pictures/Voltkit"
+msgstr "使用默认文件夹“图片/Voltkit”"
+
+#: src/app.rs:861
+msgid "Choose Where Pictures Are Saved"
+msgstr "选择图片的保存位置"
+
+#: src/app.rs:871
+#, rust-format
+msgid "Pictures will be saved in {}"
+msgstr "图片将保存到 {}"
+
+#: src/app.rs:887
+msgid "Pictures are saved in Pictures/Voltkit again"
+msgstr "图片再次保存到“图片/Voltkit”"
+
+#: src/app.rs:895
 msgid "Controls"
 msgstr "操作"
 
-#: src/app.rs:831
+#: src/app.rs:897
 msgid "Scroll"
 msgstr "滚动"
 
-#: src/app.rs:831
+#: src/app.rs:897
 msgid "Zoom in and out"
 msgstr "放大和缩小"
 
-#: src/app.rs:832
+#: src/app.rs:898
 msgid "Draw with the pen"
 msgstr "用画笔绘制"
 
-#: src/app.rs:833
+#: src/app.rs:899
 msgid "Draw a straight line"
 msgstr "绘制直线"
 
-#: src/app.rs:834
+#: src/app.rs:900
 msgid "Ctrl + drag"
 msgstr "Ctrl + 拖动"
 
-#: src/app.rs:834
+#: src/app.rs:900
 msgid "Draw a rectangle"
 msgstr "绘制矩形"
 
-#: src/app.rs:835
+#: src/app.rs:901
 msgid "Tab + drag"
 msgstr "Tab + 拖动"
 
-#: src/app.rs:835
+#: src/app.rs:901
 msgid "Draw an ellipse"
 msgstr "绘制椭圆"
 
-#: src/app.rs:836
+#: src/app.rs:902
 msgid "Ctrl + Shift + drag"
 msgstr "Ctrl + Shift + 拖动"
 
-#: src/app.rs:836
+#: src/app.rs:902
 msgid "Draw an arrow"
 msgstr "绘制箭头"
 
-#: src/app.rs:837
+#: src/app.rs:903
 msgid "R, G, B, O, Y, P"
 msgstr "R、G、B、O、Y、P"
 
-#: src/app.rs:837
+#: src/app.rs:903
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "红、绿、蓝、橙、黄或粉"
 
-#: src/app.rs:838
+#: src/app.rs:904
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:838
+#: src/app.rs:904
 msgid "Type text, then press Enter"
 msgstr "输入文字，然后按 Enter"
 
-#: src/app.rs:839
+#: src/app.rs:905
 msgid "W or K"
 msgstr "W 或 K"
 
-#: src/app.rs:839
+#: src/app.rs:905
 msgid "A white or a black board"
 msgstr "白板或黑板"
 
-#: src/app.rs:840
-msgid "Ctrl+C or Ctrl+S"
-msgstr "Ctrl+C 或 Ctrl+S"
+#: src/app.rs:906
+msgid "Copy the picture"
+msgstr "复制图片"
 
-#: src/app.rs:840
-msgid "Copy the picture, or save it"
-msgstr "复制图片或保存"
+#: src/app.rs:907
+msgid "Ctrl+S"
+msgstr "Ctrl+S"
 
-#: src/app.rs:841
+#: src/app.rs:907
+msgid "Save the picture in the folder above"
+msgstr "把图片保存到上面的文件夹"
+
+#: src/app.rs:908
+msgid "Ctrl+Shift+S"
+msgstr "Ctrl+Shift+S"
+
+#: src/app.rs:908
+msgid "Save the picture somewhere else, once"
+msgstr "把图片保存到别处（仅此一次）"
+
+#: src/app.rs:909
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:841
+#: src/app.rs:909
 msgid "Show every key"
 msgstr "显示所有按键"
 
-#: src/app.rs:847
+#: src/app.rs:915
 #, rust-format
-msgid "Global shortcut: {}. Saved pictures go in Pictures/Voltkit."
-msgstr "全局快捷键：{}。保存的图片放在“图片/Voltkit”中。"
+msgid "Global shortcut: {}."
+msgstr "全局快捷键：{}。"
 
-#: src/app.rs:855 src/resize_ui.rs:56
+#: src/app.rs:923 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "质量"
 
-#: src/app.rs:856
+#: src/app.rs:924
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "数值越低文件越小。PNG 始终无损。"
 
-#: src/app.rs:860
+#: src/app.rs:928
 msgid "Choose Files…"
 msgstr "选择文件…"
 
-#: src/app.rs:877
+#: src/app.rs:945
 msgid "Drop Files Here"
 msgstr "将文件拖放到此处"
 
-#: src/app.rs:879
+#: src/app.rs:947
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr "支持 PNG、JPEG、WebP 和 MP4。元数据会被删除；原文件会保留。"
 
-#: src/app.rs:895 src/resize_ui.rs:124 src/usage_ui.rs:95
+#: src/app.rs:963 src/usage_ui.rs:95
 msgid "Results"
 msgstr "结果"
 
-#: src/app.rs:901
+#: src/app.rs:969
 msgid "Compressing…"
 msgstr "正在压缩…"
 
-#: src/app.rs:918 src/app.rs:921 src/resize_ui.rs:146 src/resize_ui.rs:149
+#: src/app.rs:986 src/app.rs:989 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "失败"
 
-#: src/app.rs:943
+#: src/app.rs:1011
 msgid "Compress Files"
 msgstr "压缩文件"
 
-#: src/app.rs:959
+#: src/app.rs:1027
 msgid "Compression settings"
 msgstr "压缩设置"
 
-#: src/app.rs:961 src/resize_ui.rs:206
+#: src/app.rs:1029 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "原文件保持不变"
 
-#: src/app.rs:961
+#: src/app.rs:1029
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "压缩后的副本会以 name.min.ext 的名称保存在每个源文件旁边。副本中的元数据会被删除。PNG 压缩是无损的；质量设置适用于 JPEG、WebP 和视频。"
 
-#: src/app.rs:962
+#: src/app.rs:1030
 msgid "Choose or drop files to see progress and size savings here."
 msgstr "选择或拖入文件，即可在此查看进度和节省的空间。"
 
@@ -760,18 +810,18 @@ msgstr[0] "已重命名 {} 个项目"
 msgid "Undo with `voltkit rename --undo`."
 msgstr "用 `voltkit rename --undo` 撤销。"
 
-#: src/bulk_cli.rs:244
+#: src/bulk_cli.rs:244 src/resize_ui.rs:259
 #, rust-format
 msgid "{} picture could not be resized"
 msgid_plural "{} pictures could not be resized"
 msgstr[0] "{} 张图片无法缩放"
 
-#: src/config.rs:134
+#: src/config.rs:156
 #, rust-format
 msgid "invalid config at {}"
 msgstr "{} 中的配置无效"
 
-#: src/config.rs:138 src/daemon.rs:352 src/modules/envvars.rs:69
+#: src/config.rs:160 src/daemon.rs:352 src/modules/envvars.rs:69
 msgid "no config directory"
 msgstr "没有配置目录"
 
@@ -1034,10 +1084,6 @@ msgstr "选择一个快捷键或录制一个组合键，即可查看它的所有
 #: src/detective_ui.rs:249
 msgid "  or  "
 msgstr "  或  "
-
-#: src/detective_ui.rs:255
-msgid "Change…"
-msgstr "更改…"
 
 #: src/detective_ui.rs:264
 msgid "Locked by the system administrator"
@@ -1820,7 +1866,7 @@ msgstr "温度单位为 °C，风扇转速单位为 %。"
 msgid "Point {}"
 msgstr "点 {}"
 
-#: src/gpu_ui.rs:528 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:528 src/resize_ui.rs:181 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "移除"
 
@@ -2384,7 +2430,7 @@ msgstr "在 {} 中未找到二维码"
 msgid "the code doesn't scan with this logo; shorten the text"
 msgstr "此二维码加上这个标志后无法扫描；请缩短文字"
 
-#: src/main.rs:656 src/qr_ui.rs:364 src/snippets_ui.rs:347 src/zoom.rs:433
+#: src/main.rs:656 src/qr_ui.rs:364 src/snippets_ui.rs:347 src/zoom.rs:449
 #, rust-format
 msgid "Saved {}"
 msgstr "已保存 {}"
@@ -5226,7 +5272,7 @@ msgstr "无法使用此标志：{}"
 msgid "QR code image copied"
 msgstr "二维码图像已复制"
 
-#: src/qr_ui.rs:365 src/system_ui.rs:370 src/zoom.rs:434
+#: src/qr_ui.rs:365 src/system_ui.rs:370 src/zoom.rs:444 src/zoom.rs:450
 #, rust-format
 msgid "Could not save: {}"
 msgstr "无法保存：{}"
@@ -5248,7 +5294,7 @@ msgstr "添加文件…"
 msgid "Add Folders…"
 msgstr "添加文件夹…"
 
-#: src/rename_ui.rs:27
+#: src/rename_ui.rs:27 src/resize_ui.rs:127
 msgid "Clear"
 msgstr "清空"
 
@@ -5380,128 +5426,231 @@ msgstr "添加文件"
 msgid "Add Folders"
 msgstr "添加文件夹"
 
-#: src/resize_ui.rs:16
+#: src/resize_ui.rs:17
 msgid "Size"
 msgstr "尺寸"
 
-#: src/resize_ui.rs:18
+#: src/resize_ui.rs:19
 msgid "Make the pictures"
 msgstr "将图片设为"
 
-#: src/resize_ui.rs:20
+#: src/resize_ui.rs:21
 msgid "Small: 640 px on the longest side"
 msgstr "小：最长边 640 px"
 
-#: src/resize_ui.rs:21
+#: src/resize_ui.rs:22
 msgid "Medium: 1280 px on the longest side"
 msgstr "中：最长边 1280 px"
 
-#: src/resize_ui.rs:22
+#: src/resize_ui.rs:23
 msgid "Large: 1920 px on the longest side"
 msgstr "大：最长边 1920 px"
 
-#: src/resize_ui.rs:23
+#: src/resize_ui.rs:24
 msgid "Very large: 3840 px on the longest side"
 msgstr "特大：最长边 3840 px"
 
-#: src/resize_ui.rs:24
+#: src/resize_ui.rs:25
 msgid "A share of their size"
 msgstr "原尺寸的一定比例"
 
-#: src/resize_ui.rs:25
+#: src/resize_ui.rs:26
 msgid "A width and height"
 msgstr "指定宽度和高度"
 
-#: src/resize_ui.rs:30
+#: src/resize_ui.rs:31
 msgid "Percent of the original"
 msgstr "原图的百分比"
 
-#: src/resize_ui.rs:33
+#: src/resize_ui.rs:34
 msgid "Width (px)"
 msgstr "宽度（px）"
 
-#: src/resize_ui.rs:34
+#: src/resize_ui.rs:35
 msgid "0 leaves the width open"
 msgstr "0 表示不限宽度"
 
-#: src/resize_ui.rs:37
+#: src/resize_ui.rs:38
 msgid "Height (px)"
 msgstr "高度（px）"
 
-#: src/resize_ui.rs:38
+#: src/resize_ui.rs:39
 msgid "0 leaves the height open"
 msgstr "0 表示不限高度"
 
-#: src/resize_ui.rs:41
+#: src/resize_ui.rs:42
 msgid "When the shape is different"
 msgstr "当形状不同时"
 
-#: src/resize_ui.rs:42
+#: src/resize_ui.rs:43
 msgid "Fit inside the size"
 msgstr "适应该尺寸"
 
-#: src/resize_ui.rs:42
+#: src/resize_ui.rs:43
 msgid "Fill the size and trim the edges"
 msgstr "填满尺寸并裁掉边缘"
 
-#: src/resize_ui.rs:42
+#: src/resize_ui.rs:43
 msgid "Stretch to exactly that size"
 msgstr "拉伸到恰好该尺寸"
 
-#: src/resize_ui.rs:44
+#: src/resize_ui.rs:45
 msgid "Allow enlarging"
 msgstr "允许放大"
 
-#: src/resize_ui.rs:44
+#: src/resize_ui.rs:45
 msgid "Off: a picture smaller than the size is left at its size"
 msgstr "关闭：比目标尺寸小的图片保持原尺寸"
 
-#: src/resize_ui.rs:50
+#: src/resize_ui.rs:51
 msgid "Output"
 msgstr "输出"
 
-#: src/resize_ui.rs:52
+#: src/resize_ui.rs:53
 msgid "Format"
 msgstr "格式"
 
-#: src/resize_ui.rs:53
+#: src/resize_ui.rs:54
 msgid "Same as the original"
 msgstr "与原图相同"
 
-#: src/resize_ui.rs:57
+#: src/resize_ui.rs:58
 msgid "For JPEG and WebP. PNG is always lossless."
 msgstr "适用于 JPEG 和 WebP。PNG 始终无损。"
 
-#: src/resize_ui.rs:108
+#: src/resize_ui.rs:109
 msgid "Choose Pictures…"
 msgstr "选择图片…"
 
-#: src/resize_ui.rs:111
+#: src/resize_ui.rs:112
 msgid "Drop Pictures Here"
 msgstr "把图片拖到这里"
 
-#: src/resize_ui.rs:114
+#: src/resize_ui.rs:115
 msgid ""
-"PNG, JPEG, WebP, GIF, BMP and TIFF. The copies are saved beside the originals, which are never changed."
-msgstr "支持 PNG、JPEG、WebP、GIF、BMP 和 TIFF。副本保存在原文件旁边，原文件不会被改动。"
+"PNG, JPEG, WebP, GIF, BMP and TIFF. Add the pictures, choose the size, then click Resize. The copies are saved beside the originals, which are never changed."
+msgstr ""
+"支持 PNG、JPEG、WebP、GIF、BMP 和 TIFF。添加图片，选择尺寸，然后点击“缩放”。副本保存在原文件旁边，原文件不会被改动。"
 
-#: src/resize_ui.rs:124
-msgid "Choose or drop pictures to see the new sizes here."
-msgstr "选择或拖入图片，这里会显示新尺寸。"
-
-#: src/resize_ui.rs:130
-msgid "Resizing…"
-msgstr "正在缩放…"
-
-#: src/resize_ui.rs:184
+#: src/resize_ui.rs:125 src/resize_ui.rs:300
 msgid "Pictures"
 msgstr "图片"
 
-#: src/resize_ui.rs:190
-msgid "Resize Pictures"
-msgstr "缩放图片"
+#: src/resize_ui.rs:125 src/resize_ui.rs:149
+msgid "Nothing added yet. Drop pictures above or choose them."
+msgstr "尚未添加任何内容。把图片拖到上面或点击选择。"
 
-#: src/resize_ui.rs:207
+#: src/resize_ui.rs:126 src/resize_ui.rs:150
+msgid "Resize"
+msgstr "缩放"
+
+#: src/resize_ui.rs:153
+msgid "Choose the size on the right, then click Resize."
+msgstr "在右侧选择尺寸，然后点击“缩放”。"
+
+#: src/resize_ui.rs:154
+#, rust-format
+msgid "Resize {} Picture"
+msgid_plural "Resize {} Pictures"
+msgstr[0] "缩放 {} 张图片"
+
+#: src/resize_ui.rs:157
+msgid "Done. Change the size and click Resize Again for new copies."
+msgstr "完成。更改尺寸后点击“再次缩放”可生成新副本。"
+
+#: src/resize_ui.rs:158
+msgid "Resize Again"
+msgstr "再次缩放"
+
+#: src/resize_ui.rs:159
+msgid "Makes new copies with the current settings"
+msgstr "用当前设置生成新副本"
+
+#: src/resize_ui.rs:182
+#, rust-format
+msgid "Remove {}"
+msgstr "移除 {}"
+
+#: src/resize_ui.rs:230
+msgid "Resizing…"
+msgstr "正在缩放…"
+
+#: src/resize_ui.rs:259
+#, rust-format
+msgid "Resized {} picture. The copy is beside the original."
+msgid_plural "Resized {} pictures. The copies are beside the originals."
+msgstr[0] "已缩放 {} 张图片。副本在原文件旁边。"
+
+#: src/resize_ui.rs:306
+msgid "Choose Pictures"
+msgstr "选择图片"
+
+#: src/resize_ui.rs:315
+msgid "Which size should I use?"
+msgstr "该用什么尺寸？"
+
+#: src/resize_ui.rs:316
+msgid "Click an idea to set the size for you."
+msgstr "点击一个示例，即可自动设置尺寸。"
+
+#: src/resize_ui.rs:329
+msgid "Email or chat"
+msgstr "电子邮件或聊天"
+
+#: src/resize_ui.rs:329
+msgid ""
+"Medium: 1280 px on the longest side. Small enough to send, sharp on a screen."
+msgstr "中：最长边 1280 px。小到便于发送，在屏幕上依然清晰。"
+
+#: src/resize_ui.rs:330
+msgid "Website or blog"
+msgstr "网站或博客"
+
+#: src/resize_ui.rs:330
+msgid "Large: 1920 px on the longest side. Fills a full-width page."
+msgstr "大：最长边 1920 px。可铺满整页宽度。"
+
+#: src/resize_ui.rs:331
+msgid "A post for social media"
+msgstr "社交媒体帖子"
+
+#: src/resize_ui.rs:331
+msgid "A width of 1080 px, with the height left open (0)."
+msgstr "宽度 1080 px，高度不限（0）。"
+
+#: src/resize_ui.rs:332
+msgid "A square thumbnail"
+msgstr "方形缩略图"
+
+#: src/resize_ui.rs:332
+msgid "256 × 256 px, filling the square and trimming the edges."
+msgstr "256 × 256 px，填满方形并裁掉边缘。"
+
+#: src/resize_ui.rs:333
+msgid "A phone wallpaper"
+msgstr "手机壁纸"
+
+#: src/resize_ui.rs:333
+msgid "1080 × 2400 px, filling the screen and trimming the edges."
+msgstr "1080 × 2400 px，填满屏幕并裁掉边缘。"
+
+#: src/resize_ui.rs:334
+msgid "A 4 × 6 inch print"
+msgstr "4 × 6 英寸的照片"
+
+#: src/resize_ui.rs:334
+msgid "1800 × 1200 px (300 dots per inch), fitting inside."
+msgstr "1800 × 1200 px（300 dpi），适应该尺寸。"
+
+#: src/resize_ui.rs:335
+msgid "Half the size"
+msgstr "一半大小"
+
+#: src/resize_ui.rs:335
+msgid "50 percent of the original, whatever its size."
+msgstr "原图的 50%，无论多大。"
+
+#: src/resize_ui.rs:353
 msgid ""
 "Each copy is saved beside its original as name (WxH).ext. A picture's own rotation is applied; other metadata, such as the place a photo was taken, is not copied."
 msgstr "每个副本以“名称 (宽x高).扩展名”保存在原文件旁边。会应用图片自带的旋转信息；其他元数据（例如照片的拍摄地点）不会被复制。"
@@ -5531,7 +5680,7 @@ msgstr ""
 msgid "Copied {}  ·  Esc: close"
 msgstr "已复制 {}  ·  Esc：关闭"
 
-#: src/ruler.rs:167 src/zoom.rs:427
+#: src/ruler.rs:167 src/zoom.rs:431
 #, rust-format
 msgid "Could not copy: {}"
 msgstr "无法复制：{}"
@@ -5986,7 +6135,7 @@ msgstr "填空字段"
 msgid "A blank you fill in each time you use the snippet"
 msgstr "每次使用片段时需要填写的空白"
 
-#: src/snippets_ui.rs:472 src/zoom.rs:94
+#: src/snippets_ui.rs:472 src/zoom.rs:96
 msgid "Text"
 msgstr "文本"
 
@@ -6601,25 +6750,34 @@ msgstr ""
 "右键或 Ctrl+Z：撤销  ·  Ctrl+Y：重做  ·  E：全部擦除\n"
 "Ctrl+C：复制图片  ·  Ctrl+S：保存  ·  F1：此帮助  ·  Esc：关闭"
 
-#: src/zoom.rs:96
+#: src/zoom.rs:98
 msgid "Highlighter"
 msgstr "荧光笔"
 
-#: src/zoom.rs:98
+#: src/zoom.rs:100
 msgid "Pen"
 msgstr "画笔"
 
-#: src/zoom.rs:105
+#: src/zoom.rs:107
 msgid "F1: help"
 msgstr "F1：帮助"
 
-#: src/zoom.rs:152
+#: src/zoom.rs:154
 msgid "Drawing area. Press F1 for the keys."
 msgstr "绘图区域。按 F1 查看按键。"
 
-#: src/zoom.rs:426
+#: src/zoom.rs:200
+#, rust-format
+msgid "Ctrl+S saves in {}  ·  Ctrl+Shift+S: choose where, once"
+msgstr "Ctrl+S 保存到 {}  ·  Ctrl+Shift+S：另选位置（仅此一次）"
+
+#: src/zoom.rs:430
 msgid "Copied the picture"
 msgstr "已复制图片"
+
+#: src/zoom.rs:623
+msgid "Save the Picture"
+msgstr "保存图片"
 
 #: src/main.rs (command-line help)
 msgid "A unified suite of desktop micro-utilities for Linux"

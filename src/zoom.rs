@@ -76,6 +76,8 @@ struct State {
     cursor: (f64, f64),
     help: bool,
     note: Option<String>,
+    /// Where Ctrl+S puts the picture.
+    folder: std::path::PathBuf,
 }
 
 impl State {
@@ -185,15 +187,17 @@ fn build(app: &adw::Application, texture: gdk::Texture) -> Option<(gtk::Applicat
         cursor: (0.0, 0.0),
         help: false,
         note: None,
+        folder: crate::config::Config::load().map(|c| c.zoom.folder()).unwrap_or_else(|_| crate::config::ZoomConfig::default_folder()),
     }));
     let tex_w = f64::from(texture.width());
 
     // Whatever changes, update the status line and redraw.
-    let refresh = {
+    let refresh: Rc<dyn Fn()> = {
         let (state, area, status, help) = (state.clone(), area.clone(), status.clone(), help.clone());
         Rc::new(move || {
             let s = state.borrow();
             status.set_label(&s.status());
+            help.set_label(&format!("{}\n\n{}", tr(HELP), crate::i18n::fill(tr("Ctrl+S saves in {}  ·  Ctrl+Shift+S: choose where, once"), &[&s.folder.display()])));
             help.set_visible(s.help);
             area.queue_draw();
         })
@@ -324,7 +328,7 @@ fn build(app: &adw::Application, texture: gdk::Texture) -> Option<(gtk::Applicat
     {
         let (state, refresh, window, area) = (state.clone(), refresh.clone(), window.clone(), area.clone());
         keys.connect_key_pressed(move |_, key, _, mods| {
-            let handled = on_key(&state, &window, &area, key, mods);
+            let handled = on_key(&state, &window, &area, &refresh, key, mods);
             refresh();
             if handled { glib::Propagation::Stop } else { glib::Propagation::Proceed }
         });
@@ -344,7 +348,7 @@ fn build(app: &adw::Application, texture: gdk::Texture) -> Option<(gtk::Applicat
 }
 
 /// Handles one key press. Returns whether it was used.
-fn on_key(state: &Rc<RefCell<State>>, window: &gtk::ApplicationWindow, area: &gtk::DrawingArea, key: gdk::Key, mods: gdk::ModifierType) -> bool {
+fn on_key(state: &Rc<RefCell<State>>, window: &gtk::ApplicationWindow, area: &gtk::DrawingArea, refresh: &Rc<dyn Fn()>, key: gdk::Key, mods: gdk::ModifierType) -> bool {
     let ctrl = mods.contains(gdk::ModifierType::CONTROL_MASK);
     let shift = mods.contains(gdk::ModifierType::SHIFT_MASK);
     let mut s = state.borrow_mut();
@@ -427,6 +431,18 @@ fn on_key(state: &Rc<RefCell<State>>, window: &gtk::ApplicationWindow, area: &gt
                             Err(e) => crate::i18n::fill(tr("Could not copy: {}"), &[&format!("{e:#}")]),
                         };
                         s.note = Some(message);
+                    }
+                    's' if shift => {
+                        // Save As: choose the file once, without changing the usual folder.
+                        match export_png(&s) {
+                            Ok(png) => {
+                                let (state, refresh, folder) = (state.clone(), refresh.clone(), s.folder.clone());
+                                drop(s);
+                                save_as(window, png, folder, state, refresh);
+                                return true;
+                            }
+                            Err(e) => s.note = Some(crate::i18n::fill(tr("Could not save: {}"), &[&format!("{e:#}")])),
+                        }
                     }
                     's' => {
                         let message = match save_png(&s) {
@@ -593,11 +609,31 @@ fn export_png(s: &State) -> anyhow::Result<Vec<u8>> {
 }
 
 fn save_png(s: &State) -> anyhow::Result<std::path::PathBuf> {
-    let dir = glib::user_special_dir(glib::UserDirectory::Pictures).unwrap_or_else(|| dirs::home_dir().unwrap_or_default()).join("Voltkit");
+    let dir = s.folder.clone();
     std::fs::create_dir_all(&dir)?;
     let path = dir.join(format!("annotation-{}.png", chrono::Local::now().format("%Y%m%d-%H%M%S")));
     std::fs::write(&path, export_png(s)?)?;
     Ok(path)
+}
+
+/// Asks where to save this one picture, starting in the usual folder.
+fn save_as(window: &gtk::ApplicationWindow, png: Vec<u8>, folder: std::path::PathBuf, state: Rc<RefCell<State>>, refresh: Rc<dyn Fn()>) {
+    let _ = std::fs::create_dir_all(&folder);
+    let dialog = gtk::FileDialog::builder()
+        .title(tr("Save the Picture"))
+        .initial_name(format!("annotation-{}.png", chrono::Local::now().format("%Y%m%d-%H%M%S")))
+        .initial_folder(&gtk::gio::File::for_path(&folder))
+        .build();
+    dialog.save(Some(window), gtk::gio::Cancellable::NONE, move |result| {
+        let Ok(file) = result else { return };
+        let Some(path) = file.path() else { return };
+        let message = match std::fs::write(&path, &png) {
+            Ok(()) => crate::i18n::fill(tr("Saved {}"), &[&path.display()]),
+            Err(e) => crate::i18n::fill(tr("Could not save: {}"), &[&e]),
+        };
+        state.borrow_mut().note = Some(message);
+        refresh();
+    });
 }
 
 #[cfg(test)]
@@ -622,6 +658,7 @@ mod tests {
             cursor: (0.0, 0.0),
             help: false,
             note: None,
+            folder: std::env::temp_dir(),
         }
     }
 

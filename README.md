@@ -20,8 +20,8 @@ manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU
 [![Support on PayPal](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Voltkit's color picker showing #7C3AED with its HEX, RGB and HSL values and WCAG contrast ratings">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Voltkit's color picker showing #7C3AED with its HEX, RGB and HSL values and WCAG contrast ratings">
 </picture>
 
 </div>
@@ -62,8 +62,8 @@ remembers your answer. App Permissions lists them by app: flip a switch to
 change one, or forget it so the app asks again.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.7.0">
-  <img src="docs/screenshots/permissions-light.png?v=0.7.0" alt="App Permissions page listing apps with their camera and screenshot permissions">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.11.0">
+  <img src="docs/screenshots/permissions-light.png?v=0.11.0" alt="App Permissions page listing apps with their camera and screenshot permissions">
 </picture>
 
 ### 📦 Asset Compressor
@@ -73,8 +73,8 @@ compresses with the best tool for each format, and writes `name.min.ext` next to
 it never touches. In our tests: JPEG −43%, PNG −23% (lossless), WebP −60%, MP4 −77%.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
-  <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="Asset Compressor with four compressed files and their size savings">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.11.0">
+  <img src="docs/screenshots/compress-light.png?v=0.11.0" alt="Asset Compressor with four compressed files and their size savings">
 </picture>
 
 ### ✏️ Batch Rename
@@ -88,7 +88,7 @@ Drop files or folders, say what to change, and watch the **preview** before anyt
 
 ### 🖼️ Image Resizer
 
-Drop pictures, pick a size (a longest side, a percent, or a width and height that fit, fill or stretch) and get resized copies beside the originals, which are never touched. Photos come out upright, WebP and JPEG quality is yours to set, and the size never grows unless you allow it. `voltkit resize photos/*.jpg --longest-side 1280`.
+Add pictures, pick a size (a longest side, a percent, or a width and height that fit, fill or stretch, or click an idea such as "Email or chat") and click **Resize**: the copies appear beside the originals, which are never touched. Photos come out upright, WebP and JPEG quality is yours to set, and the size never grows unless you allow it. `voltkit resize photos/*.jpg --longest-side 1280`.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
@@ -102,8 +102,8 @@ clipboard. The color page converts between HEX, RGB and HSL, rates contrast agai
 WCAG standards (AA / AAA), and remembers your recent colors.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Color Picker with a live preview, HEX/RGB/HSL formats, contrast ratings, and saved colors">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Color Picker with a live preview, HEX/RGB/HSL formats, contrast ratings, and saved colors">
 </picture>
 
 ### 🎛️ GPU Tuner
@@ -127,28 +127,28 @@ Applying changes is new and has so far been tested against simulated hardware on
 [docs/GPU_TUNER.md](docs/GPU_TUNER.md) for what works, how it stays safe, and what isn't built yet.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="GPU Tuner, Monitor tab: live readings with history, why the clock is held back, and what the card supports (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.11.0" alt="GPU Tuner, Monitor tab: live readings with history, why the clock is held back, and what the card supports (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="GPU Tuner, Tune tab: power limit, fan curve editor and the other controls (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.11.0" alt="GPU Tuner, Tune tab: power limit, fan curve editor and the other controls (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="GPU Tuner, Profiles tab: saved profiles, automatic rules, sharing and import (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.11.0" alt="GPU Tuner, Profiles tab: saved profiles, automatic rules, sharing and import (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="GPU Tuner, Sessions tab: recorded sessions, electricity price, power-limit suggestion and comparison (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.11.0" alt="GPU Tuner, Sessions tab: recorded sessions, electricity price, power-limit suggestion and comparison (simulated data)">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="GPU Tuner voltage and frequency curve editor with draggable points (simulated data)">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.11.0" alt="GPU Tuner voltage and frequency curve editor with draggable points (simulated data)">
 </picture>
 
 <sub>The screenshot uses simulated data from made-up cards.</sub>
@@ -160,8 +160,8 @@ environment variables like `EDITOR` or an extra `PATH` folder for your whole des
 entries are protected, and every hosts save keeps a backup.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.7.0">
-  <img src="docs/screenshots/system-light.png?v=0.7.0" alt="Hosts & Environment page with hosts entries and switches">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.11.0">
+  <img src="docs/screenshots/system-light.png?v=0.11.0" alt="Hosts & Environment page with hosts entries and switches">
 </picture>
 
 ### ☕ Keep Awake
@@ -171,8 +171,8 @@ off, and your computer won't sleep or lock. It keeps going after you close Voltk
 when the time is up.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.7.0">
-  <img src="docs/screenshots/awake-light.png?v=0.7.0" alt="Keep Awake with its current status and duration controls">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.11.0">
+  <img src="docs/screenshots/awake-light.png?v=0.11.0" alt="Keep Awake with its current status and duration controls">
 </picture>
 
 ### 📷 QR Code
@@ -183,8 +183,8 @@ details and scan the code with your phone. Copy it as an image or save it as a P
 to the middle if you like: Voltkit reads the code back to make sure it still scans.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/qr-light.png?v=0.7.0" alt="QR Code page with a generated code for a link">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/qr-light.png?v=0.11.0" alt="QR Code page with a generated code for a link">
 </picture>
 
 ### 📏 Screen Ruler
@@ -193,13 +193,13 @@ to the middle if you like: Voltkit reads the code back to make sure it still sca
 pixels (hold Shift for a straight line), and press Ctrl+C to copy the size.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="Screen Ruler with its launch action and measurement controls">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ruler-light.png?v=0.11.0" alt="Screen Ruler with its launch action and measurement controls">
 </picture>
 
 ### 🔍 Zoom & Annotate
 
-<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> freezes the screen. Scroll to zoom, drag to draw, hold Shift for a line, Ctrl for a rectangle, Tab for an ellipse, Ctrl+Shift for an arrow, press T to type, R/G/B/O/Y/P for color, W/K for a white or black board, and Ctrl+C or Ctrl+S to copy or save the picture.
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> freezes the screen. Scroll to zoom, drag to draw, hold Shift for a line, Ctrl for a rectangle, Tab for an ellipse, Ctrl+Shift for an arrow, press T to type, R/G/B/O/Y/P for color, W/K for a white or black board, and Ctrl+C or Ctrl+S to copy or save the picture. Saved pictures go in `Pictures/Voltkit`, or in a folder you choose on the tool's page (Ctrl+Shift+S saves one somewhere else).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
@@ -214,8 +214,8 @@ Voltkit itself. Clashes are listed for you, each with free combinations to switc
 changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE). A **cheat sheet** of every shortcut, grouped by owner, opens with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd>.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.7.0">
-  <img src="docs/screenshots/shortcuts-light.png?v=0.7.0" alt="Shortcut Detective showing that Super+V is used by two actions">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">
+  <img src="docs/screenshots/shortcuts-light.png?v=0.11.0" alt="Shortcut Detective showing that Super+V is used by two actions">
 </picture>
 
 ### 📋 Smart Paste
@@ -228,8 +228,8 @@ copied are offered, each with a preview, and your clipboard is left as it was. T
 scripts: `wl-paste | voltkit convert markdown-table`.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.7.0">
-  <img src="docs/screenshots/smartpaste-light.png?v=0.7.0" alt="Smart Paste page turning a spreadsheet range into a Markdown table and CSV">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.11.0">
+  <img src="docs/screenshots/smartpaste-light.png?v=0.11.0" alt="Smart Paste page turning a spreadsheet range into a Markdown table and CSV">
 </picture>
 
 ### 🖥️ System Report
@@ -244,8 +244,8 @@ an update, **What Changed** shows exactly what's different. When you need help, 
 summary for a forum or bug report, with no serial numbers, names or network addresses.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sysreport-light.png?v=0.7.0" alt="System Report page with checks, recent changes and the computer's hardware">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sysreport-light.png?v=0.11.0" alt="System Report page with checks, recent changes and the computer's hardware">
 </picture>
 
 ### ⌨️ Text Expansion
@@ -257,18 +257,18 @@ app. Add, edit and delete snippets right in the app: Insert buttons add the date
 fill-in field, and a live preview shows exactly what will be pasted.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippets-light.png?v=0.7.0" alt="Text Expansion with searchable snippets and insertion controls">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippets-light.png?v=0.11.0" alt="Text Expansion with searchable snippets and insertion controls">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.7.0">
-  <img src="docs/screenshots/picker-light.png?v=0.7.0" alt="Snippet picker listing snippets with live previews">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.11.0">
+  <img src="docs/screenshots/picker-light.png?v=0.11.0" alt="Snippet picker listing snippets with live previews">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippet-editor-light.png?v=0.7.0" alt="Snippet editor with a trigger, text with Insert buttons for date, time, clipboard and fill-in fields, and a live preview">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippet-editor-light.png?v=0.11.0" alt="Snippet editor with a trigger, text with Insert buttons for date, time, clipboard and fill-in fields, and a live preview">
 </picture>
 
 ### 🔍 Text Extractor
@@ -278,8 +278,8 @@ A Wi-Fi password on a conference slide, a command in a video tutorial, an error 
 [100+ languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ocr-light.png?v=0.7.0" alt="Text Extractor showing text read from a photo of a conference slide: a Wi-Fi password and a link">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ocr-light.png?v=0.11.0" alt="Text Extractor showing text read from a photo of a conference slide: a Wi-Fi password and a link">
 </picture>
 
 ### 🔎 What's Using This?
@@ -290,8 +290,8 @@ drive, file, folder or port and see which apps hold it, with what they have open
 you. Parts of the system itself are never offered for closing.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.7.0">
-  <img src="docs/screenshots/using-light.png?v=0.7.0" alt="What's Using This? page listing the apps that keep a USB drive busy">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.11.0">
+  <img src="docs/screenshots/using-light.png?v=0.11.0" alt="What's Using This? page listing the apps that keep a USB drive busy">
 </picture>
 
 ### 🌙 Why Didn't It Sleep?
@@ -302,8 +302,8 @@ it and how much battery it used, and the USB devices allowed to wake it, with a 
 waking it up.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sleep-light.png?v=0.7.0" alt="Why Didn't It Sleep? page listing what keeps the computer awake and recent sleeps">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sleep-light.png?v=0.11.0" alt="Why Didn't It Sleep? page listing what keeps the computer awake and recent sleeps">
 </picture>
 
 ## Why Voltkit
@@ -606,8 +606,8 @@ the repository locally: `APT_KEY_ID=<fingerprint> packaging/apt/build-repo.sh ta
 Created by **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.7.0">
-  <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
+  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
 </picture>
 
 ## Support Voltkit

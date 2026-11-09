@@ -48,46 +48,50 @@ msgstr "Problem melden"
 msgid "Share a bug or suggest an improvement"
 msgstr "Einen Fehler melden oder eine Verbesserung vorschlagen"
 
-#: src/about_ui.rs:38
+#: src/about_ui.rs:40
+msgid "More from the same author"
+msgstr "Mehr vom selben Autor"
+
+#: src/about_ui.rs:41
 msgid "Universal shipping label printer for Linux"
 msgstr "Universeller Versandetiketten-Drucker für Linux"
 
-#: src/about_ui.rs:40
+#: src/about_ui.rs:43
 msgid ""
 "Battery health, charge limits and energy usage in one place, for GNOME"
 msgstr ""
 "Akkugesundheit, Ladegrenzen und Energieverbrauch an einem Ort, für GNOME"
 
-#: src/about_ui.rs:44
+#: src/about_ui.rs:47
 msgid "Credits and license"
 msgstr "Mitwirkende und Lizenz"
 
-#: src/about_ui.rs:45
+#: src/about_ui.rs:48
 msgid "Created by"
 msgstr "Erstellt von"
 
-#: src/about_ui.rs:47 src/about_ui.rs:98
+#: src/about_ui.rs:50 src/about_ui.rs:101
 msgid "MIT License"
 msgstr "MIT-Lizenz"
 
-#: src/about_ui.rs:47
+#: src/about_ui.rs:50
 msgid "Free to use, modify, and share"
 msgstr "Frei nutzbar, veränderbar und weitergebbar"
 
-#: src/about_ui.rs:57 src/app.rs:165
+#: src/about_ui.rs:60 src/app.rs:165
 msgid "About Voltkit"
 msgstr "Über Voltkit"
 
-#: src/about_ui.rs:65
+#: src/about_ui.rs:68
 #, rust-format
 msgid "Open {} on GitHub"
 msgstr "{} auf GitHub öffnen"
 
-#: src/about_ui.rs:76
+#: src/about_ui.rs:79
 msgid "Open in browser"
 msgstr "Im Browser öffnen"
 
-#: src/about_ui.rs:83
+#: src/about_ui.rs:86
 #, rust-format
 msgid "Could not open link: {}"
 msgstr "Link konnte nicht geöffnet werden: {}"
@@ -173,7 +177,7 @@ msgstr "Bildschirmlineal"
 msgid "Smart Paste"
 msgstr "Intelligentes Einfügen"
 
-#: src/actions.rs:161 src/modules/mod.rs:177 src/zoom.rs:21 src/zoom.rs:170
+#: src/actions.rs:161 src/modules/mod.rs:177 src/zoom.rs:21 src/zoom.rs:172
 msgid "Zoom & Annotate"
 msgstr "Zoom und Anmerkungen"
 
@@ -237,7 +241,7 @@ msgstr "Aufmerksamkeit nötig"
 msgid "Copy Command"
 msgstr "Befehl kopieren"
 
-#: src/app.rs:392 src/app.rs:842 src/gpu_ui.rs:863 src/gpu_ui.rs:1417
+#: src/app.rs:392 src/app.rs:910 src/gpu_ui.rs:863 src/gpu_ui.rs:1417
 msgid "Close"
 msgstr "Schließen"
 
@@ -432,209 +436,255 @@ msgstr ""
 msgid "Drag to measure width × height"
 msgstr "Ziehen, um Breite × Höhe zu messen"
 
-#: src/app.rs:770
+#: src/app.rs:775
 msgid "Measurement controls"
 msgstr "Messsteuerung"
 
-#: src/app.rs:771 src/app.rs:832
+#: src/app.rs:776 src/app.rs:898
 msgid "Drag"
 msgstr "Ziehen"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Measure a rectangle"
 msgstr "Ein Rechteck messen"
 
-#: src/app.rs:771 src/app.rs:833
+#: src/app.rs:776 src/app.rs:899
 msgid "Shift + drag"
 msgstr "Umschalt + Ziehen"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Measure a straight line"
 msgstr "Eine gerade Linie messen"
 
-#: src/app.rs:771
+#: src/app.rs:776 src/app.rs:906
 msgid "Ctrl+C"
 msgstr "Strg+C"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Copy the measured size"
 msgstr "Die gemessene Größe kopieren"
 
-#: src/app.rs:771 src/app.rs:842
+#: src/app.rs:776 src/app.rs:910
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:771
+#: src/app.rs:776
 msgid "Close the ruler"
 msgstr "Das Lineal schließen"
 
-#: src/app.rs:775 src/app.rs:847
+#: src/app.rs:780 src/app.rs:915
 msgid "Ready when you need it"
 msgstr "Bereit, wenn Sie es brauchen"
 
-#: src/app.rs:775
+#: src/app.rs:780
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 "Globales Tastenkürzel: {}. Die Messungen verwenden die Pixel des Bildschirmfotos, auch auf hochauflösenden Bildschirmen."
 
-#: src/app.rs:781
+#: src/app.rs:786
 msgid "Open Zoom & Annotate"
 msgstr "Zoom und Anmerkungen öffnen"
 
-#: src/app.rs:795
+#: src/app.rs:800
 msgid "Show it, then point at it"
 msgstr "Zeigen, dann darauf deuten"
 
-#: src/app.rs:796
+#: src/app.rs:801
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr ""
 "Friert den Bildschirm ein, zoomt in jeden Bereich und zeichnet mit Stift, Linien, Rahmen, Pfeilen und Text: für Präsentationen, Anleitungen und Fehlerberichte."
 
-#: src/app.rs:829
+#: src/app.rs:836
+msgid "Saving pictures"
+msgstr "Bilder speichern"
+
+#: src/app.rs:837
+msgid ""
+"Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
+msgstr ""
+"Strg+S speichert das Bild in diesem Ordner. Mit Strg+Umschalt+S wählen Sie für ein Bild einen anderen Ort."
+
+#: src/app.rs:839
+msgid "Pictures are saved in"
+msgstr "Bilder werden gespeichert in"
+
+#: src/app.rs:841 src/detective_ui.rs:255
+msgid "Change…"
+msgstr "Ändern …"
+
+#: src/app.rs:842 src/app.rs:843
+msgid "Use the default folder, Pictures/Voltkit"
+msgstr "Standardordner verwenden, Bilder/Voltkit"
+
+#: src/app.rs:861
+msgid "Choose Where Pictures Are Saved"
+msgstr "Speicherort der Bilder wählen"
+
+#: src/app.rs:871
+#, rust-format
+msgid "Pictures will be saved in {}"
+msgstr "Bilder werden gespeichert in {}"
+
+#: src/app.rs:887
+msgid "Pictures are saved in Pictures/Voltkit again"
+msgstr "Bilder werden wieder in Bilder/Voltkit gespeichert"
+
+#: src/app.rs:895
 msgid "Controls"
 msgstr "Bedienung"
 
-#: src/app.rs:831
+#: src/app.rs:897
 msgid "Scroll"
 msgstr "Scrollen"
 
-#: src/app.rs:831
+#: src/app.rs:897
 msgid "Zoom in and out"
 msgstr "Hinein- und herauszoomen"
 
-#: src/app.rs:832
+#: src/app.rs:898
 msgid "Draw with the pen"
 msgstr "Mit dem Stift zeichnen"
 
-#: src/app.rs:833
+#: src/app.rs:899
 msgid "Draw a straight line"
 msgstr "Eine gerade Linie zeichnen"
 
-#: src/app.rs:834
+#: src/app.rs:900
 msgid "Ctrl + drag"
 msgstr "Strg + ziehen"
 
-#: src/app.rs:834
+#: src/app.rs:900
 msgid "Draw a rectangle"
 msgstr "Ein Rechteck zeichnen"
 
-#: src/app.rs:835
+#: src/app.rs:901
 msgid "Tab + drag"
 msgstr "Tab + ziehen"
 
-#: src/app.rs:835
+#: src/app.rs:901
 msgid "Draw an ellipse"
 msgstr "Eine Ellipse zeichnen"
 
-#: src/app.rs:836
+#: src/app.rs:902
 msgid "Ctrl + Shift + drag"
 msgstr "Strg + Umschalt + ziehen"
 
-#: src/app.rs:836
+#: src/app.rs:902
 msgid "Draw an arrow"
 msgstr "Einen Pfeil zeichnen"
 
-#: src/app.rs:837
+#: src/app.rs:903
 msgid "R, G, B, O, Y, P"
 msgstr "R, G, B, O, Y, P"
 
-#: src/app.rs:837
+#: src/app.rs:903
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "Rot, Grün, Blau, Orange, Gelb oder Rosa"
 
-#: src/app.rs:838
+#: src/app.rs:904
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:838
+#: src/app.rs:904
 msgid "Type text, then press Enter"
 msgstr "Text tippen, dann Eingabetaste drücken"
 
-#: src/app.rs:839
+#: src/app.rs:905
 msgid "W or K"
 msgstr "W oder K"
 
-#: src/app.rs:839
+#: src/app.rs:905
 msgid "A white or a black board"
 msgstr "Eine weiße oder schwarze Tafel"
 
-#: src/app.rs:840
-msgid "Ctrl+C or Ctrl+S"
-msgstr "Strg+C oder Strg+S"
+#: src/app.rs:906
+msgid "Copy the picture"
+msgstr "Das Bild kopieren"
 
-#: src/app.rs:840
-msgid "Copy the picture, or save it"
-msgstr "Das Bild kopieren oder speichern"
+#: src/app.rs:907
+msgid "Ctrl+S"
+msgstr "Strg+S"
 
-#: src/app.rs:841
+#: src/app.rs:907
+msgid "Save the picture in the folder above"
+msgstr "Das Bild im obigen Ordner speichern"
+
+#: src/app.rs:908
+msgid "Ctrl+Shift+S"
+msgstr "Strg+Umschalt+S"
+
+#: src/app.rs:908
+msgid "Save the picture somewhere else, once"
+msgstr "Das Bild einmalig woanders speichern"
+
+#: src/app.rs:909
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:841
+#: src/app.rs:909
 msgid "Show every key"
 msgstr "Alle Tasten anzeigen"
 
-#: src/app.rs:847
+#: src/app.rs:915
 #, rust-format
-msgid "Global shortcut: {}. Saved pictures go in Pictures/Voltkit."
-msgstr ""
-"Globales Tastenkürzel: {}. Gespeicherte Bilder liegen in Bilder/Voltkit."
+msgid "Global shortcut: {}."
+msgstr "Globales Tastenkürzel: {}."
 
-#: src/app.rs:855 src/resize_ui.rs:56
+#: src/app.rs:923 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "Qualität"
 
-#: src/app.rs:856
+#: src/app.rs:924
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "Niedriger ist kleiner. PNG ist immer verlustfrei."
 
-#: src/app.rs:860
+#: src/app.rs:928
 msgid "Choose Files…"
 msgstr "Dateien auswählen…"
 
-#: src/app.rs:877
+#: src/app.rs:945
 msgid "Drop Files Here"
 msgstr "Dateien hier ablegen"
 
-#: src/app.rs:879
+#: src/app.rs:947
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 "PNG, JPEG, WebP und MP4. Metadaten werden entfernt; die Originale bleiben erhalten."
 
-#: src/app.rs:895 src/resize_ui.rs:124 src/usage_ui.rs:95
+#: src/app.rs:963 src/usage_ui.rs:95
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: src/app.rs:901
+#: src/app.rs:969
 msgid "Compressing…"
 msgstr "Wird komprimiert …"
 
-#: src/app.rs:918 src/app.rs:921 src/resize_ui.rs:146 src/resize_ui.rs:149
+#: src/app.rs:986 src/app.rs:989 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "Fehlgeschlagen"
 
-#: src/app.rs:943
+#: src/app.rs:1011
 msgid "Compress Files"
 msgstr "Dateien komprimieren"
 
-#: src/app.rs:959
+#: src/app.rs:1027
 msgid "Compression settings"
 msgstr "Komprimierungseinstellungen"
 
-#: src/app.rs:961 src/resize_ui.rs:206
+#: src/app.rs:1029 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "Ihre Originale bleiben unverändert"
 
-#: src/app.rs:961
+#: src/app.rs:1029
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "Komprimierte Kopien werden neben jeder Quelldatei als name.min.ext gespeichert. Metadaten werden aus der Kopie entfernt. Die PNG-Komprimierung ist verlustfrei; die Qualität gilt für JPEG, WebP und Video."
 
-#: src/app.rs:962
+#: src/app.rs:1030
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 "Wählen Sie Dateien aus oder legen Sie sie ab, um hier den Fortschritt und die Ersparnis zu sehen."
@@ -782,19 +832,19 @@ msgstr[1] "{} Einträge umbenannt"
 msgid "Undo with `voltkit rename --undo`."
 msgstr "Rückgängig mit `voltkit rename --undo`."
 
-#: src/bulk_cli.rs:244
+#: src/bulk_cli.rs:244 src/resize_ui.rs:259
 #, rust-format
 msgid "{} picture could not be resized"
 msgid_plural "{} pictures could not be resized"
 msgstr[0] "{} Bild konnte nicht verkleinert werden"
 msgstr[1] "{} Bilder konnten nicht verkleinert werden"
 
-#: src/config.rs:134
+#: src/config.rs:156
 #, rust-format
 msgid "invalid config at {}"
 msgstr "Ungültige Konfiguration in {}"
 
-#: src/config.rs:138 src/daemon.rs:352 src/modules/envvars.rs:69
+#: src/config.rs:160 src/daemon.rs:352 src/modules/envvars.rs:69
 msgid "no config directory"
 msgstr "Kein Konfigurationsordner vorhanden"
 
@@ -1068,10 +1118,6 @@ msgstr ""
 #: src/detective_ui.rs:249
 msgid "  or  "
 msgstr "  oder  "
-
-#: src/detective_ui.rs:255
-msgid "Change…"
-msgstr "Ändern …"
 
 #: src/detective_ui.rs:264
 msgid "Locked by the system administrator"
@@ -1883,7 +1929,7 @@ msgstr "Temperatur in °C, Lüfterdrehzahl in %."
 msgid "Point {}"
 msgstr "Punkt {}"
 
-#: src/gpu_ui.rs:528 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:528 src/resize_ui.rs:181 src/snippets_ui.rs:152
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -2467,7 +2513,7 @@ msgid "the code doesn't scan with this logo; shorten the text"
 msgstr ""
 "Mit diesem Logo lässt sich der Code nicht scannen; kürzen Sie den Text"
 
-#: src/main.rs:656 src/qr_ui.rs:364 src/snippets_ui.rs:347 src/zoom.rs:433
+#: src/main.rs:656 src/qr_ui.rs:364 src/snippets_ui.rs:347 src/zoom.rs:449
 #, rust-format
 msgid "Saved {}"
 msgstr "{} gespeichert"
@@ -5413,7 +5459,7 @@ msgstr "Dieses Logo kann nicht verwendet werden: {}"
 msgid "QR code image copied"
 msgstr "QR-Code-Bild kopiert"
 
-#: src/qr_ui.rs:365 src/system_ui.rs:370 src/zoom.rs:434
+#: src/qr_ui.rs:365 src/system_ui.rs:370 src/zoom.rs:444 src/zoom.rs:450
 #, rust-format
 msgid "Could not save: {}"
 msgstr "Speichern fehlgeschlagen: {}"
@@ -5436,7 +5482,7 @@ msgstr "Dateien hinzufügen…"
 msgid "Add Folders…"
 msgstr "Ordner hinzufügen…"
 
-#: src/rename_ui.rs:27
+#: src/rename_ui.rs:27 src/resize_ui.rs:127
 msgid "Clear"
 msgstr "Leeren"
 
@@ -5570,130 +5616,236 @@ msgstr "Dateien hinzufügen"
 msgid "Add Folders"
 msgstr "Ordner hinzufügen"
 
-#: src/resize_ui.rs:16
+#: src/resize_ui.rs:17
 msgid "Size"
 msgstr "Größe"
 
-#: src/resize_ui.rs:18
+#: src/resize_ui.rs:19
 msgid "Make the pictures"
 msgstr "Bilder machen"
 
-#: src/resize_ui.rs:20
+#: src/resize_ui.rs:21
 msgid "Small: 640 px on the longest side"
 msgstr "Klein: 640 px an der längsten Seite"
 
-#: src/resize_ui.rs:21
+#: src/resize_ui.rs:22
 msgid "Medium: 1280 px on the longest side"
 msgstr "Mittel: 1280 px an der längsten Seite"
 
-#: src/resize_ui.rs:22
+#: src/resize_ui.rs:23
 msgid "Large: 1920 px on the longest side"
 msgstr "Groß: 1920 px an der längsten Seite"
 
-#: src/resize_ui.rs:23
+#: src/resize_ui.rs:24
 msgid "Very large: 3840 px on the longest side"
 msgstr "Sehr groß: 3840 px an der längsten Seite"
 
-#: src/resize_ui.rs:24
+#: src/resize_ui.rs:25
 msgid "A share of their size"
 msgstr "Ein Anteil ihrer Größe"
 
-#: src/resize_ui.rs:25
+#: src/resize_ui.rs:26
 msgid "A width and height"
 msgstr "Eine Breite und Höhe"
 
-#: src/resize_ui.rs:30
+#: src/resize_ui.rs:31
 msgid "Percent of the original"
 msgstr "Prozent des Originals"
 
-#: src/resize_ui.rs:33
+#: src/resize_ui.rs:34
 msgid "Width (px)"
 msgstr "Breite (px)"
 
-#: src/resize_ui.rs:34
+#: src/resize_ui.rs:35
 msgid "0 leaves the width open"
 msgstr "0 lässt die Breite offen"
 
-#: src/resize_ui.rs:37
+#: src/resize_ui.rs:38
 msgid "Height (px)"
 msgstr "Höhe (px)"
 
-#: src/resize_ui.rs:38
+#: src/resize_ui.rs:39
 msgid "0 leaves the height open"
 msgstr "0 lässt die Höhe offen"
 
-#: src/resize_ui.rs:41
+#: src/resize_ui.rs:42
 msgid "When the shape is different"
 msgstr "Wenn die Form abweicht"
 
-#: src/resize_ui.rs:42
+#: src/resize_ui.rs:43
 msgid "Fit inside the size"
 msgstr "In die Größe einpassen"
 
-#: src/resize_ui.rs:42
+#: src/resize_ui.rs:43
 msgid "Fill the size and trim the edges"
 msgstr "Die Größe füllen und die Ränder beschneiden"
 
-#: src/resize_ui.rs:42
+#: src/resize_ui.rs:43
 msgid "Stretch to exactly that size"
 msgstr "Auf genau diese Größe strecken"
 
-#: src/resize_ui.rs:44
+#: src/resize_ui.rs:45
 msgid "Allow enlarging"
 msgstr "Vergrößern erlauben"
 
-#: src/resize_ui.rs:44
+#: src/resize_ui.rs:45
 msgid "Off: a picture smaller than the size is left at its size"
 msgstr "Aus: ein kleineres Bild bleibt in seiner Größe"
 
-#: src/resize_ui.rs:50
+#: src/resize_ui.rs:51
 msgid "Output"
 msgstr "Ausgabe"
 
-#: src/resize_ui.rs:52
+#: src/resize_ui.rs:53
 msgid "Format"
 msgstr "Format"
 
-#: src/resize_ui.rs:53
+#: src/resize_ui.rs:54
 msgid "Same as the original"
 msgstr "Wie das Original"
 
-#: src/resize_ui.rs:57
+#: src/resize_ui.rs:58
 msgid "For JPEG and WebP. PNG is always lossless."
 msgstr "Für JPEG und WebP. PNG ist immer verlustfrei."
 
-#: src/resize_ui.rs:108
+#: src/resize_ui.rs:109
 msgid "Choose Pictures…"
 msgstr "Bilder auswählen…"
 
-#: src/resize_ui.rs:111
+#: src/resize_ui.rs:112
 msgid "Drop Pictures Here"
 msgstr "Bilder hier ablegen"
 
-#: src/resize_ui.rs:114
+#: src/resize_ui.rs:115
 msgid ""
-"PNG, JPEG, WebP, GIF, BMP and TIFF. The copies are saved beside the originals, which are never changed."
+"PNG, JPEG, WebP, GIF, BMP and TIFF. Add the pictures, choose the size, then click Resize. The copies are saved beside the originals, which are never changed."
 msgstr ""
-"PNG, JPEG, WebP, GIF, BMP und TIFF. Die Kopien liegen neben den Originalen, die nie verändert werden."
+"PNG, JPEG, WebP, GIF, BMP und TIFF. Bilder hinzufügen, Größe wählen, dann auf „Verkleinern“ klicken. Die Kopien liegen neben den Originalen, die nie verändert werden."
 
-#: src/resize_ui.rs:124
-msgid "Choose or drop pictures to see the new sizes here."
-msgstr ""
-"Wählen Sie Bilder aus oder legen Sie sie ab, um hier die neuen Größen zu sehen."
-
-#: src/resize_ui.rs:130
-msgid "Resizing…"
-msgstr "Wird verkleinert…"
-
-#: src/resize_ui.rs:184
+#: src/resize_ui.rs:125 src/resize_ui.rs:300
 msgid "Pictures"
 msgstr "Bilder"
 
-#: src/resize_ui.rs:190
-msgid "Resize Pictures"
-msgstr "Bilder verkleinern"
+#: src/resize_ui.rs:125 src/resize_ui.rs:149
+msgid "Nothing added yet. Drop pictures above or choose them."
+msgstr "Noch nichts hinzugefügt. Bilder oben ablegen oder auswählen."
 
-#: src/resize_ui.rs:207
+#: src/resize_ui.rs:126 src/resize_ui.rs:150
+msgid "Resize"
+msgstr "Verkleinern"
+
+#: src/resize_ui.rs:153
+msgid "Choose the size on the right, then click Resize."
+msgstr "Wählen Sie rechts die Größe und klicken Sie dann auf „Verkleinern“."
+
+#: src/resize_ui.rs:154
+#, rust-format
+msgid "Resize {} Picture"
+msgid_plural "Resize {} Pictures"
+msgstr[0] "{} Bild verkleinern"
+msgstr[1] "{} Bilder verkleinern"
+
+#: src/resize_ui.rs:157
+msgid "Done. Change the size and click Resize Again for new copies."
+msgstr ""
+"Fertig. Ändern Sie die Größe und klicken Sie auf „Erneut verkleinern“ für neue Kopien."
+
+#: src/resize_ui.rs:158
+msgid "Resize Again"
+msgstr "Erneut verkleinern"
+
+#: src/resize_ui.rs:159
+msgid "Makes new copies with the current settings"
+msgstr "Erstellt neue Kopien mit den aktuellen Einstellungen"
+
+#: src/resize_ui.rs:182
+#, rust-format
+msgid "Remove {}"
+msgstr "{} entfernen"
+
+#: src/resize_ui.rs:230
+msgid "Resizing…"
+msgstr "Wird verkleinert…"
+
+#: src/resize_ui.rs:259
+#, rust-format
+msgid "Resized {} picture. The copy is beside the original."
+msgid_plural "Resized {} pictures. The copies are beside the originals."
+msgstr[0] "{} Bild verkleinert. Die Kopie liegt neben dem Original."
+msgstr[1] "{} Bilder verkleinert. Die Kopien liegen neben den Originalen."
+
+#: src/resize_ui.rs:306
+msgid "Choose Pictures"
+msgstr "Bilder auswählen"
+
+#: src/resize_ui.rs:315
+msgid "Which size should I use?"
+msgstr "Welche Größe soll ich nehmen?"
+
+#: src/resize_ui.rs:316
+msgid "Click an idea to set the size for you."
+msgstr "Klicken Sie auf eine Idee, um die Größe einstellen zu lassen."
+
+#: src/resize_ui.rs:329
+msgid "Email or chat"
+msgstr "E-Mail oder Chat"
+
+#: src/resize_ui.rs:329
+msgid ""
+"Medium: 1280 px on the longest side. Small enough to send, sharp on a screen."
+msgstr ""
+"Mittel: 1280 px an der längsten Seite. Klein genug zum Senden, scharf auf dem Bildschirm."
+
+#: src/resize_ui.rs:330
+msgid "Website or blog"
+msgstr "Website oder Blog"
+
+#: src/resize_ui.rs:330
+msgid "Large: 1920 px on the longest side. Fills a full-width page."
+msgstr ""
+"Groß: 1920 px an der längsten Seite. Füllt eine Seite in voller Breite."
+
+#: src/resize_ui.rs:331
+msgid "A post for social media"
+msgstr "Ein Beitrag für soziale Medien"
+
+#: src/resize_ui.rs:331
+msgid "A width of 1080 px, with the height left open (0)."
+msgstr "Eine Breite von 1080 px, die Höhe bleibt offen (0)."
+
+#: src/resize_ui.rs:332
+msgid "A square thumbnail"
+msgstr "Ein quadratisches Vorschaubild"
+
+#: src/resize_ui.rs:332
+msgid "256 × 256 px, filling the square and trimming the edges."
+msgstr "256 × 256 px, das Quadrat füllend, mit beschnittenen Rändern."
+
+#: src/resize_ui.rs:333
+msgid "A phone wallpaper"
+msgstr "Ein Handy-Hintergrundbild"
+
+#: src/resize_ui.rs:333
+msgid "1080 × 2400 px, filling the screen and trimming the edges."
+msgstr "1080 × 2400 px, den Bildschirm füllend, mit beschnittenen Rändern."
+
+#: src/resize_ui.rs:334
+msgid "A 4 × 6 inch print"
+msgstr "Ein Abzug von 4 × 6 Zoll"
+
+#: src/resize_ui.rs:334
+msgid "1800 × 1200 px (300 dots per inch), fitting inside."
+msgstr "1800 × 1200 px (300 Punkte pro Zoll), eingepasst."
+
+#: src/resize_ui.rs:335
+msgid "Half the size"
+msgstr "Die halbe Größe"
+
+#: src/resize_ui.rs:335
+msgid "50 percent of the original, whatever its size."
+msgstr "50 Prozent des Originals, egal wie groß."
+
+#: src/resize_ui.rs:353
 msgid ""
 "Each copy is saved beside its original as name (WxH).ext. A picture's own rotation is applied; other metadata, such as the place a photo was taken, is not copied."
 msgstr ""
@@ -5726,7 +5878,7 @@ msgstr ""
 msgid "Copied {}  ·  Esc: close"
 msgstr "{} kopiert  ·  Esc: schließen"
 
-#: src/ruler.rs:167 src/zoom.rs:427
+#: src/ruler.rs:167 src/zoom.rs:431
 #, rust-format
 msgid "Could not copy: {}"
 msgstr "Kopieren fehlgeschlagen: {}"
@@ -6201,7 +6353,7 @@ msgstr "Ausfüllfeld"
 msgid "A blank you fill in each time you use the snippet"
 msgstr "Eine Lücke, die Sie bei jeder Verwendung des Bausteins ausfüllen"
 
-#: src/snippets_ui.rs:472 src/zoom.rs:94
+#: src/snippets_ui.rs:472 src/zoom.rs:96
 msgid "Text"
 msgstr "Text"
 
@@ -6845,25 +6997,34 @@ msgstr ""
 "Rechtsklick oder Strg+Z: rückgängig  ·  Strg+Y: wiederholen  ·  E: alles löschen\n"
 "Strg+C: Bild kopieren  ·  Strg+S: speichern  ·  F1: diese Hilfe  ·  Esc: schließen"
 
-#: src/zoom.rs:96
+#: src/zoom.rs:98
 msgid "Highlighter"
 msgstr "Textmarker"
 
-#: src/zoom.rs:98
+#: src/zoom.rs:100
 msgid "Pen"
 msgstr "Stift"
 
-#: src/zoom.rs:105
+#: src/zoom.rs:107
 msgid "F1: help"
 msgstr "F1: Hilfe"
 
-#: src/zoom.rs:152
+#: src/zoom.rs:154
 msgid "Drawing area. Press F1 for the keys."
 msgstr "Zeichenfläche. F1 zeigt die Tasten."
 
-#: src/zoom.rs:426
+#: src/zoom.rs:200
+#, rust-format
+msgid "Ctrl+S saves in {}  ·  Ctrl+Shift+S: choose where, once"
+msgstr "Strg+S speichert in {}  ·  Strg+Umschalt+S: einmalig Ort wählen"
+
+#: src/zoom.rs:430
 msgid "Copied the picture"
 msgstr "Bild kopiert"
+
+#: src/zoom.rs:623
+msgid "Save the Picture"
+msgstr "Das Bild speichern"
 
 #: src/main.rs (command-line help)
 msgid "A unified suite of desktop micro-utilities for Linux"

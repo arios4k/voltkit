@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.10.5
+Version:        0.11.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -79,6 +79,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Mon Nov 09 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.11.0-1
+- New: Batch Rename (search and replace, regular expressions, numbering, preview and undo; voltkit rename)
+- New: Image Resizer (a list of pictures, a Resize button, size ideas; voltkit resize)
+- New: Zoom & Annotate (freeze the screen, zoom and draw on it; Super+Shift+Z; voltkit zoom)
+- Shortcut Detective: a cheat sheet of every shortcut (Super+Shift+/; voltkit shortcut-guide)
+- Zoom & Annotate saves pictures in a folder you can change
+- About: the author's other apps in a group of their own
+- Screen Ruler: the words in the page diagram are centered
+
 * Sat Nov 07 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.10.5-1
 - A detailed manual, published at https://arios4k.github.io/voltkit/manual/
 - A Help button in the header, Help & Manual in the main menu, and F1 open the manual page for the tool you are using

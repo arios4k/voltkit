@@ -4,19 +4,39 @@ Image Resizer makes smaller (or bigger) copies of many pictures at once: for ema
 
 ![Image Resizer with three pictures resized to 1920 pixels](shot:resize)
 
-## Use it
+## Use it, step by step
 
-1. Open **Image Resizer** and drop pictures on the page, or click **Choose Pictures…**.
-2. Each picture appears under **Results**: its old and new size in pixels, its file size before and after, and the name of the new file.
-3. Find the copy beside the original, named `name (WxH).ext`. `beach.jpg` resized to 1920 × 1440 becomes `beach (1920x1440).jpg`. A copy never replaces a file: if the name is taken it becomes `beach (1920x1440) 2.jpg`.
+1. Open **Image Resizer**.
+2. **Add the pictures.** Drop them on **Drop Pictures Here**, or click **Choose Pictures…** and select them (several at once). Each one appears in the **Pictures** list with its size in pixels and its file size. Add more at any time. The trash button on a row takes that picture out of the list, and **Clear** empties the list.
+3. **Choose the size** in the panels on the right (see below), or click one of the ideas under **Which size should I use?** to set it for you.
+4. **Click Resize.** The button says how many pictures it will do (*Resize 3 Pictures*). Each row shows its progress and then its result: the old and new size in pixels, the file size before and after, and the name of the new file.
+5. Find the copies beside the originals, named `name (WxH).ext`. `beach.jpg` resized to 1920 × 1440 becomes `beach (1920x1440).jpg`. A copy never replaces a file: if the name is taken it becomes `beach (1920x1440) 2.jpg`.
 
-Pictures are resized as soon as you drop them, with the settings shown at that moment. Change the settings first, then drop.
+Nothing is resized until you click **Resize**, so you can add pictures and change the settings in any order.
+
+**Want a different size too?** Change the size and click **Resize Again**: it makes new copies of everything in the list with the current settings. The originals are never touched, and the earlier copies stay.
 
 Supported pictures: PNG, JPEG, WebP, GIF, BMP and TIFF. Dropped files of other kinds are ignored.
 
+## Which size should I use?
+
+Click an idea to set the controls, then click **Resize**.
+
+| Idea | What it sets | Good for |
+|---|---|---|
+| **Email or chat** | Medium: 1280 px on the longest side | Pictures small enough to send that still look sharp on a screen |
+| **Website or blog** | Large: 1920 px on the longest side | A full-width page |
+| **A post for social media** | Width 1080 px, height open (0) | Feeds that scale to 1080 px wide |
+| **A square thumbnail** | 256 × 256 px, **Fill the size and trim the edges** | Avatars and small previews |
+| **A phone wallpaper** | 1080 × 2400 px, **Fill the size and trim the edges** | A tall phone screen |
+| **A 4 × 6 inch print** | 1800 × 1200 px (300 dots per inch), **Fit inside the size** | Photo prints |
+| **Half the size** | 50 percent | Any picture you just want smaller |
+
+Not sure? **Large: 1920 px** is a good default for sharing, and **Medium: 1280 px** for email.
+
 ## Size
 
-**Make the pictures** offers:
+**Make the pictures** offers these choices (or use an idea above):
 
 | Choice | Result |
 |---|---|
@@ -56,5 +76,6 @@ Choose the size with `--longest-side`, `--percent`, or `--width` and/or `--heigh
 ## Troubleshooting
 
 - **A format fails.** *This computer can't write WebP pictures* means the WebP pixbuf loader is missing (package `webp-pixbuf-loader`).
+- **Nothing happens when I add pictures.** That is expected: add them, then click **Resize**.
 - **The picture did not get smaller.** It may already be smaller than the size you asked for: turn on **Allow enlarging**, or choose a smaller size.
 - **A file is not accepted.** Only PNG, JPEG, WebP, GIF, BMP and TIFF pictures are resized.

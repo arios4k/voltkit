@@ -33,13 +33,16 @@ pub fn dialog() -> adw::Dialog {
     project.add(&link(tr("Report an issue"), tr("Share a bug or suggest an improvement"), "dialog-information-symbolic",
         concat!(env!("CARGO_PKG_REPOSITORY"), "/issues"), &toasts));
 
-    // The author's other apps, with their own icons.
-    crate::app::add_embedded_icons();
-    project.add(&app_link("ThermalPrint", tr("Universal shipping label printer for Linux"), "org.thermalprint.ThermalPrint",
-        "https://github.com/arios4k/thermalprint", &toasts));
-    project.add(&app_link("Battery Health Center", tr("Battery health, charge limits and energy usage in one place, for GNOME"),
-        "io.github.BatteryHealthCenter", "https://github.com/arios4k/battery-health-center", &toasts));
     body.append(&project);
+    crate::app::add_embedded_icons();
+
+    // The author's other apps, in a group of their own.
+    let more = adw::PreferencesGroup::builder().title(tr("More from the same author")).build();
+    more.add(&app_link("ThermalPrint", tr("Universal shipping label printer for Linux"), "org.thermalprint.ThermalPrint",
+        "https://github.com/arios4k/thermalprint", &toasts));
+    more.add(&app_link("Battery Health Center", tr("Battery health, charge limits and energy usage in one place, for GNOME"),
+        "io.github.BatteryHealthCenter", "https://github.com/arios4k/battery-health-center", &toasts));
+    body.append(&more);
 
     let credits = adw::PreferencesGroup::builder().title(tr("Credits and license")).build();
     credits.add(&adw::ActionRow::builder().title(tr("Created by"))

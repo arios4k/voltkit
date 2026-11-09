@@ -94,6 +94,8 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         for (i, module) in modules::sorted().into_iter().enumerate() {
             sidebar.select_row(sidebar.row_at_index(i as i32).as_ref());
             hide_banners(&window);
+            // Keep the window focused, so clicking elsewhere meanwhile can't dim the picture.
+            window.present();
             glib::timeout_future(SETTLE).await;
             save(&window, &dir.join(format!("{}-{theme}.png", module.id)), theme == "dark")?;
             // The GPU page has tabs: one picture of each, named gpu-2, gpu-3…
@@ -128,7 +130,8 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         let about = app::about_dialog();
         about.present(Some(&window));
         hide_banners(&window);
-        glib::timeout_future(SETTLE).await;
+        window.present();
+        glib::timeout_future(SETTLE * 2).await;
         save(&window, &dir.join(format!("about-{theme}.png")), theme == "dark")?;
         about.force_close();
 

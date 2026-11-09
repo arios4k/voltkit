@@ -24,7 +24,7 @@ Opens this manual's home page, `https://arios4k.github.io/voltkit/manual/`.
 
 ### About Voltkit
 
-Shows the version (click it to copy the version information), links to the project and to *Report an issue*, links to other apps by the same author, the author's name, and the **MIT License**, which is free to use, modify and share.
+Shows the version (click it to copy the version information), links to the project and to *Report an issue*, a **More from the same author** group with links to the author's other apps (ThermalPrint and Battery Health Center), the author's name, and the **MIT License**, which is free to use, modify and share.
 
 ### Quit
 

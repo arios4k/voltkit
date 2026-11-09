@@ -158,6 +158,37 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.11.0" date="2026-11-09">
+      <description>
+        <p>Three new tools: Batch Rename, Image Resizer and Zoom &amp; Annotate, and a shortcut cheat sheet.</p>
+        <p xml:lang="es">Tres herramientas nuevas: Renombrar en lote, Redimensionar imágenes y Zoom y anotaciones, y una hoja de atajos.</p>
+        <p xml:lang="de">Drei neue Werkzeuge: Stapel-Umbenennen, Bildgrößen ändern und Zoom und Anmerkungen, sowie eine Tastenkürzel-Übersicht.</p>
+        <p xml:lang="fr">Trois nouveaux outils : Renommage en lot, Redimensionneur d’images et Zoom et annotations, et un aide-mémoire des raccourcis.</p>
+        <p xml:lang="zh_CN">三个新工具：批量重命名、图片缩放、缩放与批注，以及快捷键速查表。</p>
+        <ul>
+          <li>Batch Rename: search and replace, regular expressions, numbering, a preview and undo</li>
+          <li xml:lang="es">Renombrar en lote: buscar y reemplazar, expresiones regulares, numeración, vista previa y deshacer</li>
+          <li xml:lang="de">Stapel-Umbenennen: Suchen und Ersetzen, reguläre Ausdrücke, Nummerierung, Vorschau und Rückgängig</li>
+          <li xml:lang="fr">Renommage en lot : chercher-remplacer, expressions régulières, numérotation, aperçu et annulation</li>
+          <li xml:lang="zh_CN">批量重命名：查找替换、正则表达式、编号，带预览和撤销</li>
+          <li>Image Resizer: add pictures, choose a size or an idea, click Resize</li>
+          <li xml:lang="es">Redimensionar imágenes: añade imágenes, elige un tamaño o una idea y pulsa Redimensionar</li>
+          <li xml:lang="de">Bildgrößen ändern: Bilder hinzufügen, Größe oder Idee wählen, auf Verkleinern klicken</li>
+          <li xml:lang="fr">Redimensionneur d’images : ajoutez des images, choisissez une taille ou une idée, cliquez sur Redimensionner</li>
+          <li xml:lang="zh_CN">图片缩放：添加图片，选择尺寸或示例，点击“缩放”</li>
+          <li>Zoom &amp; Annotate: freeze the screen, zoom in and draw on it, and save where you choose</li>
+          <li xml:lang="es">Zoom y anotaciones: congela la pantalla, acércala, dibuja sobre ella y guarda donde elijas</li>
+          <li xml:lang="de">Zoom und Anmerkungen: den Bildschirm einfrieren, hineinzoomen, zeichnen und speichern, wo Sie möchten</li>
+          <li xml:lang="fr">Zoom et annotations : figez l’écran, zoomez, dessinez et enregistrez où vous voulez</li>
+          <li xml:lang="zh_CN">缩放与批注：冻结屏幕，放大并绘制，保存到你选择的位置</li>
+          <li>A cheat sheet of every shortcut in Shortcut Detective</li>
+          <li xml:lang="es">Una hoja con todos los atajos en el Detective de atajos</li>
+          <li xml:lang="de">Eine Übersicht aller Tastenkürzel im Tastenkürzel-Detektiv</li>
+          <li xml:lang="fr">Un aide-mémoire de tous les raccourcis dans le Détective de raccourcis</li>
+          <li xml:lang="zh_CN">快捷键侦探中新增所有快捷键的速查表</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.5" date="2026-11-07">
       <description>
         <p>A detailed manual, and a Help button that opens it.</p>

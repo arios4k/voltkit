@@ -8,7 +8,9 @@ Zoom & Annotate freezes your screen, lets you **zoom into any part of it and dra
 
 1. Press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>, or click **Open Zoom & Annotate** on the page. Voltkit minimizes its own window, takes a snapshot of your screen and shows it full screen.
 2. Zoom with the mouse wheel, draw with the left button.
-3. Press <kbd>Ctrl</kbd>+<kbd>C</kbd> to copy the picture, <kbd>Ctrl</kbd>+<kbd>S</kbd> to save it, and <kbd>Esc</kbd> to close.
+3. Press <kbd>Ctrl</kbd>+<kbd>C</kbd> to copy the picture, <kbd>Ctrl</kbd>+<kbd>S</kbd> to save it (in the folder shown on the page, `Pictures/Voltkit` by default), and <kbd>Esc</kbd> to close.
+
+**Nothing is saved automatically.** If you close with <kbd>Esc</kbd> without copying or saving, the drawing is gone.
 
 The first time, your desktop asks whether Voltkit may take screenshots; choose **Allow**.
 
@@ -48,11 +50,33 @@ A ring at the pointer shows the pen's size and color. Everything you draw stays 
 | <kbd>Ctrl</kbd>+<kbd>Y</kbd>, or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> | Redo. Drawing something new forgets what could be redone. |
 | <kbd>E</kbd> | Erase everything. This cannot be undone. |
 | <kbd>Ctrl</kbd>+<kbd>C</kbd> | Copy the picture to the clipboard, to paste into a document or chat |
-| <kbd>Ctrl</kbd>+<kbd>S</kbd> | Save a PNG in `Pictures/Voltkit/` as `annotation-DATE-TIME.png` |
+| <kbd>Ctrl</kbd>+<kbd>S</kbd> | Save a PNG in your save folder as `annotation-DATE-TIME.png` (see below) |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> | Save this one picture somewhere else: a file chooser opens in your save folder |
 | <kbd>F1</kbd> or <kbd>?</kbd> | Show every key on the screen |
 | <kbd>Esc</kbd> | Close (or leave text mode or help first) |
 
 Copying and saving give the picture at the screen's **full resolution**, with the marks on it and without the zoom, the pen ring or the status line. A status line at the bottom shows the tool, color, pen size and zoom: *Pen · Red · 4 px · 100 %*.
+
+## Where pictures are saved
+
+By default **<kbd>Ctrl</kbd>+<kbd>S</kbd>** saves in your **Pictures** folder, in a folder called `Voltkit` (for example `/home/you/Pictures/Voltkit`), as `annotation-DATE-TIME.png`, for example `annotation-20261109-142530.png`. Each save makes a new file, so nothing is overwritten. The folder is created if it does not exist.
+
+You always see where it goes:
+
+- The **Zoom & Annotate** page has a **Saving pictures** section: **Pictures are saved in** shows the current folder.
+- In the overlay, press <kbd>F1</kbd>: the help shows *Ctrl+S saves in /home/you/Pictures/Voltkit*.
+- After saving, the status line says **Saved** with the full path.
+
+![The Zoom & Annotate page, with the Saving pictures section showing the folder and its Change button](shot:zoom)
+
+### Change the folder
+
+1. Open **Zoom & Annotate** in Voltkit.
+2. Under **Saving pictures**, click **Change…**.
+3. Choose a folder and confirm. A message says *Pictures will be saved in …*.
+4. To go back to the default, click the **undo** button next to **Change…** (it appears when you have chosen your own folder): *Pictures are saved in Pictures/Voltkit again*.
+
+The choice is kept in the [configuration file](config) as `save_dir` in the `[zoom]` section, and the next time you open Zoom & Annotate it uses it. To save **one** picture somewhere else without changing the folder, press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> and pick the place.
 
 ## From the terminal
 

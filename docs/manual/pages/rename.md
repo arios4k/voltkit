@@ -27,6 +27,18 @@ Items are numbered in the order they appear in the list. Dropping a folder renam
 | **Letter case** | After the replacement: **Keep as it is**, **UPPERCASE**, **lowercase** or **Title Case**. |
 | **Numbering** | **Start at** and **Step**: where `{n}` begins and how much each next item adds. |
 
+### Example: number a folder of videos
+
+To rename `lecture one.mp4`, `intro.mp4`, `final cut.mp4`… to `1.mp4`, `2.mp4`, `3.mp4`:
+
+1. Drop the `.mp4` files on the page.
+2. Leave **Search for** empty.
+3. Type `{n}` in **Replace with** (or `{n:2}` for `01.mp4`, `02.mp4`).
+4. Keep **Change** on *The name, not the extension*, so `.mp4` stays.
+5. Check the **Preview**, then click **Rename**.
+
+The numbers follow the order of the list. From a terminal, `voltkit rename *.mp4 --replace '{n}' --apply` numbers them in alphabetical order.
+
 ### Examples
 
 | Goal | Search | Replace with | Options |

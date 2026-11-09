@@ -19,8 +19,8 @@
 [![通过 PayPal 支持](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="Voltkit 的取色器，显示 #7C3AED 及其 HEX、RGB 和 HSL 值以及 WCAG 对比度评级">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Voltkit 的取色器，显示 #7C3AED 及其 HEX、RGB 和 HSL 值以及 WCAG 对比度评级">
 </picture>
 
 </div>
@@ -62,8 +62,8 @@
 或遗忘某个回答，让应用再次询问。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.7.0">
-  <img src="docs/screenshots/permissions-light.png?v=0.7.0" alt="“应用权限”页面，列出各应用及其摄像头和截屏权限">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.11.0">
+  <img src="docs/screenshots/permissions-light.png?v=0.11.0" alt="“应用权限”页面，列出各应用及其摄像头和截屏权限">
 </picture>
 
 ### 📦 资源压缩器
@@ -73,8 +73,8 @@
 WebP 减小 60%，MP4 减小 77%。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.7.0">
-  <img src="docs/screenshots/compress-light.png?v=0.7.0" alt="资源压缩器，显示四个已压缩的文件及节省的空间">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.11.0">
+  <img src="docs/screenshots/compress-light.png?v=0.11.0" alt="资源压缩器，显示四个已压缩的文件及节省的空间">
 </picture>
 
 ### ✏️ 批量重命名
@@ -88,7 +88,7 @@ WebP 减小 60%，MP4 减小 77%。
 
 ### 🖼️ 图片缩放
 
-拖入图片，选择尺寸（最长边、百分比，或适应、填充、拉伸的宽高），原文件旁边就会生成缩放后的副本，原文件不会被改动。照片会摆正，WebP 和 JPEG 质量可调，除非你允许，否则图片不会被放大。`voltkit resize photos/*.jpg --longest-side 1280`。
+添加图片，选择尺寸（最长边、百分比，或适应、填充、拉伸的宽高，也可点击“电子邮件或聊天”这类示例），然后点击**缩放**：副本会出现在原文件旁边，原文件不会被改动。照片会摆正，WebP 和 JPEG 质量可调，除非你允许，否则图片不会被放大。`voltkit resize photos/*.jpg --longest-side 1280`。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
@@ -101,8 +101,8 @@ WebP 减小 60%，MP4 减小 77%。
 之间转换，按 WCAG 标准（AA / AAA）评定它与白色和黑色的对比度，并记住你最近的颜色。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.7.0">
-  <img src="docs/screenshots/color-light.png?v=0.7.0" alt="取色器，带实时预览、HEX/RGB/HSL 格式、对比度评级和已保存的颜色">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
+  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="取色器，带实时预览、HEX/RGB/HSL 格式、对比度评级和已保存的颜色">
 </picture>
 
 ### 🎛️ GPU 调节器
@@ -120,28 +120,28 @@ WebP 减小 60%，MP4 减小 77%。
 应用更改是新功能，目前只用模拟硬件测试过；哪些可用、如何保证安全以及还有什么没做，请参阅 [docs/GPU_TUNER.md](docs/GPU_TUNER.md)。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-light.png?v=0.10.4" alt="GPU 调节器“监控”标签页：带历史的实时读数、频率被限制的原因以及显卡支持的功能（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-light.png?v=0.11.0" alt="GPU 调节器“监控”标签页：带历史的实时读数、频率被限制的原因以及显卡支持的功能（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.10.4" alt="GPU 调节器“调节”标签页：功率上限、风扇曲线编辑器及其他控件（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-2-light.png?v=0.11.0" alt="GPU 调节器“调节”标签页：功率上限、风扇曲线编辑器及其他控件（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.10.4" alt="GPU 调节器“配置”标签页：已保存的配置、自动规则、分享与导入（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-3-light.png?v=0.11.0" alt="GPU 调节器“配置”标签页：已保存的配置、自动规则、分享与导入（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.10.4" alt="GPU 调节器“会话”标签页：录制的会话、电价、功率上限建议和对比（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-4-light.png?v=0.11.0" alt="GPU 调节器“会话”标签页：录制的会话、电价、功率上限建议和对比（模拟数据）">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.10.4">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.10.4" alt="GPU 调节器的电压/频率曲线编辑器，各点可拖动（模拟数据）">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.11.0">
+  <img src="docs/screenshots/gpu-vf-light.png?v=0.11.0" alt="GPU 调节器的电压/频率曲线编辑器，各点可拖动（模拟数据）">
 </picture>
 
 <sub>此截图使用的是虚构显卡的模拟数据。</sub>
@@ -152,8 +152,8 @@ WebP 减小 60%，MP4 减小 77%。
 `PATH` 文件夹。系统条目受到保护，每次保存 hosts 都会保留备份。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.7.0">
-  <img src="docs/screenshots/system-light.png?v=0.7.0" alt="“Hosts 与环境变量”页面，显示 hosts 条目和开关">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.11.0">
+  <img src="docs/screenshots/system-light.png?v=0.11.0" alt="“Hosts 与环境变量”页面，显示 hosts 条目和开关">
 </picture>
 
 ### ☕ 保持唤醒
@@ -162,8 +162,8 @@ WebP 减小 60%，MP4 减小 77%。
 仍会继续，时间到后自动关闭。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.7.0">
-  <img src="docs/screenshots/awake-light.png?v=0.7.0" alt="“保持唤醒”，显示当前状态和时长控件">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.11.0">
+  <img src="docs/screenshots/awake-light.png?v=0.11.0" alt="“保持唤醒”，显示当前状态和时长控件">
 </picture>
 
 ### 📷 二维码
@@ -173,8 +173,8 @@ WebP 减小 60%，MP4 减小 77%。
 中间加上你自己的小标志：Voltkit 会回读二维码，确保它仍然可以扫描。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/qr-light.png?v=0.7.0" alt="“二维码”页面，显示为一个链接生成的二维码">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/qr-light.png?v=0.11.0" alt="“二维码”页面，显示为一个链接生成的二维码">
 </picture>
 
 ### 📏 屏幕标尺
@@ -183,13 +183,13 @@ WebP 减小 60%，MP4 减小 77%。
 按 Ctrl+C 复制尺寸。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ruler-light.png?v=0.7.0" alt="屏幕标尺，显示其启动操作和测量控件">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ruler-light.png?v=0.11.0" alt="屏幕标尺，显示其启动操作和测量控件">
 </picture>
 
 ### 🔍 缩放与批注
 
-<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> 冻结屏幕。滚动缩放，拖动绘制，按住 Shift 画直线，Ctrl 画矩形，Tab 画椭圆，Ctrl+Shift 画箭头，按 T 输入文字，R/G/B/O/Y/P 选颜色，W/K 切换白板或黑板，Ctrl+C 或 Ctrl+S 复制或保存图片。
+<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> 冻结屏幕。滚动缩放，拖动绘制，按住 Shift 画直线，Ctrl 画矩形，Tab 画椭圆，Ctrl+Shift 画箭头，按 T 输入文字，R/G/B/O/Y/P 选颜色，W/K 切换白板或黑板，Ctrl+C 或 Ctrl+S 复制或保存图片。保存的图片放在“图片/Voltkit”，或你在该工具页面选择的文件夹中（Ctrl+Shift+S 可把某张图片存到别处）。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
@@ -203,8 +203,8 @@ WebP 减小 60%，MP4 减小 77%。
 都可以就地更改、关闭或重置。适用于 GNOME 以及与之相似的桌面（Cinnamon、Budgie、MATE）。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.7.0">
-  <img src="docs/screenshots/shortcuts-light.png?v=0.7.0" alt="快捷键侦探，显示 Super+V 被两个操作使用">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">
+  <img src="docs/screenshots/shortcuts-light.png?v=0.11.0" alt="快捷键侦探，显示 Super+V 被两个操作使用">
 </picture>
 
 ### 📋 智能粘贴
@@ -215,8 +215,8 @@ JSON、表格区域转为 Markdown 表格或 CSV、去除跟踪参数的链接�
 每种都带预览，并且剪贴板会保持原样。同样的转换也可用于脚本：`wl-paste | voltkit convert markdown-table`。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.7.0">
-  <img src="docs/screenshots/smartpaste-light.png?v=0.7.0" alt="“智能粘贴”页面，将表格区域转换为 Markdown 表格和 CSV">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.11.0">
+  <img src="docs/screenshots/smartpaste-light.png?v=0.11.0" alt="“智能粘贴”页面，将表格区域转换为 Markdown 表格和 CSV">
 </picture>
 
 ### 🖥️ 系统报告
@@ -229,8 +229,8 @@ Voltkit 还会每天保存一份硬件、驱动、内核和固件的快照，所
 求助时，**复制报告**会给你一份整洁的摘要，可用于论坛或错误报告，其中不含序列号、名称或网络地址。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sysreport-light.png?v=0.7.0" alt="“系统报告”页面，显示检查项、最近的变化和电脑的硬件">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sysreport-light.png?v=0.11.0" alt="“系统报告”页面，显示检查项、最近的变化和电脑的硬件">
 </picture>
 
 ### ⌨️ 文本扩展
@@ -240,18 +240,18 @@ Voltkit 还会每天保存一份硬件、驱动、内核和固件的快照，所
 应用里添加、编辑和删除片段：“插入”按钮可加入日期、时间、剪贴板或填空字段，实时预览会准确显示将要粘贴的内容。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippets-light.png?v=0.7.0" alt="“文本扩展”，带可搜索的片段和插入控件">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippets-light.png?v=0.11.0" alt="“文本扩展”，带可搜索的片段和插入控件">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.7.0">
-  <img src="docs/screenshots/picker-light.png?v=0.7.0" alt="片段选择器，列出带实时预览的片段">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.11.0">
+  <img src="docs/screenshots/picker-light.png?v=0.11.0" alt="片段选择器，列出带实时预览的片段">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.7.0">
-  <img src="docs/screenshots/snippet-editor-light.png?v=0.7.0" alt="片段编辑器，带触发词、带有日期、时间、剪贴板和填空字段“插入”按钮的文本，以及实时预览">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.11.0">
+  <img src="docs/screenshots/snippet-editor-light.png?v=0.11.0" alt="片段编辑器，带触发词、带有日期、时间、剪贴板和填空字段“插入”按钮的文本，以及实时预览">
 </picture>
 
 ### 🔍 文字提取器
@@ -261,8 +261,8 @@ Voltkit 还会每天保存一份硬件、驱动、内核和固件的快照，所
 [100 多种语言](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html)。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.7.0">
-  <img src="docs/screenshots/ocr-light.png?v=0.7.0" alt="文字提取器，显示从会议幻灯片照片中读取的文字：一个 Wi-Fi 密码和一个链接">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.11.0">
+  <img src="docs/screenshots/ocr-light.png?v=0.11.0" alt="文字提取器，显示从会议幻灯片照片中读取的文字：一个 Wi-Fi 密码和一个链接">
 </picture>
 
 ### 🔎 是什么在占用它？
@@ -272,8 +272,8 @@ Voltkit 还会每天保存一份硬件、驱动、内核和固件的快照，所
 关闭它们并弹出磁盘。系统本身的组成部分绝不会被提供关闭。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.7.0">
-  <img src="docs/screenshots/using-light.png?v=0.7.0" alt="“是什么在占用它？”页面，列出占用 USB 磁盘的应用">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.11.0">
+  <img src="docs/screenshots/using-light.png?v=0.11.0" alt="“是什么在占用它？”页面，列出占用 USB 磁盘的应用">
 </picture>
 
 ### 🌙 为什么没有休眠？
@@ -283,8 +283,8 @@ Voltkit 还会每天保存一份硬件、驱动、内核和固件的快照，所
 它唤醒的设备。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.7.0">
-  <img src="docs/screenshots/sleep-light.png?v=0.7.0" alt="“为什么没有休眠？”页面，列出让电脑保持唤醒的因素和最近的休眠">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.11.0">
+  <img src="docs/screenshots/sleep-light.png?v=0.11.0" alt="“为什么没有休眠？”页面，列出让电脑保持唤醒的因素和最近的休眠">
 </picture>
 
 ## 为什么选择 Voltkit
@@ -564,8 +564,8 @@ APT 软件源。它使用 `APT_SIGNING_KEY` 机密变量中的密钥签名（指
 由 **Alexis Rios-Negron** 创建。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.7.0">
-  <img src="docs/screenshots/about-light.png?v=0.7.0" width="640" alt="Voltkit 的“关于”窗口，显示应用图标、版本和作者 Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
+  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="Voltkit 的“关于”窗口，显示应用图标、版本和作者 Alexis Rios-Negron">
 </picture>
 
 ## 支持 Voltkit
