@@ -158,6 +158,27 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.11.1" date="2026-11-09">
+      <description>
+        <p>Keyboard keys in Shortcut Detective, and a guide to typing accents.</p>
+        <p xml:lang="es">Teclas del teclado en el Detective de atajos y una guía para escribir acentos.</p>
+        <p xml:lang="de">Tastaturtasten im Tastenkürzel-Detektiv und eine Anleitung zum Tippen von Akzenten.</p>
+        <p xml:lang="fr">Touches du clavier dans le Détective de raccourcis et un guide pour taper des accents.</p>
+        <p xml:lang="zh_CN">快捷键侦探新增键盘按键设置，并提供输入重音字符的指南。</p>
+        <ul>
+          <li>Make Caps Lock an Escape or Ctrl key, swap Alt and Super, or turn on a Compose key, with one click</li>
+          <li xml:lang="es">Convierte Bloq Mayús en Escape o Ctrl, intercambia Alt y Super, o activa una tecla Compose, con un clic</li>
+          <li xml:lang="de">Die Feststelltaste zu Escape oder Strg machen, Alt und Super tauschen oder eine Compose-Taste einschalten, mit einem Klick</li>
+          <li xml:lang="fr">Faites de Verr. Maj une touche Échap ou Ctrl, échangez Alt et Super, ou activez une touche Compose, en un clic</li>
+          <li xml:lang="zh_CN">一键把 Caps Lock 变成 Esc 或 Ctrl、交换 Alt 与 Super，或启用 Compose 键</li>
+          <li>A manual page on typing accents and symbols with the Compose key</li>
+          <li xml:lang="es">Una página del manual sobre cómo escribir acentos y símbolos con la tecla Compose</li>
+          <li xml:lang="de">Eine Handbuchseite zum Tippen von Akzenten und Symbolen mit der Compose-Taste</li>
+          <li xml:lang="fr">Une page du manuel sur la saisie d’accents et de symboles avec la touche Compose</li>
+          <li xml:lang="zh_CN">手册新增一页，介绍如何用 Compose 键输入重音字符和符号</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.11.0" date="2026-11-09">
       <description>
         <p>Three new tools: Batch Rename, Image Resizer and Zoom &amp; Annotate, and a shortcut cheat sheet.</p>

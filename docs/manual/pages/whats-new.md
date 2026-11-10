@@ -4,6 +4,13 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.11.1
+
+*November 9, 2026*
+
+- **Keyboard keys in Shortcut Detective.** Make Caps Lock an Escape or Ctrl key, swap Alt and Super, or turn on a Compose key, with one click. The change takes effect at once and is undone by choosing the first entry. See [Shortcut Detective](shortcuts#keyboard-keys).
+- **A guide to typing accents.** The new manual page [Typing accents and symbols](accents) shows how to type é, ñ, ü, ç, € and more with the Compose key, and other ways to type special characters.
+
 ## Version 0.11.0
 
 *November 9, 2026*
