@@ -211,7 +211,7 @@ pixels (hold Shift for a straight line), and press Ctrl+C to copy the size.
 Pressed a shortcut and nothing happened, or the wrong thing did? Press it in **Shortcut Detective** to see every
 action that uses it: the window manager, GNOME Shell, system keys, your custom shortcuts, shell extensions and
 Voltkit itself. Clashes are listed for you, each with free combinations to switch to, and any shortcut can be
-changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE). A **cheat sheet** of every shortcut, grouped by owner, opens with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd>.
+changed, turned off or reset right there. Works on GNOME and the desktops built like it (Cinnamon, Budgie, MATE). A **cheat sheet** of every shortcut, grouped by owner, opens with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd>. **Keyboard keys** makes Caps Lock an Esc or Ctrl key, swaps Alt and Super, or turns on a Compose key for typing accents (é, ñ, ü), with one click and no remapping tool.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">

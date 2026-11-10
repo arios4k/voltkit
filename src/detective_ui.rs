@@ -47,6 +47,79 @@ struct View {
     toasts: adw::ToastOverlay,
 }
 
+/// The "Keyboard keys" section: Caps Lock, Alt and Super, and the Compose key, as desktop
+/// keyboard options. They apply at once and are undone by choosing the first entry.
+fn keyboard_keys(toasts: &adw::ToastOverlay) -> Option<adw::PreferencesGroup> {
+    use crate::modules::xkb;
+    if !xkb::supported() {
+        return None;
+    }
+    let group = adw::PreferencesGroup::builder()
+        .title(tr("Keyboard keys"))
+        .description(tr("Change what a key sends, in every app. It takes effect at once, and choosing the first entry puts the key back."))
+        .margin_top(6)
+        .build();
+    let options = std::rc::Rc::new(RefCell::new(xkb::read()));
+    let rows: Vec<(&'static xkb::Group, adw::ComboRow)> = xkb::GROUPS
+        .iter()
+        .map(|g| {
+            let labels: Vec<&str> = g.choices.iter().map(|(_, name)| tr(name)).collect();
+            let row = adw::ComboRow::builder().title(xkb::title(g)).subtitle(tr(g.subtitle)).model(&gtk::StringList::new(&labels)).build();
+            row.set_selected(xkb::selected(&options.borrow(), g) as u32);
+            group.add(&row);
+            (g, row)
+        })
+        .collect();
+    // Choosing in one row can change another (Compose on Caps Lock takes Caps Lock's other jobs).
+    let syncing = std::rc::Rc::new(Cell::new(false));
+    for (g, row) in &rows {
+        let (rows, options, toasts, syncing, id) = (rows.iter().map(|(g, r)| (*g, r.clone())).collect::<Vec<_>>(), options.clone(), toasts.clone(), syncing.clone(), g.id);
+        row.connect_selected_notify(move |row| {
+            if syncing.get() {
+                return;
+            }
+            let updated = xkb::with_choice(&options.borrow(), id, row.selected() as usize);
+            match xkb::write(&updated) {
+                Ok(()) => {
+                    *options.borrow_mut() = updated;
+                    syncing.set(true);
+                    for (g, r) in &rows {
+                        r.set_selected(xkb::selected(&options.borrow(), g) as u32);
+                    }
+                    syncing.set(false);
+                    toast(&toasts, tr("Keyboard keys changed"));
+                }
+                Err(e) => toast(&toasts, format!("{e:#}")),
+            }
+        });
+    }
+    let reset = adw::ActionRow::builder().title(tr("Put all keys back")).subtitle(tr("Caps Lock, Alt and Super and the Compose key return to how they come.")).activatable(true).build();
+    reset.add_prefix(&gtk::Image::builder().icon_name("edit-undo-symbolic").accessible_role(gtk::AccessibleRole::Presentation).build());
+    {
+        let (rows, options, toasts, syncing) = (rows.iter().map(|(g, r)| (*g, r.clone())).collect::<Vec<_>>(), options.clone(), toasts.clone(), syncing.clone());
+        reset.connect_activated(move |_| {
+            let mut updated = options.borrow().clone();
+            for g in xkb::GROUPS {
+                updated = xkb::with_choice(&updated, g.id, 0);
+            }
+            match xkb::write(&updated) {
+                Ok(()) => {
+                    *options.borrow_mut() = updated;
+                    syncing.set(true);
+                    for (_, r) in &rows {
+                        r.set_selected(0);
+                    }
+                    syncing.set(false);
+                    toast(&toasts, tr("The keys are back as they come"));
+                }
+                Err(e) => toast(&toasts, format!("{e:#}")),
+            }
+        });
+    }
+    group.add(&reset);
+    Some(group)
+}
+
 fn label(text: &str, class: &str) -> gtk::Label {
     gtk::Label::builder().label(text).xalign(0.0).wrap(class != "keycap").css_classes([class]).build()
 }
@@ -107,6 +180,9 @@ impl View {
         responsive.add_breakpoint(narrow);
         body.append(&workspace);
         body.append(&label(tr("System-wide shortcuts · Select an action to inspect or change it"), "dim-label"));
+        if let Some(keys) = keyboard_keys(toasts) {
+            body.append(&keys);
+        }
         let scroll = gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&body).build();
         responsive.set_child(Some(&scroll));
         let root = responsive;

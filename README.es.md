@@ -216,7 +216,7 @@ reales (mantén Mayús para una línea recta) y presiona Ctrl+C para copiar el t
 acción que lo usa: el gestor de ventanas, GNOME Shell, las teclas del sistema, tus atajos personalizados, las
 extensiones del shell y el propio Voltkit. Los conflictos aparecen listados, cada uno con combinaciones libres a
 las que cambiar, y cualquier atajo se puede cambiar, desactivar o restablecer ahí mismo. Funciona en GNOME y en
-los escritorios construidos como él (Cinnamon, Budgie, MATE).
+los escritorios construidos como él (Cinnamon, Budgie, MATE). **Teclas del teclado** convierte Bloq Mayús en Esc o Ctrl, intercambia Alt y Super, o activa una tecla Compose para escribir acentos (é, ñ, ü), con un clic y sin herramientas de remapeo.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">

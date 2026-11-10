@@ -172,11 +172,11 @@ msgstr "{} 已退出，状态为 {}"
 msgid "screen ruler"
 msgstr "屏幕标尺"
 
-#: src/actions.rs:160 src/modules/mod.rs:141 src/smartpaste_ui.rs:100
+#: src/actions.rs:160 src/modules/mod.rs:142 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "智能粘贴"
 
-#: src/actions.rs:161 src/modules/mod.rs:177 src/zoom.rs:21 src/zoom.rs:172
+#: src/actions.rs:161 src/modules/mod.rs:178 src/zoom.rs:21 src/zoom.rs:172
 msgid "Zoom & Annotate"
 msgstr "缩放与批注"
 
@@ -498,7 +498,7 @@ msgstr "Ctrl+S 会把图片保存到此文件夹。Ctrl+Shift+S 可为某张图�
 msgid "Pictures are saved in"
 msgstr "图片保存在"
 
-#: src/app.rs:841 src/detective_ui.rs:255
+#: src/app.rs:841 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "更改…"
 
@@ -697,7 +697,7 @@ msgstr "无法识别时长 {}；请加上 m 或 h，如 30m 或 2h"
 msgid "the duration {} is zero; use off to turn Keep Awake off"
 msgstr "时长 {} 为零；请使用 off 关闭保持唤醒"
 
-#: src/awake.rs:132 src/awake_ui.rs:22 src/sysreport_ui.rs:224 src/system_ui.rs:135
+#: src/awake.rs:132 src/awake_ui.rs:22 src/modules/xkb.rs:48 src/sysreport_ui.rs:224
 msgid "Off"
 msgstr "关闭"
 
@@ -734,7 +734,7 @@ msgstr "4 小时"
 msgid "Until turned off"
 msgstr "直到关闭"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:117
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:118
 msgid "Keep Awake"
 msgstr "保持唤醒"
 
@@ -970,188 +970,213 @@ msgid ""
 "Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On KDE Plasma, open System Settings → Shortcuts."
 msgstr "快捷键侦探支持 GNOME、Cinnamon、Budgie 和 MATE。在 KDE Plasma 上，请打开“系统设置 → 快捷键”。"
 
-#: src/detective_ui.rs:68
+#: src/detective_ui.rs:58
+msgid "Keyboard keys"
+msgstr "键盘按键"
+
+#: src/detective_ui.rs:59
+msgid ""
+"Change what a key sends, in every app. It takes effect at once, and choosing the first entry puts the key back."
+msgstr "更改某个按键发出的内容，对所有应用生效。立即生效，选择第一项即可恢复。"
+
+#: src/detective_ui.rs:90
+msgid "Keyboard keys changed"
+msgstr "键盘按键已更改"
+
+#: src/detective_ui.rs:96
+msgid "Put all keys back"
+msgstr "恢复所有按键"
+
+#: src/detective_ui.rs:96
+msgid "Caps Lock, Alt and Super and the Compose key return to how they come."
+msgstr "Caps Lock、Alt 与 Super 以及 Compose 键恢复为默认。"
+
+#: src/detective_ui.rs:113
+msgid "The keys are back as they come"
+msgstr "按键已恢复为默认"
+
+#: src/detective_ui.rs:141
 msgid "Press a shortcut to investigate"
 msgstr "按下一个快捷键进行查看"
 
-#: src/detective_ui.rs:70
+#: src/detective_ui.rs:143
 msgid "Choose Record Shortcut to inspect a key combination"
 msgstr "选择“录制快捷键”来查看某个组合键"
 
-#: src/detective_ui.rs:72
+#: src/detective_ui.rs:145
 msgid "Record Shortcut"
 msgstr "录制快捷键"
 
-#: src/detective_ui.rs:73
+#: src/detective_ui.rs:146
 msgid "Cheat Sheet"
 msgstr "速查表"
 
-#: src/detective_ui.rs:73
+#: src/detective_ui.rs:146
 msgid "Open a list of your shortcuts to read at a glance"
 msgstr "打开快捷键列表，一目了然"
 
-#: src/detective_ui.rs:82
+#: src/detective_ui.rs:155
 msgid "All Shortcuts"
 msgstr "所有快捷键"
 
-#: src/detective_ui.rs:83
+#: src/detective_ui.rs:156
 msgid "Conflicts"
 msgstr "冲突"
 
-#: src/detective_ui.rs:84
+#: src/detective_ui.rs:157
 msgid "Refresh shortcuts"
 msgstr "刷新快捷键"
 
-#: src/detective_ui.rs:89
+#: src/detective_ui.rs:162
 msgid "Filter shortcuts by action, owner, or keys…"
 msgstr "按操作、所有者或按键筛选快捷键…"
 
-#: src/detective_ui.rs:94
+#: src/detective_ui.rs:167
 msgid "Registered shortcuts"
 msgstr "已注册的快捷键"
 
-#: src/detective_ui.rs:109
+#: src/detective_ui.rs:182
 msgid "System-wide shortcuts · Select an action to inspect or change it"
 msgstr "系统级快捷键 · 选择一个操作即可查看或更改"
 
-#: src/detective_ui.rs:119
+#: src/detective_ui.rs:195
 msgid "Press the keys now · Esc to cancel"
 msgstr "现在请按下按键 · 按 Esc 取消"
 
-#: src/detective_ui.rs:127
+#: src/detective_ui.rs:203
 msgid "Recording cancelled. Choose Record Shortcut to try again."
 msgstr "录制已取消。选择“录制快捷键”可重试。"
 
-#: src/detective_ui.rs:148
+#: src/detective_ui.rs:224
 msgid "No shortcut assigned"
 msgstr "未分配快捷键"
 
-#: src/detective_ui.rs:166
+#: src/detective_ui.rs:242
 #, rust-format
 msgid "Conflicts · {}"
 msgstr "冲突 · {}"
 
-#: src/detective_ui.rs:173
+#: src/detective_ui.rs:249
 #, rust-format
 msgid "Registered shortcuts · {} of {}"
 msgstr "已注册的快捷键 · {} / {}"
 
-#: src/detective_ui.rs:180 src/detective_ui.rs:249
+#: src/detective_ui.rs:256 src/detective_ui.rs:325
 msgid "Not set"
 msgstr "未设置"
 
-#: src/detective_ui.rs:184
+#: src/detective_ui.rs:260
 msgid "Conflict"
 msgstr "冲突"
 
-#: src/detective_ui.rs:193
+#: src/detective_ui.rs:269
 msgid "No shortcuts match these filters"
 msgstr "没有符合这些筛选条件的快捷键"
 
-#: src/detective_ui.rs:214
+#: src/detective_ui.rs:290
 msgid "Shortcut details"
 msgstr "快捷键详情"
 
-#: src/detective_ui.rs:220
+#: src/detective_ui.rs:296
 msgid ""
 "Available as a system-wide shortcut. Apps may still use it within their windows."
 msgstr "可用作系统级快捷键。应用仍可能在自己的窗口内使用它。"
 
-#: src/detective_ui.rs:221
+#: src/detective_ui.rs:297
 msgid "1 action uses this shortcut"
 msgstr "有 1 个操作使用此快捷键"
 
-#: src/detective_ui.rs:222
+#: src/detective_ui.rs:298
 #, rust-format
 msgid ""
 "{} actions share this shortcut. Change an action to resolve the conflict."
 msgstr "有 {} 个操作共用此快捷键。更改其中一个操作即可解决冲突。"
 
-#: src/detective_ui.rs:230
+#: src/detective_ui.rs:306
 msgid "Free combinations to try"
 msgstr "可以尝试的空闲组合"
 
-#: src/detective_ui.rs:236
+#: src/detective_ui.rs:312
 msgid ""
 "Choose Change to record a new combination, turn a shortcut off, or reset its default."
 msgstr "选择“更改”即可录制新的组合键、关闭快捷键或恢复其默认值。"
 
-#: src/detective_ui.rs:242
+#: src/detective_ui.rs:318
 msgid ""
 "Select a shortcut or record a key combination to see its owners and available alternatives."
 msgstr "选择一个快捷键或录制一个组合键，即可查看它的所有者和可用的替代组合。"
 
-#: src/detective_ui.rs:249
+#: src/detective_ui.rs:325
 msgid "  or  "
 msgstr "  或  "
 
-#: src/detective_ui.rs:264
+#: src/detective_ui.rs:340
 msgid "Locked by the system administrator"
 msgstr "已被系统管理员锁定"
 
-#: src/detective_ui.rs:275
+#: src/detective_ui.rs:351
 #, rust-format
 msgid "{} · now {}"
 msgstr "{} · 当前为 {}"
 
-#: src/detective_ui.rs:275
+#: src/detective_ui.rs:351
 msgid "not set"
 msgstr "未设置"
 
-#: src/detective_ui.rs:277 src/detective_ui.rs:313
+#: src/detective_ui.rs:353 src/detective_ui.rs:389
 msgid "Press the New Shortcut…"
 msgstr "请按下新的快捷键…"
 
-#: src/detective_ui.rs:280 src/gpu_ui.rs:1249 src/modules/guide.rs:36 src/snippets_ui.rs:406
+#: src/detective_ui.rs:356 src/gpu_ui.rs:1249 src/modules/guide.rs:36 src/snippets_ui.rs:406
 msgid "Save"
 msgstr "保存"
 
-#: src/detective_ui.rs:289
+#: src/detective_ui.rs:365
 #, rust-format
 msgid "{} is free"
 msgstr "{} 是空闲的"
 
-#: src/detective_ui.rs:293
+#: src/detective_ui.rs:369
 #, rust-format
 msgid "{} is already used by {}. Pick another, or change that one first."
 msgstr "{} 已被 {} 使用。请换一个，或先修改那个。"
 
-#: src/detective_ui.rs:310
+#: src/detective_ui.rs:386
 msgid "Press the keys now (Esc to cancel)"
 msgstr "现在请按下按键（按 Esc 取消）"
 
-#: src/detective_ui.rs:327
+#: src/detective_ui.rs:403
 msgid "Free combinations"
 msgstr "空闲的组合"
 
-#: src/detective_ui.rs:330 src/sleep_ui.rs:181
+#: src/detective_ui.rs:406 src/sleep_ui.rs:181
 msgid "Turn Off"
 msgstr "关闭"
 
-#: src/detective_ui.rs:331
+#: src/detective_ui.rs:407
 msgid "Reset to Default"
 msgstr "恢复默认"
 
-#: src/detective_ui.rs:341
+#: src/detective_ui.rs:417
 msgid "Change Shortcut"
 msgstr "更改快捷键"
 
-#: src/detective_ui.rs:353 src/permissions_ui.rs:170
+#: src/detective_ui.rs:429 src/permissions_ui.rs:170
 #, rust-format
 msgid "Not changed: {}"
 msgstr "未更改：{}"
 
-#: src/detective_ui.rs:361
+#: src/detective_ui.rs:437
 #, rust-format
 msgid "“{}” is now {}"
 msgstr "“{}”现在是 {}"
 
-#: src/detective_ui.rs:366
+#: src/detective_ui.rs:442
 #, rust-format
 msgid "“{}” has no shortcut now"
 msgstr "“{}”现在没有快捷键"
 
-#: src/detective_ui.rs:370
+#: src/detective_ui.rs:446
 #, rust-format
 msgid "“{}” is back to its default"
 msgstr "“{}”已恢复默认"
@@ -1206,7 +1231,7 @@ msgstr "区域截取"
 msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr "请安装 xdg-desktop-portal 以及适合你桌面的门户后端"
 
-#: src/doctor.rs:257 src/modules/mod.rs:93
+#: src/doctor.rs:257 src/modules/mod.rs:94
 msgid "Color Picker"
 msgstr "取色器"
 
@@ -1218,11 +1243,11 @@ msgstr "屏幕取色：截图门户"
 msgid "Clipboard (hotkeys and command line)"
 msgstr "剪贴板（快捷键和命令行）"
 
-#: src/doctor.rs:272 src/modules/mod.rs:81
+#: src/doctor.rs:272 src/modules/mod.rs:82
 msgid "Asset Compressor"
 msgstr "资源压缩器"
 
-#: src/doctor.rs:283 src/modules/mod.rs:153
+#: src/doctor.rs:283 src/modules/mod.rs:154
 msgid "Text Expansion"
 msgstr "文本扩展"
 
@@ -1250,7 +1275,7 @@ msgstr "先运行 `voltkit expander setup`，再运行 `voltkit expander enable`
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "阻止休眠和锁屏：Inhibit 门户"
 
-#: src/doctor.rs:320 src/modules/mod.rs:105
+#: src/doctor.rs:320 src/modules/mod.rs:106
 msgid "Hosts & Environment"
 msgstr "Hosts 与环境变量"
 
@@ -2788,7 +2813,7 @@ msgstr "Enter"
 msgid "Insert the snippet, or move to the next parameter field."
 msgstr "插入片段，或跳到下一个参数字段。"
 
-#: src/manpages.rs:185
+#: src/manpages.rs:185 src/modules/xkb.rs:31
 msgid "Escape"
 msgstr "Esc"
 
@@ -3646,7 +3671,7 @@ msgstr "无法保存 {}：{}"
 msgid "Shift"
 msgstr "Shift"
 
-#: src/modules/keybindings.rs:62
+#: src/modules/keybindings.rs:62 src/modules/xkb.rs:32
 msgid "Ctrl"
 msgstr "Ctrl"
 
@@ -3692,130 +3717,130 @@ msgstr "无法保存快捷键"
 msgid "custom shortcuts have no default"
 msgstr "自定义快捷键没有默认值"
 
-#: src/modules/mod.rs:75
+#: src/modules/mod.rs:76
 msgid "App Permissions"
 msgstr "应用权限"
 
-#: src/modules/mod.rs:77
+#: src/modules/mod.rs:78
 msgid ""
 "Change or forget the answers you gave when apps asked for screenshots, the camera and more."
 msgstr "更改或遗忘你在应用请求截屏、摄像头等时给出的回答。"
 
-#: src/modules/mod.rs:83
+#: src/modules/mod.rs:84
 msgid "Drop images or videos to strip metadata and shrink them."
 msgstr "拖入图片或视频，即可删除元数据并缩小体积。"
 
-#: src/modules/mod.rs:87
+#: src/modules/mod.rs:88
 msgid "Batch Rename"
 msgstr "批量重命名"
 
-#: src/modules/mod.rs:89
+#: src/modules/mod.rs:90
 msgid ""
 "Rename many files at once: search and replace, regular expressions, numbering, with a preview and undo."
 msgstr "一次重命名许多文件：查找替换、正则表达式、编号，带预览和撤销。"
 
-#: src/modules/mod.rs:95
+#: src/modules/mod.rs:96
 msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
 msgstr "HEX / RGB / HSL 转换、WCAG 对比度检查和历史记录。"
 
-#: src/modules/mod.rs:99
+#: src/modules/mod.rs:100
 msgid "GPU Tuner"
 msgstr "GPU 调节器"
 
-#: src/modules/mod.rs:101
+#: src/modules/mod.rs:102
 msgid ""
 "Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."
 msgstr "监控并调节 NVIDIA、AMD 和 Intel 显卡，并清楚了解每块显卡支持哪些控制项。"
 
-#: src/modules/mod.rs:107
+#: src/modules/mod.rs:108
 msgid ""
 "Edit /etc/hosts and your session's environment variables without a text editor."
 msgstr "无需文本编辑器，即可编辑 /etc/hosts 和会话的环境变量。"
 
-#: src/modules/mod.rs:111
+#: src/modules/mod.rs:112
 msgid "Image Resizer"
 msgstr "图片缩放"
 
-#: src/modules/mod.rs:113
+#: src/modules/mod.rs:114
 msgid ""
 "Resize many pictures at once, keeping their shape, without touching the originals."
 msgstr "一次缩放许多图片，保持比例，不改动原文件。"
 
-#: src/modules/mod.rs:119
+#: src/modules/mod.rs:120
 msgid "Stop your computer from sleeping or locking for a while."
 msgstr "让电脑在一段时间内不休眠、不锁屏。"
 
-#: src/modules/mod.rs:123
+#: src/modules/mod.rs:124
 msgid "QR Code"
 msgstr "二维码"
 
-#: src/modules/mod.rs:125
+#: src/modules/mod.rs:126
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
 msgstr "读取屏幕上任何位置的二维码，或将文字、链接和 Wi-Fi 信息生成二维码。"
 
-#: src/modules/mod.rs:129 src/ruler.rs:20 src/ruler.rs:84
+#: src/modules/mod.rs:130 src/ruler.rs:20 src/ruler.rs:84
 msgid "Screen Ruler"
 msgstr "屏幕标尺"
 
-#: src/modules/mod.rs:131
+#: src/modules/mod.rs:132
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "以像素为单位测量屏幕上的距离和大小。"
 
-#: src/modules/mod.rs:135
+#: src/modules/mod.rs:136
 msgid "Shortcut Detective"
 msgstr "快捷键侦探"
 
-#: src/modules/mod.rs:137
+#: src/modules/mod.rs:138
 msgid ""
 "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
 msgstr "找出哪个应用占用了某个键盘快捷键，修复冲突，并挑选空闲的组合。"
 
-#: src/modules/mod.rs:143
+#: src/modules/mod.rs:144
 msgid ""
 "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
 msgstr "粘贴转换后的复制内容：整理 JSON、将表格转为 Markdown、清理链接、改变大小写。"
 
-#: src/modules/mod.rs:147
+#: src/modules/mod.rs:148
 msgid "System Report"
 msgstr "系统报告"
 
-#: src/modules/mod.rs:149
+#: src/modules/mod.rs:150
 msgid ""
 "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
 msgstr "这台电脑里有什么，一目了然：驱动、硬盘健康、温度、固件更新以及有什么变化。"
 
-#: src/modules/mod.rs:155
+#: src/modules/mod.rs:156
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr "带动态变量的片段：日期、剪贴板、参数。"
 
-#: src/modules/mod.rs:159
+#: src/modules/mod.rs:160
 msgid "Text Extractor"
 msgstr "文字提取器"
 
-#: src/modules/mod.rs:161
+#: src/modules/mod.rs:162
 msgid "Drag a box around any text on screen and copy it to the clipboard."
 msgstr "在屏幕上的任意文字周围拖出一个方框，并将其复制到剪贴板。"
 
-#: src/modules/mod.rs:165
+#: src/modules/mod.rs:166
 msgid "What's Using This?"
 msgstr "是什么在占用它？"
 
-#: src/modules/mod.rs:167
+#: src/modules/mod.rs:168
 msgid ""
 "See which apps keep a file, folder, drive or network port busy, and close them."
 msgstr "查看哪些应用占用了文件、文件夹、磁盘或网络端口，并将其关闭。"
 
-#: src/modules/mod.rs:171
+#: src/modules/mod.rs:172
 msgid "Why Didn't It Sleep?"
 msgstr "为什么没有休眠？"
 
-#: src/modules/mod.rs:173
+#: src/modules/mod.rs:174
 msgid ""
 "What keeps the computer awake, what woke it up, and how much battery it used asleep."
 msgstr "是什么让电脑保持唤醒，是什么把它唤醒，以及休眠时用了多少电量。"
 
-#: src/modules/mod.rs:179
+#: src/modules/mod.rs:180
 msgid ""
 "Zoom into the screen and draw on it with a pen, arrows, boxes and text."
 msgstr "放大屏幕，并用画笔、箭头、方框和文字在上面绘制。"
@@ -4960,6 +4985,67 @@ msgstr "未关闭：未获得授权"
 #, rust-format
 msgid "could not close {}: {}"
 msgstr "无法关闭 {}：{}"
+
+#: src/modules/xkb.rs:27 src/modules/xkb.rs:53
+msgid "Caps Lock"
+msgstr "Caps Lock"
+
+#: src/modules/xkb.rs:28
+msgid "Make the key you rarely use into one you do."
+msgstr "把很少用的按键变成常用的按键。"
+
+#: src/modules/xkb.rs:30
+msgid "As it comes"
+msgstr "保持默认"
+
+#: src/modules/xkb.rs:33
+msgid "Swap with Escape"
+msgstr "与 Esc 互换"
+
+#: src/modules/xkb.rs:34
+msgid "Backspace"
+msgstr "退格键"
+
+#: src/modules/xkb.rs:39
+msgid "Alt and Super"
+msgstr "Alt 与 Super"
+
+#: src/modules/xkb.rs:40
+msgid "For keyboards laid out like a Mac's."
+msgstr "适用于布局类似 Mac 的键盘。"
+
+#: src/modules/xkb.rs:41
+msgid "As they come"
+msgstr "保持默认"
+
+#: src/modules/xkb.rs:41
+msgid "Swap Alt and Super"
+msgstr "互换 Alt 与 Super"
+
+#: src/modules/xkb.rs:45
+msgid "Compose key"
+msgstr "Compose 键"
+
+#: src/modules/xkb.rs:46
+msgid ""
+"Press it, then two keys, to type accents and symbols: Compose, ' and e give é."
+msgstr "按下它，再按两个键即可输入重音和符号：Compose、' 和 e 得到 é。"
+
+#: src/modules/xkb.rs:49
+msgid "Right Alt"
+msgstr "右 Alt"
+
+#: src/modules/xkb.rs:50
+msgid "Menu key"
+msgstr "菜单键"
+
+#: src/modules/xkb.rs:51
+msgid "Right Ctrl"
+msgstr "右 Ctrl"
+
+#: src/modules/xkb.rs:52
+msgid "Right Super"
+msgstr "右 Super"
 
 #: src/paste.rs:40
 #, rust-format
