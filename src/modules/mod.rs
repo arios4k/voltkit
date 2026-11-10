@@ -24,6 +24,7 @@ pub mod permissions;
 pub mod snippets;
 pub mod sysreport;
 pub mod usage;
+pub mod xkb;
 
 /// Static description of a module, used to build the control center sidebar.
 pub struct ModuleInfo {

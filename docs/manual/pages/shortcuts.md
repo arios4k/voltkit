@@ -58,6 +58,25 @@ You can also click one of the **Free combinations** to use it. A toast confirms:
 
 Voltkit's own hotkeys also live in its [configuration file](config); changing them here keeps the two in step.
 
+## Keyboard keys
+
+Below the shortcut list, **Keyboard keys** changes what a *key* sends, in every app, instead of what a *shortcut* does. They are the changes almost everyone wants:
+
+| Setting | Choices | Use it for |
+|---|---|---|
+| **Caps Lock** | **As it comes**, **Escape**, **Ctrl**, **Swap with Escape**, **Backspace** | Turning a key you rarely use into one you do. Many people make it <kbd>Esc</kbd> (editors) or <kbd>Ctrl</kbd> (the terminal) |
+| **Alt and Super** | **As they come**, **Swap Alt and Super** | A keyboard laid out like a Mac's |
+| **Compose key** | **Off**, **Right Alt**, **Menu key**, **Right Ctrl**, **Right Super**, **Caps Lock** | Typing accents and symbols: Compose, then <kbd>'</kbd> and <kbd>e</kbd>, gives é. See [Typing accents and symbols](accents) |
+
+![Shortcut Detective's Keyboard keys section: Caps Lock, Alt and Super, and the Compose key](shot:shortcuts-keys)
+
+- **It takes effect at once**, with a toast saying *Keyboard keys changed*. There is nothing to apply or confirm.
+- **It can't lock you out.** These are the desktop's own keyboard options, a plain setting. Voltkit does not read your keyboard for them and installs nothing. Choose **As it comes** (or **Off**) in a row, or **Put all keys back**, and the key is back.
+- Options you set elsewhere, such as the way you switch keyboard layouts, are left alone.
+- Two jobs can't share one key. Choosing **Caps Lock** for the Compose key lets go of Caps Lock's other jobs, and choosing a Caps Lock job turns off Compose on Caps Lock.
+
+> [!NOTE] This is not a full key remapper. It does not do tap-versus-hold keys or per-app changes: on Wayland an app cannot tell which window is in front. It covers the common cases safely.
+
 ## Related commands
 
 ```bash

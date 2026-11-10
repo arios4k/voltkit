@@ -173,11 +173,11 @@ msgstr "{} wurde mit {} beendet"
 msgid "screen ruler"
 msgstr "Bildschirmlineal"
 
-#: src/actions.rs:160 src/modules/mod.rs:141 src/smartpaste_ui.rs:100
+#: src/actions.rs:160 src/modules/mod.rs:142 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "Intelligentes Einfügen"
 
-#: src/actions.rs:161 src/modules/mod.rs:177 src/zoom.rs:21 src/zoom.rs:172
+#: src/actions.rs:161 src/modules/mod.rs:178 src/zoom.rs:21 src/zoom.rs:172
 msgid "Zoom & Annotate"
 msgstr "Zoom und Anmerkungen"
 
@@ -511,7 +511,7 @@ msgstr ""
 msgid "Pictures are saved in"
 msgstr "Bilder werden gespeichert in"
 
-#: src/app.rs:841 src/detective_ui.rs:255
+#: src/app.rs:841 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "Ändern …"
 
@@ -715,7 +715,7 @@ msgid "the duration {} is zero; use off to turn Keep Awake off"
 msgstr ""
 "Die Dauer {} ist null; verwenden Sie off, um „Wach halten“ auszuschalten"
 
-#: src/awake.rs:132 src/awake_ui.rs:22 src/sysreport_ui.rs:224 src/system_ui.rs:135
+#: src/awake.rs:132 src/awake_ui.rs:22 src/modules/xkb.rs:48 src/sysreport_ui.rs:224
 msgid "Off"
 msgstr "Aus"
 
@@ -752,7 +752,7 @@ msgstr "4 Stunden"
 msgid "Until turned off"
 msgstr "Bis zum Ausschalten"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:117
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:118
 msgid "Keep Awake"
 msgstr "Wach halten"
 
@@ -997,196 +997,223 @@ msgid ""
 msgstr ""
 "Der Tastenkürzel-Detektiv unterstützt GNOME, Cinnamon, Budgie und MATE. Öffnen Sie unter KDE Plasma die Systemeinstellungen → Kurzbefehle."
 
-#: src/detective_ui.rs:68
+#: src/detective_ui.rs:58
+msgid "Keyboard keys"
+msgstr "Tastaturtasten"
+
+#: src/detective_ui.rs:59
+msgid ""
+"Change what a key sends, in every app. It takes effect at once, and choosing the first entry puts the key back."
+msgstr ""
+"Ändert, was eine Taste sendet, in jeder App. Es wirkt sofort, und die erste Auswahl stellt die Taste wieder her."
+
+#: src/detective_ui.rs:90
+msgid "Keyboard keys changed"
+msgstr "Tastaturtasten geändert"
+
+#: src/detective_ui.rs:96
+msgid "Put all keys back"
+msgstr "Alle Tasten zurücksetzen"
+
+#: src/detective_ui.rs:96
+msgid "Caps Lock, Alt and Super and the Compose key return to how they come."
+msgstr ""
+"Feststelltaste, Alt und Super sowie die Compose-Taste sind wieder wie ab Werk."
+
+#: src/detective_ui.rs:113
+msgid "The keys are back as they come"
+msgstr "Die Tasten sind wieder wie ab Werk"
+
+#: src/detective_ui.rs:141
 msgid "Press a shortcut to investigate"
 msgstr "Drücken Sie ein Tastenkürzel, um es zu untersuchen"
 
-#: src/detective_ui.rs:70
+#: src/detective_ui.rs:143
 msgid "Choose Record Shortcut to inspect a key combination"
 msgstr ""
 "Wählen Sie „Tastenkürzel aufnehmen“, um eine Tastenkombination zu prüfen"
 
-#: src/detective_ui.rs:72
+#: src/detective_ui.rs:145
 msgid "Record Shortcut"
 msgstr "Tastenkürzel aufnehmen"
 
-#: src/detective_ui.rs:73
+#: src/detective_ui.rs:146
 msgid "Cheat Sheet"
 msgstr "Übersicht"
 
-#: src/detective_ui.rs:73
+#: src/detective_ui.rs:146
 msgid "Open a list of your shortcuts to read at a glance"
 msgstr "Öffnet eine Liste Ihrer Tastenkürzel zum schnellen Nachlesen"
 
-#: src/detective_ui.rs:82
+#: src/detective_ui.rs:155
 msgid "All Shortcuts"
 msgstr "Alle Tastenkürzel"
 
-#: src/detective_ui.rs:83
+#: src/detective_ui.rs:156
 msgid "Conflicts"
 msgstr "Konflikte"
 
-#: src/detective_ui.rs:84
+#: src/detective_ui.rs:157
 msgid "Refresh shortcuts"
 msgstr "Tastenkürzel aktualisieren"
 
-#: src/detective_ui.rs:89
+#: src/detective_ui.rs:162
 msgid "Filter shortcuts by action, owner, or keys…"
 msgstr "Tastenkürzel nach Aktion, Besitzer oder Tasten filtern …"
 
-#: src/detective_ui.rs:94
+#: src/detective_ui.rs:167
 msgid "Registered shortcuts"
 msgstr "Registrierte Tastenkürzel"
 
-#: src/detective_ui.rs:109
+#: src/detective_ui.rs:182
 msgid "System-wide shortcuts · Select an action to inspect or change it"
 msgstr ""
 "Systemweite Tastenkürzel · Wählen Sie eine Aktion, um sie zu prüfen oder zu ändern"
 
-#: src/detective_ui.rs:119
+#: src/detective_ui.rs:195
 msgid "Press the keys now · Esc to cancel"
 msgstr "Drücken Sie jetzt die Tasten · Esc zum Abbrechen"
 
-#: src/detective_ui.rs:127
+#: src/detective_ui.rs:203
 msgid "Recording cancelled. Choose Record Shortcut to try again."
 msgstr ""
 "Aufnahme abgebrochen. Wählen Sie „Tastenkürzel aufnehmen“, um es erneut zu versuchen."
 
-#: src/detective_ui.rs:148
+#: src/detective_ui.rs:224
 msgid "No shortcut assigned"
 msgstr "Kein Tastenkürzel zugewiesen"
 
-#: src/detective_ui.rs:166
+#: src/detective_ui.rs:242
 #, rust-format
 msgid "Conflicts · {}"
 msgstr "Konflikte · {}"
 
-#: src/detective_ui.rs:173
+#: src/detective_ui.rs:249
 #, rust-format
 msgid "Registered shortcuts · {} of {}"
 msgstr "Registrierte Tastenkürzel · {} von {}"
 
-#: src/detective_ui.rs:180 src/detective_ui.rs:249
+#: src/detective_ui.rs:256 src/detective_ui.rs:325
 msgid "Not set"
 msgstr "Nicht festgelegt"
 
-#: src/detective_ui.rs:184
+#: src/detective_ui.rs:260
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: src/detective_ui.rs:193
+#: src/detective_ui.rs:269
 msgid "No shortcuts match these filters"
 msgstr "Keine Tastenkürzel passen zu diesen Filtern"
 
-#: src/detective_ui.rs:214
+#: src/detective_ui.rs:290
 msgid "Shortcut details"
 msgstr "Details zum Tastenkürzel"
 
-#: src/detective_ui.rs:220
+#: src/detective_ui.rs:296
 msgid ""
 "Available as a system-wide shortcut. Apps may still use it within their windows."
 msgstr ""
 "Als systemweites Tastenkürzel verfügbar. Apps können es innerhalb ihrer Fenster trotzdem verwenden."
 
-#: src/detective_ui.rs:221
+#: src/detective_ui.rs:297
 msgid "1 action uses this shortcut"
 msgstr "1 Aktion verwendet dieses Tastenkürzel"
 
-#: src/detective_ui.rs:222
+#: src/detective_ui.rs:298
 #, rust-format
 msgid ""
 "{} actions share this shortcut. Change an action to resolve the conflict."
 msgstr ""
 "{} Aktionen teilen sich dieses Tastenkürzel. Ändern Sie eine Aktion, um den Konflikt zu lösen."
 
-#: src/detective_ui.rs:230
+#: src/detective_ui.rs:306
 msgid "Free combinations to try"
 msgstr "Freie Kombinationen zum Ausprobieren"
 
-#: src/detective_ui.rs:236
+#: src/detective_ui.rs:312
 msgid ""
 "Choose Change to record a new combination, turn a shortcut off, or reset its default."
 msgstr ""
 "Wählen Sie „Ändern“, um eine neue Kombination aufzunehmen, ein Tastenkürzel auszuschalten oder den Standard wiederherzustellen."
 
-#: src/detective_ui.rs:242
+#: src/detective_ui.rs:318
 msgid ""
 "Select a shortcut or record a key combination to see its owners and available alternatives."
 msgstr ""
 "Wählen Sie ein Tastenkürzel oder nehmen Sie eine Tastenkombination auf, um ihre Besitzer und verfügbare Alternativen zu sehen."
 
-#: src/detective_ui.rs:249
+#: src/detective_ui.rs:325
 msgid "  or  "
 msgstr "  oder  "
 
-#: src/detective_ui.rs:264
+#: src/detective_ui.rs:340
 msgid "Locked by the system administrator"
 msgstr "Vom Systemverwalter gesperrt"
 
-#: src/detective_ui.rs:275
+#: src/detective_ui.rs:351
 #, rust-format
 msgid "{} · now {}"
 msgstr "{} · jetzt {}"
 
-#: src/detective_ui.rs:275
+#: src/detective_ui.rs:351
 msgid "not set"
 msgstr "nicht festgelegt"
 
-#: src/detective_ui.rs:277 src/detective_ui.rs:313
+#: src/detective_ui.rs:353 src/detective_ui.rs:389
 msgid "Press the New Shortcut…"
 msgstr "Drücken Sie das neue Tastenkürzel …"
 
-#: src/detective_ui.rs:280 src/gpu_ui.rs:1249 src/modules/guide.rs:36 src/snippets_ui.rs:406
+#: src/detective_ui.rs:356 src/gpu_ui.rs:1249 src/modules/guide.rs:36 src/snippets_ui.rs:406
 msgid "Save"
 msgstr "Speichern"
 
-#: src/detective_ui.rs:289
+#: src/detective_ui.rs:365
 #, rust-format
 msgid "{} is free"
 msgstr "{} ist frei"
 
-#: src/detective_ui.rs:293
+#: src/detective_ui.rs:369
 #, rust-format
 msgid "{} is already used by {}. Pick another, or change that one first."
 msgstr ""
 "{} wird bereits von {} verwendet. Wählen Sie ein anderes oder ändern Sie zuerst jenes."
 
-#: src/detective_ui.rs:310
+#: src/detective_ui.rs:386
 msgid "Press the keys now (Esc to cancel)"
 msgstr "Drücken Sie jetzt die Tasten (Esc zum Abbrechen)"
 
-#: src/detective_ui.rs:327
+#: src/detective_ui.rs:403
 msgid "Free combinations"
 msgstr "Freie Kombinationen"
 
-#: src/detective_ui.rs:330 src/sleep_ui.rs:181
+#: src/detective_ui.rs:406 src/sleep_ui.rs:181
 msgid "Turn Off"
 msgstr "Ausschalten"
 
-#: src/detective_ui.rs:331
+#: src/detective_ui.rs:407
 msgid "Reset to Default"
 msgstr "Auf Standard zurücksetzen"
 
-#: src/detective_ui.rs:341
+#: src/detective_ui.rs:417
 msgid "Change Shortcut"
 msgstr "Tastenkürzel ändern"
 
-#: src/detective_ui.rs:353 src/permissions_ui.rs:170
+#: src/detective_ui.rs:429 src/permissions_ui.rs:170
 #, rust-format
 msgid "Not changed: {}"
 msgstr "Nicht geändert: {}"
 
-#: src/detective_ui.rs:361
+#: src/detective_ui.rs:437
 #, rust-format
 msgid "“{}” is now {}"
 msgstr "„{}“ ist jetzt {}"
 
-#: src/detective_ui.rs:366
+#: src/detective_ui.rs:442
 #, rust-format
 msgid "“{}” has no shortcut now"
 msgstr "„{}“ hat jetzt kein Tastenkürzel"
 
-#: src/detective_ui.rs:370
+#: src/detective_ui.rs:446
 #, rust-format
 msgid "“{}” is back to its default"
 msgstr "„{}“ ist wieder auf dem Standard"
@@ -1243,7 +1270,7 @@ msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr ""
 "Installieren Sie xdg-desktop-portal und das Portal-Backend Ihres Desktops"
 
-#: src/doctor.rs:257 src/modules/mod.rs:93
+#: src/doctor.rs:257 src/modules/mod.rs:94
 msgid "Color Picker"
 msgstr "Farbwähler"
 
@@ -1255,11 +1282,11 @@ msgstr "Bildschirm-Pipette: Screenshot-Portal"
 msgid "Clipboard (hotkeys and command line)"
 msgstr "Zwischenablage (Tastenkürzel und Befehlszeile)"
 
-#: src/doctor.rs:272 src/modules/mod.rs:81
+#: src/doctor.rs:272 src/modules/mod.rs:82
 msgid "Asset Compressor"
 msgstr "Dateikompressor"
 
-#: src/doctor.rs:283 src/modules/mod.rs:153
+#: src/doctor.rs:283 src/modules/mod.rs:154
 msgid "Text Expansion"
 msgstr "Textbausteine"
 
@@ -1288,7 +1315,7 @@ msgstr ""
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "Bereitschaft und Sperre verhindern: Inhibit-Portal"
 
-#: src/doctor.rs:320 src/modules/mod.rs:105
+#: src/doctor.rs:320 src/modules/mod.rs:106
 msgid "Hosts & Environment"
 msgstr "Hosts & Umgebung"
 
@@ -2888,7 +2915,7 @@ msgstr "Eingabe"
 msgid "Insert the snippet, or move to the next parameter field."
 msgstr "Den Baustein einfügen oder zum nächsten Parameterfeld wechseln."
 
-#: src/manpages.rs:185
+#: src/manpages.rs:185 src/modules/xkb.rs:31
 msgid "Escape"
 msgstr "Escape"
 
@@ -3774,7 +3801,7 @@ msgstr "{} konnte nicht gespeichert werden: {}"
 msgid "Shift"
 msgstr "Umschalt"
 
-#: src/modules/keybindings.rs:62
+#: src/modules/keybindings.rs:62 src/modules/xkb.rs:32
 msgid "Ctrl"
 msgstr "Strg"
 
@@ -3820,145 +3847,145 @@ msgstr "Das Tastenkürzel konnte nicht gespeichert werden"
 msgid "custom shortcuts have no default"
 msgstr "Eigene Tastenkürzel haben keinen Standard"
 
-#: src/modules/mod.rs:75
+#: src/modules/mod.rs:76
 msgid "App Permissions"
 msgstr "App-Berechtigungen"
 
-#: src/modules/mod.rs:77
+#: src/modules/mod.rs:78
 msgid ""
 "Change or forget the answers you gave when apps asked for screenshots, the camera and more."
 msgstr ""
 "Ändern oder vergessen Sie Antworten, die Sie gegeben haben, als Apps nach Bildschirmfotos, der Kamera und mehr gefragt haben."
 
-#: src/modules/mod.rs:83
+#: src/modules/mod.rs:84
 msgid "Drop images or videos to strip metadata and shrink them."
 msgstr ""
 "Bilder oder Videos ablegen, um Metadaten zu entfernen und sie zu verkleinern."
 
-#: src/modules/mod.rs:87
+#: src/modules/mod.rs:88
 msgid "Batch Rename"
 msgstr "Stapel-Umbenennen"
 
-#: src/modules/mod.rs:89
+#: src/modules/mod.rs:90
 msgid ""
 "Rename many files at once: search and replace, regular expressions, numbering, with a preview and undo."
 msgstr ""
 "Viele Dateien auf einmal umbenennen: Suchen und Ersetzen, reguläre Ausdrücke, Nummerierung, mit Vorschau und Rückgängig."
 
-#: src/modules/mod.rs:95
+#: src/modules/mod.rs:96
 msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
 msgstr "HEX/RGB/HSL-Umrechnung, WCAG-Kontrastprüfung und Verlauf."
 
-#: src/modules/mod.rs:99
+#: src/modules/mod.rs:100
 msgid "GPU Tuner"
 msgstr "GPU-Tuner"
 
-#: src/modules/mod.rs:101
+#: src/modules/mod.rs:102
 msgid ""
 "Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."
 msgstr ""
 "Überwachen und optimieren Sie NVIDIA-, AMD- und Intel-Grafikkarten und sehen Sie genau, welche Steuerungen jede unterstützt."
 
-#: src/modules/mod.rs:107
+#: src/modules/mod.rs:108
 msgid ""
 "Edit /etc/hosts and your session's environment variables without a text editor."
 msgstr ""
 "/etc/hosts und die Umgebungsvariablen Ihrer Sitzung ohne Texteditor bearbeiten."
 
-#: src/modules/mod.rs:111
+#: src/modules/mod.rs:112
 msgid "Image Resizer"
 msgstr "Bildgrößen ändern"
 
-#: src/modules/mod.rs:113
+#: src/modules/mod.rs:114
 msgid ""
 "Resize many pictures at once, keeping their shape, without touching the originals."
 msgstr ""
 "Viele Bilder auf einmal verkleinern, mit unveränderter Form und ohne die Originale anzutasten."
 
-#: src/modules/mod.rs:119
+#: src/modules/mod.rs:120
 msgid "Stop your computer from sleeping or locking for a while."
 msgstr ""
 "Verhindert für eine Weile, dass Ihr Computer in Bereitschaft geht oder sich sperrt."
 
-#: src/modules/mod.rs:123
+#: src/modules/mod.rs:124
 msgid "QR Code"
 msgstr "QR-Code"
 
-#: src/modules/mod.rs:125
+#: src/modules/mod.rs:126
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
 msgstr ""
 "Einen QR-Code an beliebiger Stelle auf dem Bildschirm lesen oder Text, Links und WLAN-Daten in einen umwandeln."
 
-#: src/modules/mod.rs:129 src/ruler.rs:20 src/ruler.rs:84
+#: src/modules/mod.rs:130 src/ruler.rs:20 src/ruler.rs:84
 msgid "Screen Ruler"
 msgstr "Bildschirmlineal"
 
-#: src/modules/mod.rs:131
+#: src/modules/mod.rs:132
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "Abstände und Größen auf dem Bildschirm in Pixeln messen."
 
-#: src/modules/mod.rs:135
+#: src/modules/mod.rs:136
 msgid "Shortcut Detective"
 msgstr "Tastenkürzel-Detektiv"
 
-#: src/modules/mod.rs:137
+#: src/modules/mod.rs:138
 msgid ""
 "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
 msgstr ""
 "Herausfinden, welcher App ein Tastenkürzel gehört, Konflikte lösen und freie Kombinationen wählen."
 
-#: src/modules/mod.rs:143
+#: src/modules/mod.rs:144
 msgid ""
 "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
 msgstr ""
 "Kopiertes umgewandelt einfügen: aufgeräumtes JSON, Tabellen als Markdown, saubere Links, eine andere Groß-/Kleinschreibung."
 
-#: src/modules/mod.rs:147
+#: src/modules/mod.rs:148
 msgid "System Report"
 msgstr "Systembericht"
 
-#: src/modules/mod.rs:149
+#: src/modules/mod.rs:150
 msgid ""
 "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
 msgstr ""
 "Was in diesem Computer steckt, verständlich erklärt: Treiber, Laufwerkszustand, Temperaturen, Firmware-Aktualisierungen und was sich geändert hat."
 
-#: src/modules/mod.rs:155
+#: src/modules/mod.rs:156
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr ""
 "Textbausteine mit dynamischen Variablen: Datum, Zwischenablage, Parameter."
 
-#: src/modules/mod.rs:159
+#: src/modules/mod.rs:160
 msgid "Text Extractor"
 msgstr "Texterkennung"
 
-#: src/modules/mod.rs:161
+#: src/modules/mod.rs:162
 msgid "Drag a box around any text on screen and copy it to the clipboard."
 msgstr ""
 "Einen Rahmen um beliebigen Text auf dem Bildschirm ziehen und ihn in die Zwischenablage kopieren."
 
-#: src/modules/mod.rs:165
+#: src/modules/mod.rs:166
 msgid "What's Using This?"
 msgstr "Was belegt das?"
 
-#: src/modules/mod.rs:167
+#: src/modules/mod.rs:168
 msgid ""
 "See which apps keep a file, folder, drive or network port busy, and close them."
 msgstr ""
 "Sehen, welche Apps eine Datei, einen Ordner, ein Laufwerk oder einen Netzwerkport belegen, und sie schließen."
 
-#: src/modules/mod.rs:171
+#: src/modules/mod.rs:172
 msgid "Why Didn't It Sleep?"
 msgstr "Warum keine Bereitschaft?"
 
-#: src/modules/mod.rs:173
+#: src/modules/mod.rs:174
 msgid ""
 "What keeps the computer awake, what woke it up, and how much battery it used asleep."
 msgstr ""
 "Was den Computer wach hält, was ihn geweckt hat und wie viel Akku er in Bereitschaft verbraucht hat."
 
-#: src/modules/mod.rs:179
+#: src/modules/mod.rs:180
 msgid ""
 "Zoom into the screen and draw on it with a pen, arrows, boxes and text."
 msgstr ""
@@ -5138,6 +5165,69 @@ msgstr "Nicht geschlossen: Die Berechtigung wurde nicht erteilt"
 #, rust-format
 msgid "could not close {}: {}"
 msgstr "{} konnte nicht geschlossen werden: {}"
+
+#: src/modules/xkb.rs:27 src/modules/xkb.rs:53
+msgid "Caps Lock"
+msgstr "Feststelltaste"
+
+#: src/modules/xkb.rs:28
+msgid "Make the key you rarely use into one you do."
+msgstr ""
+"Machen Sie die Taste, die Sie selten brauchen, zu einer, die Sie nutzen."
+
+#: src/modules/xkb.rs:30
+msgid "As it comes"
+msgstr "Wie ab Werk"
+
+#: src/modules/xkb.rs:33
+msgid "Swap with Escape"
+msgstr "Mit Escape tauschen"
+
+#: src/modules/xkb.rs:34
+msgid "Backspace"
+msgstr "Rücktaste"
+
+#: src/modules/xkb.rs:39
+msgid "Alt and Super"
+msgstr "Alt und Super"
+
+#: src/modules/xkb.rs:40
+msgid "For keyboards laid out like a Mac's."
+msgstr "Für Tastaturen, die wie bei einem Mac angeordnet sind."
+
+#: src/modules/xkb.rs:41
+msgid "As they come"
+msgstr "Wie ab Werk"
+
+#: src/modules/xkb.rs:41
+msgid "Swap Alt and Super"
+msgstr "Alt und Super tauschen"
+
+#: src/modules/xkb.rs:45
+msgid "Compose key"
+msgstr "Compose-Taste"
+
+#: src/modules/xkb.rs:46
+msgid ""
+"Press it, then two keys, to type accents and symbols: Compose, ' and e give é."
+msgstr ""
+"Drücken, dann zwei Tasten, um Akzente und Symbole zu tippen: Compose, ' und e ergeben é."
+
+#: src/modules/xkb.rs:49
+msgid "Right Alt"
+msgstr "Rechte Alt-Taste"
+
+#: src/modules/xkb.rs:50
+msgid "Menu key"
+msgstr "Menütaste"
+
+#: src/modules/xkb.rs:51
+msgid "Right Ctrl"
+msgstr "Rechte Strg-Taste"
+
+#: src/modules/xkb.rs:52
+msgid "Right Super"
+msgstr "Rechte Super-Taste"
 
 #: src/paste.rs:40
 #, rust-format

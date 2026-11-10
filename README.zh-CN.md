@@ -200,7 +200,7 @@ WebP 减小 60%，MP4 减小 77%。
 
 按了快捷键却没反应，或者触发了别的东西？在**快捷键侦探**里按下它，就能看到所有使用它的操作：窗口管理器、GNOME Shell、
 系统按键、你的自定义快捷键、shell 扩展以及 Voltkit 本身。冲突会为你列出，每个冲突都附带可切换的空闲组合，任何快捷键
-都可以就地更改、关闭或重置。适用于 GNOME 以及与之相似的桌面（Cinnamon、Budgie、MATE）。
+都可以就地更改、关闭或重置。适用于 GNOME 以及与之相似的桌面（Cinnamon、Budgie、MATE）。**键盘按键**可将 Caps Lock 变成 Esc 或 Ctrl、交换 Alt 与 Super，或启用 Compose 键输入重音字符（é、ñ、ü），一键完成，无需任何重映射工具。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">

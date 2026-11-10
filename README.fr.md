@@ -217,7 +217,7 @@ Vous avez appuyé sur un raccourci et rien ne s’est passé, ou autre chose s�
 **Détective de raccourcis** pour voir toutes les actions qui l’utilisent : le gestionnaire de fenêtres, GNOME Shell,
 les touches système, vos raccourcis personnalisés, les extensions du shell et Voltkit lui-même. Les conflits sont
 listés pour vous, chacun avec des combinaisons libres vers lesquelles passer, et n’importe quel raccourci peut être
-modifié, désactivé ou rétabli sur place. Fonctionne sous GNOME et les bureaux construits comme lui (Cinnamon, Budgie, MATE).
+modifié, désactivé ou rétabli sur place. Fonctionne sous GNOME et les bureaux construits comme lui (Cinnamon, Budgie, MATE). **Touches du clavier** fait de Verr. Maj une touche Échap ou Ctrl, échange Alt et Super, ou active une touche Compose pour taper des accents (é, ñ, ü), en un clic et sans outil de remappage.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">

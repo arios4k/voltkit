@@ -102,6 +102,10 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
             if module.id == "gpu" {
                 tour_tabs(&window, dir, "gpu", theme).await?;
             }
+            // The Keyboard keys section is at the bottom of Shortcut Detective.
+            if module.id == "shortcuts" {
+                scroll_to_end(&window, dir, "shortcuts-keys", theme).await?;
+            }
         }
 
         // The snippet editor, opened on a snippet with fill-in fields.
@@ -177,6 +181,26 @@ async fn tour_tabs(window: &gtk::Window, dir: &Path, name: &str, theme: &str) ->
         save(window, &dir.join(format!("{name}-{}-{theme}.png", i + 2)), theme == "dark")?;
     }
     tabs.set_visible_child_name(&first);
+    glib::timeout_future(SETTLE).await;
+    Ok(())
+}
+
+/// Scrolls the visible page to its end and saves it as `NAME-THEME.png`, then scrolls back.
+async fn scroll_to_end(window: &gtk::Window, dir: &Path, name: &str, theme: &str) -> Result<()> {
+    let Some(scroller) = descendants(window)
+        .into_iter()
+        .filter(|w| w.is_mapped() && w.has_css_class("detective-workspace"))
+        .find_map(|body| body.ancestor(gtk::ScrolledWindow::static_type()).and_then(|a| a.downcast::<gtk::ScrolledWindow>().ok()))
+    else {
+        return Ok(());
+    };
+    let adjustment = scroller.vadjustment();
+    adjustment.set_value(adjustment.upper() - adjustment.page_size());
+    hide_banners(window);
+    window.present();
+    glib::timeout_future(SETTLE).await;
+    save(window, &dir.join(format!("{name}-{theme}.png")), theme == "dark")?;
+    adjustment.set_value(0.0);
     glib::timeout_future(SETTLE).await;
     Ok(())
 }

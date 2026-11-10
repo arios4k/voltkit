@@ -217,7 +217,7 @@ Ein Tastenkürzel gedrückt und nichts passiert – oder das Falsche? Drücken S
 jede Aktion zu sehen, die es verwendet: die Fensterverwaltung, GNOME Shell, Systemtasten, Ihre eigenen
 Tastenkürzel, Shell-Erweiterungen und Voltkit selbst. Konflikte werden aufgelistet, jeweils mit freien
 Kombinationen zum Wechseln, und jedes Tastenkürzel lässt sich direkt dort ändern, ausschalten oder zurücksetzen.
-Funktioniert unter GNOME und den ähnlich aufgebauten Desktops (Cinnamon, Budgie, MATE).
+Funktioniert unter GNOME und den ähnlich aufgebauten Desktops (Cinnamon, Budgie, MATE). **Tastaturtasten** macht die Feststelltaste zu Esc oder Strg, tauscht Alt und Super oder aktiviert eine Compose-Taste für Akzente (é, ñ, ü), mit einem Klick und ohne Umbelegungswerkzeug.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">

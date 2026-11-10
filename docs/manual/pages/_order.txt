@@ -27,6 +27,7 @@ gpu-terminal | GPU on the command line | GPU Tuner
 gpu-safety | Safety and limits | GPU Tuner
 whats-new | What's new | Reference
 cli | Command-line reference | Reference
+accents | Typing accents and symbols | Reference
 daemon | Global shortcuts and the service | Reference
 config | Configuration file | Reference
 troubleshooting | Troubleshooting and doctor | Reference
