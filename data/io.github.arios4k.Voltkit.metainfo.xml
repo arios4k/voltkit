@@ -158,6 +158,27 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.12.0" date="2026-11-13">
+      <description>
+        <p>Undo after forgetting an app permission.</p>
+        <p xml:lang="es">Deshacer después de olvidar un permiso de una app.</p>
+        <p xml:lang="de">Rückgängig machen, nachdem eine App-Berechtigung vergessen wurde.</p>
+        <p xml:lang="fr">Annuler après avoir oublié une autorisation d’application.</p>
+        <p xml:lang="zh_CN">遗忘应用权限后可以撤销。</p>
+        <ul>
+          <li>App Permissions: Undo on the toast after Forget puts the answer back exactly as it was</li>
+          <li xml:lang="es">Permisos de apps: Deshacer en el aviso tras Olvidar devuelve la respuesta tal como estaba</li>
+          <li xml:lang="de">App-Berechtigungen: Rückgängig in der Meldung nach Vergessen stellt die Antwort genau wie vorher wieder her</li>
+          <li xml:lang="fr">Autorisations des applications : Annuler dans la notification après Oublier rétablit la réponse telle qu’elle était</li>
+          <li xml:lang="zh_CN">应用权限：遗忘后在提示中点击撤销，即可原样恢复该回答</li>
+          <li>GPU Tuner: the manual asks for reports of how it worked on your GPU</li>
+          <li xml:lang="es">Ajuste de GPU: el manual pide reportes de cómo funcionó con tu GPU</li>
+          <li xml:lang="de">GPU-Tuner: Das Handbuch bittet um Berichte, wie er mit Ihrer GPU funktioniert hat</li>
+          <li xml:lang="fr">Réglage du GPU : le manuel demande des retours sur son fonctionnement avec votre GPU</li>
+          <li xml:lang="zh_CN">GPU 调节器：手册邀请你反馈它在你的 GPU 上的表现</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.11.1" date="2026-11-09">
       <description>
         <p>Keyboard keys in Shortcut Detective, and a guide to typing accents.</p>
