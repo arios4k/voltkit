@@ -1903,7 +1903,7 @@ msgstr "编辑曲线"
 msgid "Add point"
 msgstr "添加点"
 
-#: src/gpu_ui.rs:586 src/modules/guide.rs:32 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:586 src/modules/guide.rs:32 src/permissions_ui.rs:207 src/snippets_ui.rs:312
 msgid "Undo"
 msgstr "撤销"
 
@@ -5114,32 +5114,37 @@ msgstr "展开某个应用即可查看它已保存的回答。"
 msgid "Forget, so the app asks again"
 msgstr "遗忘，让应用再次询问"
 
-#: src/permissions_ui.rs:193
+#: src/permissions_ui.rs:194
 #, rust-format
 msgid "{} will ask again: {}"
 msgstr "{} 将再次询问：{}"
 
-#: src/permissions_ui.rs:194
+#: src/permissions_ui.rs:195
 #, rust-format
 msgid "Not forgotten: {}"
 msgstr "未能遗忘：{}"
 
-#: src/permissions_ui.rs:209
+#: src/permissions_ui.rs:215
+#, rust-format
+msgid "Not restored: {}"
+msgstr "未能恢复：{}"
+
+#: src/permissions_ui.rs:229
 #, rust-format
 msgid "{} allowed"
 msgstr "{} 项已允许"
 
-#: src/permissions_ui.rs:209
+#: src/permissions_ui.rs:229
 #, rust-format
 msgid "{} denied"
 msgstr "{} 项已拒绝"
 
-#: src/permissions_ui.rs:209
+#: src/permissions_ui.rs:229
 #, rust-format
 msgid "{} remembered"
 msgstr "{} 项已记住"
 
-#: src/permissions_ui.rs:222
+#: src/permissions_ui.rs:242
 msgid "Apps without an ID"
 msgstr "没有标识的应用"
 

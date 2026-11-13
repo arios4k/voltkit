@@ -31,7 +31,7 @@ Each application is a row you expand to see its remembered permissions. The kind
 2. Use **Find an app or permission…** to narrow the list. Search by an app name or a permission such as *camera*. *No apps match this search* means nothing fits.
 3. Expand an app to see its answers.
 4. **Change an answer** with the switch next to it: **Allowed** or **Denied**.
-5. **Forget, so the app asks again** removes the saved answer. The next time the app needs that permission, the desktop asks you again, and a toast confirms: *{app} will ask again*.
+5. **Forget, so the app asks again** removes the saved answer. The next time the app needs that permission, the desktop asks you again, and a toast confirms: *{app} will ask again*. Clicked the wrong one? Click **Undo** on that toast to put the answer back exactly as it was, including a **Remembered** answer such as a location accuracy.
 
 Answers that are more than a plain yes or no (a location accuracy, a saved screen-sharing choice) are marked **Remembered**. They can only be forgotten, not switched.
 
