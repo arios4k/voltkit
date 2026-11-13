@@ -167,6 +167,16 @@ pub async fn forget(p: &Permission) -> Result<()> {
     call::<()>(&conn, "DeletePermission", &(p.table.as_str(), p.id.as_str(), p.app.as_str())).await
 }
 
+/// Puts a forgotten answer back exactly as it was (Undo after Forget).
+pub async fn restore(p: &Permission) -> Result<()> {
+    if demo_file().is_some() {
+        return Ok(());
+    }
+    let conn = zbus::Connection::session().await?;
+    let values: Vec<&str> = p.values.iter().map(String::as_str).collect();
+    call::<()>(&conn, "SetPermission", &(p.table.as_str(), true, p.id.as_str(), p.app.as_str(), values)).await
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

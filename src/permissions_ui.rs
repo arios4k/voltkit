@@ -189,8 +189,9 @@ impl View {
             let (p, app) = (p.clone(), app.clone());
             glib::spawn_future_local(async move {
                 let title = p.title();
-                match gio::spawn_blocking(move || portal::block_on(permissions::forget(&p))).await {
-                    Ok(Ok(())) => toast(&view.toasts, trf!("{} will ask again: {}", app, title.to_lowercase())),
+                let q = p.clone();
+                match gio::spawn_blocking(move || portal::block_on(permissions::forget(&q))).await {
+                    Ok(Ok(())) => view.offer_undo(p, trf!("{} will ask again: {}", app, title.to_lowercase())),
                     Ok(Err(e)) => toast(&view.toasts, trf!("Not forgotten: {}", e)),
                     Err(_) => {}
                 }
@@ -199,6 +200,25 @@ impl View {
         });
         row.add_suffix(&forget);
         row
+    }
+
+    /// A toast after Forget whose Undo puts the answer back as it was.
+    fn offer_undo(self: &Rc<Self>, p: Permission, message: String) {
+        let undo = adw::Toast::builder().title(glib::markup_escape_text(&message)).button_label(tr("Undo")).build();
+        let weak = Rc::downgrade(self);
+        undo.connect_button_clicked(move |_| {
+            let Some(view) = weak.upgrade() else { return };
+            let p = p.clone();
+            glib::spawn_future_local(async move {
+                match gio::spawn_blocking(move || portal::block_on(permissions::restore(&p))).await {
+                    Ok(Ok(())) => {}
+                    Ok(Err(e)) => toast(&view.toasts, trf!("Not restored: {}", e)),
+                    Err(_) => {}
+                }
+                view.reload();
+            });
+        });
+        self.toasts.add_toast(undo);
     }
 }
 

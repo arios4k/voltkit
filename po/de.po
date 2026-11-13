@@ -1968,7 +1968,7 @@ msgstr "Kurve bearbeiten"
 msgid "Add point"
 msgstr "Punkt hinzufügen"
 
-#: src/gpu_ui.rs:586 src/modules/guide.rs:32 src/snippets_ui.rs:312 src/system_ui.rs:383
+#: src/gpu_ui.rs:586 src/modules/guide.rs:32 src/permissions_ui.rs:207 src/snippets_ui.rs:312
 msgid "Undo"
 msgstr "Rückgängig"
 
@@ -5302,32 +5302,37 @@ msgstr "Klappen Sie eine App auf, um ihre gespeicherten Antworten zu prüfen."
 msgid "Forget, so the app asks again"
 msgstr "Vergessen, damit die App erneut fragt"
 
-#: src/permissions_ui.rs:193
+#: src/permissions_ui.rs:194
 #, rust-format
 msgid "{} will ask again: {}"
 msgstr "{} wird erneut fragen: {}"
 
-#: src/permissions_ui.rs:194
+#: src/permissions_ui.rs:195
 #, rust-format
 msgid "Not forgotten: {}"
 msgstr "Nicht vergessen: {}"
 
-#: src/permissions_ui.rs:209
+#: src/permissions_ui.rs:215
+#, rust-format
+msgid "Not restored: {}"
+msgstr "Nicht wiederhergestellt: {}"
+
+#: src/permissions_ui.rs:229
 #, rust-format
 msgid "{} allowed"
 msgstr "{} erlaubt"
 
-#: src/permissions_ui.rs:209
+#: src/permissions_ui.rs:229
 #, rust-format
 msgid "{} denied"
 msgstr "{} verweigert"
 
-#: src/permissions_ui.rs:209
+#: src/permissions_ui.rs:229
 #, rust-format
 msgid "{} remembered"
 msgstr "{} gespeichert"
 
-#: src/permissions_ui.rs:222
+#: src/permissions_ui.rs:242
 msgid "Apps without an ID"
 msgstr "Apps ohne Kennung"
 
