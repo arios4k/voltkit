@@ -14,13 +14,13 @@ GPU Tuner is built to be trustworthy: it asks the driver first, validates, previ
 
 ## What is tested
 
-Detection, planning, rollback, the confirm protocol, the startup guard and the fan governor are covered by automated tests against fake hardware that can fail at any step. **The write paths have not been run on real AMD hardware, and NVIDIA writes have not run on a card that supports them**: the development machine has an Intel GPU and a laptop Quadro P520, which supports none of the controls. Treat each control as untested on hardware until you have tried it on your own card, and start with small changes.
+Detection, planning, rollback, the confirm protocol, the startup guard and the fan governor are covered by automated tests that simulate a card failing at any step. **No one can test every graphics card, driver and firmware combination**, so how a control behaves on your card may differ from what has been seen so far. Start with small changes, one setting at a time.
 
 Monitoring was checked against `nvidia-smi` on one NVIDIA card: temperature, utilization and clocks matched, and monitoring uses about 0.04 % of one processor core at a reading every 2 seconds.
 
 ## Help improve it
 
-Real results are the most useful contribution right now. Open a [GPU Tuner hardware report](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) with the output of `voltkit gpu`, your distribution, kernel and driver, what you tried and what happened.
+Reports from users are very welcome and are the best way to learn how GPU Tuner works across more hardware. Please send a [GPU Tuner hardware report](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) telling me which GPU you tested and how it worked, whether everything went well or something went wrong. Include the output of `voltkit gpu`, your distribution, kernel and driver, and what you tried.
 
 ## Not built yet
 

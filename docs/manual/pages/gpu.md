@@ -4,7 +4,7 @@
 
 ![GPU Tuner, Monitor tab: live readings with history and what the card supports](shot:gpu)
 
-> [!IMPORTANT] Applying changes is new and has so far been tested against simulated hardware only, plus read-only monitoring on real cards. The page marks the controls **Experimental**. Everything you do not confirm is undone, but a wrong voltage can still crash the computer. Start with small steps, one setting at a time. See [Safety](gpu-safety).
+> [!IMPORTANT] Applying changes is new, and not every possible card and driver can be tested, so the page marks the controls **Experimental**. If you try GPU Tuner, please [send a report](gpu-safety#help-improve-it) with the GPU you tested and how it worked. Everything you do not confirm is undone, but a wrong voltage can still crash the computer. Start with small steps, one setting at a time. See [Safety](gpu-safety).
 
 ## The four tabs
 
