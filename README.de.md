@@ -13,6 +13,7 @@ nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehler
 
 [![Neueste Version](https://img.shields.io/github/v/release/arios4k/voltkit?label=version&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
+[![Handbuch](https://img.shields.io/badge/Handbuch-lesen-2ea44f)](https://arios4k.github.io/voltkit/manual/)
 [![Lizenz: MIT](https://img.shields.io/badge/lizenz-MIT-blue)](LICENSE)
 [![Mit apt installieren](https://img.shields.io/badge/installieren-apt-orange)](#installation-ubuntu-debian-und-abkömmlinge)
 [![Unter Fedora installieren](https://img.shields.io/badge/installieren-Fedora-51a2da)](#installation-fedora)
@@ -57,265 +58,9 @@ einem gemeinsamen Satz Tastenkürzel:
 | `lsof`, `fuser` und `ss` im Terminal | **Was belegt das?**: sehen, welche Apps eine Datei, einen Ordner, ein Laufwerk oder einen Port belegen, und sie schließen | — |
 | in Systemprotokollen im Terminal zu wühlen | **Warum keine Bereitschaft?**: sehen, was den Computer wach hält, was ihn geweckt hat und wie viel Akku er in Bereitschaft verbraucht hat | — |
 
-## Funktionen
+## Handbuch
 
-### 🛡️ App-Berechtigungen
-
-Wenn eine App Bildschirmfotos aufnehmen, Kamera oder Mikrofon verwenden oder Ihren Standort sehen möchte, merkt
-sich der Desktop Ihre Antwort. App-Berechtigungen listet sie nach App
-auf: Legen Sie einen Schalter um, um eine zu ändern, oder vergessen Sie sie, damit die App erneut fragt.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/permissions-dark.png?v=0.11.0">
-  <img src="docs/screenshots/permissions-light.png?v=0.11.0" alt="Die Seite App-Berechtigungen mit Apps und ihren Kamera- und Bildschirmfoto-Berechtigungen">
-</picture>
-
-### 📦 Dateikompressor
-
-Legen Sie Dateien im Fenster ab oder führen Sie `voltkit compress` aus. Voltkit entfernt Standortdaten und andere
-Metadaten, komprimiert mit dem besten Werkzeug für jedes Format und schreibt `name.min.ext` neben das Original,
-das es nie verändert. In unseren Tests: JPEG −43 %, PNG −23 % (verlustfrei), WebP −60 %, MP4 −77 %.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compress-dark.png?v=0.11.0">
-  <img src="docs/screenshots/compress-light.png?v=0.11.0" alt="Der Dateikompressor mit vier komprimierten Dateien und ihrer Ersparnis">
-</picture>
-
-### ✏️ Stapel-Umbenennen
-
-Dateien oder Ordner ablegen, sagen, was sich ändern soll, und die **Vorschau** ansehen, bevor etwas passiert: Suchen und Ersetzen, reguläre Ausdrücke mit `$1`-Gruppen, Nummerierung mit `{n:3}`, Groß- und Kleinschreibung, und der Name oder nur die Endung. Konflikte (zwei Dateien mit einem Namen, ein vergebener Name) werden zuerst genannt, ein Stapel wird **ganz oder gar nicht** umbenannt, und der letzte Stapel lässt sich **rückgängig machen**. Auch im Terminal: `voltkit rename *.jpg --find IMG --replace Urlaub --apply`.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/rename-dark.png?v=0.11.0">
-  <img src="docs/screenshots/rename-light.png?v=0.11.0" alt="Stapel-Umbenennen mit der Vorschau von fünf Fotos, die umbenannt werden">
-</picture>
-
-### 🖼️ Bildgrößen ändern
-
-Bilder hinzufügen, eine Größe wählen (längste Seite, Prozent oder Breite und Höhe, die einpasst, füllt oder streckt, oder eine Idee wie „E-Mail oder Chat“ anklicken) und auf **Verkleinern** klicken: die Kopien erscheinen neben den Originalen, die nie angetastet werden. Fotos kommen aufrecht heraus, die WebP- und JPEG-Qualität stellen Sie ein, und das Bild wird nie größer, außer Sie erlauben es. `voltkit resize fotos/*.jpg --longest-side 1280`.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/resize-dark.png?v=0.11.0">
-  <img src="docs/screenshots/resize-light.png?v=0.11.0" alt="Bildgrößen ändern mit drei auf 1920 Pixel verkleinerten Bildern">
-</picture>
-
-### 🎨 Farbwähler
-
-Nehmen Sie mit <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>C</kbd> ein beliebiges Pixel auf, und der HEX-Code liegt
-schon in der Zwischenablage. Die Farbseite rechnet zwischen HEX, RGB und HSL um, bewertet den Kontrast gegen Weiß
-und Schwarz nach WCAG (AA / AAA) und merkt sich Ihre letzten Farben.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
-  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Der Farbwähler mit Vorschau, HEX/RGB/HSL-Formaten, Kontrastbewertungen und gespeicherten Farben">
-</picture>
-
-### 🎛️ GPU-Tuner
-
-Beobachten Sie Ihre NVIDIA-, AMD- und Intel-Grafikkarten live und mit Verlauf und ändern Sie, was die Hardware erlaubt:
-die Leistungsgrenze, eine feste Lüfterdrehzahl oder eine Lüfterkurve, die Temperatur, auf die eine Karte abzielt,
-Taktversatz oder Taktgrenzen und die Spannung. **Was diese Karte unterstützt** listet jede Steuerung so auf, wie der
-Treiber sie meldet, und erklärt, warum eine fehlt und was sie freischalten könnte (eine Laptop-GPU, die ihren Lüfter
-verbirgt, oder eine AMD-Karte, die `amdgpu.ppfeaturemask` braucht). Änderungen werden an den Grenzen der Karte selbst
-geprüft, vorab angezeigt, über einen Root-Helfer angewendet und **rückgängig gemacht, wenn Sie sie nicht bestätigen**:
-Auch das Schließen der App oder ein Absturz macht sie rückgängig. Gespeicherte Einstellungen wendet ein
-Hintergrunddienst beim Start an; er überspringt ein Profil, dessen Start nie abgeschlossen wurde, damit ein fehlerhaftes
-Sie nicht in einer Schleife festhält. `voltkit gpu` gibt denselben Bericht im Terminal aus.
-
-Bearbeiten Sie Lüfterkurven, indem Sie Punkte in einem Diagramm ziehen, und wählen Sie, welcher Temperatur sie folgen und welche Lüfter sie steuern. Speichern Sie Einstellungen als **Profile**, die von selbst wechseln: im Akkubetrieb, solange eine App läuft, unter anhaltender Last oder wenn die Karte heiß wird. **Zeichnen Sie eine Sitzung auf**, während ein Spiel oder Benchmark läuft, und vergleichen Sie zwei Profile nebeneinander: Temperatur, Leistung, Energie und Effizienz (aktiver Takt pro Watt oder Bilder pro Watt, wenn Bilder aufgezeichnet wurden). `voltkit gpu check` vergleicht die Messwerte von Voltkit mit `nvidia-smi` und misst, was die Überwachung kostet.
-
-Haben Sie es auf Ihrer Karte ausprobiert? Ein [Hardware-Bericht](https://github.com/arios4k/voltkit/issues/new?template=gpu-hardware-report.yml) darüber, was funktioniert hat und was nicht, hilft derzeit am meisten.
-
-Das Anwenden von Änderungen ist neu und wurde bisher nur mit simulierter Hardware getestet; was funktioniert, wie es
-sicher bleibt und was noch fehlt, steht in [docs/GPU_TUNER.md](docs/GPU_TUNER.md).
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-dark.png?v=0.11.0">
-  <img src="docs/screenshots/gpu-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Überwachung: Live-Messwerte mit Verlauf, warum der Takt gebremst wird und was die Karte unterstützt (simulierte Daten)">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-2-dark.png?v=0.11.0">
-  <img src="docs/screenshots/gpu-2-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Einstellen: Leistungslimit, Lüfterkurven-Editor und weitere Regler (simulierte Daten)">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-3-dark.png?v=0.11.0">
-  <img src="docs/screenshots/gpu-3-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Profile: gespeicherte Profile, automatische Regeln, Teilen und Importieren (simulierte Daten)">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-4-dark.png?v=0.11.0">
-  <img src="docs/screenshots/gpu-4-light.png?v=0.11.0" alt="GPU-Tuner, Reiter Sitzungen: aufgezeichnete Sitzungen, Strompreis, Vorschlag für das Leistungslimit und Vergleich (simulierte Daten)">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/gpu-vf-dark.png?v=0.11.0">
-  <img src="docs/screenshots/gpu-vf-light.png?v=0.11.0" alt="Spannungs-/Frequenzkurven-Editor des GPU-Tuners mit ziehbaren Punkten (simulierte Daten)">
-</picture>
-
-<sub>Der Screenshot zeigt simulierte Daten erfundener Karten.</sub>
-
-### 📝 Hosts &amp; Umgebung
-
-Schalten Sie Einträge in `/etc/hosts` ein und aus, fügen Sie `myapp.test → 127.0.0.1` für die lokale Entwicklung
-hinzu und setzen Sie Umgebungsvariablen wie `EDITOR` oder einen zusätzlichen `PATH`-Ordner für Ihre ganze
-Desktop-Sitzung. Systemeinträge sind geschützt, und jedes Speichern von hosts legt eine Sicherung an.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/system-dark.png?v=0.11.0">
-  <img src="docs/screenshots/system-light.png?v=0.11.0" alt="Die Seite Hosts & Umgebung mit hosts-Einträgen und Schaltern">
-</picture>
-
-### ☕ Wach halten
-
-Sie sehen etwas an, präsentieren oder laden herunter? Schalten Sie „Wach halten“ für 30 Minuten, ein paar Stunden
-oder bis zum Ausschalten ein, und Ihr Computer geht weder in Bereitschaft noch sperrt er sich. Es läuft weiter,
-nachdem Sie Voltkit geschlossen haben, und schaltet sich ab, wenn die Zeit um ist.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/awake-dark.png?v=0.11.0">
-  <img src="docs/screenshots/awake-light.png?v=0.11.0" alt="Wach halten mit aktuellem Status und Einstellung der Dauer">
-</picture>
-
-### 📷 QR-Code
-
-Drücken Sie <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>Q</kbd> und ziehen Sie einen Rahmen um einen QR-Code in
-einem Video, einer Folie oder auf einer Webseite: Sein Text oder Link liegt in der Zwischenablage. Umgekehrt
-geben Sie einen Link, einen Text oder Ihre WLAN-Daten ein und scannen den Code mit dem Telefon. Kopieren Sie ihn
-als Bild oder speichern Sie ihn zum Drucken als PNG. Auf Wunsch kommt Ihr eigenes kleines Logo in die Mitte:
-Voltkit liest den Code danach, um sicherzustellen, dass er sich noch scannen lässt.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/qr-dark.png?v=0.11.0">
-  <img src="docs/screenshots/qr-light.png?v=0.11.0" alt="Die Seite QR-Code mit einem erzeugten Code für einen Link">
-</picture>
-
-### 📏 Bildschirmlineal
-
-<kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>R</kbd> friert den Bildschirm ein. Ziehen Sie, um Breiten und Höhen in
-echten Pixeln zu messen (mit gedrückter Umschalttaste für eine gerade Linie), und drücken Sie Strg+C, um die Größe
-zu kopieren.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ruler-dark.png?v=0.11.0">
-  <img src="docs/screenshots/ruler-light.png?v=0.11.0" alt="Das Bildschirmlineal mit seiner Startschaltfläche und der Messsteuerung">
-</picture>
-
-### 🔍 Zoom und Anmerkungen
-
-<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> friert den Bildschirm ein. Scrollen zoomt, Ziehen zeichnet, Umschalt hält eine Linie, Strg ein Rechteck, Tab eine Ellipse, Strg+Umschalt einen Pfeil, T tippt Text, R/G/B/O/Y/P wählen die Farbe, W/K eine weiße oder schwarze Tafel, und Strg+C oder Strg+S kopieren oder speichern das Bild. Gespeicherte Bilder landen in `Bilder/Voltkit` oder in einem Ordner, den Sie auf der Seite des Werkzeugs wählen (Strg+Umschalt+S speichert eines woanders).
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/zoom-overlay-dark.png?v=0.11.0">
-  <img src="docs/screenshots/zoom-overlay-light.png?v=0.11.0" alt="Zoom und Anmerkungen: ein Pfeil, ein Kreis, Text und ein Textmarker auf einem eingefrorenen Bildschirm">
-</picture>
-
-### ⌨️ Tastenkürzel-Detektiv
-
-Ein Tastenkürzel gedrückt und nichts passiert – oder das Falsche? Drücken Sie es im **Tastenkürzel-Detektiv**, um
-jede Aktion zu sehen, die es verwendet: die Fensterverwaltung, GNOME Shell, Systemtasten, Ihre eigenen
-Tastenkürzel, Shell-Erweiterungen und Voltkit selbst. Konflikte werden aufgelistet, jeweils mit freien
-Kombinationen zum Wechseln, und jedes Tastenkürzel lässt sich direkt dort ändern, ausschalten oder zurücksetzen.
-Funktioniert unter GNOME und den ähnlich aufgebauten Desktops (Cinnamon, Budgie, MATE). **Tastaturtasten** macht die Feststelltaste zu Esc oder Strg, tauscht Alt und Super oder aktiviert eine Compose-Taste für Akzente (é, ñ, ü), mit einem Klick und ohne Umbelegungswerkzeug.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/shortcuts-dark.png?v=0.11.0">
-  <img src="docs/screenshots/shortcuts-light.png?v=0.11.0" alt="Der Tastenkürzel-Detektiv zeigt, dass zwei Aktionen Super+V verwenden">
-</picture>
-
-### 📋 Intelligentes Einfügen
-
-Drücken Sie <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>V</kbd> statt <kbd>Strg</kbd>+<kbd>V</kbd> und wählen Sie,
-wie das Kopierte eingefügt wird: JSON aufgeräumt oder kompakt, ein Tabellenbereich als Markdown-Tabelle oder CSV,
-ein Link ohne Tracking-Parameter, ein Absatz aus einem PDF ohne Zeilenumbrüche, eine Liste mit Aufzählungszeichen
-oder Nummern, oder Text in GROSSBUCHSTABEN, mit großen Wortanfängen, in snake_case und mehr. Ein Bildschirmfoto
-kopiert? Fügen Sie den Text darin ein. Angeboten werden nur Umwandlungen, die zum Kopierten passen, jeweils mit
-Vorschau, und Ihre Zwischenablage bleibt, wie sie war. Dieselben Umwandlungen funktionieren in Skripten:
-`wl-paste | voltkit convert markdown-table`.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/smartpaste-dark.png?v=0.11.0">
-  <img src="docs/screenshots/smartpaste-light.png?v=0.11.0" alt="Die Seite Intelligentes Einfügen wandelt einen Tabellenbereich in eine Markdown-Tabelle und CSV um">
-</picture>
-
-### 🖥️ Systembericht
-
-Nicht nur eine Liste technischer Daten: Der **Systembericht** prüft jedes Hardwareteil und sagt, was es bedeutet.
-Hat die Grafikkarte den richtigen Treiber (und wenn nicht, den genauen Befehl zur Behebung)? Ist das Laufwerk
-gesund, und wie verschlissen? Wird der Prozessor zu heiß oder drosselt er sich? Wartet eine BIOS- oder
-Firmware-Aktualisierung? Wie viele Speichersteckplätze sind frei, und wie viel verträgt dieser Computer?
-
-Voltkit speichert außerdem täglich eine Aufnahme von Hardware, Treibern, Kernel und Firmware; wenn nach einer
-Aktualisierung etwas kaputtgeht, zeigt **Was sich geändert hat** genau, was anders ist. Wenn Sie Hilfe brauchen,
-liefert **Bericht kopieren** eine aufgeräumte Zusammenfassung für ein Forum oder einen Fehlerbericht, ohne
-Seriennummern, Namen oder Netzwerkadressen.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sysreport-dark.png?v=0.11.0">
-  <img src="docs/screenshots/sysreport-light.png?v=0.11.0" alt="Die Seite Systembericht mit Prüfungen, letzten Änderungen und der Hardware des Computers">
-</picture>
-
-### ⌨️ Textbausteine
-
-Drücken Sie <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>E</kbd>, suchen Sie, drücken Sie die Eingabetaste, und der
-Baustein wird in die App eingefügt, die Sie gerade verwendet haben. Bausteine können das Datum in jedem Format,
-Ihre Zwischenablage und Ausfüllfelder enthalten. Lieber tippen? Schalten Sie Kürzel beim Tippen ein, und aus
-`;sig` wird in jeder App Ihre Signatur. Bausteine legen Sie direkt in der App an, bearbeiten und löschen sie: Die
-Einfügen-Schaltflächen ergänzen Datum, Uhrzeit, Zwischenablage oder ein Ausfüllfeld, und eine Live-Vorschau zeigt
-genau, was eingefügt wird.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippets-dark.png?v=0.11.0">
-  <img src="docs/screenshots/snippets-light.png?v=0.11.0" alt="Textbausteine mit durchsuchbaren Bausteinen und Einfügen-Steuerelementen">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/picker-dark.png?v=0.11.0">
-  <img src="docs/screenshots/picker-light.png?v=0.11.0" alt="Die Bausteinauswahl mit Bausteinen und ihren Vorschauen">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/snippet-editor-dark.png?v=0.11.0">
-  <img src="docs/screenshots/snippet-editor-light.png?v=0.11.0" alt="Der Baustein-Editor mit Kürzel, Text mit Schaltflächen für Datum, Uhrzeit, Zwischenablage und Ausfüllfelder sowie einer Live-Vorschau">
-</picture>
-
-### 🔍 Texterkennung
-
-Ein WLAN-Passwort auf einer Konferenzfolie, ein Befehl in einem Video-Tutorial, ein Fehler in einem
-Bildschirmfoto: Drücken Sie <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>T</kbd>, ziehen Sie einen Rahmen und fügen
-Sie ein. Mit Tesseract, das [über 100 Sprachen](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html)
-unterstützt (für Deutsch `tesseract-ocr-deu` installieren und `deu` als Sprache verwenden).
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/ocr-dark.png?v=0.11.0">
-  <img src="docs/screenshots/ocr-light.png?v=0.11.0" alt="Die Texterkennung zeigt Text aus dem Foto einer Konferenzfolie: ein WLAN-Passwort und einen Link">
-</picture>
-
-### 🔎 Was belegt das?
-
-„Target is busy“ beim Auswerfen eines USB-Sticks, „address already in use“ beim Start eines Entwicklungsservers:
-Wählen Sie das Laufwerk, die Datei, den Ordner oder den Port und sehen Sie, welche Apps ihn belegen und was sie
-geöffnet haben. Schließen Sie eine App mit einem Klick (sie wird zuerst freundlich gebeten, sich zu beenden, und
-nur wenn sie nicht reagiert, sofort beendet), oder lassen Sie **Auswerfen** sie schließen und für Sie auswerfen.
-Teile des Systems selbst werden nie zum Schließen angeboten.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/using-dark.png?v=0.11.0">
-  <img src="docs/screenshots/using-light.png?v=0.11.0" alt="Die Seite Was belegt das? mit den Apps, die ein USB-Laufwerk belegen">
-</picture>
-
-### 🌙 Warum keine Bereitschaft?
-
-Der Laptop warm in der Tasche, oder morgens der Akku leer? Sehen Sie, was den Computer gerade wach hält (eine App,
-ein Video, „Wach halten“, eine Energieeinstellung, ein externer Monitor), jede Bereitschaftsphase der letzten
-Woche mit Beginn, Ende und Akkuverbrauch sowie die USB-Geräte, die ihn wecken dürfen – mit einem Schalter für das
-Gerät, das ihn immer wieder weckt.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/sleep-dark.png?v=0.11.0">
-  <img src="docs/screenshots/sleep-light.png?v=0.11.0" alt="Die Seite Warum keine Bereitschaft? mit dem, was den Computer wach hält, und den letzten Bereitschaftsphasen">
-</picture>
+**Wie Sie Voltkit benutzen, steht im [Voltkit-Handbuch](https://arios4k.github.io/voltkit/manual/)** (auf Englisch). Es erklärt jedes Werkzeug Schritt für Schritt, mit Tastenkürzeln, Befehlszeile, Konfiguration und Fehlerbehebung. Es öffnet sich auch in der App mit **F1** oder über **Hilfe und Handbuch** im Menü.
 
 ## Warum Voltkit
 
@@ -330,22 +75,7 @@ Gerät, das ihn immer wieder weckt.
 - **Signierte Pakete.** Installation und Aktualisierung über apt aus einem GPG-signierten Repository.
 - **In Ihrer Sprache.** Deutsch, Englisch, Spanisch, Französisch und vereinfachtes Chinesisch, passend zur Sprache Ihres Systems.
 
-## Häufige Fragen
-
-**Läuft es unter KDE, Sway oder Hyprland?**
-Voltkit wird unter GNOME (Zorin OS 18) entwickelt und getestet. Es nutzt die Standard-XDG-Portale, daher sollten
-KDE Plasma und andere Desktops funktionieren, sie wurden aber noch nicht getestet. Rückmeldungen sind willkommen!
-Auf Desktops ohne GlobalShortcuts-Portal belegen Sie `voltkit trigger ocr|color|snippets` selbst mit Tasten.
-
-**Ist es sicher, Kürzel beim Tippen einzuschalten?**
-Sie sind standardmäßig aus. Wayland verbirgt Tastendrücke zwischen Apps, daher brauchen Kürzel beim Tippen
-Tastaturzugriff, den Sie beim Einschalten einmal mit Ihrem Passwort erlauben. Voltkit behält nur die letzten
-paar Zeichen im Speicher und speichert oder sendet nie, was Sie tippen. Die Bausteinauswahl funktioniert ganz
-ohne das.
-
-**Wie ändere ich die Sprache?**
-Voltkit folgt der Sprache Ihrer Sitzung. Um eine andere nur für Voltkit auszuprobieren, starten Sie es im
-Terminal mit `LANGUAGE=en voltkit` (oder `es`, `de`, `fr`, `zh_CN`).
+Voltkit wird unter GNOME (Zorin OS 18) entwickelt und getestet. Es nutzt die Standard-XDG-Portale, daher sollten auch KDE Plasma und andere Desktops funktionieren; Rückmeldungen sind willkommen. Weitere Antworten finden Sie in den [häufigen Fragen](https://arios4k.github.io/voltkit/manual/faq.html) im Handbuch.
 
 <sub>Bildschirmfotos unter Zorin OS 18 mit den hellen und dunklen Farbpaletten von Voltkit. Neu erstellen mit
 `docs/screenshots/capture.sh` (oder `docs/screenshots/capture.sh de` für die deutsche App; auch `es`, `fr` und `zh_CN`).</sub>
@@ -366,10 +96,7 @@ sudo apt update && sudo apt install voltkit
 apt installiert die benötigten Werkzeuge (Tesseract, wl-clipboard, das Desktop-Portal) zusammen mit Voltkit, und
 Aktualisierungen kommen mit `sudo apt upgrade`.
 
-Öffnen Sie Voltkit dann aus Ihren Apps. Das ist alles: Es startet seinen Hintergrunddienst (der ab jetzt auch bei
-jeder Anmeldung startet) und fügt unter GNOME seine Tastenkürzel hinzu. `voltkit doctor` prüft, ob alles
-eingerichtet ist. Kürzel wie `;date` überall zu tippen ist optional: Schalten Sie **Kürzel beim Tippen** auf der
-Seite „Textbausteine“ ein (fragt einmal nach Ihrem Passwort und wirkt sofort).
+Öffnen Sie Voltkit dann aus Ihren Apps: Es richtet seinen Hintergrunddienst und seine Tastenkürzel selbst ein. Wie es weitergeht, steht unter [Install](https://arios4k.github.io/voltkit/manual/install.html) und [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html) im Handbuch.
 
 ## Installation (Fedora)
 
@@ -410,122 +137,6 @@ install -Dm644 data/icons/io.github.arios4k.Voltkit.svg ~/.local/share/icons/hic
 install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg ~/.local/share/icons/hicolor/symbolic/apps/io.github.arios4k.Voltkit-symbolic.svg
 sed "s|^Exec=voltkit|Exec=$HOME/.cargo/bin/voltkit|" data/io.github.arios4k.Voltkit.desktop > ~/.local/share/applications/io.github.arios4k.Voltkit.desktop
 ```
-
-## Hintergrunddienst &amp; globale Tastenkürzel
-
-```bash
-voltkit daemon                    # im Vordergrund ausführen
-voltkit daemon enable-autostart   # bei jeder Anmeldung starten
-voltkit daemon status             # läuft er? welches Tastenkürzel-Backend?
-voltkit daemon stop
-```
-
-Der Dienst belegt `io.github.arios4k.Voltkit.Daemon` auf dem Sitzungsbus, daher läuft immer nur einer. Er belegt
-die Tastenkürzel aus Ihrer Konfiguration auf eine dieser Arten:
-
-| Desktop | Wie die Tastenkürzel belegt werden |
-|---|---|
-| GNOME 48+, KDE Plasma 5.27+, Hyprland (xdg-desktop-portal ≥ 1.19) | **GlobalShortcuts-Portal**: Der Desktop bittet Sie einmal um Zustimmung |
-| Älteres GNOME (z. B. 46) und Distributionen auf GNOME-Basis | `voltkit shortcuts install` fügt sie unter *Einstellungen → Tastatur → Eigene Tastenkürzel* hinzu (`--dry-run` zeigt sie vorab; `shortcuts remove` macht es rückgängig) |
-| Sway, river und andere | Belegen Sie `voltkit trigger ocr` / `voltkit trigger color` in der Konfiguration Ihres Compositors |
-
-`voltkit trigger <aktion>` (`ocr`, `color` oder `snippets`) schickt die Aktion an den laufenden Dienst oder führt
-sie direkt aus, wenn keiner läuft. Ergebnisse und Fehler erscheinen als Desktop-Benachrichtigungen.
-
-## Textbausteine
-
-**Bausteine verwalten:** Verwenden Sie auf der Seite „Textbausteine“ **Baustein hinzufügen**, klicken Sie auf einen
-Baustein, um ihn zu bearbeiten, oder löschen Sie ihn (mit Rückgängig). Änderungen werden in
-`~/.config/voltkit/config.toml` gespeichert und erreichen Kürzel beim Tippen sofort. Wenn Sie diese Datei von Hand
-bearbeiten, führen Sie `voltkit daemon reload` aus.
-
-**Bausteinauswahl** (ohne Einrichtung): Drücken Sie `Super+Umschalt+E`, tippen Sie zum Suchen und drücken Sie die
-Eingabetaste. Bausteine mit `{arg:NAME}`-Parametern zeigen ein kleines Formular. Das Ergebnis wird in die App
-eingefügt, die Sie verwendet haben, und Ihre Zwischenablage danach wiederhergestellt. Beim ersten Einfügen wird um
-die Fernsteuerungsberechtigung gebeten (so lässt Wayland eine App für Sie Strg+V drücken), und die Berechtigung
-wird gespeichert.
-
-**Kürzel beim Tippen** (optional): Tippen Sie `;date` in einer beliebigen App, und es wird zu `2026-10-27`.
-Schalten Sie **Kürzel beim Tippen** auf der Seite „Textbausteine“ ein. Wayland verbirgt Tastendrücke vor anderen
-Apps, daher fragt es beim ersten Mal nach Ihrem Passwort, um Tastaturzugriff zu erlauben, und wirkt dann sofort:
-kein Terminal, kein Abmelden. Beim Ausschalten wird angeboten, den Zugriff wieder zu entfernen. Im Terminal geht
-dasselbe mit `voltkit expander setup --apply` und `voltkit expander remove-access`.
-
-Der Tastaturzugriff erlaubt Programmen, die die Person am Computer ausführt, die Tastatur zu lesen – nicht nur
-Voltkit. Voltkit behält nur die letzten paar Zeichen im Speicher und protokolliert oder speichert nie, was Sie
-tippen. Details in `man voltkit-expander`.
-
-Für Terminals, die mit Strg+Umschalt+V einfügen, setzen Sie `paste_shortcut` im Abschnitt `[expander]` der
-Konfiguration.
-
-### Hilfsprogramme
-
-Voltkit ruft Standardwerkzeuge auf, wenn sie installiert sind, und bringt daher keine schweren eigenen
-Abhängigkeiten mit. Prüfen Sie jederzeit, was fehlt, samt Installationsbefehl für Ihre Distribution:
-
-```bash
-voltkit doctor
-```
-
-Die Zentrale zeigt ein Banner, wenn eine Funktion Aufmerksamkeit braucht.
-
-| Funktion | Werkzeuge |
-|---|---|
-| Texterkennung | `tesseract` (+ Sprachpakete wie `tesseract-ocr-deu`) |
-| Bereichsaufnahme, Pipette | das Screenshot-Portal des Desktops; die Bereichsaufnahme weicht auf `grim`+`slurp`, `gnome-screenshot`, `spectacle` oder `maim` aus |
-| Zwischenablage (Dienst, Befehlszeile) | `wl-clipboard` (Wayland) oder `xclip` (X11). Ohne sie wird das Ergebnis trotzdem in einer Benachrichtigung gezeigt |
-| Komprimierung | eingebaut für PNG; `jpegoptim` (JPEG), `cwebp` (WebP), `ffmpeg` (MP4) |
-
-## Befehlszeile
-
-Jedes Modul funktioniert auch ohne Oberfläche, sodass Sie es auf jedem Desktop auf ein Tastenkürzel legen können:
-
-```bash
-voltkit                       # die Zentrale öffnen
-voltkit ocr --lang deu        # Bereich auswählen → Text in der Zwischenablage
-voltkit pick-color            # Pipette → HEX in der Zwischenablage
-voltkit color '#3584e4'       # HEX / RGB / HSL + Kontrast auf Weiß/Schwarz
-voltkit compress *.png --quality 75
-voltkit expand 'Hallo {arg:who}, {date:%A}' --arg who=Sam
-voltkit qr make https://example.com  # QR-Code im Terminal (oder --output code.png)
-voltkit qr scan               # einen QR-Code auf dem Bildschirm lesen
-voltkit ruler                 # auf dem Bildschirm messen
-voltkit awake 1h30m           # den Computer wach halten (on / off / ohne Argument für den Status)
-voltkit using /media/$USER/USB  # was belegt dieses Laufwerk? (oder ein Port: voltkit using 3000)
-voltkit sleep                 # warum keine Bereitschaft, und was hat ihn geweckt
-voltkit report                # dieser Computer, seine Prüfungen und letzten Änderungen (--memory: Steckplätze und Aufrüstung)
-voltkit shortcuts who super+v # was ein Tastenkürzel tut (auch: shortcuts list, shortcuts clashes)
-voltkit smart-paste           # die Zwischenablage umgewandelt einfügen
-wl-paste | voltkit convert json  # die Umwandlungen von „Intelligentes Einfügen“ in Skripten (voltkit convert listet sie)
-```
-
-Befehle, ihre Argumente (`on`, `off`, `json` …) und die Konfigurationsschlüssel sind in allen Sprachen gleich;
-Hilfe und Meldungen erscheinen in Ihrer.
-
-Die vollständige Dokumentation steht in den Handbuchseiten: `man voltkit`, `man voltkit-expand` und so weiter.
-
-### Handbuchseiten
-
-Die Seiten in [`man/`](man/) werden aus den Befehlszeilen-Definitionen erzeugt und stimmen daher immer mit
-`--help` überein; die Übersetzungen liegen in `man/de/`, `man/es/`, `man/fr/` und `man/zh_CN/`. Installieren Sie sie neben dem Programm, wo
-`man` sie automatisch findet:
-
-```bash
-mkdir -p ~/.cargo/share/man/man1 ~/.cargo/share/man/de/man1
-cp man/*.1 ~/.cargo/share/man/man1/ && cp man/de/*.1 ~/.cargo/share/man/de/man1/
-```
-
-Nach einer Änderung an einem Befehl oder seinem Hilfetext erzeugen Sie sie neu; bis dahin schlägt `cargo test`
-fehl:
-
-```bash
-cargo run -- manpages man
-```
-
-## Konfiguration
-
-`~/.config/voltkit/config.toml`. Jeder Schlüssel ist optional; siehe
-[`data/config.example.toml`](data/config.example.toml).
 
 ## Übersetzungen
 
@@ -596,6 +207,8 @@ cargo test
 cargo clippy
 python3 po/update.py --check   # Übersetzungen aktuell und vollständig?
 ```
+
+Nach Änderungen an einem Befehl oder seinem Hilfetext erzeugen Sie die Handbuchseiten in [`man/`](man/) mit `cargo run -- manpages man` neu; bis dahin schlägt `cargo test` fehl.
 
 Die D-Bus-API und die Pläne stehen in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Ein Einstellungsfenster ist geplant. Fehlerberichte und Tests auf anderen Desktops sind besonders
 willkommen.
