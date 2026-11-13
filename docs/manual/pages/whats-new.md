@@ -4,6 +4,14 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.12.0
+
+*November 13, 2026*
+
+- **Undo in App Permissions.** After **Forget**, the toast has an **Undo** button that puts the answer back exactly as it was, including a remembered location accuracy or screen-sharing choice. See [App Permissions](permissions#use-it).
+- **GPU Tuner reports.** Not every graphics card can be tested, so the manual now asks you to [report your findings](gpu-safety#help-improve-it) for your GPU: which card it is and how it worked.
+- The project page on GitHub is shorter and points to this manual for how to use each tool.
+
 ## Version 0.11.1
 
 *November 9, 2026*

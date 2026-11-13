@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.11.1
+Version:        0.12.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -79,6 +79,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Fri Nov 13 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.12.0-1
+- App Permissions: Undo after Forget puts the answer back exactly as it was
+- README points to the manual for how to use each tool
+- Manual: GPU Tuner asks for reports of how it worked on your GPU
+
 * Mon Nov 09 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.11.1-1
 - Shortcut Detective: Keyboard keys (Caps Lock as Escape or Ctrl, Alt and Super swapped, a Compose key), applied at once and undone by choosing the first entry
 - Manual: a page on typing accents and symbols with the Compose key
