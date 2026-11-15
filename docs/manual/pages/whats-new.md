@@ -4,6 +4,13 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.13.0
+
+*November 15, 2026*
+
+- **Voltkit is in the Snap Store.** Install it with `sudo snap install voltkit` or find it in Ubuntu's App Center. See [Install](install#snap-store) for what to do after installing.
+- **The snap tells you what it can't do.** Apps from the Snap Store run in a sandbox, so a few tools need a permission connected once, and some features (GPU changes, Hosts & Environment, App Permissions, typed triggers) work only with apt or Fedora. Each affected page shows a banner with the exact commands or the reason, and `voltkit doctor` lists them too.
+
 ## Version 0.12.0
 
 *November 13, 2026*

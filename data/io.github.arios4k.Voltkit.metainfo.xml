@@ -158,6 +158,27 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.13.0" date="2026-11-15">
+      <description>
+        <p>Voltkit is in the Snap Store.</p>
+        <p xml:lang="es">Voltkit está en la Snap Store.</p>
+        <p xml:lang="de">Voltkit ist im Snap Store.</p>
+        <p xml:lang="fr">Voltkit est dans le Snap Store.</p>
+        <p xml:lang="zh_CN">Voltkit 已上架 Snap Store。</p>
+        <ul>
+          <li>Install with sudo snap install voltkit, or from Ubuntu's App Center</li>
+          <li xml:lang="es">Instálalo con sudo snap install voltkit o desde el Centro de aplicaciones de Ubuntu</li>
+          <li xml:lang="de">Installation mit sudo snap install voltkit oder über das App-Zentrum von Ubuntu</li>
+          <li xml:lang="fr">Installez-le avec sudo snap install voltkit ou depuis le Centre d’applications d’Ubuntu</li>
+          <li xml:lang="zh_CN">用 sudo snap install voltkit 或通过 Ubuntu 应用中心安装</li>
+          <li>In the snap, each tool the sandbox limits says what to connect, or why it needs the APT or Fedora version</li>
+          <li xml:lang="es">En el snap, cada herramienta limitada por el entorno aislado indica qué conectar o por qué necesita la versión APT o Fedora</li>
+          <li xml:lang="de">Im Snap sagt jedes von der Sandbox eingeschränkte Werkzeug, was zu verbinden ist oder warum es die APT- oder Fedora-Version braucht</li>
+          <li xml:lang="fr">Dans le snap, chaque outil limité par le bac à sable indique quoi connecter, ou pourquoi il faut la version APT ou Fedora</li>
+          <li xml:lang="zh_CN">在 snap 版中，受沙盒限制的每个工具都会说明需要连接什么权限，或为何需要 APT 或 Fedora 版本</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.12.0" date="2026-11-13">
       <description>
         <p>Undo after forgetting an app permission.</p>

@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.12.0
+Version:        0.13.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -79,6 +79,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Sun Nov 15 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.13.0-1
+- Voltkit is in the Snap Store; tools the snap sandbox limits say so on their page
+- voltkit doctor: a section for the snap version's permissions
+- Manual: installing from the Snap Store and what to do afterwards
+
 * Fri Nov 13 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.12.0-1
 - App Permissions: Undo after Forget puts the answer back exactly as it was
 - README points to the manual for how to use each tool
