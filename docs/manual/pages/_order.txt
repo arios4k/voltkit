@@ -1,6 +1,7 @@
 # file-stem | Title | Group
 index | Voltkit Manual | Start here
 install | Install | Start here
+snap | Snap Store version | Start here
 tour | A tour of the app | Start here
 permissions | App Permissions | Tools
 compress | Asset Compressor | Tools

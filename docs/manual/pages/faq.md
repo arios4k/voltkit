@@ -30,6 +30,10 @@
 
 **How do I change the language?** Voltkit follows your session language (English, Spanish, German, French and Simplified Chinese). To test another: `LANGUAGE=de voltkit`. This manual is in English.
 
-**How do I uninstall it?** `sudo apt remove voltkit` or `sudo dnf remove voltkit`. Your settings stay in `~/.config/voltkit/` until you delete them. If you turned on typed triggers, run `voltkit expander remove-access` first.
+**Why is there a snap version, and is it the same?** It's there so more people can find Voltkit: the Snap Store is on every Linux distribution that supports snaps. Most of Voltkit works the same in it, but a few features need apt or Fedora because of the snap sandbox. See [Snap Store version](snap).
+
+**Can I install both the snap and the apt or Fedora version?** Don't: you'd get two Voltkit entries in your apps and two background services fighting over the same shortcuts. See [Installing only one version](snap#installing-only-one-version).
+
+**How do I uninstall it?** `sudo apt remove voltkit`, `sudo dnf remove voltkit` or `sudo snap remove voltkit`. Your settings stay in `~/.config/voltkit/` until you delete them. If you turned on typed triggers, run `voltkit expander remove-access` first.
 
 **Is it free?** Yes. Voltkit is open source under the MIT license: [github.com/arios4k/voltkit](https://github.com/arios4k/voltkit). If you find it useful, you can [support the author on PayPal](https://paypal.me/AlexisRios).
