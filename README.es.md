@@ -6,11 +6,11 @@
 
 [English](README.md) · **Español** · [Deutsch](README.de.md) · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
-**Herramientas potentes para tu escritorio Linux.**
+**PowerToys para Linux.** Dieciocho herramientas potentes para tu escritorio en una sola app nativa:
 OCR de pantalla, un lector de códigos QR, un selector de color, una regla de pantalla, un compresor de imágenes y
 videos, un expansor de texto, Pegado inteligente, Mantener activo, un editor de hosts y entorno, un buscador de
 “¿qué lo está usando?”, un administrador de permisos de apps, un diagnóstico de suspensión, un informe del sistema,
-un detective de atajos y un ajuste de GPU, en una sola app.
+un detective de atajos y un ajuste de GPU.
 
 [![Última versión](https://img.shields.io/github/v/release/arios4k/voltkit?label=versi%C3%B3n&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)

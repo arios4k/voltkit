@@ -6,9 +6,9 @@
 
 [English](README.md) · [Español](README.es.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · **简体中文**
 
-**为你的 Linux 桌面带来强大工具。**
+**Linux 版 PowerToys。** 十八个强大的桌面工具，集于一个原生应用：
 屏幕 OCR、二维码扫描、取色器、屏幕标尺、图片和视频压缩器、文本扩展、智能粘贴、保持唤醒、hosts 与环境变量编辑器、
-“是什么在占用它？”查找工具、应用权限管理器、休眠问题排查、系统报告、快捷键侦探和 GPU 调节器，集于一个应用。
+“是什么在占用它？”查找工具、应用权限管理器、休眠问题排查、系统报告、快捷键侦探和 GPU 调节器。
 
 [![最新版本](https://img.shields.io/github/v/release/arios4k/voltkit?label=%E7%89%88%E6%9C%AC&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
