@@ -14,6 +14,12 @@ echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://ar
 sudo apt update && sudo apt install voltkit
 ```
 
+> [!IMPORTANT] **Installed the snap before?** Remove it first, or Voltkit is installed twice: two Voltkit entries in your apps, and two background services fighting over the same keyboard shortcuts.
+
+```bash
+sudo snap remove voltkit
+```
+
 The repository is signed with a GPG key, and apt installs the tools Voltkit needs (Tesseract, wl-clipboard, the desktop portal) together with it. Updates arrive with `sudo apt upgrade`.
 
 ## Fedora
@@ -27,6 +33,12 @@ sudo dnf install voltkit
 
 Updates arrive with `sudo dnf upgrade`.
 
+> [!IMPORTANT] **Installed the snap before?** Remove it first, or Voltkit is installed twice: two Voltkit entries in your apps, and two background services fighting over the same keyboard shortcuts.
+
+```bash
+sudo snap remove voltkit
+```
+
 ## Snap Store
 
 Voltkit is also in the Snap Store, so you can find it in Ubuntu's App Center:
@@ -36,6 +48,8 @@ sudo snap install voltkit
 ```
 
 Snap updates arrive automatically.
+
+> [!IMPORTANT] **Installed Voltkit with apt or Fedora before?** Remove that version first, or Voltkit is installed twice: two Voltkit entries in your apps, and two background services fighting over the same keyboard shortcuts. Use `sudo apt remove voltkit` (Ubuntu, Debian) or `sudo dnf remove voltkit` (Fedora).
 
 > [!IMPORTANT] Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. Some features need one of them, so they work only when Voltkit is installed with apt (Ubuntu, Debian) or DNF (Fedora). Each tool affected shows a banner at the top of its page that says what is missing and why.
 
@@ -79,17 +93,21 @@ Its *Snap Store version* section lists each permission and whether it is connect
 
 ### What works only with apt or Fedora
 
-| Tool | What the snap can't do |
-|---|---|
-| [GPU Tuner](gpu) | Changing settings (power limit, fans, clocks, voltage) and applying profiles at startup. Monitoring works. |
-| [Hosts & Environment](system) | The whole tool: editing `/etc/hosts` and your session's environment variables. |
-| [App Permissions](permissions) | The whole tool: the sandbox can't read the desktop's permission store. |
-| [Text Expansion](snippets) | Typed triggers such as `;date`. The snippet picker (<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>) works. |
-| [System Report](sysreport) | Drive health, memory slots and firmware update checks. |
-| [What's Using This?](using) | Seeing and closing apps that belong to other users or to the system. |
-| [Why Didn't It Sleep?](sleep) | Stopping a USB device from waking the computer. |
+**This is a limitation of snaps, not of Voltkit.** Every app from the Snap Store runs in a sandbox (*strict confinement*) that keeps it away from the rest of the system: it can't ask for your administrator password, can't change system files, can't write to your hidden settings folders, and can only talk to the system services the Snap Store allows. That protects you from apps you haven't checked, but a few Voltkit features need exactly those things. Installed with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora), Voltkit has none of these limits.
 
-These need the administrator password (Voltkit asks through `pkexec`), write system files or read the desktop's permission store, and a snap is allowed none of them. To use them, remove the snap and install with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora) instead:
+| Tool | What the snap can't do | Why |
+|---|---|---|
+| [GPU Tuner](gpu) | Change settings (power limit, fans, clocks, voltage) and apply profiles at startup. **Monitoring works.** | Settings are written to the graphics driver by a helper that runs as administrator after asking for your password (`pkexec`). A snap can't ask for it, and applying a profile at startup needs a system service, which a snap can't install. |
+| [Hosts & Environment](system) | The whole tool. | `/etc/hosts` is a system file only the administrator can change. Environment variables are saved in your hidden settings folder (`~/.config/environment.d`), which a snap can't write to: it only sees its own private copy. |
+| [App Permissions](permissions) | The whole tool. | The answers you gave apps are kept by the desktop's permission store (`xdg-permission-store`), a service snaps aren't allowed to talk to. |
+| [Text Expansion](snippets) | Typed triggers such as `;date`. **The snippet picker** (<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>) **works.** | Typed triggers read the keyboard and type for you, which needs a one-time setup by the administrator (a rule in `/etc/udev`). A snap can't make that change, and the Snap Store reserves keyboard access for apps it reviews by hand. |
+| [System Report](sysreport) | Drive health, memory slots and firmware update checks. **Everything else works** once `hardware-observe` and `system-observe` are connected. | Drive health comes from the system's disk service (UDisks), which snaps aren't allowed to query; memory slot details are in a table (SMBIOS) only the administrator can read; firmware checks use the `fwupdmgr` tool, which isn't inside the snap. |
+| [What's Using This?](using) | See and close apps that belong to other users or to the system. **Your own apps work** once `system-observe` is connected. | Other users' and the system's apps are visible only to the administrator, and closing them needs your password. |
+| [Why Didn't It Sleep?](sleep) | Stop a USB device from waking the computer. **Everything else works** once `log-observe` and `login-session-observe` are connected. | Which devices may wake the computer is a system setting; changing it, and keeping it after a restart, needs the administrator password. |
+
+Inside the app, each of these pages shows a banner, and its **Details** button gives the same explanation. `voltkit doctor` lists them too.
+
+If you need these features, remove the snap and install with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora) instead. Your settings start fresh, because the snap kept its own copy:
 
 ```bash
 sudo snap remove voltkit

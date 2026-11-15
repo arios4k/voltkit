@@ -239,7 +239,7 @@ msgstr "需要注意"
 msgid "Copy Command"
 msgstr "复制命令"
 
-#: src/app.rs:403 src/app.rs:500 src/app.rs:1013 src/gpu_ui.rs:863
+#: src/app.rs:403 src/app.rs:504 src/app.rs:1017 src/gpu_ui.rs:863
 msgid "Close"
 msgstr "关闭"
 
@@ -268,446 +268,451 @@ msgstr ""
 msgid "Only in the APT and Fedora versions: {}."
 msgstr "仅限 APT 和 Fedora 版本：{}。"
 
-#: src/app.rs:477
+#: src/app.rs:476
+#, rust-format
+msgid "Why: {}"
+msgstr "原因：{}"
+
+#: src/app.rs:481
 msgid "Voltkit from the Snap Store"
 msgstr "来自 Snap Store 的 Voltkit"
 
-#: src/app.rs:489
+#: src/app.rs:493
 msgid "Copy Commands"
 msgstr "复制命令"
 
-#: src/app.rs:495
+#: src/app.rs:499
 msgid "How to Install the Full Version"
 msgstr "如何安装完整版本"
 
-#: src/app.rs:508
+#: src/app.rs:512
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr "后台服务已关闭，因此键盘快捷键无法使用"
 
-#: src/app.rs:509
+#: src/app.rs:513
 msgid "Start"
 msgstr "启动"
 
-#: src/app.rs:526
+#: src/app.rs:530
 msgid "The background service failed to start"
 msgstr "后台服务启动失败"
 
-#: src/app.rs:530
+#: src/app.rs:534
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "无法启动服务：{}"
 
-#: src/app.rs:540
+#: src/app.rs:544
 msgid "Capture Region"
 msgstr "截取区域"
 
-#: src/app.rs:560
+#: src/app.rs:564
 msgid "Capture text"
 msgstr "捕获文字"
 
-#: src/app.rs:561
+#: src/app.rs:565
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr "在屏幕上任意位置选取文字。识别语言：{}。快捷键：{}"
 
-#: src/app.rs:566
+#: src/app.rs:570
 msgid "Copy Text"
 msgstr "复制文字"
 
-#: src/app.rs:567
+#: src/app.rs:571
 msgid "Extracted text"
 msgstr "提取的文字"
 
-#: src/app.rs:567 src/app.rs:583
+#: src/app.rs:571 src/app.rs:587
 msgid "Capture a region to see and copy its text here."
 msgstr "捕获一个区域，即可在此查看并复制其中的文字。"
 
-#: src/app.rs:571
+#: src/app.rs:575
 msgid "No text captured yet"
 msgstr "尚未捕获任何文字"
 
-#: src/app.rs:582
+#: src/app.rs:586
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} 个字符"
 
-#: src/app.rs:583
+#: src/app.rs:587
 msgid "Text is also copied automatically after capture."
 msgstr "捕获后文字也会自动复制。"
 
-#: src/app.rs:585
+#: src/app.rs:589
 msgid "Capture from anything"
 msgstr "从任何内容中捕获"
 
-#: src/app.rs:585
+#: src/app.rs:589
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr "选取一段文字、一条错误信息或图片中的文字。桌面会请你选择屏幕区域；识别过程在你的电脑本地完成。"
 
-#: src/app.rs:592
+#: src/app.rs:596
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "来自快捷键的文字，已复制到剪贴板"
 
-#: src/app.rs:613
+#: src/app.rs:617
 msgid "Text copied to clipboard"
 msgstr "文字已复制到剪贴板"
 
-#: src/app.rs:615 src/qr_ui.rs:101
+#: src/app.rs:619 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "未截取屏幕"
 
-#: src/app.rs:617
+#: src/app.rs:621
 msgid "OCR worker crashed"
 msgstr "OCR 进程崩溃了"
 
-#: src/app.rs:632 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
+#: src/app.rs:636 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr "复制"
 
-#: src/app.rs:640 src/app.rs:762
+#: src/app.rs:644 src/app.rs:766
 #, rust-format
 msgid "Copied {}"
 msgstr "已复制 {}"
 
-#: src/app.rs:666
+#: src/app.rs:670
 msgid "HEX or rgb()"
 msgstr "HEX 或 rgb()"
 
-#: src/app.rs:671
+#: src/app.rs:675
 msgid "Pick from Screen"
 msgstr "从屏幕取色"
 
-#: src/app.rs:672
+#: src/app.rs:676
 msgid "Pick a color anywhere on screen"
 msgstr "在屏幕上任意位置取色"
 
-#: src/app.rs:677
+#: src/app.rs:681
 msgid "Color"
 msgstr "颜色"
 
-#: src/app.rs:678
+#: src/app.rs:682
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr "输入颜色，或从屏幕上取色。按 Enter 将其保存到历史记录。在任何应用中按 {} 即可取色：其 HEX 值会被复制并保存在这里。"
 
-#: src/app.rs:686
+#: src/app.rs:690
 msgid "Formats"
 msgstr "格式"
 
-#: src/app.rs:691
+#: src/app.rs:695
 msgid "Text on white"
 msgstr "白底文字"
 
-#: src/app.rs:692
+#: src/app.rs:696
 msgid "Text on black"
 msgstr "黑底文字"
 
-#: src/app.rs:693
+#: src/app.rs:697
 msgid "WCAG Contrast"
 msgstr "WCAG 对比度"
 
-#: src/app.rs:697
+#: src/app.rs:701
 msgid "History"
 msgstr "历史记录"
 
-#: src/app.rs:697
+#: src/app.rs:701
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr "选择已保存的颜色即可再次使用。从屏幕取的颜色会显示在这里。"
 
-#: src/app.rs:710 src/app.rs:718
+#: src/app.rs:714 src/app.rs:722
 #, rust-format
 msgid "Selected color {}"
 msgstr "已选颜色 {}"
 
-#: src/app.rs:741
+#: src/app.rs:745
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "无法保存历史记录：{}"
 
-#: src/app.rs:765
+#: src/app.rs:769
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "取色器不可用：{}"
 
-#: src/app.rs:766
+#: src/app.rs:770
 msgid "Color picker crashed"
 msgstr "取色器崩溃了"
 
-#: src/app.rs:775
+#: src/app.rs:779
 msgid "Live color preview"
 msgstr "实时颜色预览"
 
-#: src/app.rs:790
+#: src/app.rs:794
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "已通过快捷键取色 {}，并已复制"
 
-#: src/app.rs:836
+#: src/app.rs:840
 msgid "Open Ruler"
 msgstr "打开标尺"
 
-#: src/app.rs:849
+#: src/app.rs:853
 msgid "Measure in real pixels"
 msgstr "按真实像素测量"
 
-#: src/app.rs:849
+#: src/app.rs:853
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr "冻结屏幕，然后在要测量的内容上拖出一条线或一个矩形。"
 
-#: src/app.rs:868
+#: src/app.rs:872
 msgid "Drag to measure width × height"
 msgstr "拖动以测量 宽 × 高"
 
-#: src/app.rs:878
+#: src/app.rs:882
 msgid "Measurement controls"
 msgstr "测量控制"
 
-#: src/app.rs:879 src/app.rs:1001
+#: src/app.rs:883 src/app.rs:1005
 msgid "Drag"
 msgstr "拖动"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Measure a rectangle"
 msgstr "测量矩形"
 
-#: src/app.rs:879 src/app.rs:1002
+#: src/app.rs:883 src/app.rs:1006
 msgid "Shift + drag"
 msgstr "Shift + 拖动"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Measure a straight line"
 msgstr "测量直线"
 
-#: src/app.rs:879 src/app.rs:1009
+#: src/app.rs:883 src/app.rs:1013
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Copy the measured size"
 msgstr "复制测得的尺寸"
 
-#: src/app.rs:879 src/app.rs:1013
+#: src/app.rs:883 src/app.rs:1017
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Close the ruler"
 msgstr "关闭标尺"
 
-#: src/app.rs:883 src/app.rs:1018
+#: src/app.rs:887 src/app.rs:1022
 msgid "Ready when you need it"
 msgstr "随时待命"
 
-#: src/app.rs:883
+#: src/app.rs:887
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr "全局快捷键：{}。测量基于截图像素，高分屏上也一样。"
 
-#: src/app.rs:889
+#: src/app.rs:893
 msgid "Open Zoom & Annotate"
 msgstr "打开缩放与批注"
 
-#: src/app.rs:903
+#: src/app.rs:907
 msgid "Show it, then point at it"
 msgstr "先展示，再指出重点"
 
-#: src/app.rs:904
+#: src/app.rs:908
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr "冻结屏幕，放大任意部分，并用画笔、直线、方框、箭头和文字在上面绘制：适用于演示、教程和问题报告。"
 
-#: src/app.rs:939
+#: src/app.rs:943
 msgid "Saving pictures"
 msgstr "保存图片"
 
-#: src/app.rs:940
+#: src/app.rs:944
 msgid ""
 "Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
 msgstr "Ctrl+S 会把图片保存到此文件夹。Ctrl+Shift+S 可为某张图片另选位置。"
 
-#: src/app.rs:942
+#: src/app.rs:946
 msgid "Pictures are saved in"
 msgstr "图片保存在"
 
-#: src/app.rs:944 src/detective_ui.rs:331
+#: src/app.rs:948 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "更改…"
 
-#: src/app.rs:945 src/app.rs:946
+#: src/app.rs:949 src/app.rs:950
 msgid "Use the default folder, Pictures/Voltkit"
 msgstr "使用默认文件夹“图片/Voltkit”"
 
-#: src/app.rs:964
+#: src/app.rs:968
 msgid "Choose Where Pictures Are Saved"
 msgstr "选择图片的保存位置"
 
-#: src/app.rs:974
+#: src/app.rs:978
 #, rust-format
 msgid "Pictures will be saved in {}"
 msgstr "图片将保存到 {}"
 
-#: src/app.rs:990
+#: src/app.rs:994
 msgid "Pictures are saved in Pictures/Voltkit again"
 msgstr "图片再次保存到“图片/Voltkit”"
 
-#: src/app.rs:998
+#: src/app.rs:1002
 msgid "Controls"
 msgstr "操作"
 
-#: src/app.rs:1000
+#: src/app.rs:1004
 msgid "Scroll"
 msgstr "滚动"
 
-#: src/app.rs:1000
+#: src/app.rs:1004
 msgid "Zoom in and out"
 msgstr "放大和缩小"
 
-#: src/app.rs:1001
+#: src/app.rs:1005
 msgid "Draw with the pen"
 msgstr "用画笔绘制"
 
-#: src/app.rs:1002
+#: src/app.rs:1006
 msgid "Draw a straight line"
 msgstr "绘制直线"
 
-#: src/app.rs:1003
+#: src/app.rs:1007
 msgid "Ctrl + drag"
 msgstr "Ctrl + 拖动"
 
-#: src/app.rs:1003
+#: src/app.rs:1007
 msgid "Draw a rectangle"
 msgstr "绘制矩形"
 
-#: src/app.rs:1004
+#: src/app.rs:1008
 msgid "Tab + drag"
 msgstr "Tab + 拖动"
 
-#: src/app.rs:1004
+#: src/app.rs:1008
 msgid "Draw an ellipse"
 msgstr "绘制椭圆"
 
-#: src/app.rs:1005
+#: src/app.rs:1009
 msgid "Ctrl + Shift + drag"
 msgstr "Ctrl + Shift + 拖动"
 
-#: src/app.rs:1005
+#: src/app.rs:1009
 msgid "Draw an arrow"
 msgstr "绘制箭头"
 
-#: src/app.rs:1006
+#: src/app.rs:1010
 msgid "R, G, B, O, Y, P"
 msgstr "R、G、B、O、Y、P"
 
-#: src/app.rs:1006
+#: src/app.rs:1010
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "红、绿、蓝、橙、黄或粉"
 
-#: src/app.rs:1007
+#: src/app.rs:1011
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:1007
+#: src/app.rs:1011
 msgid "Type text, then press Enter"
 msgstr "输入文字，然后按 Enter"
 
-#: src/app.rs:1008
+#: src/app.rs:1012
 msgid "W or K"
 msgstr "W 或 K"
 
-#: src/app.rs:1008
+#: src/app.rs:1012
 msgid "A white or a black board"
 msgstr "白板或黑板"
 
-#: src/app.rs:1009
+#: src/app.rs:1013
 msgid "Copy the picture"
 msgstr "复制图片"
 
-#: src/app.rs:1010
+#: src/app.rs:1014
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: src/app.rs:1010
+#: src/app.rs:1014
 msgid "Save the picture in the folder above"
 msgstr "把图片保存到上面的文件夹"
 
-#: src/app.rs:1011
+#: src/app.rs:1015
 msgid "Ctrl+Shift+S"
 msgstr "Ctrl+Shift+S"
 
-#: src/app.rs:1011
+#: src/app.rs:1015
 msgid "Save the picture somewhere else, once"
 msgstr "把图片保存到别处（仅此一次）"
 
-#: src/app.rs:1012
+#: src/app.rs:1016
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:1012
+#: src/app.rs:1016
 msgid "Show every key"
 msgstr "显示所有按键"
 
-#: src/app.rs:1018
+#: src/app.rs:1022
 #, rust-format
 msgid "Global shortcut: {}."
 msgstr "全局快捷键：{}。"
 
-#: src/app.rs:1026 src/resize_ui.rs:57
+#: src/app.rs:1030 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "质量"
 
-#: src/app.rs:1027
+#: src/app.rs:1031
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "数值越低文件越小。PNG 始终无损。"
 
-#: src/app.rs:1031
+#: src/app.rs:1035
 msgid "Choose Files…"
 msgstr "选择文件…"
 
-#: src/app.rs:1048
+#: src/app.rs:1052
 msgid "Drop Files Here"
 msgstr "将文件拖放到此处"
 
-#: src/app.rs:1050
+#: src/app.rs:1054
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr "支持 PNG、JPEG、WebP 和 MP4。元数据会被删除；原文件会保留。"
 
-#: src/app.rs:1066 src/usage_ui.rs:95
+#: src/app.rs:1070 src/usage_ui.rs:95
 msgid "Results"
 msgstr "结果"
 
-#: src/app.rs:1072
+#: src/app.rs:1076
 msgid "Compressing…"
 msgstr "正在压缩…"
 
-#: src/app.rs:1089 src/app.rs:1092 src/resize_ui.rs:248 src/resize_ui.rs:252
+#: src/app.rs:1093 src/app.rs:1096 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "失败"
 
-#: src/app.rs:1114
+#: src/app.rs:1118
 msgid "Compress Files"
 msgstr "压缩文件"
 
-#: src/app.rs:1130
+#: src/app.rs:1134
 msgid "Compression settings"
 msgstr "压缩设置"
 
-#: src/app.rs:1132 src/resize_ui.rs:352
+#: src/app.rs:1136 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "原文件保持不变"
 
-#: src/app.rs:1132
+#: src/app.rs:1136
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "压缩后的副本会以 name.min.ext 的名称保存在每个源文件旁边。副本中的元数据会被删除。PNG 压缩是无损的；质量设置适用于 JPEG、WebP 和视频。"
 
-#: src/app.rs:1133
+#: src/app.rs:1137
 msgid "Choose or drop files to see progress and size savings here."
 msgstr "选择或拖入文件，即可在此查看进度和节省的空间。"
 
@@ -1356,7 +1361,12 @@ msgstr ""
 msgid "Snap Store version"
 msgstr "Snap Store 版本"
 
-#: src/doctor.rs:376
+#: src/doctor.rs:378
+#, rust-format
+msgid "only with APT or Fedora (a snap limitation): {}"
+msgstr "仅限 APT 或 Fedora（snap 的限制）：{}"
+
+#: src/doctor.rs:379
 msgid ""
 "only in the APT and Fedora versions: the snap sandbox doesn't allow it"
 msgstr "仅限 APT 和 Fedora 版本：snap 沙盒不允许此操作"
@@ -5827,73 +5837,112 @@ msgstr "已复制 {}  ·  Esc：关闭"
 msgid "Could not copy: {}"
 msgstr "无法复制：{}"
 
-#: src/sandbox.rs:56
+#: src/sandbox.rs:58
 msgid "use files on USB drives and other external disks"
 msgstr "使用 U 盘和其他外接磁盘上的文件"
 
-#: src/sandbox.rs:57
+#: src/sandbox.rs:59
 msgid "see which apps have files, folders and ports open"
 msgstr "查看哪些应用打开了文件、文件夹和端口"
 
-#: src/sandbox.rs:58
+#: src/sandbox.rs:60
 msgid "list the drives that are connected"
 msgstr "列出已连接的驱动器"
 
-#: src/sandbox.rs:59
+#: src/sandbox.rs:61
 msgid "close the apps that keep something busy"
 msgstr "关闭占用资源的应用"
 
-#: src/sandbox.rs:60
+#: src/sandbox.rs:62
 msgid "read the sleep history from the system log"
 msgstr "从系统日志读取休眠历史"
 
-#: src/sandbox.rs:61
+#: src/sandbox.rs:63
 msgid "see what is keeping the computer awake"
 msgstr "查看是什么让电脑保持唤醒"
 
-#: src/sandbox.rs:62
+#: src/sandbox.rs:64
 msgid "read hardware details, temperatures and fans"
 msgstr "读取硬件详情、温度和风扇"
 
-#: src/sandbox.rs:63
+#: src/sandbox.rs:65
 msgid "read drivers, the kernel and the system's state"
 msgstr "读取驱动、内核和系统状态"
 
-#: src/sandbox.rs:70
+#: src/sandbox.rs:72
 msgid "Seeing and closing apps that belong to other users or to the system"
 msgstr "查看和关闭属于其他用户或系统的应用"
 
-#: src/sandbox.rs:75
+#: src/sandbox.rs:73
+msgid ""
+"Other users' and the system's apps are visible only to the administrator, and closing them needs the administrator password, which snaps can't ask for."
+msgstr "其他用户和系统的应用只有管理员才能看到，关闭它们需要管理员密码，而 snap 无法请求密码。"
+
+#: src/sandbox.rs:78
 msgid "Stopping a USB device from waking the computer"
 msgstr "阻止 USB 设备唤醒电脑"
 
-#: src/sandbox.rs:80
+#: src/sandbox.rs:79
+msgid ""
+"Which devices may wake the computer is a system setting: changing it, and keeping it after a restart, needs the administrator password, which snaps can't ask for."
+msgstr "哪些设备可以唤醒电脑是系统设置：更改它并在重启后保留，需要管理员密码，而 snap 无法请求密码。"
+
+#: src/sandbox.rs:84
 msgid "Drive health, memory slots and firmware update checks"
 msgstr "硬盘健康、内存插槽和固件更新检查"
 
-#: src/sandbox.rs:86
+#: src/sandbox.rs:85
+msgid ""
+"Drive health comes from the system's disk service, which snaps aren't allowed to query; memory slot details are in a table only the administrator can read; and firmware checks use the fwupd tool, which isn't inside the snap."
+msgstr ""
+"硬盘健康信息来自系统的磁盘服务，snap 不允许查询；内存插槽信息位于只有管理员才能读取的表中；固件检查使用 fwupd 工具，而 snap 中不包含它。"
+
+#: src/sandbox.rs:91
 msgid ""
 "Changing GPU settings (power limit, fans, clocks and voltage) and applying profiles at startup; monitoring works"
 msgstr "更改 GPU 设置（功耗上限、风扇、频率和电压）以及开机时应用配置方案；监控功能可用"
 
-#: src/sandbox.rs:91
+#: src/sandbox.rs:94
+msgid ""
+"GPU settings are written to the graphics driver by a helper that runs as administrator after asking for your password. Snaps can't ask for it, and a profile applied at startup needs a system service, which a snap can't install."
+msgstr ""
+"GPU 设置由一个在请求你的密码后以管理员身份运行的辅助程序写入显卡驱动。snap 无法请求密码，而开机时应用配置方案需要一个系统服务，snap 无法安装它。"
+
+#: src/sandbox.rs:99
 msgid "Editing /etc/hosts and your session's environment variables"
 msgstr "编辑 /etc/hosts 和会话环境变量"
 
-#: src/sandbox.rs:96
+#: src/sandbox.rs:100
+msgid ""
+"/etc/hosts is a system file only the administrator can change, and snaps can't ask for your password. Environment variables are saved in your hidden settings folder (~/.config), which a snap can't write to: it only sees its own private copy."
+msgstr ""
+"/etc/hosts 是只有管理员才能修改的系统文件，而 snap 无法请求你的密码。环境变量保存在你的隐藏设置文件夹（~/.config）中，snap 无法写入：它只能看到自己的私有副本。"
+
+#: src/sandbox.rs:105
 msgid "Reviewing and changing the permissions you gave apps"
 msgstr "查看和更改你授予应用的权限"
 
-#: src/sandbox.rs:101
+#: src/sandbox.rs:106
+msgid ""
+"The answers you gave apps are kept by the desktop's permission store, a service snaps aren't allowed to talk to."
+msgstr "你对应用所做的回答由桌面的权限存储保存，snap 不允许与该服务通信。"
+
+#: src/sandbox.rs:111
 msgid ""
 "Typed triggers (typing a word such as ;date in any app); the snippet picker works"
 msgstr "键入触发词（在任意应用中键入 ;date 之类的词）；片段选择器可用"
 
-#: src/sandbox.rs:141
+#: src/sandbox.rs:112
 msgid ""
-"Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
+"Typed triggers read the keyboard and type for you, which needs a one-time setup by the administrator (a rule in /etc/udev). Snaps can't make that change, and the Snap Store reserves keyboard access for apps it reviews by hand."
 msgstr ""
-"来自 Snap Store 的应用运行在沙盒中，无法请求你的管理员密码、修改系统文件，也无法读取桌面的权限存储。此功能需要其中之一，因此只有通过 APT（Ubuntu、Debian 及其衍生版）或 DNF（Fedora）安装 Voltkit 时才能使用。"
+"键入触发词需要读取键盘并替你输入，这需要管理员进行一次性设置（/etc/udev 中的一条规则）。snap 无法做出此更改，而且 Snap Store 只允许经人工审核的应用访问键盘。"
+
+#: src/sandbox.rs:152
+msgid ""
+"This is a limitation of snaps, not of Voltkit. Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or talk to some desktop services. Installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora), Voltkit has none of these limits."
+msgstr ""
+"这是 snap 的限制，而不是 Voltkit 的。来自 Snap Store 的应用运行在沙盒中，无法请求你的管理员密码、修改系统文件，也无法与某些桌面服务通信。通过 APT（Ubuntu、Debian 及其衍生版）或 DNF（Fedora）安装的 Voltkit 没有这些限制。"
 
 #: src/shortcuts.rs:23
 #, rust-format

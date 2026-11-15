@@ -471,6 +471,10 @@ fn snap_dialog(page_id: &str, anchor: &adw::Banner) {
             body.push_str("\n\n");
         }
         body.push_str(&trf!("Only in the APT and Fedora versions: {}.", tr(feature)));
+        if let Some(reason) = limits.reason {
+            body.push_str("\n\n");
+            body.push_str(&trf!("Why: {}", tr(reason)));
+        }
         body.push_str("\n\n");
         body.push_str(sandbox::why_full_version());
     }

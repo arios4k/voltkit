@@ -49,6 +49,8 @@ pub struct Limits {
     pub plugs: &'static [Plug],
     /// What only the APT and Fedora versions can do (untranslated).
     pub full_version_only: Option<&'static str>,
+    /// Why the snap can't do it (untranslated).
+    pub reason: Option<&'static str>,
     /// The whole tool is unavailable, so its page is shown read-only.
     pub whole_tool: bool,
 }
@@ -68,16 +70,19 @@ pub fn limits(page: &str) -> Limits {
         "using" => Limits {
             plugs: &[SYSTEM_OBSERVE, MOUNT_OBSERVE, PROCESS_CONTROL],
             full_version_only: Some(N_!("Seeing and closing apps that belong to other users or to the system")),
+            reason: Some(N_!("Other users' and the system's apps are visible only to the administrator, and closing them needs the administrator password, which snaps can't ask for.")),
             ..Default::default()
         },
         "sleep" => Limits {
             plugs: &[LOG_OBSERVE, SESSION_OBSERVE],
             full_version_only: Some(N_!("Stopping a USB device from waking the computer")),
+            reason: Some(N_!("Which devices may wake the computer is a system setting: changing it, and keeping it after a restart, needs the administrator password, which snaps can't ask for.")),
             ..Default::default()
         },
         "sysreport" => Limits {
             plugs: &[HARDWARE_OBSERVE, SYSTEM_STATE, MOUNT_OBSERVE],
             full_version_only: Some(N_!("Drive health, memory slots and firmware update checks")),
+            reason: Some(N_!("Drive health comes from the system's disk service, which snaps aren't allowed to query; memory slot details are in a table only the administrator can read; and firmware checks use the fwupd tool, which isn't inside the snap.")),
             ..Default::default()
         },
         "gpu" => Limits {
@@ -85,20 +90,26 @@ pub fn limits(page: &str) -> Limits {
             full_version_only: Some(N_!(
                 "Changing GPU settings (power limit, fans, clocks and voltage) and applying profiles at startup; monitoring works"
             )),
+            reason: Some(N_!(
+                "GPU settings are written to the graphics driver by a helper that runs as administrator after asking for your password. Snaps can't ask for it, and a profile applied at startup needs a system service, which a snap can't install."
+            )),
             ..Default::default()
         },
         "system" => Limits {
             full_version_only: Some(N_!("Editing /etc/hosts and your session's environment variables")),
+            reason: Some(N_!("/etc/hosts is a system file only the administrator can change, and snaps can't ask for your password. Environment variables are saved in your hidden settings folder (~/.config), which a snap can't write to: it only sees its own private copy.")),
             whole_tool: true,
             ..Default::default()
         },
         "permissions" => Limits {
             full_version_only: Some(N_!("Reviewing and changing the permissions you gave apps")),
+            reason: Some(N_!("The answers you gave apps are kept by the desktop's permission store, a service snaps aren't allowed to talk to.")),
             whole_tool: true,
             ..Default::default()
         },
         "snippets" => Limits {
             full_version_only: Some(N_!("Typed triggers (typing a word such as ;date in any app); the snippet picker works")),
+            reason: Some(N_!("Typed triggers read the keyboard and type for you, which needs a one-time setup by the administrator (a rule in /etc/udev). Snaps can't make that change, and the Snap Store reserves keyboard access for apps it reviews by hand.")),
             ..Default::default()
         },
         _ => Limits::default(),
@@ -138,9 +149,9 @@ pub fn connect_command(plug: &str) -> String {
 
 /// Why some features need the APT or Fedora version, in one paragraph.
 pub fn why_full_version() -> &'static str {
-    tr("Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files \
-        or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with \
-        APT (Ubuntu, Debian and derivatives) or DNF (Fedora).")
+    tr("This is a limitation of snaps, not of Voltkit. Apps from the Snap Store run in a sandbox that can't ask for your \
+        administrator password, change system files or talk to some desktop services. Installed with APT (Ubuntu, Debian \
+        and derivatives) or DNF (Fedora), Voltkit has none of these limits.")
 }
 
 /// Every connect command Voltkit can use, for the manual and `voltkit doctor`.
@@ -175,6 +186,10 @@ mod tests {
         assert!(limits("snippets").full_version_only.is_some());
         assert!(limits("permissions").whole_tool);
         assert!(limits("qr").full_version_only.is_none());
+        // Every limit says why.
+        for page in ["gpu", "system", "permissions", "snippets", "using", "sleep", "sysreport"] {
+            assert!(limits(page).reason.is_some(), "{page} has no reason");
+        }
     }
 
     #[test]

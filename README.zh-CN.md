@@ -91,6 +91,8 @@ echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://ar
 sudo apt update && sudo apt install voltkit
 ```
 
+**之前安装过 snap 版？** 请先移除它（`sudo snap remove voltkit`），否则 Voltkit 会被安装两次，两个后台服务会争抢同一组快捷键。
+
 apt 会在安装 Voltkit 的同时安装所需工具（Tesseract、wl-clipboard、桌面门户），之后的更新通过 `sudo apt upgrade` 获得。
 
 然后从应用列表中打开 Voltkit：它会自动设置后台服务和键盘快捷键。接下来该做什么，请参阅手册中的 [Install](https://arios4k.github.io/voltkit/manual/install.html) 和 [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html)。
@@ -106,6 +108,8 @@ sudo dnf copr enable arios/voltkit
 sudo dnf install voltkit
 ```
 
+**之前安装过 snap 版？** 请先移除它（`sudo snap remove voltkit`），否则 Voltkit 会被安装两次，两个后台服务会争抢同一组快捷键。
+
 然后从应用列表中打开 Voltkit；它会以同样的方式完成自身设置。更新通过 `sudo dnf upgrade` 获得。
 
 ## 安装（Snap Store）
@@ -113,6 +117,8 @@ sudo dnf install voltkit
 ```bash
 sudo snap install voltkit
 ```
+
+**之前用 apt 或 Fedora 安装过？** 请先移除该版本（`sudo apt remove voltkit` 或 `sudo dnf remove voltkit`），以免 Voltkit 被安装两次。
 
 Snap 版运行在沙盒中，因此 GPU 调节、Hosts 与环境变量、应用权限、键入触发词等少数功能只能在 apt 或 Fedora 版中使用，部分工具还需要用 `sudo snap connect` 连接一次权限。受影响的页面都会提示；命令见[安装 snap 之后](https://arios4k.github.io/voltkit/manual/install.html#snap-store)（英文）。
 

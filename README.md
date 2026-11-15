@@ -88,6 +88,8 @@ echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://ar
 sudo apt update && sudo apt install voltkit
 ```
 
+**Installed the snap before?** Remove it first (`sudo snap remove voltkit`), or Voltkit ends up installed twice, with two background services fighting over the same shortcuts.
+
 apt installs the required tools (Tesseract, wl-clipboard, the desktop portal) along with Voltkit, and
 updates arrive with `sudo apt upgrade`.
 
@@ -103,6 +105,8 @@ sudo dnf copr enable arios/voltkit
 sudo dnf install voltkit
 ```
 
+**Installed the snap before?** Remove it first (`sudo snap remove voltkit`), so Voltkit isn't installed twice.
+
 Then open Voltkit from your apps; it sets itself up the same way. Updates arrive with
 `sudo dnf upgrade`.
 
@@ -111,6 +115,8 @@ Then open Voltkit from your apps; it sets itself up the same way. Updates arrive
 ```bash
 sudo snap install voltkit
 ```
+
+**Installed with apt or Fedora before?** Remove that version first (`sudo apt remove voltkit` or `sudo dnf remove voltkit`), so Voltkit isn't installed twice.
 
 The snap runs in a sandbox, so GPU tuning, Hosts & Environment, App Permissions, typed triggers and a few other features work only with apt or Fedora, and some tools need a permission connected once with `sudo snap connect`. Each affected page says so; see [after installing the snap](https://arios4k.github.io/voltkit/manual/install.html#snap-store) for the commands.
 

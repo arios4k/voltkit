@@ -241,7 +241,7 @@ msgstr "Necesita atención"
 msgid "Copy Command"
 msgstr "Copiar comando"
 
-#: src/app.rs:403 src/app.rs:500 src/app.rs:1013 src/gpu_ui.rs:863
+#: src/app.rs:403 src/app.rs:504 src/app.rs:1017 src/gpu_ui.rs:863
 msgid "Close"
 msgstr "Cerrar"
 
@@ -272,457 +272,462 @@ msgstr ""
 msgid "Only in the APT and Fedora versions: {}."
 msgstr "Solo en las versiones APT y Fedora: {}."
 
-#: src/app.rs:477
+#: src/app.rs:476
+#, rust-format
+msgid "Why: {}"
+msgstr "Por qué: {}"
+
+#: src/app.rs:481
 msgid "Voltkit from the Snap Store"
 msgstr "Voltkit de la Snap Store"
 
-#: src/app.rs:489
+#: src/app.rs:493
 msgid "Copy Commands"
 msgstr "Copiar comandos"
 
-#: src/app.rs:495
+#: src/app.rs:499
 msgid "How to Install the Full Version"
 msgstr "Cómo instalar la versión completa"
 
-#: src/app.rs:508
+#: src/app.rs:512
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr ""
 "El servicio en segundo plano está apagado, así que los atajos de teclado no funcionarán"
 
-#: src/app.rs:509
+#: src/app.rs:513
 msgid "Start"
 msgstr "Iniciar"
 
-#: src/app.rs:526
+#: src/app.rs:530
 msgid "The background service failed to start"
 msgstr "No se pudo iniciar el servicio en segundo plano"
 
-#: src/app.rs:530
+#: src/app.rs:534
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "No se pudo iniciar el servicio: {}"
 
-#: src/app.rs:540
+#: src/app.rs:544
 msgid "Capture Region"
 msgstr "Capturar región"
 
-#: src/app.rs:560
+#: src/app.rs:564
 msgid "Capture text"
 msgstr "Capturar texto"
 
-#: src/app.rs:561
+#: src/app.rs:565
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr ""
 "Selecciona texto en cualquier parte de la pantalla. Idioma de reconocimiento: {}. Atajo: {}"
 
-#: src/app.rs:566
+#: src/app.rs:570
 msgid "Copy Text"
 msgstr "Copiar texto"
 
-#: src/app.rs:567
+#: src/app.rs:571
 msgid "Extracted text"
 msgstr "Texto extraído"
 
-#: src/app.rs:567 src/app.rs:583
+#: src/app.rs:571 src/app.rs:587
 msgid "Capture a region to see and copy its text here."
 msgstr "Captura una región para ver y copiar su texto aquí."
 
-#: src/app.rs:571
+#: src/app.rs:575
 msgid "No text captured yet"
 msgstr "Todavía no se ha capturado texto"
 
-#: src/app.rs:582
+#: src/app.rs:586
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} carácter"
 msgstr[1] "{} caracteres"
 
-#: src/app.rs:583
+#: src/app.rs:587
 msgid "Text is also copied automatically after capture."
 msgstr "El texto también se copia automáticamente después de capturarlo."
 
-#: src/app.rs:585
+#: src/app.rs:589
 msgid "Capture from anything"
 msgstr "Captura desde cualquier cosa"
 
-#: src/app.rs:585
+#: src/app.rs:589
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr ""
 "Selecciona un párrafo, un mensaje de error o el texto de una imagen. El escritorio te pide que elijas una región de la pantalla; el reconocimiento se hace localmente en tu computadora."
 
-#: src/app.rs:592
+#: src/app.rs:596
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "Texto del atajo, copiado al portapapeles"
 
-#: src/app.rs:613
+#: src/app.rs:617
 msgid "Text copied to clipboard"
 msgstr "Texto copiado al portapapeles"
 
-#: src/app.rs:615 src/qr_ui.rs:101
+#: src/app.rs:619 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "No se tomó ninguna captura de pantalla"
 
-#: src/app.rs:617
+#: src/app.rs:621
 msgid "OCR worker crashed"
 msgstr "El proceso de OCR falló"
 
-#: src/app.rs:632 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
+#: src/app.rs:636 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr "Copiar"
 
-#: src/app.rs:640 src/app.rs:762
+#: src/app.rs:644 src/app.rs:766
 #, rust-format
 msgid "Copied {}"
 msgstr "{} copiado"
 
-#: src/app.rs:666
+#: src/app.rs:670
 msgid "HEX or rgb()"
 msgstr "HEX o rgb()"
 
-#: src/app.rs:671
+#: src/app.rs:675
 msgid "Pick from Screen"
 msgstr "Tomar de la pantalla"
 
-#: src/app.rs:672
+#: src/app.rs:676
 msgid "Pick a color anywhere on screen"
 msgstr "Toma un color de cualquier parte de la pantalla"
 
-#: src/app.rs:677
+#: src/app.rs:681
 msgid "Color"
 msgstr "Color"
 
-#: src/app.rs:678
+#: src/app.rs:682
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr ""
 "Escribe un color o toma uno de tu pantalla. Presiona Enter para guardarlo en el historial. Desde cualquier app, presiona {} para tomar un color: su valor HEX se copia y se guarda aquí."
 
-#: src/app.rs:686
+#: src/app.rs:690
 msgid "Formats"
 msgstr "Formatos"
 
-#: src/app.rs:691
+#: src/app.rs:695
 msgid "Text on white"
 msgstr "Texto sobre blanco"
 
-#: src/app.rs:692
+#: src/app.rs:696
 msgid "Text on black"
 msgstr "Texto sobre negro"
 
-#: src/app.rs:693
+#: src/app.rs:697
 msgid "WCAG Contrast"
 msgstr "Contraste WCAG"
 
-#: src/app.rs:697
+#: src/app.rs:701
 msgid "History"
 msgstr "Historial"
 
-#: src/app.rs:697
+#: src/app.rs:701
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr ""
 "Selecciona un color guardado para reutilizarlo. Los colores que tomes de tu pantalla aparecen aquí."
 
-#: src/app.rs:710 src/app.rs:718
+#: src/app.rs:714 src/app.rs:722
 #, rust-format
 msgid "Selected color {}"
 msgstr "Color seleccionado {}"
 
-#: src/app.rs:741
+#: src/app.rs:745
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "No se pudo guardar el historial: {}"
 
-#: src/app.rs:765
+#: src/app.rs:769
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "El selector de color no está disponible: {}"
 
-#: src/app.rs:766
+#: src/app.rs:770
 msgid "Color picker crashed"
 msgstr "El selector de color falló"
 
-#: src/app.rs:775
+#: src/app.rs:779
 msgid "Live color preview"
 msgstr "Vista previa del color"
 
-#: src/app.rs:790
+#: src/app.rs:794
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "Se tomó {} con el atajo y se copió"
 
-#: src/app.rs:836
+#: src/app.rs:840
 msgid "Open Ruler"
 msgstr "Abrir regla"
 
-#: src/app.rs:849
+#: src/app.rs:853
 msgid "Measure in real pixels"
 msgstr "Mide en píxeles reales"
 
-#: src/app.rs:849
+#: src/app.rs:853
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr ""
 "Congela tu pantalla y luego arrastra una línea o un rectángulo sobre lo que quieras medir."
 
-#: src/app.rs:868
+#: src/app.rs:872
 msgid "Drag to measure width × height"
 msgstr "Arrastra para medir ancho × alto"
 
-#: src/app.rs:878
+#: src/app.rs:882
 msgid "Measurement controls"
 msgstr "Controles de medición"
 
-#: src/app.rs:879 src/app.rs:1001
+#: src/app.rs:883 src/app.rs:1005
 msgid "Drag"
 msgstr "Arrastrar"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Measure a rectangle"
 msgstr "Mide un rectángulo"
 
-#: src/app.rs:879 src/app.rs:1002
+#: src/app.rs:883 src/app.rs:1006
 msgid "Shift + drag"
 msgstr "Mayús + arrastrar"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Measure a straight line"
 msgstr "Mide una línea recta"
 
-#: src/app.rs:879 src/app.rs:1009
+#: src/app.rs:883 src/app.rs:1013
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Copy the measured size"
 msgstr "Copia el tamaño medido"
 
-#: src/app.rs:879 src/app.rs:1013
+#: src/app.rs:883 src/app.rs:1017
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:879
+#: src/app.rs:883
 msgid "Close the ruler"
 msgstr "Cierra la regla"
 
-#: src/app.rs:883 src/app.rs:1018
+#: src/app.rs:887 src/app.rs:1022
 msgid "Ready when you need it"
 msgstr "Lista cuando la necesites"
 
-#: src/app.rs:883
+#: src/app.rs:887
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 "Atajo global: {}. Las medidas usan los píxeles de la captura de pantalla, también en pantallas de alta densidad."
 
-#: src/app.rs:889
+#: src/app.rs:893
 msgid "Open Zoom & Annotate"
 msgstr "Abrir Zoom y anotaciones"
 
-#: src/app.rs:903
+#: src/app.rs:907
 msgid "Show it, then point at it"
 msgstr "Muéstralo y señálalo"
 
-#: src/app.rs:904
+#: src/app.rs:908
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr ""
 "Congela la pantalla, acerca cualquier parte y dibuja con lápiz, líneas, recuadros, flechas y texto: para presentaciones, tutoriales e informes de errores."
 
-#: src/app.rs:939
+#: src/app.rs:943
 msgid "Saving pictures"
 msgstr "Guardar imágenes"
 
-#: src/app.rs:940
+#: src/app.rs:944
 msgid ""
 "Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
 msgstr ""
 "Ctrl+S guarda la imagen en esta carpeta. Ctrl+Mayús+S te deja elegir otro lugar para una imagen."
 
-#: src/app.rs:942
+#: src/app.rs:946
 msgid "Pictures are saved in"
 msgstr "Las imágenes se guardan en"
 
-#: src/app.rs:944 src/detective_ui.rs:331
+#: src/app.rs:948 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "Cambiar…"
 
-#: src/app.rs:945 src/app.rs:946
+#: src/app.rs:949 src/app.rs:950
 msgid "Use the default folder, Pictures/Voltkit"
 msgstr "Usar la carpeta predeterminada, Imágenes/Voltkit"
 
-#: src/app.rs:964
+#: src/app.rs:968
 msgid "Choose Where Pictures Are Saved"
 msgstr "Elegir dónde se guardan las imágenes"
 
-#: src/app.rs:974
+#: src/app.rs:978
 #, rust-format
 msgid "Pictures will be saved in {}"
 msgstr "Las imágenes se guardarán en {}"
 
-#: src/app.rs:990
+#: src/app.rs:994
 msgid "Pictures are saved in Pictures/Voltkit again"
 msgstr "Las imágenes se guardan de nuevo en Imágenes/Voltkit"
 
-#: src/app.rs:998
+#: src/app.rs:1002
 msgid "Controls"
 msgstr "Controles"
 
-#: src/app.rs:1000
+#: src/app.rs:1004
 msgid "Scroll"
 msgstr "Desplazar"
 
-#: src/app.rs:1000
+#: src/app.rs:1004
 msgid "Zoom in and out"
 msgstr "Acercar y alejar"
 
-#: src/app.rs:1001
+#: src/app.rs:1005
 msgid "Draw with the pen"
 msgstr "Dibujar con el lápiz"
 
-#: src/app.rs:1002
+#: src/app.rs:1006
 msgid "Draw a straight line"
 msgstr "Dibujar una línea recta"
 
-#: src/app.rs:1003
+#: src/app.rs:1007
 msgid "Ctrl + drag"
 msgstr "Ctrl + arrastrar"
 
-#: src/app.rs:1003
+#: src/app.rs:1007
 msgid "Draw a rectangle"
 msgstr "Dibujar un rectángulo"
 
-#: src/app.rs:1004
+#: src/app.rs:1008
 msgid "Tab + drag"
 msgstr "Tab + arrastrar"
 
-#: src/app.rs:1004
+#: src/app.rs:1008
 msgid "Draw an ellipse"
 msgstr "Dibujar una elipse"
 
-#: src/app.rs:1005
+#: src/app.rs:1009
 msgid "Ctrl + Shift + drag"
 msgstr "Ctrl + Mayús + arrastrar"
 
-#: src/app.rs:1005
+#: src/app.rs:1009
 msgid "Draw an arrow"
 msgstr "Dibujar una flecha"
 
-#: src/app.rs:1006
+#: src/app.rs:1010
 msgid "R, G, B, O, Y, P"
 msgstr "R, G, B, O, Y, P"
 
-#: src/app.rs:1006
+#: src/app.rs:1010
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "Rojo, verde, azul, naranja, amarillo o rosa"
 
-#: src/app.rs:1007
+#: src/app.rs:1011
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:1007
+#: src/app.rs:1011
 msgid "Type text, then press Enter"
 msgstr "Escribir texto y pulsar Intro"
 
-#: src/app.rs:1008
+#: src/app.rs:1012
 msgid "W or K"
 msgstr "W o K"
 
-#: src/app.rs:1008
+#: src/app.rs:1012
 msgid "A white or a black board"
 msgstr "Una pizarra blanca o negra"
 
-#: src/app.rs:1009
+#: src/app.rs:1013
 msgid "Copy the picture"
 msgstr "Copiar la imagen"
 
-#: src/app.rs:1010
+#: src/app.rs:1014
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: src/app.rs:1010
+#: src/app.rs:1014
 msgid "Save the picture in the folder above"
 msgstr "Guardar la imagen en la carpeta de arriba"
 
-#: src/app.rs:1011
+#: src/app.rs:1015
 msgid "Ctrl+Shift+S"
 msgstr "Ctrl+Mayús+S"
 
-#: src/app.rs:1011
+#: src/app.rs:1015
 msgid "Save the picture somewhere else, once"
 msgstr "Guardar la imagen en otro sitio, solo esta vez"
 
-#: src/app.rs:1012
+#: src/app.rs:1016
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:1012
+#: src/app.rs:1016
 msgid "Show every key"
 msgstr "Mostrar todas las teclas"
 
-#: src/app.rs:1018
+#: src/app.rs:1022
 #, rust-format
 msgid "Global shortcut: {}."
 msgstr "Atajo global: {}."
 
-#: src/app.rs:1026 src/resize_ui.rs:57
+#: src/app.rs:1030 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "Calidad"
 
-#: src/app.rs:1027
+#: src/app.rs:1031
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "Más baja es más pequeño. PNG siempre es sin pérdida."
 
-#: src/app.rs:1031
+#: src/app.rs:1035
 msgid "Choose Files…"
 msgstr "Elegir archivos…"
 
-#: src/app.rs:1048
+#: src/app.rs:1052
 msgid "Drop Files Here"
 msgstr "Suelta los archivos aquí"
 
-#: src/app.rs:1050
+#: src/app.rs:1054
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 "PNG, JPEG, WebP y MP4. Se quitan los metadatos; los originales se conservan."
 
-#: src/app.rs:1066 src/usage_ui.rs:95
+#: src/app.rs:1070 src/usage_ui.rs:95
 msgid "Results"
 msgstr "Resultados"
 
-#: src/app.rs:1072
+#: src/app.rs:1076
 msgid "Compressing…"
 msgstr "Comprimiendo…"
 
-#: src/app.rs:1089 src/app.rs:1092 src/resize_ui.rs:248 src/resize_ui.rs:252
+#: src/app.rs:1093 src/app.rs:1096 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "Falló"
 
-#: src/app.rs:1114
+#: src/app.rs:1118
 msgid "Compress Files"
 msgstr "Comprimir archivos"
 
-#: src/app.rs:1130
+#: src/app.rs:1134
 msgid "Compression settings"
 msgstr "Ajustes de compresión"
 
-#: src/app.rs:1132 src/resize_ui.rs:352
+#: src/app.rs:1136 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "Tus originales quedan intactos"
 
-#: src/app.rs:1132
+#: src/app.rs:1136
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "Las copias comprimidas se guardan junto a cada archivo como nombre.min.ext. Los metadatos se quitan de la copia. La compresión PNG es sin pérdida; la calidad se aplica a JPEG, WebP y video."
 
-#: src/app.rs:1133
+#: src/app.rs:1137
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 "Elige o suelta archivos para ver aquí el progreso y el espacio ahorrado."
@@ -1392,7 +1397,12 @@ msgstr ""
 msgid "Snap Store version"
 msgstr "Versión de la Snap Store"
 
-#: src/doctor.rs:376
+#: src/doctor.rs:378
+#, rust-format
+msgid "only with APT or Fedora (a snap limitation): {}"
+msgstr "solo con APT o Fedora (una limitación de los snaps): {}"
+
+#: src/doctor.rs:379
 msgid ""
 "only in the APT and Fedora versions: the snap sandbox doesn't allow it"
 msgstr ""
@@ -6027,76 +6037,118 @@ msgstr "Se copió {}  ·  Esc: cerrar"
 msgid "Could not copy: {}"
 msgstr "No se pudo copiar: {}"
 
-#: src/sandbox.rs:56
+#: src/sandbox.rs:58
 msgid "use files on USB drives and other external disks"
 msgstr "usar archivos en memorias USB y otros discos externos"
 
-#: src/sandbox.rs:57
+#: src/sandbox.rs:59
 msgid "see which apps have files, folders and ports open"
 msgstr "ver qué apps tienen archivos, carpetas y puertos abiertos"
 
-#: src/sandbox.rs:58
+#: src/sandbox.rs:60
 msgid "list the drives that are connected"
 msgstr "mostrar las unidades conectadas"
 
-#: src/sandbox.rs:59
+#: src/sandbox.rs:61
 msgid "close the apps that keep something busy"
 msgstr "cerrar las apps que mantienen algo ocupado"
 
-#: src/sandbox.rs:60
+#: src/sandbox.rs:62
 msgid "read the sleep history from the system log"
 msgstr "leer el historial de suspensión del registro del sistema"
 
-#: src/sandbox.rs:61
+#: src/sandbox.rs:63
 msgid "see what is keeping the computer awake"
 msgstr "ver qué mantiene despierta la computadora"
 
-#: src/sandbox.rs:62
+#: src/sandbox.rs:64
 msgid "read hardware details, temperatures and fans"
 msgstr "leer detalles del hardware, temperaturas y ventiladores"
 
-#: src/sandbox.rs:63
+#: src/sandbox.rs:65
 msgid "read drivers, the kernel and the system's state"
 msgstr "leer los controladores, el kernel y el estado del sistema"
 
-#: src/sandbox.rs:70
+#: src/sandbox.rs:72
 msgid "Seeing and closing apps that belong to other users or to the system"
 msgstr "Ver y cerrar apps de otros usuarios o del sistema"
 
-#: src/sandbox.rs:75
+#: src/sandbox.rs:73
+msgid ""
+"Other users' and the system's apps are visible only to the administrator, and closing them needs the administrator password, which snaps can't ask for."
+msgstr ""
+"Las apps de otros usuarios y del sistema solo las ve el administrador, y cerrarlas requiere la contraseña de administrador, que los snaps no pueden pedir."
+
+#: src/sandbox.rs:78
 msgid "Stopping a USB device from waking the computer"
 msgstr "Evitar que un dispositivo USB despierte la computadora"
 
-#: src/sandbox.rs:80
+#: src/sandbox.rs:79
+msgid ""
+"Which devices may wake the computer is a system setting: changing it, and keeping it after a restart, needs the administrator password, which snaps can't ask for."
+msgstr ""
+"Qué dispositivos pueden despertar la computadora es un ajuste del sistema: cambiarlo, y conservarlo tras reiniciar, requiere la contraseña de administrador, que los snaps no pueden pedir."
+
+#: src/sandbox.rs:84
 msgid "Drive health, memory slots and firmware update checks"
 msgstr ""
 "Salud de los discos, ranuras de memoria y búsqueda de actualizaciones de firmware"
 
-#: src/sandbox.rs:86
+#: src/sandbox.rs:85
+msgid ""
+"Drive health comes from the system's disk service, which snaps aren't allowed to query; memory slot details are in a table only the administrator can read; and firmware checks use the fwupd tool, which isn't inside the snap."
+msgstr ""
+"La salud de los discos viene del servicio de discos del sistema, que los snaps no pueden consultar; los detalles de las ranuras de memoria están en una tabla que solo el administrador puede leer; y la búsqueda de firmware usa la herramienta fwupd, que no está dentro del snap."
+
+#: src/sandbox.rs:91
 msgid ""
 "Changing GPU settings (power limit, fans, clocks and voltage) and applying profiles at startup; monitoring works"
 msgstr ""
 "Cambiar los ajustes de la GPU (límite de potencia, ventiladores, relojes y voltaje) y aplicar perfiles al iniciar; la supervisión funciona"
 
-#: src/sandbox.rs:91
+#: src/sandbox.rs:94
+msgid ""
+"GPU settings are written to the graphics driver by a helper that runs as administrator after asking for your password. Snaps can't ask for it, and a profile applied at startup needs a system service, which a snap can't install."
+msgstr ""
+"Los ajustes de la GPU los escribe en el controlador gráfico un asistente que se ejecuta como administrador tras pedir tu contraseña. Los snaps no pueden pedirla, y un perfil aplicado al iniciar necesita un servicio del sistema, que un snap no puede instalar."
+
+#: src/sandbox.rs:99
 msgid "Editing /etc/hosts and your session's environment variables"
 msgstr "Editar /etc/hosts y las variables de entorno de tu sesión"
 
-#: src/sandbox.rs:96
+#: src/sandbox.rs:100
+msgid ""
+"/etc/hosts is a system file only the administrator can change, and snaps can't ask for your password. Environment variables are saved in your hidden settings folder (~/.config), which a snap can't write to: it only sees its own private copy."
+msgstr ""
+"/etc/hosts es un archivo del sistema que solo el administrador puede cambiar, y los snaps no pueden pedir tu contraseña. Las variables de entorno se guardan en tu carpeta oculta de ajustes (~/.config), donde un snap no puede escribir: solo ve su propia copia privada."
+
+#: src/sandbox.rs:105
 msgid "Reviewing and changing the permissions you gave apps"
 msgstr "Revisar y cambiar los permisos que diste a las apps"
 
-#: src/sandbox.rs:101
+#: src/sandbox.rs:106
+msgid ""
+"The answers you gave apps are kept by the desktop's permission store, a service snaps aren't allowed to talk to."
+msgstr ""
+"Las respuestas que diste a las apps las guarda el almacén de permisos del escritorio, un servicio con el que los snaps no pueden comunicarse."
+
+#: src/sandbox.rs:111
 msgid ""
 "Typed triggers (typing a word such as ;date in any app); the snippet picker works"
 msgstr ""
 "Disparadores al escribir (escribir una palabra como ;date en cualquier app); el selector de fragmentos funciona"
 
-#: src/sandbox.rs:141
+#: src/sandbox.rs:112
 msgid ""
-"Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
+"Typed triggers read the keyboard and type for you, which needs a one-time setup by the administrator (a rule in /etc/udev). Snaps can't make that change, and the Snap Store reserves keyboard access for apps it reviews by hand."
 msgstr ""
-"Las apps de la Snap Store funcionan en un entorno aislado que no puede pedir tu contraseña de administrador, cambiar archivos del sistema ni leer el almacén de permisos del escritorio. Esto necesita alguna de esas cosas, así que solo funciona cuando Voltkit se instala con APT (Ubuntu, Debian y derivadas) o DNF (Fedora)."
+"Los disparadores al escribir leen el teclado y escriben por ti, lo que requiere una configuración única del administrador (una regla en /etc/udev). Los snaps no pueden hacer ese cambio, y la Snap Store reserva el acceso al teclado para las apps que revisa a mano."
+
+#: src/sandbox.rs:152
+msgid ""
+"This is a limitation of snaps, not of Voltkit. Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or talk to some desktop services. Installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora), Voltkit has none of these limits."
+msgstr ""
+"Es una limitación de los snaps, no de Voltkit. Las apps de la Snap Store funcionan en un entorno aislado que no puede pedir tu contraseña de administrador, cambiar archivos del sistema ni comunicarse con algunos servicios del escritorio. Instalado con APT (Ubuntu, Debian y derivadas) o DNF (Fedora), Voltkit no tiene ninguno de estos límites."
 
 #: src/shortcuts.rs:23
 #, rust-format

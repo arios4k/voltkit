@@ -367,13 +367,17 @@ pub fn run(config: &Config) -> Report {
             ));
         }
         for page in ["gpu", "system", "permissions", "snippets", "using", "sleep", "sysreport"] {
-            if let Some(feature) = crate::sandbox::limits(page).full_version_only {
+            let limits = crate::sandbox::limits(page);
+            if let Some(feature) = limits.full_version_only {
                 checks.push(check(
                     SNAP,
                     tr(feature),
                     false,
                     Need::Optional,
-                    Some(Fix::Advice(tr("only in the APT and Fedora versions: the snap sandbox doesn't allow it").into())),
+                    Some(Fix::Advice(match limits.reason {
+                        Some(reason) => trf!("only with APT or Fedora (a snap limitation): {}", tr(reason)),
+                        None => tr("only in the APT and Fedora versions: the snap sandbox doesn't allow it").into(),
+                    })),
                 ));
             }
         }
