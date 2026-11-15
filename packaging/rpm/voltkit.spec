@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.13.0
+Version:        0.13.1
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -79,6 +79,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Sun Nov 15 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.13.1-1
+- Snap: the background service and the app no longer claim D-Bus names, so the snap passes the Snap Store's automatic review
+
 * Sun Nov 15 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.13.0-1
 - Voltkit is in the Snap Store; tools the snap sandbox limits say so on their page
 - voltkit doctor: a section for the snap version's permissions

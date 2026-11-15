@@ -4,6 +4,12 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.13.1
+
+*November 15, 2026*
+
+- The snap reaches its background service without claiming a name on the session bus, so the Snap Store can publish it without a manual review. Nothing changes for apt and Fedora installs.
+
 ## Version 0.13.0
 
 *November 15, 2026*

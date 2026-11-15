@@ -137,15 +137,29 @@ async fn serve(config: Config) -> Result<()> {
         expander_task: Arc::default(),
     };
 
+    let snap_file = snap_address_file();
+    if snap_file.is_some() && call::<(String, String, String)>("Status", &()).await.is_ok() {
+        bail!("{}", tr("the Voltkit daemon is already running"));
+    }
     let conn = zbus::connection::Builder::session()?
         .serve_at(OBJECT_PATH, Service(state.clone()))?
         .build()
         .await
         .context(tr("cannot connect to the session bus"))?;
-    // Without DoNotQueue a second instance would silently wait in line for the name.
-    let reply = conn.request_name_with_flags(BUS_NAME, RequestNameFlags::DoNotQueue.into()).await;
-    if !matches!(reply, Ok(RequestNameReply::PrimaryOwner)) {
-        bail!("{}", tr("the Voltkit daemon is already running"));
+    if let Some(file) = &snap_file {
+        // The snap may not own a well-known name without a reviewed D-Bus
+        // slot, so it tells the snap's other processes its unique name.
+        let unique = conn.unique_name().context(tr("cannot connect to the session bus"))?.to_string();
+        if let Some(dir) = file.parent() {
+            std::fs::create_dir_all(dir)?;
+        }
+        std::fs::write(file, unique)?;
+    } else {
+        // Without DoNotQueue a second instance would silently wait in line for the name.
+        let reply = conn.request_name_with_flags(BUS_NAME, RequestNameFlags::DoNotQueue.into()).await;
+        if !matches!(reply, Ok(RequestNameReply::PrimaryOwner)) {
+            bail!("{}", tr("the Voltkit daemon is already running"));
+        }
     }
     println!("{}", trf!("Voltkit daemon {} started", env!("CARGO_PKG_VERSION")));
 
@@ -282,12 +296,34 @@ async fn portal_shortcuts(state: &State) -> Result<()> {
 
 // ------------------------------------------------------------ client side
 
+/// In the snap, the file holding the running daemon's unique bus name, in
+/// the snap's private runtime folder. Outside a snap the daemon owns
+/// `BUS_NAME` instead, so there is no file.
+fn snap_address_file() -> Option<PathBuf> {
+    crate::sandbox::snap().then(|| {
+        std::env::var_os("XDG_RUNTIME_DIR").map(PathBuf::from).unwrap_or_else(std::env::temp_dir).join("voltkit-daemon-address")
+    })
+}
+
+/// The bus name to reach the daemon at; empty when the snap's daemon has
+/// never started.
+pub fn destination() -> String {
+    match snap_address_file() {
+        Some(file) => std::fs::read_to_string(file).map(|s| s.trim().to_owned()).unwrap_or_default(),
+        None => BUS_NAME.to_owned(),
+    }
+}
+
 async fn call<R>(method: &str, body: &(impl serde::Serialize + zbus::zvariant::DynamicType)) -> Result<R>
 where
     R: for<'d> zbus::zvariant::DynamicDeserialize<'d>,
 {
+    let destination = destination();
+    if destination.is_empty() {
+        bail!("{}", tr(NOT_RUNNING));
+    }
     let conn = zbus::Connection::session().await?;
-    let reply = conn.call_method(Some(BUS_NAME), OBJECT_PATH, Some(INTERFACE), method, body).await?;
+    let reply = conn.call_method(Some(destination.as_str()), OBJECT_PATH, Some(INTERFACE), method, body).await?;
     Ok(reply.body().deserialize()?)
 }
 

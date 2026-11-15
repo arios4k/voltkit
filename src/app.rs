@@ -26,7 +26,10 @@ pub fn manual_url(tool: &str) -> String {
 }
 
 pub fn run(config: Config) {
-    let app = adw::Application::builder().application_id(APP_ID).build();
+    // In the snap, owning the app's name on the session bus needs a D-Bus
+    // slot the Snap Store reviews by hand, so the snap runs without it.
+    let flags = if sandbox::snap() { gio::ApplicationFlags::NON_UNIQUE } else { gio::ApplicationFlags::default() };
+    let app = adw::Application::builder().application_id(APP_ID).flags(flags).build();
     let about = gio::ActionEntry::builder("about")
         .activate(|app: &adw::Application, _, _| {
             about_dialog().present(app.active_window().as_ref());
@@ -330,6 +333,9 @@ fn start_daemon() -> std::io::Result<()> {
 }
 
 fn daemon_running() -> bool {
+    if daemon::destination().is_empty() {
+        return false;
+    }
     let Ok(bus) = gio::bus_get_sync(gio::BusType::Session, gio::Cancellable::NONE) else {
         return false;
     };
@@ -338,7 +344,7 @@ fn daemon_running() -> bool {
         "/org/freedesktop/DBus",
         "org.freedesktop.DBus",
         "NameHasOwner",
-        Some(&(daemon::BUS_NAME,).to_variant()),
+        Some(&(daemon::destination(),).to_variant()),
         Some(glib::VariantTy::new("(b)").unwrap()),
         gio::DBusCallFlags::NONE,
         500,
