@@ -6,10 +6,10 @@
 
 [English](README.md) · [Español](README.es.md) · **Deutsch** · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
-**Praktische Werkzeuge für Ihren Linux-Desktop.**
+**Ein Werkzeugkasten im Stil von PowerToys für Linux.** Achtzehn praktische Werkzeuge für Ihren Desktop in einer nativen App:
 Texterkennung, ein QR-Code-Scanner, ein Farbwähler, ein Bildschirmlineal, ein Bild- und Videokompressor,
 Textbausteine, „Intelligentes Einfügen“, „Wach halten“, ein Editor für hosts und Umgebungsvariablen, eine Suche
-nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehlersuche für die Bereitschaft, ein Systembericht, ein Tastenkürzel-Detektiv und ein GPU-Tuner – in einer App.
+nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehlersuche für die Bereitschaft, ein Systembericht, ein Tastenkürzel-Detektiv und ein GPU-Tuner.
 
 [![Neueste Version](https://img.shields.io/github/v/release/arios4k/voltkit?label=version&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
 [![CI](https://github.com/arios4k/voltkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arios4k/voltkit/actions/workflows/ci.yml)
