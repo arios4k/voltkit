@@ -9,7 +9,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::config::Config;
 use crate::modules::{self, color, compress, ocr};
-use crate::{actions, awake_ui, rename_ui, resize_ui, daemon, detective_ui, gpu_ui, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, sysreport_ui, system_ui, usage_ui};
+use crate::{actions, sandbox, awake_ui, rename_ui, resize_ui, daemon, detective_ui, gpu_ui, doctor, permissions_ui, portal, qr_ui, sleep_ui, smartpaste_ui, snippets_ui, sysreport_ui, system_ui, usage_ui};
 use crate::i18n::tr;
 
 const APP_ID: &str = "io.github.arios4k.Voltkit";
@@ -43,6 +43,11 @@ pub fn run(config: Config) {
         // the next login: start it now, so the hotkeys work straight away.
         if app.active_window().is_none() && !daemon_running() {
             let _ = start_daemon();
+        }
+        // The packages start the service at login from /etc/xdg/autostart; a
+        // snap can't install that, so it writes the entry snapd starts instead.
+        if sandbox::snap() && std::env::var_os("SNAP_NAME").is_some() {
+            let _ = daemon::ensure_snap_autostart();
         }
         build_window(app, &config);
     });
@@ -112,18 +117,18 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&color_page(config, &toasts), Some("color"));
     stack.add_named(&ruler_page(config), Some("ruler"));
     stack.add_named(&zoom_page(config, &toasts), Some("zoom"));
-    stack.add_named(&compress_page(config, &toasts), Some("compress"));
-    stack.add_named(&rename_ui::page(&toasts), Some("rename"));
-    stack.add_named(&resize_ui::page(&toasts), Some("resize"));
-    stack.add_named(&snippets_ui::page(config, &toasts), Some("snippets"));
+    stack.add_named(&with_snap_notice("compress", compress_page(config, &toasts)), Some("compress"));
+    stack.add_named(&with_snap_notice("rename", rename_ui::page(&toasts)), Some("rename"));
+    stack.add_named(&with_snap_notice("resize", resize_ui::page(&toasts)), Some("resize"));
+    stack.add_named(&with_snap_notice("snippets", snippets_ui::page(config, &toasts)), Some("snippets"));
     stack.add_named(&smartpaste_ui::page(config, &toasts), Some("smartpaste"));
     stack.add_named(&awake_ui::page(&toasts), Some("awake"));
-    stack.add_named(&system_ui::page(&toasts), Some("system"));
-    stack.add_named(&usage_ui::page(&toasts), Some("using"));
-    stack.add_named(&permissions_ui::page(&toasts), Some("permissions"));
-    stack.add_named(&sleep_ui::page(&toasts), Some("sleep"));
-    stack.add_named(&gpu_ui::page(&toasts), Some("gpu"));
-    stack.add_named(&sysreport_ui::page(&toasts), Some("sysreport"));
+    stack.add_named(&with_snap_notice("system", system_ui::page(&toasts)), Some("system"));
+    stack.add_named(&with_snap_notice("using", usage_ui::page(&toasts)), Some("using"));
+    stack.add_named(&with_snap_notice("permissions", permissions_ui::page(&toasts)), Some("permissions"));
+    stack.add_named(&with_snap_notice("sleep", sleep_ui::page(&toasts)), Some("sleep"));
+    stack.add_named(&with_snap_notice("gpu", gpu_ui::page(&toasts)), Some("gpu"));
+    stack.add_named(&with_snap_notice("sysreport", sysreport_ui::page(&toasts)), Some("sysreport"));
     stack.add_named(&detective_ui::page(&toasts), Some("shortcuts"));
     toasts.set_child(Some(&stack));
 
@@ -397,6 +402,98 @@ fn doctor_banner(config: &Config) -> adw::Banner {
         });
     });
     banner
+}
+
+/// In the snap, puts a banner above a tool's page saying which permissions
+/// still need connecting and what only the APT and Fedora versions can do.
+/// Outside a snap the page is returned unchanged.
+fn with_snap_notice(page_id: &'static str, page: gtk::Widget) -> gtk::Widget {
+    if !sandbox::snap() {
+        return page;
+    }
+    let limits = sandbox::limits(page_id);
+    if limits.plugs.is_empty() && limits.full_version_only.is_none() {
+        return page;
+    }
+    if limits.whole_tool {
+        // Nothing on it can work, and saving would write to the sandbox's copy.
+        page.set_sensitive(false);
+    }
+    let banner = adw::Banner::builder().button_label(tr("Details")).build();
+    let update = {
+        let banner = banner.clone();
+        move || {
+            let missing = sandbox::missing(page_id, sandbox::connected);
+            let title = match (missing.len(), limits.full_version_only.is_some()) {
+                (0, false) => {
+                    banner.set_revealed(false);
+                    return;
+                }
+                (0, true) if limits.whole_tool => tr("This tool works only in the APT and Fedora versions of Voltkit").to_owned(),
+                (0, true) => tr("Part of this tool works only in the APT and Fedora versions").to_owned(),
+                (n, _) => trnf!("Connect {} permission to use everything here", "Connect {} permissions to use everything here", n),
+            };
+            banner.set_title(&title);
+            banner.set_revealed(true);
+        }
+    };
+    update();
+    banner.connect_button_clicked(move |b| snap_dialog(page_id, b));
+    let outer = gtk::Box::builder().orientation(gtk::Orientation::Vertical).build();
+    outer.append(&banner);
+    page.set_vexpand(true);
+    outer.append(&page);
+    // Look again when the page is shown: the user may have connected them meanwhile.
+    outer.connect_map(move |_| update());
+    outer.upcast()
+}
+
+/// The commands to run, and why some features need the full version.
+fn snap_dialog(page_id: &str, anchor: &adw::Banner) {
+    let limits = sandbox::limits(page_id);
+    let missing = sandbox::missing(page_id, sandbox::connected);
+    let mut body = String::new();
+    if !missing.is_empty() {
+        body.push_str(tr("Voltkit from the Snap Store runs in a sandbox. Allow these once, in a terminal or in your app store's Permissions settings for Voltkit:"));
+        body.push('\n');
+        for plug in &missing {
+            body.push_str(&format!("\n• {}", tr(plug.enables)));
+        }
+    }
+    if let Some(feature) = limits.full_version_only {
+        if !body.is_empty() {
+            body.push_str("\n\n");
+        }
+        body.push_str(&trf!("Only in the APT and Fedora versions: {}.", tr(feature)));
+        body.push_str("\n\n");
+        body.push_str(sandbox::why_full_version());
+    }
+    let dialog = adw::AlertDialog::new(Some(tr("Voltkit from the Snap Store")), Some(&body));
+    let commands: Vec<String> = missing.iter().map(|p| sandbox::connect_command(p.name)).collect();
+    if !commands.is_empty() {
+        let label = gtk::Label::builder()
+            .label(commands.join("\n"))
+            .selectable(true)
+            .wrap(true)
+            .xalign(0.0)
+            .css_classes(["monospace", "card"])
+            .build();
+        label.set_margin_top(6);
+        dialog.set_extra_child(Some(&label));
+        dialog.add_response("copy", tr("Copy Commands"));
+        dialog.set_response_appearance("copy", adw::ResponseAppearance::Suggested);
+        let text = commands.join("\n");
+        dialog.connect_response(Some("copy"), move |d, _| d.clipboard().set_text(&text));
+    }
+    if limits.full_version_only.is_some() {
+        dialog.add_response("install", tr("How to Install the Full Version"));
+        dialog.connect_response(Some("install"), |d, _| {
+            gtk::UriLauncher::new(sandbox::INSTALL_URL).launch(d.root().and_downcast::<gtk::Window>().as_ref(), gio::Cancellable::NONE, |_| {});
+        });
+    }
+    dialog.add_response("close", tr("Close"));
+    dialog.set_default_response(Some("close"));
+    dialog.present(Some(anchor));
 }
 
 /// Shown while the background service is off, since global shortcuts need it.

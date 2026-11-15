@@ -367,10 +367,20 @@ const SYSTEM_AUTOSTART: &str = "/etc/xdg/autostart/io.github.arios4k.Voltkit.Dae
 /// The binary the system entry runs.
 const SYSTEM_EXE: &str = "/usr/bin/voltkit";
 
+/// In the snap: turns on starting at login the first time, unless the user
+/// already chose (an entry exists, on or off).
+pub fn ensure_snap_autostart() -> Result<()> {
+    if !autostart_path()?.exists() {
+        set_autostart(true)?;
+    }
+    Ok(())
+}
+
 pub fn set_autostart(enabled: bool) -> Result<PathBuf> {
     let path = autostart_path()?;
     let system = std::path::Path::new(SYSTEM_AUTOSTART).exists();
-    let exe = std::env::current_exe()?;
+    // In the snap, snapd starts the entry found in the snap's own config folder.
+    let exe = crate::sandbox::host_exe()?;
     if enabled && system && exe == std::path::Path::new(SYSTEM_EXE) {
         // The package's entry already starts it: drop any override.
         if path.exists() {
@@ -381,10 +391,12 @@ pub fn set_autostart(enabled: bool) -> Result<PathBuf> {
     if enabled {
         std::fs::create_dir_all(path.parent().unwrap())?;
         std::fs::write(&path, autostart_entry(&exe.to_string_lossy()))?;
-    } else if system {
-        // Turn the package's entry off for this user only.
+    } else if system || crate::sandbox::snap() {
+        // Turn the package's entry off for this user only. In the snap a
+        // hidden entry also records the choice, so it isn't turned back on.
+        let exe = if system { PathBuf::from(SYSTEM_EXE) } else { exe };
         std::fs::create_dir_all(path.parent().unwrap())?;
-        std::fs::write(&path, format!("{}Hidden=true\n", autostart_entry(SYSTEM_EXE)))?;
+        std::fs::write(&path, format!("{}Hidden=true\n", autostart_entry(&exe.to_string_lossy())))?;
     } else if path.exists() {
         std::fs::remove_file(&path)?;
     }

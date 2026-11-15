@@ -1,0 +1,129 @@
+# The Snap Store package. Built and uploaded by .github/workflows/release.yml
+# when a version tag is pushed; build it locally with `snapcraft pack`.
+#
+# Strict confinement: features that need the administrator password (GPU
+# changes, /etc/hosts, typed triggers, drive health) work only in the APT and
+# Fedora packages, and the app says so on each page (src/sandbox.rs). Plugs
+# that aren't connected automatically are listed in the manual's Install page.
+name: voltkit
+base: core24
+adopt-info: voltkit
+grade: stable
+confinement: strict
+license: MIT
+icon: data/icons/io.github.arios4k.Voltkit.svg
+title: Voltkit
+# Its own summary and description (instead of the MetaInfo's), so the Snap
+# Store page says what the sandbox limits before anyone installs it.
+summary: PowerToys-style desktop tools for Linux in one GTK4 app
+description: |
+  Voltkit puts everyday desktop tools in one native GTK4 app with global shortcuts:
+  screen OCR, a QR code scanner and maker, a color picker with contrast checking,
+  a screen ruler, Zoom & Annotate, an image and video compressor, Batch Rename,
+  an image resizer, a text expander with a snippet picker, Smart Paste, Keep Awake,
+  a shortcut detective, a finder for the apps keeping a
+  drive or port busy, a sleep troubleshooter, a system report and GPU monitoring.
+
+  **About the snap version.** Snaps run in a sandbox that can't ask for your
+  administrator password, change system files or read the desktop's permission
+  store, so these work only when Voltkit is installed with APT (Ubuntu, Debian)
+  or DNF (Fedora):
+
+  - changing GPU settings (monitoring works)
+  - editing /etc/hosts and session environment variables
+  - App Permissions (the sandbox can't read the desktop's permission store)
+  - typed triggers such as ;date (the snippet picker works)
+  - drive health, memory slots and firmware update checks
+  - stopping a USB device from waking the computer
+
+  Each affected page in the app says so. Some tools need permissions you connect
+  once; the app lists the exact `sudo snap connect` commands, and so does
+  `voltkit doctor`. Full instructions: https://arios4k.github.io/voltkit/manual/install.html#snap-store
+website: https://arios4k.github.io/voltkit/manual/
+source-code: https://github.com/arios4k/voltkit
+issues: https://github.com/arios4k/voltkit/issues
+contact: https://github.com/arios4k/voltkit/issues
+
+platforms:
+  amd64:
+
+apps:
+  voltkit:
+    command: usr/bin/voltkit
+    common-id: io.github.arios4k.Voltkit
+    desktop: usr/share/applications/io.github.arios4k.Voltkit.desktop
+    extensions: [gnome]
+    # snapd starts the background service at login from the entry Voltkit
+    # writes in its own config folder ($SNAP_USER_DATA/.config/autostart).
+    autostart: io.github.arios4k.Voltkit.Daemon.desktop
+    environment:
+      TESSDATA_PREFIX: $SNAP/usr/share/tesseract-ocr/5/tessdata
+    plugs:
+      - home
+      - removable-media
+      - hardware-observe
+      - system-observe
+      - mount-observe
+      - process-control
+      - log-observe
+      - login-session-observe
+      - upower-observe
+      - opengl
+      - gsettings
+    slots:
+      - voltkit-app
+      - voltkit-daemon
+
+slots:
+  # The app and its background service own these names on the session bus.
+  voltkit-app:
+    interface: dbus
+    bus: session
+    name: io.github.arios4k.Voltkit
+  voltkit-daemon:
+    interface: dbus
+    bus: session
+    name: io.github.arios4k.Voltkit.Daemon
+
+parts:
+  voltkit:
+    # Built with cargo directly: the GNOME extension points LD_LIBRARY_PATH at
+    # its SDK's libc, which the rustup-installed toolchain can't run with, so
+    # cargo runs without it (linking still finds GTK through pkg-config).
+    plugin: nil
+    source: .
+    build-snaps: [rustup]
+    build-packages: [pkg-config, gcc]
+    parse-info: [usr/share/metainfo/io.github.arios4k.Voltkit.metainfo.xml]
+    stage-packages:
+      - tesseract-ocr
+      - tesseract-ocr-eng
+      - jpegoptim
+      - webp
+      - ffmpeg
+      - wl-clipboard
+      - xclip
+    override-build: |
+      env -u LD_LIBRARY_PATH rustup default stable
+      env -u LD_LIBRARY_PATH PKG_CONFIG=/usr/bin/pkg-config cargo build --release --locked
+      install -Dm755 target/release/voltkit -t "$CRAFT_PART_INSTALL/usr/bin/"
+      install -Dm644 data/io.github.arios4k.Voltkit.metainfo.xml -t "$CRAFT_PART_INSTALL/usr/share/metainfo/"
+      install -Dm644 data/icons/io.github.arios4k.Voltkit.svg -t "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/apps/"
+      install -Dm644 data/icons/io.github.arios4k.Voltkit-symbolic.svg -t "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/symbolic/apps/"
+      install -Dm644 data/io.github.arios4k.Voltkit.desktop -t "$CRAFT_PART_INSTALL/usr/share/applications/"
+      # The launcher outside the sandbox needs the icon's full path.
+      sed -i 's|^Icon=.*|Icon=${SNAP}/meta/gui/icon.svg|' "$CRAFT_PART_INSTALL/usr/share/applications/io.github.arios4k.Voltkit.desktop"
+      craftctl set version="$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)"
+
+  # Removes libraries the runtime snaps already provide. Stage-packages pull
+  # older copies from the Ubuntu archive (HarfBuzz, librsvg...), which would
+  # load instead of the GNOME runtime's and crash it (undefined symbol hb_free).
+  cleanup:
+    after: [voltkit]
+    plugin: nil
+    build-snaps: [core24, gnome-46-2404, mesa-2404]
+    override-prime: |
+      set -eux
+      for snap in core24 gnome-46-2404 mesa-2404; do
+        (cd "/snap/$snap/current" && find . -type f,l -printf "$CRAFT_PRIME/%P\0") | xargs -0 rm -f
+      done

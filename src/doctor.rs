@@ -288,7 +288,9 @@ pub fn run(config: &Config) -> Report {
         Need::Optional,
         Some(Fix::Advice(tr("without it the snippet is copied and you press Ctrl+V").into())),
     ));
-    if config.expander.typed_triggers {
+    if crate::sandbox::snap() {
+        // Covered in the Snap Store section below.
+    } else if config.expander.typed_triggers {
         let missing = expander::missing_permissions();
         checks.push(check(
             EXPAND,
@@ -318,13 +320,13 @@ pub fn run(config: &Config) -> Report {
         Some(Fix::Advice(tr("install xdg-desktop-portal and your desktop's portal backend").into())),
     ));
     const SYSTEM: &str = N_!("Hosts & Environment");
-    checks.push(check(
+    if !crate::sandbox::snap() { checks.push(check(
         SYSTEM,
         tr("saving /etc/hosts: pkexec"),
         system::has("pkexec"),
         Need::Optional,
         Some(Fix::Advice(tr("install polkit (pkexec) to save the hosts file; environment variables work without it").into())),
-    ));
+    )); }
 
     const SERVICE: &str = N_!("Background Service");
     let status = daemon::status();
@@ -351,6 +353,31 @@ pub fn run(config: &Config) -> Report {
             tr("on GNOME run `voltkit shortcuts install`; elsewhere bind `voltkit trigger ocr|color|snippets`").into(),
         )),
     ));
+
+    // Snap Store version: permissions to connect, and what it can't do.
+    if crate::sandbox::snap() {
+        const SNAP: &str = N_!("Snap Store version");
+        for plug in crate::sandbox::all_plugs() {
+            checks.push(check(
+                SNAP,
+                format!("{}: {}", plug.name, tr(plug.enables)),
+                crate::sandbox::connected(plug.name),
+                Need::Optional,
+                Some(Fix::Advice(crate::sandbox::connect_command(plug.name))),
+            ));
+        }
+        for page in ["gpu", "system", "permissions", "snippets", "using", "sleep", "sysreport"] {
+            if let Some(feature) = crate::sandbox::limits(page).full_version_only {
+                checks.push(check(
+                    SNAP,
+                    tr(feature),
+                    false,
+                    Need::Optional,
+                    Some(Fix::Advice(tr("only in the APT and Fedora versions: the snap sandbox doesn't allow it").into())),
+                ));
+            }
+        }
+    }
 
     Report { distro, checks }
 }

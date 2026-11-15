@@ -1,3 +1,4 @@
 /target
 *.min.*
 __pycache__/
+*.snap

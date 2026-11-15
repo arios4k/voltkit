@@ -263,6 +263,10 @@ fn descendants(root: &impl IsA<gtk::Widget>) -> Vec<gtk::Widget> {
 }
 
 fn hide_banners(window: &gtk::Window) {
+    // Snap previews (VOLTKIT_SNAP_PREVIEW) keep the banners: they are what's shown.
+    if crate::sandbox::snap() {
+        return;
+    }
     for banner in descendants(window).into_iter().filter_map(|w| w.downcast::<adw::Banner>().ok()) {
         banner.set_revealed(false);
     }

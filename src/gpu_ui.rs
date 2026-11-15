@@ -891,6 +891,10 @@ enum Message {
 /// Starts the root helper, shows its confirmation countdown, and tells it
 /// to keep or undo the change.
 fn run_helper(anchor: &gtk::Button, settings: &Settings, save: bool, toasts: &adw::ToastOverlay) {
+    if crate::sandbox::snap() {
+        toast(toasts, tr("Changing GPU settings works only in the APT and Fedora versions of Voltkit."));
+        return;
+    }
     let Ok(exe) = std::env::current_exe() else { return };
     let mut command = Command::new("pkexec");
     command.arg(exe).args(["gpu", "apply", "-", "--session"]);
@@ -1289,6 +1293,9 @@ fn profiles_group(card: &Card, collect: Collect, toasts: &adw::ToastOverlay) -> 
 
 /// Hands the profiles to the root helper, which checks and installs them.
 fn install_profiles(all: &[CardProfiles]) -> Result<(), String> {
+    if crate::sandbox::snap() {
+        return Err(tr("Changing GPU settings works only in the APT and Fedora versions of Voltkit.").to_owned());
+    }
     let exe = std::env::current_exe().map_err(|e| e.to_string())?;
     let mut child = Command::new("pkexec")
         .arg(exe)

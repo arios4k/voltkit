@@ -6,9 +6,17 @@ Voltkit ships as native packages:
 |---|---|---|
 | apt repository on GitHub Pages | Ubuntu, Debian, Mint, Pop!_OS, Zorin | the release workflow, automatically |
 | Fedora COPR | Fedora | COPR's build servers, from `packaging/rpm/voltkit.spec` |
+| Snap Store | Ubuntu's App Center and any distribution with snapd | the release workflow, from `snap/snapcraft.yaml` |
 
-Both install a login entry for the background service, and Voltkit adds its shortcuts on first
-launch, so users only install and open it.
+The apt and Fedora packages install a login entry for the background service, and Voltkit adds its
+shortcuts on first launch, so users only install and open it. The snap writes its login entry on
+first launch instead (snapd starts it from the snap's own folder).
+
+The snap is strictly confined. GPU changes, `/etc/hosts` and environment variables, typed triggers,
+drive health and memory slots need the administrator password, which the sandbox can't ask for, and
+App Permissions needs the desktop's permission store, which the sandbox can't reach, so they work
+only in the apt and Fedora packages. Each affected page shows a banner saying so, and which
+permissions to connect (`src/sandbox.rs`); the manual's Install page lists the commands.
 
 ## One-time setup
 
@@ -32,6 +40,27 @@ launch, so users only install and open it.
    `COPR_WEBHOOK_URL` (*Settings → Secrets and variables → Actions*). The URL contains a secret, so
    keep it private.
 
+### Snap Store
+
+1. Create an Ubuntu One account and sign in at <https://snapcraft.io>. Register the name:
+   `snapcraft register voltkit` (or **My snaps → Register a snap name**).
+2. Export upload credentials for the release workflow, valid for one year:
+
+   ```bash
+   snapcraft export-login --snaps=voltkit --channels=stable,candidate,beta,edge \
+     --acls=package_access,package_push,package_update,package_release --expires=2027-11-14 -
+   ```
+
+   Save the printed text as the repository secret `SNAPCRAFT_STORE_CREDENTIALS`. Renew it before it
+   expires. Until it exists, the release workflow skips the snap with a notice.
+3. Optional: to release to a channel other than `stable` (for example `beta` while testing), set the
+   repository variable `SNAP_CHANNEL` (*Settings → Secrets and variables → Actions → Variables*).
+4. In the snap's page on snapcraft.io, add screenshots, choose the **Utilities** category and paste the
+   limitations above in the description, so nobody installs it expecting GPU tuning.
+
+Build and try it locally with `snapcraft pack`, then
+`sudo snap install --dangerous voltkit_*.snap`.
+
 ## Every release
 
 1. Set the new version in `Cargo.toml` and `packaging/rpm/voltkit.spec` (`Version`, `Release: 1`,
@@ -40,7 +69,8 @@ launch, so users only install and open it.
    `## Version X.Y.Z` section, newest first): `cargo test` fails until it is there.
 2. Commit, then tag and push: `git tag vX.Y.Z && git push origin main vX.Y.Z`. The release workflow
    publishes the GitHub Release and the apt repository.
-3. COPR builds by itself: the last job of the release workflow calls the COPR webhook once the tag is
+3. The snap is built and uploaded by the release workflow's `snap` job.
+4. COPR builds by itself: the last job of the release workflow calls the COPR webhook once the tag is
    pushed. Without the `COPR_WEBHOOK_URL` secret, press **Rebuild** on the `voltkit` package (or run
    `copr-cli build-package voltkit --name voltkit`).
 

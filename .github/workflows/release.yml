@@ -5,6 +5,10 @@ name: Release
 # A tag also asks COPR to build the Fedora package from the repository (packaging/rpm/voltkit.spec,
 # which downloads the tag). That needs the repository secret COPR_WEBHOOK_URL and is skipped with a
 # notice until it exists.
+# A tag also builds the snap (snap/snapcraft.yaml) and uploads it to the Snap Store. That needs the
+# repository secret SNAPCRAFT_STORE_CREDENTIALS (see docs/PUBLISHING.md) and is skipped with a notice
+# until it exists. It is released to the "stable" channel unless the repository variable
+# SNAP_CHANNEL names another (edge, beta or candidate).
 # Running it by hand only rebuilds the APT repository from existing releases.
 on:
   push:
@@ -99,3 +103,41 @@ jobs:
           fi
           curl --fail --silent --show-error -X POST "$COPR_WEBHOOK_URL"
           echo "COPR was asked to build ${GITHUB_REF_NAME#v}."
+
+  snap:
+    needs: release
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check for Snap Store credentials
+        id: store
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+        run: |
+          if [ -z "$SNAPCRAFT_STORE_CREDENTIALS" ]; then
+            echo "::notice::SNAPCRAFT_STORE_CREDENTIALS is not set, so the snap was not built or uploaded. See docs/PUBLISHING.md."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.store.outputs.skip != 'true'
+
+      - name: Build the snap
+        if: steps.store.outputs.skip != 'true'
+        id: build
+        uses: snapcore/action-build@v1
+
+      - name: Upload it to the Snap Store
+        if: steps.store.outputs.skip != 'true'
+        uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+        with:
+          snap: ${{ steps.build.outputs.snap }}
+          release: ${{ vars.SNAP_CHANNEL || 'stable' }}
+
+      - name: Attach the snap to the GitHub Release
+        if: steps.store.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$GITHUB_REF_NAME" "${{ steps.build.outputs.snap }}" --clobber --repo "$GITHUB_REPOSITORY"
