@@ -41,31 +41,41 @@ Snap updates arrive automatically.
 
 ### After installing the snap
 
-1. **Open Voltkit once** from your apps. It starts its background service, sets it to start at every login, and adds its keyboard shortcuts.
-2. **Allow the permissions the snap doesn't get automatically.** Run these once in a terminal, or switch them on in your app store under **Voltkit → Permissions**:
+**1. Open Voltkit once** from your apps. It starts its background service, sets it to start at every login, and adds its keyboard shortcuts.
 
-   ```bash
-   sudo snap connect voltkit:removable-media
-   sudo snap connect voltkit:system-observe
-   sudo snap connect voltkit:mount-observe
-   sudo snap connect voltkit:process-control
-   sudo snap connect voltkit:log-observe
-   sudo snap connect voltkit:login-session-observe
-   sudo snap connect voltkit:hardware-observe
-   ```
+**2. Allow the permissions the snap doesn't get automatically.** Copy these commands into a terminal and press Enter (they ask for your password once):
 
-   | Permission | Lets Voltkit |
-   |---|---|
-   | `removable-media` | use files on USB drives and other external disks (Compressor, Batch Rename, Image Resizer) |
-   | `system-observe` | see which apps have files and ports open, and read drivers and the system's state (What's Using This?, System Report) |
-   | `mount-observe` | list the drives that are connected (What's Using This?, System Report) |
-   | `process-control` | close the apps that keep something busy (What's Using This?) |
-   | `log-observe` | read the sleep history (Why Didn't It Sleep?) |
-   | `login-session-observe` | see what is keeping the computer awake (Why Didn't It Sleep?) |
-   | `hardware-observe` | read hardware details, temperatures and fans (System Report, GPU Tuner) |
+```bash
+sudo snap connect voltkit:removable-media
+sudo snap connect voltkit:system-observe
+sudo snap connect voltkit:mount-observe
+sudo snap connect voltkit:process-control
+sudo snap connect voltkit:log-observe
+sudo snap connect voltkit:login-session-observe
+sudo snap connect voltkit:hardware-observe
+```
 
-   You can connect only the ones for the tools you use. Nothing else needs connecting: screenshots, the eyedropper, the clipboard and pasting go through the desktop's portals, which the snap may use without asking.
-3. **Check** with `voltkit doctor`: its *Snap Store version* section lists each permission and whether it is connected.
+Instead of the terminal, you can also switch them on in your app store under **Voltkit → Permissions**. What each one is for:
+
+| Permission | Lets Voltkit |
+|---|---|
+| `removable-media` | use files on USB drives and other external disks (Compressor, Batch Rename, Image Resizer) |
+| `system-observe` | see which apps have files and ports open, and read drivers and the system's state (What's Using This?, System Report) |
+| `mount-observe` | list the drives that are connected (What's Using This?, System Report) |
+| `process-control` | close the apps that keep something busy (What's Using This?) |
+| `log-observe` | read the sleep history (Why Didn't It Sleep?) |
+| `login-session-observe` | see what is keeping the computer awake (Why Didn't It Sleep?) |
+| `hardware-observe` | read hardware details, temperatures and fans (System Report, GPU Tuner) |
+
+You can connect only the ones for the tools you use. Nothing else needs connecting: screenshots, the eyedropper, the clipboard and pasting go through the desktop's portals, which the snap may use without asking.
+
+**3. Check** that everything is connected:
+
+```bash
+voltkit doctor
+```
+
+Its *Snap Store version* section lists each permission and whether it is connected.
 
 ### What works only with apt or Fedora
 
@@ -79,7 +89,11 @@ Snap updates arrive automatically.
 | [What's Using This?](using) | Seeing and closing apps that belong to other users or to the system. |
 | [Why Didn't It Sleep?](sleep) | Stopping a USB device from waking the computer. |
 
-These need the administrator password (Voltkit asks through `pkexec`), write system files or read the desktop's permission store, and a snap is allowed none of them. To use them, remove the snap (`sudo snap remove voltkit`) and install with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora) instead.
+These need the administrator password (Voltkit asks through `pkexec`), write system files or read the desktop's permission store, and a snap is allowed none of them. To use them, remove the snap and install with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora) instead:
+
+```bash
+sudo snap remove voltkit
+```
 
 ## From source
 

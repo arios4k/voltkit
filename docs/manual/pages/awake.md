@@ -9,13 +9,13 @@ Watching a film, presenting, or waiting for a long download? Keep Awake stops yo
 1. Open **Keep Awake**.
 2. Choose how long in the **For** list:
 
-   | Choice | Length |
-   |---|---|
-   | 30 minutes | 30 minutes |
-   | 1 hour | 60 minutes |
-   | 2 hours | 120 minutes |
-   | 4 hours | 240 minutes |
-   | Until turned off | no time limit |
+| Choice | Length |
+|---|---|
+| 30 minutes | 30 minutes |
+| 1 hour | 60 minutes |
+| 2 hours | 120 minutes |
+| 4 hours | 240 minutes |
+| Until turned off | no time limit |
 
 3. Turn the switch on. The status changes to **Keep Awake is on**, and when a timer is running it shows the time left.
 4. Turn the switch off whenever you are done: the status says **Keep Awake is off**.
