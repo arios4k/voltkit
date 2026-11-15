@@ -38,6 +38,7 @@ mod snippets_ui;
 mod system_ui;
 mod shortcuts;
 mod system;
+mod sandbox;
 
 use std::path::PathBuf;
 

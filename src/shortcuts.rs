@@ -129,7 +129,7 @@ fn apply(plan: Vec<Vec<String>>, dry_run: bool) -> Result<()> {
 }
 
 pub fn gnome_install(config: &Config, dry_run: bool) -> Result<()> {
-    let exe = std::env::current_exe()?;
+    let exe = crate::sandbox::host_exe()?;
     apply(install_plan(&current_bindings()?, &exe, config), dry_run)?;
     if !dry_run && let Some(marker) = removed_marker() {
         let _ = std::fs::remove_file(marker);

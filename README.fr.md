@@ -116,6 +116,14 @@ sudo dnf install voltkit
 Ouvrez ensuite Voltkit depuis vos applications ; il se configure de la même façon. Les mises à jour arrivent avec
 `sudo dnf upgrade`.
 
+## Installation (Snap Store)
+
+```bash
+sudo snap install voltkit
+```
+
+Le snap s’exécute dans un bac à sable : le réglage du GPU, Hôtes et environnement, les déclencheurs saisis et quelques autres fonctions ne marchent qu’avec apt ou Fedora, et certains outils ont besoin d’une autorisation à connecter une fois avec `sudo snap connect`. Chaque page concernée le signale ; les commandes sont dans [Après l’installation du snap](https://arios4k.github.io/voltkit/manual/install.html#snap-store) (en anglais).
+
 ## Installation (depuis les sources)
 
 Prérequis : Rust 1.85+, GTK ≥ 4.14, libadwaita ≥ 1.5.

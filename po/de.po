@@ -78,7 +78,7 @@ msgstr "MIT-Lizenz"
 msgid "Free to use, modify, and share"
 msgstr "Frei nutzbar, veränderbar und weitergebbar"
 
-#: src/about_ui.rs:60 src/app.rs:165
+#: src/about_ui.rs:60 src/app.rs:170
 msgid "About Voltkit"
 msgstr "Über Voltkit"
 
@@ -185,44 +185,44 @@ msgstr "Zoom und Anmerkungen"
 msgid "Shortcut Guide"
 msgstr "Tastenkürzel-Übersicht"
 
-#: src/app.rs:143
+#: src/app.rs:148
 msgid "Open the manual for this tool"
 msgstr "Handbuch zu diesem Werkzeug öffnen"
 
-#: src/app.rs:164
+#: src/app.rs:169
 msgid "Help & Manual"
 msgstr "Hilfe und Handbuch"
 
-#: src/app.rs:167
+#: src/app.rs:172
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/app.rs:171
+#: src/app.rs:176
 msgid "Main Menu"
 msgstr "Hauptmenü"
 
-#: src/app.rs:221
+#: src/app.rs:226
 #, rust-format
 msgid "Could not open the manual: {}"
 msgstr "Das Handbuch konnte nicht geöffnet werden: {}"
 
-#: src/app.rs:267
+#: src/app.rs:272
 #, rust-format
 msgid "could not start {}: {}"
 msgstr "{} konnte nicht gestartet werden: {}"
 
-#: src/app.rs:350
+#: src/app.rs:355 src/app.rs:422
 msgid "Details"
 msgstr "Details"
 
-#: src/app.rs:365
+#: src/app.rs:370
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] "{} Funktion braucht Aufmerksamkeit"
 msgstr[1] "{} Funktionen brauchen Aufmerksamkeit"
 
-#: src/app.rs:377
+#: src/app.rs:382
 #, rust-format
 msgid ""
 "{}\n"
@@ -233,458 +233,498 @@ msgstr ""
 "\n"
 "Führen Sie `voltkit doctor` aus, um den vollständigen Bericht zu sehen."
 
-#: src/app.rs:378
+#: src/app.rs:383
 msgid "Needs Attention"
 msgstr "Aufmerksamkeit nötig"
 
-#: src/app.rs:389
+#: src/app.rs:394
 msgid "Copy Command"
 msgstr "Befehl kopieren"
 
-#: src/app.rs:392 src/app.rs:910 src/gpu_ui.rs:863 src/gpu_ui.rs:1417
+#: src/app.rs:397 src/app.rs:494 src/app.rs:1007 src/gpu_ui.rs:863
 msgid "Close"
 msgstr "Schließen"
 
-#: src/app.rs:405
+#: src/app.rs:432
+msgid "This tool works only in the APT and Fedora versions of Voltkit"
+msgstr ""
+"Dieses Werkzeug funktioniert nur in den APT- und Fedora-Versionen von Voltkit"
+
+#: src/app.rs:433
+msgid "Part of this tool works only in the APT and Fedora versions"
+msgstr ""
+"Ein Teil dieses Werkzeugs funktioniert nur in den APT- und Fedora-Versionen"
+
+#: src/app.rs:434
+#, rust-format
+msgid "Connect {} permission to use everything here"
+msgid_plural "Connect {} permissions to use everything here"
+msgstr[0] "Verbinden Sie {} Berechtigung, um alles hier zu nutzen"
+msgstr[1] "Verbinden Sie {} Berechtigungen, um alles hier zu nutzen"
+
+#: src/app.rs:457
+msgid ""
+"Voltkit from the Snap Store runs in a sandbox. Allow these once, in a terminal or in your app store's Permissions settings for Voltkit:"
+msgstr ""
+"Voltkit aus dem Snap Store läuft in einer Sandbox. Erlauben Sie Folgendes einmal, im Terminal oder in den Berechtigungen von Voltkit in Ihrer App-Verwaltung:"
+
+#: src/app.rs:467
+#, rust-format
+msgid "Only in the APT and Fedora versions: {}."
+msgstr "Nur in den APT- und Fedora-Versionen: {}."
+
+#: src/app.rs:471
+msgid "Voltkit from the Snap Store"
+msgstr "Voltkit aus dem Snap Store"
+
+#: src/app.rs:483
+msgid "Copy Commands"
+msgstr "Befehle kopieren"
+
+#: src/app.rs:489
+msgid "How to Install the Full Version"
+msgstr "Vollversion installieren – so geht’s"
+
+#: src/app.rs:502
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr ""
 "Der Hintergrunddienst ist aus, daher funktionieren die Tastenkürzel nicht"
 
-#: src/app.rs:406
+#: src/app.rs:503
 msgid "Start"
 msgstr "Starten"
 
-#: src/app.rs:423
+#: src/app.rs:520
 msgid "The background service failed to start"
 msgstr "Der Hintergrunddienst konnte nicht gestartet werden"
 
-#: src/app.rs:427
+#: src/app.rs:524
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "Der Dienst konnte nicht gestartet werden: {}"
 
-#: src/app.rs:437
+#: src/app.rs:534
 msgid "Capture Region"
 msgstr "Bereich erfassen"
 
-#: src/app.rs:457
+#: src/app.rs:554
 msgid "Capture text"
 msgstr "Text erfassen"
 
-#: src/app.rs:458
+#: src/app.rs:555
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr ""
 "Wählen Sie Text an beliebiger Stelle auf dem Bildschirm aus. Erkennungssprache: {}. Tastenkürzel: {}"
 
-#: src/app.rs:463
+#: src/app.rs:560
 msgid "Copy Text"
 msgstr "Text kopieren"
 
-#: src/app.rs:464
+#: src/app.rs:561
 msgid "Extracted text"
 msgstr "Erkannter Text"
 
-#: src/app.rs:464 src/app.rs:480
+#: src/app.rs:561 src/app.rs:577
 msgid "Capture a region to see and copy its text here."
 msgstr ""
 "Erfassen Sie einen Bereich, um seinen Text hier zu sehen und zu kopieren."
 
-#: src/app.rs:468
+#: src/app.rs:565
 msgid "No text captured yet"
 msgstr "Noch kein Text erfasst"
 
-#: src/app.rs:479
+#: src/app.rs:576
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} Zeichen"
 msgstr[1] "{} Zeichen"
 
-#: src/app.rs:480
+#: src/app.rs:577
 msgid "Text is also copied automatically after capture."
 msgstr "Der Text wird nach dem Erfassen auch automatisch kopiert."
 
-#: src/app.rs:482
+#: src/app.rs:579
 msgid "Capture from anything"
 msgstr "Aus allem erfassen"
 
-#: src/app.rs:482
+#: src/app.rs:579
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr ""
 "Wählen Sie einen Absatz, eine Fehlermeldung oder Text in einem Bild aus. Der Desktop bittet Sie, einen Bildschirmbereich zu wählen; die Erkennung läuft lokal auf Ihrem Computer."
 
-#: src/app.rs:489
+#: src/app.rs:586
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "Text vom Tastenkürzel, in die Zwischenablage kopiert"
 
-#: src/app.rs:510
+#: src/app.rs:607
 msgid "Text copied to clipboard"
 msgstr "Text in die Zwischenablage kopiert"
 
-#: src/app.rs:512 src/qr_ui.rs:101
+#: src/app.rs:609 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "Es wurde kein Bildschirmfoto aufgenommen"
 
-#: src/app.rs:514
+#: src/app.rs:611
 msgid "OCR worker crashed"
 msgstr "Der Texterkennungsprozess ist abgestürzt"
 
-#: src/app.rs:529 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
+#: src/app.rs:626 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/app.rs:537 src/app.rs:659
+#: src/app.rs:634 src/app.rs:756
 #, rust-format
 msgid "Copied {}"
 msgstr "{} kopiert"
 
-#: src/app.rs:563
+#: src/app.rs:660
 msgid "HEX or rgb()"
 msgstr "HEX oder rgb()"
 
-#: src/app.rs:568
+#: src/app.rs:665
 msgid "Pick from Screen"
 msgstr "Vom Bildschirm aufnehmen"
 
-#: src/app.rs:569
+#: src/app.rs:666
 msgid "Pick a color anywhere on screen"
 msgstr "Eine Farbe an beliebiger Stelle des Bildschirms aufnehmen"
 
-#: src/app.rs:574
+#: src/app.rs:671
 msgid "Color"
 msgstr "Farbe"
 
-#: src/app.rs:575
+#: src/app.rs:672
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr ""
 "Geben Sie eine Farbe ein oder nehmen Sie eine vom Bildschirm auf. Drücken Sie die Eingabetaste, um sie im Verlauf zu speichern. Drücken Sie in einer beliebigen App {}, um eine Farbe aufzunehmen: Ihr HEX-Wert wird kopiert und hier gespeichert."
 
-#: src/app.rs:583
+#: src/app.rs:680
 msgid "Formats"
 msgstr "Formate"
 
-#: src/app.rs:588
+#: src/app.rs:685
 msgid "Text on white"
 msgstr "Text auf Weiß"
 
-#: src/app.rs:589
+#: src/app.rs:686
 msgid "Text on black"
 msgstr "Text auf Schwarz"
 
-#: src/app.rs:590
+#: src/app.rs:687
 msgid "WCAG Contrast"
 msgstr "WCAG-Kontrast"
 
-#: src/app.rs:594
+#: src/app.rs:691
 msgid "History"
 msgstr "Verlauf"
 
-#: src/app.rs:594
+#: src/app.rs:691
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr ""
 "Wählen Sie eine gespeicherte Farbe, um sie wiederzuverwenden. Vom Bildschirm aufgenommene Farben erscheinen hier."
 
-#: src/app.rs:607 src/app.rs:615
+#: src/app.rs:704 src/app.rs:712
 #, rust-format
 msgid "Selected color {}"
 msgstr "Ausgewählte Farbe {}"
 
-#: src/app.rs:638
+#: src/app.rs:735
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "Verlauf konnte nicht gespeichert werden: {}"
 
-#: src/app.rs:662
+#: src/app.rs:759
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "Farbwähler nicht verfügbar: {}"
 
-#: src/app.rs:663
+#: src/app.rs:760
 msgid "Color picker crashed"
 msgstr "Der Farbwähler ist abgestürzt"
 
-#: src/app.rs:672
+#: src/app.rs:769
 msgid "Live color preview"
 msgstr "Farbvorschau"
 
-#: src/app.rs:687
+#: src/app.rs:784
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "{} mit dem Tastenkürzel aufgenommen und kopiert"
 
-#: src/app.rs:733
+#: src/app.rs:830
 msgid "Open Ruler"
 msgstr "Lineal öffnen"
 
-#: src/app.rs:746
+#: src/app.rs:843
 msgid "Measure in real pixels"
 msgstr "In echten Pixeln messen"
 
-#: src/app.rs:746
+#: src/app.rs:843
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr ""
 "Frieren Sie den Bildschirm ein und ziehen Sie dann eine Linie oder ein Rechteck über das, was Sie messen möchten."
 
-#: src/app.rs:765
+#: src/app.rs:862
 msgid "Drag to measure width × height"
 msgstr "Ziehen, um Breite × Höhe zu messen"
 
-#: src/app.rs:775
+#: src/app.rs:872
 msgid "Measurement controls"
 msgstr "Messsteuerung"
 
-#: src/app.rs:776 src/app.rs:898
+#: src/app.rs:873 src/app.rs:995
 msgid "Drag"
 msgstr "Ziehen"
 
-#: src/app.rs:776
+#: src/app.rs:873
 msgid "Measure a rectangle"
 msgstr "Ein Rechteck messen"
 
-#: src/app.rs:776 src/app.rs:899
+#: src/app.rs:873 src/app.rs:996
 msgid "Shift + drag"
 msgstr "Umschalt + Ziehen"
 
-#: src/app.rs:776
+#: src/app.rs:873
 msgid "Measure a straight line"
 msgstr "Eine gerade Linie messen"
 
-#: src/app.rs:776 src/app.rs:906
+#: src/app.rs:873 src/app.rs:1003
 msgid "Ctrl+C"
 msgstr "Strg+C"
 
-#: src/app.rs:776
+#: src/app.rs:873
 msgid "Copy the measured size"
 msgstr "Die gemessene Größe kopieren"
 
-#: src/app.rs:776 src/app.rs:910
+#: src/app.rs:873 src/app.rs:1007
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:776
+#: src/app.rs:873
 msgid "Close the ruler"
 msgstr "Das Lineal schließen"
 
-#: src/app.rs:780 src/app.rs:915
+#: src/app.rs:877 src/app.rs:1012
 msgid "Ready when you need it"
 msgstr "Bereit, wenn Sie es brauchen"
 
-#: src/app.rs:780
+#: src/app.rs:877
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 "Globales Tastenkürzel: {}. Die Messungen verwenden die Pixel des Bildschirmfotos, auch auf hochauflösenden Bildschirmen."
 
-#: src/app.rs:786
+#: src/app.rs:883
 msgid "Open Zoom & Annotate"
 msgstr "Zoom und Anmerkungen öffnen"
 
-#: src/app.rs:800
+#: src/app.rs:897
 msgid "Show it, then point at it"
 msgstr "Zeigen, dann darauf deuten"
 
-#: src/app.rs:801
+#: src/app.rs:898
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr ""
 "Friert den Bildschirm ein, zoomt in jeden Bereich und zeichnet mit Stift, Linien, Rahmen, Pfeilen und Text: für Präsentationen, Anleitungen und Fehlerberichte."
 
-#: src/app.rs:836
+#: src/app.rs:933
 msgid "Saving pictures"
 msgstr "Bilder speichern"
 
-#: src/app.rs:837
+#: src/app.rs:934
 msgid ""
 "Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
 msgstr ""
 "Strg+S speichert das Bild in diesem Ordner. Mit Strg+Umschalt+S wählen Sie für ein Bild einen anderen Ort."
 
-#: src/app.rs:839
+#: src/app.rs:936
 msgid "Pictures are saved in"
 msgstr "Bilder werden gespeichert in"
 
-#: src/app.rs:841 src/detective_ui.rs:331
+#: src/app.rs:938 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "Ändern …"
 
-#: src/app.rs:842 src/app.rs:843
+#: src/app.rs:939 src/app.rs:940
 msgid "Use the default folder, Pictures/Voltkit"
 msgstr "Standardordner verwenden, Bilder/Voltkit"
 
-#: src/app.rs:861
+#: src/app.rs:958
 msgid "Choose Where Pictures Are Saved"
 msgstr "Speicherort der Bilder wählen"
 
-#: src/app.rs:871
+#: src/app.rs:968
 #, rust-format
 msgid "Pictures will be saved in {}"
 msgstr "Bilder werden gespeichert in {}"
 
-#: src/app.rs:887
+#: src/app.rs:984
 msgid "Pictures are saved in Pictures/Voltkit again"
 msgstr "Bilder werden wieder in Bilder/Voltkit gespeichert"
 
-#: src/app.rs:895
+#: src/app.rs:992
 msgid "Controls"
 msgstr "Bedienung"
 
-#: src/app.rs:897
+#: src/app.rs:994
 msgid "Scroll"
 msgstr "Scrollen"
 
-#: src/app.rs:897
+#: src/app.rs:994
 msgid "Zoom in and out"
 msgstr "Hinein- und herauszoomen"
 
-#: src/app.rs:898
+#: src/app.rs:995
 msgid "Draw with the pen"
 msgstr "Mit dem Stift zeichnen"
 
-#: src/app.rs:899
+#: src/app.rs:996
 msgid "Draw a straight line"
 msgstr "Eine gerade Linie zeichnen"
 
-#: src/app.rs:900
+#: src/app.rs:997
 msgid "Ctrl + drag"
 msgstr "Strg + ziehen"
 
-#: src/app.rs:900
+#: src/app.rs:997
 msgid "Draw a rectangle"
 msgstr "Ein Rechteck zeichnen"
 
-#: src/app.rs:901
+#: src/app.rs:998
 msgid "Tab + drag"
 msgstr "Tab + ziehen"
 
-#: src/app.rs:901
+#: src/app.rs:998
 msgid "Draw an ellipse"
 msgstr "Eine Ellipse zeichnen"
 
-#: src/app.rs:902
+#: src/app.rs:999
 msgid "Ctrl + Shift + drag"
 msgstr "Strg + Umschalt + ziehen"
 
-#: src/app.rs:902
+#: src/app.rs:999
 msgid "Draw an arrow"
 msgstr "Einen Pfeil zeichnen"
 
-#: src/app.rs:903
+#: src/app.rs:1000
 msgid "R, G, B, O, Y, P"
 msgstr "R, G, B, O, Y, P"
 
-#: src/app.rs:903
+#: src/app.rs:1000
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "Rot, Grün, Blau, Orange, Gelb oder Rosa"
 
-#: src/app.rs:904
+#: src/app.rs:1001
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:904
+#: src/app.rs:1001
 msgid "Type text, then press Enter"
 msgstr "Text tippen, dann Eingabetaste drücken"
 
-#: src/app.rs:905
+#: src/app.rs:1002
 msgid "W or K"
 msgstr "W oder K"
 
-#: src/app.rs:905
+#: src/app.rs:1002
 msgid "A white or a black board"
 msgstr "Eine weiße oder schwarze Tafel"
 
-#: src/app.rs:906
+#: src/app.rs:1003
 msgid "Copy the picture"
 msgstr "Das Bild kopieren"
 
-#: src/app.rs:907
+#: src/app.rs:1004
 msgid "Ctrl+S"
 msgstr "Strg+S"
 
-#: src/app.rs:907
+#: src/app.rs:1004
 msgid "Save the picture in the folder above"
 msgstr "Das Bild im obigen Ordner speichern"
 
-#: src/app.rs:908
+#: src/app.rs:1005
 msgid "Ctrl+Shift+S"
 msgstr "Strg+Umschalt+S"
 
-#: src/app.rs:908
+#: src/app.rs:1005
 msgid "Save the picture somewhere else, once"
 msgstr "Das Bild einmalig woanders speichern"
 
-#: src/app.rs:909
+#: src/app.rs:1006
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:909
+#: src/app.rs:1006
 msgid "Show every key"
 msgstr "Alle Tasten anzeigen"
 
-#: src/app.rs:915
+#: src/app.rs:1012
 #, rust-format
 msgid "Global shortcut: {}."
 msgstr "Globales Tastenkürzel: {}."
 
-#: src/app.rs:923 src/resize_ui.rs:57
+#: src/app.rs:1020 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "Qualität"
 
-#: src/app.rs:924
+#: src/app.rs:1021
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "Niedriger ist kleiner. PNG ist immer verlustfrei."
 
-#: src/app.rs:928
+#: src/app.rs:1025
 msgid "Choose Files…"
 msgstr "Dateien auswählen…"
 
-#: src/app.rs:945
+#: src/app.rs:1042
 msgid "Drop Files Here"
 msgstr "Dateien hier ablegen"
 
-#: src/app.rs:947
+#: src/app.rs:1044
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 "PNG, JPEG, WebP und MP4. Metadaten werden entfernt; die Originale bleiben erhalten."
 
-#: src/app.rs:963 src/usage_ui.rs:95
+#: src/app.rs:1060 src/usage_ui.rs:95
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: src/app.rs:969
+#: src/app.rs:1066
 msgid "Compressing…"
 msgstr "Wird komprimiert …"
 
-#: src/app.rs:986 src/app.rs:989 src/resize_ui.rs:248 src/resize_ui.rs:252
+#: src/app.rs:1083 src/app.rs:1086 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "Fehlgeschlagen"
 
-#: src/app.rs:1011
+#: src/app.rs:1108
 msgid "Compress Files"
 msgstr "Dateien komprimieren"
 
-#: src/app.rs:1027
+#: src/app.rs:1124
 msgid "Compression settings"
 msgstr "Komprimierungseinstellungen"
 
-#: src/app.rs:1029 src/resize_ui.rs:352
+#: src/app.rs:1126 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "Ihre Originale bleiben unverändert"
 
-#: src/app.rs:1029
+#: src/app.rs:1126
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "Komprimierte Kopien werden neben jeder Quelldatei als name.min.ext gespeichert. Metadaten werden aus der Kopie entfernt. Die PNG-Komprimierung ist verlustfrei; die Qualität gilt für JPEG, WebP und Video."
 
-#: src/app.rs:1030
+#: src/app.rs:1127
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 "Wählen Sie Dateien aus oder legen Sie sie ab, um hier den Fortschritt und die Ersparnis zu sehen."
@@ -752,7 +792,7 @@ msgstr "4 Stunden"
 msgid "Until turned off"
 msgstr "Bis zum Ausschalten"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:312 src/modules/mod.rs:118
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:314 src/modules/mod.rs:118
 msgid "Keep Awake"
 msgstr "Wach halten"
 
@@ -770,7 +810,7 @@ msgstr ""
 msgid "Needs the background service: start it with the banner above"
 msgstr "Benötigt den Hintergrunddienst: Starten Sie ihn über das Banner oben"
 
-#: src/awake_ui.rs:94 src/main.rs:756 src/main.rs:767
+#: src/awake_ui.rs:94 src/main.rs:757 src/main.rs:768
 #, rust-format
 msgid "Keep Awake: {}"
 msgstr "Wach halten: {}"
@@ -943,7 +983,7 @@ msgstr "Systemaufnahme: {}"
 msgid "Voltkit daemon stopped"
 msgstr "Voltkit-Dienst beendet"
 
-#: src/daemon.rs:223 src/main.rs:504
+#: src/daemon.rs:223 src/main.rs:505
 msgid "Typed triggers off"
 msgstr "Kürzel beim Tippen aus"
 
@@ -1163,7 +1203,7 @@ msgstr "nicht festgelegt"
 msgid "Press the New Shortcut…"
 msgstr "Drücken Sie das neue Tastenkürzel …"
 
-#: src/detective_ui.rs:356 src/gpu_ui.rs:1249 src/modules/guide.rs:36 src/snippets_ui.rs:406
+#: src/detective_ui.rs:356 src/gpu_ui.rs:1253 src/modules/guide.rs:36 src/snippets_ui.rs:413
 msgid "Save"
 msgstr "Speichern"
 
@@ -1265,7 +1305,7 @@ msgstr "Bereichsaufnahme: {}"
 msgid "region capture"
 msgstr "Bereichsaufnahme"
 
-#: src/doctor.rs:253 src/doctor.rs:263 src/doctor.rs:318
+#: src/doctor.rs:253 src/doctor.rs:263 src/doctor.rs:320
 msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr ""
 "Installieren Sie xdg-desktop-portal und das Portal-Backend Ihres Desktops"
@@ -1298,64 +1338,74 @@ msgstr "Die Auswahl fügt für Sie ein: RemoteDesktop-Portal"
 msgid "without it the snippet is copied and you press Ctrl+V"
 msgstr "Ohne es wird der Baustein kopiert und Sie drücken Strg+V"
 
-#: src/doctor.rs:295
+#: src/doctor.rs:297
 msgid "typed triggers: keyboard access"
 msgstr "Kürzel beim Tippen: Tastaturzugriff"
 
-#: src/doctor.rs:303
+#: src/doctor.rs:305
 msgid "typed triggers (off)"
 msgstr "Kürzel beim Tippen (aus)"
 
-#: src/doctor.rs:306
+#: src/doctor.rs:308
 msgid "turn on with `voltkit expander setup`, then `voltkit expander enable`"
 msgstr ""
 "Mit `voltkit expander setup` und dann `voltkit expander enable` einschalten"
 
-#: src/doctor.rs:315
+#: src/doctor.rs:317
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "Bereitschaft und Sperre verhindern: Inhibit-Portal"
 
-#: src/doctor.rs:320 src/modules/mod.rs:106
+#: src/doctor.rs:322 src/modules/mod.rs:106
 msgid "Hosts & Environment"
 msgstr "Hosts & Umgebung"
 
-#: src/doctor.rs:323
+#: src/doctor.rs:325
 msgid "saving /etc/hosts: pkexec"
 msgstr "/etc/hosts speichern: pkexec"
 
-#: src/doctor.rs:326
+#: src/doctor.rs:328
 msgid ""
 "install polkit (pkexec) to save the hosts file; environment variables work without it"
 msgstr ""
 "Installieren Sie polkit (pkexec), um die hosts-Datei zu speichern; Umgebungsvariablen funktionieren auch ohne"
 
-#: src/doctor.rs:329
+#: src/doctor.rs:331
 msgid "Background Service"
 msgstr "Hintergrunddienst"
 
-#: src/doctor.rs:333
+#: src/doctor.rs:335
 msgid "daemon running"
 msgstr "Dienst läuft"
 
-#: src/doctor.rs:336
+#: src/doctor.rs:338
 msgid ""
 "start it with `voltkit daemon enable-autostart`, then log in again or run `voltkit daemon`"
 msgstr ""
 "Starten Sie ihn mit `voltkit daemon enable-autostart` und melden Sie sich dann neu an oder führen Sie `voltkit daemon` aus"
 
-#: src/doctor.rs:339
+#: src/doctor.rs:341
 msgid "hotkeys: GlobalShortcuts portal"
 msgstr "Tastenkürzel: GlobalShortcuts-Portal"
 
-#: src/doctor.rs:341
+#: src/doctor.rs:343
 msgid "hotkeys: GNOME custom shortcuts"
 msgstr "Tastenkürzel: eigene GNOME-Tastenkürzel"
 
-#: src/doctor.rs:351
+#: src/doctor.rs:353
 msgid ""
 "on GNOME run `voltkit shortcuts install`; elsewhere bind `voltkit trigger ocr|color|snippets`"
 msgstr ""
 "Unter GNOME `voltkit shortcuts install` ausführen; anderswo `voltkit trigger ocr|color|snippets` belegen"
+
+#: src/doctor.rs:359
+msgid "Snap Store version"
+msgstr "Snap-Store-Version"
+
+#: src/doctor.rs:376
+msgid ""
+"only in the APT and Fedora versions: the snap sandbox can't ask for your administrator password"
+msgstr ""
+"nur in den APT- und Fedora-Versionen: Die Snap-Sandbox kann nicht nach Ihrem Administratorpasswort fragen"
 
 #: src/expander.rs:73 src/modules/sleep.rs:558 src/modules/sysreport.rs:855 src/modules/usage.rs:395
 msgid "pkexec is needed"
@@ -1439,7 +1489,7 @@ msgstr ""
 msgid "Kept."
 msgstr "Beibehalten."
 
-#: src/gpu_cli.rs:131 src/gpu_ui.rs:966
+#: src/gpu_cli.rs:131 src/gpu_ui.rs:970
 msgid "Not confirmed, so the change was undone."
 msgstr "Nicht bestätigt, daher wurde die Änderung rückgängig gemacht."
 
@@ -1504,7 +1554,7 @@ msgstr "Es ist kein Profil aktiv. Der Dienst läuft möglicherweise nicht."
 msgid "Can't read the profiles."
 msgstr "Die Profile können nicht gelesen werden."
 
-#: src/gpu_cli.rs:454 src/gpu_ui.rs:1280
+#: src/gpu_cli.rs:454 src/gpu_ui.rs:1284
 msgid "Profiles installed."
 msgstr "Profile installiert."
 
@@ -1554,16 +1604,16 @@ msgid "No sessions are recorded yet. Run `voltkit gpu record`."
 msgstr ""
 "Es sind noch keine Sitzungen aufgezeichnet. Führen Sie `voltkit gpu record` aus."
 
-#: src/gpu_cli.rs:556 src/gpu_cli.rs:557 src/gpu_ui.rs:1386 src/gpu_ui.rs:1387
+#: src/gpu_cli.rs:556 src/gpu_cli.rs:557 src/gpu_ui.rs:1393 src/gpu_ui.rs:1394
 #, rust-format
 msgid "Better: {}"
 msgstr "Besser: {}"
 
-#: src/gpu_cli.rs:558 src/gpu_ui.rs:1388
+#: src/gpu_cli.rs:558 src/gpu_ui.rs:1395
 msgid "Same"
 msgstr "Gleich"
 
-#: src/gpu_cli.rs:566 src/gpu_ui.rs:1379
+#: src/gpu_cli.rs:566 src/gpu_ui.rs:1386
 msgid ""
 "Each category names the better session. Active MHz per watt is a proxy for work per watt, not frames."
 msgstr ""
@@ -1801,11 +1851,11 @@ msgid ""
 msgstr ""
 "Jede Steuerung wird so angezeigt, wie der Treiber sie meldet. Voltkit kann nicht über das hinausgehen, was Hardware, Firmware und Treiber erlauben."
 
-#: src/gpu_ui.rs:261 src/gpu_ui.rs:279 src/gpu_ui.rs:1050
+#: src/gpu_ui.rs:261 src/gpu_ui.rs:279 src/gpu_ui.rs:1054
 msgid "Profiles"
 msgstr "Profile"
 
-#: src/gpu_ui.rs:262 src/gpu_ui.rs:1049
+#: src/gpu_ui.rs:262 src/gpu_ui.rs:1053
 msgid ""
 "Save settings as named profiles and let Voltkit switch between them: on battery, while an app runs, under load, or when the card runs hot."
 msgstr ""
@@ -1821,11 +1871,11 @@ msgid ""
 msgstr ""
 "Auf dieser Karte lässt sich nichts ändern, also gibt es nichts für ein Profil."
 
-#: src/gpu_ui.rs:266 src/gpu_ui.rs:1207
+#: src/gpu_ui.rs:266 src/gpu_ui.rs:1211
 msgid "Save current settings as a profile…"
 msgstr "Aktuelle Einstellungen als Profil speichern …"
 
-#: src/gpu_ui.rs:267 src/gpu_ui.rs:1208
+#: src/gpu_ui.rs:267 src/gpu_ui.rs:1212
 msgid "Apply profiles"
 msgstr "Profile anwenden"
 
@@ -1837,7 +1887,7 @@ msgstr "Überwachung"
 msgid "Tune"
 msgstr "Einstellen"
 
-#: src/gpu_ui.rs:280 src/gpu_ui.rs:1441 src/modules/keybindings.rs:316
+#: src/gpu_ui.rs:280 src/gpu_ui.rs:1448 src/modules/keybindings.rs:316
 msgid "Sessions"
 msgstr "Sitzungen"
 
@@ -1863,7 +1913,7 @@ msgstr "Auf dieser Karte lässt sich nichts ändern"
 msgid "See what this card supports for the reasons."
 msgstr "Sehen Sie unter „Was diese Karte unterstützt“ nach den Gründen."
 
-#: src/gpu_ui.rs:412 src/gpu_ui.rs:845 src/rename_ui.rs:69 src/snippets_ui.rs:491
+#: src/gpu_ui.rs:412 src/gpu_ui.rs:845 src/rename_ui.rs:69 src/snippets_ui.rs:498
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -1956,7 +2006,7 @@ msgstr "Temperatur in °C, Lüfterdrehzahl in %."
 msgid "Point {}"
 msgstr "Punkt {}"
 
-#: src/gpu_ui.rs:528 src/resize_ui.rs:181 src/snippets_ui.rs:152
+#: src/gpu_ui.rs:528 src/resize_ui.rs:181 src/snippets_ui.rs:159
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -1968,7 +2018,7 @@ msgstr "Kurve bearbeiten"
 msgid "Add point"
 msgstr "Punkt hinzufügen"
 
-#: src/gpu_ui.rs:586 src/modules/guide.rs:32 src/permissions_ui.rs:207 src/snippets_ui.rs:312
+#: src/gpu_ui.rs:586 src/modules/guide.rs:32 src/permissions_ui.rs:207 src/snippets_ui.rs:319
 msgid "Undo"
 msgstr "Rückgängig"
 
@@ -2093,275 +2143,281 @@ msgid ""
 msgstr ""
 "Diese Karte hat keine integrierte Lüfterkurve, daher folgt der Hintergrunddienst von Voltkit ihr. Schalten Sie „Nach Neustart beibehalten“ ein."
 
-#: src/gpu_ui.rs:901 src/gpu_ui.rs:1300
+#: src/gpu_ui.rs:895 src/gpu_ui.rs:1297
+msgid ""
+"Changing GPU settings works only in the APT and Fedora versions of Voltkit."
+msgstr ""
+"GPU-Einstellungen lassen sich nur in den APT- und Fedora-Versionen von Voltkit ändern."
+
+#: src/gpu_ui.rs:905 src/gpu_ui.rs:1307
 msgid "pkexec is needed to change GPU settings."
 msgstr "Zum Ändern der GPU-Einstellungen wird pkexec benötigt."
 
-#: src/gpu_ui.rs:934
+#: src/gpu_ui.rs:938
 msgid "Keep these settings?"
 msgstr "Diese Einstellungen beibehalten?"
 
-#: src/gpu_ui.rs:935
+#: src/gpu_ui.rs:939
 msgid "Revert"
 msgstr "Rückgängig"
 
-#: src/gpu_ui.rs:935
+#: src/gpu_ui.rs:939
 msgid "Keep"
 msgstr "Beibehalten"
 
-#: src/gpu_ui.rs:940 src/gpu_ui.rs:949
+#: src/gpu_ui.rs:944 src/gpu_ui.rs:953
 #, rust-format
 msgid "If you don't confirm, the card goes back to how it was in {} seconds."
 msgstr ""
 "Wenn Sie nicht bestätigen, kehrt die Karte in {} Sekunden zum vorherigen Zustand zurück."
 
-#: src/gpu_ui.rs:965
+#: src/gpu_ui.rs:969
 msgid "Settings applied and kept."
 msgstr "Einstellungen angewendet und beibehalten."
 
-#: src/gpu_ui.rs:972 src/gpu_ui.rs:1282 src/gpu_ui.rs:1310
+#: src/gpu_ui.rs:976 src/gpu_ui.rs:1286 src/gpu_ui.rs:1317
 msgid "Cancelled, nothing was changed."
 msgstr "Abgebrochen, es wurde nichts geändert."
 
-#: src/gpu_ui.rs:1007
+#: src/gpu_ui.rs:1011
 #, rust-format
 msgid "Power limit {} W"
 msgstr "Leistungsgrenze {} W"
 
-#: src/gpu_ui.rs:1010 src/modules/gpu_tune.rs:451
+#: src/gpu_ui.rs:1014 src/modules/gpu_tune.rs:451
 msgid "Fan: the card's own control"
 msgstr "Lüfter: die eigene Steuerung der Karte"
 
-#: src/gpu_ui.rs:1011
+#: src/gpu_ui.rs:1015
 #, rust-format
 msgid "Fan {} %"
 msgstr "Lüfter {} %"
 
-#: src/gpu_ui.rs:1012 src/modules/gpu.rs:120
+#: src/gpu_ui.rs:1016 src/modules/gpu.rs:120
 msgid "Fan curve"
 msgstr "Lüfterkurve"
 
-#: src/gpu_ui.rs:1016
+#: src/gpu_ui.rs:1020
 #, rust-format
 msgid "Target {} °C"
 msgstr "Ziel {} °C"
 
-#: src/gpu_ui.rs:1019
+#: src/gpu_ui.rs:1023
 #, rust-format
 msgid "Core {} MHz"
 msgstr "Kern {} MHz"
 
-#: src/gpu_ui.rs:1022
+#: src/gpu_ui.rs:1026
 #, rust-format
 msgid "Memory {} MHz"
 msgstr "Speicher {} MHz"
 
-#: src/gpu_ui.rs:1025
+#: src/gpu_ui.rs:1029
 #, rust-format
 msgid "Clock {}–{} MHz"
 msgstr "Takt {}–{} MHz"
 
-#: src/gpu_ui.rs:1027
+#: src/gpu_ui.rs:1031
 msgid "No changes"
 msgstr "Keine Änderungen"
 
-#: src/gpu_ui.rs:1042
+#: src/gpu_ui.rs:1046
 #, rust-format
 msgid "In use now: {}"
 msgstr "Jetzt aktiv: {}"
 
-#: src/gpu_ui.rs:1080
+#: src/gpu_ui.rs:1084
 msgid "Not automatic"
 msgstr "Nicht automatisch"
 
-#: src/gpu_ui.rs:1081
+#: src/gpu_ui.rs:1085
 msgid "On battery"
 msgstr "Im Akkubetrieb"
 
-#: src/gpu_ui.rs:1082
+#: src/gpu_ui.rs:1086
 msgid "On mains power"
 msgstr "Im Netzbetrieb"
 
-#: src/gpu_ui.rs:1083
+#: src/gpu_ui.rs:1087
 msgid "While an app runs"
 msgstr "Solange eine App läuft"
 
-#: src/gpu_ui.rs:1084
+#: src/gpu_ui.rs:1088
 msgid "When the GPU is busy"
 msgstr "Wenn die GPU ausgelastet ist"
 
-#: src/gpu_ui.rs:1085
+#: src/gpu_ui.rs:1089
 msgid "When the GPU runs hot"
 msgstr "Wenn die GPU heiß wird"
 
-#: src/gpu_ui.rs:1089
+#: src/gpu_ui.rs:1093
 msgid "Switch to it"
 msgstr "Dorthin wechseln"
 
-#: src/gpu_ui.rs:1100
+#: src/gpu_ui.rs:1104
 msgid "Programs or Steam games (steam:<App ID>), separated by commas"
 msgstr "Programme oder Steam-Spiele (steam:<App-ID>), durch Kommas getrennt"
 
-#: src/gpu_ui.rs:1101
+#: src/gpu_ui.rs:1105
 msgid "Busier than (%)"
 msgstr "Stärker ausgelastet als (%)"
 
-#: src/gpu_ui.rs:1102
+#: src/gpu_ui.rs:1106
 msgid "Hotter than (°C)"
 msgstr "Heißer als (°C)"
 
-#: src/gpu_ui.rs:1146
+#: src/gpu_ui.rs:1150
 msgid "Use when no rule applies"
 msgstr "Verwenden, wenn keine Regel zutrifft"
 
-#: src/gpu_ui.rs:1169
+#: src/gpu_ui.rs:1173
 msgid "Copy a share code"
 msgstr "Teilcode kopieren"
 
-#: src/gpu_ui.rs:1170
+#: src/gpu_ui.rs:1174
 msgid ""
 "One line of text to send to someone with a similar card. It holds no addresses or personal data."
 msgstr ""
 "Eine Textzeile zum Senden an jemanden mit einer ähnlichen Karte. Sie enthält keine Adressen oder persönlichen Daten."
 
-#: src/gpu_ui.rs:1180
+#: src/gpu_ui.rs:1184
 msgid "Share code copied."
 msgstr "Teilcode kopiert."
 
-#: src/gpu_ui.rs:1184
+#: src/gpu_ui.rs:1188
 msgid "Delete this profile"
 msgstr "Dieses Profil löschen"
 
-#: src/gpu_ui.rs:1208
+#: src/gpu_ui.rs:1212
 msgid ""
 "Installs the profiles in Voltkit's background service, which switches between them."
 msgstr ""
 "Installiert die Profile im Hintergrunddienst von Voltkit, der zwischen ihnen wechselt."
 
-#: src/gpu_ui.rs:1209
+#: src/gpu_ui.rs:1213
 msgid "Import a shared profile…"
 msgstr "Geteiltes Profil importieren…"
 
-#: src/gpu_ui.rs:1218
+#: src/gpu_ui.rs:1222
 msgid "Import a shared profile"
 msgstr "Geteiltes Profil importieren"
 
-#: src/gpu_ui.rs:1218
+#: src/gpu_ui.rs:1222
 msgid ""
 "Paste the share code you were sent. Voltkit checks it, then adds it as a new profile. Nothing is applied until you choose to."
 msgstr ""
 "Füge den erhaltenen Teilcode ein. Voltkit prüft ihn und fügt ihn als neues Profil hinzu. Nichts wird angewendet, bis du es willst."
 
-#: src/gpu_ui.rs:1220 src/gpu_ui.rs:1249 src/snippets_ui.rs:187 src/snippets_ui.rs:404
+#: src/gpu_ui.rs:1224 src/gpu_ui.rs:1253 src/snippets_ui.rs:194 src/snippets_ui.rs:411
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/gpu_ui.rs:1220
+#: src/gpu_ui.rs:1224
 msgid "Import"
 msgstr "Importieren"
 
-#: src/gpu_ui.rs:1235
+#: src/gpu_ui.rs:1239
 #, rust-format
 msgid "Imported {}."
 msgstr "{} importiert."
 
-#: src/gpu_ui.rs:1235
+#: src/gpu_ui.rs:1239
 #, rust-format
 msgid ""
 "Imported {}, made on {}. Every chip behaves a little differently, so try it before you rely on it."
 msgstr ""
 "{} importiert, erstellt auf {}. Jeder Chip verhält sich ein wenig anders, probiere es also aus, bevor du dich darauf verlässt."
 
-#: src/gpu_ui.rs:1237
+#: src/gpu_ui.rs:1241
 #, rust-format
 msgid "Can't import that: {}"
 msgstr "Das lässt sich nicht importieren: {}"
 
-#: src/gpu_ui.rs:1246
+#: src/gpu_ui.rs:1250
 msgid "Name, for example Quiet"
 msgstr "Name, zum Beispiel Leise"
 
-#: src/gpu_ui.rs:1247
+#: src/gpu_ui.rs:1251
 msgid "Save as a profile"
 msgstr "Als Profil speichern"
 
-#: src/gpu_ui.rs:1247
+#: src/gpu_ui.rs:1251
 msgid "The settings now turned on in Tune are stored under this name."
 msgstr ""
 "Die jetzt unter „Einstellen“ eingeschalteten Einstellungen werden unter diesem Namen gespeichert."
 
-#: src/gpu_ui.rs:1378
+#: src/gpu_ui.rs:1385
 #, rust-format
 msgid "{} compared with {}"
 msgstr "{} im Vergleich zu {}"
 
-#: src/gpu_ui.rs:1411
+#: src/gpu_ui.rs:1418
 msgid "These sessions have no readings in common."
 msgstr "Diese Sitzungen haben keine gemeinsamen Messwerte."
 
-#: src/gpu_ui.rs:1416
+#: src/gpu_ui.rs:1423
 msgid "Compare sessions"
 msgstr "Sitzungen vergleichen"
 
-#: src/gpu_ui.rs:1442
+#: src/gpu_ui.rs:1449
 msgid ""
 "Record how a profile behaves, then compare two sessions side by side: temperature, power, energy and efficiency."
 msgstr ""
 "Zeichnen Sie auf, wie sich ein Profil verhält, und vergleichen Sie zwei Sitzungen nebeneinander: Temperatur, Leistung, Energie und Effizienz."
 
-#: src/gpu_ui.rs:1445
+#: src/gpu_ui.rs:1452
 msgid "Label"
 msgstr "Bezeichnung"
 
-#: src/gpu_ui.rs:1445
+#: src/gpu_ui.rs:1452
 msgid "Session"
 msgstr "Sitzung"
 
-#: src/gpu_ui.rs:1446 src/gpu_ui.rs:1596
+#: src/gpu_ui.rs:1453 src/gpu_ui.rs:1603
 msgid "Start recording"
 msgstr "Aufzeichnung starten"
 
-#: src/gpu_ui.rs:1450
+#: src/gpu_ui.rs:1457
 msgid "Electricity price per kWh"
 msgstr "Strompreis pro kWh"
 
-#: src/gpu_ui.rs:1459
+#: src/gpu_ui.rs:1466
 msgid "Suggest a power limit"
 msgstr "Leistungslimit vorschlagen"
 
-#: src/gpu_ui.rs:1460
+#: src/gpu_ui.rs:1467
 msgid ""
 "From sessions recorded under different limits: the lowest one that keeps almost all the speed."
 msgstr ""
 "Aus Sitzungen mit verschiedenen Limits: das niedrigste, das fast die gesamte Geschwindigkeit behält."
 
-#: src/gpu_ui.rs:1468
+#: src/gpu_ui.rs:1475
 msgid "Compare the two ticked"
 msgstr "Die beiden markierten vergleichen"
 
-#: src/gpu_ui.rs:1520
+#: src/gpu_ui.rs:1527
 msgid "Type the price as a number, such as 0.15 or 0,15 €."
 msgstr "Gib den Preis als Zahl ein, zum Beispiel 0.15 oder 0,15 €."
 
-#: src/gpu_ui.rs:1548
+#: src/gpu_ui.rs:1555
 msgid "Suggested power limit"
 msgstr "Vorgeschlagenes Leistungslimit"
 
-#: src/gpu_ui.rs:1550
+#: src/gpu_ui.rs:1557
 msgid "Not enough sessions yet"
 msgstr "Noch nicht genug Sitzungen"
 
-#: src/gpu_ui.rs:1551
+#: src/gpu_ui.rs:1558
 msgid ""
 "Record the same game or benchmark under at least two different power limits, then ask again."
 msgstr ""
 "Zeichne dasselbe Spiel oder denselben Benchmark mit mindestens zwei verschiedenen Leistungslimits auf und frage dann erneut."
 
-#: src/gpu_ui.rs:1592
+#: src/gpu_ui.rs:1599
 msgid "Stop and save"
 msgstr "Anhalten und speichern"
 
-#: src/gpu_ui.rs:1601
+#: src/gpu_ui.rs:1608
 msgid "Session saved."
 msgstr "Sitzung gespeichert."
 
@@ -2423,157 +2479,157 @@ msgstr "Version anzeigen"
 msgid "Print this message or the help of the given subcommand(s)"
 msgstr "Diese Hilfe oder die Hilfe der angegebenen Unterbefehle anzeigen"
 
-#: src/main.rs:462
+#: src/main.rs:463
 #, rust-format
 msgid "expected name=value, got {}"
 msgstr "name=wert erwartet, erhalten: {}"
 
-#: src/main.rs:468
+#: src/main.rs:469
 msgid "typed triggers: enabled"
 msgstr "Kürzel beim Tippen: aktiviert"
 
-#: src/main.rs:468
+#: src/main.rs:469
 msgid "typed triggers: disabled"
 msgstr "Kürzel beim Tippen: deaktiviert"
 
-#: src/main.rs:471
+#: src/main.rs:472
 msgid "permissions: ok"
 msgstr "Berechtigungen: in Ordnung"
 
-#: src/main.rs:474
+#: src/main.rs:475
 #, rust-format
 msgid "permissions: {}"
 msgstr "Berechtigungen: {}"
 
-#: src/main.rs:476
+#: src/main.rs:477
 #, rust-format
 msgid "next step: {}"
 msgstr "Nächster Schritt: {}"
 
-#: src/main.rs:485
+#: src/main.rs:486
 msgid "Done: typed triggers can read the keyboard now, no need to log out."
 msgstr ""
 "Fertig: Kürzel beim Tippen können jetzt die Tastatur lesen, ohne Abmelden."
 
-#: src/main.rs:487
+#: src/main.rs:488
 msgid ""
 "# Typed triggers need these commands to run as root. They let the person at the"
 msgstr ""
 "# Kürzel beim Tippen benötigen diese Befehle mit Root-Rechten. Sie erlauben der Person am"
 
-#: src/main.rs:488
+#: src/main.rs:489
 msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
 msgstr ""
 "# Computer, Tastaturen zu lesen und eine virtuelle Tastatur zu verwenden, sofort. Führen Sie"
 
-#: src/main.rs:489
+#: src/main.rs:490
 msgid ""
 "# `voltkit expander setup --apply` to run them (it asks for your password).\n"
 msgstr ""
 "# `voltkit expander setup --apply` aus, um sie auszuführen (fragt nach Ihrem Passwort).\n"
 
-#: src/main.rs:498
+#: src/main.rs:499
 msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
 msgstr ""
 "Kürzel beim Tippen sind aus, und der Tastaturzugriff von Voltkit wurde entfernt."
 
-#: src/main.rs:504
+#: src/main.rs:505
 msgid "Typed triggers on"
 msgstr "Kürzel beim Tippen an"
 
-#: src/main.rs:506
+#: src/main.rs:507
 #, rust-format
 msgid "They need keyboard access first: {}"
 msgstr "Sie benötigen zuerst Tastaturzugriff: {}"
 
-#: src/main.rs:509
+#: src/main.rs:510
 msgid "Takes effect when the background service starts"
 msgstr "Wirkt, sobald der Hintergrunddienst startet"
 
-#: src/main.rs:518
+#: src/main.rs:519
 msgid "Error"
 msgstr "Fehler"
 
-#: src/main.rs:565
+#: src/main.rs:566
 msgid "on white"
 msgstr "auf Weiß"
 
-#: src/main.rs:565
+#: src/main.rs:566
 msgid "on black"
 msgstr "auf Schwarz"
 
-#: src/main.rs:597
+#: src/main.rs:598
 #, rust-format
 msgid "running (v{}), shortcuts: {}, typed triggers: {}"
 msgstr "läuft (v{}), Tastenkürzel: {}, Kürzel beim Tippen: {}"
 
-#: src/main.rs:599 src/main.rs:603 src/main.rs:607
+#: src/main.rs:600 src/main.rs:604 src/main.rs:608
 msgid "not running"
 msgstr "läuft nicht"
 
-#: src/main.rs:602
+#: src/main.rs:603
 msgid "Reloaded snippets"
 msgstr "Textbausteine neu geladen"
 
-#: src/main.rs:613
+#: src/main.rs:614
 #, rust-format
 msgid "Starts at login through {}, installed with Voltkit"
 msgstr "Startet bei der Anmeldung über {}, mit Voltkit installiert"
 
-#: src/main.rs:615
+#: src/main.rs:616
 #, rust-format
 msgid "Created {}"
 msgstr "{} erstellt"
 
-#: src/main.rs:619
+#: src/main.rs:620
 #, rust-format
 msgid "Removed {}"
 msgstr "{} entfernt"
 
-#: src/main.rs:639
+#: src/main.rs:640
 #, rust-format
 msgid "no QR code found in {}"
 msgstr "Kein QR-Code in {} gefunden"
 
-#: src/main.rs:650
+#: src/main.rs:651
 msgid "the code doesn't scan with this logo; shorten the text"
 msgstr ""
 "Mit diesem Logo lässt sich der Code nicht scannen; kürzen Sie den Text"
 
-#: src/main.rs:656 src/qr_ui.rs:364 src/snippets_ui.rs:347 src/zoom.rs:449
+#: src/main.rs:657 src/qr_ui.rs:364 src/snippets_ui.rs:354 src/zoom.rs:449
 #, rust-format
 msgid "Saved {}"
 msgstr "{} gespeichert"
 
-#: src/main.rs:675
+#: src/main.rs:676
 #, rust-format
 msgid "no conversion called {}; run `voltkit convert` for the list"
 msgstr "Keine Umwandlung namens {}; `voltkit convert` zeigt die Liste"
 
-#: src/main.rs:678
+#: src/main.rs:679
 #, rust-format
 msgid "{} doesn't fit this text"
 msgstr "{} passt nicht zu diesem Text"
 
-#: src/main.rs:691
+#: src/main.rs:692
 msgid "Fixes:"
 msgstr "Lösungen:"
 
-#: src/main.rs:697
+#: src/main.rs:698
 msgid "Memory:"
 msgstr "Arbeitsspeicher:"
 
-#: src/main.rs:732
+#: src/main.rs:733
 #, rust-format
 msgid "Nothing is using {}"
 msgstr "Nichts verwendet {}"
 
-#: src/main.rs:741
+#: src/main.rs:742
 #, rust-format
 msgid "this is {}"
 msgstr "das ist {}"
 
-#: src/main.rs:748
+#: src/main.rs:749
 #, rust-format
 msgid ""
 "{} program of other users or the system wasn't checked; run with sudo to include it"
@@ -2584,33 +2640,33 @@ msgstr[0] ""
 msgstr[1] ""
 "{} Programme anderer Benutzer oder des Systems wurden nicht geprüft; mit sudo ausführen, um sie einzubeziehen"
 
-#: src/main.rs:757
+#: src/main.rs:758
 msgid "Keep Awake: off (the background service isn't running)"
 msgstr "Wach halten: aus (der Hintergrunddienst läuft nicht)"
 
-#: src/main.rs:762
+#: src/main.rs:763
 msgid "Keep Awake: Off"
 msgstr "Wach halten: Aus"
 
-#: src/main.rs:789
+#: src/main.rs:790
 msgid "Added to GNOME keyboard shortcuts"
 msgstr "Zu den GNOME-Tastenkürzeln hinzugefügt"
 
-#: src/main.rs:806
+#: src/main.rs:807
 #, rust-format
 msgid "{} isn't a shortcut"
 msgstr "{} ist kein Tastenkürzel"
 
-#: src/main.rs:811
+#: src/main.rs:812
 #, rust-format
 msgid "{} is free. Nearby free combinations:"
 msgstr "{} ist frei. Freie Kombinationen in der Nähe:"
 
-#: src/main.rs:816
+#: src/main.rs:817
 msgid "Free combinations nearby:"
 msgstr "Freie Kombinationen in der Nähe:"
 
-#: src/main.rs:826
+#: src/main.rs:827
 msgid "No clashes: no two actions share a shortcut."
 msgstr "Keine Konflikte: Keine zwei Aktionen teilen sich ein Tastenkürzel."
 
@@ -5352,7 +5408,7 @@ msgstr "↑↓ wählen · Eingabe einfügen · Esc abbrechen"
 msgid "Insert Snippet"
 msgstr "Baustein einfügen"
 
-#: src/picker.rs:175 src/snippets_ui.rs:277
+#: src/picker.rs:175 src/snippets_ui.rs:284
 msgid "No matching snippets"
 msgstr "Keine passenden Bausteine"
 
@@ -5978,6 +6034,73 @@ msgstr "{} kopiert  ·  Esc: schließen"
 msgid "Could not copy: {}"
 msgstr "Kopieren fehlgeschlagen: {}"
 
+#: src/sandbox.rs:56
+msgid "use files on USB drives and other external disks"
+msgstr "Dateien auf USB-Sticks und anderen externen Laufwerken verwenden"
+
+#: src/sandbox.rs:57
+msgid "see which apps have files, folders and ports open"
+msgstr "sehen, welche Apps Dateien, Ordner und Ports geöffnet haben"
+
+#: src/sandbox.rs:58
+msgid "list the drives that are connected"
+msgstr "die angeschlossenen Laufwerke auflisten"
+
+#: src/sandbox.rs:59
+msgid "close the apps that keep something busy"
+msgstr "die Apps schließen, die etwas belegen"
+
+#: src/sandbox.rs:60
+msgid "read the sleep history from the system log"
+msgstr "den Bereitschaftsverlauf aus dem Systemprotokoll lesen"
+
+#: src/sandbox.rs:61
+msgid "see what is keeping the computer awake"
+msgstr "sehen, was den Computer wach hält"
+
+#: src/sandbox.rs:62
+msgid "read hardware details, temperatures and fans"
+msgstr "Hardwaredetails, Temperaturen und Lüfter lesen"
+
+#: src/sandbox.rs:63
+msgid "read drivers, the kernel and the system's state"
+msgstr "Treiber, Kernel und Systemzustand lesen"
+
+#: src/sandbox.rs:70
+msgid "Seeing and closing apps that belong to other users or to the system"
+msgstr "Apps anderer Benutzer oder des Systems sehen und schließen"
+
+#: src/sandbox.rs:75
+msgid "Stopping a USB device from waking the computer"
+msgstr "Verhindern, dass ein USB-Gerät den Computer aufweckt"
+
+#: src/sandbox.rs:80
+msgid "Drive health, memory slots and firmware update checks"
+msgstr ""
+"Laufwerkszustand, Speichersteckplätze und Prüfung auf Firmware-Updates"
+
+#: src/sandbox.rs:86
+msgid ""
+"Changing GPU settings (power limit, fans, clocks and voltage) and applying profiles at startup; monitoring works"
+msgstr ""
+"GPU-Einstellungen ändern (Leistungsgrenze, Lüfter, Takt und Spannung) und Profile beim Start anwenden; die Überwachung funktioniert"
+
+#: src/sandbox.rs:91
+msgid "Editing /etc/hosts and your session's environment variables"
+msgstr "/etc/hosts und die Umgebungsvariablen Ihrer Sitzung bearbeiten"
+
+#: src/sandbox.rs:96
+msgid ""
+"Typed triggers (typing a word such as ;date in any app); the snippet picker works"
+msgstr ""
+"Kürzel beim Tippen (ein Wort wie ;date in jeder App tippen); die Bausteinauswahl funktioniert"
+
+#: src/sandbox.rs:136
+msgid ""
+"Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
+msgstr ""
+"Apps aus dem Snap Store laufen in einer Sandbox, die weder nach Ihrem Administratorpasswort fragen noch Systemdateien ändern kann. Dies braucht eines davon und funktioniert daher nur, wenn Voltkit mit APT (Ubuntu, Debian und Abkömmlinge) oder DNF (Fedora) installiert ist."
+
 #: src/shortcuts.rs:23
 #, rust-format
 msgid "invalid accelerator {}"
@@ -6242,23 +6365,29 @@ msgstr "In jeder App suchen und einfügen. Tastenkürzel: {}"
 msgid "Typed triggers"
 msgstr "Kürzel beim Tippen"
 
-#: src/snippets_ui.rs:76
+#: src/snippets_ui.rs:67
+msgid ""
+"Only in the APT and Fedora versions of Voltkit. The snippet picker works here."
+msgstr ""
+"Nur in den APT- und Fedora-Versionen von Voltkit. Die Bausteinauswahl funktioniert hier."
+
+#: src/snippets_ui.rs:83
 msgid ""
 "Off. Turn on to type a snippet's trigger, like ;date, in any app and have it replaced"
 msgstr ""
 "Aus. Einschalten, um das Kürzel eines Bausteins wie ;date in jeder App zu tippen und ersetzen zu lassen"
 
-#: src/snippets_ui.rs:78
+#: src/snippets_ui.rs:85
 msgid "Needs keyboard access: turn it off and on again to allow it"
 msgstr "Benötigt Tastaturzugriff: Zum Erlauben aus- und wieder einschalten"
 
-#: src/snippets_ui.rs:81
+#: src/snippets_ui.rs:88
 msgid ""
 "On, but the background service isn't running: start it with the banner above"
 msgstr ""
 "An, aber der Hintergrunddienst läuft nicht: Starten Sie ihn über das Banner oben"
 
-#: src/snippets_ui.rs:83
+#: src/snippets_ui.rs:90
 #, rust-format
 msgid "On: type a snippet's trigger in any app ({} keyboard)"
 msgid_plural "On: type a snippet's trigger in any app ({} keyboards)"
@@ -6267,20 +6396,20 @@ msgstr[0] ""
 msgstr[1] ""
 "An: Tippen Sie das Kürzel eines Bausteins in einer beliebigen App ({} Tastaturen)"
 
-#: src/snippets_ui.rs:87
+#: src/snippets_ui.rs:94
 msgid "On, but not working right now: `voltkit expander status` says why"
 msgstr ""
 "An, funktioniert aber gerade nicht: `voltkit expander status` nennt den Grund"
 
-#: src/snippets_ui.rs:88
+#: src/snippets_ui.rs:95
 msgid "Starting…"
 msgstr "Wird gestartet …"
 
-#: src/snippets_ui.rs:124
+#: src/snippets_ui.rs:131
 msgid "Allow Typed Triggers?"
 msgstr "Kürzel beim Tippen erlauben?"
 
-#: src/snippets_ui.rs:125
+#: src/snippets_ui.rs:132
 msgid ""
 "To notice when you type a trigger like ;date, Voltkit reads the keyboard in every app. It keeps only the last few characters in memory, and never saves or sends what you type.\n"
 "\n"
@@ -6290,185 +6419,185 @@ msgstr ""
 "\n"
 "Ihr Passwort wird einmal benötigt. Es wirkt sofort: Abmelden ist nicht nötig."
 
-#: src/snippets_ui.rs:128
+#: src/snippets_ui.rs:135
 msgid "Allow"
 msgstr "Erlauben"
 
-#: src/snippets_ui.rs:137
+#: src/snippets_ui.rs:144
 #, rust-format
 msgid "Typed triggers not turned on: {}"
 msgstr "Kürzel beim Tippen nicht eingeschaltet: {}"
 
-#: src/snippets_ui.rs:143
+#: src/snippets_ui.rs:150
 msgid "Typed triggers are on"
 msgstr "Kürzel beim Tippen sind an"
 
-#: src/snippets_ui.rs:149
+#: src/snippets_ui.rs:156
 msgid "Also Remove Keyboard Access?"
 msgstr "Auch den Tastaturzugriff entfernen?"
 
-#: src/snippets_ui.rs:150
+#: src/snippets_ui.rs:157
 msgid ""
 "Typed triggers are off, so Voltkit no longer reads the keyboard. Removing the access as well means turning them on again asks for your password; the access ends fully at the next restart."
 msgstr ""
 "Kürzel beim Tippen sind aus, daher liest Voltkit die Tastatur nicht mehr. Wenn Sie auch den Zugriff entfernen, fragt das erneute Einschalten nach Ihrem Passwort; der Zugriff endet vollständig beim nächsten Neustart."
 
-#: src/snippets_ui.rs:158
+#: src/snippets_ui.rs:165
 msgid "Keyboard access removed"
 msgstr "Tastaturzugriff entfernt"
 
-#: src/snippets_ui.rs:159
+#: src/snippets_ui.rs:166
 #, rust-format
 msgid "Not removed: {}"
 msgstr "Nicht entfernt: {}"
 
-#: src/snippets_ui.rs:181
+#: src/snippets_ui.rs:188
 #, rust-format
 msgid "Could not save the setting: {}"
 msgstr "Die Einstellung konnte nicht gespeichert werden: {}"
 
-#: src/snippets_ui.rs:206
+#: src/snippets_ui.rs:213
 msgid "Add Snippet"
 msgstr "Baustein hinzufügen"
 
-#: src/snippets_ui.rs:211
+#: src/snippets_ui.rs:218
 msgid "Your Snippets"
 msgstr "Ihre Bausteine"
 
-#: src/snippets_ui.rs:212
+#: src/snippets_ui.rs:219
 msgid "Click a snippet to edit it."
 msgstr "Klicken Sie auf einen Baustein, um ihn zu bearbeiten."
 
-#: src/snippets_ui.rs:239
+#: src/snippets_ui.rs:246
 msgid "Your Snippets · 0"
 msgstr "Ihre Bausteine · 0"
 
-#: src/snippets_ui.rs:241
+#: src/snippets_ui.rs:248
 msgid "No snippets yet"
 msgstr "Noch keine Bausteine"
 
-#: src/snippets_ui.rs:242
+#: src/snippets_ui.rs:249
 msgid "Click Add Snippet to create your first one."
 msgstr "Klicken Sie auf „Baustein hinzufügen“, um den ersten zu erstellen."
 
-#: src/snippets_ui.rs:260 src/system_ui.rs:148 src/system_ui.rs:353
+#: src/snippets_ui.rs:267 src/system_ui.rs:148 src/system_ui.rs:353
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/snippets_ui.rs:261 src/system_ui.rs:149 src/system_ui.rs:354
+#: src/snippets_ui.rs:268 src/system_ui.rs:149 src/system_ui.rs:354
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/snippets_ui.rs:275
+#: src/snippets_ui.rs:282
 #, rust-format
 msgid "Your Snippets · {} of {}"
 msgstr "Ihre Bausteine · {} von {}"
 
-#: src/snippets_ui.rs:277
+#: src/snippets_ui.rs:284
 msgid "Try another trigger or a word from the snippet text."
 msgstr "Versuchen Sie ein anderes Kürzel oder ein Wort aus dem Bausteintext."
 
-#: src/snippets_ui.rs:293
+#: src/snippets_ui.rs:300
 #, rust-format
 msgid "Could not save snippets: {}"
 msgstr "Die Bausteine konnten nicht gespeichert werden: {}"
 
-#: src/snippets_ui.rs:311 src/system_ui.rs:383
+#: src/snippets_ui.rs:318 src/system_ui.rs:383
 #, rust-format
 msgid "Deleted {}"
 msgstr "{} gelöscht"
 
-#: src/snippets_ui.rs:372
+#: src/snippets_ui.rs:379
 msgid "Enter a trigger, such as ;sig."
 msgstr "Geben Sie ein Kürzel ein, etwa ;sig."
 
-#: src/snippets_ui.rs:374
+#: src/snippets_ui.rs:381
 msgid "Triggers can't contain spaces."
 msgstr "Kürzel dürfen keine Leerzeichen enthalten."
 
-#: src/snippets_ui.rs:376
+#: src/snippets_ui.rs:383
 #, rust-format
 msgid "Another snippet already uses {}."
 msgstr "Ein anderer Baustein verwendet bereits {}."
 
-#: src/snippets_ui.rs:387
+#: src/snippets_ui.rs:394
 #, rust-format
 msgid ""
 "When typing, {} expands before you can finish {}. They still work from the picker."
 msgstr ""
 "Beim Tippen wird {} erweitert, bevor Sie {} zu Ende tippen können. In der Auswahl funktionieren beide weiterhin."
 
-#: src/snippets_ui.rs:400
+#: src/snippets_ui.rs:407
 msgid "New Snippet"
 msgstr "Neuer Baustein"
 
-#: src/snippets_ui.rs:400
+#: src/snippets_ui.rs:407
 msgid "Edit Snippet"
 msgstr "Baustein bearbeiten"
 
-#: src/snippets_ui.rs:406
+#: src/snippets_ui.rs:413
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: src/snippets_ui.rs:415 src/snippets_ui.rs:418
+#: src/snippets_ui.rs:422 src/snippets_ui.rs:425
 msgid "Trigger"
 msgstr "Kürzel"
 
-#: src/snippets_ui.rs:419
+#: src/snippets_ui.rs:426
 msgid ""
 "A short code that names the snippet. Find it by this name in the picker, or type it in any app when typed triggers are on. Starting with ; avoids clashes with normal words."
 msgstr ""
 "Ein kurzer Code, der den Baustein benennt. Finden Sie ihn unter diesem Namen in der Auswahl oder tippen Sie ihn in einer beliebigen App, wenn Kürzel beim Tippen an sind. Ein ; am Anfang vermeidet Konflikte mit normalen Wörtern."
 
-#: src/snippets_ui.rs:443
+#: src/snippets_ui.rs:450
 msgid "Insert:"
 msgstr "Einfügen:"
 
-#: src/snippets_ui.rs:444
+#: src/snippets_ui.rs:451
 msgid "Date"
 msgstr "Datum"
 
-#: src/snippets_ui.rs:445
+#: src/snippets_ui.rs:452
 msgid "Time"
 msgstr "Uhrzeit"
 
-#: src/snippets_ui.rs:446
+#: src/snippets_ui.rs:453
 msgid "Clipboard"
 msgstr "Zwischenablage"
 
-#: src/snippets_ui.rs:446
+#: src/snippets_ui.rs:453
 msgid "Whatever you copied last"
 msgstr "Was Sie zuletzt kopiert haben"
 
-#: src/snippets_ui.rs:447
+#: src/snippets_ui.rs:454
 msgid "Fill-in Field"
 msgstr "Ausfüllfeld"
 
-#: src/snippets_ui.rs:447
+#: src/snippets_ui.rs:454
 msgid "A blank you fill in each time you use the snippet"
 msgstr "Eine Lücke, die Sie bei jeder Verwendung des Bausteins ausfüllen"
 
-#: src/snippets_ui.rs:472 src/zoom.rs:96
+#: src/snippets_ui.rs:479 src/zoom.rs:96
 msgid "Text"
 msgstr "Text"
 
-#: src/snippets_ui.rs:473
+#: src/snippets_ui.rs:480
 msgid ""
 "What gets pasted. Use Insert to add values that are filled in when you use the snippet."
 msgstr ""
 "Was eingefügt wird. Mit „Einfügen“ fügen Sie Werte hinzu, die bei der Verwendung des Bausteins ausgefüllt werden."
 
-#: src/snippets_ui.rs:492
+#: src/snippets_ui.rs:499
 msgid ""
 "Exactly what will be pasted right now. ‹Fill-in› fields are asked for when you use the snippet, and ‹clipboard› becomes whatever you copied last."
 msgstr ""
 "Genau das, was jetzt eingefügt würde. ‹Ausfüllfelder› werden bei der Verwendung des Bausteins abgefragt, und ‹Zwischenablage› wird zu dem, was Sie zuletzt kopiert haben."
 
-#: src/snippets_ui.rs:536
+#: src/snippets_ui.rs:543
 msgid "Type the text to paste above."
 msgstr "Geben Sie oben den einzufügenden Text ein."
 
-#: src/snippets_ui.rs:537
+#: src/snippets_ui.rs:544
 #, rust-format
 msgid "This text can't be expanded: {}."
 msgstr "Dieser Text kann nicht erweitert werden: {}."

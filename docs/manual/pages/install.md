@@ -27,6 +27,59 @@ sudo dnf install voltkit
 
 Updates arrive with `sudo dnf upgrade`.
 
+## Snap Store
+
+Voltkit is also in the Snap Store, so you can find it in Ubuntu's App Center:
+
+```bash
+sudo snap install voltkit
+```
+
+Snap updates arrive automatically.
+
+> [!IMPORTANT] Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. Some features need one of them, so they work only when Voltkit is installed with apt (Ubuntu, Debian) or DNF (Fedora). Each tool affected shows a banner at the top of its page that says what is missing and why.
+
+### After installing the snap
+
+1. **Open Voltkit once** from your apps. It starts its background service, sets it to start at every login, and adds its keyboard shortcuts.
+2. **Allow the permissions the snap doesn't get automatically.** Run these once in a terminal, or switch them on in your app store under **Voltkit → Permissions**:
+
+   ```bash
+   sudo snap connect voltkit:removable-media
+   sudo snap connect voltkit:system-observe
+   sudo snap connect voltkit:mount-observe
+   sudo snap connect voltkit:process-control
+   sudo snap connect voltkit:log-observe
+   sudo snap connect voltkit:login-session-observe
+   sudo snap connect voltkit:hardware-observe
+   ```
+
+   | Permission | Lets Voltkit |
+   |---|---|
+   | `removable-media` | use files on USB drives and other external disks (Compressor, Batch Rename, Image Resizer) |
+   | `system-observe` | see which apps have files and ports open, and read drivers and the system's state (What's Using This?, System Report) |
+   | `mount-observe` | list the drives that are connected (What's Using This?, System Report) |
+   | `process-control` | close the apps that keep something busy (What's Using This?) |
+   | `log-observe` | read the sleep history (Why Didn't It Sleep?) |
+   | `login-session-observe` | see what is keeping the computer awake (Why Didn't It Sleep?) |
+   | `hardware-observe` | read hardware details, temperatures and fans (System Report, GPU Tuner) |
+
+   You can connect only the ones for the tools you use. Nothing else needs connecting: screenshots, the eyedropper, the clipboard and pasting go through the desktop's portals, which the snap may use without asking.
+3. **Check** with `voltkit doctor`: its *Snap Store version* section lists each permission and whether it is connected.
+
+### What works only with apt or Fedora
+
+| Tool | What the snap can't do |
+|---|---|
+| [GPU Tuner](gpu) | Changing settings (power limit, fans, clocks, voltage) and applying profiles at startup. Monitoring works. |
+| [Hosts & Environment](system) | The whole tool: editing `/etc/hosts` and your session's environment variables. |
+| [Text Expansion](snippets) | Typed triggers such as `;date`. The snippet picker (<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>) works. |
+| [System Report](sysreport) | Drive health, memory slots and firmware update checks. |
+| [What's Using This?](using) | Seeing and closing apps that belong to other users or to the system. |
+| [Why Didn't It Sleep?](sleep) | Stopping a USB device from waking the computer. |
+
+These need the administrator password (Voltkit asks through `pkexec`) or write system files, and a snap is not allowed either. To use them, remove the snap (`sudo snap remove voltkit`) and install with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora) instead.
+
 ## From source
 
 You need Rust 1.85 or newer, GTK 4.14 or newer and libadwaita 1.5 or newer.
@@ -73,4 +126,5 @@ Run `voltkit doctor` at any time to see what is missing and the exact install co
 
 - **apt:** `sudo apt upgrade` updates, `sudo apt remove voltkit` removes.
 - **Fedora:** `sudo dnf upgrade`, `sudo dnf remove voltkit`.
+- **Snap:** updates arrive automatically; `sudo snap remove voltkit` removes it, together with the snap's own copy of your settings.
 - Your settings stay in `~/.config/voltkit/` and your data in `~/.local/share/voltkit/` until you delete them. See [Configuration file](config).

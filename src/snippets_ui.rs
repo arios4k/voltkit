@@ -60,6 +60,13 @@ fn typed_triggers_row(config: &Config, toasts: &adw::ToastOverlay) -> adw::Switc
         .active(config.expander.typed_triggers)
         .subtitle_lines(2)
         .build();
+    if crate::sandbox::snap() {
+        // Reading the keyboard needs root setup the snap sandbox can't do.
+        row.set_active(false);
+        row.set_sensitive(false);
+        row.set_subtitle(tr("Only in the APT and Fedora versions of Voltkit. The snippet picker works here."));
+        return row;
+    }
     // Set while the switch is moved back after a cancel or failure, so that isn't taken as a click.
     let reverting = Rc::new(std::cell::Cell::new(false));
 

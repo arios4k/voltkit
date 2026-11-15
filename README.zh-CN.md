@@ -108,6 +108,14 @@ sudo dnf install voltkit
 
 然后从应用列表中打开 Voltkit；它会以同样的方式完成自身设置。更新通过 `sudo dnf upgrade` 获得。
 
+## 安装（Snap Store）
+
+```bash
+sudo snap install voltkit
+```
+
+Snap 版运行在沙盒中，因此 GPU 调节、Hosts 与环境变量、键入触发词等少数功能只能在 apt 或 Fedora 版中使用，部分工具还需要用 `sudo snap connect` 连接一次权限。受影响的页面都会提示；命令见[安装 snap 之后](https://arios4k.github.io/voltkit/manual/install.html#snap-store)（英文）。
+
 ## 安装（从源码）
 
 要求：Rust 1.85+、GTK ≥ 4.14、libadwaita ≥ 1.5。

@@ -1,0 +1,190 @@
+//! Running as a snap from the Snap Store: which permissions (snap
+//! "interfaces") each tool needs, which features the sandbox can't allow,
+//! and the commands that fix what can be fixed.
+//!
+//! Strictly confined snaps can't ask for the administrator password
+//! (pkexec) or change system files, so features that need either work only
+//! in the APT and Fedora packages. Everything else works once the user
+//! connects the interfaces that aren't connected automatically.
+
+use std::path::PathBuf;
+
+use crate::i18n::tr;
+
+/// Where the manual explains how to install the full version.
+pub const INSTALL_URL: &str = "https://arios4k.github.io/voltkit/manual/install.html";
+
+/// True when Voltkit runs from a snap. `VOLTKIT_SNAP_PREVIEW` shows the
+/// snap notices outside a snap, for screenshots and testing.
+pub fn snap() -> bool {
+    std::env::var_os("SNAP_NAME").is_some() || std::env::var_os("VOLTKIT_SNAP_PREVIEW").is_some()
+}
+
+/// The snap's name as typed in `snap connect` (normally "voltkit").
+pub fn snap_name() -> String {
+    std::env::var("SNAP_INSTANCE_NAME").or_else(|_| std::env::var("SNAP_NAME")).unwrap_or_else(|_| "voltkit".into())
+}
+
+/// The command the desktop should run to start Voltkit (in autostart entries
+/// and keyboard shortcuts). Inside a snap the binary's own path isn't
+/// runnable from outside the sandbox; `/snap/bin/NAME` is.
+pub fn host_exe() -> std::io::Result<PathBuf> {
+    if std::env::var_os("SNAP_NAME").is_some() {
+        return Ok(PathBuf::from("/snap/bin").join(snap_name()));
+    }
+    std::env::current_exe()
+}
+
+/// A snap interface a tool needs, and what it lets the tool do.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Plug {
+    pub name: &'static str,
+    /// Untranslated; pass through `tr`.
+    pub enables: &'static str,
+}
+
+/// What a tool needs in the snap, by its page id.
+#[derive(Debug, Clone, Copy, Default)]
+pub struct Limits {
+    pub plugs: &'static [Plug],
+    /// What only the APT and Fedora versions can do (untranslated).
+    pub full_version_only: Option<&'static str>,
+    /// The whole tool is unavailable, so its page is shown read-only.
+    pub whole_tool: bool,
+}
+
+const REMOVABLE: Plug = Plug { name: "removable-media", enables: N_!("use files on USB drives and other external disks") };
+const SYSTEM_OBSERVE: Plug = Plug { name: "system-observe", enables: N_!("see which apps have files, folders and ports open") };
+const MOUNT_OBSERVE: Plug = Plug { name: "mount-observe", enables: N_!("list the drives that are connected") };
+const PROCESS_CONTROL: Plug = Plug { name: "process-control", enables: N_!("close the apps that keep something busy") };
+const LOG_OBSERVE: Plug = Plug { name: "log-observe", enables: N_!("read the sleep history from the system log") };
+const SESSION_OBSERVE: Plug = Plug { name: "login-session-observe", enables: N_!("see what is keeping the computer awake") };
+const HARDWARE_OBSERVE: Plug = Plug { name: "hardware-observe", enables: N_!("read hardware details, temperatures and fans") };
+const SYSTEM_STATE: Plug = Plug { name: "system-observe", enables: N_!("read drivers, the kernel and the system's state") };
+
+pub fn limits(page: &str) -> Limits {
+    match page {
+        "compress" | "rename" | "resize" => Limits { plugs: &[REMOVABLE], ..Default::default() },
+        "using" => Limits {
+            plugs: &[SYSTEM_OBSERVE, MOUNT_OBSERVE, PROCESS_CONTROL],
+            full_version_only: Some(N_!("Seeing and closing apps that belong to other users or to the system")),
+            ..Default::default()
+        },
+        "sleep" => Limits {
+            plugs: &[LOG_OBSERVE, SESSION_OBSERVE],
+            full_version_only: Some(N_!("Stopping a USB device from waking the computer")),
+            ..Default::default()
+        },
+        "sysreport" => Limits {
+            plugs: &[HARDWARE_OBSERVE, SYSTEM_STATE, MOUNT_OBSERVE],
+            full_version_only: Some(N_!("Drive health, memory slots and firmware update checks")),
+            ..Default::default()
+        },
+        "gpu" => Limits {
+            plugs: &[HARDWARE_OBSERVE],
+            full_version_only: Some(N_!(
+                "Changing GPU settings (power limit, fans, clocks and voltage) and applying profiles at startup; monitoring works"
+            )),
+            ..Default::default()
+        },
+        "system" => Limits {
+            full_version_only: Some(N_!("Editing /etc/hosts and your session's environment variables")),
+            whole_tool: true,
+            ..Default::default()
+        },
+        "snippets" => Limits {
+            full_version_only: Some(N_!("Typed triggers (typing a word such as ;date in any app); the snippet picker works")),
+            ..Default::default()
+        },
+        _ => Limits::default(),
+    }
+}
+
+/// Whether a plug is connected. Only meaningful inside a snap; in preview
+/// mode `VOLTKIT_SNAP_CONNECTED` lists the connected plugs (comma-separated).
+pub fn connected(plug: &str) -> bool {
+    if std::env::var_os("SNAP_NAME").is_none() {
+        let list = std::env::var("VOLTKIT_SNAP_CONNECTED").unwrap_or_default();
+        return list.split(',').any(|p| p.trim() == plug);
+    }
+    std::process::Command::new("snapctl")
+        .args(["is-connected", plug])
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .status()
+        .is_ok_and(|s| s.success())
+}
+
+/// The tool's plugs that still need connecting, without duplicates.
+pub fn missing(page: &str, is_connected: impl Fn(&str) -> bool) -> Vec<Plug> {
+    let mut out: Vec<Plug> = Vec::new();
+    for plug in limits(page).plugs {
+        if !out.iter().any(|p| p.name == plug.name) && !is_connected(plug.name) {
+            out.push(*plug);
+        }
+    }
+    out
+}
+
+/// `sudo snap connect voltkit:PLUG`.
+pub fn connect_command(plug: &str) -> String {
+    format!("sudo snap connect {}:{plug}", snap_name())
+}
+
+/// Why some features need the APT or Fedora version, in one paragraph.
+pub fn why_full_version() -> &'static str {
+    tr("Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. \
+        This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora).")
+}
+
+/// Every connect command Voltkit can use, for the manual and `voltkit doctor`.
+pub fn all_plugs() -> Vec<Plug> {
+    let mut out: Vec<Plug> = Vec::new();
+    for page in ["compress", "using", "sleep", "sysreport", "gpu"] {
+        for plug in limits(page).plugs {
+            if !out.iter().any(|p| p.name == plug.name) {
+                out.push(*plug);
+            }
+        }
+    }
+    out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn lists_only_unconnected_plugs_once() {
+        let missing = missing("sysreport", |p| p == "hardware-observe");
+        let names: Vec<&str> = missing.iter().map(|p| p.name).collect();
+        assert_eq!(names, ["system-observe", "mount-observe"]);
+        assert!(super::missing("ocr", |_| false).is_empty());
+    }
+
+    #[test]
+    fn root_only_features_are_named() {
+        assert!(limits("gpu").full_version_only.is_some());
+        assert!(limits("system").whole_tool);
+        assert!(limits("snippets").full_version_only.is_some());
+        assert!(limits("qr").full_version_only.is_none());
+    }
+
+    #[test]
+    fn every_plug_appears_once() {
+        let plugs = all_plugs();
+        let mut names: Vec<&str> = plugs.iter().map(|p| p.name).collect();
+        let len = names.len();
+        names.dedup();
+        names.sort();
+        names.dedup();
+        assert_eq!(names.len(), len);
+        assert!(names.contains(&"removable-media"));
+    }
+
+    #[test]
+    fn connect_commands_name_the_snap() {
+        assert!(connect_command("log-observe").ends_with(":log-observe"));
+        assert!(connect_command("log-observe").starts_with("sudo snap connect "));
+    }
+}
