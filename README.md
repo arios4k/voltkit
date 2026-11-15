@@ -6,7 +6,7 @@
 
 **English** · [Español](README.es.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
-**PowerToys for Linux.** Eighteen power tools for your desktop in one native app:
+**A PowerToys-style toolkit for Linux.** Eighteen power tools for your desktop in one native app:
 screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
 Smart Paste, Keep Awake, a batch file renamer, an image resizer, a zoom &amp; annotate tool, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
 manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU tuner.

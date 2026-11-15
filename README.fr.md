@@ -6,7 +6,7 @@
 
 [English](README.md) · [Español](README.es.md) · [Deutsch](README.de.md) · **Français** · [简体中文](README.zh-CN.md)
 
-**PowerToys pour Linux.** Dix-huit outils puissants pour votre bureau dans une seule application native :
+**Une boîte à outils dans l’esprit de PowerToys pour Linux.** Dix-huit outils puissants pour votre bureau dans une seule application native :
 OCR d’écran, un lecteur de codes QR, un sélecteur de couleur, une règle d’écran, un compresseur d’images et de
 vidéos, un expanseur de texte, le collage intelligent, Rester éveillé, un éditeur de hosts et d’environnement, un
 détecteur de « qu’est-ce qui l’utilise ? », un gestionnaire d’autorisations des applications, un diagnostic de la

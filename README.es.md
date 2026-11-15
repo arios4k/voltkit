@@ -6,7 +6,7 @@
 
 [English](README.md) · **Español** · [Deutsch](README.de.md) · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
-**PowerToys para Linux.** Dieciocho herramientas potentes para tu escritorio en una sola app nativa:
+**Un kit de herramientas al estilo de PowerToys para Linux.** Dieciocho herramientas potentes para tu escritorio en una sola app nativa:
 OCR de pantalla, un lector de códigos QR, un selector de color, una regla de pantalla, un compresor de imágenes y
 videos, un expansor de texto, Pegado inteligente, Mantener activo, un editor de hosts y entorno, un buscador de
 “¿qué lo está usando?”, un administrador de permisos de apps, un diagnóstico de suspensión, un informe del sistema,
