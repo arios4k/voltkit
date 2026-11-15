@@ -4,6 +4,13 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.13.2
+
+*November 15, 2026*
+
+- **The snap explains its limits.** In the snap, the **Details** button on each limited tool now says why that feature needs the APT or Fedora version, and that it is a limitation of snaps, not of Voltkit. `voltkit doctor` gives the same reasons.
+- **Install:** why there is a snap version (so more people can find Voltkit), what works in it (most of Voltkit), the reason behind each limit, and a reminder to remove the other version first so Voltkit isn't installed twice. See [Install](install#snap-store).
+
 ## Version 0.13.1
 
 *November 15, 2026*

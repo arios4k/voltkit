@@ -158,6 +158,22 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.13.2" date="2026-11-15">
+      <description>
+        <p>The snap explains its limits.</p>
+        <p xml:lang="es">El snap explica sus límites.</p>
+        <p xml:lang="de">Der Snap erklärt seine Einschränkungen.</p>
+        <p xml:lang="fr">Le snap explique ses limites.</p>
+        <p xml:lang="zh_CN">snap 版会说明自身的限制。</p>
+        <ul>
+          <li>In the snap, each limited tool says why it needs the APT or Fedora version</li>
+          <li xml:lang="es">En el snap, cada herramienta limitada explica por qué necesita la versión APT o Fedora</li>
+          <li xml:lang="de">Im Snap erklärt jedes eingeschränkte Werkzeug, warum es die APT- oder Fedora-Version braucht</li>
+          <li xml:lang="fr">Dans le snap, chaque outil limité explique pourquoi il faut la version APT ou Fedora</li>
+          <li xml:lang="zh_CN">在 snap 版中，每个受限工具都会说明为何需要 APT 或 Fedora 版本</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.13.1" date="2026-11-15">
       <description>
         <p>Snap Store packaging fix.</p>

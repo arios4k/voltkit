@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.13.1
+Version:        0.13.2
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -79,6 +79,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Sun Nov 15 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.13.2-1
+- Snap: each limited tool explains why it needs the APT or Fedora version
+- Manual: why there is a snap, what works in it, and removing the other version first
+
 * Sun Nov 15 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.13.1-1
 - Snap: the background service and the app no longer claim D-Bus names, so the snap passes the Snap Store's automatic review
 
