@@ -112,6 +112,8 @@ Then open Voltkit from your apps; it sets itself up the same way. Updates arrive
 
 ## Install (Snap Store)
 
+The snap is here mostly so people can find Voltkit: the Snap Store is available on every Linux distribution that supports snaps. For every feature, apt or Fedora is still the best way to install it.
+
 ```bash
 sudo snap install voltkit
 ```

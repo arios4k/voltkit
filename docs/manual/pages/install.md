@@ -41,7 +41,9 @@ sudo snap remove voltkit
 
 ## Snap Store
 
-Voltkit is also in the Snap Store, so you can find it in Ubuntu's App Center:
+**Why a snap?** Mostly so people can find Voltkit. The Snap Store is available on every Linux distribution that supports snaps, and it shows up in app stores such as Ubuntu's App Center, so more people can discover the tool and install it in one step. For the full set of features, apt or Fedora is still the best way to install it (see [What works only with apt or Fedora](#what-works-only-with-apt-or-fedora)).
+
+Install it from Ubuntu's App Center, or with:
 
 ```bash
 sudo snap install voltkit

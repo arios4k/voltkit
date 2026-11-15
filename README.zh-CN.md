@@ -114,6 +114,8 @@ sudo dnf install voltkit
 
 ## 安装（Snap Store）
 
+提供 snap 版主要是为了让更多人发现 Voltkit：所有支持 snap 的 Linux 发行版都可以使用 Snap Store。如需全部功能，apt 或 Fedora 仍是最佳的安装方式。
+
 ```bash
 sudo snap install voltkit
 ```
