@@ -122,7 +122,7 @@ Ouvrez ensuite Voltkit depuis vos applications ; il se configure de la même fa�
 sudo snap install voltkit
 ```
 
-Le snap s’exécute dans un bac à sable : le réglage du GPU, Hôtes et environnement, les déclencheurs saisis et quelques autres fonctions ne marchent qu’avec apt ou Fedora, et certains outils ont besoin d’une autorisation à connecter une fois avec `sudo snap connect`. Chaque page concernée le signale ; les commandes sont dans [Après l’installation du snap](https://arios4k.github.io/voltkit/manual/install.html#snap-store) (en anglais).
+Le snap s’exécute dans un bac à sable : le réglage du GPU, Hôtes et environnement, les autorisations des applications, les déclencheurs saisis et quelques autres fonctions ne marchent qu’avec apt ou Fedora, et certains outils ont besoin d’une autorisation à connecter une fois avec `sudo snap connect`. Chaque page concernée le signale ; les commandes sont dans [Après l’installation du snap](https://arios4k.github.io/voltkit/manual/install.html#snap-store) (en anglais).
 
 ## Installation (depuis les sources)
 

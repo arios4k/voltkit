@@ -1358,8 +1358,8 @@ msgstr "Snap Store 版本"
 
 #: src/doctor.rs:376
 msgid ""
-"only in the APT and Fedora versions: the snap sandbox can't ask for your administrator password"
-msgstr "仅限 APT 和 Fedora 版本：snap 沙盒无法请求你的管理员密码"
+"only in the APT and Fedora versions: the snap sandbox doesn't allow it"
+msgstr "仅限 APT 和 Fedora 版本：snap 沙盒不允许此操作"
 
 #: src/expander.rs:73 src/modules/sleep.rs:558 src/modules/sysreport.rs:855 src/modules/usage.rs:395
 msgid "pkexec is needed"
@@ -5881,15 +5881,19 @@ msgid "Editing /etc/hosts and your session's environment variables"
 msgstr "编辑 /etc/hosts 和会话环境变量"
 
 #: src/sandbox.rs:96
+msgid "Reviewing and changing the permissions you gave apps"
+msgstr "查看和更改你授予应用的权限"
+
+#: src/sandbox.rs:101
 msgid ""
 "Typed triggers (typing a word such as ;date in any app); the snippet picker works"
 msgstr "键入触发词（在任意应用中键入 ;date 之类的词）；片段选择器可用"
 
-#: src/sandbox.rs:136
+#: src/sandbox.rs:141
 msgid ""
-"Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
+"Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
 msgstr ""
-"来自 Snap Store 的应用运行在沙盒中，无法请求你的管理员密码，也无法修改系统文件。此功能需要其中之一，因此只有通过 APT（Ubuntu、Debian 及其衍生版）或 DNF（Fedora）安装 Voltkit 时才能使用。"
+"来自 Snap Store 的应用运行在沙盒中，无法请求你的管理员密码、修改系统文件，也无法读取桌面的权限存储。此功能需要其中之一，因此只有通过 APT（Ubuntu、Debian 及其衍生版）或 DNF（Fedora）安装 Voltkit 时才能使用。"
 
 #: src/shortcuts.rs:23
 #, rust-format

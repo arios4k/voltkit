@@ -21,15 +21,17 @@ description: |
   screen OCR, a QR code scanner and maker, a color picker with contrast checking,
   a screen ruler, Zoom & Annotate, an image and video compressor, Batch Rename,
   an image resizer, a text expander with a snippet picker, Smart Paste, Keep Awake,
-  a shortcut detective, an app permissions manager, a finder for the apps keeping a
+  a shortcut detective, a finder for the apps keeping a
   drive or port busy, a sleep troubleshooter, a system report and GPU monitoring.
 
   **About the snap version.** Snaps run in a sandbox that can't ask for your
-  administrator password or change system files, so these work only when Voltkit
-  is installed with APT (Ubuntu, Debian) or DNF (Fedora):
+  administrator password, change system files or read the desktop's permission
+  store, so these work only when Voltkit is installed with APT (Ubuntu, Debian)
+  or DNF (Fedora):
 
   - changing GPU settings (monitoring works)
   - editing /etc/hosts and session environment variables
+  - App Permissions (the sandbox can't read the desktop's permission store)
   - typed triggers such as ;date (the snippet picker works)
   - drive health, memory slots and firmware update checks
   - stopping a USB device from waking the computer
@@ -112,3 +114,16 @@ parts:
       # The launcher outside the sandbox needs the icon's full path.
       sed -i 's|^Icon=.*|Icon=${SNAP}/meta/gui/icon.svg|' "$CRAFT_PART_INSTALL/usr/share/applications/io.github.arios4k.Voltkit.desktop"
       craftctl set version="$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)"
+
+  # Removes libraries the runtime snaps already provide. Stage-packages pull
+  # older copies from the Ubuntu archive (HarfBuzz, librsvg...), which would
+  # load instead of the GNOME runtime's and crash it (undefined symbol hb_free).
+  cleanup:
+    after: [voltkit]
+    plugin: nil
+    build-snaps: [core24, gnome-46-2404, mesa-2404]
+    override-prime: |
+      set -eux
+      for snap in core24 gnome-46-2404 mesa-2404; do
+        (cd "/snap/$snap/current" && find . -type f,l -printf "$CRAFT_PRIME/%P\0") | xargs -0 rm -f
+      done

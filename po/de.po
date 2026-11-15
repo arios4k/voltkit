@@ -1403,9 +1403,9 @@ msgstr "Snap-Store-Version"
 
 #: src/doctor.rs:376
 msgid ""
-"only in the APT and Fedora versions: the snap sandbox can't ask for your administrator password"
+"only in the APT and Fedora versions: the snap sandbox doesn't allow it"
 msgstr ""
-"nur in den APT- und Fedora-Versionen: Die Snap-Sandbox kann nicht nach Ihrem Administratorpasswort fragen"
+"nur in den APT- und Fedora-Versionen: Die Snap-Sandbox erlaubt es nicht"
 
 #: src/expander.rs:73 src/modules/sleep.rs:558 src/modules/sysreport.rs:855 src/modules/usage.rs:395
 msgid "pkexec is needed"
@@ -6090,16 +6090,20 @@ msgid "Editing /etc/hosts and your session's environment variables"
 msgstr "/etc/hosts und die Umgebungsvariablen Ihrer Sitzung bearbeiten"
 
 #: src/sandbox.rs:96
+msgid "Reviewing and changing the permissions you gave apps"
+msgstr "Die Berechtigungen prüfen und ändern, die Sie Apps erteilt haben"
+
+#: src/sandbox.rs:101
 msgid ""
 "Typed triggers (typing a word such as ;date in any app); the snippet picker works"
 msgstr ""
 "Kürzel beim Tippen (ein Wort wie ;date in jeder App tippen); die Bausteinauswahl funktioniert"
 
-#: src/sandbox.rs:136
+#: src/sandbox.rs:141
 msgid ""
-"Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
+"Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
 msgstr ""
-"Apps aus dem Snap Store laufen in einer Sandbox, die weder nach Ihrem Administratorpasswort fragen noch Systemdateien ändern kann. Dies braucht eines davon und funktioniert daher nur, wenn Voltkit mit APT (Ubuntu, Debian und Abkömmlinge) oder DNF (Fedora) installiert ist."
+"Apps aus dem Snap Store laufen in einer Sandbox, die weder nach Ihrem Administratorpasswort fragen, noch Systemdateien ändern, noch den Berechtigungsspeicher des Desktops lesen kann. Dies braucht eines davon und funktioniert daher nur, wenn Voltkit mit APT (Ubuntu, Debian und Abkömmlinge) oder DNF (Fedora) installiert ist."
 
 #: src/shortcuts.rs:23
 #, rust-format

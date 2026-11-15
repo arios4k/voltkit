@@ -1398,9 +1398,9 @@ msgstr "Version du Snap Store"
 
 #: src/doctor.rs:376
 msgid ""
-"only in the APT and Fedora versions: the snap sandbox can't ask for your administrator password"
+"only in the APT and Fedora versions: the snap sandbox doesn't allow it"
 msgstr ""
-"uniquement dans les versions APT et Fedora : le bac à sable du snap ne peut pas demander votre mot de passe administrateur"
+"uniquement dans les versions APT et Fedora : le bac à sable du snap ne le permet pas"
 
 #: src/expander.rs:73 src/modules/sleep.rs:558 src/modules/sysreport.rs:855 src/modules/usage.rs:395
 msgid "pkexec is needed"
@@ -6098,16 +6098,20 @@ msgid "Editing /etc/hosts and your session's environment variables"
 msgstr "Modifier /etc/hosts et les variables d’environnement de votre session"
 
 #: src/sandbox.rs:96
+msgid "Reviewing and changing the permissions you gave apps"
+msgstr "Consulter et modifier les autorisations accordées aux applications"
+
+#: src/sandbox.rs:101
 msgid ""
 "Typed triggers (typing a word such as ;date in any app); the snippet picker works"
 msgstr ""
 "Déclencheurs saisis (taper un mot comme ;date dans n’importe quelle application) ; le sélecteur d’extraits fonctionne"
 
-#: src/sandbox.rs:136
+#: src/sandbox.rs:141
 msgid ""
-"Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
+"Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
 msgstr ""
-"Les applications du Snap Store s’exécutent dans un bac à sable qui ne peut ni demander votre mot de passe administrateur ni modifier les fichiers système. Ceci a besoin de l’un des deux, donc ne fonctionne que si Voltkit est installé avec APT (Ubuntu, Debian et dérivées) ou DNF (Fedora)."
+"Les applications du Snap Store s’exécutent dans un bac à sable qui ne peut ni demander votre mot de passe administrateur, ni modifier les fichiers système, ni lire le magasin d’autorisations du bureau. Ceci a besoin de l’un d’eux, donc ne fonctionne que si Voltkit est installé avec APT (Ubuntu, Debian et dérivées) ou DNF (Fedora)."
 
 #: src/shortcuts.rs:23
 #, rust-format

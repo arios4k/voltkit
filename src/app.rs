@@ -125,7 +125,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&awake_ui::page(&toasts), Some("awake"));
     stack.add_named(&with_snap_notice("system", system_ui::page(&toasts)), Some("system"));
     stack.add_named(&with_snap_notice("using", usage_ui::page(&toasts)), Some("using"));
-    stack.add_named(&permissions_ui::page(&toasts), Some("permissions"));
+    stack.add_named(&with_snap_notice("permissions", permissions_ui::page(&toasts)), Some("permissions"));
     stack.add_named(&with_snap_notice("sleep", sleep_ui::page(&toasts)), Some("sleep"));
     stack.add_named(&with_snap_notice("gpu", gpu_ui::page(&toasts)), Some("gpu"));
     stack.add_named(&with_snap_notice("sysreport", sysreport_ui::page(&toasts)), Some("sysreport"));

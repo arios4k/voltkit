@@ -114,7 +114,7 @@ sudo dnf install voltkit
 sudo snap install voltkit
 ```
 
-Snap 版运行在沙盒中，因此 GPU 调节、Hosts 与环境变量、键入触发词等少数功能只能在 apt 或 Fedora 版中使用，部分工具还需要用 `sudo snap connect` 连接一次权限。受影响的页面都会提示；命令见[安装 snap 之后](https://arios4k.github.io/voltkit/manual/install.html#snap-store)（英文）。
+Snap 版运行在沙盒中，因此 GPU 调节、Hosts 与环境变量、应用权限、键入触发词等少数功能只能在 apt 或 Fedora 版中使用，部分工具还需要用 `sudo snap connect` 连接一次权限。受影响的页面都会提示；命令见[安装 snap 之后](https://arios4k.github.io/voltkit/manual/install.html#snap-store)（英文）。
 
 ## 安装（从源码）
 

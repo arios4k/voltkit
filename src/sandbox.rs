@@ -92,6 +92,11 @@ pub fn limits(page: &str) -> Limits {
             whole_tool: true,
             ..Default::default()
         },
+        "permissions" => Limits {
+            full_version_only: Some(N_!("Reviewing and changing the permissions you gave apps")),
+            whole_tool: true,
+            ..Default::default()
+        },
         "snippets" => Limits {
             full_version_only: Some(N_!("Typed triggers (typing a word such as ;date in any app); the snippet picker works")),
             ..Default::default()
@@ -133,8 +138,9 @@ pub fn connect_command(plug: &str) -> String {
 
 /// Why some features need the APT or Fedora version, in one paragraph.
 pub fn why_full_version() -> &'static str {
-    tr("Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. \
-        This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora).")
+    tr("Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files \
+        or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with \
+        APT (Ubuntu, Debian and derivatives) or DNF (Fedora).")
 }
 
 /// Every connect command Voltkit can use, for the manual and `voltkit doctor`.
@@ -167,6 +173,7 @@ mod tests {
         assert!(limits("gpu").full_version_only.is_some());
         assert!(limits("system").whole_tool);
         assert!(limits("snippets").full_version_only.is_some());
+        assert!(limits("permissions").whole_tool);
         assert!(limits("qr").full_version_only.is_none());
     }
 

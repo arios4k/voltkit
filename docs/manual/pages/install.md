@@ -37,7 +37,7 @@ sudo snap install voltkit
 
 Snap updates arrive automatically.
 
-> [!IMPORTANT] Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. Some features need one of them, so they work only when Voltkit is installed with apt (Ubuntu, Debian) or DNF (Fedora). Each tool affected shows a banner at the top of its page that says what is missing and why.
+> [!IMPORTANT] Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. Some features need one of them, so they work only when Voltkit is installed with apt (Ubuntu, Debian) or DNF (Fedora). Each tool affected shows a banner at the top of its page that says what is missing and why.
 
 ### After installing the snap
 
@@ -73,12 +73,13 @@ Snap updates arrive automatically.
 |---|---|
 | [GPU Tuner](gpu) | Changing settings (power limit, fans, clocks, voltage) and applying profiles at startup. Monitoring works. |
 | [Hosts & Environment](system) | The whole tool: editing `/etc/hosts` and your session's environment variables. |
+| [App Permissions](permissions) | The whole tool: the sandbox can't read the desktop's permission store. |
 | [Text Expansion](snippets) | Typed triggers such as `;date`. The snippet picker (<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>) works. |
 | [System Report](sysreport) | Drive health, memory slots and firmware update checks. |
 | [What's Using This?](using) | Seeing and closing apps that belong to other users or to the system. |
 | [Why Didn't It Sleep?](sleep) | Stopping a USB device from waking the computer. |
 
-These need the administrator password (Voltkit asks through `pkexec`) or write system files, and a snap is not allowed either. To use them, remove the snap (`sudo snap remove voltkit`) and install with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora) instead.
+These need the administrator password (Voltkit asks through `pkexec`), write system files or read the desktop's permission store, and a snap is allowed none of them. To use them, remove the snap (`sudo snap remove voltkit`) and install with [apt](#ubuntu-debian-and-derivatives) or [Fedora](#fedora) instead.
 
 ## From source
 

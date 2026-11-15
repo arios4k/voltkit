@@ -366,14 +366,14 @@ pub fn run(config: &Config) -> Report {
                 Some(Fix::Advice(crate::sandbox::connect_command(plug.name))),
             ));
         }
-        for page in ["gpu", "system", "snippets", "using", "sleep", "sysreport"] {
+        for page in ["gpu", "system", "permissions", "snippets", "using", "sleep", "sysreport"] {
             if let Some(feature) = crate::sandbox::limits(page).full_version_only {
                 checks.push(check(
                     SNAP,
                     tr(feature),
                     false,
                     Need::Optional,
-                    Some(Fix::Advice(tr("only in the APT and Fedora versions: the snap sandbox can't ask for your administrator password").into())),
+                    Some(Fix::Advice(tr("only in the APT and Fedora versions: the snap sandbox doesn't allow it").into())),
                 ));
             }
         }

@@ -13,8 +13,9 @@ shortcuts on first launch, so users only install and open it. The snap writes it
 first launch instead (snapd starts it from the snap's own folder).
 
 The snap is strictly confined. GPU changes, `/etc/hosts` and environment variables, typed triggers,
-drive health and memory slots need the administrator password, which the sandbox can't ask for, so
-they work only in the apt and Fedora packages. Each affected page shows a banner saying so, and which
+drive health and memory slots need the administrator password, which the sandbox can't ask for, and
+App Permissions needs the desktop's permission store, which the sandbox can't reach, so they work
+only in the apt and Fedora packages. Each affected page shows a banner saying so, and which
 permissions to connect (`src/sandbox.rs`); the manual's Install page lists the commands.
 
 ## One-time setup

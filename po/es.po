@@ -1394,9 +1394,9 @@ msgstr "Versión de la Snap Store"
 
 #: src/doctor.rs:376
 msgid ""
-"only in the APT and Fedora versions: the snap sandbox can't ask for your administrator password"
+"only in the APT and Fedora versions: the snap sandbox doesn't allow it"
 msgstr ""
-"solo en las versiones APT y Fedora: el entorno aislado del snap no puede pedir tu contraseña de administrador"
+"solo en las versiones APT y Fedora: el entorno aislado del snap no lo permite"
 
 #: src/expander.rs:73 src/modules/sleep.rs:558 src/modules/sysreport.rs:855 src/modules/usage.rs:395
 msgid "pkexec is needed"
@@ -6083,16 +6083,20 @@ msgid "Editing /etc/hosts and your session's environment variables"
 msgstr "Editar /etc/hosts y las variables de entorno de tu sesión"
 
 #: src/sandbox.rs:96
+msgid "Reviewing and changing the permissions you gave apps"
+msgstr "Revisar y cambiar los permisos que diste a las apps"
+
+#: src/sandbox.rs:101
 msgid ""
 "Typed triggers (typing a word such as ;date in any app); the snippet picker works"
 msgstr ""
 "Disparadores al escribir (escribir una palabra como ;date en cualquier app); el selector de fragmentos funciona"
 
-#: src/sandbox.rs:136
+#: src/sandbox.rs:141
 msgid ""
-"Apps from the Snap Store run in a sandbox that can't ask for your administrator password or change system files. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
+"Apps from the Snap Store run in a sandbox that can't ask for your administrator password, change system files or read the desktop's permission store. This needs one of them, so it works only when Voltkit is installed with APT (Ubuntu, Debian and derivatives) or DNF (Fedora)."
 msgstr ""
-"Las apps de la Snap Store funcionan en un entorno aislado que no puede pedir tu contraseña de administrador ni cambiar archivos del sistema. Esto necesita una de las dos cosas, así que solo funciona cuando Voltkit se instala con APT (Ubuntu, Debian y derivadas) o DNF (Fedora)."
+"Las apps de la Snap Store funcionan en un entorno aislado que no puede pedir tu contraseña de administrador, cambiar archivos del sistema ni leer el almacén de permisos del escritorio. Esto necesita alguna de esas cosas, así que solo funciona cuando Voltkit se instala con APT (Ubuntu, Debian y derivadas) o DNF (Fedora)."
 
 #: src/shortcuts.rs:23
 #, rust-format

@@ -112,7 +112,7 @@ Then open Voltkit from your apps; it sets itself up the same way. Updates arrive
 sudo snap install voltkit
 ```
 
-The snap runs in a sandbox, so GPU tuning, Hosts & Environment, typed triggers and a few other features work only with apt or Fedora, and some tools need a permission connected once with `sudo snap connect`. Each affected page says so; see [after installing the snap](https://arios4k.github.io/voltkit/manual/install.html#snap-store) for the commands.
+The snap runs in a sandbox, so GPU tuning, Hosts & Environment, App Permissions, typed triggers and a few other features work only with apt or Fedora, and some tools need a permission connected once with `sudo snap connect`. Each affected page says so; see [after installing the snap](https://arios4k.github.io/voltkit/manual/install.html#snap-store) for the commands.
 
 ## Install (from source)
 
