@@ -76,7 +76,7 @@ msgstr ""
 msgid "Free to use, modify, and share"
 msgstr ""
 
-#: src/about_ui.rs:60 src/app.rs:170
+#: src/about_ui.rs:60 src/app.rs:173
 msgid "About Voltkit"
 msgstr ""
 
@@ -180,44 +180,44 @@ msgstr ""
 msgid "Shortcut Guide"
 msgstr ""
 
-#: src/app.rs:148
+#: src/app.rs:151
 msgid "Open the manual for this tool"
 msgstr ""
 
-#: src/app.rs:169
+#: src/app.rs:172
 msgid "Help & Manual"
 msgstr ""
 
-#: src/app.rs:172
+#: src/app.rs:175
 msgid "Quit"
 msgstr ""
 
-#: src/app.rs:176
+#: src/app.rs:179
 msgid "Main Menu"
 msgstr ""
 
-#: src/app.rs:226
+#: src/app.rs:229
 #, rust-format
 msgid "Could not open the manual: {}"
 msgstr ""
 
-#: src/app.rs:272
+#: src/app.rs:275
 #, rust-format
 msgid "could not start {}: {}"
 msgstr ""
 
-#: src/app.rs:355 src/app.rs:422
+#: src/app.rs:361 src/app.rs:428
 msgid "Details"
 msgstr ""
 
-#: src/app.rs:370
+#: src/app.rs:376
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/app.rs:382
+#: src/app.rs:388
 #, rust-format
 msgid ""
 "{}\n"
@@ -225,483 +225,483 @@ msgid ""
 "Run `voltkit doctor` for the full report."
 msgstr ""
 
-#: src/app.rs:383
+#: src/app.rs:389
 msgid "Needs Attention"
 msgstr ""
 
-#: src/app.rs:394
+#: src/app.rs:400
 msgid "Copy Command"
 msgstr ""
 
-#: src/app.rs:397 src/app.rs:494 src/app.rs:1007 src/gpu_ui.rs:863
+#: src/app.rs:403 src/app.rs:500 src/app.rs:1013 src/gpu_ui.rs:863
 msgid "Close"
 msgstr ""
 
-#: src/app.rs:432
+#: src/app.rs:438
 msgid "This tool works only in the APT and Fedora versions of Voltkit"
 msgstr ""
 
-#: src/app.rs:433
+#: src/app.rs:439
 msgid "Part of this tool works only in the APT and Fedora versions"
 msgstr ""
 
-#: src/app.rs:434
+#: src/app.rs:440
 #, rust-format
 msgid "Connect {} permission to use everything here"
 msgid_plural "Connect {} permissions to use everything here"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/app.rs:457
+#: src/app.rs:463
 msgid ""
 "Voltkit from the Snap Store runs in a sandbox. Allow these once, in a terminal or in your app store's Permissions settings for Voltkit:"
 msgstr ""
 
-#: src/app.rs:467
+#: src/app.rs:473
 #, rust-format
 msgid "Only in the APT and Fedora versions: {}."
 msgstr ""
 
-#: src/app.rs:471
+#: src/app.rs:477
 msgid "Voltkit from the Snap Store"
 msgstr ""
 
-#: src/app.rs:483
+#: src/app.rs:489
 msgid "Copy Commands"
 msgstr ""
 
-#: src/app.rs:489
+#: src/app.rs:495
 msgid "How to Install the Full Version"
 msgstr ""
 
-#: src/app.rs:502
+#: src/app.rs:508
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr ""
 
-#: src/app.rs:503
+#: src/app.rs:509
 msgid "Start"
 msgstr ""
 
-#: src/app.rs:520
+#: src/app.rs:526
 msgid "The background service failed to start"
 msgstr ""
 
-#: src/app.rs:524
+#: src/app.rs:530
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr ""
 
-#: src/app.rs:534
+#: src/app.rs:540
 msgid "Capture Region"
 msgstr ""
 
-#: src/app.rs:554
+#: src/app.rs:560
 msgid "Capture text"
 msgstr ""
 
-#: src/app.rs:555
+#: src/app.rs:561
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr ""
 
-#: src/app.rs:560
+#: src/app.rs:566
 msgid "Copy Text"
 msgstr ""
 
-#: src/app.rs:561
+#: src/app.rs:567
 msgid "Extracted text"
 msgstr ""
 
-#: src/app.rs:561 src/app.rs:577
+#: src/app.rs:567 src/app.rs:583
 msgid "Capture a region to see and copy its text here."
 msgstr ""
 
-#: src/app.rs:565
+#: src/app.rs:571
 msgid "No text captured yet"
 msgstr ""
 
-#: src/app.rs:576
+#: src/app.rs:582
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/app.rs:577
+#: src/app.rs:583
 msgid "Text is also copied automatically after capture."
 msgstr ""
 
-#: src/app.rs:579
+#: src/app.rs:585
 msgid "Capture from anything"
 msgstr ""
 
-#: src/app.rs:579
+#: src/app.rs:585
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr ""
 
-#: src/app.rs:586
+#: src/app.rs:592
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr ""
 
-#: src/app.rs:607
+#: src/app.rs:613
 msgid "Text copied to clipboard"
 msgstr ""
 
-#: src/app.rs:609 src/qr_ui.rs:101
+#: src/app.rs:615 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr ""
 
-#: src/app.rs:611
+#: src/app.rs:617
 msgid "OCR worker crashed"
 msgstr ""
 
-#: src/app.rs:626 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
+#: src/app.rs:632 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr ""
 
-#: src/app.rs:634 src/app.rs:756
+#: src/app.rs:640 src/app.rs:762
 #, rust-format
 msgid "Copied {}"
 msgstr ""
 
-#: src/app.rs:660
+#: src/app.rs:666
 msgid "HEX or rgb()"
 msgstr ""
 
-#: src/app.rs:665
+#: src/app.rs:671
 msgid "Pick from Screen"
 msgstr ""
 
-#: src/app.rs:666
+#: src/app.rs:672
 msgid "Pick a color anywhere on screen"
 msgstr ""
 
-#: src/app.rs:671
+#: src/app.rs:677
 msgid "Color"
 msgstr ""
 
-#: src/app.rs:672
+#: src/app.rs:678
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr ""
 
-#: src/app.rs:680
+#: src/app.rs:686
 msgid "Formats"
 msgstr ""
 
-#: src/app.rs:685
+#: src/app.rs:691
 msgid "Text on white"
 msgstr ""
 
-#: src/app.rs:686
+#: src/app.rs:692
 msgid "Text on black"
 msgstr ""
 
-#: src/app.rs:687
+#: src/app.rs:693
 msgid "WCAG Contrast"
 msgstr ""
 
-#: src/app.rs:691
+#: src/app.rs:697
 msgid "History"
 msgstr ""
 
-#: src/app.rs:691
+#: src/app.rs:697
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr ""
 
-#: src/app.rs:704 src/app.rs:712
+#: src/app.rs:710 src/app.rs:718
 #, rust-format
 msgid "Selected color {}"
 msgstr ""
 
-#: src/app.rs:735
+#: src/app.rs:741
 #, rust-format
 msgid "Could not save history: {}"
 msgstr ""
 
-#: src/app.rs:759
+#: src/app.rs:765
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr ""
 
-#: src/app.rs:760
+#: src/app.rs:766
 msgid "Color picker crashed"
 msgstr ""
 
-#: src/app.rs:769
+#: src/app.rs:775
 msgid "Live color preview"
 msgstr ""
 
-#: src/app.rs:784
+#: src/app.rs:790
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr ""
 
-#: src/app.rs:830
+#: src/app.rs:836
 msgid "Open Ruler"
 msgstr ""
 
-#: src/app.rs:843
+#: src/app.rs:849
 msgid "Measure in real pixels"
 msgstr ""
 
-#: src/app.rs:843
+#: src/app.rs:849
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr ""
 
-#: src/app.rs:862
+#: src/app.rs:868
 msgid "Drag to measure width × height"
 msgstr ""
 
-#: src/app.rs:872
+#: src/app.rs:878
 msgid "Measurement controls"
 msgstr ""
 
-#: src/app.rs:873 src/app.rs:995
+#: src/app.rs:879 src/app.rs:1001
 msgid "Drag"
 msgstr ""
 
-#: src/app.rs:873
+#: src/app.rs:879
 msgid "Measure a rectangle"
 msgstr ""
 
-#: src/app.rs:873 src/app.rs:996
+#: src/app.rs:879 src/app.rs:1002
 msgid "Shift + drag"
 msgstr ""
 
-#: src/app.rs:873
+#: src/app.rs:879
 msgid "Measure a straight line"
 msgstr ""
 
-#: src/app.rs:873 src/app.rs:1003
+#: src/app.rs:879 src/app.rs:1009
 msgid "Ctrl+C"
 msgstr ""
 
-#: src/app.rs:873
+#: src/app.rs:879
 msgid "Copy the measured size"
 msgstr ""
 
-#: src/app.rs:873 src/app.rs:1007
+#: src/app.rs:879 src/app.rs:1013
 msgid "Esc"
 msgstr ""
 
-#: src/app.rs:873
+#: src/app.rs:879
 msgid "Close the ruler"
 msgstr ""
 
-#: src/app.rs:877 src/app.rs:1012
+#: src/app.rs:883 src/app.rs:1018
 msgid "Ready when you need it"
 msgstr ""
 
-#: src/app.rs:877
+#: src/app.rs:883
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 
-#: src/app.rs:883
+#: src/app.rs:889
 msgid "Open Zoom & Annotate"
 msgstr ""
 
-#: src/app.rs:897
+#: src/app.rs:903
 msgid "Show it, then point at it"
 msgstr ""
 
-#: src/app.rs:898
+#: src/app.rs:904
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr ""
 
-#: src/app.rs:933
+#: src/app.rs:939
 msgid "Saving pictures"
 msgstr ""
 
-#: src/app.rs:934
+#: src/app.rs:940
 msgid ""
 "Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
 msgstr ""
 
-#: src/app.rs:936
+#: src/app.rs:942
 msgid "Pictures are saved in"
 msgstr ""
 
-#: src/app.rs:938 src/detective_ui.rs:331
+#: src/app.rs:944 src/detective_ui.rs:331
 msgid "Change…"
 msgstr ""
 
-#: src/app.rs:939 src/app.rs:940
+#: src/app.rs:945 src/app.rs:946
 msgid "Use the default folder, Pictures/Voltkit"
 msgstr ""
 
-#: src/app.rs:958
+#: src/app.rs:964
 msgid "Choose Where Pictures Are Saved"
 msgstr ""
 
-#: src/app.rs:968
+#: src/app.rs:974
 #, rust-format
 msgid "Pictures will be saved in {}"
 msgstr ""
 
-#: src/app.rs:984
+#: src/app.rs:990
 msgid "Pictures are saved in Pictures/Voltkit again"
 msgstr ""
 
-#: src/app.rs:992
+#: src/app.rs:998
 msgid "Controls"
 msgstr ""
 
-#: src/app.rs:994
+#: src/app.rs:1000
 msgid "Scroll"
 msgstr ""
 
-#: src/app.rs:994
+#: src/app.rs:1000
 msgid "Zoom in and out"
 msgstr ""
 
-#: src/app.rs:995
+#: src/app.rs:1001
 msgid "Draw with the pen"
 msgstr ""
 
-#: src/app.rs:996
+#: src/app.rs:1002
 msgid "Draw a straight line"
 msgstr ""
 
-#: src/app.rs:997
+#: src/app.rs:1003
 msgid "Ctrl + drag"
 msgstr ""
 
-#: src/app.rs:997
+#: src/app.rs:1003
 msgid "Draw a rectangle"
 msgstr ""
 
-#: src/app.rs:998
+#: src/app.rs:1004
 msgid "Tab + drag"
 msgstr ""
 
-#: src/app.rs:998
+#: src/app.rs:1004
 msgid "Draw an ellipse"
 msgstr ""
 
-#: src/app.rs:999
+#: src/app.rs:1005
 msgid "Ctrl + Shift + drag"
 msgstr ""
 
-#: src/app.rs:999
+#: src/app.rs:1005
 msgid "Draw an arrow"
 msgstr ""
 
-#: src/app.rs:1000
+#: src/app.rs:1006
 msgid "R, G, B, O, Y, P"
 msgstr ""
 
-#: src/app.rs:1000
+#: src/app.rs:1006
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr ""
 
-#: src/app.rs:1001
+#: src/app.rs:1007
 msgid "T"
 msgstr ""
 
-#: src/app.rs:1001
+#: src/app.rs:1007
 msgid "Type text, then press Enter"
 msgstr ""
 
-#: src/app.rs:1002
+#: src/app.rs:1008
 msgid "W or K"
 msgstr ""
 
-#: src/app.rs:1002
+#: src/app.rs:1008
 msgid "A white or a black board"
 msgstr ""
 
-#: src/app.rs:1003
+#: src/app.rs:1009
 msgid "Copy the picture"
 msgstr ""
 
-#: src/app.rs:1004
+#: src/app.rs:1010
 msgid "Ctrl+S"
 msgstr ""
 
-#: src/app.rs:1004
+#: src/app.rs:1010
 msgid "Save the picture in the folder above"
 msgstr ""
 
-#: src/app.rs:1005
+#: src/app.rs:1011
 msgid "Ctrl+Shift+S"
 msgstr ""
 
-#: src/app.rs:1005
+#: src/app.rs:1011
 msgid "Save the picture somewhere else, once"
 msgstr ""
 
-#: src/app.rs:1006
+#: src/app.rs:1012
 msgid "F1"
 msgstr ""
 
-#: src/app.rs:1006
+#: src/app.rs:1012
 msgid "Show every key"
 msgstr ""
 
-#: src/app.rs:1012
+#: src/app.rs:1018
 #, rust-format
 msgid "Global shortcut: {}."
 msgstr ""
 
-#: src/app.rs:1020 src/resize_ui.rs:57
+#: src/app.rs:1026 src/resize_ui.rs:57
 msgid "Quality"
 msgstr ""
 
-#: src/app.rs:1021
+#: src/app.rs:1027
 msgid "Lower is smaller. PNG is always lossless."
 msgstr ""
 
-#: src/app.rs:1025
+#: src/app.rs:1031
 msgid "Choose Files…"
 msgstr ""
 
-#: src/app.rs:1042
+#: src/app.rs:1048
 msgid "Drop Files Here"
 msgstr ""
 
-#: src/app.rs:1044
+#: src/app.rs:1050
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 
-#: src/app.rs:1060 src/usage_ui.rs:95
+#: src/app.rs:1066 src/usage_ui.rs:95
 msgid "Results"
 msgstr ""
 
-#: src/app.rs:1066
+#: src/app.rs:1072
 msgid "Compressing…"
 msgstr ""
 
-#: src/app.rs:1083 src/app.rs:1086 src/resize_ui.rs:248 src/resize_ui.rs:252
+#: src/app.rs:1089 src/app.rs:1092 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr ""
 
-#: src/app.rs:1108
+#: src/app.rs:1114
 msgid "Compress Files"
 msgstr ""
 
-#: src/app.rs:1124
+#: src/app.rs:1130
 msgid "Compression settings"
 msgstr ""
 
-#: src/app.rs:1126 src/resize_ui.rs:352
+#: src/app.rs:1132 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr ""
 
-#: src/app.rs:1126
+#: src/app.rs:1132
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 
-#: src/app.rs:1127
+#: src/app.rs:1133
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 
@@ -855,7 +855,7 @@ msgstr[1] ""
 msgid "invalid config at {}"
 msgstr ""
 
-#: src/config.rs:160 src/daemon.rs:352 src/modules/envvars.rs:69
+#: src/config.rs:160 src/daemon.rs:388 src/modules/envvars.rs:69
 msgid "no config directory"
 msgstr ""
 
@@ -897,100 +897,100 @@ msgstr ""
 msgid "unknown action {}"
 msgstr ""
 
-#: src/daemon.rs:144
-msgid "cannot connect to the session bus"
-msgstr ""
-
-#: src/daemon.rs:148
+#: src/daemon.rs:142 src/daemon.rs:161
 msgid "the Voltkit daemon is already running"
 msgstr ""
 
-#: src/daemon.rs:150
+#: src/daemon.rs:148 src/daemon.rs:152
+msgid "cannot connect to the session bus"
+msgstr ""
+
+#: src/daemon.rs:164
 #, rust-format
 msgid "Voltkit daemon {} started"
 msgstr ""
 
-#: src/daemon.rs:164
+#: src/daemon.rs:178
 msgid "Added Voltkit's keyboard shortcuts to GNOME"
 msgstr ""
 
-#: src/daemon.rs:165
+#: src/daemon.rs:179
 #, rust-format
 msgid "Could not add the keyboard shortcuts: {}"
 msgstr ""
 
-#: src/daemon.rs:170
+#: src/daemon.rs:184
 #, rust-format
 msgid "Global shortcuts portal unavailable: {}"
 msgstr ""
 
-#: src/daemon.rs:172
+#: src/daemon.rs:186
 msgid ""
 "Bind `voltkit trigger ocr` / `voltkit trigger color` in your desktop's keyboard settings, or on GNOME run `voltkit shortcuts install`."
 msgstr ""
 
-#: src/daemon.rs:175
+#: src/daemon.rs:189
 msgid "Using GNOME custom keybindings"
 msgstr ""
 
-#: src/daemon.rs:179
+#: src/daemon.rs:193
 msgid "Added the shortcuts of new tools"
 msgstr ""
 
-#: src/daemon.rs:180
+#: src/daemon.rs:194
 #, rust-format
 msgid "Could not add the new shortcuts: {}"
 msgstr ""
 
-#: src/daemon.rs:193
+#: src/daemon.rs:207
 #, rust-format
 msgid "system snapshot: {}"
 msgstr ""
 
-#: src/daemon.rs:209
+#: src/daemon.rs:223
 msgid "Voltkit daemon stopped"
 msgstr ""
 
-#: src/daemon.rs:223 src/main.rs:505
+#: src/daemon.rs:237 src/main.rs:505
 msgid "Typed triggers off"
 msgstr ""
 
-#: src/daemon.rs:238
+#: src/daemon.rs:252
 #, rust-format
 msgid "Typed triggers are waiting for keyboard access: {}"
 msgstr ""
 
-#: src/daemon.rs:247
+#: src/daemon.rs:261
 #, rust-format
 msgid "Typed triggers unavailable: {}"
 msgstr ""
 
-#: src/daemon.rs:271
+#: src/daemon.rs:285
 #, rust-format
 msgid "Shortcut {} {}"
 msgstr ""
 
-#: src/daemon.rs:307
+#: src/daemon.rs:343
 msgid "off"
 msgstr ""
 
-#: src/daemon.rs:308
+#: src/daemon.rs:344
 msgid "on"
 msgstr ""
 
-#: src/daemon.rs:309
+#: src/daemon.rs:345
 msgid "needs keyboard access"
 msgstr ""
 
-#: src/daemon.rs:310
+#: src/daemon.rs:346
 msgid "unavailable"
 msgstr ""
 
-#: src/daemon.rs:321
+#: src/daemon.rs:357
 msgid "the background service isn't running; start it with `voltkit daemon`"
 msgstr ""
 
-#: src/daemon.rs:342 src/daemon.rs:346
+#: src/daemon.rs:378 src/daemon.rs:382
 msgid "the daemon is not running"
 msgstr ""
 

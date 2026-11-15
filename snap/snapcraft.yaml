@@ -70,20 +70,6 @@ apps:
       - upower-observe
       - opengl
       - gsettings
-    slots:
-      - voltkit-app
-      - voltkit-daemon
-
-slots:
-  # The app and its background service own these names on the session bus.
-  voltkit-app:
-    interface: dbus
-    bus: session
-    name: io.github.arios4k.Voltkit
-  voltkit-daemon:
-    interface: dbus
-    bus: session
-    name: io.github.arios4k.Voltkit.Daemon
 
 parts:
   voltkit:

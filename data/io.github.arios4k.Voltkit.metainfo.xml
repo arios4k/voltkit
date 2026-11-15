@@ -158,6 +158,15 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.13.1" date="2026-11-15">
+      <description>
+        <p>Snap Store packaging fix.</p>
+        <p xml:lang="es">Corrección del paquete de la Snap Store.</p>
+        <p xml:lang="de">Korrektur am Snap-Store-Paket.</p>
+        <p xml:lang="fr">Correction du paquet du Snap Store.</p>
+        <p xml:lang="zh_CN">修复 Snap Store 软件包。</p>
+      </description>
+    </release>
     <release version="0.13.0" date="2026-11-15">
       <description>
         <p>Voltkit is in the Snap Store.</p>
