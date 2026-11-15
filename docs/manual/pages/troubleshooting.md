@@ -52,6 +52,8 @@ The same findings appear in the app as the **N features need attention** banner,
 | Typed triggers do nothing | `voltkit expander status` says why. |
 | The clipboard is not set from a shortcut | Install `wl-clipboard` (Wayland) or `xclip` (X11). The result still appears in a notification. |
 | A GPU control is greyed out | Open the GPU Tuner's Monitor tab: *What this card supports* gives the reason. |
+| Running the snap: a page shows a banner or is greyed out | That tool needs a permission connected, or works only with apt or Fedora. Click **Details**, or see [Snap Store version](snap). |
+| Shortcuts run the wrong copy, or Voltkit appears twice in your apps | Both the snap and the apt or Fedora version are installed. Keep one: see [Installing only one version](snap#installing-only-one-version). |
 | Voltkit does not follow my language | Start it with `LANGUAGE=es voltkit` to test; set your session language otherwise. |
 
 ## Reporting a problem

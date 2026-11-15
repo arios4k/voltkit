@@ -92,6 +92,8 @@ echo "deb [signed-by=/usr/share/keyrings/voltkit-archive-keyring.gpg] https://ar
 sudo apt update && sudo apt install voltkit
 ```
 
+**¿Instalaste el snap antes?** Quítalo primero (`sudo snap remove voltkit`), o Voltkit quedará instalado dos veces, con dos servicios en segundo plano compitiendo por los mismos atajos.
+
 apt instala las herramientas necesarias (Tesseract, wl-clipboard, el portal del escritorio) junto con Voltkit, y
 las actualizaciones llegan con `sudo apt upgrade`.
 
@@ -106,14 +108,20 @@ sudo dnf copr enable arios/voltkit
 sudo dnf install voltkit
 ```
 
+**¿Instalaste el snap antes?** Quítalo primero (`sudo snap remove voltkit`), o Voltkit quedará instalado dos veces, con dos servicios en segundo plano compitiendo por los mismos atajos.
+
 Luego abre Voltkit desde tus apps; se configura solo de la misma forma. Las actualizaciones llegan con
 `sudo dnf upgrade`.
 
 ## Instalación (Snap Store)
 
+El snap existe sobre todo para que la gente encuentre Voltkit: la Snap Store está disponible en todas las distribuciones Linux que admiten snaps. La mayoría de las funciones son iguales en el snap; para las pocas que un snap no tiene permitidas, instálalo con apt o Fedora.
+
 ```bash
 sudo snap install voltkit
 ```
+
+**¿Lo instalaste antes con apt o Fedora?** Quita esa versión primero (`sudo apt remove voltkit` o `sudo dnf remove voltkit`), para que Voltkit no quede instalado dos veces.
 
 El snap funciona en un entorno aislado, así que el ajuste de GPU, Hosts y entorno, Permisos de apps, los disparadores al escribir y algunas otras funciones solo funcionan con apt o Fedora, y algunas herramientas necesitan un permiso que se conecta una vez con `sudo snap connect`. Cada página afectada lo indica; consulta [después de instalar el snap](https://arios4k.github.io/voltkit/manual/install.html#snap-store) (en inglés) para ver los comandos.
 
