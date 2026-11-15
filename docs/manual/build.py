@@ -127,6 +127,8 @@ def render(md):
                 i += 1
             out.append("<ul>" + "".join(f"<li>{inline(x)}</li>" for x in items) + "</ul>")
         elif re.match(r"\d+\. ", line):
+            # A list that resumes after a table or code block keeps its numbering.
+            first = int(re.match(r"(\d+)\. ", line).group(1))
             items = []
             while i < len(lines) and (re.match(r"\d+\. ", lines[i]) or (lines[i].startswith("   ") and lines[i].strip() and items)):
                 if re.match(r"\d+\. ", lines[i]):
@@ -134,7 +136,8 @@ def render(md):
                 else:
                     items[-1] += " " + lines[i].strip()
                 i += 1
-            out.append("<ol>" + "".join(f"<li>{inline(x)}</li>" for x in items) + "</ol>")
+            start = f' start="{first}"' if first != 1 else ""
+            out.append(f"<ol{start}>" + "".join(f"<li>{inline(x)}</li>" for x in items) + "</ol>")
         else:
             buf = []
             while i < len(lines) and lines[i].strip() and not re.match(r"(#{1,4} |```|>|\||\s*[-*] |\d+\. |!\[)", lines[i]):
