@@ -78,6 +78,8 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         window.set_default_size(width, 780);
     }
     fill_demo(&window);
+    // Let startup demo notifications expire before photographing other tools.
+    glib::timeout_future(Duration::from_secs(7)).await;
     let sidebar = descendants(&window)
         .into_iter()
         .find_map(|w| w.downcast::<gtk::ListBox>().ok().filter(|l| l.has_css_class("navigation-sidebar")))
