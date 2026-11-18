@@ -90,6 +90,18 @@ printf '%s\t%s\t%s\t%s\n' \
     screenshot screenshot io.github.arios4k.Voltkit yes \
     > "$demo/permissions"
 
+# Fixtures for the two storage tools contain only generated demo files.
+mkdir -p "$demo/storage/Original/Projects" "$demo/storage/Backup/Projects" "$demo/storage/Downloads"
+printf '%s\n' 'Release plan: November launch' > "$demo/storage/Original/Projects/plan.txt"
+printf '%s\n' 'Release plan: October launch' > "$demo/storage/Backup/Projects/plan.txt"
+printf '%s\n' 'Meeting notes' > "$demo/storage/Original/notes.txt"
+printf '%s\n' 'Old draft' > "$demo/storage/Backup/draft.txt"
+for item in Videos:48 Archives:24 Photos:16 Documents:4; do
+    name=${item%:*}; blocks=${item#*:}
+    mkdir -p "$demo/storage/Downloads/$name"
+    dd if=/dev/zero of="$demo/storage/Downloads/$name/sample.bin" bs=1M count="$blocks" status=none
+done
+
 cargo build --quiet --manifest-path "$repo/Cargo.toml"
 # A clean environment, so the "Already in Your Session" list shows typical
 # values instead of the real ones (which can include secrets). Extra
@@ -106,12 +118,17 @@ shoot() {
         ${VOLTKIT_LIGHT_THEME:+VOLTKIT_LIGHT_THEME="$VOLTKIT_LIGHT_THEME"} \
         ${VOLTKIT_DARK_THEME:+VOLTKIT_DARK_THEME="$VOLTKIT_DARK_THEME"} \
         XDG_CONFIG_HOME="$demo/config" XDG_DATA_HOME="$demo/data" VOLTKIT_HOSTS_FILE="$demo/hosts" \
-        VOLTKIT_PERMISSIONS_FILE="$demo/permissions" VOLTKIT_USAGE_DEMO=1 VOLTKIT_SLEEP_DEMO=1 VOLTKIT_REPORT_DEMO=1 VOLTKIT_SHORTCUTS_DEMO=1 \
+        ${VOLTKIT_SCREENSHOT_TOOLS:+VOLTKIT_SCREENSHOT_TOOLS="$VOLTKIT_SCREENSHOT_TOOLS"} \
+        VOLTKIT_STORAGE_SCREENSHOT_FIXTURE="$demo/storage" VOLTKIT_PERMISSIONS_FILE="$demo/permissions" VOLTKIT_USAGE_DEMO=1 VOLTKIT_SLEEP_DEMO=1 VOLTKIT_REPORT_DEMO=1 VOLTKIT_SHORTCUTS_DEMO=1 \
         "$@" "$repo/target/debug/voltkit" screenshots "$dir"
 }
 
 # Every page. The GPU Tuner page has tabs, so it gets one picture of each
 # (gpu-light.png for Monitor, gpu-2 Tune, gpu-3 Profiles, gpu-4 Sessions), with the fan curve editor open.
+if [ -n "${VOLTKIT_SCREENSHOT_TOOLS:-}" ]; then
+    shoot "$out"
+    exit 0
+fi
 shoot "$out" VOLTKIT_GPU_DEMO=curve VOLTKIT_RENAME_DEMO=1 VOLTKIT_RESIZE_DEMO=done
 
 # The voltage and frequency curve editor, from its own pass; only its first

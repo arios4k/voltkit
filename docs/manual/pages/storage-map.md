@@ -1,5 +1,7 @@
 # Storage Map
 
+![Storage Map showing disk usage in a treemap and a ranked list of folders and files](shot:storage-map)
+
 Choose **Scan Folder…** or drop a folder onto the scan controls. Storage Map scans in the background and shows how much disk space the folder and its contents occupy.
 
 - The treemap gives larger items more space. Click a folder to drill into it or a file to show its location in your file manager.

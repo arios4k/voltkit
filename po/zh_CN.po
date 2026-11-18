@@ -1409,11 +1409,11 @@ msgstr "文件夹"
 msgid "Choose or drop a folder onto each row."
 msgstr "为每一行选择或拖入一个文件夹。"
 
-#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:287
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:402 src/modules/folder_compare.rs:287
 msgid "Original"
 msgstr "原文件夹"
 
-#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:291
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:402 src/modules/folder_compare.rs:291
 msgid "Backup or comparison folder"
 msgstr "备份或对比文件夹"
 
@@ -1441,7 +1441,7 @@ msgstr "差异和无法读取的条目"
 msgid "All results"
 msgstr "所有结果"
 
-#: src/folder_compare_ui.rs:77 src/folder_compare_ui.rs:431
+#: src/folder_compare_ui.rs:77 src/folder_compare_ui.rs:438
 msgid "Export Report…"
 msgstr "导出报告…"
 
@@ -1469,45 +1469,45 @@ msgstr "每次只拖入一个本地文件夹。"
 msgid "Cancelling…"
 msgstr "正在取消…"
 
-#: src/folder_compare_ui.rs:272
+#: src/folder_compare_ui.rs:279
 msgid "Comparing folders…"
 msgstr "正在对比文件夹…"
 
-#: src/folder_compare_ui.rs:287
+#: src/folder_compare_ui.rs:294
 #, rust-format
 msgid "{} entries checked…"
 msgstr "已检查 {} 个条目…"
 
-#: src/folder_compare_ui.rs:313
+#: src/folder_compare_ui.rs:320
 msgid "Comparison cancelled."
 msgstr "对比已取消。"
 
-#: src/folder_compare_ui.rs:322
+#: src/folder_compare_ui.rs:329
 #, rust-format
 msgid "Could not compare folders: {}"
 msgstr "无法对比文件夹：{}"
 
-#: src/folder_compare_ui.rs:325
+#: src/folder_compare_ui.rs:332
 msgid "The comparison stopped unexpectedly."
 msgstr "对比意外停止。"
 
-#: src/folder_compare_ui.rs:355
+#: src/folder_compare_ui.rs:362
 msgid "No entries for this filter."
 msgstr "没有符合此筛选条件的条目。"
 
-#: src/folder_compare_ui.rs:369
+#: src/folder_compare_ui.rs:376
 msgid "Text preview requires a regular file on both sides."
 msgstr "文本预览要求两侧均为普通文件。"
 
-#: src/folder_compare_ui.rs:407
+#: src/folder_compare_ui.rs:414
 msgid "Preview unavailable. Choose readable UTF-8 text up to 128 KiB."
 msgstr "无法预览。请选择不超过 128 KiB 的可读 UTF-8 文本。"
 
-#: src/folder_compare_ui.rs:450
+#: src/folder_compare_ui.rs:457
 msgid "Comparison report saved."
 msgstr "对比报告已保存。"
 
-#: src/folder_compare_ui.rs:451
+#: src/folder_compare_ui.rs:458
 #, rust-format
 msgid "Could not save the report: {}"
 msgstr "无法保存报告：{}"
@@ -6551,12 +6551,12 @@ msgstr "备份有差异或无法验证。"
 msgid "Could not scan the folder"
 msgstr "无法扫描文件夹"
 
-#: src/storage_cli.rs:67 src/storage_map_ui.rs:429
+#: src/storage_cli.rs:67 src/storage_map_ui.rs:433
 #, rust-format
 msgid "{} on disk"
 msgstr "磁盘占用 {}"
 
-#: src/storage_cli.rs:70 src/storage_map_ui.rs:435
+#: src/storage_cli.rs:70 src/storage_map_ui.rs:439
 #, rust-format
 msgid "{} entries could not be scanned."
 msgstr "无法扫描 {} 个条目。"
@@ -6598,37 +6598,37 @@ msgstr "打开文件夹可查看其内容，打开文件所在位置可在文件
 msgid "Show More"
 msgstr "显示更多"
 
-#: src/storage_map_ui.rs:374
+#: src/storage_map_ui.rs:378
 msgid "Scanning storage…"
 msgstr "正在扫描存储空间…"
 
-#: src/storage_map_ui.rs:388
+#: src/storage_map_ui.rs:392
 #, rust-format
 msgid "{} entries scanned…"
 msgstr "已扫描 {} 个条目…"
 
-#: src/storage_map_ui.rs:402
+#: src/storage_map_ui.rs:406
 msgid "Scan cancelled."
 msgstr "扫描已取消。"
 
-#: src/storage_map_ui.rs:411
+#: src/storage_map_ui.rs:415
 #, rust-format
 msgid "Could not scan the folder: {}"
 msgstr "无法扫描文件夹：{}"
 
-#: src/storage_map_ui.rs:412
+#: src/storage_map_ui.rs:416
 msgid "The scan stopped unexpectedly."
 msgstr "扫描意外停止。"
 
-#: src/storage_map_ui.rs:464
+#: src/storage_map_ui.rs:468
 msgid "Other items"
 msgstr "其他条目"
 
-#: src/storage_map_ui.rs:513
+#: src/storage_map_ui.rs:517
 msgid "No items to show."
 msgstr "没有可显示的条目。"
 
-#: src/storage_map_ui.rs:540
+#: src/storage_map_ui.rs:544
 #, rust-format
 msgid "Could not open the location: {}"
 msgstr "无法打开位置：{}"

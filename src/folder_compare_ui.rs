@@ -221,6 +221,13 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
             state.export(button);
         }
     });
+    if let Some(root) = std::env::var_os("VOLTKIT_STORAGE_SCREENSHOT_FIXTURE") {
+        let root = PathBuf::from(root);
+        state.set_folder(0, root.join("Original"));
+        state.set_folder(1, root.join("Backup"));
+        state.run(true);
+    }
+
     workspace.connect_destroy(move |_| {
         if let Some(progress) = state.progress.borrow().as_ref() {
             progress.cancelled.store(true, Relaxed);

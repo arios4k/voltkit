@@ -129,6 +129,11 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
             settings.set_gtk_theme_name(Some(&name));
         }
         for (i, module) in modules::sorted().into_iter().enumerate() {
+            if let Ok(filter) = std::env::var("VOLTKIT_SCREENSHOT_TOOLS")
+                && !filter.split(',').any(|id| id == module.id)
+            {
+                continue;
+            }
             let row = sidebar.row_at_index(i as i32).context("sidebar row disappeared")?;
             sidebar.select_row(Some(&row));
             sidebar.emit_by_name::<()>("row-activated", &[&row]);
@@ -145,6 +150,10 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
             if module.id == "shortcuts" {
                 scroll_to_end(&window, dir, "shortcuts-keys", theme).await?;
             }
+        }
+
+        if std::env::var_os("VOLTKIT_SCREENSHOT_TOOLS").is_some() {
+            continue;
         }
 
         // The snippet editor, opened on a snippet with fill-in fields.

@@ -332,6 +332,10 @@ pub fn page(toasts: &adw::ToastOverlay) -> gtk::Widget {
     state.map.add_controller(click);
     state.map.set_cursor_from_name(Some("pointer"));
 
+    if let Some(root) = std::env::var_os("VOLTKIT_STORAGE_SCREENSHOT_FIXTURE") {
+        state.start(PathBuf::from(root).join("Downloads"));
+    }
+
     workspace.connect_destroy(move |_| {
         if let Some(progress) = state.progress.borrow().as_ref() {
             progress.cancelled.store(true, Relaxed);
