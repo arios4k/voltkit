@@ -14,6 +14,7 @@ mod daemon;
 mod detective_ui;
 mod doctor;
 mod expander;
+mod folder_compare_ui;
 mod gpu_cli;
 mod gpu_ui;
 mod guide_ui;
@@ -29,6 +30,8 @@ mod zoom;
 mod usage_ui;
 mod permissions_ui;
 mod sleep_ui;
+mod storage_cli;
+mod storage_map_ui;
 mod sysreport_ui;
 mod smartpaste_ui;
 mod portal;
@@ -220,6 +223,8 @@ enum Command {
     },
     Rename(bulk_cli::RenameArgs),
     Resize(bulk_cli::ResizeArgs),
+    FolderCompare(storage_cli::CompareArgs),
+    StorageMap(storage_cli::MapArgs),
     /// Expand a snippet template, e.g. "Sent {date:%A}: {clipboard}"
     ///
     /// Prints TEMPLATE with its {variables} replaced. Fails if a variable is unknown or an
@@ -583,6 +588,8 @@ fn run() -> Result<()> {
         }
         Some(Command::Rename(args)) => bulk_cli::rename(args)?,
         Some(Command::Resize(args)) => bulk_cli::resize(args)?,
+        Some(Command::FolderCompare(args)) => storage_cli::compare(args)?,
+        Some(Command::StorageMap(args)) => storage_cli::map(args)?,
         Some(Command::Expand { template, args }) => {
             let ctx = snippets::Context {
                 clipboard: system::read_clipboard().ok(),

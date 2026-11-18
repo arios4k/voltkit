@@ -3,7 +3,7 @@ window { background-color: @window_bg_color; }
 .tool-workspace { background-color: mix(@window_bg_color, @view_bg_color, 0.4); }
 .tool-sidebar { background-color: @window_bg_color; }
 .navigation-sidebar { padding: 8px 10px; }
-.navigation-sidebar > row { min-height: 32px; border-radius: 9px; margin-bottom: 2px; padding: 4px 8px; }
+.navigation-sidebar > row { min-height: 30px; border-radius: 9px; margin-bottom: 1px; padding: 2px 8px; }
 .navigation-sidebar > row:selected {
   background-image: none;
   color: @window_fg_color;

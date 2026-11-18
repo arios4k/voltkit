@@ -6,7 +6,7 @@ Voltkit is available in three ways: from its own **apt** repository (Ubuntu, Deb
 
 Mostly **so people can find Voltkit**. The Snap Store is available on every Linux distribution that supports snaps, and it is built into app stores such as Ubuntu's App Center, where people browse and install apps without a terminal. Publishing there makes the tool easier to discover and to install in one step.
 
-**Most of Voltkit works the same in the snap.** 16 of its 18 tools work there, most of them fully, and only a handful of features are left out. Those are limits of the snap sandbox, explained below, not of Voltkit. If you need them, install with apt or Fedora instead: that version has every feature.
+**Most of Voltkit works the same in the snap.** 18 of its 20 tools work there, most of them fully, and only a handful of features are left out. Those are limits of the snap sandbox, explained below, not of Voltkit. If you need them, install with apt or Fedora instead: that version has every feature.
 
 ## Which version should I install?
 
@@ -34,6 +34,8 @@ Mostly **so people can find Voltkit**. The Snap Store is available on every Linu
 | [Shortcut Detective](shortcuts) | Works fully |
 | [Asset Compressor](compress) | Works fully for files in your home folder; USB drives after connecting `removable-media` |
 | [Batch Rename](rename) | Same as the compressor |
+| [Folder Compare](folder-compare) | Compares accessible folders; USB drives after connecting `removable-media` |
+| [Storage Map](storage-map) | Scans accessible folders; USB drives after connecting `removable-media` |
 | [Image Resizer](resize) | Same as the compressor |
 | [Text Expansion](snippets) | The snippet picker works; **typed triggers don't** |
 | [What's Using This?](using) | Your own apps, after connecting `system-observe`, `mount-observe` and `process-control`; **not other users' or the system's apps** |
@@ -67,7 +69,7 @@ If your app store shows a **Permissions** section for Voltkit (GNOME Software do
 
 | Permission | Lets Voltkit | Used by |
 |---|---|---|
-| `removable-media` | use files on USB drives and other external disks | Asset Compressor, Batch Rename, Image Resizer |
+| `removable-media` | use files on USB drives and other external disks | Asset Compressor, Batch Rename, Image Resizer, Folder Compare, Storage Map |
 | `system-observe` | see which apps have files and ports open, and read drivers and the system's state | What's Using This?, System Report |
 | `mount-observe` | list the drives that are connected | What's Using This?, System Report |
 | `process-control` | close the apps that keep something busy | What's Using This? |

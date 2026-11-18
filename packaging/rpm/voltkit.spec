@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.13.1
+Version:        0.14.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -31,7 +31,8 @@ Recommends:     libwebp-tools
 Voltkit brings everyday desktop tools to Linux in one GTK4/libadwaita app and a
 single command: screen OCR, a QR code scanner and maker, a color picker with
 contrast checking, a screen ruler, an image and video compressor, a text
-expander, Smart Paste, a batch file renamer, an image resizer, a zoom and
+expander, Smart Paste, a batch file renamer, an image resizer, Folder Compare,
+Storage Map, a zoom and
 annotate tool, Keep Awake, a hosts and environment variable editor, a
 finder for the apps keeping a drive, file or port busy, an app permissions
 manager, a troubleshooter for sleep and wake-ups, and a system report with
@@ -79,6 +80,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Wed Nov 18 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.14.0-1
+- Add Folder Compare and Storage Map with terminal commands.
+- Keep all twenty tools reachable from the sidebar at narrow window sizes.
+
 * Sun Nov 15 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.13.1-1
 - Snap: the background service and the app no longer claim D-Bus names, so the snap passes the Snap Store's automatic review
 

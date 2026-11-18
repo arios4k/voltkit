@@ -478,6 +478,7 @@ fn render_page(cmd: clap::Command, siblings: &[String]) -> Result<(String, Vec<u
 fn translate_headings(roff: &str) -> String {
     const HEADINGS: [&str; 5] = [N_!("NAME"), N_!("SYNOPSIS"), N_!("DESCRIPTION"), N_!("OPTIONS"), N_!("SUBCOMMANDS")];
     roff.lines()
+        .map(str::trim_end)
         .map(|line| match line.strip_prefix(".SH ").filter(|h| HEADINGS.contains(h)) {
             Some(heading) => match tr(heading) {
                 t if t.contains(' ') => format!(".SH \"{t}\"\n"),

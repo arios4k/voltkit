@@ -87,6 +87,11 @@
       <li xml:lang="de">Ein GPU-Tuner: NVIDIA-, AMD- und Intel-Grafikkarten überwachen und Leistungsgrenzen, Lüfter, Zieltemperaturen und Takte ändern, jede Änderung wird ohne Ihre Bestätigung rückgängig gemacht</li>
       <li xml:lang="fr">Un réglage du GPU : surveillez les cartes graphiques NVIDIA, AMD et Intel et modifiez limites de puissance, ventilateurs, températures cibles et fréquences, chaque modification étant annulée sans votre confirmation</li>
       <li xml:lang="zh_CN">GPU 调节器：监控 NVIDIA、AMD 和 Intel 显卡，并更改功耗上限、风扇、目标温度和频率，未经确认的更改都会被撤销</li>
+      <li>Folder Compare verifies backups, and Storage Map shows which folders and files use the most disk space</li>
+      <li xml:lang="es">Comparar carpetas verifica copias y Mapa de almacenamiento muestra qué carpetas y archivos ocupan más espacio</li>
+      <li xml:lang="de">Ordnervergleich überprüft Sicherungen, und die Speicherbelegung zeigt, welche Ordner und Dateien den meisten Platz beanspruchen</li>
+      <li xml:lang="fr">Comparer les dossiers vérifie les sauvegardes, et Carte du stockage indique quels dossiers et fichiers occupent le plus d’espace</li>
+      <li xml:lang="zh_CN">文件夹对比可验证备份，存储空间地图可显示占用空间最多的文件夹和文件</li>
     </ul>
   </description>
   <screenshots>
@@ -158,6 +163,15 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.14.0" date="2026-11-18">
+      <description>
+        <p>Folder Compare and Storage Map, both with terminal commands. All twenty tools are reachable from the sidebar.</p>
+        <p xml:lang="es">Comparar carpetas y Mapa de almacenamiento, ambos con comandos de terminal. Las veinte herramientas están disponibles en la barra lateral.</p>
+        <p xml:lang="de">Ordnervergleich und Speicherbelegung mit Terminalbefehlen. Alle zwanzig Werkzeuge sind über die Seitenleiste erreichbar.</p>
+        <p xml:lang="fr">Comparer les dossiers et Carte du stockage disposent de commandes de terminal. Les vingt outils sont accessibles depuis la barre latérale.</p>
+        <p xml:lang="zh_CN">新增文件夹对比和存储空间地图，均支持终端命令。可通过侧栏访问全部二十个工具。</p>
+      </description>
+    </release>
     <release version="0.13.1" date="2026-11-15">
       <description>
         <p>Snap Store packaging fix.</p>

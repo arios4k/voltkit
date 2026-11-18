@@ -1,0 +1,47 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-folder-compare 1  "Voltkit 0.14.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-folder\-compare \- Comparer deux dossiers ou vérifier une sauvegarde
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit folder\-compare\fR [\fB\-\-verify\fR] [\fB\-\-all\fR] [\fB\-\-check\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIORIGINAL\fR> <\fIBACKUP\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Comparer deux dossiers ou vérifier une sauvegarde
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+<\fIORIGINAL\fR>
+Dossier d’origine
+.TP
+<\fIBACKUP\fR>
+Dossier de sauvegarde ou de comparaison
+.SH OPTIONS
+.TP
+\fB\-\-verify\fR
+Comparer les fichiers octet par octet au lieu de se baser sur la taille et la date de modification
+.TP
+\fB\-\-all\fR
+Inclure les éléments identiques dans le rapport
+.TP
+\fB\-\-check\fR
+Vérifier le contenu et renvoyer le code 1 si une différence est détectée ou si un élément ne peut pas être vérifié
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

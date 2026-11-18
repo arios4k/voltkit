@@ -1,8 +1,8 @@
 # Voltkit Manual
 
-**Voltkit** is a native GTK4/libadwaita app for Linux that puts eighteen everyday desktop tools in one window, with one set of keyboard shortcuts, and every one of them also works from the terminal. This manual explains every feature of the app, page by page, with the exact controls, shortcuts and commands.
+**Voltkit** is a native GTK4/libadwaita app for Linux that puts twenty everyday desktop tools in one window, with one set of keyboard shortcuts, and every one of them also works from the terminal. This manual explains every feature of the app, page by page, with the exact controls, shortcuts and commands.
 
-![Voltkit's Color Picker, one of the eighteen tools](shot:color)
+![Voltkit's Color Picker, one of the twenty tools](shot:color)
 
 ## How to read this manual
 
@@ -13,7 +13,7 @@
 - **Updated recently?** See [What's new](whats-new) for the changes in every release.
 - Press <kbd>/</kbd> anywhere in the manual to search it.
 
-## The eighteen tools
+## The twenty tools
 
 | Tool | What it does | Shortcut |
 |---|---|---|
@@ -21,6 +21,7 @@
 | [Asset Compressor](compress) | Strip metadata from and shrink PNG, JPEG, WebP and MP4 files | drag and drop |
 | [Batch Rename](rename) | Rename many files at once with search and replace, regular expressions, numbering and an undo | — |
 | [Color Picker](color) | Eyedropper for any pixel, HEX/RGB/HSL conversion, WCAG contrast and history | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
+| [Folder Compare](folder-compare) | Compare two folders and verify backups byte for byte | — |
 | [GPU Tuner](gpu) | Monitor NVIDIA, AMD and Intel graphics cards and tune power, fans, clocks and voltage safely | — |
 | [Hosts & Environment](system) | Switch `/etc/hosts` entries on and off and manage session environment variables | — |
 | [Image Resizer](resize) | Resize many pictures at once, keeping their shape, without touching the originals | — |
@@ -29,6 +30,7 @@
 | [Screen Ruler](ruler) | Freeze the screen and measure anything in pixels | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> |
 | [Shortcut Detective](shortcuts) | Find who owns a keyboard shortcut, find clashes, change shortcuts, and a cheat sheet of them all | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> (cheat sheet) |
 | [Smart Paste](smartpaste) | Paste the clipboard converted: JSON, tables, clean links, letter case | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> |
+| [Storage Map](storage-map) | Explore disk usage and find the largest files | — |
 | [System Report](sysreport) | Your hardware explained, with driver, drive and temperature checks and a shareable report | — |
 | [Text Expansion](snippets) | Searchable snippets and optional typed triggers such as `;date` | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> |
 | [Text Extractor](ocr) | OCR: drag a box around any text on screen and copy it | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> |

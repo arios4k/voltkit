@@ -43,7 +43,7 @@ sudo snap remove voltkit
 
 For everything about the snap (what works, permissions, limits and switching versions), see [Snap Store version](snap).
 
-**Why a snap?** Mostly so people can find Voltkit. The Snap Store is available on every Linux distribution that supports snaps, and it shows up in app stores such as Ubuntu's App Center, so more people can discover the tool and install it in one step. **Most of Voltkit works the same in the snap:** 16 of its 18 tools work there, most of them fully. For the few features a snap isn't allowed (see [What works only with apt or Fedora](#what-works-only-with-apt-or-fedora)), apt or Fedora is the way to install it.
+**Why a snap?** Mostly so people can find Voltkit. The Snap Store is available on every Linux distribution that supports snaps, and it shows up in app stores such as Ubuntu's App Center, so more people can discover the tool and install it in one step. **Most of Voltkit works the same in the snap:** 18 of its 20 tools work there, most of them fully. For the few features a snap isn't allowed (see [What works only with apt or Fedora](#what-works-only-with-apt-or-fedora)), apt or Fedora is the way to install it.
 
 Install it from Ubuntu's App Center, or with:
 

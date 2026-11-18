@@ -64,7 +64,7 @@ const SYSTEM_STATE: Plug = Plug { name: "system-observe", enables: N_!("read dri
 
 pub fn limits(page: &str) -> Limits {
     match page {
-        "compress" | "rename" | "resize" => Limits { plugs: &[REMOVABLE], ..Default::default() },
+        "compress" | "folder-compare" | "rename" | "resize" | "storage-map" => Limits { plugs: &[REMOVABLE], ..Default::default() },
         "using" => Limits {
             plugs: &[SYSTEM_OBSERVE, MOUNT_OBSERVE, PROCESS_CONTROL],
             full_version_only: Some(N_!("Seeing and closing apps that belong to other users or to the system")),

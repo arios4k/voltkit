@@ -78,7 +78,7 @@ msgstr "Licencia MIT"
 msgid "Free to use, modify, and share"
 msgstr "Libre para usar, modificar y compartir"
 
-#: src/about_ui.rs:60 src/app.rs:173
+#: src/about_ui.rs:60 src/app.rs:181
 msgid "About Voltkit"
 msgstr "Acerca de Voltkit"
 
@@ -173,11 +173,11 @@ msgstr "{} terminó con {}"
 msgid "screen ruler"
 msgstr "regla de pantalla"
 
-#: src/actions.rs:160 src/modules/mod.rs:142 src/smartpaste_ui.rs:100
+#: src/actions.rs:160 src/modules/mod.rs:150 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "Pegado inteligente"
 
-#: src/actions.rs:161 src/modules/mod.rs:178 src/zoom.rs:21 src/zoom.rs:172
+#: src/actions.rs:161 src/modules/mod.rs:192 src/zoom.rs:21 src/zoom.rs:172
 msgid "Zoom & Annotate"
 msgstr "Zoom y anotaciones"
 
@@ -185,44 +185,44 @@ msgstr "Zoom y anotaciones"
 msgid "Shortcut Guide"
 msgstr "Guía de atajos"
 
-#: src/app.rs:151
+#: src/app.rs:159
 msgid "Open the manual for this tool"
 msgstr "Abrir el manual de esta herramienta"
 
-#: src/app.rs:172
+#: src/app.rs:180
 msgid "Help & Manual"
 msgstr "Ayuda y manual"
 
-#: src/app.rs:175
+#: src/app.rs:183
 msgid "Quit"
 msgstr "Salir"
 
-#: src/app.rs:179
+#: src/app.rs:187
 msgid "Main Menu"
 msgstr "Menú principal"
 
-#: src/app.rs:229
+#: src/app.rs:249
 #, rust-format
 msgid "Could not open the manual: {}"
 msgstr "No se pudo abrir el manual: {}"
 
-#: src/app.rs:275
+#: src/app.rs:295
 #, rust-format
 msgid "could not start {}: {}"
 msgstr "no se pudo iniciar {}: {}"
 
-#: src/app.rs:361 src/app.rs:428
+#: src/app.rs:381 src/app.rs:448
 msgid "Details"
 msgstr "Detalles"
 
-#: src/app.rs:376
+#: src/app.rs:396
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] "{} función necesita atención"
 msgstr[1] "{} funciones necesitan atención"
 
-#: src/app.rs:388
+#: src/app.rs:408
 #, rust-format
 msgid ""
 "{}\n"
@@ -233,496 +233,496 @@ msgstr ""
 "\n"
 "Ejecuta `voltkit doctor` para ver el informe completo."
 
-#: src/app.rs:389
+#: src/app.rs:409
 msgid "Needs Attention"
 msgstr "Necesita atención"
 
-#: src/app.rs:400
+#: src/app.rs:420
 msgid "Copy Command"
 msgstr "Copiar comando"
 
-#: src/app.rs:403 src/app.rs:500 src/app.rs:1013 src/gpu_ui.rs:863
+#: src/app.rs:423 src/app.rs:520 src/app.rs:1033 src/gpu_ui.rs:863
 msgid "Close"
 msgstr "Cerrar"
 
-#: src/app.rs:438
+#: src/app.rs:458
 msgid "This tool works only in the APT and Fedora versions of Voltkit"
 msgstr ""
 "Esta herramienta solo funciona en las versiones APT y Fedora de Voltkit"
 
-#: src/app.rs:439
+#: src/app.rs:459
 msgid "Part of this tool works only in the APT and Fedora versions"
 msgstr "Parte de esta herramienta solo funciona en las versiones APT y Fedora"
 
-#: src/app.rs:440
+#: src/app.rs:460
 #, rust-format
 msgid "Connect {} permission to use everything here"
 msgid_plural "Connect {} permissions to use everything here"
 msgstr[0] "Conecta {} permiso para usar todo aquí"
 msgstr[1] "Conecta {} permisos para usar todo aquí"
 
-#: src/app.rs:463
+#: src/app.rs:483
 msgid ""
 "Voltkit from the Snap Store runs in a sandbox. Allow these once, in a terminal or in your app store's Permissions settings for Voltkit:"
 msgstr ""
 "Voltkit de la Snap Store funciona en un entorno aislado. Permite esto una vez, en una terminal o en los ajustes de Permisos de Voltkit en tu tienda de apps:"
 
-#: src/app.rs:473
+#: src/app.rs:493
 #, rust-format
 msgid "Only in the APT and Fedora versions: {}."
 msgstr "Solo en las versiones APT y Fedora: {}."
 
-#: src/app.rs:477
+#: src/app.rs:497
 msgid "Voltkit from the Snap Store"
 msgstr "Voltkit de la Snap Store"
 
-#: src/app.rs:489
+#: src/app.rs:509
 msgid "Copy Commands"
 msgstr "Copiar comandos"
 
-#: src/app.rs:495
+#: src/app.rs:515
 msgid "How to Install the Full Version"
 msgstr "Cómo instalar la versión completa"
 
-#: src/app.rs:508
+#: src/app.rs:528
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr ""
 "El servicio en segundo plano está apagado, así que los atajos de teclado no funcionarán"
 
-#: src/app.rs:509
+#: src/app.rs:529
 msgid "Start"
 msgstr "Iniciar"
 
-#: src/app.rs:526
+#: src/app.rs:546
 msgid "The background service failed to start"
 msgstr "No se pudo iniciar el servicio en segundo plano"
 
-#: src/app.rs:530
+#: src/app.rs:550
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "No se pudo iniciar el servicio: {}"
 
-#: src/app.rs:540
+#: src/app.rs:560
 msgid "Capture Region"
 msgstr "Capturar región"
 
-#: src/app.rs:560
+#: src/app.rs:580
 msgid "Capture text"
 msgstr "Capturar texto"
 
-#: src/app.rs:561
+#: src/app.rs:581
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr ""
 "Selecciona texto en cualquier parte de la pantalla. Idioma de reconocimiento: {}. Atajo: {}"
 
-#: src/app.rs:566
+#: src/app.rs:586
 msgid "Copy Text"
 msgstr "Copiar texto"
 
-#: src/app.rs:567
+#: src/app.rs:587
 msgid "Extracted text"
 msgstr "Texto extraído"
 
-#: src/app.rs:567 src/app.rs:583
+#: src/app.rs:587 src/app.rs:603
 msgid "Capture a region to see and copy its text here."
 msgstr "Captura una región para ver y copiar su texto aquí."
 
-#: src/app.rs:571
+#: src/app.rs:591
 msgid "No text captured yet"
 msgstr "Todavía no se ha capturado texto"
 
-#: src/app.rs:582
+#: src/app.rs:602
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} carácter"
 msgstr[1] "{} caracteres"
 
-#: src/app.rs:583
+#: src/app.rs:603
 msgid "Text is also copied automatically after capture."
 msgstr "El texto también se copia automáticamente después de capturarlo."
 
-#: src/app.rs:585
+#: src/app.rs:605
 msgid "Capture from anything"
 msgstr "Captura desde cualquier cosa"
 
-#: src/app.rs:585
+#: src/app.rs:605
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr ""
 "Selecciona un párrafo, un mensaje de error o el texto de una imagen. El escritorio te pide que elijas una región de la pantalla; el reconocimiento se hace localmente en tu computadora."
 
-#: src/app.rs:592
+#: src/app.rs:612
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "Texto del atajo, copiado al portapapeles"
 
-#: src/app.rs:613
+#: src/app.rs:633
 msgid "Text copied to clipboard"
 msgstr "Texto copiado al portapapeles"
 
-#: src/app.rs:615 src/qr_ui.rs:101
+#: src/app.rs:635 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "No se tomó ninguna captura de pantalla"
 
-#: src/app.rs:617
+#: src/app.rs:637
 msgid "OCR worker crashed"
 msgstr "El proceso de OCR falló"
 
-#: src/app.rs:632 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
+#: src/app.rs:652 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr "Copiar"
 
-#: src/app.rs:640 src/app.rs:762
+#: src/app.rs:660 src/app.rs:782
 #, rust-format
 msgid "Copied {}"
 msgstr "{} copiado"
 
-#: src/app.rs:666
+#: src/app.rs:686
 msgid "HEX or rgb()"
 msgstr "HEX o rgb()"
 
-#: src/app.rs:671
+#: src/app.rs:691
 msgid "Pick from Screen"
 msgstr "Tomar de la pantalla"
 
-#: src/app.rs:672
+#: src/app.rs:692
 msgid "Pick a color anywhere on screen"
 msgstr "Toma un color de cualquier parte de la pantalla"
 
-#: src/app.rs:677
+#: src/app.rs:697
 msgid "Color"
 msgstr "Color"
 
-#: src/app.rs:678
+#: src/app.rs:698
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr ""
 "Escribe un color o toma uno de tu pantalla. Presiona Enter para guardarlo en el historial. Desde cualquier app, presiona {} para tomar un color: su valor HEX se copia y se guarda aquí."
 
-#: src/app.rs:686
+#: src/app.rs:706
 msgid "Formats"
 msgstr "Formatos"
 
-#: src/app.rs:691
+#: src/app.rs:711
 msgid "Text on white"
 msgstr "Texto sobre blanco"
 
-#: src/app.rs:692
+#: src/app.rs:712
 msgid "Text on black"
 msgstr "Texto sobre negro"
 
-#: src/app.rs:693
+#: src/app.rs:713
 msgid "WCAG Contrast"
 msgstr "Contraste WCAG"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "History"
 msgstr "Historial"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr ""
 "Selecciona un color guardado para reutilizarlo. Los colores que tomes de tu pantalla aparecen aquí."
 
-#: src/app.rs:710 src/app.rs:718
+#: src/app.rs:730 src/app.rs:738
 #, rust-format
 msgid "Selected color {}"
 msgstr "Color seleccionado {}"
 
-#: src/app.rs:741
+#: src/app.rs:761
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "No se pudo guardar el historial: {}"
 
-#: src/app.rs:765
+#: src/app.rs:785
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "El selector de color no está disponible: {}"
 
-#: src/app.rs:766
+#: src/app.rs:786
 msgid "Color picker crashed"
 msgstr "El selector de color falló"
 
-#: src/app.rs:775
+#: src/app.rs:795
 msgid "Live color preview"
 msgstr "Vista previa del color"
 
-#: src/app.rs:790
+#: src/app.rs:810
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "Se tomó {} con el atajo y se copió"
 
-#: src/app.rs:836
+#: src/app.rs:856
 msgid "Open Ruler"
 msgstr "Abrir regla"
 
-#: src/app.rs:849
+#: src/app.rs:869
 msgid "Measure in real pixels"
 msgstr "Mide en píxeles reales"
 
-#: src/app.rs:849
+#: src/app.rs:869
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr ""
 "Congela tu pantalla y luego arrastra una línea o un rectángulo sobre lo que quieras medir."
 
-#: src/app.rs:868
+#: src/app.rs:888
 msgid "Drag to measure width × height"
 msgstr "Arrastra para medir ancho × alto"
 
-#: src/app.rs:878
+#: src/app.rs:898
 msgid "Measurement controls"
 msgstr "Controles de medición"
 
-#: src/app.rs:879 src/app.rs:1001
+#: src/app.rs:899 src/app.rs:1021
 msgid "Drag"
 msgstr "Arrastrar"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Measure a rectangle"
 msgstr "Mide un rectángulo"
 
-#: src/app.rs:879 src/app.rs:1002
+#: src/app.rs:899 src/app.rs:1022
 msgid "Shift + drag"
 msgstr "Mayús + arrastrar"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Measure a straight line"
 msgstr "Mide una línea recta"
 
-#: src/app.rs:879 src/app.rs:1009
+#: src/app.rs:899 src/app.rs:1029
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Copy the measured size"
 msgstr "Copia el tamaño medido"
 
-#: src/app.rs:879 src/app.rs:1013
+#: src/app.rs:899 src/app.rs:1033
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Close the ruler"
 msgstr "Cierra la regla"
 
-#: src/app.rs:883 src/app.rs:1018
+#: src/app.rs:903 src/app.rs:1038
 msgid "Ready when you need it"
 msgstr "Lista cuando la necesites"
 
-#: src/app.rs:883
+#: src/app.rs:903
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 "Atajo global: {}. Las medidas usan los píxeles de la captura de pantalla, también en pantallas de alta densidad."
 
-#: src/app.rs:889
+#: src/app.rs:909
 msgid "Open Zoom & Annotate"
 msgstr "Abrir Zoom y anotaciones"
 
-#: src/app.rs:903
+#: src/app.rs:923
 msgid "Show it, then point at it"
 msgstr "Muéstralo y señálalo"
 
-#: src/app.rs:904
+#: src/app.rs:924
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr ""
 "Congela la pantalla, acerca cualquier parte y dibuja con lápiz, líneas, recuadros, flechas y texto: para presentaciones, tutoriales e informes de errores."
 
-#: src/app.rs:939
+#: src/app.rs:959
 msgid "Saving pictures"
 msgstr "Guardar imágenes"
 
-#: src/app.rs:940
+#: src/app.rs:960
 msgid ""
 "Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
 msgstr ""
 "Ctrl+S guarda la imagen en esta carpeta. Ctrl+Mayús+S te deja elegir otro lugar para una imagen."
 
-#: src/app.rs:942
+#: src/app.rs:962
 msgid "Pictures are saved in"
 msgstr "Las imágenes se guardan en"
 
-#: src/app.rs:944 src/detective_ui.rs:331
+#: src/app.rs:964 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "Cambiar…"
 
-#: src/app.rs:945 src/app.rs:946
+#: src/app.rs:965 src/app.rs:966
 msgid "Use the default folder, Pictures/Voltkit"
 msgstr "Usar la carpeta predeterminada, Imágenes/Voltkit"
 
-#: src/app.rs:964
+#: src/app.rs:984
 msgid "Choose Where Pictures Are Saved"
 msgstr "Elegir dónde se guardan las imágenes"
 
-#: src/app.rs:974
+#: src/app.rs:994
 #, rust-format
 msgid "Pictures will be saved in {}"
 msgstr "Las imágenes se guardarán en {}"
 
-#: src/app.rs:990
+#: src/app.rs:1010
 msgid "Pictures are saved in Pictures/Voltkit again"
 msgstr "Las imágenes se guardan de nuevo en Imágenes/Voltkit"
 
-#: src/app.rs:998
+#: src/app.rs:1018
 msgid "Controls"
 msgstr "Controles"
 
-#: src/app.rs:1000
+#: src/app.rs:1020
 msgid "Scroll"
 msgstr "Desplazar"
 
-#: src/app.rs:1000
+#: src/app.rs:1020
 msgid "Zoom in and out"
 msgstr "Acercar y alejar"
 
-#: src/app.rs:1001
+#: src/app.rs:1021
 msgid "Draw with the pen"
 msgstr "Dibujar con el lápiz"
 
-#: src/app.rs:1002
+#: src/app.rs:1022
 msgid "Draw a straight line"
 msgstr "Dibujar una línea recta"
 
-#: src/app.rs:1003
+#: src/app.rs:1023
 msgid "Ctrl + drag"
 msgstr "Ctrl + arrastrar"
 
-#: src/app.rs:1003
+#: src/app.rs:1023
 msgid "Draw a rectangle"
 msgstr "Dibujar un rectángulo"
 
-#: src/app.rs:1004
+#: src/app.rs:1024
 msgid "Tab + drag"
 msgstr "Tab + arrastrar"
 
-#: src/app.rs:1004
+#: src/app.rs:1024
 msgid "Draw an ellipse"
 msgstr "Dibujar una elipse"
 
-#: src/app.rs:1005
+#: src/app.rs:1025
 msgid "Ctrl + Shift + drag"
 msgstr "Ctrl + Mayús + arrastrar"
 
-#: src/app.rs:1005
+#: src/app.rs:1025
 msgid "Draw an arrow"
 msgstr "Dibujar una flecha"
 
-#: src/app.rs:1006
+#: src/app.rs:1026
 msgid "R, G, B, O, Y, P"
 msgstr "R, G, B, O, Y, P"
 
-#: src/app.rs:1006
+#: src/app.rs:1026
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "Rojo, verde, azul, naranja, amarillo o rosa"
 
-#: src/app.rs:1007
+#: src/app.rs:1027
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:1007
+#: src/app.rs:1027
 msgid "Type text, then press Enter"
 msgstr "Escribir texto y pulsar Intro"
 
-#: src/app.rs:1008
+#: src/app.rs:1028
 msgid "W or K"
 msgstr "W o K"
 
-#: src/app.rs:1008
+#: src/app.rs:1028
 msgid "A white or a black board"
 msgstr "Una pizarra blanca o negra"
 
-#: src/app.rs:1009
+#: src/app.rs:1029
 msgid "Copy the picture"
 msgstr "Copiar la imagen"
 
-#: src/app.rs:1010
+#: src/app.rs:1030
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: src/app.rs:1010
+#: src/app.rs:1030
 msgid "Save the picture in the folder above"
 msgstr "Guardar la imagen en la carpeta de arriba"
 
-#: src/app.rs:1011
+#: src/app.rs:1031
 msgid "Ctrl+Shift+S"
 msgstr "Ctrl+Mayús+S"
 
-#: src/app.rs:1011
+#: src/app.rs:1031
 msgid "Save the picture somewhere else, once"
 msgstr "Guardar la imagen en otro sitio, solo esta vez"
 
-#: src/app.rs:1012
+#: src/app.rs:1032
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:1012
+#: src/app.rs:1032
 msgid "Show every key"
 msgstr "Mostrar todas las teclas"
 
-#: src/app.rs:1018
+#: src/app.rs:1038
 #, rust-format
 msgid "Global shortcut: {}."
 msgstr "Atajo global: {}."
 
-#: src/app.rs:1026 src/resize_ui.rs:57
+#: src/app.rs:1046 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "Calidad"
 
-#: src/app.rs:1027
+#: src/app.rs:1047
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "Más baja es más pequeño. PNG siempre es sin pérdida."
 
-#: src/app.rs:1031
+#: src/app.rs:1051
 msgid "Choose Files…"
 msgstr "Elegir archivos…"
 
-#: src/app.rs:1048
+#: src/app.rs:1068
 msgid "Drop Files Here"
 msgstr "Suelta los archivos aquí"
 
-#: src/app.rs:1050
+#: src/app.rs:1070
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 "PNG, JPEG, WebP y MP4. Se quitan los metadatos; los originales se conservan."
 
-#: src/app.rs:1066 src/usage_ui.rs:95
+#: src/app.rs:1086 src/usage_ui.rs:95
 msgid "Results"
 msgstr "Resultados"
 
-#: src/app.rs:1072
+#: src/app.rs:1092
 msgid "Compressing…"
 msgstr "Comprimiendo…"
 
-#: src/app.rs:1089 src/app.rs:1092 src/resize_ui.rs:248 src/resize_ui.rs:252
+#: src/app.rs:1109 src/app.rs:1112 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "Falló"
 
-#: src/app.rs:1114
+#: src/app.rs:1134
 msgid "Compress Files"
 msgstr "Comprimir archivos"
 
-#: src/app.rs:1130
+#: src/app.rs:1150
 msgid "Compression settings"
 msgstr "Ajustes de compresión"
 
-#: src/app.rs:1132 src/resize_ui.rs:352
+#: src/app.rs:1152 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "Tus originales quedan intactos"
 
-#: src/app.rs:1132
+#: src/app.rs:1152
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "Las copias comprimidas se guardan junto a cada archivo como nombre.min.ext. Los metadatos se quitan de la copia. La compresión PNG es sin pérdida; la calidad se aplica a JPEG, WebP y video."
 
-#: src/app.rs:1133
+#: src/app.rs:1153
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 "Elige o suelta archivos para ver aquí el progreso y el espacio ahorrado."
@@ -787,7 +787,7 @@ msgstr "4 horas"
 msgid "Until turned off"
 msgstr "Hasta que lo apagues"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:314 src/modules/mod.rs:118
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:314 src/modules/mod.rs:126
 msgid "Keep Awake"
 msgstr "Mantener activo"
 
@@ -806,7 +806,7 @@ msgid "Needs the background service: start it with the banner above"
 msgstr ""
 "Necesita el servicio en segundo plano: inícialo con el aviso de arriba"
 
-#: src/awake_ui.rs:94 src/main.rs:757 src/main.rs:768
+#: src/awake_ui.rs:94 src/main.rs:764 src/main.rs:775
 #, rust-format
 msgid "Keep Awake: {}"
 msgstr "Mantener activo: {}"
@@ -979,7 +979,7 @@ msgstr "instantánea del sistema: {}"
 msgid "Voltkit daemon stopped"
 msgstr "Daemon de Voltkit detenido"
 
-#: src/daemon.rs:237 src/main.rs:505
+#: src/daemon.rs:237 src/main.rs:510
 msgid "Typed triggers off"
 msgstr "Disparadores al escribir apagados"
 
@@ -1301,7 +1301,7 @@ msgstr "captura de región"
 msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr "instala xdg-desktop-portal y el backend de portales de tu escritorio"
 
-#: src/doctor.rs:257 src/modules/mod.rs:94
+#: src/doctor.rs:257 src/modules/mod.rs:96
 msgid "Color Picker"
 msgstr "Selector de color"
 
@@ -1313,11 +1313,11 @@ msgstr "cuentagotas de pantalla: portal Screenshot"
 msgid "Clipboard (hotkeys and command line)"
 msgstr "Portapapeles (atajos y línea de comandos)"
 
-#: src/doctor.rs:272 src/modules/mod.rs:82
+#: src/doctor.rs:272 src/modules/mod.rs:84
 msgid "Asset Compressor"
 msgstr "Compresor de archivos"
 
-#: src/doctor.rs:283 src/modules/mod.rs:154
+#: src/doctor.rs:283 src/modules/mod.rs:168
 msgid "Text Expansion"
 msgstr "Expansión de texto"
 
@@ -1346,7 +1346,7 @@ msgstr ""
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "evitar suspensión y bloqueo: portal Inhibit"
 
-#: src/doctor.rs:322 src/modules/mod.rs:106
+#: src/doctor.rs:322 src/modules/mod.rs:114
 msgid "Hosts & Environment"
 msgstr "Hosts y entorno"
 
@@ -1437,6 +1437,118 @@ msgid ""
 "turn on Typed triggers on Voltkit's Text Expansion page (it asks for your password once), or run `voltkit expander setup --apply`"
 msgstr ""
 "activa Disparadores al escribir en la página Expansión de texto de Voltkit (pide tu contraseña una vez), o ejecuta `voltkit expander setup --apply`"
+
+#: src/folder_compare_ui.rs:37
+msgid "Folders"
+msgstr "Carpetas"
+
+#: src/folder_compare_ui.rs:38
+msgid "Choose or drop a folder onto each row."
+msgstr "Elige o arrastra una carpeta a cada fila."
+
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:287
+msgid "Original"
+msgstr "Original"
+
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:291
+msgid "Backup or comparison folder"
+msgstr "Carpeta de copia o comparación"
+
+#: src/folder_compare_ui.rs:43
+msgid "No folder selected"
+msgstr "No hay ninguna carpeta seleccionada"
+
+#: src/folder_compare_ui.rs:51
+msgid "Quick Compare"
+msgstr "Comparación rápida"
+
+#: src/folder_compare_ui.rs:53
+msgid "Verify Contents"
+msgstr "Verificar contenido"
+
+#: src/folder_compare_ui.rs:56 src/gpu_ui.rs:1224 src/gpu_ui.rs:1253 src/snippets_ui.rs:194
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/folder_compare_ui.rs:69
+msgid "Differences and unreadable"
+msgstr "Diferencias y elementos ilegibles"
+
+#: src/folder_compare_ui.rs:70
+msgid "All results"
+msgstr "Todos los resultados"
+
+#: src/folder_compare_ui.rs:77 src/folder_compare_ui.rs:431
+msgid "Export Report…"
+msgstr "Exportar informe…"
+
+#: src/folder_compare_ui.rs:116
+msgid "Open a changed file to preview text side by side."
+msgstr "Abre un archivo modificado para ver el texto lado a lado."
+
+#: src/folder_compare_ui.rs:146 src/qr_ui.rs:136
+msgid "Choose…"
+msgstr "Elegir…"
+
+#: src/folder_compare_ui.rs:155 src/storage_map_ui.rs:192 src/usage_ui.rs:152
+msgid "Choose a Folder"
+msgstr "Elige una carpeta"
+
+#: src/folder_compare_ui.rs:162 src/storage_map_ui.rs:199
+msgid "Choose a local folder."
+msgstr "Elige una carpeta local."
+
+#: src/folder_compare_ui.rs:183
+msgid "Drop one local folder at a time."
+msgstr "Arrastra una sola carpeta local a la vez."
+
+#: src/folder_compare_ui.rs:203 src/storage_map_ui.rs:240
+msgid "Cancelling…"
+msgstr "Cancelando…"
+
+#: src/folder_compare_ui.rs:272
+msgid "Comparing folders…"
+msgstr "Comparando carpetas…"
+
+#: src/folder_compare_ui.rs:287
+#, rust-format
+msgid "{} entries checked…"
+msgstr "Elementos revisados: {}…"
+
+#: src/folder_compare_ui.rs:313
+msgid "Comparison cancelled."
+msgstr "Se canceló la comparación."
+
+#: src/folder_compare_ui.rs:322
+#, rust-format
+msgid "Could not compare folders: {}"
+msgstr "No se pudieron comparar las carpetas: {}"
+
+#: src/folder_compare_ui.rs:325
+msgid "The comparison stopped unexpectedly."
+msgstr "La comparación se detuvo de forma inesperada."
+
+#: src/folder_compare_ui.rs:355
+msgid "No entries for this filter."
+msgstr "No hay elementos para este filtro."
+
+#: src/folder_compare_ui.rs:369
+msgid "Text preview requires a regular file on both sides."
+msgstr "La vista previa de texto requiere un archivo normal en ambos lados."
+
+#: src/folder_compare_ui.rs:407
+msgid "Preview unavailable. Choose readable UTF-8 text up to 128 KiB."
+msgstr ""
+"Vista previa no disponible. Elige un archivo de texto UTF-8 legible de hasta 128 KiB."
+
+#: src/folder_compare_ui.rs:450
+msgid "Comparison report saved."
+msgstr "Se guardó el informe de comparación."
+
+#: src/folder_compare_ui.rs:451
+#, rust-format
+msgid "Could not save the report: {}"
+msgstr "No se pudo guardar el informe: {}"
 
 #: src/gpu_cli.rs:36
 msgid "Changing GPU settings needs administrator rights. Run it with sudo."
@@ -2300,10 +2412,6 @@ msgid ""
 msgstr ""
 "Pega el código que te enviaron. Voltkit lo comprueba y lo añade como un perfil nuevo. No se aplica nada hasta que tú lo decidas."
 
-#: src/gpu_ui.rs:1224 src/gpu_ui.rs:1253 src/snippets_ui.rs:194 src/snippets_ui.rs:411
-msgid "Cancel"
-msgstr "Cancelar"
-
 #: src/gpu_ui.rs:1224
 msgid "Import"
 msgstr "Importar"
@@ -2470,157 +2578,157 @@ msgstr "Muestra la versión"
 msgid "Print this message or the help of the given subcommand(s)"
 msgstr "Muestra este mensaje o la ayuda de los subcomandos indicados"
 
-#: src/main.rs:463
+#: src/main.rs:468
 #, rust-format
 msgid "expected name=value, got {}"
 msgstr "se esperaba nombre=valor, se recibió {}"
 
-#: src/main.rs:469
+#: src/main.rs:474
 msgid "typed triggers: enabled"
 msgstr "disparadores al escribir: activados"
 
-#: src/main.rs:469
+#: src/main.rs:474
 msgid "typed triggers: disabled"
 msgstr "disparadores al escribir: desactivados"
 
-#: src/main.rs:472
+#: src/main.rs:477
 msgid "permissions: ok"
 msgstr "permisos: bien"
 
-#: src/main.rs:475
+#: src/main.rs:480
 #, rust-format
 msgid "permissions: {}"
 msgstr "permisos: {}"
 
-#: src/main.rs:477
+#: src/main.rs:482
 #, rust-format
 msgid "next step: {}"
 msgstr "siguiente paso: {}"
 
-#: src/main.rs:486
+#: src/main.rs:491
 msgid "Done: typed triggers can read the keyboard now, no need to log out."
 msgstr ""
 "Listo: los disparadores al escribir ya pueden leer el teclado, sin necesidad de cerrar sesión."
 
-#: src/main.rs:488
+#: src/main.rs:493
 msgid ""
 "# Typed triggers need these commands to run as root. They let the person at the"
 msgstr ""
 "# Los disparadores al escribir necesitan que estos comandos se ejecuten como root. Permiten que la persona"
 
-#: src/main.rs:489
+#: src/main.rs:494
 msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
 msgstr ""
 "# frente a la computadora lea teclados y use un teclado virtual, de inmediato. Ejecuta"
 
-#: src/main.rs:490
+#: src/main.rs:495
 msgid ""
 "# `voltkit expander setup --apply` to run them (it asks for your password).\n"
 msgstr ""
 "# `voltkit expander setup --apply` para ejecutarlos (pide tu contraseña).\n"
 
-#: src/main.rs:499
+#: src/main.rs:504
 msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
 msgstr ""
 "Los disparadores al escribir están apagados y se quitó el acceso de Voltkit al teclado."
 
-#: src/main.rs:505
+#: src/main.rs:510
 msgid "Typed triggers on"
 msgstr "Disparadores al escribir encendidos"
 
-#: src/main.rs:507
+#: src/main.rs:512
 #, rust-format
 msgid "They need keyboard access first: {}"
 msgstr "Primero necesitan acceso al teclado: {}"
 
-#: src/main.rs:510
+#: src/main.rs:515
 msgid "Takes effect when the background service starts"
 msgstr "Se aplica cuando se inicie el servicio en segundo plano"
 
-#: src/main.rs:519
+#: src/main.rs:524
 msgid "Error"
 msgstr "Error"
 
-#: src/main.rs:566
+#: src/main.rs:571
 msgid "on white"
 msgstr "sobre blanco"
 
-#: src/main.rs:566
+#: src/main.rs:571
 msgid "on black"
 msgstr "sobre negro"
 
-#: src/main.rs:598
+#: src/main.rs:605
 #, rust-format
 msgid "running (v{}), shortcuts: {}, typed triggers: {}"
 msgstr "en ejecución (v{}), atajos: {}, disparadores al escribir: {}"
 
-#: src/main.rs:600 src/main.rs:604 src/main.rs:608
+#: src/main.rs:607 src/main.rs:611 src/main.rs:615
 msgid "not running"
 msgstr "no se está ejecutando"
 
-#: src/main.rs:603
+#: src/main.rs:610
 msgid "Reloaded snippets"
 msgstr "Fragmentos recargados"
 
-#: src/main.rs:614
+#: src/main.rs:621
 #, rust-format
 msgid "Starts at login through {}, installed with Voltkit"
 msgstr "Se inicia al iniciar sesión mediante {}, instalado con Voltkit"
 
-#: src/main.rs:616
+#: src/main.rs:623
 #, rust-format
 msgid "Created {}"
 msgstr "Se creó {}"
 
-#: src/main.rs:620
+#: src/main.rs:627
 #, rust-format
 msgid "Removed {}"
 msgstr "Se eliminó {}"
 
-#: src/main.rs:640
+#: src/main.rs:647
 #, rust-format
 msgid "no QR code found in {}"
 msgstr "no se encontró ningún código QR en {}"
 
-#: src/main.rs:651
+#: src/main.rs:658
 msgid "the code doesn't scan with this logo; shorten the text"
 msgstr "el código no se puede escanear con este logo; acorta el texto"
 
-#: src/main.rs:657 src/qr_ui.rs:364 src/snippets_ui.rs:354 src/zoom.rs:449
+#: src/main.rs:664 src/qr_ui.rs:364 src/snippets_ui.rs:354 src/zoom.rs:449
 #, rust-format
 msgid "Saved {}"
 msgstr "Se guardó {}"
 
-#: src/main.rs:676
+#: src/main.rs:683
 #, rust-format
 msgid "no conversion called {}; run `voltkit convert` for the list"
 msgstr ""
 "no hay ninguna conversión llamada {}; ejecuta `voltkit convert` para ver la lista"
 
-#: src/main.rs:679
+#: src/main.rs:686
 #, rust-format
 msgid "{} doesn't fit this text"
 msgstr "{} no sirve para este texto"
 
-#: src/main.rs:692
+#: src/main.rs:699
 msgid "Fixes:"
 msgstr "Soluciones:"
 
-#: src/main.rs:698
+#: src/main.rs:705
 msgid "Memory:"
 msgstr "Memoria:"
 
-#: src/main.rs:733
+#: src/main.rs:740
 #, rust-format
 msgid "Nothing is using {}"
 msgstr "Nada está usando {}"
 
-#: src/main.rs:742
+#: src/main.rs:749
 #, rust-format
 msgid "this is {}"
 msgstr "esto es {}"
 
-#: src/main.rs:749
+#: src/main.rs:756
 #, rust-format
 msgid ""
 "{} program of other users or the system wasn't checked; run with sudo to include it"
@@ -2631,34 +2739,34 @@ msgstr[0] ""
 msgstr[1] ""
 "{} programas de otros usuarios o del sistema no se revisaron; ejecútalo con sudo para incluirlos"
 
-#: src/main.rs:758
+#: src/main.rs:765
 msgid "Keep Awake: off (the background service isn't running)"
 msgstr ""
 "Mantener activo: apagado (el servicio en segundo plano no se está ejecutando)"
 
-#: src/main.rs:763
+#: src/main.rs:770
 msgid "Keep Awake: Off"
 msgstr "Mantener activo: Apagado"
 
-#: src/main.rs:790
+#: src/main.rs:797
 msgid "Added to GNOME keyboard shortcuts"
 msgstr "Se agregó a los atajos de teclado de GNOME"
 
-#: src/main.rs:807
+#: src/main.rs:814
 #, rust-format
 msgid "{} isn't a shortcut"
 msgstr "{} no es un atajo"
 
-#: src/main.rs:812
+#: src/main.rs:819
 #, rust-format
 msgid "{} is free. Nearby free combinations:"
 msgstr "{} está libre. Combinaciones libres cercanas:"
 
-#: src/main.rs:817
+#: src/main.rs:824
 msgid "Free combinations nearby:"
 msgstr "Combinaciones libres cercanas:"
 
-#: src/main.rs:827
+#: src/main.rs:834
 msgid "No clashes: no two actions share a shortcut."
 msgstr "Sin conflictos: ninguna acción comparte un atajo."
 
@@ -3250,6 +3358,57 @@ msgstr "tipo de archivo no compatible: {}"
 #, rust-format
 msgid "cannot read {}"
 msgstr "no se puede leer {}"
+
+#: src/modules/folder_compare.rs:227
+msgid "Matches"
+msgstr "Coincide"
+
+#: src/modules/folder_compare.rs:228
+msgid "Same size and time"
+msgstr "Mismo tamaño y fecha"
+
+#: src/modules/folder_compare.rs:229
+msgid "Changed"
+msgstr "Modificado"
+
+#: src/modules/folder_compare.rs:230
+msgid "Original only"
+msgstr "Solo en el original"
+
+#: src/modules/folder_compare.rs:231
+msgid "Backup only"
+msgstr "Solo en la copia"
+
+#: src/modules/folder_compare.rs:232
+msgid "Different file types"
+msgstr "Tipos de archivo distintos"
+
+#: src/modules/folder_compare.rs:233
+msgid "Could not verify"
+msgstr "No se pudo verificar"
+
+#: src/modules/folder_compare.rs:255
+#, rust-format
+msgid "Differences: {} · Could not verify: {}"
+msgstr "Diferencias: {} · Sin verificar: {}"
+
+#: src/modules/folder_compare.rs:263
+msgid "Quick comparison checks file size and modification time only."
+msgstr ""
+"La comparación rápida solo revisa el tamaño y la fecha de modificación."
+
+#: src/modules/folder_compare.rs:266
+msgid "File contents and symbolic link targets match."
+msgstr ""
+"Coinciden el contenido de los archivos y los destinos de los enlaces simbólicos."
+
+#: src/modules/folder_compare.rs:274
+msgid "Top-level folder"
+msgstr "Carpeta de nivel superior"
+
+#: src/modules/folder_compare.rs:286 src/modules/mod.rs:102
+msgid "Folder Compare"
+msgstr "Comparar carpetas"
 
 #: src/modules/gpu.rs:118
 msgid "Monitoring"
@@ -3901,143 +4060,159 @@ msgstr "no se pudo guardar el atajo"
 msgid "custom shortcuts have no default"
 msgstr "los atajos personalizados no tienen valor predeterminado"
 
-#: src/modules/mod.rs:76
+#: src/modules/mod.rs:78
 msgid "App Permissions"
 msgstr "Permisos de apps"
 
-#: src/modules/mod.rs:78
+#: src/modules/mod.rs:80
 msgid ""
 "Change or forget the answers you gave when apps asked for screenshots, the camera and more."
 msgstr ""
 "Cambia u olvida las respuestas que diste cuando las apps pidieron capturas de pantalla, la cámara y más."
 
-#: src/modules/mod.rs:84
+#: src/modules/mod.rs:86
 msgid "Drop images or videos to strip metadata and shrink them."
 msgstr ""
 "Suelta imágenes o videos para quitarles los metadatos y reducir su tamaño."
 
-#: src/modules/mod.rs:88
+#: src/modules/mod.rs:90
 msgid "Batch Rename"
 msgstr "Renombrar en lote"
 
-#: src/modules/mod.rs:90
+#: src/modules/mod.rs:92
 msgid ""
 "Rename many files at once: search and replace, regular expressions, numbering, with a preview and undo."
 msgstr ""
 "Renombra muchos archivos a la vez: buscar y reemplazar, expresiones regulares, numeración, con vista previa y deshacer."
 
-#: src/modules/mod.rs:96
+#: src/modules/mod.rs:98
 msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
 msgstr "Conversión HEX / RGB / HSL, revisión de contraste WCAG e historial."
 
-#: src/modules/mod.rs:100
+#: src/modules/mod.rs:104
+msgid ""
+"Find differences between folders or verify a backup by comparing file contents."
+msgstr ""
+"Encuentra diferencias entre carpetas o verifica una copia comparando el contenido de los archivos."
+
+#: src/modules/mod.rs:108
 msgid "GPU Tuner"
 msgstr "Ajuste de GPU"
 
-#: src/modules/mod.rs:102
+#: src/modules/mod.rs:110
 msgid ""
 "Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."
 msgstr ""
 "Monitorea y ajusta tarjetas gráficas NVIDIA, AMD e Intel, y ve exactamente qué controles admite cada una."
 
-#: src/modules/mod.rs:108
+#: src/modules/mod.rs:116
 msgid ""
 "Edit /etc/hosts and your session's environment variables without a text editor."
 msgstr ""
 "Edita /etc/hosts y las variables de entorno de tu sesión sin un editor de texto."
 
-#: src/modules/mod.rs:112
+#: src/modules/mod.rs:120
 msgid "Image Resizer"
 msgstr "Redimensionar imágenes"
 
-#: src/modules/mod.rs:114
+#: src/modules/mod.rs:122
 msgid ""
 "Resize many pictures at once, keeping their shape, without touching the originals."
 msgstr ""
 "Cambia el tamaño de muchas imágenes a la vez, conservando su forma y sin tocar los originales."
 
-#: src/modules/mod.rs:120
+#: src/modules/mod.rs:128
 msgid "Stop your computer from sleeping or locking for a while."
 msgstr "Evita que tu computadora se suspenda o se bloquee por un rato."
 
-#: src/modules/mod.rs:124
+#: src/modules/mod.rs:132
 msgid "QR Code"
 msgstr "Código QR"
 
-#: src/modules/mod.rs:126
+#: src/modules/mod.rs:134
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
 msgstr ""
 "Lee un código QR en cualquier parte de la pantalla, o convierte texto, enlaces y datos de Wi-Fi en uno."
 
-#: src/modules/mod.rs:130 src/ruler.rs:20 src/ruler.rs:84
+#: src/modules/mod.rs:138 src/ruler.rs:20 src/ruler.rs:84
 msgid "Screen Ruler"
 msgstr "Regla de pantalla"
 
-#: src/modules/mod.rs:132
+#: src/modules/mod.rs:140
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "Mide distancias y tamaños en pantalla en píxeles."
 
-#: src/modules/mod.rs:136
+#: src/modules/mod.rs:144
 msgid "Shortcut Detective"
 msgstr "Detective de atajos"
 
-#: src/modules/mod.rs:138
+#: src/modules/mod.rs:146
 msgid ""
 "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
 msgstr ""
 "Averigua qué app es dueña de un atajo de teclado, resuelve conflictos y elige combinaciones libres."
 
-#: src/modules/mod.rs:144
+#: src/modules/mod.rs:152
 msgid ""
 "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
 msgstr ""
 "Pega lo que copiaste ya convertido: JSON ordenado, tablas como Markdown, enlaces limpios, otro tipo de mayúsculas."
 
-#: src/modules/mod.rs:148
+#: src/modules/mod.rs:156
+msgid "Storage Map"
+msgstr "Mapa de almacenamiento"
+
+#: src/modules/mod.rs:158
+msgid ""
+"See what takes up disk space, drill into folders, and find the largest files."
+msgstr ""
+"Descubre qué ocupa espacio en disco, explora carpetas y encuentra los archivos más grandes."
+
+#: src/modules/mod.rs:162
 msgid "System Report"
 msgstr "Informe del sistema"
 
-#: src/modules/mod.rs:150
+#: src/modules/mod.rs:164
 msgid ""
 "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
 msgstr ""
 "Lo que hay en esta computadora, explicado: drivers, salud de las unidades, temperaturas, actualizaciones de firmware y qué cambió."
 
-#: src/modules/mod.rs:156
+#: src/modules/mod.rs:170
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr "Fragmentos con variables dinámicas: fechas, portapapeles, parámetros."
 
-#: src/modules/mod.rs:160
+#: src/modules/mod.rs:174
 msgid "Text Extractor"
 msgstr "Extractor de texto"
 
-#: src/modules/mod.rs:162
+#: src/modules/mod.rs:176
 msgid "Drag a box around any text on screen and copy it to the clipboard."
 msgstr ""
 "Arrastra un recuadro alrededor de cualquier texto en pantalla y cópialo al portapapeles."
 
-#: src/modules/mod.rs:166
+#: src/modules/mod.rs:180
 msgid "What's Using This?"
 msgstr "¿Qué lo está usando?"
 
-#: src/modules/mod.rs:168
+#: src/modules/mod.rs:182
 msgid ""
 "See which apps keep a file, folder, drive or network port busy, and close them."
 msgstr ""
 "Mira qué apps mantienen ocupado un archivo, una carpeta, una unidad o un puerto de red, y ciérralas."
 
-#: src/modules/mod.rs:172
+#: src/modules/mod.rs:186
 msgid "Why Didn't It Sleep?"
 msgstr "¿Por qué no se suspendió?"
 
-#: src/modules/mod.rs:174
+#: src/modules/mod.rs:188
 msgid ""
 "What keeps the computer awake, what woke it up, and how much battery it used asleep."
 msgstr ""
 "Qué mantiene activa la computadora, qué la despertó y cuánta batería usó mientras estaba suspendida."
 
-#: src/modules/mod.rs:180
+#: src/modules/mod.rs:194
 msgid ""
 "Zoom into the screen and draw on it with a pen, arrows, boxes and text."
 msgstr ""
@@ -5511,10 +5686,6 @@ msgstr "WPA / WPA2 / WPA3"
 msgid "None (open network)"
 msgstr "Ninguna (red abierta)"
 
-#: src/qr_ui.rs:136
-msgid "Choose…"
-msgstr "Elegir…"
-
 #: src/qr_ui.rs:137
 msgid "Remove Logo"
 msgstr "Quitar logo"
@@ -6599,6 +6770,101 @@ msgstr "Escribe arriba el texto que se pegará."
 msgid "This text can't be expanded: {}."
 msgstr "Este texto no se puede expandir: {}."
 
+#: src/storage_cli.rs:37
+msgid "Could not compare folders"
+msgstr "No se pudieron comparar las carpetas"
+
+#: src/storage_cli.rs:45
+msgid "The backup differs or could not be verified."
+msgstr "La copia es distinta o no se pudo verificar."
+
+#: src/storage_cli.rs:65
+msgid "Could not scan the folder"
+msgstr "No se pudo escanear la carpeta"
+
+#: src/storage_cli.rs:67 src/storage_map_ui.rs:429
+#, rust-format
+msgid "{} on disk"
+msgstr "{} en disco"
+
+#: src/storage_cli.rs:70 src/storage_map_ui.rs:435
+#, rust-format
+msgid "{} entries could not be scanned."
+msgstr "Elementos que no se pudieron escanear: {}."
+
+#: src/storage_map_ui.rs:54
+msgid "Scan Folder…"
+msgstr "Escanear carpeta…"
+
+#: src/storage_map_ui.rs:57
+msgid "Rescan"
+msgstr "Volver a escanear"
+
+#: src/storage_map_ui.rs:70
+msgid "Choose a folder or drop one here to see what takes up space."
+msgstr "Elige una carpeta o arrástrala aquí para ver qué ocupa espacio."
+
+#: src/storage_map_ui.rs:82
+msgid "Go to Parent Folder"
+msgstr "Ir a la carpeta superior"
+
+#: src/storage_map_ui.rs:86
+msgid "Open in File Manager"
+msgstr "Abrir en el gestor de archivos"
+
+#: src/storage_map_ui.rs:108
+msgid "Folders and files"
+msgstr "Carpetas y archivos"
+
+#: src/storage_map_ui.rs:108
+msgid "Largest files"
+msgstr "Archivos más grandes"
+
+#: src/storage_map_ui.rs:116
+msgid ""
+"Open a folder to drill down, or open a file’s location in the file manager."
+msgstr ""
+"Abre una carpeta para explorarla o muestra la ubicación de un archivo en el gestor de archivos."
+
+#: src/storage_map_ui.rs:157
+msgid "Show More"
+msgstr "Mostrar más"
+
+#: src/storage_map_ui.rs:374
+msgid "Scanning storage…"
+msgstr "Escaneando el almacenamiento…"
+
+#: src/storage_map_ui.rs:388
+#, rust-format
+msgid "{} entries scanned…"
+msgstr "Elementos escaneados: {}…"
+
+#: src/storage_map_ui.rs:402
+msgid "Scan cancelled."
+msgstr "Se canceló el escaneo."
+
+#: src/storage_map_ui.rs:411
+#, rust-format
+msgid "Could not scan the folder: {}"
+msgstr "No se pudo escanear la carpeta: {}"
+
+#: src/storage_map_ui.rs:412
+msgid "The scan stopped unexpectedly."
+msgstr "El escaneo se detuvo de forma inesperada."
+
+#: src/storage_map_ui.rs:464
+msgid "Other items"
+msgstr "Otros elementos"
+
+#: src/storage_map_ui.rs:513
+msgid "No items to show."
+msgstr "No hay elementos que mostrar."
+
+#: src/storage_map_ui.rs:540
+#, rust-format
+msgid "Could not open the location: {}"
+msgstr "No se pudo abrir la ubicación: {}"
+
 #: src/sysreport_ui.rs:55
 msgid "Copy Report"
 msgstr "Copiar informe"
@@ -7011,10 +7277,6 @@ msgid ""
 "Choose a document that will not delete, or a folder reported as busy. You can also drop it on this window."
 msgstr ""
 "Elige un documento que no puedas eliminar o una carpeta que aparezca como ocupada. También puedes soltarlo en esta ventana."
-
-#: src/usage_ui.rs:152
-msgid "Choose a Folder"
-msgstr "Elige una carpeta"
 
 #: src/usage_ui.rs:152
 msgid "Choose a File"
@@ -7444,6 +7706,46 @@ msgstr "El formato en que escribir"
 #: src/main.rs (command-line help)
 msgid "JPEG and WebP quality from 1 to 100"
 msgstr "Calidad de JPEG y WebP de 1 a 100"
+
+#: src/main.rs (command-line help)
+msgid "Compare two folders or verify a backup"
+msgstr "Compara dos carpetas o verifica una copia"
+
+#: src/main.rs (command-line help)
+msgid "Original folder"
+msgstr "Carpeta original"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Compare file contents byte for byte instead of using size and modification time"
+msgstr ""
+"Compara el contenido byte por byte en lugar de usar el tamaño y la fecha de modificación"
+
+#: src/main.rs (command-line help)
+msgid "Include matching entries in the report"
+msgstr "Incluye en el informe los elementos que coinciden"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Verify file contents and exit with status 1 if anything differs or cannot be verified"
+msgstr ""
+"Verifica el contenido y devuelve el código 1 si algo difiere o no se puede verificar"
+
+#: src/main.rs (command-line help)
+msgid "Show which folders and files use the most disk space"
+msgstr "Muestra qué carpetas y archivos ocupan más espacio"
+
+#: src/main.rs (command-line help)
+msgid "Folder to scan"
+msgstr "Carpeta que se va a escanear"
+
+#: src/main.rs (command-line help)
+msgid "List the largest files throughout the folder and its subfolders"
+msgstr "Muestra los archivos más grandes de la carpeta y sus subcarpetas"
+
+#: src/main.rs (command-line help)
+msgid "Maximum number of entries to show"
+msgstr "Número máximo de elementos que se muestran"
 
 #: src/main.rs (command-line help)
 msgid "Expand a snippet template, e.g. \"Sent {date:%A}: {clipboard}\""

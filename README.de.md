@@ -31,7 +31,7 @@ nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehler
 > App, auf der Befehlszeile und in den Handbuchseiten (`man voltkit`). Die Bildschirmfotos auf dieser Seite zeigen
 > die englische Version.
 
-## Eine App statt achtzehn
+## Eine App statt zwanzig
 
 Diese Grundfunktionen unter Linux zu bekommen, heißt meist, für jede Aufgabe ein eigenes Applet zu suchen, jedes
 mit eigenem Aussehen, eigenen Einstellungen und Tastenkürzeln. Voltkit vereint sie in einer nativen GTK4-App mit
@@ -44,6 +44,8 @@ einem gemeinsamen Satz Tastenkürzel:
 | eines eigenen Farbwählers | **Farbwähler**: eine Pipette für jedes Pixel, HEX/RGB/HSL, WCAG-Kontrastprüfung und Verlauf | <kbd>Super</kbd>+<kbd>Umschalt</kbd>+<kbd>C</kbd> |
 | Shell-Schleifen mit `mv` oder ein eigenes Umbenennungsprogramm | **Stapel-Umbenennen**: viele Dateien auf einmal umbenennen, mit Suchen und Ersetzen, regulären Ausdrücken und Nummerierung, mit Vorschau und Rückgängig | — |
 | ein eigenes Bildverkleinerungsprogramm | **Bildgrößen ändern**: viele Bilder auf einmal verkleinern, mit unveränderter Form und ohne die Originale anzutasten | — |
+| — | **[Ordnervergleich](https://arios4k.github.io/voltkit/manual/folder-compare.html)** — Zwei Ordner vergleichen und Sicherungen bytegenau prüfen | `voltkit folder-compare` |
+| — | **[Speicherbelegung](https://arios4k.github.io/voltkit/manual/storage-map.html)** — Speicherfresser in einer interaktiven Karte und in der Liste der größten Dateien finden | `voltkit storage-map` |
 | ein eigenes GPU-Tuning-Programm plus Herstellertools | **GPU-Tuner**: NVIDIA-, AMD- und Intel-Grafikkarten überwachen und Leistungsgrenzen, Lüfter und Lüfterkurven, Zieltemperaturen, Takte und Spannung ändern, jede Änderung mit Vorschau und rückgängig gemacht, wenn Sie sie nicht bestätigen | — |
 | `/etc/hosts` und `~/.profile` im Terminal zu bearbeiten | **Hosts &amp; Umgebung**: hosts-Einträge ein- und ausschalten und die Umgebungsvariablen Ihrer Sitzung verwalten | — |
 | einer Shell-Erweiterung, die den Bildschirm anlässt | **Wach halten**: Bereitschaft und Sperre für 30 Minuten bis 4 Stunden verhindern oder bis Sie es ausschalten | — |
