@@ -24,6 +24,8 @@ man voltkit                  # the manual page, and man voltkit-COMMAND for each
 | `voltkit zoom` | Zoom into the screen and draw on it | [Zoom & Annotate](zoom) |
 | `voltkit rename FILE… [--find TEXT] [--replace TEXT] [--apply]` | Rename many files at once; previews unless `--apply` | [Batch Rename](rename) |
 | `voltkit rename --undo` | Undo the last batch | [Batch Rename](rename) |
+| `voltkit folder-compare ORIGINAL BACKUP [--verify] [--all] [--check]` | Compare folders or check a backup byte for byte | [Folder Compare](folder-compare) |
+| `voltkit storage-map FOLDER [--largest-files] [--limit N]` | List disk usage by item or find the largest files recursively | [Storage Map](storage-map) |
 | `voltkit resize FILE… [--longest-side N]` | Resize pictures in bulk | [Image Resizer](resize) |
 | `voltkit shortcut-guide` | Show the shortcut cheat sheet | [Shortcut Detective](shortcuts#the-cheat-sheet) |
 | `voltkit awake [DURATION]` | Keep the computer awake | [Keep Awake](awake) |

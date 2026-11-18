@@ -32,7 +32,7 @@ veille, un rapport système, un détective de raccourcis et un réglage du GPU.
 > langue de votre système : l’application, la ligne de commande et les pages de manuel (`man voltkit`). Les captures
 > d’écran de cette page montrent la version anglaise.
 
-## Une application au lieu de dix-huit
+## Une application au lieu de vingt
 
 Obtenir ces outils de base sous Linux oblige souvent à chercher une petite application pour chaque besoin, chacune avec
 son apparence, ses réglages et ses raccourcis. Voltkit les réunit dans une seule application GTK4 native, avec un seul
@@ -58,6 +58,8 @@ jeu de raccourcis :
 | une application d’OCR à part | **Extracteur de texte** : tracez un rectangle autour d’un texte à l’écran, même dans des vidéos et des images, et il arrive dans votre presse-papiers | <kbd>Super</kbd>+<kbd>Maj</kbd>+<kbd>T</kbd> |
 | `lsof`, `fuser` et `ss` dans un terminal | **Qu’est-ce qui l’utilise ?** : voyez quelles applications gardent un fichier, un dossier, un disque ou un port occupé, et fermez-les | — |
 | fouiller dans les journaux système dans un terminal | **Pourquoi ne s’est-il pas mis en veille ?** : voyez ce qui maintient l’ordinateur éveillé, ce qui l’a réveillé, et combien de batterie il a utilisé pendant la veille | — |
+| — | **[Comparer les dossiers](https://arios4k.github.io/voltkit/manual/folder-compare.html)** — Compare deux dossiers et vérifie les sauvegardes octet par octet | `voltkit folder-compare` |
+| — | **[Carte du stockage](https://arios4k.github.io/voltkit/manual/storage-map.html)** — Explore l’espace disque dans une carte interactive et retrouve les fichiers les plus volumineux | `voltkit storage-map` |
 
 ## Manuel
 

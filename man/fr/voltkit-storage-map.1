@@ -1,0 +1,41 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-storage-map 1  "Voltkit 0.14.0" "Manuel de Voltkit"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH NOM
+voltkit\-storage\-map \- Afficher les dossiers et fichiers qui occupent le plus d’espace disque
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH SYNOPSIS
+\fBvoltkit storage\-map\fR [\fB\-\-largest\-files\fR] [\fB\-\-limit\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFOLDER\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH DESCRIPTION
+Afficher les dossiers et fichiers qui occupent le plus d’espace disque
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH ARGUMENTS
+.TP
+<\fIFOLDER\fR>
+Dossier à analyser
+.SH OPTIONS
+.TP
+\fB\-\-largest\-files\fR
+Lister les plus gros fichiers du dossier et de ses sous\-dossiers
+.TP
+\fB\-\-limit\fR \fI<LIMIT>\fR [default: 20]
+Nombre maximal d’éléments à afficher
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Afficher l’aide
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH "VOIR AUSSI"
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH AUTEUR
+Alexis Rios\-Negron

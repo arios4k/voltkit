@@ -4,6 +4,15 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.14.0
+
+*November 18, 2026*
+
+- **[Folder Compare](folder-compare)** finds changed or missing files and verifies backups byte for byte. Preview text side by side or export a report. Use `voltkit folder-compare` from the terminal.
+- **[Storage Map](storage-map)** shows disk usage in a clickable treemap and finds the largest files in a folder tree. Use `voltkit storage-map` to get the same totals from the terminal.
+- **[Sidebar](tour#the-window)** shows all twenty tools at the default window size and scrolls when space is limited. On narrow windows, use Back and select any tool to open it again.
+- Both new tools work on accessible folders in the [Snap](snap). Connect `removable-media` to access supported external-drive paths.
+
 ## Version 0.13.1
 
 *November 15, 2026*

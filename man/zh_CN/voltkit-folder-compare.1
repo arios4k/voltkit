@@ -1,0 +1,47 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-folder-compare 1  "Voltkit 0.14.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-folder\-compare \- 比较两个文件夹或验证备份
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit folder\-compare\fR [\fB\-\-verify\fR] [\fB\-\-all\fR] [\fB\-\-check\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIORIGINAL\fR> <\fIBACKUP\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+比较两个文件夹或验证备份
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+<\fIORIGINAL\fR>
+原文件夹
+.TP
+<\fIBACKUP\fR>
+备份或对比文件夹
+.SH 选项
+.TP
+\fB\-\-verify\fR
+逐字节比较文件内容，而不是使用大小和修改时间
+.TP
+\fB\-\-all\fR
+在报告中包含匹配的条目
+.TP
+\fB\-\-check\fR
+验证文件内容，若有差异或无法验证则以状态码 1 退出
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

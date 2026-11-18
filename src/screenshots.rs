@@ -82,6 +82,43 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
         .into_iter()
         .find_map(|w| w.downcast::<gtk::ListBox>().ok().filter(|l| l.has_css_class("navigation-sidebar")))
         .context("sidebar not found")?;
+    glib::timeout_future(SETTLE).await;
+    let tools = modules::sorted();
+    let split = sidebar.ancestor(adw::NavigationSplitView::static_type())
+        .and_downcast::<adw::NavigationSplitView>().context("split view not found")?;
+    let tool_stack = descendants(&window).into_iter().find_map(|widget| {
+        widget.downcast::<gtk::Stack>().ok().filter(|stack| stack.child_by_name(tools[0].id).is_some())
+    }).context("tool stack not found")?;
+    let sidebar_only = std::env::var_os("VOLTKIT_CHECK_SIDEBAR_ONLY").is_some();
+    if sidebar_only {
+        anyhow::ensure!(split.is_collapsed() == width.is_some_and(|width| width <= 600),
+            "unexpected sidebar layout at {} pixels", window.width());
+        if split.is_collapsed() {
+            anyhow::ensure!(!split.shows_content(), "narrow window should start on the tool list");
+        } else if width.is_none() {
+            let scroller = sidebar.ancestor(gtk::ScrolledWindow::static_type())
+                .and_downcast::<gtk::ScrolledWindow>().context("sidebar scroll view not found")?;
+            let vertical = scroller.vadjustment();
+            anyhow::ensure!(vertical.upper() - vertical.page_size() <= 1.0,
+                "not every tool fits in the default window");
+        }
+    }
+    anyhow::ensure!(sidebar.row_at_index(tools.len() as i32).is_none(), "unexpected extra sidebar row");
+    for (index, tool) in tools.iter().enumerate() {
+        let row = sidebar.row_at_index(index as i32).with_context(|| format!("missing sidebar row for {}", tool.id))?;
+        anyhow::ensure!(row.widget_name() == tool.id, "sidebar row is not {}", tool.id);
+        sidebar.select_row(Some(&row));
+        anyhow::ensure!(tool_stack.visible_child_name().as_deref() == Some(tool.id), "could not open {}", tool.id);
+        split.set_show_content(false);
+        sidebar.emit_by_name::<()>("row-activated", &[&row]);
+        anyhow::ensure!(split.shows_content(), "could not reopen {}", tool.id);
+    }
+
+
+    if sidebar_only {
+        println!("All {} tools opened and reopened at {} pixels", tools.len(), window.width());
+        return Ok(());
+    }
 
     for (scheme, theme) in [(adw::ColorScheme::ForceLight, "light"), (adw::ColorScheme::ForceDark, "dark")] {
         style.set_color_scheme(scheme);
@@ -92,7 +129,9 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
             settings.set_gtk_theme_name(Some(&name));
         }
         for (i, module) in modules::sorted().into_iter().enumerate() {
-            sidebar.select_row(sidebar.row_at_index(i as i32).as_ref());
+            let row = sidebar.row_at_index(i as i32).context("sidebar row disappeared")?;
+            sidebar.select_row(Some(&row));
+            sidebar.emit_by_name::<()>("row-activated", &[&row]);
             hide_banners(&window);
             // Keep the window focused, so clicking elsewhere meanwhile can't dim the picture.
             window.present();

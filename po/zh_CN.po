@@ -77,7 +77,7 @@ msgstr "MIT 许可证"
 msgid "Free to use, modify, and share"
 msgstr "可自由使用、修改和分享"
 
-#: src/about_ui.rs:60 src/app.rs:173
+#: src/about_ui.rs:60 src/app.rs:181
 msgid "About Voltkit"
 msgstr "关于 Voltkit"
 
@@ -172,11 +172,11 @@ msgstr "{} 已退出，状态为 {}"
 msgid "screen ruler"
 msgstr "屏幕标尺"
 
-#: src/actions.rs:160 src/modules/mod.rs:142 src/smartpaste_ui.rs:100
+#: src/actions.rs:160 src/modules/mod.rs:150 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "智能粘贴"
 
-#: src/actions.rs:161 src/modules/mod.rs:178 src/zoom.rs:21 src/zoom.rs:172
+#: src/actions.rs:161 src/modules/mod.rs:192 src/zoom.rs:21 src/zoom.rs:172
 msgid "Zoom & Annotate"
 msgstr "缩放与批注"
 
@@ -184,43 +184,43 @@ msgstr "缩放与批注"
 msgid "Shortcut Guide"
 msgstr "快捷键指南"
 
-#: src/app.rs:151
+#: src/app.rs:159
 msgid "Open the manual for this tool"
 msgstr "打开此工具的手册"
 
-#: src/app.rs:172
+#: src/app.rs:180
 msgid "Help & Manual"
 msgstr "帮助与手册"
 
-#: src/app.rs:175
+#: src/app.rs:183
 msgid "Quit"
 msgstr "退出"
 
-#: src/app.rs:179
+#: src/app.rs:187
 msgid "Main Menu"
 msgstr "主菜单"
 
-#: src/app.rs:229
+#: src/app.rs:249
 #, rust-format
 msgid "Could not open the manual: {}"
 msgstr "无法打开手册：{}"
 
-#: src/app.rs:275
+#: src/app.rs:295
 #, rust-format
 msgid "could not start {}: {}"
 msgstr "无法启动 {}：{}"
 
-#: src/app.rs:361 src/app.rs:428
+#: src/app.rs:381 src/app.rs:448
 msgid "Details"
 msgstr "详细信息"
 
-#: src/app.rs:376
+#: src/app.rs:396
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] "有 {} 项功能需要注意"
 
-#: src/app.rs:388
+#: src/app.rs:408
 #, rust-format
 msgid ""
 "{}\n"
@@ -231,483 +231,483 @@ msgstr ""
 "\n"
 "运行 `voltkit doctor` 查看完整报告。"
 
-#: src/app.rs:389
+#: src/app.rs:409
 msgid "Needs Attention"
 msgstr "需要注意"
 
-#: src/app.rs:400
+#: src/app.rs:420
 msgid "Copy Command"
 msgstr "复制命令"
 
-#: src/app.rs:403 src/app.rs:500 src/app.rs:1013 src/gpu_ui.rs:863
+#: src/app.rs:423 src/app.rs:520 src/app.rs:1033 src/gpu_ui.rs:863
 msgid "Close"
 msgstr "关闭"
 
-#: src/app.rs:438
+#: src/app.rs:458
 msgid "This tool works only in the APT and Fedora versions of Voltkit"
 msgstr "此工具仅在 Voltkit 的 APT 和 Fedora 版本中可用"
 
-#: src/app.rs:439
+#: src/app.rs:459
 msgid "Part of this tool works only in the APT and Fedora versions"
 msgstr "此工具的部分功能仅在 APT 和 Fedora 版本中可用"
 
-#: src/app.rs:440
+#: src/app.rs:460
 #, rust-format
 msgid "Connect {} permission to use everything here"
 msgid_plural "Connect {} permissions to use everything here"
 msgstr[0] "连接 {} 项权限即可使用这里的全部功能"
 
-#: src/app.rs:463
+#: src/app.rs:483
 msgid ""
 "Voltkit from the Snap Store runs in a sandbox. Allow these once, in a terminal or in your app store's Permissions settings for Voltkit:"
 msgstr ""
 "来自 Snap Store 的 Voltkit 运行在沙盒中。请在终端中，或在应用商店中 Voltkit 的“权限”设置里，一次性允许以下各项："
 
-#: src/app.rs:473
+#: src/app.rs:493
 #, rust-format
 msgid "Only in the APT and Fedora versions: {}."
 msgstr "仅限 APT 和 Fedora 版本：{}。"
 
-#: src/app.rs:477
+#: src/app.rs:497
 msgid "Voltkit from the Snap Store"
 msgstr "来自 Snap Store 的 Voltkit"
 
-#: src/app.rs:489
+#: src/app.rs:509
 msgid "Copy Commands"
 msgstr "复制命令"
 
-#: src/app.rs:495
+#: src/app.rs:515
 msgid "How to Install the Full Version"
 msgstr "如何安装完整版本"
 
-#: src/app.rs:508
+#: src/app.rs:528
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr "后台服务已关闭，因此键盘快捷键无法使用"
 
-#: src/app.rs:509
+#: src/app.rs:529
 msgid "Start"
 msgstr "启动"
 
-#: src/app.rs:526
+#: src/app.rs:546
 msgid "The background service failed to start"
 msgstr "后台服务启动失败"
 
-#: src/app.rs:530
+#: src/app.rs:550
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "无法启动服务：{}"
 
-#: src/app.rs:540
+#: src/app.rs:560
 msgid "Capture Region"
 msgstr "截取区域"
 
-#: src/app.rs:560
+#: src/app.rs:580
 msgid "Capture text"
 msgstr "捕获文字"
 
-#: src/app.rs:561
+#: src/app.rs:581
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr "在屏幕上任意位置选取文字。识别语言：{}。快捷键：{}"
 
-#: src/app.rs:566
+#: src/app.rs:586
 msgid "Copy Text"
 msgstr "复制文字"
 
-#: src/app.rs:567
+#: src/app.rs:587
 msgid "Extracted text"
 msgstr "提取的文字"
 
-#: src/app.rs:567 src/app.rs:583
+#: src/app.rs:587 src/app.rs:603
 msgid "Capture a region to see and copy its text here."
 msgstr "捕获一个区域，即可在此查看并复制其中的文字。"
 
-#: src/app.rs:571
+#: src/app.rs:591
 msgid "No text captured yet"
 msgstr "尚未捕获任何文字"
 
-#: src/app.rs:582
+#: src/app.rs:602
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} 个字符"
 
-#: src/app.rs:583
+#: src/app.rs:603
 msgid "Text is also copied automatically after capture."
 msgstr "捕获后文字也会自动复制。"
 
-#: src/app.rs:585
+#: src/app.rs:605
 msgid "Capture from anything"
 msgstr "从任何内容中捕获"
 
-#: src/app.rs:585
+#: src/app.rs:605
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr "选取一段文字、一条错误信息或图片中的文字。桌面会请你选择屏幕区域；识别过程在你的电脑本地完成。"
 
-#: src/app.rs:592
+#: src/app.rs:612
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "来自快捷键的文字，已复制到剪贴板"
 
-#: src/app.rs:613
+#: src/app.rs:633
 msgid "Text copied to clipboard"
 msgstr "文字已复制到剪贴板"
 
-#: src/app.rs:615 src/qr_ui.rs:101
+#: src/app.rs:635 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "未截取屏幕"
 
-#: src/app.rs:617
+#: src/app.rs:637
 msgid "OCR worker crashed"
 msgstr "OCR 进程崩溃了"
 
-#: src/app.rs:632 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
+#: src/app.rs:652 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr "复制"
 
-#: src/app.rs:640 src/app.rs:762
+#: src/app.rs:660 src/app.rs:782
 #, rust-format
 msgid "Copied {}"
 msgstr "已复制 {}"
 
-#: src/app.rs:666
+#: src/app.rs:686
 msgid "HEX or rgb()"
 msgstr "HEX 或 rgb()"
 
-#: src/app.rs:671
+#: src/app.rs:691
 msgid "Pick from Screen"
 msgstr "从屏幕取色"
 
-#: src/app.rs:672
+#: src/app.rs:692
 msgid "Pick a color anywhere on screen"
 msgstr "在屏幕上任意位置取色"
 
-#: src/app.rs:677
+#: src/app.rs:697
 msgid "Color"
 msgstr "颜色"
 
-#: src/app.rs:678
+#: src/app.rs:698
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr "输入颜色，或从屏幕上取色。按 Enter 将其保存到历史记录。在任何应用中按 {} 即可取色：其 HEX 值会被复制并保存在这里。"
 
-#: src/app.rs:686
+#: src/app.rs:706
 msgid "Formats"
 msgstr "格式"
 
-#: src/app.rs:691
+#: src/app.rs:711
 msgid "Text on white"
 msgstr "白底文字"
 
-#: src/app.rs:692
+#: src/app.rs:712
 msgid "Text on black"
 msgstr "黑底文字"
 
-#: src/app.rs:693
+#: src/app.rs:713
 msgid "WCAG Contrast"
 msgstr "WCAG 对比度"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid "History"
 msgstr "历史记录"
 
-#: src/app.rs:697
+#: src/app.rs:717
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr "选择已保存的颜色即可再次使用。从屏幕取的颜色会显示在这里。"
 
-#: src/app.rs:710 src/app.rs:718
+#: src/app.rs:730 src/app.rs:738
 #, rust-format
 msgid "Selected color {}"
 msgstr "已选颜色 {}"
 
-#: src/app.rs:741
+#: src/app.rs:761
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "无法保存历史记录：{}"
 
-#: src/app.rs:765
+#: src/app.rs:785
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "取色器不可用：{}"
 
-#: src/app.rs:766
+#: src/app.rs:786
 msgid "Color picker crashed"
 msgstr "取色器崩溃了"
 
-#: src/app.rs:775
+#: src/app.rs:795
 msgid "Live color preview"
 msgstr "实时颜色预览"
 
-#: src/app.rs:790
+#: src/app.rs:810
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "已通过快捷键取色 {}，并已复制"
 
-#: src/app.rs:836
+#: src/app.rs:856
 msgid "Open Ruler"
 msgstr "打开标尺"
 
-#: src/app.rs:849
+#: src/app.rs:869
 msgid "Measure in real pixels"
 msgstr "按真实像素测量"
 
-#: src/app.rs:849
+#: src/app.rs:869
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr "冻结屏幕，然后在要测量的内容上拖出一条线或一个矩形。"
 
-#: src/app.rs:868
+#: src/app.rs:888
 msgid "Drag to measure width × height"
 msgstr "拖动以测量 宽 × 高"
 
-#: src/app.rs:878
+#: src/app.rs:898
 msgid "Measurement controls"
 msgstr "测量控制"
 
-#: src/app.rs:879 src/app.rs:1001
+#: src/app.rs:899 src/app.rs:1021
 msgid "Drag"
 msgstr "拖动"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Measure a rectangle"
 msgstr "测量矩形"
 
-#: src/app.rs:879 src/app.rs:1002
+#: src/app.rs:899 src/app.rs:1022
 msgid "Shift + drag"
 msgstr "Shift + 拖动"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Measure a straight line"
 msgstr "测量直线"
 
-#: src/app.rs:879 src/app.rs:1009
+#: src/app.rs:899 src/app.rs:1029
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Copy the measured size"
 msgstr "复制测得的尺寸"
 
-#: src/app.rs:879 src/app.rs:1013
+#: src/app.rs:899 src/app.rs:1033
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:879
+#: src/app.rs:899
 msgid "Close the ruler"
 msgstr "关闭标尺"
 
-#: src/app.rs:883 src/app.rs:1018
+#: src/app.rs:903 src/app.rs:1038
 msgid "Ready when you need it"
 msgstr "随时待命"
 
-#: src/app.rs:883
+#: src/app.rs:903
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr "全局快捷键：{}。测量基于截图像素，高分屏上也一样。"
 
-#: src/app.rs:889
+#: src/app.rs:909
 msgid "Open Zoom & Annotate"
 msgstr "打开缩放与批注"
 
-#: src/app.rs:903
+#: src/app.rs:923
 msgid "Show it, then point at it"
 msgstr "先展示，再指出重点"
 
-#: src/app.rs:904
+#: src/app.rs:924
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr "冻结屏幕，放大任意部分，并用画笔、直线、方框、箭头和文字在上面绘制：适用于演示、教程和问题报告。"
 
-#: src/app.rs:939
+#: src/app.rs:959
 msgid "Saving pictures"
 msgstr "保存图片"
 
-#: src/app.rs:940
+#: src/app.rs:960
 msgid ""
 "Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
 msgstr "Ctrl+S 会把图片保存到此文件夹。Ctrl+Shift+S 可为某张图片另选位置。"
 
-#: src/app.rs:942
+#: src/app.rs:962
 msgid "Pictures are saved in"
 msgstr "图片保存在"
 
-#: src/app.rs:944 src/detective_ui.rs:331
+#: src/app.rs:964 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "更改…"
 
-#: src/app.rs:945 src/app.rs:946
+#: src/app.rs:965 src/app.rs:966
 msgid "Use the default folder, Pictures/Voltkit"
 msgstr "使用默认文件夹“图片/Voltkit”"
 
-#: src/app.rs:964
+#: src/app.rs:984
 msgid "Choose Where Pictures Are Saved"
 msgstr "选择图片的保存位置"
 
-#: src/app.rs:974
+#: src/app.rs:994
 #, rust-format
 msgid "Pictures will be saved in {}"
 msgstr "图片将保存到 {}"
 
-#: src/app.rs:990
+#: src/app.rs:1010
 msgid "Pictures are saved in Pictures/Voltkit again"
 msgstr "图片再次保存到“图片/Voltkit”"
 
-#: src/app.rs:998
+#: src/app.rs:1018
 msgid "Controls"
 msgstr "操作"
 
-#: src/app.rs:1000
+#: src/app.rs:1020
 msgid "Scroll"
 msgstr "滚动"
 
-#: src/app.rs:1000
+#: src/app.rs:1020
 msgid "Zoom in and out"
 msgstr "放大和缩小"
 
-#: src/app.rs:1001
+#: src/app.rs:1021
 msgid "Draw with the pen"
 msgstr "用画笔绘制"
 
-#: src/app.rs:1002
+#: src/app.rs:1022
 msgid "Draw a straight line"
 msgstr "绘制直线"
 
-#: src/app.rs:1003
+#: src/app.rs:1023
 msgid "Ctrl + drag"
 msgstr "Ctrl + 拖动"
 
-#: src/app.rs:1003
+#: src/app.rs:1023
 msgid "Draw a rectangle"
 msgstr "绘制矩形"
 
-#: src/app.rs:1004
+#: src/app.rs:1024
 msgid "Tab + drag"
 msgstr "Tab + 拖动"
 
-#: src/app.rs:1004
+#: src/app.rs:1024
 msgid "Draw an ellipse"
 msgstr "绘制椭圆"
 
-#: src/app.rs:1005
+#: src/app.rs:1025
 msgid "Ctrl + Shift + drag"
 msgstr "Ctrl + Shift + 拖动"
 
-#: src/app.rs:1005
+#: src/app.rs:1025
 msgid "Draw an arrow"
 msgstr "绘制箭头"
 
-#: src/app.rs:1006
+#: src/app.rs:1026
 msgid "R, G, B, O, Y, P"
 msgstr "R、G、B、O、Y、P"
 
-#: src/app.rs:1006
+#: src/app.rs:1026
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "红、绿、蓝、橙、黄或粉"
 
-#: src/app.rs:1007
+#: src/app.rs:1027
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:1007
+#: src/app.rs:1027
 msgid "Type text, then press Enter"
 msgstr "输入文字，然后按 Enter"
 
-#: src/app.rs:1008
+#: src/app.rs:1028
 msgid "W or K"
 msgstr "W 或 K"
 
-#: src/app.rs:1008
+#: src/app.rs:1028
 msgid "A white or a black board"
 msgstr "白板或黑板"
 
-#: src/app.rs:1009
+#: src/app.rs:1029
 msgid "Copy the picture"
 msgstr "复制图片"
 
-#: src/app.rs:1010
+#: src/app.rs:1030
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
 
-#: src/app.rs:1010
+#: src/app.rs:1030
 msgid "Save the picture in the folder above"
 msgstr "把图片保存到上面的文件夹"
 
-#: src/app.rs:1011
+#: src/app.rs:1031
 msgid "Ctrl+Shift+S"
 msgstr "Ctrl+Shift+S"
 
-#: src/app.rs:1011
+#: src/app.rs:1031
 msgid "Save the picture somewhere else, once"
 msgstr "把图片保存到别处（仅此一次）"
 
-#: src/app.rs:1012
+#: src/app.rs:1032
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:1012
+#: src/app.rs:1032
 msgid "Show every key"
 msgstr "显示所有按键"
 
-#: src/app.rs:1018
+#: src/app.rs:1038
 #, rust-format
 msgid "Global shortcut: {}."
 msgstr "全局快捷键：{}。"
 
-#: src/app.rs:1026 src/resize_ui.rs:57
+#: src/app.rs:1046 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "质量"
 
-#: src/app.rs:1027
+#: src/app.rs:1047
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "数值越低文件越小。PNG 始终无损。"
 
-#: src/app.rs:1031
+#: src/app.rs:1051
 msgid "Choose Files…"
 msgstr "选择文件…"
 
-#: src/app.rs:1048
+#: src/app.rs:1068
 msgid "Drop Files Here"
 msgstr "将文件拖放到此处"
 
-#: src/app.rs:1050
+#: src/app.rs:1070
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr "支持 PNG、JPEG、WebP 和 MP4。元数据会被删除；原文件会保留。"
 
-#: src/app.rs:1066 src/usage_ui.rs:95
+#: src/app.rs:1086 src/usage_ui.rs:95
 msgid "Results"
 msgstr "结果"
 
-#: src/app.rs:1072
+#: src/app.rs:1092
 msgid "Compressing…"
 msgstr "正在压缩…"
 
-#: src/app.rs:1089 src/app.rs:1092 src/resize_ui.rs:248 src/resize_ui.rs:252
+#: src/app.rs:1109 src/app.rs:1112 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "失败"
 
-#: src/app.rs:1114
+#: src/app.rs:1134
 msgid "Compress Files"
 msgstr "压缩文件"
 
-#: src/app.rs:1130
+#: src/app.rs:1150
 msgid "Compression settings"
 msgstr "压缩设置"
 
-#: src/app.rs:1132 src/resize_ui.rs:352
+#: src/app.rs:1152 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "原文件保持不变"
 
-#: src/app.rs:1132
+#: src/app.rs:1152
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "压缩后的副本会以 name.min.ext 的名称保存在每个源文件旁边。副本中的元数据会被删除。PNG 压缩是无损的；质量设置适用于 JPEG、WebP 和视频。"
 
-#: src/app.rs:1133
+#: src/app.rs:1153
 msgid "Choose or drop files to see progress and size savings here."
 msgstr "选择或拖入文件，即可在此查看进度和节省的空间。"
 
@@ -771,7 +771,7 @@ msgstr "4 小时"
 msgid "Until turned off"
 msgstr "直到关闭"
 
-#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:314 src/modules/mod.rs:118
+#: src/awake_ui.rs:22 src/awake_ui.rs:29 src/doctor.rs:314 src/modules/mod.rs:126
 msgid "Keep Awake"
 msgstr "保持唤醒"
 
@@ -788,7 +788,7 @@ msgstr "在你观看、演示、阅读或下载时，阻止电脑休眠或锁屏
 msgid "Needs the background service: start it with the banner above"
 msgstr "需要后台服务：请使用上方的横幅启动它"
 
-#: src/awake_ui.rs:94 src/main.rs:757 src/main.rs:768
+#: src/awake_ui.rs:94 src/main.rs:764 src/main.rs:775
 #, rust-format
 msgid "Keep Awake: {}"
 msgstr "保持唤醒：{}"
@@ -955,7 +955,7 @@ msgstr "系统快照：{}"
 msgid "Voltkit daemon stopped"
 msgstr "Voltkit 守护进程已停止"
 
-#: src/daemon.rs:237 src/main.rs:505
+#: src/daemon.rs:237 src/main.rs:510
 msgid "Typed triggers off"
 msgstr "键入触发词已关闭"
 
@@ -1268,7 +1268,7 @@ msgstr "区域截取"
 msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr "请安装 xdg-desktop-portal 以及适合你桌面的门户后端"
 
-#: src/doctor.rs:257 src/modules/mod.rs:94
+#: src/doctor.rs:257 src/modules/mod.rs:96
 msgid "Color Picker"
 msgstr "取色器"
 
@@ -1280,11 +1280,11 @@ msgstr "屏幕取色：截图门户"
 msgid "Clipboard (hotkeys and command line)"
 msgstr "剪贴板（快捷键和命令行）"
 
-#: src/doctor.rs:272 src/modules/mod.rs:82
+#: src/doctor.rs:272 src/modules/mod.rs:84
 msgid "Asset Compressor"
 msgstr "资源压缩器"
 
-#: src/doctor.rs:283 src/modules/mod.rs:154
+#: src/doctor.rs:283 src/modules/mod.rs:168
 msgid "Text Expansion"
 msgstr "文本扩展"
 
@@ -1312,7 +1312,7 @@ msgstr "先运行 `voltkit expander setup`，再运行 `voltkit expander enable`
 msgid "stop sleeping and locking: Inhibit portal"
 msgstr "阻止休眠和锁屏：Inhibit 门户"
 
-#: src/doctor.rs:322 src/modules/mod.rs:106
+#: src/doctor.rs:322 src/modules/mod.rs:114
 msgid "Hosts & Environment"
 msgstr "Hosts 与环境变量"
 
@@ -1400,6 +1400,117 @@ msgid ""
 "turn on Typed triggers on Voltkit's Text Expansion page (it asks for your password once), or run `voltkit expander setup --apply`"
 msgstr ""
 "请在 Voltkit 的“文本扩展”页面开启键入触发词（只需输入一次密码），或运行 `voltkit expander setup --apply`"
+
+#: src/folder_compare_ui.rs:37
+msgid "Folders"
+msgstr "文件夹"
+
+#: src/folder_compare_ui.rs:38
+msgid "Choose or drop a folder onto each row."
+msgstr "为每一行选择或拖入一个文件夹。"
+
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:287
+msgid "Original"
+msgstr "原文件夹"
+
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:291
+msgid "Backup or comparison folder"
+msgstr "备份或对比文件夹"
+
+#: src/folder_compare_ui.rs:43
+msgid "No folder selected"
+msgstr "未选择文件夹"
+
+#: src/folder_compare_ui.rs:51
+msgid "Quick Compare"
+msgstr "快速对比"
+
+#: src/folder_compare_ui.rs:53
+msgid "Verify Contents"
+msgstr "验证内容"
+
+#: src/folder_compare_ui.rs:56 src/gpu_ui.rs:1224 src/gpu_ui.rs:1253 src/snippets_ui.rs:194
+msgid "Cancel"
+msgstr "取消"
+
+#: src/folder_compare_ui.rs:69
+msgid "Differences and unreadable"
+msgstr "差异和无法读取的条目"
+
+#: src/folder_compare_ui.rs:70
+msgid "All results"
+msgstr "所有结果"
+
+#: src/folder_compare_ui.rs:77 src/folder_compare_ui.rs:431
+msgid "Export Report…"
+msgstr "导出报告…"
+
+#: src/folder_compare_ui.rs:116
+msgid "Open a changed file to preview text side by side."
+msgstr "打开已更改的文件可并排预览文本。"
+
+#: src/folder_compare_ui.rs:146 src/qr_ui.rs:136
+msgid "Choose…"
+msgstr "选择…"
+
+#: src/folder_compare_ui.rs:155 src/storage_map_ui.rs:192 src/usage_ui.rs:152
+msgid "Choose a Folder"
+msgstr "选择文件夹"
+
+#: src/folder_compare_ui.rs:162 src/storage_map_ui.rs:199
+msgid "Choose a local folder."
+msgstr "请选择本地文件夹。"
+
+#: src/folder_compare_ui.rs:183
+msgid "Drop one local folder at a time."
+msgstr "每次只拖入一个本地文件夹。"
+
+#: src/folder_compare_ui.rs:203 src/storage_map_ui.rs:240
+msgid "Cancelling…"
+msgstr "正在取消…"
+
+#: src/folder_compare_ui.rs:272
+msgid "Comparing folders…"
+msgstr "正在对比文件夹…"
+
+#: src/folder_compare_ui.rs:287
+#, rust-format
+msgid "{} entries checked…"
+msgstr "已检查 {} 个条目…"
+
+#: src/folder_compare_ui.rs:313
+msgid "Comparison cancelled."
+msgstr "对比已取消。"
+
+#: src/folder_compare_ui.rs:322
+#, rust-format
+msgid "Could not compare folders: {}"
+msgstr "无法对比文件夹：{}"
+
+#: src/folder_compare_ui.rs:325
+msgid "The comparison stopped unexpectedly."
+msgstr "对比意外停止。"
+
+#: src/folder_compare_ui.rs:355
+msgid "No entries for this filter."
+msgstr "没有符合此筛选条件的条目。"
+
+#: src/folder_compare_ui.rs:369
+msgid "Text preview requires a regular file on both sides."
+msgstr "文本预览要求两侧均为普通文件。"
+
+#: src/folder_compare_ui.rs:407
+msgid "Preview unavailable. Choose readable UTF-8 text up to 128 KiB."
+msgstr "无法预览。请选择不超过 128 KiB 的可读 UTF-8 文本。"
+
+#: src/folder_compare_ui.rs:450
+msgid "Comparison report saved."
+msgstr "对比报告已保存。"
+
+#: src/folder_compare_ui.rs:451
+#, rust-format
+msgid "Could not save the report: {}"
+msgstr "无法保存报告：{}"
 
 #: src/gpu_cli.rs:36
 msgid "Changing GPU settings needs administrator rights. Run it with sudo."
@@ -2229,10 +2340,6 @@ msgid ""
 "Paste the share code you were sent. Voltkit checks it, then adds it as a new profile. Nothing is applied until you choose to."
 msgstr "粘贴你收到的分享代码。Voltkit 会检查它，然后作为新配置添加。在你选择之前不会应用任何设置。"
 
-#: src/gpu_ui.rs:1224 src/gpu_ui.rs:1253 src/snippets_ui.rs:194 src/snippets_ui.rs:411
-msgid "Cancel"
-msgstr "取消"
-
 #: src/gpu_ui.rs:1224
 msgid "Import"
 msgstr "导入"
@@ -2394,152 +2501,152 @@ msgstr "显示版本"
 msgid "Print this message or the help of the given subcommand(s)"
 msgstr "显示此消息或指定子命令的帮助"
 
-#: src/main.rs:463
+#: src/main.rs:468
 #, rust-format
 msgid "expected name=value, got {}"
 msgstr "应为 name=value，实际为 {}"
 
-#: src/main.rs:469
+#: src/main.rs:474
 msgid "typed triggers: enabled"
 msgstr "键入触发词：已开启"
 
-#: src/main.rs:469
+#: src/main.rs:474
 msgid "typed triggers: disabled"
 msgstr "键入触发词：已关闭"
 
-#: src/main.rs:472
+#: src/main.rs:477
 msgid "permissions: ok"
 msgstr "权限：正常"
 
-#: src/main.rs:475
+#: src/main.rs:480
 #, rust-format
 msgid "permissions: {}"
 msgstr "权限：{}"
 
-#: src/main.rs:477
+#: src/main.rs:482
 #, rust-format
 msgid "next step: {}"
 msgstr "下一步：{}"
 
-#: src/main.rs:486
+#: src/main.rs:491
 msgid "Done: typed triggers can read the keyboard now, no need to log out."
 msgstr "完成：键入触发词现在即可读取键盘，无需注销。"
 
-#: src/main.rs:488
+#: src/main.rs:493
 msgid ""
 "# Typed triggers need these commands to run as root. They let the person at the"
 msgstr "# 键入触发词需要以 root 身份运行这些命令。它们让坐在"
 
-#: src/main.rs:489
+#: src/main.rs:494
 msgid "# computer read keyboards and use a virtual keyboard, right away. Run"
 msgstr "# 电脑前的用户立即读取键盘并使用虚拟键盘。运行"
 
-#: src/main.rs:490
+#: src/main.rs:495
 msgid ""
 "# `voltkit expander setup --apply` to run them (it asks for your password).\n"
 msgstr ""
 "# `voltkit expander setup --apply` 来执行它们（会要求输入密码）。\n"
 
-#: src/main.rs:499
+#: src/main.rs:504
 msgid "Typed triggers are off, and Voltkit's keyboard access is removed."
 msgstr "键入触发词已关闭，Voltkit 的键盘访问权限已移除。"
 
-#: src/main.rs:505
+#: src/main.rs:510
 msgid "Typed triggers on"
 msgstr "键入触发词已开启"
 
-#: src/main.rs:507
+#: src/main.rs:512
 #, rust-format
 msgid "They need keyboard access first: {}"
 msgstr "它们需要先获得键盘访问权限：{}"
 
-#: src/main.rs:510
+#: src/main.rs:515
 msgid "Takes effect when the background service starts"
 msgstr "后台服务启动后生效"
 
-#: src/main.rs:519
+#: src/main.rs:524
 msgid "Error"
 msgstr "错误"
 
-#: src/main.rs:566
+#: src/main.rs:571
 msgid "on white"
 msgstr "白底"
 
-#: src/main.rs:566
+#: src/main.rs:571
 msgid "on black"
 msgstr "黑底"
 
-#: src/main.rs:598
+#: src/main.rs:605
 #, rust-format
 msgid "running (v{}), shortcuts: {}, typed triggers: {}"
 msgstr "正在运行 (v{})，快捷键：{}，键入触发词：{}"
 
-#: src/main.rs:600 src/main.rs:604 src/main.rs:608
+#: src/main.rs:607 src/main.rs:611 src/main.rs:615
 msgid "not running"
 msgstr "未运行"
 
-#: src/main.rs:603
+#: src/main.rs:610
 msgid "Reloaded snippets"
 msgstr "已重新加载片段"
 
-#: src/main.rs:614
+#: src/main.rs:621
 #, rust-format
 msgid "Starts at login through {}, installed with Voltkit"
 msgstr "通过 {} 在登录时启动，随 Voltkit 一并安装"
 
-#: src/main.rs:616
+#: src/main.rs:623
 #, rust-format
 msgid "Created {}"
 msgstr "已创建 {}"
 
-#: src/main.rs:620
+#: src/main.rs:627
 #, rust-format
 msgid "Removed {}"
 msgstr "已删除 {}"
 
-#: src/main.rs:640
+#: src/main.rs:647
 #, rust-format
 msgid "no QR code found in {}"
 msgstr "在 {} 中未找到二维码"
 
-#: src/main.rs:651
+#: src/main.rs:658
 msgid "the code doesn't scan with this logo; shorten the text"
 msgstr "此二维码加上这个标志后无法扫描；请缩短文字"
 
-#: src/main.rs:657 src/qr_ui.rs:364 src/snippets_ui.rs:354 src/zoom.rs:449
+#: src/main.rs:664 src/qr_ui.rs:364 src/snippets_ui.rs:354 src/zoom.rs:449
 #, rust-format
 msgid "Saved {}"
 msgstr "已保存 {}"
 
-#: src/main.rs:676
+#: src/main.rs:683
 #, rust-format
 msgid "no conversion called {}; run `voltkit convert` for the list"
 msgstr "没有名为 {} 的转换；运行 `voltkit convert` 查看列表"
 
-#: src/main.rs:679
+#: src/main.rs:686
 #, rust-format
 msgid "{} doesn't fit this text"
 msgstr "{} 不适用于此文本"
 
-#: src/main.rs:692
+#: src/main.rs:699
 msgid "Fixes:"
 msgstr "修复方法："
 
-#: src/main.rs:698
+#: src/main.rs:705
 msgid "Memory:"
 msgstr "内存："
 
-#: src/main.rs:733
+#: src/main.rs:740
 #, rust-format
 msgid "Nothing is using {}"
 msgstr "没有东西在使用 {}"
 
-#: src/main.rs:742
+#: src/main.rs:749
 #, rust-format
 msgid "this is {}"
 msgstr "这是{}"
 
-#: src/main.rs:749
+#: src/main.rs:756
 #, rust-format
 msgid ""
 "{} program of other users or the system wasn't checked; run with sudo to include it"
@@ -2547,33 +2654,33 @@ msgid_plural ""
 "{} programs of other users or the system weren't checked; run with sudo to include them"
 msgstr[0] "有 {} 个其他用户或系统的程序未被检查；请用 sudo 运行以包含它们"
 
-#: src/main.rs:758
+#: src/main.rs:765
 msgid "Keep Awake: off (the background service isn't running)"
 msgstr "保持唤醒：关闭（后台服务没有运行）"
 
-#: src/main.rs:763
+#: src/main.rs:770
 msgid "Keep Awake: Off"
 msgstr "保持唤醒：关闭"
 
-#: src/main.rs:790
+#: src/main.rs:797
 msgid "Added to GNOME keyboard shortcuts"
 msgstr "已添加到 GNOME 键盘快捷键"
 
-#: src/main.rs:807
+#: src/main.rs:814
 #, rust-format
 msgid "{} isn't a shortcut"
 msgstr "{} 不是快捷键"
 
-#: src/main.rs:812
+#: src/main.rs:819
 #, rust-format
 msgid "{} is free. Nearby free combinations:"
 msgstr "{} 是空闲的。附近的空闲组合："
 
-#: src/main.rs:817
+#: src/main.rs:824
 msgid "Free combinations nearby:"
 msgstr "附近的空闲组合："
 
-#: src/main.rs:827
+#: src/main.rs:834
 msgid "No clashes: no two actions share a shortcut."
 msgstr "没有冲突：没有两个操作共用同一个快捷键。"
 
@@ -3147,6 +3254,55 @@ msgstr "不支持的文件类型：{}"
 #, rust-format
 msgid "cannot read {}"
 msgstr "无法读取 {}"
+
+#: src/modules/folder_compare.rs:227
+msgid "Matches"
+msgstr "匹配"
+
+#: src/modules/folder_compare.rs:228
+msgid "Same size and time"
+msgstr "大小和修改时间相同"
+
+#: src/modules/folder_compare.rs:229
+msgid "Changed"
+msgstr "已更改"
+
+#: src/modules/folder_compare.rs:230
+msgid "Original only"
+msgstr "仅在原文件夹中"
+
+#: src/modules/folder_compare.rs:231
+msgid "Backup only"
+msgstr "仅在备份中"
+
+#: src/modules/folder_compare.rs:232
+msgid "Different file types"
+msgstr "文件类型不同"
+
+#: src/modules/folder_compare.rs:233
+msgid "Could not verify"
+msgstr "无法验证"
+
+#: src/modules/folder_compare.rs:255
+#, rust-format
+msgid "Differences: {} · Could not verify: {}"
+msgstr "差异：{} · 无法验证：{}"
+
+#: src/modules/folder_compare.rs:263
+msgid "Quick comparison checks file size and modification time only."
+msgstr "快速对比仅检查文件大小和修改时间。"
+
+#: src/modules/folder_compare.rs:266
+msgid "File contents and symbolic link targets match."
+msgstr "文件内容和符号链接目标一致。"
+
+#: src/modules/folder_compare.rs:274
+msgid "Top-level folder"
+msgstr "顶层文件夹"
+
+#: src/modules/folder_compare.rs:286 src/modules/mod.rs:102
+msgid "Folder Compare"
+msgstr "文件夹对比"
 
 #: src/modules/gpu.rs:118
 msgid "Monitoring"
@@ -3768,130 +3924,144 @@ msgstr "无法保存快捷键"
 msgid "custom shortcuts have no default"
 msgstr "自定义快捷键没有默认值"
 
-#: src/modules/mod.rs:76
+#: src/modules/mod.rs:78
 msgid "App Permissions"
 msgstr "应用权限"
 
-#: src/modules/mod.rs:78
+#: src/modules/mod.rs:80
 msgid ""
 "Change or forget the answers you gave when apps asked for screenshots, the camera and more."
 msgstr "更改或遗忘你在应用请求截屏、摄像头等时给出的回答。"
 
-#: src/modules/mod.rs:84
+#: src/modules/mod.rs:86
 msgid "Drop images or videos to strip metadata and shrink them."
 msgstr "拖入图片或视频，即可删除元数据并缩小体积。"
 
-#: src/modules/mod.rs:88
+#: src/modules/mod.rs:90
 msgid "Batch Rename"
 msgstr "批量重命名"
 
-#: src/modules/mod.rs:90
+#: src/modules/mod.rs:92
 msgid ""
 "Rename many files at once: search and replace, regular expressions, numbering, with a preview and undo."
 msgstr "一次重命名许多文件：查找替换、正则表达式、编号，带预览和撤销。"
 
-#: src/modules/mod.rs:96
+#: src/modules/mod.rs:98
 msgid "HEX / RGB / HSL conversion, WCAG contrast checking and history."
 msgstr "HEX / RGB / HSL 转换、WCAG 对比度检查和历史记录。"
 
-#: src/modules/mod.rs:100
+#: src/modules/mod.rs:104
+msgid ""
+"Find differences between folders or verify a backup by comparing file contents."
+msgstr "查找文件夹之间的差异，或通过对比文件内容来验证备份。"
+
+#: src/modules/mod.rs:108
 msgid "GPU Tuner"
 msgstr "GPU 调节器"
 
-#: src/modules/mod.rs:102
+#: src/modules/mod.rs:110
 msgid ""
 "Monitor and tune NVIDIA, AMD and Intel graphics cards, and see exactly which controls each one supports."
 msgstr "监控并调节 NVIDIA、AMD 和 Intel 显卡，并清楚了解每块显卡支持哪些控制项。"
 
-#: src/modules/mod.rs:108
+#: src/modules/mod.rs:116
 msgid ""
 "Edit /etc/hosts and your session's environment variables without a text editor."
 msgstr "无需文本编辑器，即可编辑 /etc/hosts 和会话的环境变量。"
 
-#: src/modules/mod.rs:112
+#: src/modules/mod.rs:120
 msgid "Image Resizer"
 msgstr "图片缩放"
 
-#: src/modules/mod.rs:114
+#: src/modules/mod.rs:122
 msgid ""
 "Resize many pictures at once, keeping their shape, without touching the originals."
 msgstr "一次缩放许多图片，保持比例，不改动原文件。"
 
-#: src/modules/mod.rs:120
+#: src/modules/mod.rs:128
 msgid "Stop your computer from sleeping or locking for a while."
 msgstr "让电脑在一段时间内不休眠、不锁屏。"
 
-#: src/modules/mod.rs:124
+#: src/modules/mod.rs:132
 msgid "QR Code"
 msgstr "二维码"
 
-#: src/modules/mod.rs:126
+#: src/modules/mod.rs:134
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
 msgstr "读取屏幕上任何位置的二维码，或将文字、链接和 Wi-Fi 信息生成二维码。"
 
-#: src/modules/mod.rs:130 src/ruler.rs:20 src/ruler.rs:84
+#: src/modules/mod.rs:138 src/ruler.rs:20 src/ruler.rs:84
 msgid "Screen Ruler"
 msgstr "屏幕标尺"
 
-#: src/modules/mod.rs:132
+#: src/modules/mod.rs:140
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "以像素为单位测量屏幕上的距离和大小。"
 
-#: src/modules/mod.rs:136
+#: src/modules/mod.rs:144
 msgid "Shortcut Detective"
 msgstr "快捷键侦探"
 
-#: src/modules/mod.rs:138
+#: src/modules/mod.rs:146
 msgid ""
 "Find which app owns a keyboard shortcut, fix clashes, and pick free combinations."
 msgstr "找出哪个应用占用了某个键盘快捷键，修复冲突，并挑选空闲的组合。"
 
-#: src/modules/mod.rs:144
+#: src/modules/mod.rs:152
 msgid ""
 "Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."
 msgstr "粘贴转换后的复制内容：整理 JSON、将表格转为 Markdown、清理链接、改变大小写。"
 
-#: src/modules/mod.rs:148
+#: src/modules/mod.rs:156
+msgid "Storage Map"
+msgstr "存储空间地图"
+
+#: src/modules/mod.rs:158
+msgid ""
+"See what takes up disk space, drill into folders, and find the largest files."
+msgstr "查看磁盘空间占用情况，深入浏览文件夹，并找出最大的文件。"
+
+#: src/modules/mod.rs:162
 msgid "System Report"
 msgstr "系统报告"
 
-#: src/modules/mod.rs:150
+#: src/modules/mod.rs:164
 msgid ""
 "What's in this computer, explained: drivers, drive health, temperatures, firmware updates and what changed."
 msgstr "这台电脑里有什么，一目了然：驱动、硬盘健康、温度、固件更新以及有什么变化。"
 
-#: src/modules/mod.rs:156
+#: src/modules/mod.rs:170
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr "带动态变量的片段：日期、剪贴板、参数。"
 
-#: src/modules/mod.rs:160
+#: src/modules/mod.rs:174
 msgid "Text Extractor"
 msgstr "文字提取器"
 
-#: src/modules/mod.rs:162
+#: src/modules/mod.rs:176
 msgid "Drag a box around any text on screen and copy it to the clipboard."
 msgstr "在屏幕上的任意文字周围拖出一个方框，并将其复制到剪贴板。"
 
-#: src/modules/mod.rs:166
+#: src/modules/mod.rs:180
 msgid "What's Using This?"
 msgstr "是什么在占用它？"
 
-#: src/modules/mod.rs:168
+#: src/modules/mod.rs:182
 msgid ""
 "See which apps keep a file, folder, drive or network port busy, and close them."
 msgstr "查看哪些应用占用了文件、文件夹、磁盘或网络端口，并将其关闭。"
 
-#: src/modules/mod.rs:172
+#: src/modules/mod.rs:186
 msgid "Why Didn't It Sleep?"
 msgstr "为什么没有休眠？"
 
-#: src/modules/mod.rs:174
+#: src/modules/mod.rs:188
 msgid ""
 "What keeps the computer awake, what woke it up, and how much battery it used asleep."
 msgstr "是什么让电脑保持唤醒，是什么把它唤醒，以及休眠时用了多少电量。"
 
-#: src/modules/mod.rs:180
+#: src/modules/mod.rs:194
 msgid ""
 "Zoom into the screen and draw on it with a pen, arrows, boxes and text."
 msgstr "放大屏幕，并用画笔、箭头、方框和文字在上面绘制。"
@@ -5324,10 +5494,6 @@ msgstr "WPA / WPA2 / WPA3"
 msgid "None (open network)"
 msgstr "无（开放网络）"
 
-#: src/qr_ui.rs:136
-msgid "Choose…"
-msgstr "选择…"
-
 #: src/qr_ui.rs:137
 msgid "Remove Logo"
 msgstr "移除标志"
@@ -6373,6 +6539,100 @@ msgstr "请在上方输入要粘贴的文字。"
 msgid "This text can't be expanded: {}."
 msgstr "此文本无法展开：{}。"
 
+#: src/storage_cli.rs:37
+msgid "Could not compare folders"
+msgstr "无法对比文件夹"
+
+#: src/storage_cli.rs:45
+msgid "The backup differs or could not be verified."
+msgstr "备份有差异或无法验证。"
+
+#: src/storage_cli.rs:65
+msgid "Could not scan the folder"
+msgstr "无法扫描文件夹"
+
+#: src/storage_cli.rs:67 src/storage_map_ui.rs:429
+#, rust-format
+msgid "{} on disk"
+msgstr "磁盘占用 {}"
+
+#: src/storage_cli.rs:70 src/storage_map_ui.rs:435
+#, rust-format
+msgid "{} entries could not be scanned."
+msgstr "无法扫描 {} 个条目。"
+
+#: src/storage_map_ui.rs:54
+msgid "Scan Folder…"
+msgstr "扫描文件夹…"
+
+#: src/storage_map_ui.rs:57
+msgid "Rescan"
+msgstr "重新扫描"
+
+#: src/storage_map_ui.rs:70
+msgid "Choose a folder or drop one here to see what takes up space."
+msgstr "选择文件夹或将其拖到此处，查看哪些内容占用空间。"
+
+#: src/storage_map_ui.rs:82
+msgid "Go to Parent Folder"
+msgstr "转到上一级文件夹"
+
+#: src/storage_map_ui.rs:86
+msgid "Open in File Manager"
+msgstr "在文件管理器中打开"
+
+#: src/storage_map_ui.rs:108
+msgid "Folders and files"
+msgstr "文件夹和文件"
+
+#: src/storage_map_ui.rs:108
+msgid "Largest files"
+msgstr "最大的文件"
+
+#: src/storage_map_ui.rs:116
+msgid ""
+"Open a folder to drill down, or open a file’s location in the file manager."
+msgstr "打开文件夹可查看其内容，打开文件所在位置可在文件管理器中查看。"
+
+#: src/storage_map_ui.rs:157
+msgid "Show More"
+msgstr "显示更多"
+
+#: src/storage_map_ui.rs:374
+msgid "Scanning storage…"
+msgstr "正在扫描存储空间…"
+
+#: src/storage_map_ui.rs:388
+#, rust-format
+msgid "{} entries scanned…"
+msgstr "已扫描 {} 个条目…"
+
+#: src/storage_map_ui.rs:402
+msgid "Scan cancelled."
+msgstr "扫描已取消。"
+
+#: src/storage_map_ui.rs:411
+#, rust-format
+msgid "Could not scan the folder: {}"
+msgstr "无法扫描文件夹：{}"
+
+#: src/storage_map_ui.rs:412
+msgid "The scan stopped unexpectedly."
+msgstr "扫描意外停止。"
+
+#: src/storage_map_ui.rs:464
+msgid "Other items"
+msgstr "其他条目"
+
+#: src/storage_map_ui.rs:513
+msgid "No items to show."
+msgstr "没有可显示的条目。"
+
+#: src/storage_map_ui.rs:540
+#, rust-format
+msgid "Could not open the location: {}"
+msgstr "无法打开位置：{}"
+
 #: src/sysreport_ui.rs:55
 msgid "Copy Report"
 msgstr "复制报告"
@@ -6770,10 +7030,6 @@ msgstr "文件或文件夹"
 msgid ""
 "Choose a document that will not delete, or a folder reported as busy. You can also drop it on this window."
 msgstr "选择无法删除的文档或提示正在使用的文件夹，也可以将其拖入此窗口。"
-
-#: src/usage_ui.rs:152
-msgid "Choose a Folder"
-msgstr "选择文件夹"
 
 #: src/usage_ui.rs:152
 msgid "Choose a File"
@@ -7189,6 +7445,44 @@ msgstr "要写入的格式"
 #: src/main.rs (command-line help)
 msgid "JPEG and WebP quality from 1 to 100"
 msgstr "JPEG 和 WebP 质量，1 到 100"
+
+#: src/main.rs (command-line help)
+msgid "Compare two folders or verify a backup"
+msgstr "比较两个文件夹或验证备份"
+
+#: src/main.rs (command-line help)
+msgid "Original folder"
+msgstr "原文件夹"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Compare file contents byte for byte instead of using size and modification time"
+msgstr "逐字节比较文件内容，而不是使用大小和修改时间"
+
+#: src/main.rs (command-line help)
+msgid "Include matching entries in the report"
+msgstr "在报告中包含匹配的条目"
+
+#: src/main.rs (command-line help)
+msgid ""
+"Verify file contents and exit with status 1 if anything differs or cannot be verified"
+msgstr "验证文件内容，若有差异或无法验证则以状态码 1 退出"
+
+#: src/main.rs (command-line help)
+msgid "Show which folders and files use the most disk space"
+msgstr "显示最占用磁盘空间的文件夹和文件"
+
+#: src/main.rs (command-line help)
+msgid "Folder to scan"
+msgstr "要扫描的文件夹"
+
+#: src/main.rs (command-line help)
+msgid "List the largest files throughout the folder and its subfolders"
+msgstr "列出文件夹及其子文件夹中最大的文件"
+
+#: src/main.rs (command-line help)
+msgid "Maximum number of entries to show"
+msgstr "最多显示的条目数"
 
 #: src/main.rs (command-line help)
 msgid "Expand a snippet template, e.g. \"Sent {date:%A}: {clipboard}\""

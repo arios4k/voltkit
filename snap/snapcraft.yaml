@@ -30,6 +30,8 @@ description: |
   * **Text Expansion** (Super+Shift+E): a searchable snippet picker with dates, your clipboard and fill-in fields
   * **Asset Compressor**: drop PNG, JPEG, WebP or MP4 files to strip metadata and shrink them
   * **Batch Rename**: rename many files at once with search and replace, regular expressions and numbering, with a preview and undo
+  * **Folder Compare**: find missing or changed files and verify backups byte for byte
+  * **Storage Map**: see what takes up disk space in a clickable treemap and find the biggest files
   * **Image Resizer**: resize many pictures at once, keeping their shape, without touching the originals
   * **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off
   * **Shortcut Detective**: press any shortcut to see what owns it, find clashes, pick a free combination and change it

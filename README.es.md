@@ -32,7 +32,7 @@ un detective de atajos y un ajuste de GPU.
 > la línea de comandos y las páginas del manual (`man voltkit`). Las capturas de esta página son de la versión
 > en inglés.
 
-## Una app en lugar de dieciocho
+## Una app en lugar de veinte
 
 Tener estas herramientas básicas en Linux suele significar buscar un applet distinto para cada tarea, cada uno con
 su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa con un solo conjunto de atajos:
@@ -57,6 +57,8 @@ su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa c
 | una app de OCR aparte | **Extractor de texto**: arrastra un recuadro alrededor de cualquier texto en pantalla, incluso en videos e imágenes, y llega a tu portapapeles | <kbd>Super</kbd>+<kbd>Mayús</kbd>+<kbd>T</kbd> |
 | `lsof`, `fuser` y `ss` en una terminal | **¿Qué lo está usando?**: mira qué apps mantienen ocupado un archivo, una carpeta, una unidad o un puerto, y ciérralas | — |
 | buscar en los registros del sistema en una terminal | **¿Por qué no se suspendió?**: mira qué mantiene activa la computadora, qué la despertó y cuánta batería usó mientras estaba suspendida | — |
+| — | **[Comparar carpetas](https://arios4k.github.io/voltkit/manual/folder-compare.html)** — Compara dos carpetas y verifica copias byte por byte | `voltkit folder-compare` |
+| — | **[Mapa de almacenamiento](https://arios4k.github.io/voltkit/manual/storage-map.html)** — Explora el espacio en disco en un mapa interactivo y encuentra los archivos más grandes | `voltkit storage-map` |
 
 ## Manual
 

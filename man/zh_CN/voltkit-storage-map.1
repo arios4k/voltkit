@@ -1,0 +1,41 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH voltkit-storage-map 1  "Voltkit 0.14.0" "Voltkit 手册"
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 名称
+voltkit\-storage\-map \- 显示最占用磁盘空间的文件夹和文件
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 概要
+\fBvoltkit storage\-map\fR [\fB\-\-largest\-files\fR] [\fB\-\-limit\fR] [\fB\-h\fR|\fB\-\-help\fR] <\fIFOLDER\fR>
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 描述
+显示最占用磁盘空间的文件夹和文件
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 参数
+.TP
+<\fIFOLDER\fR>
+要扫描的文件夹
+.SH 选项
+.TP
+\fB\-\-largest\-files\fR
+列出文件夹及其子文件夹中最大的文件
+.TP
+\fB\-\-limit\fR \fI<LIMIT>\fR [default: 20]
+最多显示的条目数
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+显示帮助
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 另请参阅
+\fBvoltkit\fR(1)
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.SH 作者
+Alexis Rios\-Negron

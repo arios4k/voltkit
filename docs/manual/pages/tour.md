@@ -6,9 +6,9 @@ Open **Voltkit** from your apps. This page explains the window, the menu, the ba
 
 ## The window
 
-- **The sidebar** on the left lists the eighteen tools, in alphabetical order for your language, each with an icon. Select one to open its page. Hover over a tool to see a one-line description.
+- **The sidebar** on the left lists all twenty tools, in alphabetical order for your language, each with an icon. Select one to open its page. Hover over a tool to see a one-line description. Scroll the sidebar to reach the last tools in a short window.
 - **The page** shows the tool's name and a short description at the top, then its controls. Pages use two columns on a wide window and one column on a narrow one; every page scrolls on its own.
-- **On a narrow window** (under about 600 pixels) the sidebar becomes a list you go back to with the window's back button, like on a phone.
+- **On a narrow window** (under about 600 pixels) Voltkit opens to the tool list. Use the Back button to return to the list and select any tool, including the one you just left.
 - The window follows your system's **light or dark** appearance.
 
 ## The header buttons

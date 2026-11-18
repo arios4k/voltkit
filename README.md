@@ -8,7 +8,7 @@
 
 **A PowerToys-style toolkit for Linux.** Eighteen power tools for your desktop in one native app:
 screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
-Smart Paste, Keep Awake, a batch file renamer, an image resizer, a zoom &amp; annotate tool, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
+Smart Paste, Keep Awake, a batch file renamer, an image resizer, folder comparison, disk usage analysis, a zoom &amp; annotate tool, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
 manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU tuner.
 
 [![Latest release](https://img.shields.io/github/v/release/arios4k/voltkit?label=release&color=7c3aed)](https://github.com/arios4k/voltkit/releases/latest)
@@ -27,7 +27,7 @@ manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU
 
 </div>
 
-## One app instead of eighteen
+## One app instead of twenty
 
 Getting these basics on Linux usually means hunting down a separate applet for each job,
 each with its own look, settings and shortcuts. Voltkit puts them in one native GTK4 app with one set of
@@ -40,6 +40,7 @@ hotkeys:
 | a separate color picker | **Color Picker**: an eyedropper for any pixel, HEX/RGB/HSL, WCAG contrast check and history | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> |
 | shell loops with `mv` or a separate renamer | **Batch Rename**: rename many files at once with search and replace, regular expressions and numbering, with a preview and undo | — |
 | a separate image resizer | **Image Resizer**: resize many pictures at once, keeping their shape, without touching the originals | — |
+| checking a backup by hand | **[Folder Compare](https://arios4k.github.io/voltkit/manual/folder-compare.html)**: find changed or missing files and verify a copy against the original | drag &amp; drop |
 | a separate GPU tuning tool, plus vendor utilities | **GPU Tuner**: monitor NVIDIA, AMD and Intel graphics cards and change power limits, fans and fan curves, temperature targets, clocks and voltage, with every change previewed and undone unless you confirm it | — |
 | editing `/etc/hosts` and `~/.profile` in a terminal | **Hosts & Environment**: switch hosts entries on and off, and manage your session's environment variables | — |
 | a shell extension to keep the screen on | **Keep Awake**: stop your computer from sleeping or locking for 30 minutes to 4 hours, or until you turn it off | — |
@@ -48,6 +49,7 @@ hotkeys:
 | a separate screen ruler, or screenshots and an image editor | **Screen Ruler**: freeze the screen and measure anything in pixels | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> |
 | guessing why a keyboard shortcut does nothing | **Shortcut Detective**: press any shortcut to see what owns it, find clashes, pick a free combination and change it | — |
 | online converters for JSON, tables and letter case | **Smart Paste**: paste the clipboard converted: tidy JSON, a spreadsheet table as Markdown, a link without tracking, text from a PDF without broken lines, or the text in a copied image | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> |
+| guessing which folders are filling a drive | **[Storage Map](https://arios4k.github.io/voltkit/manual/storage-map.html)**: see disk usage in a clickable treemap and find the largest files | drag &amp; drop |
 | a pile of terminal commands to answer “what hardware do I have?” | **System Report**: your hardware explained, with driver and drive-health checks and fixes, temperatures, firmware updates, memory upgrades, what changed since an update, and a report that's safe to share | — |
 | a separate text expander | **Text Expansion**: a searchable snippet picker, plus optional typed triggers like `;date` | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> |
 | a separate OCR app | **Text Extractor**: drag a box around any text on screen, even in videos and images, and it lands on your clipboard | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> |
@@ -57,6 +59,13 @@ hotkeys:
 ## Manual
 
 **To learn how to use Voltkit, read the [Voltkit Manual](https://arios4k.github.io/voltkit/manual/).** It explains every tool step by step, with the keyboard shortcuts, command-line use, configuration and troubleshooting. It also opens from the app with **F1** or **Help & Manual** in the menu.
+
+To use the new storage tools from a terminal:
+
+```bash
+voltkit folder-compare ~/Documents /media/user/Backup/Documents --check
+voltkit storage-map ~/Downloads --largest-files --limit 10
+```
 
 ## Why Voltkit
 
@@ -174,6 +183,9 @@ src/
   zoom.rs            Zoom & Annotate (zoom and draw on the frozen screen)
   rename_ui.rs       Batch Rename page: files, preview, rename and undo
   resize_ui.rs       Image Resizer page
+  folder_compare_ui.rs  Folder Compare page
+  storage_map_ui.rs     Storage Map page
+  storage_cli.rs        `voltkit folder-compare` and `voltkit storage-map`
   bulk_cli.rs        `voltkit rename` and `voltkit resize`
   guide_ui.rs        the shortcut cheat sheet window
   awake.rs           Keep Awake (Inhibit portal, held by the daemon)
@@ -196,6 +208,8 @@ src/
     ocr.rs           region capture + Tesseract
     color.rs         parsing, HSL, WCAG luminance & contrast
     compress.rs      format detection + per-format compression pipelines
+    folder_compare.rs  metadata and byte-for-byte folder comparison
+    storage_map.rs     disk allocation scan, largest files and treemap layout
     rename.rs        batch rename: plan, conflicts, two-step apply, undo journal
     resize.rs        image resizing with GdkPixbuf
     annotate.rs      the drawing model of Zoom & Annotate: marks, undo, zoom view

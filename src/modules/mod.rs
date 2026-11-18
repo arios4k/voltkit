@@ -2,6 +2,7 @@ pub mod annotate;
 pub mod color;
 pub mod compress;
 pub mod envvars;
+pub mod folder_compare;
 pub mod gpu;
 pub mod guide;
 pub mod gpu_advisor;
@@ -22,6 +23,7 @@ pub mod sleep;
 pub mod smartpaste;
 pub mod permissions;
 pub mod snippets;
+pub mod storage_map;
 pub mod sysreport;
 pub mod usage;
 pub mod xkb;
@@ -96,6 +98,12 @@ pub const ALL: &[ModuleInfo] = &[
         summary: N_!("HEX / RGB / HSL conversion, WCAG contrast checking and history."),
     },
     ModuleInfo {
+        id: "folder-compare",
+        title: N_!("Folder Compare"),
+        icon: "folder-symbolic",
+        summary: N_!("Find differences between folders or verify a backup by comparing file contents."),
+    },
+    ModuleInfo {
         id: "gpu",
         title: N_!("GPU Tuner"),
         icon: "voltkit-gpu-symbolic",
@@ -142,6 +150,12 @@ pub const ALL: &[ModuleInfo] = &[
         title: N_!("Smart Paste"),
         icon: "edit-paste-symbolic",
         summary: N_!("Paste what you copied converted: tidy JSON, tables as Markdown, clean links, a new letter case."),
+    },
+    ModuleInfo {
+        id: "storage-map",
+        title: N_!("Storage Map"),
+        icon: "drive-harddisk-symbolic",
+        summary: N_!("See what takes up disk space, drill into folders, and find the largest files."),
     },
     ModuleInfo {
         id: "sysreport",

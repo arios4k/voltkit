@@ -6,7 +6,7 @@
 
 [English](README.md) · [Español](README.es.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · **简体中文**
 
-**类似 PowerToys 的 Linux 工具箱。** 十八个强大的桌面工具，集于一个原生应用：
+**类似 PowerToys 的 Linux 工具箱。** 二十个强大的桌面工具，集于一个原生应用：
 屏幕 OCR、二维码扫描、取色器、屏幕标尺、图片和视频压缩器、文本扩展、智能粘贴、保持唤醒、hosts 与环境变量编辑器、
 “是什么在占用它？”查找工具、应用权限管理器、休眠问题排查、系统报告、快捷键侦探和 GPU 调节器。
 
@@ -29,7 +29,7 @@
 > Voltkit 提供简体中文、英语、西班牙语、德语和法语，并会自动使用你系统的语言：应用、命令行和手册页（`man voltkit`）
 > 都是如此。本页的截图为英文版。
 
-## 一个应用，取代十八个
+## 一个应用，取代二十个
 
 在 Linux 上要凑齐这些基础功能，往往得为每件事各找一个小工具，每个都有自己的外观、设置和快捷键。Voltkit 把它们
 放进一个原生 GTK4 应用，共用一套快捷键：
@@ -54,6 +54,8 @@
 | 单独的 OCR 应用 | **文字提取器**：在屏幕上的任意文字周围拖出方框，视频和图片中的也行，文字会直接进入剪贴板 | <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> |
 | 终端里的 `lsof`、`fuser` 和 `ss` | **是什么在占用它？**：查看哪些应用占用了文件、文件夹、磁盘或端口，并将其关闭 | — |
 | 在终端里翻系统日志 | **为什么没有休眠？**：查看是什么让电脑保持唤醒、是什么把它唤醒，以及休眠时用了多少电量 | — |
+| — | **[文件夹对比](https://arios4k.github.io/voltkit/manual/folder-compare.html)** — 比较两个文件夹并逐字节验证备份 | `voltkit folder-compare` |
+| — | **[存储空间地图](https://arios4k.github.io/voltkit/manual/storage-map.html)** — 通过可交互的矩形树图查看磁盘占用并找出最大的文件 | `voltkit storage-map` |
 
 ## 手册
 

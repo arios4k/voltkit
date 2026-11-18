@@ -121,6 +121,10 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&ruler_page(config), Some("ruler"));
     stack.add_named(&zoom_page(config, &toasts), Some("zoom"));
     stack.add_named(&with_snap_notice("compress", compress_page(config, &toasts)), Some("compress"));
+    stack.add_named(
+        &with_snap_notice("folder-compare", crate::folder_compare_ui::page(&toasts)),
+        Some("folder-compare"),
+    );
     stack.add_named(&with_snap_notice("rename", rename_ui::page(&toasts)), Some("rename"));
     stack.add_named(&with_snap_notice("resize", resize_ui::page(&toasts)), Some("resize"));
     stack.add_named(&with_snap_notice("snippets", snippets_ui::page(config, &toasts)), Some("snippets"));
@@ -131,6 +135,10 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     stack.add_named(&with_snap_notice("permissions", permissions_ui::page(&toasts)), Some("permissions"));
     stack.add_named(&with_snap_notice("sleep", sleep_ui::page(&toasts)), Some("sleep"));
     stack.add_named(&with_snap_notice("gpu", gpu_ui::page(&toasts)), Some("gpu"));
+    stack.add_named(
+        &with_snap_notice("storage-map", crate::storage_map_ui::page(&toasts)),
+        Some("storage-map"),
+    );
     stack.add_named(&with_snap_notice("sysreport", sysreport_ui::page(&toasts)), Some("sysreport"));
     stack.add_named(&detective_ui::page(&toasts), Some("shortcuts"));
     toasts.set_child(Some(&stack));
@@ -156,9 +164,9 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     content_view.set_content(Some(&toasts));
     let content = adw::NavigationPage::new(&content_view, tools[0].title());
 
-    let list = gtk::ListBox::builder().css_classes(["navigation-sidebar"]).build();
+    let list = gtk::ListBox::builder().css_classes(["navigation-sidebar"]).activate_on_single_click(true).build();
     for m in &tools {
-        // Compact rows, like other GNOME sidebars, so every tool fits without scrolling.
+        // Show all tools at the default size and allow scrolling in shorter windows.
         let content = gtk::Box::builder().spacing(12).margin_top(2).margin_bottom(2).margin_start(4).build();
         content.append(&gtk::Image::from_icon_name(m.icon));
         content.append(&gtk::Label::builder().label(m.title()).xalign(0.0).ellipsize(gtk::pango::EllipsizeMode::End).build());
@@ -183,7 +191,10 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let sidebar_header = adw::HeaderBar::new();
     sidebar_header.pack_end(&menu_button);
     sidebar_view.add_top_bar(&sidebar_header);
-    sidebar_view.set_content(Some(&gtk::ScrolledWindow::builder().child(&list).build()));
+    sidebar_view.set_content(Some(&gtk::ScrolledWindow::builder()
+        .hscrollbar_policy(gtk::PolicyType::Never)
+        .child(&list)
+        .build()));
     let sidebar = adw::NavigationPage::new(&sidebar_view, "Voltkit");
 
     let split = adw::NavigationSplitView::builder().sidebar(&sidebar).content(&content).build();
@@ -191,7 +202,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     // The tool on screen, so Help opens its page of the manual.
     let current: Rc<RefCell<&'static str>> = Rc::new(RefCell::new(tools[0].id));
     {
-        let (stack, content, split, current) = (stack.clone(), content.clone(), split.clone(), current.clone());
+        let (stack, content, current) = (stack.clone(), content.clone(), current.clone());
         list.connect_row_selected(move |_, row| {
             let Some(row) = row else { return };
             let id = row.widget_name();
@@ -202,10 +213,19 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
                 tool_heading.set_label(m.title());
                 tool_summary.set_label(m.summary());
                 tool_icon.set_icon_name(Some(m.icon));
-                split.set_show_content(true);
             }
         });
     }
+    // Activation also fires when reopening the already selected tool after Back.
+    list.connect_row_activated({
+        let split = split.downgrade();
+        move |_, _| {
+            if let Some(split) = split.upgrade() {
+                split.set_show_content(true);
+            }
+        }
+    });
+    split.set_show_content(false);
     list.select_row(list.row_at_index(0).as_ref());
 
     let window = adw::ApplicationWindow::builder()
