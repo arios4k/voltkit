@@ -1456,11 +1456,11 @@ msgid "Choose or drop a folder onto each row."
 msgstr ""
 "Wählen Sie für jede Zeile einen Ordner aus oder ziehen Sie ihn darauf."
 
-#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:287
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:402 src/modules/folder_compare.rs:287
 msgid "Original"
 msgstr "Original"
 
-#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:395 src/modules/folder_compare.rs:291
+#: src/folder_compare_ui.rs:40 src/folder_compare_ui.rs:402 src/modules/folder_compare.rs:291
 msgid "Backup or comparison folder"
 msgstr "Sicherungs- oder Vergleichsordner"
 
@@ -1488,7 +1488,7 @@ msgstr "Unterschiede und nicht lesbare Einträge"
 msgid "All results"
 msgstr "Alle Ergebnisse"
 
-#: src/folder_compare_ui.rs:77 src/folder_compare_ui.rs:431
+#: src/folder_compare_ui.rs:77 src/folder_compare_ui.rs:438
 msgid "Export Report…"
 msgstr "Bericht exportieren …"
 
@@ -1517,46 +1517,46 @@ msgstr "Ziehen Sie jeweils nur einen lokalen Ordner hierher."
 msgid "Cancelling…"
 msgstr "Wird abgebrochen …"
 
-#: src/folder_compare_ui.rs:272
+#: src/folder_compare_ui.rs:279
 msgid "Comparing folders…"
 msgstr "Ordner werden verglichen …"
 
-#: src/folder_compare_ui.rs:287
+#: src/folder_compare_ui.rs:294
 #, rust-format
 msgid "{} entries checked…"
 msgstr "Geprüfte Einträge: {} …"
 
-#: src/folder_compare_ui.rs:313
+#: src/folder_compare_ui.rs:320
 msgid "Comparison cancelled."
 msgstr "Vergleich abgebrochen."
 
-#: src/folder_compare_ui.rs:322
+#: src/folder_compare_ui.rs:329
 #, rust-format
 msgid "Could not compare folders: {}"
 msgstr "Ordner konnten nicht verglichen werden: {}"
 
-#: src/folder_compare_ui.rs:325
+#: src/folder_compare_ui.rs:332
 msgid "The comparison stopped unexpectedly."
 msgstr "Der Vergleich wurde unerwartet beendet."
 
-#: src/folder_compare_ui.rs:355
+#: src/folder_compare_ui.rs:362
 msgid "No entries for this filter."
 msgstr "Keine Einträge für diesen Filter."
 
-#: src/folder_compare_ui.rs:369
+#: src/folder_compare_ui.rs:376
 msgid "Text preview requires a regular file on both sides."
 msgstr "Die Textvorschau benötigt auf beiden Seiten eine reguläre Datei."
 
-#: src/folder_compare_ui.rs:407
+#: src/folder_compare_ui.rs:414
 msgid "Preview unavailable. Choose readable UTF-8 text up to 128 KiB."
 msgstr ""
 "Vorschau nicht verfügbar. Wählen Sie eine lesbare UTF-8-Textdatei mit höchstens 128 KiB."
 
-#: src/folder_compare_ui.rs:450
+#: src/folder_compare_ui.rs:457
 msgid "Comparison report saved."
 msgstr "Vergleichsbericht gespeichert."
 
-#: src/folder_compare_ui.rs:451
+#: src/folder_compare_ui.rs:458
 #, rust-format
 msgid "Could not save the report: {}"
 msgstr "Bericht konnte nicht gespeichert werden: {}"
@@ -6789,12 +6789,12 @@ msgstr "Die Sicherung weicht ab oder konnte nicht überprüft werden."
 msgid "Could not scan the folder"
 msgstr "Ordner konnte nicht gescannt werden"
 
-#: src/storage_cli.rs:67 src/storage_map_ui.rs:429
+#: src/storage_cli.rs:67 src/storage_map_ui.rs:433
 #, rust-format
 msgid "{} on disk"
 msgstr "{} auf dem Datenträger"
 
-#: src/storage_cli.rs:70 src/storage_map_ui.rs:435
+#: src/storage_cli.rs:70 src/storage_map_ui.rs:439
 #, rust-format
 msgid "{} entries could not be scanned."
 msgstr "Einträge konnten nicht gescannt werden: {}."
@@ -6838,37 +6838,37 @@ msgstr ""
 msgid "Show More"
 msgstr "Mehr anzeigen"
 
-#: src/storage_map_ui.rs:374
+#: src/storage_map_ui.rs:378
 msgid "Scanning storage…"
 msgstr "Speicher wird gescannt …"
 
-#: src/storage_map_ui.rs:388
+#: src/storage_map_ui.rs:392
 #, rust-format
 msgid "{} entries scanned…"
 msgstr "Gescannte Einträge: {} …"
 
-#: src/storage_map_ui.rs:402
+#: src/storage_map_ui.rs:406
 msgid "Scan cancelled."
 msgstr "Scan abgebrochen."
 
-#: src/storage_map_ui.rs:411
+#: src/storage_map_ui.rs:415
 #, rust-format
 msgid "Could not scan the folder: {}"
 msgstr "Ordner konnte nicht gescannt werden: {}"
 
-#: src/storage_map_ui.rs:412
+#: src/storage_map_ui.rs:416
 msgid "The scan stopped unexpectedly."
 msgstr "Der Scan wurde unerwartet beendet."
 
-#: src/storage_map_ui.rs:464
+#: src/storage_map_ui.rs:468
 msgid "Other items"
 msgstr "Weitere Einträge"
 
-#: src/storage_map_ui.rs:513
+#: src/storage_map_ui.rs:517
 msgid "No items to show."
 msgstr "Keine Einträge vorhanden."
 
-#: src/storage_map_ui.rs:540
+#: src/storage_map_ui.rs:544
 #, rust-format
 msgid "Could not open the location: {}"
 msgstr "Speicherort konnte nicht geöffnet werden: {}"

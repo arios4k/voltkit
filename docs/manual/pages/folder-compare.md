@@ -1,5 +1,7 @@
 # Folder Compare
 
+![Folder Compare showing changed and missing files after verifying a backup](shot:folder-compare)
+
 Use Folder Compare to find changes between two folders or check that a backup matches the original.
 
 1. Open **Folder Compare** in the sidebar.
