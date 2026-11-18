@@ -109,6 +109,8 @@ cargo build --quiet --manifest-path "$repo/Cargo.toml"
 shoot() {
     local dir=$1; shift
     env -i \
+        GSK_RENDERER="${GSK_RENDERER:-cairo}" \
+        ${GDK_BACKEND:+GDK_BACKEND="$GDK_BACKEND"} \
         HOME="$HOME" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-}" DISPLAY="${DISPLAY:-}" \
         XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
         XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-GNOME}" XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" \
@@ -137,7 +139,7 @@ gpu=$(mktemp -d)
 trap 'rm -rf "$demo" "$gpu"' EXIT
 shoot "$gpu" VOLTKIT_GPU_DEMO=vf
 for theme in light dark; do
-    cp "$gpu/gpu-$theme.png" "$out/gpu-vf-$theme.png"
+    cp "$gpu/gpu-2-$theme.png" "$out/gpu-vf-$theme.png"
 done
 
 # The session comparison dialog (used by the manual): the demo opens it by itself.
