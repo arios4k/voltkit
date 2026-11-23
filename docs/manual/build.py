@@ -9,7 +9,7 @@ bullet and numbered lists, tables, fenced code, `> [!NOTE|TIP|WARNING] text`
 callouts, **bold**, *italic*, `code`, [links](url), <kbd>, and
 `![alt](shot:NAME)` for a light/dark pair of screenshots from docs/screenshots.
 """
-import html, json, re, shutil, sys
+import hashlib, html, json, re, shutil, sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -48,10 +48,20 @@ def link(url):
     return url if url.endswith(".html") else url + ".html"
 
 
+def screenshot_url(name, theme):
+    path = SHOTS / f"{name}-{theme}.png"
+    if not path.is_file():
+        sys.exit(f"missing screenshot: {path}")
+    version = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+    return f"img/{name}-{theme}.png?v={version}"
+
+
 def picture(alt, name):
     a = html.escape(alt, quote=True)
-    return (f'<figure><picture><source media="(prefers-color-scheme: dark)" srcset="img/{name}-dark.png">'
-            f'<img src="img/{name}-light.png" alt="{a}" loading="lazy"></picture>'
+    dark = screenshot_url(name, "dark")
+    light = screenshot_url(name, "light")
+    return (f'<figure><picture><source media="(prefers-color-scheme: dark)" srcset="{dark}">'
+            f'<img src="{light}" alt="{a}" loading="lazy"></picture>'
             f"<figcaption>{html.escape(alt)}</figcaption></figure>")
 
 
@@ -244,7 +254,10 @@ def main():
                 bad.append(f'{p["stem"]}: no page {href}')
             elif frag and target in ids and frag not in ids[target]:
                 bad.append(f'{p["stem"]}: no section {href}')
-        bad += [f'{p["stem"]}: missing {src}' for src in re.findall(r'src="([^"]+)"', text) if not (out / src).exists()]
+        for src in re.findall(r'(?:src|srcset)="([^"]+)"', text):
+            path = src.partition("?")[0]
+            if not (out / path).exists():
+                bad.append(f'{p["stem"]}: missing {src}')
     if bad:
         sys.exit("Broken links in the manual:\n  " + "\n  ".join(bad))
     print(f"Manual: {len(pages)} pages, {len(used_shots)} screenshots -> {out}")
