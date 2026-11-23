@@ -6,7 +6,7 @@
 
 [English](README.md) · [Español](README.es.md) · **Deutsch** · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
-**Ein Werkzeugkasten im Stil von PowerToys für Linux.** Achtzehn praktische Werkzeuge für Ihren Desktop in einer nativen App:
+**Ein Werkzeugkasten im Stil von PowerToys für Linux.** Zwanzig praktische Werkzeuge für Ihren Desktop in einer nativen App:
 Texterkennung, ein QR-Code-Scanner, ein Farbwähler, ein Bildschirmlineal, ein Bild- und Videokompressor,
 Textbausteine, „Intelligentes Einfügen“, „Wach halten“, ein Editor für hosts und Umgebungsvariablen, eine Suche
 nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehlersuche für die Bereitschaft, ein Systembericht, ein Tastenkürzel-Detektiv und ein GPU-Tuner.
@@ -21,8 +21,8 @@ nach „Was belegt das?“, eine Verwaltung für App-Berechtigungen, eine Fehler
 [![Auf PayPal unterstützen](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
-  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Der Farbwähler von Voltkit zeigt #7C3AED mit HEX-, RGB- und HSL-Werten und WCAG-Kontrastbewertungen">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.15.0">
+  <img src="docs/screenshots/color-light.png?v=0.15.0" alt="Der Farbwähler von Voltkit zeigt #7C3AED mit HEX-, RGB- und HSL-Werten und WCAG-Kontrastbewertungen">
 </picture>
 
 </div>
@@ -77,7 +77,7 @@ einem gemeinsamen Satz Tastenkürzel:
 - **Signierte Pakete.** Installation und Aktualisierung über apt aus einem GPG-signierten Repository.
 - **In Ihrer Sprache.** Deutsch, Englisch, Spanisch, Französisch und vereinfachtes Chinesisch, passend zur Sprache Ihres Systems.
 
-Voltkit wird unter GNOME (Zorin OS 18) entwickelt und getestet. Es nutzt die Standard-XDG-Portale, daher sollten auch KDE Plasma und andere Desktops funktionieren; Rückmeldungen sind willkommen. Weitere Antworten finden Sie in den [häufigen Fragen](https://arios4k.github.io/voltkit/manual/faq.html) im Handbuch.
+Voltkit wird unter GNOME (Zorin OS 18) entwickelt und getestet. Andere Desktops nutzen Standard-XDG-Portale und sind weniger erprobt; siehe die [Kompatibilitätstabelle für Desktops](https://arios4k.github.io/voltkit/manual/install.html#desktop-compatibility). Weitere Antworten finden Sie in den [häufigen Fragen](https://arios4k.github.io/voltkit/manual/faq.html) im Handbuch.
 
 <sub>Bildschirmfotos unter Zorin OS 18 mit den hellen und dunklen Farbpaletten von Voltkit. Neu erstellen mit
 `docs/screenshots/capture.sh` (oder `docs/screenshots/capture.sh de` für die deutsche App; auch `es`, `fr` und `zh_CN`).</sub>
@@ -100,7 +100,7 @@ sudo apt update && sudo apt install voltkit
 apt installiert die benötigten Werkzeuge (Tesseract, wl-clipboard, das Desktop-Portal) zusammen mit Voltkit, und
 Aktualisierungen kommen mit `sudo apt upgrade`.
 
-Öffnen Sie Voltkit dann aus Ihren Apps: Es richtet seinen Hintergrunddienst und seine Tastenkürzel selbst ein. Wie es weitergeht, steht unter [Install](https://arios4k.github.io/voltkit/manual/install.html) und [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html) im Handbuch.
+Öffnen Sie Voltkit dann aus Ihren Apps: Es richtet seinen Hintergrunddienst und seine Tastenkürzel selbst ein. Beim ersten Start zeigt **Erste Schritte** Ihren Desktop und die Installationsart, bietet eine Einrichtungsprüfung und schnelle Zugriffe auf nützliche Werkzeuge. Wie es weitergeht, steht unter [Install](https://arios4k.github.io/voltkit/manual/install.html) und [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html) im Handbuch.
 
 ## Installation (Fedora)
 
@@ -113,7 +113,7 @@ sudo dnf install voltkit
 
 **Vorher den Snap installiert?** Entfernen Sie ihn zuerst (`sudo snap remove voltkit`), sonst ist Voltkit doppelt installiert, und zwei Hintergrunddienste streiten um dieselben Tastenkürzel.
 
-Öffnen Sie Voltkit dann aus Ihren Apps; es richtet sich genauso ein. Aktualisierungen kommen mit
+Öffnen Sie Voltkit dann aus Ihren Apps; es richtet sich genauso ein. Beim ersten Start zeigt **Erste Schritte** Ihren Desktop und die Installationsart, bietet eine Einrichtungsprüfung und schnelle Zugriffe auf nützliche Werkzeuge. Aktualisierungen kommen mit
 `sudo dnf upgrade`.
 
 ## Installation (Snap Store)
@@ -246,8 +246,8 @@ baut das signierte APT-Repository auf GitHub Pages neu. Er signiert mit dem Schl
 Erstellt von **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
-  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="Das Über-Fenster von Voltkit mit App-Symbol, Version und Autor Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.15.0">
+  <img src="docs/screenshots/about-light.png?v=0.15.0" width="640" alt="Das Über-Fenster von Voltkit mit App-Symbol, Version und Autor Alexis Rios-Negron">
 </picture>
 
 ## Voltkit unterstützen

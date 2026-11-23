@@ -22,7 +22,7 @@
 
 ## General
 
-**Which desktops are supported?** Voltkit is developed on GNOME (Zorin OS 18). It uses standard XDG portals, so KDE Plasma, Hyprland and others should work, but are less tested. Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On desktops without the GlobalShortcuts portal, bind `voltkit trigger …` to keys yourself.
+**Which desktops are supported?** Voltkit is developed and tested on GNOME (Zorin OS 18). KDE Plasma 5.27+ and other portal-based desktops are expected to work but are less tested. Shortcut Detective supports GNOME, Cinnamon, Budgie and MATE. On desktops without the GlobalShortcuts portal, bind `voltkit trigger …` to keys yourself. See the [desktop compatibility table](install#desktop-compatibility) for details.
 
 **Does it work on X11?** The tools use portals and work on Wayland and X11 sessions. The clipboard helper is `wl-clipboard` on Wayland and `xclip` on X11.
 

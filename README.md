@@ -6,7 +6,7 @@
 
 **English** · [Español](README.es.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
-**A PowerToys-style toolkit for Linux.** Eighteen power tools for your desktop in one native app:
+**A PowerToys-style toolkit for Linux.** Twenty power tools for your desktop in one native app:
 screen OCR, a QR code scanner, a color picker, a screen ruler, an image &amp; video compressor, a text expander,
 Smart Paste, Keep Awake, a batch file renamer, an image resizer, folder comparison, disk usage analysis, a zoom &amp; annotate tool, a hosts &amp; environment editor, a “what's using this?” finder, an app permissions
 manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU tuner.
@@ -21,8 +21,8 @@ manager, a sleep troubleshooter, a system report, a shortcut detective and a GPU
 [![Support on PayPal](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
-  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Voltkit's color picker showing #7C3AED with its HEX, RGB and HSL values and WCAG contrast ratings">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.15.0">
+  <img src="docs/screenshots/color-light.png?v=0.15.0" alt="Voltkit's color picker showing #7C3AED with its HEX, RGB and HSL values and WCAG contrast ratings">
 </picture>
 
 </div>
@@ -78,8 +78,9 @@ voltkit storage-map ~/Downloads --largest-files --limit 10
 - **Signed packages.** Install and update through apt from a GPG-signed repository.
 - **In your language.** English, Spanish, German, French and Simplified Chinese, following your system language.
 
-Voltkit is developed and tested on GNOME (Zorin OS 18). It uses standard XDG portals, so KDE Plasma and other
-desktops should work too; reports are welcome. More answers are in the [FAQ](https://arios4k.github.io/voltkit/manual/faq.html).
+Voltkit is developed and tested on GNOME (Zorin OS 18). Other desktops use standard XDG portals and are less tested;
+see the [desktop compatibility table](https://arios4k.github.io/voltkit/manual/install.html#desktop-compatibility).
+More answers are in the [FAQ](https://arios4k.github.io/voltkit/manual/faq.html).
 
 <sub>Screenshots taken on Zorin OS 18 with Voltkit’s light and dark palettes. Regenerate them with
 `docs/screenshots/capture.sh` (pass `es`, `de`, `fr` or `zh_CN` to capture the translated app).</sub>
@@ -102,7 +103,8 @@ sudo apt update && sudo apt install voltkit
 apt installs the required tools (Tesseract, wl-clipboard, the desktop portal) along with Voltkit, and
 updates arrive with `sudo apt upgrade`.
 
-Then open Voltkit from your apps: it sets up its background service and keyboard shortcuts by itself.
+Then open Voltkit from your apps: it sets up its background service and keyboard shortcuts by itself. On first launch,
+**Getting Started** shows your desktop and install type, offers a setup check and provides quick links to useful tools.
 See [Install](https://arios4k.github.io/voltkit/manual/install.html) and [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html) in the manual for what to do next.
 
 ## Install (Fedora)
@@ -116,7 +118,8 @@ sudo dnf install voltkit
 
 **Installed the snap before?** Remove it first (`sudo snap remove voltkit`), so Voltkit isn't installed twice.
 
-Then open Voltkit from your apps; it sets itself up the same way. Updates arrive with
+Then open Voltkit from your apps; it sets itself up the same way. On first launch, **Getting Started** shows your
+desktop and install type, offers a setup check and provides quick links to useful tools. Updates arrive with
 `sudo dnf upgrade`.
 
 ## Install (Snap Store)
@@ -264,8 +267,8 @@ the repository locally: `APT_KEY_ID=<fingerprint> packaging/apt/build-repo.sh ta
 Created by **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
-  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.15.0">
+  <img src="docs/screenshots/about-light.png?v=0.15.0" width="640" alt="Voltkit's About window showing the app icon, version and author Alexis Rios-Negron">
 </picture>
 
 ## Support Voltkit

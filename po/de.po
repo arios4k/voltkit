@@ -78,7 +78,7 @@ msgstr "MIT-Lizenz"
 msgid "Free to use, modify, and share"
 msgstr "Frei nutzbar, veränderbar und weitergebbar"
 
-#: src/about_ui.rs:60 src/app.rs:181
+#: src/about_ui.rs:60 src/app.rs:190
 msgid "About Voltkit"
 msgstr "Über Voltkit"
 
@@ -173,7 +173,7 @@ msgstr "{} wurde mit {} beendet"
 msgid "screen ruler"
 msgstr "Bildschirmlineal"
 
-#: src/actions.rs:160 src/modules/mod.rs:150 src/smartpaste_ui.rs:100
+#: src/actions.rs:160 src/app.rs:399 src/modules/mod.rs:150 src/smartpaste_ui.rs:100
 msgid "Smart Paste"
 msgstr "Intelligentes Einfügen"
 
@@ -185,44 +185,160 @@ msgstr "Zoom und Anmerkungen"
 msgid "Shortcut Guide"
 msgstr "Tastenkürzel-Übersicht"
 
-#: src/app.rs:159
+#: src/app.rs:162
 msgid "Open the manual for this tool"
 msgstr "Handbuch zu diesem Werkzeug öffnen"
 
-#: src/app.rs:180
+#: src/app.rs:173 src/app.rs:221 src/app.rs:222
+msgid "Getting Started"
+msgstr "Erste Schritte"
+
+#: src/app.rs:189
 msgid "Help & Manual"
 msgstr "Hilfe und Handbuch"
 
-#: src/app.rs:183
+#: src/app.rs:192
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/app.rs:187
+#: src/app.rs:196
 msgid "Main Menu"
 msgstr "Hauptmenü"
 
-#: src/app.rs:249
+#: src/app.rs:223
+msgid "Explore useful tools and check that your desktop is ready."
+msgstr ""
+"Entdecken Sie nützliche Werkzeuge und prüfen Sie, ob Ihr Desktop bereit ist."
+
+#: src/app.rs:278
 #, rust-format
 msgid "Could not open the manual: {}"
 msgstr "Das Handbuch konnte nicht geöffnet werden: {}"
 
-#: src/app.rs:295
+#: src/app.rs:320
+msgid "Welcome to Voltkit"
+msgstr "Willkommen bei Voltkit"
+
+#: src/app.rs:323
+msgid ""
+"Choose a tool from the sidebar, or start with one of these. Everything runs locally on your computer."
+msgstr ""
+"Wählen Sie ein Werkzeug in der Seitenleiste oder beginnen Sie mit einem dieser Werkzeuge. Alles läuft lokal auf Ihrem Computer."
+
+#: src/app.rs:331
+msgid "Snap Store"
+msgstr "Snap Store"
+
+#: src/app.rs:333
+msgid "System package or local installation"
+msgstr "Systempaket oder lokale Installation"
+
+#: src/app.rs:336
+msgid "Unknown desktop"
+msgstr "Unbekannter Desktop"
+
+#: src/app.rs:338
+msgid "Your setup"
+msgstr "Ihre Einrichtung"
+
+#: src/app.rs:339
+msgid "Installation"
+msgstr "Installation"
+
+#: src/app.rs:340 src/modules/sysreport.rs:179
+msgid "Desktop"
+msgstr "Desktop"
+
+#: src/app.rs:342
+msgid "Check setup"
+msgstr "Einrichtung prüfen"
+
+#: src/app.rs:354
+msgid "Setup check"
+msgstr "Einrichtungsprüfung"
+
+#: src/app.rs:355
+msgid "Setup check failed"
+msgstr "Einrichtungsprüfung fehlgeschlagen"
+
+#: src/app.rs:355
+msgid "The setup check could not finish. Try `voltkit doctor` in a terminal."
+msgstr ""
+"Die Einrichtungsprüfung konnte nicht abgeschlossen werden. Führen Sie `voltkit doctor` in einem Terminal aus."
+
+#: src/app.rs:357
+msgid ""
+"Voltkit checks its helper programs, desktop portals and background service."
+msgstr ""
+"Voltkit prüft Hilfsprogramme, Desktop-Portale und den Hintergrunddienst."
+
+#: src/app.rs:366 src/app.rs:573 src/app.rs:670 src/app.rs:1183
+msgid "Close"
+msgstr "Schließen"
+
+#: src/app.rs:372
+msgid "Check desktop portals and required helpers"
+msgstr "Desktop-Portale und benötigte Hilfsprogramme prüfen"
+
+#: src/app.rs:372
+msgid "Find missing pieces and installation commands."
+msgstr "Fehlende Komponenten und Installationsbefehle finden."
+
+#: src/app.rs:375
+msgid "Try a tool"
+msgstr "Werkzeug ausprobieren"
+
+#: src/app.rs:376
+msgid "Select a button to open that tool."
+msgstr "Wählen Sie eine Schaltfläche, um das Werkzeug zu öffnen."
+
+#: src/app.rs:392
+msgid "Useful shortcuts"
+msgstr "Nützliche Tastenkürzel"
+
+#: src/app.rs:393
+msgid ""
+"They work from anywhere while Voltkit's background service is running."
+msgstr ""
+"Sie funktionieren überall, solange Voltkit im Hintergrund ausgeführt wird."
+
+#: src/app.rs:396 src/modules/mod.rs:174
+msgid "Text Extractor"
+msgstr "Texterkennung"
+
+#: src/app.rs:397 src/doctor.rs:257 src/modules/mod.rs:96
+msgid "Color Picker"
+msgstr "Farbwähler"
+
+#: src/app.rs:398 src/modules/mod.rs:132
+msgid "QR Code"
+msgstr "QR-Code"
+
+#: src/app.rs:400 src/modules/mod.rs:144
+msgid "Shortcut Detective"
+msgstr "Tastenkürzel-Detektiv"
+
+#: src/app.rs:406
+msgid "Open the manual"
+msgstr "Handbuch öffnen"
+
+#: src/app.rs:445
 #, rust-format
 msgid "could not start {}: {}"
 msgstr "{} konnte nicht gestartet werden: {}"
 
-#: src/app.rs:381 src/app.rs:448
+#: src/app.rs:531 src/app.rs:598
 msgid "Details"
 msgstr "Details"
 
-#: src/app.rs:396
+#: src/app.rs:546
 #, rust-format
 msgid "{} feature needs attention"
 msgid_plural "{} features need attention"
 msgstr[0] "{} Funktion braucht Aufmerksamkeit"
 msgstr[1] "{} Funktionen brauchen Aufmerksamkeit"
 
-#: src/app.rs:408
+#: src/app.rs:558
 #, rust-format
 msgid ""
 "{}\n"
@@ -233,498 +349,494 @@ msgstr ""
 "\n"
 "Führen Sie `voltkit doctor` aus, um den vollständigen Bericht zu sehen."
 
-#: src/app.rs:409
+#: src/app.rs:559
 msgid "Needs Attention"
 msgstr "Aufmerksamkeit nötig"
 
-#: src/app.rs:420
+#: src/app.rs:570
 msgid "Copy Command"
 msgstr "Befehl kopieren"
 
-#: src/app.rs:423 src/app.rs:520 src/app.rs:1033 src/gpu_ui.rs:863
-msgid "Close"
-msgstr "Schließen"
-
-#: src/app.rs:458
+#: src/app.rs:608
 msgid "This tool works only in the APT and Fedora versions of Voltkit"
 msgstr ""
 "Dieses Werkzeug funktioniert nur in den APT- und Fedora-Versionen von Voltkit"
 
-#: src/app.rs:459
+#: src/app.rs:609
 msgid "Part of this tool works only in the APT and Fedora versions"
 msgstr ""
 "Ein Teil dieses Werkzeugs funktioniert nur in den APT- und Fedora-Versionen"
 
-#: src/app.rs:460
+#: src/app.rs:610
 #, rust-format
 msgid "Connect {} permission to use everything here"
 msgid_plural "Connect {} permissions to use everything here"
 msgstr[0] "Verbinden Sie {} Berechtigung, um alles hier zu nutzen"
 msgstr[1] "Verbinden Sie {} Berechtigungen, um alles hier zu nutzen"
 
-#: src/app.rs:483
+#: src/app.rs:633
 msgid ""
 "Voltkit from the Snap Store runs in a sandbox. Allow these once, in a terminal or in your app store's Permissions settings for Voltkit:"
 msgstr ""
 "Voltkit aus dem Snap Store läuft in einer Sandbox. Erlauben Sie Folgendes einmal, im Terminal oder in den Berechtigungen von Voltkit in Ihrer App-Verwaltung:"
 
-#: src/app.rs:493
+#: src/app.rs:643
 #, rust-format
 msgid "Only in the APT and Fedora versions: {}."
 msgstr "Nur in den APT- und Fedora-Versionen: {}."
 
-#: src/app.rs:497
+#: src/app.rs:647
 msgid "Voltkit from the Snap Store"
 msgstr "Voltkit aus dem Snap Store"
 
-#: src/app.rs:509
+#: src/app.rs:659
 msgid "Copy Commands"
 msgstr "Befehle kopieren"
 
-#: src/app.rs:515
+#: src/app.rs:665
 msgid "How to Install the Full Version"
 msgstr "Vollversion installieren – so geht’s"
 
-#: src/app.rs:528
+#: src/app.rs:678
 msgid "The background service is off, so keyboard shortcuts won't work"
 msgstr ""
 "Der Hintergrunddienst ist aus, daher funktionieren die Tastenkürzel nicht"
 
-#: src/app.rs:529
+#: src/app.rs:679
 msgid "Start"
 msgstr "Starten"
 
-#: src/app.rs:546
+#: src/app.rs:696
 msgid "The background service failed to start"
 msgstr "Der Hintergrunddienst konnte nicht gestartet werden"
 
-#: src/app.rs:550
+#: src/app.rs:700
 #, rust-format
 msgid "Could not start the service: {}"
 msgstr "Der Dienst konnte nicht gestartet werden: {}"
 
-#: src/app.rs:560
+#: src/app.rs:710
 msgid "Capture Region"
 msgstr "Bereich erfassen"
 
-#: src/app.rs:580
+#: src/app.rs:730
 msgid "Capture text"
 msgstr "Text erfassen"
 
-#: src/app.rs:581
+#: src/app.rs:731
 #, rust-format
 msgid ""
 "Select text anywhere on screen. Recognition language: {}. Shortcut: {}"
 msgstr ""
 "Wählen Sie Text an beliebiger Stelle auf dem Bildschirm aus. Erkennungssprache: {}. Tastenkürzel: {}"
 
-#: src/app.rs:586
+#: src/app.rs:736
 msgid "Copy Text"
 msgstr "Text kopieren"
 
-#: src/app.rs:587
+#: src/app.rs:737
 msgid "Extracted text"
 msgstr "Erkannter Text"
 
-#: src/app.rs:587 src/app.rs:603
+#: src/app.rs:737 src/app.rs:753
 msgid "Capture a region to see and copy its text here."
 msgstr ""
 "Erfassen Sie einen Bereich, um seinen Text hier zu sehen und zu kopieren."
 
-#: src/app.rs:591
+#: src/app.rs:741
 msgid "No text captured yet"
 msgstr "Noch kein Text erfasst"
 
-#: src/app.rs:602
+#: src/app.rs:752
 #, rust-format
 msgid "{} character"
 msgid_plural "{} characters"
 msgstr[0] "{} Zeichen"
 msgstr[1] "{} Zeichen"
 
-#: src/app.rs:603
+#: src/app.rs:753
 msgid "Text is also copied automatically after capture."
 msgstr "Der Text wird nach dem Erfassen auch automatisch kopiert."
 
-#: src/app.rs:605
+#: src/app.rs:755
 msgid "Capture from anything"
 msgstr "Aus allem erfassen"
 
-#: src/app.rs:605
+#: src/app.rs:755
 msgid ""
 "Select a paragraph, an error message, or text in an image. The desktop asks you to choose a screen region; recognition happens locally on your computer."
 msgstr ""
 "Wählen Sie einen Absatz, eine Fehlermeldung oder Text in einem Bild aus. Der Desktop bittet Sie, einen Bildschirmbereich zu wählen; die Erkennung läuft lokal auf Ihrem Computer."
 
-#: src/app.rs:612
+#: src/app.rs:762
 msgid "Text from the shortcut, copied to the clipboard"
 msgstr "Text vom Tastenkürzel, in die Zwischenablage kopiert"
 
-#: src/app.rs:633
+#: src/app.rs:783
 msgid "Text copied to clipboard"
 msgstr "Text in die Zwischenablage kopiert"
 
-#: src/app.rs:635 src/qr_ui.rs:101
+#: src/app.rs:785 src/qr_ui.rs:101
 msgid "No screenshot was taken"
 msgstr "Es wurde kein Bildschirmfoto aufgenommen"
 
-#: src/app.rs:637
+#: src/app.rs:787
 msgid "OCR worker crashed"
 msgstr "Der Texterkennungsprozess ist abgestürzt"
 
-#: src/app.rs:652 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
+#: src/app.rs:802 src/modules/guide.rs:29 src/qr_ui.rs:49 src/smartpaste_ui.rs:329
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/app.rs:660 src/app.rs:782
+#: src/app.rs:810 src/app.rs:932
 #, rust-format
 msgid "Copied {}"
 msgstr "{} kopiert"
 
-#: src/app.rs:686
+#: src/app.rs:836
 msgid "HEX or rgb()"
 msgstr "HEX oder rgb()"
 
-#: src/app.rs:691
+#: src/app.rs:841
 msgid "Pick from Screen"
 msgstr "Vom Bildschirm aufnehmen"
 
-#: src/app.rs:692
+#: src/app.rs:842
 msgid "Pick a color anywhere on screen"
 msgstr "Eine Farbe an beliebiger Stelle des Bildschirms aufnehmen"
 
-#: src/app.rs:697
+#: src/app.rs:847
 msgid "Color"
 msgstr "Farbe"
 
-#: src/app.rs:698
+#: src/app.rs:848
 #, rust-format
 msgid ""
 "Type a color or pick one from your screen. Press Enter to save it to history. From any app, press {} to pick a color: its HEX value is copied and saved here."
 msgstr ""
 "Geben Sie eine Farbe ein oder nehmen Sie eine vom Bildschirm auf. Drücken Sie die Eingabetaste, um sie im Verlauf zu speichern. Drücken Sie in einer beliebigen App {}, um eine Farbe aufzunehmen: Ihr HEX-Wert wird kopiert und hier gespeichert."
 
-#: src/app.rs:706
+#: src/app.rs:856
 msgid "Formats"
 msgstr "Formate"
 
-#: src/app.rs:711
+#: src/app.rs:861
 msgid "Text on white"
 msgstr "Text auf Weiß"
 
-#: src/app.rs:712
+#: src/app.rs:862
 msgid "Text on black"
 msgstr "Text auf Schwarz"
 
-#: src/app.rs:713
+#: src/app.rs:863
 msgid "WCAG Contrast"
 msgstr "WCAG-Kontrast"
 
-#: src/app.rs:717
+#: src/app.rs:867
 msgid "History"
 msgstr "Verlauf"
 
-#: src/app.rs:717
+#: src/app.rs:867
 msgid ""
 "Select a saved color to reuse it. Colors picked from your screen appear here."
 msgstr ""
 "Wählen Sie eine gespeicherte Farbe, um sie wiederzuverwenden. Vom Bildschirm aufgenommene Farben erscheinen hier."
 
-#: src/app.rs:730 src/app.rs:738
+#: src/app.rs:880 src/app.rs:888
 #, rust-format
 msgid "Selected color {}"
 msgstr "Ausgewählte Farbe {}"
 
-#: src/app.rs:761
+#: src/app.rs:911
 #, rust-format
 msgid "Could not save history: {}"
 msgstr "Verlauf konnte nicht gespeichert werden: {}"
 
-#: src/app.rs:785
+#: src/app.rs:935
 #, rust-format
 msgid "Color picker unavailable: {}"
 msgstr "Farbwähler nicht verfügbar: {}"
 
-#: src/app.rs:786
+#: src/app.rs:936
 msgid "Color picker crashed"
 msgstr "Der Farbwähler ist abgestürzt"
 
-#: src/app.rs:795
+#: src/app.rs:945
 msgid "Live color preview"
 msgstr "Farbvorschau"
 
-#: src/app.rs:810
+#: src/app.rs:960
 #, rust-format
 msgid "Picked {} with the shortcut, copied"
 msgstr "{} mit dem Tastenkürzel aufgenommen und kopiert"
 
-#: src/app.rs:856
+#: src/app.rs:1006
 msgid "Open Ruler"
 msgstr "Lineal öffnen"
 
-#: src/app.rs:869
+#: src/app.rs:1019
 msgid "Measure in real pixels"
 msgstr "In echten Pixeln messen"
 
-#: src/app.rs:869
+#: src/app.rs:1019
 msgid ""
 "Freeze your screen, then drag a line or a rectangle over anything you want to measure."
 msgstr ""
 "Frieren Sie den Bildschirm ein und ziehen Sie dann eine Linie oder ein Rechteck über das, was Sie messen möchten."
 
-#: src/app.rs:888
+#: src/app.rs:1038
 msgid "Drag to measure width × height"
 msgstr "Ziehen, um Breite × Höhe zu messen"
 
-#: src/app.rs:898
+#: src/app.rs:1048
 msgid "Measurement controls"
 msgstr "Messsteuerung"
 
-#: src/app.rs:899 src/app.rs:1021
+#: src/app.rs:1049 src/app.rs:1171
 msgid "Drag"
 msgstr "Ziehen"
 
-#: src/app.rs:899
+#: src/app.rs:1049
 msgid "Measure a rectangle"
 msgstr "Ein Rechteck messen"
 
-#: src/app.rs:899 src/app.rs:1022
+#: src/app.rs:1049 src/app.rs:1172
 msgid "Shift + drag"
 msgstr "Umschalt + Ziehen"
 
-#: src/app.rs:899
+#: src/app.rs:1049
 msgid "Measure a straight line"
 msgstr "Eine gerade Linie messen"
 
-#: src/app.rs:899 src/app.rs:1029
+#: src/app.rs:1049 src/app.rs:1179
 msgid "Ctrl+C"
 msgstr "Strg+C"
 
-#: src/app.rs:899
+#: src/app.rs:1049
 msgid "Copy the measured size"
 msgstr "Die gemessene Größe kopieren"
 
-#: src/app.rs:899 src/app.rs:1033
+#: src/app.rs:1049 src/app.rs:1183
 msgid "Esc"
 msgstr "Esc"
 
-#: src/app.rs:899
+#: src/app.rs:1049
 msgid "Close the ruler"
 msgstr "Das Lineal schließen"
 
-#: src/app.rs:903 src/app.rs:1038
+#: src/app.rs:1053 src/app.rs:1188
 msgid "Ready when you need it"
 msgstr "Bereit, wenn Sie es brauchen"
 
-#: src/app.rs:903
+#: src/app.rs:1053
 #, rust-format
 msgid ""
 "Global shortcut: {}. Measurements use screenshot pixels, including on high-density displays."
 msgstr ""
 "Globales Tastenkürzel: {}. Die Messungen verwenden die Pixel des Bildschirmfotos, auch auf hochauflösenden Bildschirmen."
 
-#: src/app.rs:909
+#: src/app.rs:1059
 msgid "Open Zoom & Annotate"
 msgstr "Zoom und Anmerkungen öffnen"
 
-#: src/app.rs:923
+#: src/app.rs:1073
 msgid "Show it, then point at it"
 msgstr "Zeigen, dann darauf deuten"
 
-#: src/app.rs:924
+#: src/app.rs:1074
 msgid ""
 "Freeze your screen, zoom into any part of it, and draw on it with a pen, lines, boxes, arrows and text: for presentations, tutorials and bug reports."
 msgstr ""
 "Friert den Bildschirm ein, zoomt in jeden Bereich und zeichnet mit Stift, Linien, Rahmen, Pfeilen und Text: für Präsentationen, Anleitungen und Fehlerberichte."
 
-#: src/app.rs:959
+#: src/app.rs:1109
 msgid "Saving pictures"
 msgstr "Bilder speichern"
 
-#: src/app.rs:960
+#: src/app.rs:1110
 msgid ""
 "Ctrl+S saves the picture in this folder. Ctrl+Shift+S lets you choose another place for one picture."
 msgstr ""
 "Strg+S speichert das Bild in diesem Ordner. Mit Strg+Umschalt+S wählen Sie für ein Bild einen anderen Ort."
 
-#: src/app.rs:962
+#: src/app.rs:1112
 msgid "Pictures are saved in"
 msgstr "Bilder werden gespeichert in"
 
-#: src/app.rs:964 src/detective_ui.rs:331
+#: src/app.rs:1114 src/detective_ui.rs:331
 msgid "Change…"
 msgstr "Ändern …"
 
-#: src/app.rs:965 src/app.rs:966
+#: src/app.rs:1115 src/app.rs:1116
 msgid "Use the default folder, Pictures/Voltkit"
 msgstr "Standardordner verwenden, Bilder/Voltkit"
 
-#: src/app.rs:984
+#: src/app.rs:1134
 msgid "Choose Where Pictures Are Saved"
 msgstr "Speicherort der Bilder wählen"
 
-#: src/app.rs:994
+#: src/app.rs:1144
 #, rust-format
 msgid "Pictures will be saved in {}"
 msgstr "Bilder werden gespeichert in {}"
 
-#: src/app.rs:1010
+#: src/app.rs:1160
 msgid "Pictures are saved in Pictures/Voltkit again"
 msgstr "Bilder werden wieder in Bilder/Voltkit gespeichert"
 
-#: src/app.rs:1018
+#: src/app.rs:1168
 msgid "Controls"
 msgstr "Bedienung"
 
-#: src/app.rs:1020
+#: src/app.rs:1170
 msgid "Scroll"
 msgstr "Scrollen"
 
-#: src/app.rs:1020
+#: src/app.rs:1170
 msgid "Zoom in and out"
 msgstr "Hinein- und herauszoomen"
 
-#: src/app.rs:1021
+#: src/app.rs:1171
 msgid "Draw with the pen"
 msgstr "Mit dem Stift zeichnen"
 
-#: src/app.rs:1022
+#: src/app.rs:1172
 msgid "Draw a straight line"
 msgstr "Eine gerade Linie zeichnen"
 
-#: src/app.rs:1023
+#: src/app.rs:1173
 msgid "Ctrl + drag"
 msgstr "Strg + ziehen"
 
-#: src/app.rs:1023
+#: src/app.rs:1173
 msgid "Draw a rectangle"
 msgstr "Ein Rechteck zeichnen"
 
-#: src/app.rs:1024
+#: src/app.rs:1174
 msgid "Tab + drag"
 msgstr "Tab + ziehen"
 
-#: src/app.rs:1024
+#: src/app.rs:1174
 msgid "Draw an ellipse"
 msgstr "Eine Ellipse zeichnen"
 
-#: src/app.rs:1025
+#: src/app.rs:1175
 msgid "Ctrl + Shift + drag"
 msgstr "Strg + Umschalt + ziehen"
 
-#: src/app.rs:1025
+#: src/app.rs:1175
 msgid "Draw an arrow"
 msgstr "Einen Pfeil zeichnen"
 
-#: src/app.rs:1026
+#: src/app.rs:1176
 msgid "R, G, B, O, Y, P"
 msgstr "R, G, B, O, Y, P"
 
-#: src/app.rs:1026
+#: src/app.rs:1176
 msgid "Red, green, blue, orange, yellow or pink"
 msgstr "Rot, Grün, Blau, Orange, Gelb oder Rosa"
 
-#: src/app.rs:1027
+#: src/app.rs:1177
 msgid "T"
 msgstr "T"
 
-#: src/app.rs:1027
+#: src/app.rs:1177
 msgid "Type text, then press Enter"
 msgstr "Text tippen, dann Eingabetaste drücken"
 
-#: src/app.rs:1028
+#: src/app.rs:1178
 msgid "W or K"
 msgstr "W oder K"
 
-#: src/app.rs:1028
+#: src/app.rs:1178
 msgid "A white or a black board"
 msgstr "Eine weiße oder schwarze Tafel"
 
-#: src/app.rs:1029
+#: src/app.rs:1179
 msgid "Copy the picture"
 msgstr "Das Bild kopieren"
 
-#: src/app.rs:1030
+#: src/app.rs:1180
 msgid "Ctrl+S"
 msgstr "Strg+S"
 
-#: src/app.rs:1030
+#: src/app.rs:1180
 msgid "Save the picture in the folder above"
 msgstr "Das Bild im obigen Ordner speichern"
 
-#: src/app.rs:1031
+#: src/app.rs:1181
 msgid "Ctrl+Shift+S"
 msgstr "Strg+Umschalt+S"
 
-#: src/app.rs:1031
+#: src/app.rs:1181
 msgid "Save the picture somewhere else, once"
 msgstr "Das Bild einmalig woanders speichern"
 
-#: src/app.rs:1032
+#: src/app.rs:1182
 msgid "F1"
 msgstr "F1"
 
-#: src/app.rs:1032
+#: src/app.rs:1182
 msgid "Show every key"
 msgstr "Alle Tasten anzeigen"
 
-#: src/app.rs:1038
+#: src/app.rs:1188
 #, rust-format
 msgid "Global shortcut: {}."
 msgstr "Globales Tastenkürzel: {}."
 
-#: src/app.rs:1046 src/resize_ui.rs:57
+#: src/app.rs:1196 src/resize_ui.rs:57
 msgid "Quality"
 msgstr "Qualität"
 
-#: src/app.rs:1047
+#: src/app.rs:1197
 msgid "Lower is smaller. PNG is always lossless."
 msgstr "Niedriger ist kleiner. PNG ist immer verlustfrei."
 
-#: src/app.rs:1051
+#: src/app.rs:1201
 msgid "Choose Files…"
 msgstr "Dateien auswählen…"
 
-#: src/app.rs:1068
+#: src/app.rs:1218
 msgid "Drop Files Here"
 msgstr "Dateien hier ablegen"
 
-#: src/app.rs:1070
+#: src/app.rs:1220
 msgid "PNG, JPEG, WebP and MP4. Metadata is stripped; originals are kept."
 msgstr ""
 "PNG, JPEG, WebP und MP4. Metadaten werden entfernt; die Originale bleiben erhalten."
 
-#: src/app.rs:1086 src/usage_ui.rs:95
+#: src/app.rs:1236 src/usage_ui.rs:95
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: src/app.rs:1092
+#: src/app.rs:1242
 msgid "Compressing…"
 msgstr "Wird komprimiert …"
 
-#: src/app.rs:1109 src/app.rs:1112 src/resize_ui.rs:248 src/resize_ui.rs:252
+#: src/app.rs:1259 src/app.rs:1262 src/resize_ui.rs:248 src/resize_ui.rs:252
 msgid "Failed"
 msgstr "Fehlgeschlagen"
 
-#: src/app.rs:1134
+#: src/app.rs:1284
 msgid "Compress Files"
 msgstr "Dateien komprimieren"
 
-#: src/app.rs:1150
+#: src/app.rs:1300
 msgid "Compression settings"
 msgstr "Komprimierungseinstellungen"
 
-#: src/app.rs:1152 src/resize_ui.rs:352
+#: src/app.rs:1302 src/resize_ui.rs:352
 msgid "Your originals stay intact"
 msgstr "Ihre Originale bleiben unverändert"
 
-#: src/app.rs:1152
+#: src/app.rs:1302
 msgid ""
 "Compressed copies are saved beside each source file as name.min.ext. Metadata is removed from the copy. PNG compression is lossless; quality controls apply to JPEG, WebP, and video."
 msgstr ""
 "Komprimierte Kopien werden neben jeder Quelldatei als name.min.ext gespeichert. Metadaten werden aus der Kopie entfernt. Die PNG-Komprimierung ist verlustfrei; die Qualität gilt für JPEG, WebP und Video."
 
-#: src/app.rs:1153
+#: src/app.rs:1303
 msgid "Choose or drop files to see progress and size savings here."
 msgstr ""
 "Wählen Sie Dateien aus oder legen Sie sie ab, um hier den Fortschritt und die Ersparnis zu sehen."
@@ -1309,10 +1421,6 @@ msgstr "Bereichsaufnahme"
 msgid "install xdg-desktop-portal and your desktop's portal backend"
 msgstr ""
 "Installieren Sie xdg-desktop-portal und das Portal-Backend Ihres Desktops"
-
-#: src/doctor.rs:257 src/modules/mod.rs:96
-msgid "Color Picker"
-msgstr "Farbwähler"
 
 #: src/doctor.rs:260
 msgid "screen eyedropper: Screenshot portal"
@@ -4128,10 +4236,6 @@ msgid "Stop your computer from sleeping or locking for a while."
 msgstr ""
 "Verhindert für eine Weile, dass Ihr Computer in Bereitschaft geht oder sich sperrt."
 
-#: src/modules/mod.rs:132
-msgid "QR Code"
-msgstr "QR-Code"
-
 #: src/modules/mod.rs:134
 msgid ""
 "Read a QR code anywhere on screen, or turn text, links and Wi-Fi details into one."
@@ -4145,10 +4249,6 @@ msgstr "Bildschirmlineal"
 #: src/modules/mod.rs:140
 msgid "Measure distances and sizes on screen in pixels."
 msgstr "Abstände und Größen auf dem Bildschirm in Pixeln messen."
-
-#: src/modules/mod.rs:144
-msgid "Shortcut Detective"
-msgstr "Tastenkürzel-Detektiv"
 
 #: src/modules/mod.rs:146
 msgid ""
@@ -4186,10 +4286,6 @@ msgstr ""
 msgid "Snippets with dynamic variables: dates, clipboard, parameters."
 msgstr ""
 "Textbausteine mit dynamischen Variablen: Datum, Zwischenablage, Parameter."
-
-#: src/modules/mod.rs:174
-msgid "Text Extractor"
-msgstr "Texterkennung"
 
 #: src/modules/mod.rs:176
 msgid "Drag a box around any text on screen and copy it to the clipboard."
@@ -4803,10 +4899,6 @@ msgstr "Computer"
 #: src/modules/sysreport.rs:178
 msgid "Kernel"
 msgstr "Kernel"
-
-#: src/modules/sysreport.rs:179
-msgid "Desktop"
-msgstr "Desktop"
 
 #: src/modules/sysreport.rs:180 src/modules/sysreport.rs:556 src/modules/sysreport.rs:557
 msgid "Processor"

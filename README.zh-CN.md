@@ -20,8 +20,8 @@
 [![通过 PayPal 支持](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
-  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="Voltkit 的取色器，显示 #7C3AED 及其 HEX、RGB 和 HSL 值以及 WCAG 对比度评级">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.15.0">
+  <img src="docs/screenshots/color-light.png?v=0.15.0" alt="Voltkit 的取色器，显示 #7C3AED 及其 HEX、RGB 和 HSL 值以及 WCAG 对比度评级">
 </picture>
 
 </div>
@@ -73,7 +73,7 @@
 - **签名的软件包。** 通过 apt 从 GPG 签名的软件源安装和更新。
 - **使用你的语言。** 简体中文、英语、西班牙语、德语和法语，跟随你系统的语言。
 
-Voltkit 在 GNOME（Zorin OS 18）上开发和测试。它使用标准的 XDG 门户，因此 KDE Plasma 和其他桌面应该也能运行；欢迎反馈。更多解答见手册中的[常见问题](https://arios4k.github.io/voltkit/manual/faq.html)。
+Voltkit 在 GNOME（Zorin OS 18）上开发和测试。其他桌面使用标准 XDG 门户，但测试较少；请参阅[桌面兼容性表](https://arios4k.github.io/voltkit/manual/install.html#desktop-compatibility)。更多解答见手册中的[常见问题](https://arios4k.github.io/voltkit/manual/faq.html)。
 
 <sub>截图在 Zorin OS 18 上使用 Voltkit 的浅色和深色配色拍摄。可用 `docs/screenshots/capture.sh` 重新生成
 （或用 `docs/screenshots/capture.sh zh_CN` 生成中文版应用的截图；也支持 `es`、`de` 和 `fr`）。</sub>
@@ -97,7 +97,7 @@ sudo apt update && sudo apt install voltkit
 
 apt 会在安装 Voltkit 的同时安装所需工具（Tesseract、wl-clipboard、桌面门户），之后的更新通过 `sudo apt upgrade` 获得。
 
-然后从应用列表中打开 Voltkit：它会自动设置后台服务和键盘快捷键。接下来该做什么，请参阅手册中的 [Install](https://arios4k.github.io/voltkit/manual/install.html) 和 [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html)。
+然后从应用列表中打开 Voltkit：它会自动设置后台服务和键盘快捷键。首次启动时，“开始使用”页面会显示桌面环境和安装方式，提供环境检查以及实用工具的快捷入口。接下来该做什么，请参阅手册中的 [Install](https://arios4k.github.io/voltkit/manual/install.html) 和 [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html)。
 
 <a id="install-fedora"></a>
 
@@ -112,7 +112,7 @@ sudo dnf install voltkit
 
 **之前安装过 snap 版？** 请先移除它（`sudo snap remove voltkit`），否则 Voltkit 会被安装两次，两个后台服务会争抢同一组快捷键。
 
-然后从应用列表中打开 Voltkit；它会以同样的方式完成自身设置。更新通过 `sudo dnf upgrade` 获得。
+然后从应用列表中打开 Voltkit；它会以同样的方式完成自身设置。首次启动时，“开始使用”页面会显示桌面环境和安装方式，提供环境检查以及实用工具的快捷入口。更新通过 `sudo dnf upgrade` 获得。
 
 ## 安装（Snap Store）
 
@@ -242,8 +242,8 @@ APT 软件源。它使用 `APT_SIGNING_KEY` 机密变量中的密钥签名（指
 由 **Alexis Rios-Negron** 创建。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
-  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="Voltkit 的“关于”窗口，显示应用图标、版本和作者 Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.15.0">
+  <img src="docs/screenshots/about-light.png?v=0.15.0" width="640" alt="Voltkit 的“关于”窗口，显示应用图标、版本和作者 Alexis Rios-Negron">
 </picture>
 
 ## 支持 Voltkit

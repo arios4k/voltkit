@@ -6,7 +6,7 @@
 
 [English](README.md) · **Español** · [Deutsch](README.de.md) · [Français](README.fr.md) · [简体中文](README.zh-CN.md)
 
-**Un kit de herramientas al estilo de PowerToys para Linux.** Dieciocho herramientas potentes para tu escritorio en una sola app nativa:
+**Un kit de herramientas al estilo de PowerToys para Linux.** Veinte herramientas potentes para tu escritorio en una sola app nativa:
 OCR de pantalla, un lector de códigos QR, un selector de color, una regla de pantalla, un compresor de imágenes y
 videos, un expansor de texto, Pegado inteligente, Mantener activo, un editor de hosts y entorno, un buscador de
 “¿qué lo está usando?”, un administrador de permisos de apps, un diagnóstico de suspensión, un informe del sistema,
@@ -22,8 +22,8 @@ un detective de atajos y un ajuste de GPU.
 [![Apoyar en PayPal](https://img.shields.io/badge/PayPal-Support-00457C?logo=paypal&logoColor=white)](https://paypal.me/AlexisRios)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.11.0">
-  <img src="docs/screenshots/color-light.png?v=0.11.0" alt="El selector de color de Voltkit mostrando #7C3AED con sus valores HEX, RGB y HSL y las calificaciones de contraste WCAG">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/color-dark.png?v=0.15.0">
+  <img src="docs/screenshots/color-light.png?v=0.15.0" alt="El selector de color de Voltkit mostrando #7C3AED con sus valores HEX, RGB y HSL y las calificaciones de contraste WCAG">
 </picture>
 
 </div>
@@ -77,7 +77,7 @@ su propio aspecto, ajustes y atajos. Voltkit las reúne en una app GTK4 nativa c
 - **Paquetes firmados.** Instala y actualiza con apt desde un repositorio firmado con GPG.
 - **En tu idioma.** Español, inglés, alemán, francés y chino simplificado, según el idioma de tu sistema.
 
-Voltkit se desarrolla y prueba en GNOME (Zorin OS 18). Usa portales XDG estándar, así que KDE Plasma y otros escritorios también deberían funcionar; los reportes son bienvenidos. Hay más respuestas en las [preguntas frecuentes](https://arios4k.github.io/voltkit/manual/faq.html) del manual.
+Voltkit se desarrolla y prueba en GNOME (Zorin OS 18). Otros escritorios usan portales XDG estándar y están menos probados; consulta la [tabla de compatibilidad de escritorios](https://arios4k.github.io/voltkit/manual/install.html#desktop-compatibility). Hay más respuestas en las [preguntas frecuentes](https://arios4k.github.io/voltkit/manual/faq.html) del manual.
 
 <sub>Capturas tomadas en Zorin OS 18 con las paletas clara y oscura de Voltkit. Se regeneran con
 `docs/screenshots/capture.sh` (o `docs/screenshots/capture.sh es` para la app en español; también `de`, `fr` y `zh_CN`).</sub>
@@ -99,7 +99,7 @@ sudo apt update && sudo apt install voltkit
 apt instala las herramientas necesarias (Tesseract, wl-clipboard, el portal del escritorio) junto con Voltkit, y
 las actualizaciones llegan con `sudo apt upgrade`.
 
-Luego abre Voltkit desde tus apps: configura solo su servicio en segundo plano y sus atajos de teclado. Consulta [Install](https://arios4k.github.io/voltkit/manual/install.html) y [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html) en el manual para saber qué hacer después.
+Luego abre Voltkit desde tus apps: configura solo su servicio en segundo plano y sus atajos de teclado. En el primer inicio, **Primeros pasos** muestra tu escritorio y el tipo de instalación, permite comprobar la configuración y ofrece accesos rápidos a herramientas útiles. Consulta [Install](https://arios4k.github.io/voltkit/manual/install.html) y [A tour of the app](https://arios4k.github.io/voltkit/manual/tour.html) en el manual para saber qué hacer después.
 
 ## Instalación (Fedora)
 
@@ -112,7 +112,7 @@ sudo dnf install voltkit
 
 **¿Instalaste el snap antes?** Quítalo primero (`sudo snap remove voltkit`), o Voltkit quedará instalado dos veces, con dos servicios en segundo plano compitiendo por los mismos atajos.
 
-Luego abre Voltkit desde tus apps; se configura solo de la misma forma. Las actualizaciones llegan con
+Luego abre Voltkit desde tus apps; se configura solo de la misma forma. En el primer inicio, **Primeros pasos** muestra tu escritorio y el tipo de instalación, permite comprobar la configuración y ofrece accesos rápidos a herramientas útiles. Las actualizaciones llegan con
 `sudo dnf upgrade`.
 
 ## Instalación (Snap Store)
@@ -245,8 +245,8 @@ El [flujo de trabajo Release](.github/workflows/release.yml) compila el `.deb`, 
 Creado por **Alexis Rios-Negron**.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.11.0">
-  <img src="docs/screenshots/about-light.png?v=0.11.0" width="640" alt="La ventana Acerca de de Voltkit con el ícono de la app, la versión y el autor Alexis Rios-Negron">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/about-dark.png?v=0.15.0">
+  <img src="docs/screenshots/about-light.png?v=0.15.0" width="640" alt="La ventana Acerca de de Voltkit con el ícono de la app, la versión y el autor Alexis Rios-Negron">
 </picture>
 
 ## Apoya a Voltkit

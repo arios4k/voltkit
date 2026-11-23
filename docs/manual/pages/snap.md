@@ -6,7 +6,7 @@ Voltkit is available in three ways: from its own **apt** repository (Ubuntu, Deb
 
 Mostly **so people can find Voltkit**. The Snap Store is available on every Linux distribution that supports snaps, and it is built into app stores such as Ubuntu's App Center, where people browse and install apps without a terminal. Publishing there makes the tool easier to discover and to install in one step.
 
-**Most of Voltkit works the same in the snap.** 18 of its 20 tools work there, most of them fully, and only a handful of features are left out. Those are limits of the snap sandbox, explained below, not of Voltkit. If you need them, install with apt or Fedora instead: that version has every feature.
+**Most of Voltkit works the same in the snap.** The snap includes 18 of Voltkit's 20 tools; some features in several of those tools are limited by the sandbox. Those are limits of the snap sandbox, explained below, not of Voltkit. If you need them, install with apt or Fedora instead: that version has every feature.
 
 ## Which version should I install?
 
