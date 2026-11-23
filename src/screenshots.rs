@@ -77,9 +77,6 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
     if let Some(width) = width {
         window.set_default_size(width, 780);
     }
-    fill_demo(&window);
-    // Let startup demo notifications expire before photographing other tools.
-    glib::timeout_future(Duration::from_secs(7)).await;
     let sidebar = descendants(&window)
         .into_iter()
         .find_map(|w| w.downcast::<gtk::ListBox>().ok().filter(|l| l.has_css_class("navigation-sidebar")))
@@ -105,9 +102,11 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
                 "not every tool fits in the default window");
         }
     }
-    anyhow::ensure!(sidebar.row_at_index(tools.len() as i32).is_none(), "unexpected extra sidebar row");
+    anyhow::ensure!(sidebar.row_at_index((tools.len() + 1) as i32).is_none(), "unexpected extra sidebar row");
+    let getting_started = sidebar.row_at_index(0).context("Getting Started row is missing")?;
+    anyhow::ensure!(getting_started.widget_name() == "getting-started", "first sidebar row is not Getting Started");
     for (index, tool) in tools.iter().enumerate() {
-        let row = sidebar.row_at_index(index as i32).with_context(|| format!("missing sidebar row for {}", tool.id))?;
+        let row = sidebar.row_at_index(index as i32 + 1).with_context(|| format!("missing sidebar row for {}", tool.id))?;
         anyhow::ensure!(row.widget_name() == tool.id, "sidebar row is not {}", tool.id);
         sidebar.select_row(Some(&row));
         anyhow::ensure!(tool_stack.visible_child_name().as_deref() == Some(tool.id), "could not open {}", tool.id);
@@ -124,6 +123,25 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
 
     for (scheme, theme) in [(adw::ColorScheme::ForceLight, "light"), (adw::ColorScheme::ForceDark, "dark")] {
         style.set_color_scheme(scheme);
+        let var = if theme == "light" { "VOLTKIT_LIGHT_THEME" } else { "VOLTKIT_DARK_THEME" };
+        if let (Ok(name), Some(settings)) = (std::env::var(var), gtk::Settings::default()) {
+            settings.set_gtk_theme_name(Some(&name));
+        }
+        let home = sidebar.row_at_index(0).context("Getting Started row disappeared")?;
+        sidebar.select_row(Some(&home));
+        sidebar.emit_by_name::<()>("row-activated", &[&home]);
+        hide_banners(&window);
+        window.present();
+        glib::timeout_future(SETTLE).await;
+        save(&window, &dir.join(format!("getting-started-{theme}.png")), theme == "dark")?;
+    }
+
+    fill_demo(&window);
+    // Let startup demo notifications expire before photographing other tools.
+    glib::timeout_future(Duration::from_secs(7)).await;
+
+    for (scheme, theme) in [(adw::ColorScheme::ForceLight, "light"), (adw::ColorScheme::ForceDark, "dark")] {
+        style.set_color_scheme(scheme);
         // Distributions that theme libadwaita (e.g. Zorin OS) need the matching
         // light or dark theme too, or the two passes mix styles.
         let var = if theme == "light" { "VOLTKIT_LIGHT_THEME" } else { "VOLTKIT_DARK_THEME" };
@@ -136,7 +154,7 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
             {
                 continue;
             }
-            let row = sidebar.row_at_index(i as i32).context("sidebar row disappeared")?;
+            let row = sidebar.row_at_index(i as i32 + 1).context("sidebar row disappeared")?;
             sidebar.select_row(Some(&row));
             sidebar.emit_by_name::<()>("row-activated", &[&row]);
             hide_banners(&window);
@@ -160,7 +178,7 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
 
         // The snippet editor, opened on a snippet with fill-in fields.
         if let Some(index) = modules::sorted().into_iter().position(|module| module.id == "snippets") {
-            sidebar.select_row(sidebar.row_at_index(index as i32).as_ref());
+            sidebar.select_row(sidebar.row_at_index(index as i32 + 1).as_ref());
         }
         glib::timeout_future(SETTLE).await;
         if let Some(row) = descendants(&window)
@@ -179,7 +197,7 @@ async fn capture(app: &adw::Application, config: &Rc<Config>, dir: &Path, width:
 
         // A fictional color preview is a neutral backdrop for the About dialog.
         if let Some(index) = modules::sorted().into_iter().position(|module| module.id == "color") {
-            sidebar.select_row(sidebar.row_at_index(index as i32).as_ref());
+            sidebar.select_row(sidebar.row_at_index(index as i32 + 1).as_ref());
         }
         let about = app::about_dialog();
         about.present(Some(&window));

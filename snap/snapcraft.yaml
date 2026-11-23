@@ -19,6 +19,8 @@ summary: PowerToys-style desktop tools for Linux in one GTK4 app
 description: |
   Voltkit puts the everyday tools you'd otherwise hunt down one by one into a single native GTK4 app, with one set of keyboard shortcuts. Built for Wayland and X11, it runs locally with no network access and no telemetry.
 
+  On first launch, Getting Started identifies your install and desktop, checks the setup, and offers useful shortcuts and quick links.
+
   **Tools in the snap**
 
   * **Text Extractor** (Super+Shift+T): drag a box around any text on screen, even in videos and images, and it lands on your clipboard

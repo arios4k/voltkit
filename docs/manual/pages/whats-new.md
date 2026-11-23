@@ -4,6 +4,13 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 > [!TIP] Update with `sudo apt upgrade` (Ubuntu, Debian and derivatives) or `sudo dnf upgrade` (Fedora). Your settings and snippets are kept.
 
+## Version 0.15.0
+
+*November 23, 2026*
+
+- **Getting Started** opens on first launch with your desktop and install type, a setup check, useful shortcuts and quick links to popular tools. It remains available in the sidebar.
+- **Desktop compatibility** is now documented in the [Install guide](install#desktop-compatibility), including tested versus less-tested desktops and keyboard-shortcut setup.
+
 ## Version 0.14.0
 
 *November 18, 2026*
@@ -45,7 +52,7 @@ This page lists what changed in every Voltkit release, newest first, with links 
 
 *November 9, 2026*
 
-**Three new tools, and a shortcut cheat sheet.** Voltkit now has eighteen tools.
+**Three new tools, and a shortcut cheat sheet.** At the time of this release, Voltkit had eighteen tools.
 
 | Feature | How it works | Read more |
 |---|---|---|

@@ -3,10 +3,12 @@
 Open **Voltkit** from your apps. This page explains the window, the menu, the banners and the habits shared by every tool.
 
 ![The About dialog](shot:about)
+![The Getting Started page](shot:getting-started)
 
 ## The window
 
-- **The sidebar** on the left lists all twenty tools, in alphabetical order for your language, each with an icon. Select one to open its page. Hover over a tool to see a one-line description. Scroll the sidebar to reach the last tools in a short window.
+- **Getting Started** appears at the top of the sidebar. On first launch it introduces useful tools, shows your desktop and install type, and lets you check the setup. It stays there whenever you want to return.
+- **The sidebar** lists all twenty tools below Getting Started, in alphabetical order for your language, each with an icon. Select one to open its page. Hover over a tool to see a one-line description. Scroll the sidebar to reach the last tools in a short window.
 - **The page** shows the tool's name and a short description at the top, then its controls. Pages use two columns on a wide window and one column on a narrow one; every page scrolls on its own.
 - **On a narrow window** (under about 600 pixels) Voltkit opens to the tool list. Use the Back button to return to the list and select any tool, including the one you just left.
 - The window follows your system's **light or dark** appearance.
@@ -78,7 +80,7 @@ Controls have text labels for screen readers, decorative icons and charts are hi
 | Settings and snippets | `~/.config/voltkit/config.toml` |
 | GPU profiles you edit | `~/.config/voltkit/gpu-profiles.json` |
 | Environment variables you set | `~/.config/environment.d/90-voltkit.conf` |
-| Color history, hardware snapshots, GPU sessions | `~/.local/share/voltkit/` |
+| Color history, hardware snapshots, GPU sessions, first-launch status | `~/.local/share/voltkit/` |
 | Hosts file backup | `/etc/hosts.voltkit-backup` |
 | GPU service settings | `/etc/voltkit/` |
 

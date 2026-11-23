@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           voltkit
-Version:        0.14.0
+Version:        0.15.0
 Release:        1%{?dist}
 Summary:        Power tools for your Linux desktop in one GTK4 app
 License:        MIT
@@ -80,6 +80,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.ario
 %lang(zh_CN) %{_mandir}/zh_CN/man1/voltkit*.1*
 
 %changelog
+* Mon Nov 23 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.15.0-1
+- Add a first-launch Getting Started page with setup checks, shortcuts, and quick links.
+- Document desktop compatibility and refresh the Help manual and screenshots.
+
 * Wed Nov 18 2026 Alexis Rios-Negron <arios4k@users.noreply.github.com> - 0.14.0-1
 - Add Folder Compare and Storage Map with terminal commands.
 - Keep all twenty tools reachable from the sidebar at narrow window sizes.

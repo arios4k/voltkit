@@ -1,6 +1,17 @@
 # Install
 
-Voltkit runs on 64-bit Intel/AMD Linux. It is developed and tested on GNOME (Zorin OS 18) and uses standard XDG desktop portals, so KDE Plasma and other desktops should work too.
+Voltkit runs on 64-bit Intel/AMD Linux. It uses standard XDG desktop portals for screen capture, clipboard pasting and global shortcuts. GNOME (Zorin OS 18) is the development and test desktop; other desktop support depends on its portal implementation and is less tested.
+
+## Desktop compatibility
+
+| Desktop/session | Support level | Keyboard shortcuts |
+|---|---|---|
+| GNOME on Wayland or X11 | Developed and tested on Zorin OS 18 | Uses the GlobalShortcuts portal when available; older GNOME versions can use Voltkit's GNOME shortcut setup |
+| KDE Plasma 5.27+ | Expected to work through XDG portals; less tested | Uses the GlobalShortcuts portal when available; otherwise bind `voltkit trigger …` in System Settings |
+| Hyprland and other portal-based desktops | Expected to work where the required XDG portals are available; not routinely tested | Global shortcuts depend on the desktop's GlobalShortcuts portal; otherwise bind `voltkit trigger …` yourself |
+| Cinnamon, Budgie and MATE | Core tools use XDG portals; desktop-specific behavior is less tested | Shortcut Detective can inspect or change shortcuts on these desktops; if global shortcuts are unavailable, bind `voltkit trigger …` |
+
+Portal availability and behavior vary by desktop version. Run `voltkit doctor` from the app's **Getting Started** page or a terminal to check the portals and helper programs on your system. For install-method differences, including Snap sandbox limits, see [Snap Store version](snap#which-version-should-i-install).
 
 ## Ubuntu, Debian and derivatives
 
@@ -43,7 +54,7 @@ sudo snap remove voltkit
 
 For everything about the snap (what works, permissions, limits and switching versions), see [Snap Store version](snap).
 
-**Why a snap?** Mostly so people can find Voltkit. The Snap Store is available on every Linux distribution that supports snaps, and it shows up in app stores such as Ubuntu's App Center, so more people can discover the tool and install it in one step. **Most of Voltkit works the same in the snap:** 18 of its 20 tools work there, most of them fully. For the few features a snap isn't allowed (see [What works only with apt or Fedora](#what-works-only-with-apt-or-fedora)), apt or Fedora is the way to install it.
+**Why a snap?** Mostly so people can find Voltkit. The Snap Store is available on every Linux distribution that supports snaps, and it shows up in app stores such as Ubuntu's App Center, so more people can discover the tool and install it in one step. **Most of Voltkit works the same in the snap:** it includes 18 of Voltkit's 20 tools, though some features in several of those tools are limited by the sandbox. For the features a snap isn't allowed (see [What works only with apt or Fedora](#what-works-only-with-apt-or-fedora)), apt or Fedora is the way to install it.
 
 Install it from Ubuntu's App Center, or with:
 
@@ -132,7 +143,7 @@ To add Voltkit to your app grid with its icon when installing from source, copy 
 
 ## First run
 
-Open **Voltkit** from your apps. That is all: it starts its background service (which also starts at every login from now on) and, on GNOME, adds its keyboard shortcuts. If something a feature needs is missing, a banner at the top of the window says so and offers the command to fix it. See [Troubleshooting](troubleshooting).
+Open **Voltkit** from your apps. On first launch, **Getting Started** shows your desktop and install type, offers a setup check and links to useful tools. Voltkit also starts its background service (which starts at every login from now on) and, on GNOME, adds its keyboard shortcuts. If something a feature needs is missing, a banner at the top of the window says so and offers the command to fix it. See [Troubleshooting](troubleshooting).
 
 Typing triggers such as `;date` in any app is optional: turn on **Typed triggers** on the [Text Expansion](snippets) page.
 

@@ -113,8 +113,12 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
         return window;
     }
 
+    let first_run = mark_first_run();
     let toasts = adw::ToastOverlay::new();
+    let tools = modules::sorted();
+    let (getting_started, quick_tools) = getting_started_page(config);
     let stack = gtk::Stack::builder().transition_type(gtk::StackTransitionType::Crossfade).build();
+    stack.add_named(&getting_started, Some("getting-started"));
     stack.add_named(&ocr_page(config, &toasts), Some("ocr"));
     stack.add_named(&qr_ui::page(config, &toasts), Some("qr"));
     stack.add_named(&color_page(config, &toasts), Some("color"));
@@ -145,7 +149,6 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
 
     let content_view = adw::ToolbarView::new();
     content_view.add_css_class("tool-workspace");
-    let tools = modules::sorted();
     let tool_heading = gtk::Label::builder().label(tools[0].title()).xalign(0.0).wrap(true).css_classes(["title-1"]).build();
     let tool_summary = gtk::Label::builder().label(tools[0].summary()).xalign(0.0).wrap(true).css_classes(["dim-label"]).build();
     let tool_icon = gtk::Image::builder().icon_name(tools[0].icon).pixel_size(32).valign(gtk::Align::Start).css_classes(["tool-icon"]).build();
@@ -165,6 +168,12 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
     let content = adw::NavigationPage::new(&content_view, tools[0].title());
 
     let list = gtk::ListBox::builder().css_classes(["navigation-sidebar"]).activate_on_single_click(true).build();
+    let home_content = gtk::Box::builder().spacing(12).margin_top(2).margin_bottom(2).margin_start(4).build();
+    home_content.append(&gtk::Image::from_icon_name("go-home-symbolic"));
+    home_content.append(&gtk::Label::builder().label(tr("Getting Started")).xalign(0.0).build());
+    let home_row = gtk::ListBoxRow::builder().child(&home_content).build();
+    home_row.set_widget_name("getting-started");
+    list.append(&home_row);
     for m in &tools {
         // Show all tools at the default size and allow scrolling in shorter windows.
         let content = gtk::Box::builder().spacing(12).margin_top(2).margin_bottom(2).margin_start(4).build();
@@ -206,7 +215,14 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
         list.connect_row_selected(move |_, row| {
             let Some(row) = row else { return };
             let id = row.widget_name();
-            if let Some(m) = modules::ALL.iter().find(|m| m.id == id) {
+            if id == "getting-started" {
+                *current.borrow_mut() = "getting-started";
+                stack.set_visible_child_name("getting-started");
+                content.set_title(tr("Getting Started"));
+                tool_heading.set_label(tr("Getting Started"));
+                tool_summary.set_label(tr("Explore useful tools and check that your desktop is ready."));
+                tool_icon.set_icon_name(Some("go-home-symbolic"));
+            } else if let Some(m) = modules::ALL.iter().find(|m| m.id == id) {
                 *current.borrow_mut() = m.id;
                 stack.set_visible_child_name(m.id);
                 content.set_title(m.title());
@@ -215,6 +231,19 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
                 tool_icon.set_icon_name(Some(m.icon));
             }
         });
+        for (id, button) in quick_tools {
+            let (list, split) = (list.clone(), split.clone());
+            button.connect_clicked(move |_| {
+                let Some(row) = (0..=modules::ALL.len())
+                    .filter_map(|index| list.row_at_index(index as i32))
+                    .find(|row| row.widget_name() == id)
+                else {
+                    return;
+                };
+                list.select_row(Some(&row));
+                split.set_show_content(true);
+            });
+        }
     }
     // Activation also fires when reopening the already selected tool after Back.
     list.connect_row_activated({
@@ -226,7 +255,7 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
         }
     });
     split.set_show_content(false);
-    list.select_row(list.row_at_index(0).as_ref());
+    list.select_row(list.row_at_index(if first_run { 0 } else { 1 }).as_ref());
 
     let window = adw::ApplicationWindow::builder()
         .application(app)
@@ -260,6 +289,127 @@ pub(crate) fn build_window(app: &adw::Application, config: &Rc<Config>) -> gtk::
 
     window.present();
     window.upcast()
+}
+
+fn mark_first_run() -> bool {
+    let Some(path) = dirs::data_dir().map(|dir| dir.join("voltkit").join("getting-started-seen")) else {
+        eprintln!("could not locate the user data directory for first-run status");
+        return true;
+    };
+    if path.exists() {
+        return false;
+    }
+    let result = path.parent().map(std::fs::create_dir_all).unwrap_or_else(|| {
+        Err(std::io::Error::other("the first-run status path has no parent directory"))
+    }).and_then(|()| std::fs::write(&path, ""));
+    if let Err(error) = result {
+        eprintln!("could not save first-run status: {error}");
+    }
+    true
+}
+
+fn getting_started_page(config: &Rc<Config>) -> (gtk::Widget, Vec<(String, gtk::Button)>) {
+    let page = gtk::Box::builder()
+        .orientation(gtk::Orientation::Vertical)
+        .spacing(20)
+        .margin_top(24)
+        .margin_bottom(32)
+        .margin_start(24)
+        .margin_end(24)
+        .build();
+    page.append(&gtk::Label::builder().label(tr("Welcome to Voltkit")).xalign(0.0).css_classes(["title-1"]).build());
+    page.append(
+        &gtk::Label::builder()
+            .label(tr("Choose a tool from the sidebar, or start with one of these. Everything runs locally on your computer."))
+            .xalign(0.0)
+            .wrap(true)
+            .css_classes(["dim-label"])
+            .build(),
+    );
+
+    let install = if sandbox::snap() {
+        tr("Snap Store").to_owned()
+    } else {
+        tr("System package or local installation").to_owned()
+    };
+    let desktop = std::env::var("XDG_CURRENT_DESKTOP")
+        .unwrap_or_else(|_| tr("Unknown desktop").to_owned())
+        .replace(':', " · ");
+    let setup = adw::PreferencesGroup::builder().title(tr("Your setup")).build();
+    setup.add(&adw::ActionRow::builder().title(tr("Installation")).subtitle(&install).build());
+    setup.add(&adw::ActionRow::builder().title(tr("Desktop")).subtitle(&desktop).build());
+    let check = gtk::Button::builder()
+        .label(tr("Check setup"))
+        .halign(gtk::Align::Start)
+        .css_classes(["suggested-action"])
+        .build();
+    {
+        let config = config.clone();
+        check.connect_clicked(move |button| {
+            let parent = button.root().and_downcast::<gtk::Window>();
+            let config = config.as_ref().clone();
+            glib::spawn_future_local(async move {
+                let result = gio::spawn_blocking(move || doctor::run(&config)).await;
+                let (title, body) = match result {
+                    Ok(report) => (tr("Setup check"), report.render()),
+                    Err(_) => (tr("Setup check failed"), tr("The setup check could not finish. Try `voltkit doctor` in a terminal.").to_owned()),
+                };
+                let dialog = adw::AlertDialog::new(Some(title), Some(tr("Voltkit checks its helper programs, desktop portals and background service.")));
+                let details = gtk::Label::builder()
+                    .label(&body)
+                    .selectable(true)
+                    .wrap(true)
+                    .xalign(0.0)
+                    .css_classes(["monospace", "card"])
+                    .build();
+                dialog.set_extra_child(Some(&details));
+                dialog.add_response("close", tr("Close"));
+                dialog.set_default_response(Some("close"));
+                dialog.present(parent.as_ref());
+            });
+        });
+    }
+    setup.add(&adw::ActionRow::builder().title(tr("Check desktop portals and required helpers")).subtitle(tr("Find missing pieces and installation commands.")).activatable_widget(&check).build());
+    page.append(&setup);
+
+    page.append(&gtk::Label::builder().label(tr("Try a tool")).xalign(0.0).css_classes(["heading"]).build());
+    page.append(&gtk::Label::builder().label(tr("Select a button to open that tool.")).xalign(0.0).css_classes(["dim-label"]).build());
+    let popular = gtk::Grid::builder().column_spacing(12).row_spacing(12).hexpand(true).build();
+    let mut quick_tools = Vec::new();
+    for (index, id) in ["ocr", "color", "qr", "smartpaste", "snippets", "shortcuts"].into_iter().enumerate() {
+        let Some(tool) = modules::ALL.iter().find(|tool| tool.id == id) else { continue };
+        let button = gtk::Button::builder().tooltip_text(tool.summary()).css_classes(["card", "flat"]).hexpand(true).build();
+        let content = gtk::Box::builder().orientation(gtk::Orientation::Vertical).spacing(8).margin_top(12).margin_bottom(12).margin_start(12).margin_end(12).build();
+        content.append(&gtk::Image::builder().icon_name(tool.icon).pixel_size(32).build());
+        content.append(&gtk::Label::builder().label(tool.title()).wrap(true).build());
+        button.set_child(Some(&content));
+        popular.attach(&button, (index % 3) as i32, (index / 3) as i32, 1, 1);
+        quick_tools.push((id.to_owned(), button));
+    }
+    page.append(&popular);
+
+    let shortcuts = adw::PreferencesGroup::builder()
+        .title(tr("Useful shortcuts"))
+        .description(tr("They work from anywhere while Voltkit's background service is running."))
+        .build();
+    for (tool, key) in [
+        (tr("Text Extractor"), &config.hotkeys.ocr),
+        (tr("Color Picker"), &config.hotkeys.color_picker),
+        (tr("QR Code"), &config.hotkeys.qr),
+        (tr("Smart Paste"), &config.hotkeys.smart_paste),
+        (tr("Shortcut Detective"), &config.hotkeys.shortcut_guide),
+    ] {
+        shortcuts.add(&adw::ActionRow::builder().title(tool).subtitle(shortcut_label(key)).build());
+    }
+    page.append(&shortcuts);
+
+    let manual = gtk::Button::builder().label(tr("Open the manual")).action_name("win.help").halign(gtk::Align::Start).build();
+    page.append(&manual);
+    let scrolled = gtk::ScrolledWindow::builder()
+        .hscrollbar_policy(gtk::PolicyType::Never)
+        .child(&page)
+        .build();
+    (scrolled.upcast(), quick_tools)
 }
 
 pub(crate) fn about_dialog() -> adw::Dialog {

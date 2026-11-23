@@ -163,6 +163,15 @@
     <lang percentage="100">zh_CN</lang>
   </languages>
   <releases>
+    <release version="0.15.0" date="2026-11-23">
+      <description>
+        <p>Getting Started opens on first launch with a setup check, keyboard shortcuts, and quick links. The manual now documents desktop compatibility.</p>
+        <p xml:lang="es">Primeros pasos aparece en el primer inicio con una comprobación de configuración, atajos de teclado y enlaces rápidos. El manual ahora documenta la compatibilidad con los escritorios.</p>
+        <p xml:lang="de">Erste Schritte öffnet sich beim ersten Start mit Einrichtungsprüfung, Tastenkürzeln und Schnellzugriffen. Das Handbuch dokumentiert jetzt die Desktop-Kompatibilität.</p>
+        <p xml:lang="fr">Premiers pas s’ouvre au premier lancement avec une vérification de configuration, des raccourcis clavier et des liens rapides. Le manuel documente maintenant la compatibilité des environnements de bureau.</p>
+        <p xml:lang="zh_CN">首次启动时会打开“入门指南”，其中包含设置检查、键盘快捷键和快速链接。手册现已说明桌面环境兼容性。</p>
+      </description>
+    </release>
     <release version="0.14.0" date="2026-11-18">
       <description>
         <p>Folder Compare and Storage Map, both with terminal commands. All twenty tools are reachable from the sidebar.</p>

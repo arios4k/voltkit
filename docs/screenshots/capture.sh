@@ -125,7 +125,7 @@ shoot() {
         "$@" "$repo/target/debug/voltkit" screenshots "$dir"
 }
 
-# Every page. The GPU Tuner page has tabs, so it gets one picture of each
+# Every page, including Getting Started. The GPU Tuner page has tabs, so it gets one picture of each
 # (gpu-light.png for Monitor, gpu-2 Tune, gpu-3 Profiles, gpu-4 Sessions), with the fan curve editor open.
 if [ -n "${VOLTKIT_SCREENSHOT_TOOLS:-}" ]; then
     shoot "$out"

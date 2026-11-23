@@ -63,6 +63,7 @@ template = "Best regards,\n{arg:name}"
 | `~/.config/voltkit/gpu-profiles.json` | GPU profiles you edit in the app |
 | `~/.config/environment.d/90-voltkit.conf` | Environment variables set in [Hosts & Environment](system) |
 | `~/.local/share/voltkit/` | Color history, daily hardware snapshots, `gpu-sessions/`, and the last Batch Rename (`rename-undo.json`) |
+| `~/.local/share/voltkit/getting-started-seen` | First-launch flag; remove it to show the Getting Started page on the next launch (the page is always available in the sidebar) |
 | `/etc/voltkit/gpu.json`, `/etc/voltkit/gpu-profiles.json` | What the GPU service runs |
 | `/etc/hosts.voltkit-backup` | The backup of the hosts file |
 | `/etc/udev/rules.d/70-voltkit-typed-triggers.rules` | Keyboard access for typed triggers (only if you turned them on) |

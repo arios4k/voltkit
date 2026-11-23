@@ -6,7 +6,7 @@
 
 ## How to read this manual
 
-- **New here?** Start with [Install](install) and [A tour of the app](tour).
+- **New here?** Open Voltkit's **Getting Started** page for quick links and a setup check, or start with [Install](install) and [A tour of the app](tour).
 - **Looking for one tool?** Pick it in the left menu. Each tool page follows the same pattern: what it is for, how to open it, every control on its page, the keyboard shortcut and terminal command, and troubleshooting.
 - **Looking for a command or a setting?** See the [Command-line reference](cli), [Global shortcuts and the background service](daemon) and [Configuration file](config).
 - **Something is not working?** See [Troubleshooting and `voltkit doctor`](troubleshooting).
