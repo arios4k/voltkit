@@ -18,7 +18,7 @@ use crate::{app, picker};
 /// Rendered at 2× so the images stay sharp on high-density screens.
 const SCALE: f32 = 2.0;
 /// Time for layout, icons and the theme switch to settle before a capture.
-const SETTLE: Duration = Duration::from_millis(600);
+const SETTLE: Duration = Duration::from_millis(1200);
 
 /// Text "read" from a photo of a conference slide: clearly fictional, and the
 /// kind of thing people actually want to copy (a password, a link).
