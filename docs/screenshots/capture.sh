@@ -137,14 +137,14 @@ shoot "$out" VOLTKIT_GPU_DEMO=curve VOLTKIT_RENAME_DEMO=1 VOLTKIT_RESIZE_DEMO=do
 # picture is kept.
 gpu=$(mktemp -d)
 trap 'rm -rf "$demo" "$gpu"' EXIT
-shoot "$gpu" VOLTKIT_GPU_DEMO=vf
+shoot "$gpu" VOLTKIT_GPU_DEMO=vf VOLTKIT_SCREENSHOT_TOOLS=gpu
 for theme in light dark; do
     cp "$gpu/gpu-2-$theme.png" "$out/gpu-vf-$theme.png"
 done
 
 # The session comparison dialog (used by the manual): the demo opens it by itself.
 cmp=$(mktemp -d)
-shoot "$cmp" VOLTKIT_GPU_DEMO=compare
+shoot "$cmp" VOLTKIT_GPU_DEMO=compare VOLTKIT_SCREENSHOT_TOOLS=gpu
 for theme in light dark; do
     cp "$cmp/gpu-4-$theme.png" "$out/gpu-compare-$theme.png"
 done

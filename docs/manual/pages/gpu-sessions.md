@@ -19,8 +19,6 @@ From the terminal: `voltkit gpu record --seconds 120 --label Quiet`.
 
 Tick the check boxes of two sessions and click **Compare the two ticked**. A larger window lists the measures **by category**, each naming **one better session** (or **Same**). The older session is "before" and the newer one "after".
 
-![The session comparison dialog](shot:gpu-compare)
-
 | Category | Measures compared |
 |---|---|
 | **Temperature** | average and highest temperature; time held back by heat |
